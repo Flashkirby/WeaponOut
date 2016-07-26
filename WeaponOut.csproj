@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4E3DFB86-01BB-4397-B63C-D5ABE1E5597C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HowToCode</RootNamespace>
+    <AssemblyName>HowToCode</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Items\Armour\DiscordantCharm.cs" />
+    <Compile Include="Items\Weapons\WAR.cs" />
+    <Compile Include="Items\Weapons\Fist.cs" />
+    <Compile Include="Items\Weapons\FistsOfFury.cs" />
+    <Compile Include="Items\Weapons\UseStyles\FistStyle.cs" />
+    <Compile Include="Items\Placeable\CampTent.cs" />
+    <Compile Include="Items\SplinterShot.cs" />
+    <Compile Include="Items\Weapons\DemonBlaster.cs" />
+    <Compile Include="Items\Weapons\Hayauchi.cs" />
+    <Compile Include="Items\Weapons\ImmaterialBlade.cs" />
+    <Compile Include="Items\Weapons\ManaBlast.cs" />
+    <Compile Include="Items\WoodenShield.cs" />
+    <Compile Include="PlayerFX.cs" />
+    <Compile Include="Projectiles\FistFlameBlast.cs" />
+    <Compile Include="Projectiles\SplinterShot.cs" />
+    <Compile Include="Projectiles\DemonBlast.cs" />
+    <Compile Include="Projectiles\Hayauchi.cs" />
+    <Compile Include="Projectiles\ManaBlast.cs" />
+    <Content Include="Items\Armour\DiscordantCharm.png" />
+    <Content Include="Projectiles\TentSetup.txt" />
+    <Compile Include="Tiles\CampTent.cs" />
+    <Compile Include="WeaponOut.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="System" />
+    <Reference Include="Terraria">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\terraria\Terraria.exe</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="build.txt" />
+    <Content Include="description.txt" />
+    <Content Include="Items\SplinterShot.png" />
+    <Content Include="Items\Placeable\CampTent.png" />
+    <Content Include="Items\Weapons\Fist.png" />
+    <Content Include="Items\Weapons\ImmaterialBlade.png" />
+    <Content Include="Items\Weapons\ManaBlast.png" />
+    <Content Include="Items\Weapons\FistsOfFury.png" />
+    <Content Include="Items\Weapons\WAR.png" />
+    <Content Include="Projectiles\SplinterShot.png" />
+    <Content Include="Projectiles\Hayauchi.png" />
+    <Content Include="Projectiles\ManaBlast.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
