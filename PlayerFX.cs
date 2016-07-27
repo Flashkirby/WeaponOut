@@ -35,6 +35,9 @@ namespace WeaponOut
         private int shieldGraphicDelay; //disappear at full charge
         private int shieldGraphicAlpha; //disappear at full charge
 
+        public int weaponFrame;
+        public int weaponFrameCounter;
+
         public override void Initialize()
         {
             localTempSpawn = new Vector2();
@@ -277,6 +280,13 @@ namespace WeaponOut
             if (weaponTex == null) return; //no texture to item so ignore too
             float itemWidth = weaponTex.Width * heldItem.scale;
             float itemHeight = weaponTex.Height * heldItem.scale;
+            if (heldItem.modItem != null)
+            {
+                if (heldItem.modItem.GetAnimation() != null)
+                {
+                    itemHeight /= heldItem.modItem.GetAnimation().FrameCount;
+                }
+            }
             float larger = Math.Max(itemWidth, itemHeight);
             int playerBodyFrameNum = player.bodyFrame.Y / player.bodyFrame.Height;
             if (heldItem.useStyle == 5
@@ -387,6 +397,35 @@ namespace WeaponOut
             //item texture
             Texture2D weaponTex = weaponTex = Main.itemTexture[heldItem.type];
             if (weaponTex == null) return; //no texture to item so ignore too
+            int gWidth = weaponTex.Width;
+            int gHeight = weaponTex.Height;
+
+            //does the item have an animation? No vanilla weapons do
+            Rectangle? sourceRect = null;
+            if (heldItem.modItem != null)
+            {
+                if (heldItem.modItem.GetAnimation() != null) // in the case of modded weapons with animations...
+                {
+                    //get local player frame counting
+                    PlayerFX p = drawPlayer.GetModPlayer<PlayerFX>(ModLoader.GetMod("WeaponOut"));
+                    int frameCount = heldItem.modItem.GetAnimation().FrameCount;
+                    int frameCounter = heldItem.modItem.GetAnimation().TicksPerFrame;
+
+                    //add them up
+                    if (p.weaponFrameCounter++ >= frameCounter)
+                    {
+                        p.weaponFrameCounter = 0;
+                        if (p.weaponFrame++ >= frameCount)
+                        {
+                            p.weaponFrame = 0;
+                        }
+                    }
+
+                    //set frame on source
+                    gHeight /= frameCount;
+                    sourceRect = new Rectangle(0, gHeight * p.weaponFrame, gWidth, gHeight);
+                }
+            }
 
 
             //get draw location of player
@@ -413,10 +452,10 @@ namespace WeaponOut
             DrawData data = new DrawData(
                     weaponTex,
                     new Vector2(drawX, drawY),
-                    null,
+                    sourceRect,
                     lighting,
                     0f,
-                    new Vector2(weaponTex.Width / 2f, weaponTex.Height / 2f),
+                    new Vector2(gWidth / 2f, gHeight / 2f),
                     scale,
                     spriteEffects,
                     0);
@@ -427,10 +466,10 @@ namespace WeaponOut
                 DrawData glowData = new DrawData(
                    Main.glowMaskTexture[(int)heldItem.glowMask],
                    new Vector2(drawX, drawY),
-                   null,
+                   sourceRect,
                    new Microsoft.Xna.Framework.Color(250, 250, 250, heldItem.alpha),
                    0f,
-                   new Vector2(weaponTex.Width / 2f, weaponTex.Height / 2f),
+                   new Vector2(gWidth / 2f, gHeight / 2f),
                    scale,
                    spriteEffects,
                    0);
@@ -438,8 +477,8 @@ namespace WeaponOut
 
 
             //work out what type of weapon it is!
-            float itemWidth = weaponTex.Width * heldItem.scale;
-            float itemHeight = weaponTex.Height * heldItem.scale;
+            float itemWidth = gWidth * heldItem.scale;
+            float itemHeight = gHeight * heldItem.scale;
             //not all items have width/height set the same, so use largest as "length" including weapon sizemod
             float larger = Math.Max(itemWidth, itemHeight);
             float lesser = Math.Min(itemWidth, itemHeight);
@@ -482,7 +521,7 @@ namespace WeaponOut
             {
                 bool isAStaff = Item.staff[heldItem.type];
                 //staves, guns and bows
-                if (weaponTex.Height >= weaponTex.Width * 1.2f && !isAStaff)
+                if (gHeight >= gWidth * 1.2f && !isAStaff)
                 {
                     //bows
                     if (drawPlayer.grapCount > 0) return; // can't see while grappling
@@ -490,7 +529,7 @@ namespace WeaponOut
                     if (drawOnBack) return;
                     data = modDraw_ForwardHoldWeapon(data, drawPlayer, lesser);
                 }
-                else if (weaponTex.Width >= weaponTex.Height * 1.2f && !isAStaff)
+                else if (gWidth >= gHeight * 1.2f && !isAStaff)
                 {
                     if (heldItem.noUseGraphic && heldItem.melee)
                     {
