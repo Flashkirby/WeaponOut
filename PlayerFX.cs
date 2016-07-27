@@ -480,8 +480,9 @@ namespace WeaponOut
             if (heldItem.useStyle == 4 || //hold up
                 heldItem.useStyle == 5)   //hold out
             {
+                bool isAStaff = Item.staff[heldItem.type];
                 //staves, guns and bows
-                if (weaponTex.Height >= weaponTex.Width * 1.2f)
+                if (weaponTex.Height >= weaponTex.Width * 1.2f && !isAStaff)
                 {
                     //bows
                     if (drawPlayer.grapCount > 0) return; // can't see while grappling
@@ -489,7 +490,7 @@ namespace WeaponOut
                     if (drawOnBack) return;
                     data = modDraw_ForwardHoldWeapon(data, drawPlayer, lesser);
                 }
-                else if (weaponTex.Width >= weaponTex.Height * 1.2f)
+                else if (weaponTex.Width >= weaponTex.Height * 1.2f && !isAStaff)
                 {
                     if (heldItem.noUseGraphic && heldItem.melee)
                     {
@@ -520,7 +521,7 @@ namespace WeaponOut
                 }
                 else
                 {
-                    if (heldItem.noUseGraphic)
+                    if (heldItem.noUseGraphic && !isAStaff)
                     {
                         if (!heldItem.autoReuse)
                         {
