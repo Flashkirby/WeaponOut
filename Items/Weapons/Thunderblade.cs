@@ -8,80 +8,130 @@ namespace WeaponOut.Items.Weapons
 {
     public class Thunderblade : ModItem
     {
+        bool reset = false;
+        public const int damage = 15;
+        public const float knockBack = 5f;
+        public const int useAnimation = 15;
+        public const int mana = 5;
+        public const float shootSpeed = 5f;
+
+        public int damageMod;
+        public float knockBackMod;
+        public int useAnimationMod;
+        public int manaMod;
+        public float shootSpeedMod;
+
         public override void SetDefaults()
         {
             item.name = "Thunderblade";
-            item.toolTip = "Right click to strike with lightning";
+            item.toolTip = "Right click to cast a magic bolt";
             item.width = 40;
             item.height = 40;
             item.scale = 1.15f;
 
-            item.melee = true;
-            item.damage = 23;
-            item.knockBack = 0;
-            item.crit = 15;
-            item.autoReuse = false;
-            item.useTurn = false;
-
-            item.useStyle = 1;
-            item.useSound = 15;
-            item.useTime = 32;
-            item.useAnimation = 32;
+            item.autoReuse = true;
+            //generate a default style
+            magicDefaults();
+            meleeDefaults(true);
 
             item.rare = 2;
             item.value = 57500;
         }
+        #region Crazy Value Swapping
+        private void meleeDefaults(bool keepMagicValues = false)
+        {
+            item.useStyle = 1; //swing
+            item.noMelee = false;
+
+            item.melee = true; //melee damage
+            item.damage = damage + damageMod;
+            item.knockBack = knockBack + knockBackMod;
+
+            item.useSound = 1;
+            item.useAnimation = useAnimation + useAnimationMod;
+            item.useTime = item.useAnimation;
+
+            if (!keepMagicValues)
+            {
+                item.mana = 0;
+                item.shoot = 0;
+                item.shootSpeed = 0;
+            }
+        }
+        private void magicDefaults()
+        {
+            item.useStyle = 5; //aim
+            Item.staff[item.type] = true; //rotate weapon, as it is a staff
+            item.noMelee = true;
+
+            item.magic = true; //magic damage
+            item.damage = damage + damageMod + 25;
+            item.knockBack = knockBack + knockBack - 3;
+
+            item.useSound = 94;
+            item.useAnimation = useAnimation + useAnimationMod + 15;
+            item.useTime = item.useAnimation;
+
+            item.mana = mana + manaMod;
+            item.shoot = ProjectileID.JestersArrow;
+            item.shootSpeed = shootSpeed + shootSpeedMod;
+        }
+        public override void PostReforge()
+        {
+            damageMod = item.damage - damage;
+            knockBackMod = item.knockBack - knockBack;
+            useAnimationMod = item.useAnimation - useAnimation;
+            manaMod = item.mana - mana;
+            shootSpeedMod = item.shootSpeed - shootSpeed;
+        }
+        #endregion
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 15);
-            recipe.AddIngredient(ItemID.Sapphire, 10);
-            recipe.AddIngredient(ItemID.Diamond, 10);
+            recipe.AddIngredient(ItemID.DirtBlock, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
 
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            //polarise the stats to use either component
+            if (player.altFunctionUse == 2)
+            {
+                magicDefaults();
+            }
+            else
+            {
+                meleeDefaults();
+            }
+            reset = true;
+            return true;
+        }
         public override void HoldItem(Player player)
         {
-            player.armorPenetration += 60;
-        }
-
-        public override void UseStyle(Player player)
-        {
-            float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
-            float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
-            for (int i = 0; i < 8; i++)
+            //fix time on the frame AFTER firing
+            if (player.itemAnimation == player.itemAnimationMax - 2)
             {
-                float length = (item.width * 1.2f - i * item.width/9) * item.scale + 16; //length to base + arm displacement
-                int dust = Dust.NewDust(
-                    new Vector2(
-                        (float)(player.itemLocation.X + length * cosRot * player.direction),
-                        (float)(player.itemLocation.Y + length * sinRot * player.direction)), 
-                    0, 0, 15,
-                    player.velocity.X * 0.9f,
-                    player.velocity.Y * 0.9f, 
-                    100, 
-                    Color.Transparent, 
-                    1.5f);
-                Main.dust[dust].velocity *= 0.3f;
-                Main.dust[dust].noGravity = true;
+                player.itemTime = player.itemAnimation + 1; //itemTime for some reason doesn't take into account melee speed increases
+            }
+
+            //set values back to "default style" when not in use
+            if (player.itemAnimation == 0 && reset)
+            {
+                magicDefaults();
+                meleeDefaults(true);
             }
         }
-
-        public override void PostDrawInWorld(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale)
+        
+        public override void UseStyle(Player player)
         {
-            int length = Main.rand.Next(24);
-            int dust = Dust.NewDust(
-                    item.position + new Vector2(item.width - length - 5,length),
-                    0, 0, 15,
-                    item.velocity.X * 5f,
-                    item.velocity.Y * 5f,
-                    100,
-                    Color.Transparent,
-                    1.5f);
-            Main.dust[dust].velocity *= 0.1f;
-            Main.dust[dust].noGravity = true;
+            Main.NewText("time " + player.itemTime + "| anim " + player.itemAnimation);
+            PlayerFX.modifyPlayerItemLocation(player, -6, 0);
         }
     }
 }
