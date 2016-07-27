@@ -494,7 +494,7 @@ namespace WeaponOut
                     if (drawPlayer.grapCount > 0) return; // can't see while grappling
                     //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(hand): " + itemWidth + " x " + itemHeight);
                     if (drawOnBack) return;
-                    data = modDraw_HandWeapon(data, drawPlayer, larger);
+                    data = modDraw_HandWeapon(data, drawPlayer, larger, lesser);
                 }
                 //Broadsword weapons are swing type weapons between 28 - 48
                 //They are worn on the waist, and react to falling!
@@ -570,7 +570,7 @@ namespace WeaponOut
                             if (isYoyo)
                             {
                                 //sam
-                                data = modDraw_HandWeapon(data, drawPlayer, larger, isYoyo);
+                                data = modDraw_HandWeapon(data, drawPlayer, larger, lesser, isYoyo);
                             }
                             else
                             {
@@ -787,29 +787,29 @@ namespace WeaponOut
             }
         }
 
-        private static DrawData modDraw_HandWeapon(DrawData data, Player p, float length)
+        private static DrawData modDraw_HandWeapon(DrawData data, Player p, float length, float width)
         {
-            return modDraw_HandWeapon(data, p, length, false);
+            return modDraw_HandWeapon(data, p, length, width, false);
         }
-        private static DrawData modDraw_HandWeapon(DrawData data, Player p, float length, bool isYoyo)
+        private static DrawData modDraw_HandWeapon(DrawData data, Player p, float length, float width, bool isYoyo)
         {
             int playerBodyFrameNum = p.bodyFrame.Y / p.bodyFrame.Height;
             if (isYoyo) length /= 2;
             if (playerBodyFrameNum < 5) //standing
             {
                 data.rotation = (float)(Math.PI * 0.5d * p.direction) * p.gravDir; //rotate 90 clockwise
-                data.position += new Vector2((4 - length * 0.1f) * p.direction, 13 * p.gravDir); //back and down;
+                data.position += new Vector2((4 - length * 0.1f) * p.direction, (width * 0.3f - 4 + 13) * p.gravDir); //back and down;
                 if (isYoyo) data.position.X -= 8 * p.direction;
             }
             else if (playerBodyFrameNum == 5) //jumping
             {
                 data.rotation = (float)(Math.PI * -0.25d * p.direction) * p.gravDir; //rotate 90 clockwise
-                data.position += new Vector2((2 - length / 2) * p.direction, -14 * p.gravDir); //back and down;
+                data.position += new Vector2((width * 0.5f - 8 - length / 2) * p.direction, -14 * p.gravDir); //back and down;
             }
             else //walk cycle base
             {
                 data.rotation = (float)(Math.PI * 0.2d * p.direction) * p.gravDir; //rotate 90 clockwise
-                data.position += new Vector2(3 * p.direction, (14 - length / 2) * p.gravDir);
+                data.position += new Vector2((-5 + width * 0.5f) * p.direction, (width * 0.5f - 8 + 14 - length / 2) * p.gravDir);
                 data = modDraw_WalkCycle(data, p);
             }
             return data;
