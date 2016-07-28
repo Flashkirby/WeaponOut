@@ -11,6 +11,8 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class WAR : ModItem
     {
+        public const int penetrateBonus = 4;
+
         public override void SetDefaults()
         {
             item.name = "Woods' Antimat Rifle";
@@ -86,7 +88,7 @@ namespace WeaponOut.Items.Weapons
                         check.MaxUpdates == p.MaxUpdates &&
                         check.timeLeft == (p.timeLeft + p.MaxUpdates)) //unmodded
                     {
-                        p.maxPenetrate += 4;
+                        p.maxPenetrate += penetrateBonus;
                         p.penetrate = p.maxPenetrate;
                         p.MaxUpdates = p.MaxUpdates * 2 + 2;
                         p.timeLeft /= 2;
@@ -123,7 +125,7 @@ namespace WeaponOut.Items.Weapons
                         p.maxPenetrate = p.penetrate;
                     }
 
-                    p.tileCollide = p.penetrate < 3;
+                    p.tileCollide = p.penetrate <= penetrateBonus;
                     p.ignoreWater = p.tileCollide;
 
                     //interpolate between old and new position
