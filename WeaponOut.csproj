@@ -33,7 +33,10 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Buffs\ManaReduction.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
+    <Compile Include="Items\Weapons\Capacitor.cs" />
+    <Compile Include="Items\Weapons\SparkShovel.cs" />
     <Compile Include="Items\Weapons\Thunderblade.cs" />
     <Compile Include="Items\Weapons\WAR.cs" />
     <Compile Include="Items\Weapons\Fist.cs" />
