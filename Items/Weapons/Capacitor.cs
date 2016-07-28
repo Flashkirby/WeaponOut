@@ -11,12 +11,12 @@ namespace WeaponOut.Items.Weapons
         const int damage = 17;
         const int damageM = 30;
         const float knockBack = 4f;
-        const float knockBackM = 2f;
+        const float knockBackM = 0f;
         const int sound = 1;
-        const int soundM = 20;
-        const int useAnimation = 18;
+        const int soundM = 0;
+        const int useAnimation = 21;
         const int useAnimationM = 15;
-        const int mana = 15;
+        const int mana = 16;
         const int shoot = ProjectileID.FrostBoltStaff;
         const float shootSpeed = 14f;
 
@@ -40,7 +40,7 @@ namespace WeaponOut.Items.Weapons
             magicDefaults();
             meleeDefaults(true);
 
-            item.rare = 1;
+            item.rare = 2;
             item.value = 20000;
         }
         public override void AddRecipes()
