@@ -250,6 +250,13 @@ namespace WeaponOut
 
         public override bool PreItemCheck()
         {
+            itemCheckForTransformer();
+            createBareFistInInv();
+            return true;
+        }
+
+        private void itemCheckForTransformer()
+        {
             Item item = player.inventory[player.selectedItem];
             try //effectively using this as a custom hook before ItemCheck for items
             {
@@ -257,15 +264,20 @@ namespace WeaponOut
                 //Main.NewText(player.altFunctionUse + ": " + player.GetWeaponDamage(item) + " - " + item.melee + "|" + item.magic);
             }
             catch { }
-
+        }
+        private void createBareFistInInv()
+        {
             if (player.inventory[player.selectedItem].type == 0 && player.controlUseItem)
             {
                 player.inventory[player.selectedItem].SetDefaults(openFist);
             }
-            return true;
         }
 
         public override void PostItemCheck()
+        {
+            emptyBareFistFromInv();
+        }
+        private void emptyBareFistFromInv()
         {
             if (player.inventory[player.selectedItem].type == openFist && player.itemAnimation == 0)
             {

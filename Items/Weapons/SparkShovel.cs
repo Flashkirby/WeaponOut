@@ -64,7 +64,7 @@ namespace WeaponOut.Items.Weapons
 
         public override void UseStyle(Player player)
         {
-            PlayerFX.modifyPlayerItemLocation(player, -4, 0);
+            if (player.altFunctionUse > 0) PlayerFX.modifyPlayerItemLocation(player, -4, 0);
         }
 
         #region (type 1 + useTurn) Crazy Value Swapping Transform Stuff (Should probably make this its own class at some point)
