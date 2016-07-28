@@ -8,7 +8,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             Main.buffName[Type] = "Mana Cost Reduced";
-            Main.buffTip[Type] = "Next magic attack has -15% mana cost";
+            Main.buffTip[Type] = "Next magic attack has mana cost reduced by 80%";
             Main.buffNoTimeDisplay[Type] = false;
         }
 
