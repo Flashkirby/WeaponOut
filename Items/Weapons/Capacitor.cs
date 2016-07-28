@@ -1,23 +1,24 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace WeaponOut.Items.Weapons
 {
-    public class SparkShovel : ModItem
+    public class Capacitor : ModItem
     {
-        //the main transformation stats, for convenience
-        const int damage = 5;
-        const int damageM = 8;
-        const float knockBack = 3f;
-        const float knockBackM = 1f;
+        //minimum transform stats, usually the melee one
+        const int damage = 17;
+        const int damageM = 30;
+        const float knockBack = 4f;
+        const float knockBackM = 2f;
         const int sound = 1;
-        const int soundM = 8;
-        const int useAnimation = 16;
-        const int useAnimationM = 28;
-        const int mana = 2;
-        const int shoot = ProjectileID.Spark;
-        const float shootSpeed = 8f;
+        const int soundM = 20;
+        const int useAnimation = 18;
+        const int useAnimationM = 15;
+        const int mana = 15;
+        const int shoot = ProjectileID.FrostBoltStaff;
+        const float shootSpeed = 14f;
 
         private bool reset = false;
         public int damageMod;
@@ -28,46 +29,55 @@ namespace WeaponOut.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.name = "Spark Shovel";
-            item.toolTip = "Right click to shoot a small spark";
-            item.width = 32;
-            item.height = 32;
+            item.name = "Capacitor";
+            item.toolTip = "Right click to cast a frost bolt\nMelee attacks grant 80% reduced mana cost";
+            item.width = 40;
+            item.height = 40;
+            item.scale = 1.15f;
 
             item.autoReuse = true;
-            item.pick = 35;
             //generate a default style, where melee stats take precedent
             magicDefaults();
             meleeDefaults(true);
 
             item.rare = 1;
-            item.value = 5400;
+            item.value = 20000;
         }
         public override void AddRecipes()
         {
-            for (int i = 0; i < 2; i++)
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.IceBlade, 1);
+            recipe.AddIngredient(ItemID.FallenStar, 5);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            player.AddBuff(mod.BuffType("ManaReduction"), 180);//3 second buff
+        }
+
+        public override void MeleeEffects(Player player, Microsoft.Xna.Framework.Rectangle hitbox)
+        {
+            if (player.HasBuff(mod.BuffType("ManaReduction")) != -1)
             {
-                ModRecipe recipe = new ModRecipe(mod);
-                if (i == 0)
-                {
-                    recipe.AddIngredient(ItemID.CopperPickaxe, 1);
-                }
-                else
-                {
-                    recipe.AddIngredient(ItemID.TinPickaxe, 1);
-                }
-                recipe.AddIngredient(ItemID.WandofSparking, 1);
-                recipe.AddTile(TileID.Anvils);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
+                int d = Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 15, (player.velocity.X * 0.2f) + (player.direction * 3), player.velocity.Y * 0.2f, 100, Color.White, 1.3f);
+                Main.dust[d].noGravity = true;
+            }
+            else
+            {
+                int d = Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 15, (player.velocity.X * 0.2f) + (player.direction * 3), player.velocity.Y * 0.2f, 100, Color.White, 0.6f);
+                Main.dust[d].noGravity = true;
             }
         }
-
+        
         public override void UseStyle(Player player)
         {
-            PlayerFX.modifyPlayerItemLocation(player, -4, 0);
+            PlayerFX.modifyPlayerItemLocation(player, -6, 0);
         }
 
-        #region (type 1 + useTurn) Crazy Value Swapping Transform Stuff (Should probably make this its own class at some point)
+        #region (type 1) Crazy Value Swapping Transform Stuff (Should probably make this its own class at some point)
 
         /// <summary>
         /// Here are some standard settings for switching between melee and magic
@@ -76,11 +86,10 @@ namespace WeaponOut.Items.Weapons
         private void meleeDefaults(bool keepMagicValues = false)
         {
             item.useStyle = 1; //swing
-            item.useTurn = true;
             item.noMelee = false;
 
             item.melee = true; //melee damage
-            item.magic = false ;
+            item.magic = false;
             item.damage = damage + damageMod;
             item.knockBack = knockBack + knockBackMod;
 
@@ -101,7 +110,6 @@ namespace WeaponOut.Items.Weapons
         private void magicDefaults()
         {
             item.useStyle = 5; //aim
-            item.useTurn = false;
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
             item.noMelee = true;
 

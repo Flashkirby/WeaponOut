@@ -250,6 +250,14 @@ namespace WeaponOut
 
         public override bool PreItemCheck()
         {
+            Item item = player.inventory[player.selectedItem];
+            try //effectively using this as a custom hook before ItemCheck for items
+            {
+                if (item.modItem.mod.Name == mod.Name) { item.modItem.CanUseItem(player); }
+                //Main.NewText(player.altFunctionUse + ": " + player.GetWeaponDamage(item) + " - " + item.melee + "|" + item.magic);
+            }
+            catch { }
+
             if (player.inventory[player.selectedItem].type == 0 && player.controlUseItem)
             {
                 player.inventory[player.selectedItem].SetDefaults(openFist);
