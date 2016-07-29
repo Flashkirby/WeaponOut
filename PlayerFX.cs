@@ -36,7 +36,6 @@ namespace WeaponOut
         private int shieldGraphicAlpha; //disappear at full charge
 
         public int weaponFrame;
-        public int weaponFrameCounter;
 
         public override void Initialize()
         {
@@ -417,13 +416,13 @@ namespace WeaponOut
                     //get local player frame counting
                     PlayerFX p = drawPlayer.GetModPlayer<PlayerFX>(ModLoader.GetMod("WeaponOut"));
                     int frameCount = heldItem.modItem.GetAnimation().FrameCount;
-                    int frameCounter = heldItem.modItem.GetAnimation().TicksPerFrame;
+                    int frameCounter = heldItem.modItem.GetAnimation().TicksPerFrame * 2;
 
                     //add them up
-                    if (p.weaponFrameCounter++ >= frameCounter)
+                    if (Main.time % frameCounter == 0)
                     {
-                        p.weaponFrameCounter = 0;
-                        if (p.weaponFrame++ >= frameCount)
+                        p.weaponFrame++;
+                        if (p.weaponFrame >= frameCount)
                         {
                             p.weaponFrame = 0;
                         }
