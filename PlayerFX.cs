@@ -802,7 +802,11 @@ namespace WeaponOut
         private static DrawData modDraw_HandWeapon(DrawData data, Player p, float length, float width, bool isYoyo)
         {
             int playerBodyFrameNum = p.bodyFrame.Y / p.bodyFrame.Height;
-            if (isYoyo) length /= 2;
+            if (isYoyo)
+            {
+                length /= 2;
+                width /= 2;
+            }
             if (playerBodyFrameNum < 5) //standing
             {
                 data.rotation = (float)(Math.PI * 0.5d * p.direction) * p.gravDir; //rotate 90 clockwise
