@@ -11,6 +11,7 @@ namespace WeaponOut.Items.Armour
     /// </summary>
     public class DiscordantCharm : ModItem
     {
+        private bool skipFrameAcc = false;
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
             equips.Add(EquipType.Head);
@@ -22,11 +23,13 @@ namespace WeaponOut.Items.Armour
             item.name = "Discordant Charm";
             item.toolTip = @"Teleports you instead of grappling
 Requires the Rod of Discord
-Functions in the Vanity Slot";
+Functions in the Head Vanity Slot
+Can be equipped as an accessory";
             item.width = 28;
             item.height = 28;
             item.rare = 7;
-            item.vanity = true;
+            item.accessory = true;
+            item.vanity = false;
         }
         public override void AddRecipes()
         {
@@ -44,6 +47,20 @@ Functions in the Vanity Slot";
 
         public override void UpdateVanity(Player player, EquipType type)
         {
+            useDiscordHookOverride(player, false);
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            if (skipFrameAcc)
+            {
+                useDiscordHookOverride(player, false);
+            }
+            useDiscordHookOverride(player, true);
+        }
+
+        private void useDiscordHookOverride(Player player, bool isAcc)
+        {
             if (player.controlHook)
             {
                 if (player.HasBuff(BuffID.ChaosState) == -1)
@@ -53,7 +70,15 @@ Functions in the Vanity Slot";
                         if (player.inventory[i].type == ItemID.RodofDiscord)
                         {
                             //player has a rod
-                            rodOfDiscord(player);
+                            if (isAcc)
+                            {
+                                skipFrameAcc = true;
+                            }
+                            else
+                            {
+                                skipFrameAcc = false;
+                                rodOfDiscord(player);
+                            }
                             break;
                         }
                     }
