@@ -86,7 +86,7 @@ namespace WeaponOut
             }
             else
             {
-                //reached a stop point
+                //reached regen full/interrupted
                 if (shieldGraphicAlpha < 255)
                 {
                     if (shieldGraphicDelay <= 0)
@@ -111,22 +111,27 @@ namespace WeaponOut
             if (check.type == 156 || //cobalt shield
                 check.type == 397 || //obsidian shield
                 check.type == 938 || //paladin
-                check.type == 1613 || //ankh
-                //if don't know what is shield (but is giving kb immune 
-                //guess its whichever has high defence, will be best anyway
-                player.noKnockback
+                check.type == 1613   //ankh
                 ) 
             {
                 if (check.defense > 0) return heartsPerDefence * check.defense;
             }
 
             //check things that are called shields, and shield of cthulu
-            //but they are weaker since they don't give kb immunity
             if (check.name.Contains("Shield") || 
                 check.type == 3097 || //shield of cthulu
                 check.shieldSlot > 0) //anything else that sits in the shield slot
             {
-                return (heartsPerDefence * check.defense) / 2;
+                if (player.noKnockback)
+                {
+                    //probably the shield is giving knockback immunity so assume its this
+                    return heartsPerDefence * check.defense;
+                }
+                else
+                {
+                    //weaker since they don't give kb immunity
+                    return (heartsPerDefence * check.defense) / 2;
+                }
             }
             return 0;
         }
