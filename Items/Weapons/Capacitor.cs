@@ -16,6 +16,8 @@ namespace WeaponOut.Items.Weapons
         const int soundM = 0;
         const int useAnimation = 21;
         const int useAnimationM = 15;
+        const int useTime = 21;
+        const int useTimeM = 15;
         const int mana = 16;
         const int shoot = ProjectileID.FrostBoltStaff;
         const float shootSpeed = 14f;
@@ -38,6 +40,7 @@ namespace WeaponOut.Items.Weapons
             item.autoReuse = true;
             //generate a default style, where melee stats take precedent
             magicDefaults();
+            Item.staff[item.type] = true; //rotate weapon, as it is a staff
             meleeDefaults(true);
 
             item.rare = 2;
@@ -74,8 +77,14 @@ namespace WeaponOut.Items.Weapons
         
         public override void UseStyle(Player player)
         {
-            if(player.altFunctionUse > 0) PlayerFX.modifyPlayerItemLocation(player, -6, 0);
+            if(player.altFunctionUse == 2) PlayerFX.modifyPlayerItemLocation(player, -6, 0);
         }
+
+
+
+
+
+
 
         #region (type 1) Crazy Value Swapping Transform Stuff (Should probably make this its own class at some point)
 
@@ -95,7 +104,7 @@ namespace WeaponOut.Items.Weapons
 
             item.useSound = sound;
             item.useAnimation = useAnimation + useAnimationMod;
-            item.useTime = item.useAnimation;
+            item.useTime = useTime + useAnimationMod;
 
             if (!keepMagicValues)
             {
@@ -110,7 +119,6 @@ namespace WeaponOut.Items.Weapons
         private void magicDefaults()
         {
             item.useStyle = 5; //aim
-            Item.staff[item.type] = true; //rotate weapon, as it is a staff
             item.noMelee = true;
 
             item.magic = true; //magic damage
@@ -120,7 +128,7 @@ namespace WeaponOut.Items.Weapons
 
             item.useSound = soundM;
             item.useAnimation = useAnimationM + useAnimationMod;
-            item.useTime = item.useAnimation;
+            item.useTime = useTimeM + useAnimationMod;
 
             item.mana = mana + manaMod;
             item.shoot = shoot;
@@ -140,28 +148,19 @@ namespace WeaponOut.Items.Weapons
         }
         public override bool CanUseItem(Player player)
         {
-            //polarise the stats to use either component
-            if (player.altFunctionUse == 0)
-            {
-                meleeDefaults();
-            }
-            else //first frame of use is 1, rest is 2
+            if (player.altFunctionUse == 2)
             {
                 magicDefaults();
             }
-            reset = true;
-            return true;
+            else
+            {
+                meleeDefaults();
+            }
+            return base.CanUseItem(player);
         }
         public override void HoldItem(Player player)
         {
-            //fix time on the frame AFTER firing
-            if (player.itemAnimation == player.itemAnimationMax - 2)
-            {
-                player.itemTime = player.itemAnimation + 1; //itemTime for some reason doesn't take into account melee speed increases
-            }
-
-            //set values back to "default style" when not in use
-            if (player.itemAnimation == 0 && reset)
+            if (player.itemAnimation == 0)
             {
                 magicDefaults();
                 meleeDefaults(true);
@@ -169,6 +168,6 @@ namespace WeaponOut.Items.Weapons
             }
         }
         #endregion
-    
+
     }
 }

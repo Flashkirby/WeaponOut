@@ -250,20 +250,8 @@ namespace WeaponOut
 
         public override bool PreItemCheck()
         {
-            itemCheckForTransformer();
             createBareFistInInv();
             return true;
-        }
-
-        private void itemCheckForTransformer()
-        {
-            Item item = player.inventory[player.selectedItem];
-            try //effectively using this as a custom hook before ItemCheck for items
-            {
-                if (item.modItem.mod.Name == mod.Name) { item.modItem.CanUseItem(player); }
-                //Main.NewText(player.altFunctionUse + ": " + player.GetWeaponDamage(item) + " - " + item.melee + "|" + item.magic);
-            }
-            catch { }
         }
         private void createBareFistInInv()
         {
