@@ -31,11 +31,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Glow\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\ManaReduction.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
     <Compile Include="Items\Weapons\Capacitor.cs" />
+    <Compile Include="Items\Weapons\ChannelerStaff.cs" />
     <Compile Include="Items\Weapons\SparkShovel.cs" />
     <Compile Include="Items\Weapons\WAR.cs" />
     <Compile Include="Items\Weapons\Fist.cs" />
@@ -50,6 +53,7 @@
     <Compile Include="Items\WoodenShield.cs" />
     <Compile Include="PlayerFX.cs" />
     <Compile Include="Projectiles\FistFlameBlast.cs" />
+    <Compile Include="Projectiles\ManaRestoreBeam.cs" />
     <Compile Include="Projectiles\SplinterShot.cs" />
     <Compile Include="Projectiles\DemonBlast.cs" />
     <Compile Include="Projectiles\Hayauchi.cs" />

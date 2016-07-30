@@ -194,8 +194,7 @@ namespace WeaponOut
                             default(Color), (float)Main.rand.Next(20, 26) * 0.1f);
                         Main.dust[d].noLight = true;
                         Main.dust[d].noGravity = true;
-                        Dust dust2 = Main.dust[d];
-                        dust2.velocity *= 0.5f;
+                        Main.dust[d].velocity *= 0.5f;
                     }
                 }
             }
@@ -254,8 +253,21 @@ namespace WeaponOut
 
         public override bool PreItemCheck()
         {
+            preItemTransformCheck();
             createBareFistInInv();
             return true;
+        }
+        private void preItemTransformCheck()
+        {
+            if (player.itemAnimation == 0)
+            {
+                Item item = player.inventory[player.selectedItem];
+                try //effectively using this as a custom hook before ItemCheck for items
+                {
+                    if (item.modItem.mod.Name == mod.Name) { item.modItem.CanUseItem(player); }
+                }
+                catch { }
+            }
         }
         private void createBareFistInInv()
         {

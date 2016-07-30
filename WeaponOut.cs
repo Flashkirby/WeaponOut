@@ -46,7 +46,7 @@ namespace WeaponOut
             }
             else
             {
-                Console.WriteLine("WeaponOut loaded with no errors:   net#4");
+                Console.WriteLine("WeaponOut loaded with no errors:   net#5");
             }
         }
     }
