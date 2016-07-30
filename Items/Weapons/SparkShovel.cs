@@ -21,7 +21,6 @@ namespace WeaponOut.Items.Weapons
         const int shoot = ProjectileID.Spark;
         const float shootSpeed = 8f;
 
-        private bool reset = false;
         public int damageMod;
         public float knockBackMod;
         public int useAnimationMod;
@@ -159,7 +158,6 @@ namespace WeaponOut.Items.Weapons
             {
                 magicDefaults();
                 meleeDefaults(true);
-                reset = false;
             }
         }
         #endregion

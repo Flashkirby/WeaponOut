@@ -22,7 +22,6 @@ namespace WeaponOut.Items.Weapons
         const int shoot = ProjectileID.FrostBoltStaff;
         const float shootSpeed = 14f;
 
-        private bool reset = false;
         public int damageMod;
         public float knockBackMod;
         public int useAnimationMod;
@@ -164,7 +163,6 @@ namespace WeaponOut.Items.Weapons
             {
                 magicDefaults();
                 meleeDefaults(true);
-                reset = false;
             }
         }
         #endregion
