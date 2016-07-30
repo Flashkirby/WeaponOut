@@ -225,7 +225,7 @@ namespace WeaponOut
                         else { Main.PlaySound(3, player.position, 16); } //light
                     } 
                     else
-                    { Main.PlaySound(4, player.position, 17); }//heavy
+                    { Main.PlaySound(3, player.position, 17); }//heavy
                     playSound = false;
                 }
                 //Main.NewText("Shield: " + shieldBlock, 255, 0, 100);
