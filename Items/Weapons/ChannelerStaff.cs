@@ -28,7 +28,7 @@ namespace WeaponOut.Items.Weapons
         const int damage = 17;
         const int damageM = 4;
         const float knockBack = 4f;
-        const float knockBackM = 0f;
+        const float knockBackM = 4f;
         const int sound = 1;
         const int soundM = 9;
         const int useAnimation = 24;
@@ -162,7 +162,7 @@ Ray also increases magic damage";
 
 
 
-        #region (type 1 - usestyle swap) Crazy Value Swapping Transform Stuff (Should probably make this its own class at some point)
+        #region (type 1 - custom defaults) Crazy Value Swapping Transform Stuff (Should probably make this its own class at some point)
 
         /// <summary>
         /// Here are some standard settings for switching between melee and magic
@@ -205,7 +205,7 @@ Ray also increases magic damage";
 
             item.useSound = soundM;
             item.useAnimation = useAnimationM + useAnimationMod;
-            item.useTime = useTimeM + useAnimationMod;
+            item.useTime = useTimeM;
 
             item.mana = mana + manaMod;
             item.shoot = mod.ProjectileType("ManaRestoreBeam");
@@ -213,7 +213,7 @@ Ray also increases magic damage";
         }
         public override void PostReforge()
         {
-            damageMod = item.damage - damage;
+            damageMod = item.damage - damageM;
             knockBackMod = item.knockBack - knockBack;
             useAnimationMod = item.useAnimation - useAnimation;
             manaMod = item.mana - mana;
