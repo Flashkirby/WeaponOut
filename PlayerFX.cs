@@ -107,6 +107,13 @@ namespace WeaponOut
         }
         private int validateIsShield(Item check)
         {
+            //give bonus from prefixes
+            int prefixBonus = 0;
+            if (check.prefix == 62) prefixBonus++;
+            if (check.prefix == 63) prefixBonus += 2;
+            if (check.prefix == 64) prefixBonus += 3;
+            if (check.prefix == 65) prefixBonus += 4;
+
             //check vanilla shields first
             if (check.type == 156 || //cobalt shield
                 check.type == 397 || //obsidian shield
@@ -114,7 +121,8 @@ namespace WeaponOut
                 check.type == 1613   //ankh
                 ) 
             {
-                if (check.defense > 0) return heartsPerDefence * check.defense;
+
+                if (check.defense > 0) return heartsPerDefence * (check.defense + prefixBonus);
             }
 
             //check things that are called shields, and shield of cthulu
@@ -125,12 +133,12 @@ namespace WeaponOut
                 if (player.noKnockback)
                 {
                     //probably the shield is giving knockback immunity so assume its this
-                    return heartsPerDefence * check.defense;
+                    return heartsPerDefence * (check.defense + prefixBonus);
                 }
                 else
                 {
                     //weaker since they don't give kb immunity
-                    return (heartsPerDefence * check.defense) / 2;
+                    return (heartsPerDefence * (check.defense + prefixBonus)) / 2;
                 }
             }
             return 0;
