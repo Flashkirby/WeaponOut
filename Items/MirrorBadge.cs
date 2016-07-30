@@ -32,7 +32,7 @@ namespace WeaponOut.Items
         {
             if (Main.rand.Next(15) == 0)
             {
-                int dustIndex = Dust.NewDust(item.position, item.width, item.height, 43, 0, 0, 100, Color.Transparent, 0.3f);
+                int dustIndex = Dust.NewDust(item.position, item.width, item.height, 43, 0, 0, 100, Color.White, 0.3f);
                 Main.dust[dustIndex].velocity *= 0.1f;
                 Main.dust[dustIndex].fadeIn = 1f;
             }

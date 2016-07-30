@@ -36,7 +36,14 @@ namespace WeaponOut.Projectiles
             
             projectile.damage = 0;
             float pow = projectile.timeLeft / 16f;
-            Lighting.AddLight(projectile.Center, new Vector3(pow, pow * 0.2f, pow * 0.8f));
+            Lighting.AddLight(new Vector2(projectile.Hitbox.Left, projectile.Center.Y),
+                new Vector3(pow, pow * 0.2f, pow * 0.8f));
+            Lighting.AddLight(new Vector2(projectile.Hitbox.Right, projectile.Center.Y),
+                new Vector3(pow, pow * 0.2f, pow * 0.8f));
+            Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Hitbox.Top),
+                new Vector3(pow, pow * 0.2f, pow * 0.8f));
+            Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Hitbox.Bottom),
+                new Vector3(pow, pow * 0.2f, pow * 0.8f));
         }
 
         //Allows you to draw things behind this projectile. Returns false to stop the game from drawing extras textures related to the projectile (for example, the chains for grappling hooks), useful if you're manually drawing the extras. Returns true by default.

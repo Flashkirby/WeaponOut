@@ -221,11 +221,11 @@ namespace WeaponOut
                     if (originalDmg < shieldBlockMax / 3)
                     {
                         if (damage == 1)
-                        { Main.PlaySound(3, player.position, 7); } //scratch
-                        else { Main.PlaySound(3, player.position, 3); } //light
+                        { Main.PlaySound(3, player.position, 15); } //scratch
+                        else { Main.PlaySound(3, player.position, 16); } //light
                     } 
                     else
-                    { Main.PlaySound(4, player.position, 3); }//heavy
+                    { Main.PlaySound(4, player.position, 17); }//heavy
                     playSound = false;
                 }
                 //Main.NewText("Shield: " + shieldBlock, 255, 0, 100);
