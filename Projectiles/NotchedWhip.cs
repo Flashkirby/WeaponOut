@@ -43,7 +43,9 @@ namespace WeaponOut.Projectiles
 
         /// <summary>
         /// ai0:time out
-        /// lai0:rotation
+        /// ai1:swing rotation
+        /// lai0:static rotation
+        /// lai1:custom swingtime
         /// </summary>
         private void AI_075(float swingLength, int swingTime)
         {
@@ -58,11 +60,17 @@ namespace WeaponOut.Projectiles
                 projectile.alpha = 0;
             }
             //set local AI to direction
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = projectile.velocity.ToRotation();
             }
-            Vector2 vector25 = (projectile.ai[0] / swingTime * 6.28318548f - 1.57079637f).ToRotationVector2();
+            float num33 = (float)((projectile.localAI[0].ToRotationVector2().X >= 0f) ? 1 : -1);
+            if (projectile.ai[1] <= 0f)
+            {
+                num33 *= -1f;
+            }
+            Vector2 vector25 = (num33 * (projectile.ai[0] / swingTime * 6.28318548f - 1.57079637f)).ToRotationVector2();
             vector25.Y *= (float)Math.Sin((double)projectile.ai[1]);
             if (projectile.ai[1] <= 0f)
             {
@@ -84,8 +92,8 @@ namespace WeaponOut.Projectiles
             projectile.spriteDirection = projectile.direction;
             player.ChangeDir(projectile.direction);
             player.heldProj = projectile.whoAmI;
-            player.itemTime = 5;
-            player.itemAnimation = 5;
+            player.itemTime = 2;
+            player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
 
             Vector2 vector34 = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
@@ -100,7 +108,19 @@ namespace WeaponOut.Projectiles
             vector34 -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
             projectile.Center = player.RotatedRelativePoint(player.position + vector34, true) - projectile.velocity;
 
-            
+            //collide with tiles
+            Vector2 endPoint = projectile.position + projectile.velocity * 2f;
+            Vector2 fakeVelo = endPoint - (projectile.oldPosition + projectile.oldVelocity * 2f);
+            if (Collision.TileCollision(endPoint, fakeVelo, projectile.width, projectile.height, true, true) != fakeVelo)
+            {
+                if (projectile.ai[0] * 2 < projectile.localAI[1])
+                {
+                    projectile.localAI[1] = projectile.ai[0] * 2;
+                    Main.PlaySound(2, endPoint, 39);
+                    Collision.HitTiles(endPoint, fakeVelo, 8, 8);
+                }
+            }
+
             //Dust effect at the end
             if (projectile.ai[0] % 2 == 0)
             {
@@ -125,18 +145,6 @@ namespace WeaponOut.Projectiles
                 num49++;
             }
 
-            Vector2 endPoint = projectile.position + projectile.velocity * 2f;
-            Vector2 fakeVelo = endPoint - (projectile.oldPosition + projectile.oldVelocity * 2f);
-            if (Collision.TileCollision(endPoint, fakeVelo, projectile.width, projectile.height, true, true) != fakeVelo)
-            {
-                if (projectile.ai[0] * 2 < projectile.localAI[1])
-                {
-                    projectile.localAI[1] = projectile.ai[0] * 2;
-                    Main.PlaySound(2, endPoint, 39);
-                    Collision.HitTiles(endPoint, fakeVelo, 8, 8);
-                }
-            }
-
             // Main.NewText("========================");
             // Main.NewText("ai0: " + projectile.ai[0]);// ==== 0 - 30
             // Main.NewText("ai1: " + projectile.ai[1]);// ==== 0
@@ -148,8 +156,8 @@ namespace WeaponOut.Projectiles
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             Main.NewText("tip hit : " + (projectile.ai[0]) + " | " + (projectile.localAI[1] / 2));
-            if (projectile.ai[0] <= projectile.localAI[1] / 2 + (projectile.localAI[1] / 12) &&
-                projectile.ai[0] >= projectile.localAI[1] / 2 - (projectile.localAI[1] / 12))
+            if (projectile.ai[0] <= projectile.localAI[1] / 2 + (projectile.localAI[1] / 16) &&
+                projectile.ai[0] >= projectile.localAI[1] / 2 - (projectile.localAI[1] / 8))
             {
                 Player p = Main.player[projectile.owner];
                 //Main.NewText("crit: " + p.inventory[p.selectedItem].crit + p.meleeCrit);
@@ -165,7 +173,8 @@ namespace WeaponOut.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (crit) { Main.PlaySound(2, target.Center, 40); }
+            if (crit) { Main.PlaySound(2, target.Center, 98); }
+            //if (crit) { Main.PlaySound(2, target.Center, 40); }
             projectile.npcImmune[target.whoAmI] = 10;
             target.immune[projectile.owner] = (int)(projectile.localAI[1] - projectile.ai[0] / projectile.MaxUpdates);
         }
