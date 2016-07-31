@@ -15,12 +15,14 @@ namespace WeaponOut.Projectiles
             projectile.name = "Notched Whip";
             projectile.width = 8;
             projectile.height = 8;
+            projectile.scale = 0.9f;
             projectile.alpha = 255;
             projectile.aiStyle = 75;
             projectile.penetrate = -1;
 
             projectile.alpha = 0;
             projectile.hide = true;
+            projectile.extraUpdates = 3;
 
             projectile.friendly = true;
             projectile.melee = true;
@@ -36,7 +38,7 @@ namespace WeaponOut.Projectiles
             {
                 projectile.localAI[1] = Main.player[projectile.owner].itemAnimationMax;
             }
-            AI_075(24f, (int)projectile.localAI[1]);
+            AI_075(24f / projectile.MaxUpdates, (int)projectile.localAI[1]);
         }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace WeaponOut.Projectiles
                 vector25.Y *= -1f;
             }
             vector25 = vector25.RotatedBy((double)projectile.localAI[0], default(Vector2));
-            projectile.ai[0] += 1f;
+            projectile.ai[0] += 1f / projectile.MaxUpdates;
             if (projectile.ai[0] < swingTime)
             {
                 projectile.velocity += swingLength * vector25;
@@ -100,7 +102,7 @@ namespace WeaponOut.Projectiles
 
             
             //Dust effect at the end
-            for (int num47 = 0; num47 < 2; num47++)
+            if (projectile.ai[0] % 2 == 0)
             {
                 Dust dust = Main.dust[Dust.NewDust(projectile.position + projectile.velocity * 2f, projectile.width, projectile.height, 14, 0f, 0f, 200, Color.Transparent, 1.8f)];
                 dust.noGravity = true;
@@ -112,7 +114,7 @@ namespace WeaponOut.Projectiles
             int num49 = 0;
             while ((float)num49 < num48)
             {
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.Next(16) == 0)
                 {
                     Vector2 position = projectile.position + projectile.velocity + projectile.velocity * ((float)num49 / num48);
                     Dust dust2 = Main.dust[Dust.NewDust(position, projectile.width, projectile.height, 14, 0f, 0f, 100, Color.Transparent, 1f)];
@@ -145,9 +147,9 @@ namespace WeaponOut.Projectiles
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            //Main.NewText("tip hit : " + projectile.ai[0] + " | " + projectile.localAI[1]);
-            if (projectile.ai[0] <= projectile.localAI[1] / 2 + projectile.localAI[1] / 16 &&
-                projectile.ai[0] >= projectile.localAI[1] / 2 - projectile.localAI[1] / 16)
+            Main.NewText("tip hit : " + (projectile.ai[0]) + " | " + (projectile.localAI[1] / 2));
+            if (projectile.ai[0] <= projectile.localAI[1] / 2 + (projectile.localAI[1] / 12) &&
+                projectile.ai[0] >= projectile.localAI[1] / 2 - (projectile.localAI[1] / 12))
             {
                 Player p = Main.player[projectile.owner];
                 //Main.NewText("crit: " + p.inventory[p.selectedItem].crit + p.meleeCrit);
@@ -164,8 +166,8 @@ namespace WeaponOut.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (crit) { Main.PlaySound(2, target.Center, 40); }
-            projectile.npcImmune[target.whoAmI] = 15;
-            target.immune[projectile.owner] = 15;
+            projectile.npcImmune[target.whoAmI] = 10;
+            target.immune[projectile.owner] = (int)(projectile.localAI[1] - projectile.ai[0] / projectile.MaxUpdates);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -191,7 +193,7 @@ namespace WeaponOut.Projectiles
             Rectangle handle = new Rectangle(0, 0, texture2D17.Width, 24);
             Rectangle chain = new Rectangle(0, 24, texture2D17.Width, 12);
             Rectangle part = new Rectangle(0, 36, texture2D17.Width, 12);
-            Rectangle tip = new Rectangle(0, 48, texture2D17.Width, 24);
+            Rectangle tip = new Rectangle(0, 48, texture2D17.Width, 12);
             
             
             if (projectile.velocity == Vector2.Zero)
@@ -209,7 +211,7 @@ namespace WeaponOut.Projectiles
             Vector2 vector39 = projectile.Center.Floor();
             vector39 += value17 * projectile.scale * handle.Height/2;
             Vector2 vector40;
-            rectangle6 = part;
+            rectangle6 = chain;
             if (num197 > 0f)
             {
                 float num198 = 0f;
@@ -229,7 +231,7 @@ namespace WeaponOut.Projectiles
             Vector2 value19 = vector39;
             vector39 = projectile.Center.Floor();
             vector39 += value17 * projectile.scale * chain.Height / 2;
-            rectangle6 = chain;
+            rectangle6 = part;
             int num199 = 18;
             if (flag21)
             {

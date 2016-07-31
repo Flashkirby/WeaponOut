@@ -35,10 +35,13 @@
     <Folder Include="Glow\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
+    <Compile Include="Items\MirrorBadge.cs" />
     <Compile Include="Items\Weapons\Capacitor.cs" />
     <Compile Include="Items\Weapons\ChannelerStaff.cs" />
+    <Compile Include="Items\Weapons\NotchedWhip.cs" />
     <Compile Include="Items\Weapons\SparkShovel.cs" />
     <Compile Include="Items\Weapons\WAR.cs" />
     <Compile Include="Items\Weapons\Fist.cs" />
@@ -54,10 +57,12 @@
     <Compile Include="PlayerFX.cs" />
     <Compile Include="Projectiles\FistFlameBlast.cs" />
     <Compile Include="Projectiles\ManaRestoreBeam.cs" />
+    <Compile Include="Projectiles\NotchedWhip.cs" />
     <Compile Include="Projectiles\SplinterShot.cs" />
     <Compile Include="Projectiles\DemonBlast.cs" />
     <Compile Include="Projectiles\Hayauchi.cs" />
     <Compile Include="Projectiles\ManaBlast.cs" />
+    <Content Include="Buffs\Magic Barrier.png" />
     <Content Include="Items\Armour\DiscordantCharm.png" />
     <Content Include="Projectiles\TentSetup.txt" />
     <Compile Include="Tiles\CampTent.cs" />
