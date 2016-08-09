@@ -16,14 +16,14 @@ namespace WeaponOut.Projectiles
         /// <param name="projectile">Reference to the projectile</param>
         /// <param name="whipLength">Approximately half length in tiles</param>
         /// <returns>End position of the whip</returns>
-        public static Vector2 WhipAI(Projectile projectile, float whipLength = 16)
+        public static Vector2 WhipAI(Projectile projectile, float whipLength = 16, int sndgroup = 2, int sound = 39)
         {
             //use localAI[1] to track hitting something
             if (projectile.ai[0] == 0f)
             {
                 projectile.localAI[1] = Main.player[projectile.owner].itemAnimationMax;
             }
-            return AI_075(projectile, whipLength / projectile.MaxUpdates, (int)projectile.localAI[1]);
+            return AI_075(projectile, whipLength / projectile.MaxUpdates, (int)projectile.localAI[1], sndgroup, sound);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace WeaponOut.Projectiles
         /// lai0:static rotation
         /// lai1:custom swingtime
         /// </summary>
-        private static Vector2 AI_075(Projectile projectile, float swingLength, int swingTime)
+        private static Vector2 AI_075(Projectile projectile, float swingLength, int swingTime, int sndgroup, int sound)
         {
             Player player = Main.player[projectile.owner];
             float num = 1.57079637f;
@@ -104,7 +104,7 @@ namespace WeaponOut.Projectiles
                     if (projectile.ai[0] * 2 < projectile.localAI[1])
                     {
                         projectile.localAI[1] = projectile.ai[0] * 2;
-                        Main.PlaySound(2, endPoint, 39);
+                        Main.PlaySound(sndgroup, endPoint, sound);
                         Collision.HitTiles(endPoint, endPoint - prevPoint, 8, 8);
                     }
                 }
@@ -135,7 +135,7 @@ namespace WeaponOut.Projectiles
                 Player p = Main.player[projectile.owner];
                 //Main.NewText("crit: " + p.inventory[p.selectedItem].crit + p.meleeCrit);
                 damage = (int)(damage * (1 + (p.inventory[p.selectedItem].crit + p.meleeCrit) * 0.01f));
-                knockback *= 3;
+                knockback *= 2;
                 crit = true;
             }
             else
