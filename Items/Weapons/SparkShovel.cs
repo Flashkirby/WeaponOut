@@ -70,7 +70,7 @@ namespace WeaponOut.Items.Weapons
         }
 
 
-
+        //TODO: - ALT FUNCTION DOESN'T APPEAR IN MULTIPLAYER
 
 
 

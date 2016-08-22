@@ -17,7 +17,7 @@ namespace WeaponOut.Items
             item.name = "Wooden Shield";
             item.width = 24;
             item.height = 28;
-            item.toolTip = "Can absorb 5 points of damage";
+            item.toolTip = "Grants immunity to knockback at low damages"; //see playerfx
             item.accessory = true;
             item.defense = 1;
             item.value = Item.sellPrice(0,0,15,0);

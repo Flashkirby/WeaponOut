@@ -13,19 +13,22 @@ namespace WeaponOut
 {
     public class PlayerFX : ModPlayer
     {
+        /* //disabled for now 
         private const int shieldDelayReset = 120; //delay after attacking or losing
         private const int shieldDelayPause = 60; //delay after recieving a hit
         private const int shieldCounterBase = 4; //tick counter base
         private const int shieldAlphaDelay = 30; //stay time
         private const int shieldAlphaDown = 5; //tick alpha
         private const int heartsPerDefence = 10; //number of shield points per heart
-
+        */
 
         private bool wasDead; //used to check if player just revived
         private int openFist; //item ID of Fist Weapon
         private int fireFistType;
 
         public Vector2 localTempSpawn;
+
+        /*
         public Item shieldItem;
         public int shieldLastBlock;
         public int shieldBlock; //current block points
@@ -34,13 +37,14 @@ namespace WeaponOut
         public int shieldRegenCounter; //at 0, shield goes up 1 point
         private int shieldGraphicDelay; //disappear at full charge
         private int shieldGraphicAlpha; //disappear at full charge
+        */
 
         public int weaponFrame;
 
         public override void Initialize()
         {
             localTempSpawn = new Vector2();
-            shieldGraphicAlpha = 0;
+            //shieldGraphicAlpha = 0;
 
             openFist = mod.ItemType("Fist");
             fireFistType = mod.ItemType("FistsOfFury");
@@ -48,13 +52,14 @@ namespace WeaponOut
 
         public override void PreUpdate()
         {
-            setShieldBlock();
-            handleShieldBlockRecovery();
+            //setShieldBlock();
+            //handleShieldBlockRecovery();
             itemCooldownFlash();
         }
+        /*
         private void setShieldBlock()
         {
-            shieldBlockMax = 0;
+            //shieldBlockMax = 0;
             int shieldPower = 0;
             //accessory slots
 
@@ -63,6 +68,7 @@ namespace WeaponOut
                 Item check = player.armor[i];
                 shieldPower = validateIsShield(check);
                 //Main.NewText("shieldpower of " + check.name + ": " + shieldPower, 100, 0, 255);
+
                 if (shieldPower > shieldBlockMax)
                 {
                     shieldBlockMax = shieldPower;
@@ -182,8 +188,9 @@ namespace WeaponOut
                     shieldRegenDelay--;
                 }
             }
-
         }
+        */ 
+
         /// <summary>
         /// UseItem flash when itemTime is 0 to indicate charge
         /// </summary>
@@ -207,7 +214,7 @@ namespace WeaponOut
                 }
             }
         }
-
+        /*
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref string deathText)
         {
             int originalDmg = damage;
@@ -232,6 +239,7 @@ namespace WeaponOut
             }
             return true;
         }
+        
         /// <summary>
         /// Reduces damage taken, and removes it from shield health
         /// </summary>
@@ -258,7 +266,7 @@ namespace WeaponOut
             }
             return damage;
         }
-
+        */
         public override bool PreItemCheck()
         {
             preItemTransformCheck();
@@ -369,6 +377,7 @@ namespace WeaponOut
             }
             catch { }
         });
+        /*
         public static readonly PlayerLayer MiscEffectsFront = new PlayerLayer("WeaponOut", "MiscEffectsFront", PlayerLayer.MiscEffectsFront, delegate(PlayerDrawInfo drawInfo)
         {
             try
@@ -377,17 +386,18 @@ namespace WeaponOut
             }
             catch { }
         });
+        */ 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             HeldItem.visible = true;
             HairBack.visible = true;
-            MiscEffectsFront.visible = !player.dead;
+            //MiscEffectsFront.visible = !player.dead;
             int heldItemStack = layers.IndexOf(PlayerLayer.HeldItem);
             int hairBackStack = layers.IndexOf(PlayerLayer.HairBack);
             int MiscEffectsFrontStack = layers.IndexOf(PlayerLayer.MiscEffectsFront);
             layers.Insert(heldItemStack, HeldItem);
             layers.Insert(hairBackStack, HairBack);
-            layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
+            //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
         }
         #endregion
         private static void drawPlayerItem(PlayerDrawInfo drawInfo, bool drawOnBack)
@@ -644,6 +654,7 @@ namespace WeaponOut
             //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100,200,150);
             
         }
+        /*
         private static void drawShieldOver(PlayerDrawInfo drawInfo)
         {
             //go away if disappeared
@@ -700,7 +711,7 @@ namespace WeaponOut
             data.shader = drawInfo.shieldShader;
             Main.playerDrawData.Add(data);
         }
-
+        */
         private void checkTemporarySpawn()
         {
             if (player.whoAmI == Main.myPlayer)
