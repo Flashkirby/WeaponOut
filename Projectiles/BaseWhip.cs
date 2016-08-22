@@ -123,8 +123,10 @@ namespace WeaponOut.Projectiles
 
         public static void ModifyHitAny(Projectile projectile, ref int damage, ref bool crit)
         {
-            float noUse = 0f;
-            ModifyHitAny(projectile, ref damage, ref noUse, ref crit);
+            return; //disabled due to not working in multiplayer.
+            /*
+            float pvpKnockback = 0f;
+            ModifyHitAny(projectile, ref damage, ref pvpKnockback, ref crit);*/
         }
         public static void ModifyHitAny(Projectile projectile, ref int damage, ref float knockback, ref bool crit)
         {
