@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Weapons
             item.toolTip = "Casts a mana restoring star";
             item.width = 38;
             item.height = 14;
-            item.scale = 0.85f;
+            item.scale = 0.9f;
 
             item.magic = true;
             item.mana = 10;
