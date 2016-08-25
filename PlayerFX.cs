@@ -402,6 +402,9 @@ namespace WeaponOut
         #endregion
         private static void drawPlayerItem(PlayerDrawInfo drawInfo, bool drawOnBack)
         {
+            //don't draw when not ingame
+            if (Main.gameMenu) return;
+
             //get this player
             Player drawPlayer = drawInfo.drawPlayer;
             if (drawPlayer.itemAnimation > 0 //do nothing if player is doing something
