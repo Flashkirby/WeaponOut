@@ -28,7 +28,7 @@ namespace WeaponOut.Items.Weapons
             item.shootSpeed = 1;
 
             item.useStyle = 5;
-            item.useSound = 9;
+            item.useSound = 8;
             item.useTime = 60;
             item.useAnimation = 60;
 

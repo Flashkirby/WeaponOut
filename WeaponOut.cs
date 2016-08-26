@@ -26,6 +26,8 @@ namespace WeaponOut
         public static Texture2D textureDMNB;
         public static Texture2D textureMANB;
 
+        public static int shakeIntensity = 0;
+
         public WeaponOut()
         {
             Properties = new ModProperties()
@@ -43,11 +45,30 @@ namespace WeaponOut
                 textureDMNB = GetTexture("Projectiles/DemonBlast");
                 textureMANB = GetTexture("Projectiles/ManaBlast");
                 textureSPSH = GetTexture("Projectiles/SplinterShot");
+
+                Projectiles.Explosion.textureTargetS = GetTexture("Projectiles/Explosion_Targetsm");
+                Projectiles.Explosion.textureTargetM = GetTexture("Projectiles/Explosion_Targetmd");
+                Projectiles.Explosion.textureTargetL = GetTexture("Projectiles/Explosion_Targetlg");
             }
             else
             {
                 Console.WriteLine("WeaponOut loaded with no errors:   net#5");
             }
+        }
+
+        public override Microsoft.Xna.Framework.Matrix ModifyTransformMatrix(Microsoft.Xna.Framework.Matrix Transform)
+        {
+            if (!Main.gameMenu)
+            {
+                if (shakeIntensity >= 0 && Main.time % 4 == 0) shakeIntensity--;
+                if (shakeIntensity < 0) shakeIntensity = 0;
+                return Transform
+                    * Microsoft.Xna.Framework.Matrix.CreateTranslation(
+                    Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
+                    Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)), 
+                    0f);
+            }
+            return Transform;
         }
     }
 }
