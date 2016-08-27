@@ -49,6 +49,7 @@ namespace WeaponOut
                 Projectiles.Explosion.textureTargetS = GetTexture("Projectiles/Explosion_Targetsm");
                 Projectiles.Explosion.textureTargetM = GetTexture("Projectiles/Explosion_Targetmd");
                 Projectiles.Explosion.textureTargetL = GetTexture("Projectiles/Explosion_Targetlg");
+                Projectiles.Explosion.textureLaser = GetTexture("Projectiles/Explosion_Laser");
             }
             else
             {

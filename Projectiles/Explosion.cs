@@ -22,9 +22,11 @@ namespace WeaponOut.Projectiles
         public static Texture2D textureTargetS;
         public static Texture2D textureTargetM;
         public static Texture2D textureTargetL;
+        public static Texture2D textureLaser;
 
         public float[] textureSizes = new float[maxCharge];
         public float[] textureAlphas = new float[maxCharge];
+        public float[] textureCastAlphas = new float[2];
         public float centreY;
         public Vector2 GraphicCentre
         {
@@ -222,9 +224,10 @@ namespace WeaponOut.Projectiles
         }
         
         private bool start = true;
+        private int chargeTime;
         private void castState(Player player)
         {
-            int chargeTime = (2 + ChargeLevel) * castTicksTime;
+            chargeTime = (2 + ChargeLevel) * castTicksTime;
             if (start) { ChargeTick = chargeTime; start = false; }
 
             //release at lower power if can't act
@@ -257,12 +260,13 @@ namespace WeaponOut.Projectiles
                     player.inventory[player.selectedItem].width * 1.1f * (float)Math.Sin(player.itemRotation)
                 ) * player.direction;
 
-                //glow down
+                /*
                 //Main.NewText("casting... " + ((float)ChargeTick / castTicksTime));
-                int d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2 + ChargeLevel * 0.05f, 3 + ChargeLevel * 0.05f),
-                    0, 0, 174, 0, 0, 0, Color.White, 0.5f + (0.1f * ((float)ChargeTick / castTicksTime)));
+                int d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2, 3),
+                    0, 0, 130, 0, 0, 0, Color.White, 0.5f + (0.1f * ((float)ChargeTick / castTicksTime)));
                 Main.dust[d].noGravity = true;
-                Main.dust[d].velocity = new Vector2(Main.dust[d].velocity.X * 0.1f, -10f + Main.dust[d].velocity.Y);
+                Main.dust[d].velocity = new Vector2(Main.dust[d].velocity.X * 0.1f, -5f + Main.dust[d].velocity.Y - ChargeLevel * 0.1f);
+                 */
             }
             else
             {
@@ -295,6 +299,8 @@ namespace WeaponOut.Projectiles
                 explosionStart();
             }
 
+            projectile.scale += (explosionScale - 1) / fireTicksTime;
+
             explosionTime(
                 projectile.timeLeft /
                 (float)(fireTicksTime * (1 + ChargeLevel))
@@ -323,6 +329,7 @@ namespace WeaponOut.Projectiles
         {
             Vector2 circleVector;
 
+            //intitial dist
             for (int i = 0; i < 2; i++)
             {
                 float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
@@ -341,6 +348,15 @@ namespace WeaponOut.Projectiles
                 Main.dust[d].noGravity = true;
             }
 
+            drawChargeCircles(spriteBatch);
+
+            drawCastingCircles(spriteBatch);
+
+            return false;
+        }
+        
+        private void drawChargeCircles(SpriteBatch spriteBatch)
+        {
             //Main.NewText("draw " + i + " with alpha " + alpha);
             float size;
             float alpha;
@@ -358,7 +374,7 @@ namespace WeaponOut.Projectiles
                 }
                 else
                 {
-                    if (alpha > 0f) { alpha -= 0.05f; } else { alpha = 0; }
+                    if (alpha > 0f) { alpha -= 0.03f; } else { alpha = 0; }
                 }
                 switch (i)
                 {
@@ -397,7 +413,7 @@ namespace WeaponOut.Projectiles
                             new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
                             (float)(Main.time * 0.05f),
                             textureTargetS.Bounds.Center.ToVector2(),
-                            size * projectile.scale / textureTargetS.Width,
+                            textureSizes[0] * projectile.scale / textureTargetS.Width,
                             SpriteEffects.None,
                             0f);
                         break;
@@ -483,16 +499,252 @@ namespace WeaponOut.Projectiles
                             castCentre,
                             null,
                             new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
-                            (float)(Main.time * 0.03f),
+                            (float)(Main.time * 0.01f),
                             textureTargetL.Bounds.Center.ToVector2(),
                             size * projectile.scale / textureTargetL.Width,
+                            SpriteEffects.None,
+                            0f);
+                        break;
+                    case 8: ///////////////////////////////////////////////////////////////////// top circle
+                        if (alpha > 0.5f) { alpha = 0.5f; }
+                        sizeCircle = size * (1 / 7f);
+                        sizeOffset = size * (6 / 7f);
+                        castCentre = GraphicCentre - Main.screenPosition
+                            + new Vector2(
+                            0,
+                            -sizeOffset * 0.5f
+                        );
+
+                        spriteBatch.Draw(textureTargetM,
+                            castCentre,
+                            null,
+                            new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                            0,
+                            textureTargetM.Bounds.Center.ToVector2(),
+                            new Vector2(size, sizeCircle) * projectile.scale / textureTargetM.Width,
+                            SpriteEffects.None,
+                            0f);
+                        break;
+                    case 9: ///////////////////////////////////////////////////////////////////// bottom circle
+                        if (alpha > 0.5f) { alpha = 0.5f; }
+                        sizeCircle = size * (1 / 6f);
+                        sizeOffset = size * (5 / 6f);
+                        castCentre = GraphicCentre - Main.screenPosition
+                            + new Vector2(
+                            0,
+                            sizeOffset * 0.5f
+                        );
+
+                        spriteBatch.Draw(textureTargetM,
+                            castCentre,
+                            null,
+                            new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                            0,
+                            textureTargetM.Bounds.Center.ToVector2(),
+                            new Vector2(size, sizeCircle) * projectile.scale / textureTargetM.Width,
+                            SpriteEffects.None,
+                            0f);
+                        break;
+                    case 10: ///////////////////////////////////////////////////////////////////// mid circle
+                        if (alpha > 0.5f) { alpha = 0.5f; }
+                        sizeCircle = size * (1 / 7f);
+                        castCentre = GraphicCentre - Main.screenPosition;
+
+                        spriteBatch.Draw(textureTargetL,
+                            castCentre,
+                            null,
+                            new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                            0,
+                            textureTargetL.Bounds.Center.ToVector2(),
+                            new Vector2(size, sizeCircle) * projectile.scale / textureTargetL.Width,
+                            SpriteEffects.None,
+                            0f);
+                        break;
+                    case 11: ///////////////////////////////////////////////////////////////////// guide topper 1
+                        if (alpha > 0.5f) { alpha = 0.5f; }
+                        sizeCircle = size * (1 / 9f);
+                        sizeOffset = size * (8 / 9f);
+                        castCentre = GraphicCentre - Main.screenPosition
+                            + new Vector2(
+                            0,
+                            -sizeOffset * 0.5f
+                        );
+
+                        spriteBatch.Draw(textureTargetS,
+                            castCentre,
+                            null,
+                            new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                            0,
+                            textureTargetS.Bounds.Center.ToVector2(),
+                            new Vector2(size * 0.7f, sizeCircle) * projectile.scale / textureTargetS.Width,
+                            SpriteEffects.None,
+                            0f);
+                        break;
+                    case 12: ///////////////////////////////////////////////////////////////////// guide topper 2
+                        if (alpha > 0.5f) { alpha = 0.5f; }
+                        sizeCircle = size * (1 / 9f);
+                        sizeOffset = size * (8 / 9f);
+                        castCentre = GraphicCentre - Main.screenPosition
+                            + new Vector2(
+                            0,
+                            -sizeOffset * 0.5f
+                        );
+
+                        spriteBatch.Draw(textureTargetM,
+                            castCentre,
+                            null,
+                            new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                            0,
+                            textureTargetM.Bounds.Center.ToVector2(),
+                            new Vector2(size * 0.8f, sizeCircle) * projectile.scale / textureTargetM.Width,
+                            SpriteEffects.None,
+                            0f);
+                        break;
+                    case 13: ///////////////////////////////////////////////////////////////////// guide topper 3
+                        if (alpha > 0.5f) { alpha = 0.5f; }
+                        sizeCircle = size * (1 / 9f);
+                        sizeOffset = size * (8 / 9f);
+                        castCentre = GraphicCentre - Main.screenPosition
+                            + new Vector2(
+                            0,
+                            -sizeOffset * 0.5f
+                        );
+
+                        spriteBatch.Draw(textureTargetM,
+                            castCentre,
+                            null,
+                            new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                            0,
+                            textureTargetM.Bounds.Center.ToVector2(),
+                            new Vector2(size * 0.85f, sizeCircle) * projectile.scale / textureTargetM.Width,
+                            SpriteEffects.None,
+                            0f);
+                        break;
+                    case 14: ///////////////////////////////////////////////////////////////////// guide topper 4
+                        if (alpha > 0.5f) { alpha = 0.5f; }
+                        sizeCircle = size * (1 / 9f);
+                        sizeOffset = size * (8 / 9f);
+                        castCentre = GraphicCentre - Main.screenPosition
+                            + new Vector2(
+                            0,
+                            -sizeOffset * 0.5f
+                        );
+
+                        spriteBatch.Draw(textureTargetS,
+                            castCentre,
+                            null,
+                            new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                            0,
+                            textureTargetS.Bounds.Center.ToVector2(),
+                            new Vector2(size * 0.6f, sizeCircle) * projectile.scale / textureTargetS.Width,
                             SpriteEffects.None,
                             0f);
                         break;
                 }
                 textureAlphas[i] = alpha;
             }
-            return false;
+        }
+        private void drawCastingCircles(SpriteBatch spriteBatch)
+        {
+            float size;
+            float alpha;
+            Vector2 castCentre;
+            float sizeCircle;
+            if (ExplosionState != 0)
+            {
+                //set up casting from player
+                Player player = Main.player[projectile.owner];
+                int distance = 120 + ChargeLevel * 3;
+
+
+                //Casting cicle
+                if (ExplosionState == 1) textureCastAlphas[0] = 1f;
+                if (ExplosionState == 2) textureCastAlphas[0] *= 0.9f;
+                //Main.NewText("cast circle target alpha " + textureCastAlphas[0]);
+                alpha = textureCastAlphas[0];
+
+                size = projectile.width;
+                sizeCircle = size * (1 / 9f);
+                castCentre = GraphicCentre
+                    + new Vector2(
+                    0,
+                    -size * 0.75f
+                );
+
+                spriteBatch.Draw(textureTargetL,
+                    castCentre - Main.screenPosition,
+                    null,
+                    new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                    0,
+                    textureTargetL.Bounds.Center.ToVector2(),
+                    new Vector2(size, sizeCircle) * projectile.scale / textureTargetL.Width,
+                    SpriteEffects.None,
+                    0f);
+
+                //EPXLOSION LASER
+                if (ExplosionState == 1)
+                {
+                    //burst FX
+                    int d = Dust.NewDust(castCentre - new Vector2(2 + ChargeLevel * 0.2f, 0), 8, 0, 162,
+                        0, 2, 0, Color.White, 1 + ChargeLevel * 0.4f);
+                    Main.dust[d].noGravity = true; //loses velocity very fast
+                    Main.dust[d].velocity.X *= ChargeLevel;
+
+                    //from staff
+                    drawLaser(spriteBatch, player.Top + new Vector2(0, -34), player.Top + new Vector2(0, -distance));
+
+                    //to explosion
+                    drawLaser(spriteBatch, castCentre, GraphicCentre);
+                }
+
+                if (ExplosionState == 1)
+                {
+                    //dust fly into top circle
+                    Vector2 circleVector;
+                    float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
+                    circleVector = new Vector2(
+                        58 * (float)Math.Cos(randAng),
+                        10 * (float)Math.Sin(randAng)
+                        );
+                    //dust spawn at cricle and move in
+                    int d = Dust.NewDust(player.Top + new Vector2(-4, -distance - 4) + circleVector, 0, 0,
+                        170, circleVector.X, circleVector.Y, 0, Color.White, 0.1f);
+                    Main.dust[d].fadeIn = 1f;
+                    Main.dust[d].noGravity = true;
+                    Main.dust[d].velocity *= -0.07f;
+                }
+
+                //Player top circles
+                spriteBatch.Draw(textureTargetS,
+                    player.Top + new Vector2(0, -distance) - Main.screenPosition,
+                    null,
+                    new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                    0,
+                    textureTargetS.Bounds.Center.ToVector2(),
+                    new Vector2(player.width * 8, player.width * 1.6f) * projectile.scale / textureTargetS.Width,
+                    SpriteEffects.None,
+                    0f);
+                if (ChargeLevel < 8) return; //STOP if less than 8 charge
+                spriteBatch.Draw(textureTargetM,
+                    player.Top + new Vector2(0, -distance * 0.6f) - Main.screenPosition,
+                    null,
+                    new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                    0,
+                    textureTargetM.Bounds.Center.ToVector2(),
+                    new Vector2(player.width * 5, player.width) * projectile.scale / textureTargetM.Width,
+                    SpriteEffects.None,
+                    0f);
+                if (ChargeLevel < 12) return; //STOP if less than 12 charge
+                spriteBatch.Draw(textureTargetL,
+                    player.Top + new Vector2(0, -distance * 0.3f) - Main.screenPosition,
+                    null,
+                    new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
+                    0,
+                    textureTargetL.Bounds.Center.ToVector2(),
+                    new Vector2(player.width * 4, player.width * 0.8f) * projectile.scale / textureTargetL.Width,
+                    SpriteEffects.None,
+                    0f);
+            }
         }
 
         public void explosionStart()
@@ -529,6 +781,52 @@ namespace WeaponOut.Projectiles
                 Main.dust[d].velocity *= 1.5f;
             }
 
+        }
+
+        private void drawLaser(SpriteBatch spritebatch, Vector2 start, Vector2 end)
+        {
+            try
+            {
+                Main.NewText("charge: " + ChargeTick + " / "  + chargeTime);
+                Utils.DrawLaser(
+                    spritebatch,
+                    textureLaser,
+                    start - Main.screenPosition,
+                    end - Main.screenPosition,
+                    new Vector2(Math.Max(0.1f, 2f / (1f + chargeTime - ChargeTick))),
+                    new Utils.LaserLineFraming(ExplosionLaser)); //uses delegate (see method below)
+            }
+            catch { }
+        }
+        //define which frames are used in each stage (0 = start, 1 = mid, 2 = end
+        private void ExplosionLaser(int stage, Vector2 currentPosition, float distanceLeft, Rectangle lastFrame, out float distCovered, out Rectangle frame, out Vector2 origin, out Color color)
+        {
+            color = Color.White;
+            if (stage == 0)
+            {
+                distCovered = 33f;
+                frame = new Rectangle(0, 0, 22, 22);
+                origin = frame.Size() / 2f;
+                return;
+            }
+            if (stage == 1)
+            {
+                frame = new Rectangle(0, 22, 22, 22);
+                distCovered = (float)frame.Height;
+                origin = new Vector2((float)(frame.Width / 2), 0f);
+                return;
+            }
+            if (stage == 2)
+            {
+                distCovered = 22f;
+                frame = new Rectangle(0, 44, 22, 22);
+                origin = new Vector2((float)(frame.Width / 2), 1f);
+                return;
+            }
+            distCovered = 9999f;
+            frame = Rectangle.Empty;
+            origin = Vector2.Zero;
+            color = Color.Transparent;
         }
         #endregion
     }
