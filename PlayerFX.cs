@@ -23,10 +23,12 @@ namespace WeaponOut
         */
 
         private bool wasDead; //used to check if player just revived
-        private int openFist; //item ID of Fist Weapon
-        private int fireFistType;
+        public Vector2 localTempSpawn;//spawn used by tent
 
-        public Vector2 localTempSpawn;
+        private static int openFist; //item ID of Fist Weapon
+        private static int fireFistType;
+
+        public int weaponFrame;//frame of weapon...
 
         /*
         public Item shieldItem;
@@ -39,7 +41,29 @@ namespace WeaponOut
         private int shieldGraphicAlpha; //disappear at full charge
         */
 
-        public int weaponFrame;
+        #region Utils
+        public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
+        {
+            Texture2D textureCasting = Main.extraTexture[51];
+            Vector2 origin = player.Bottom + new Vector2(0f, player.gfxOffY + 4f);
+            if (player.gravDir < 0) origin.Y -= player.height + 8f;
+            Rectangle rectangle = textureCasting.Frame(1, 4, 0, Math.Max(0, Math.Min(3, frame)));
+            Vector2 origin2 = rectangle.Size() * new Vector2(0.5f, 1f);
+            if (player.gravDir < 0) origin2.Y = 0f;
+            spriteBatch.Draw(
+                textureCasting, new Vector2((float)((int)(origin.X - Main.screenPosition.X)), (float)((int)(origin.Y - Main.screenPosition.Y))),
+                new Rectangle?(rectangle), colour, 0f, origin2, 1f,
+                player.gravDir >= 0f ? SpriteEffects.None : SpriteEffects.FlipVertically, 0f);
+        }
+        public static void modifyPlayerItemLocation(Player player, float X, float Y)
+        {
+            float cosRot = (float)Math.Cos(player.itemRotation);
+            float sinRot = (float)Math.Sin(player.itemRotation);
+            //Align
+            player.itemLocation.X = player.itemLocation.X + (X * cosRot * player.direction) + (Y * sinRot * player.gravDir);
+            player.itemLocation.Y = player.itemLocation.Y + (X * sinRot * player.direction) - (Y * cosRot * player.gravDir);
+        }
+        #endregion
 
         public override void Initialize()
         {
@@ -351,19 +375,29 @@ namespace WeaponOut
                 wasDead = true;
             }
         }
-
-        public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
+        private void checkTemporarySpawn()
         {
-            Texture2D textureCasting = Main.extraTexture[51];
-            Vector2 origin = player.Bottom + new Vector2(0f, player.gfxOffY + 4f);
-            if (player.gravDir < 0) origin.Y -= player.height + 8f;
-            Rectangle rectangle = textureCasting.Frame(1, 4, 0, Math.Max(0, Math.Min(3, frame)));
-            Vector2 origin2 = rectangle.Size() * new Vector2(0.5f, 1f);
-            if (player.gravDir < 0) origin2.Y = 0f;
-            spriteBatch.Draw(
-                textureCasting, new Vector2((float)((int)(origin.X - Main.screenPosition.X)), (float)((int)(origin.Y - Main.screenPosition.Y))),
-                new Rectangle?(rectangle), colour, 0f, origin2, 1f,
-                player.gravDir >= 0f ? SpriteEffects.None : SpriteEffects.FlipVertically, 0f);
+            if (player.whoAmI == Main.myPlayer)
+            {
+                //int dID = Dust.NewDust(new Vector2((float)(localTempSpawn.X * 16), (float)(localTempSpawn.Y * 16)), 16, 16, 44, 0f, 0f, 0, default(Color), 4f);
+                //Main.dust[dID].velocity *= 0f;
+
+                if ((int)Main.tile[(int)localTempSpawn.X, (int)localTempSpawn.Y].type != mod.TileType("CampTent"))
+                {
+                    Main.NewText("Temporary spawn was removed, returned to normal spawn", 255, 240, 20, false);
+                    localTempSpawn = default(Vector2);
+                    return;
+                }
+                Main.BlackFadeIn = 255;
+                Main.renderNow = true;
+
+                player.position.X = (float)(localTempSpawn.X * 16 + 8 - player.width / 2);
+                player.position.Y = (float)((localTempSpawn.Y + 1) * 16 - player.height);
+                player.fallStart = (int)(player.position.Y / 16);
+
+                Main.screenPosition.X = player.position.X + (float)(player.width / 2) - (float)(Main.screenWidth / 2);
+                Main.screenPosition.Y = player.position.Y + (float)(player.height / 2) - (float)(Main.screenHeight / 2);
+            }
         }
 
         #region Player Layers
@@ -733,39 +767,7 @@ namespace WeaponOut
             Main.playerDrawData.Add(data);
         }
         */
-        private void checkTemporarySpawn()
-        {
-            if (player.whoAmI == Main.myPlayer)
-            {
-                //int dID = Dust.NewDust(new Vector2((float)(localTempSpawn.X * 16), (float)(localTempSpawn.Y * 16)), 16, 16, 44, 0f, 0f, 0, default(Color), 4f);
-                //Main.dust[dID].velocity *= 0f;
-
-                if ((int)Main.tile[(int)localTempSpawn.X, (int)localTempSpawn.Y].type != mod.TileType("CampTent"))
-                {
-                    Main.NewText("Temporary spawn was removed, returned to normal spawn", 255, 240, 20, false);
-                    localTempSpawn = default(Vector2);
-                    return;
-                }
-                Main.BlackFadeIn = 255;
-                Main.renderNow = true;
-
-                player.position.X = (float)(localTempSpawn.X * 16 + 8 - player.width / 2);
-                player.position.Y = (float)((localTempSpawn.Y + 1) * 16 - player.height);
-                player.fallStart = (int)(player.position.Y / 16);
-
-                Main.screenPosition.X = player.position.X + (float)(player.width / 2) - (float)(Main.screenWidth / 2);
-                Main.screenPosition.Y = player.position.Y + (float)(player.height / 2) - (float)(Main.screenHeight / 2);
-            }
-        }
         
-        public static void modifyPlayerItemLocation(Player player, float X, float Y)
-        {
-            float cosRot = (float)Math.Cos(player.itemRotation);
-            float sinRot = (float)Math.Sin(player.itemRotation);
-            //Align
-            player.itemLocation.X = player.itemLocation.X + (X * cosRot * player.direction) + (Y * sinRot * player.gravDir);
-            player.itemLocation.Y = player.itemLocation.Y + (X * sinRot * player.direction) - (Y * cosRot * player.gravDir);
-        }
 
 
 
