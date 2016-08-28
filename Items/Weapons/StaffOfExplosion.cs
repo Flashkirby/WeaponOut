@@ -10,7 +10,8 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Staff of Explosion";
-            item.toolTip = "Create an explosion at a location\nChannel to create larger explosions\nOnly channels when standing still";
+            item.toolTip = @"Create an explosion at a location
+Charge faster by standing still";
             item.width = 52;
             item.height = 14;
             item.scale = 1f;

@@ -37,8 +37,8 @@ namespace WeaponOut.Projectiles
             }
         }
 
-        public const int chargeTicksIdle = 4; //bonus ticks for standing still
-        public const int chargeTicksMax = 48 * (1 + chargeTicksIdle); //5 ticks per update
+        public const int chargeTicksIdle = 3; //bonus ticks for standing still
+        public const int chargeTicksMax = 48 * (1 + chargeTicksIdle); //3 ticks per update
         public const float chargeTickGameMax = (chargeTicksMax / chargeTicksIdle);
         public const int castTicksTime = 5; //time per charge spent casting
         public const int fireTicksTime = 3; //time per charge spent exploding (penetrating projs gives npcs 10tick immune)
