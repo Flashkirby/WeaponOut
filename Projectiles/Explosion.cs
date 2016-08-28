@@ -951,6 +951,9 @@ namespace WeaponOut.Projectiles
                 int g = Gore.NewGore(projectile.Center - new Vector2(16, 16), velocity, Main.rand.Next(61, 64), 1f);
                 Main.gore[g].scale *= 1 + 0.08f * ChargeLevel;
                 Main.gore[g].velocity *= 0.1f;
+                g = Gore.NewGore(projectile.Center - new Vector2(16, 16), velocity, Main.rand.Next(61, 64), 1f);
+                Main.gore[g].scale *= 1 + 0.08f * ChargeLevel;
+                Main.gore[g].velocity *= 0.05f;
             }
         }
 
