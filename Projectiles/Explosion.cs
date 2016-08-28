@@ -193,11 +193,17 @@ namespace WeaponOut.Projectiles
                         ChargeLevel * 8 * (float)Math.Sin(randAng)
                         );
                     //dust spawn at cricle and move in
-                    d = Dust.NewDust(staffTip + circleVector, 0, 0, 
+                    d = Dust.NewDust(staffTip + circleVector, 0, 0,
                         106, circleVector.X, circleVector.Y, 0, Color.White, 0.1f);
                     Main.dust[d].fadeIn = 0.8f;
                     Main.dust[d].noGravity = true;
                     Main.dust[d].velocity *= -0.1f;
+
+                    chargeFX(true);
+                }
+                else
+                {
+                    chargeFX(false);
                 }
                 if (ChargeTick >= chargeTicksMax && player.statMana >= manaCost)
                 {
@@ -212,9 +218,11 @@ namespace WeaponOut.Projectiles
                     textureSizes[ChargeLevel - 1] = projectile.width;
 
                     player.CheckMana(manaCost, true);
-
                     Main.NewText("Increase... tier " + ChargeLevel + " | current manacost: " + manaCost + "| size: " + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
+
+                    chargeNext();
                 }
+
             }
             else
             {
@@ -229,7 +237,7 @@ namespace WeaponOut.Projectiles
         private void castState(Player player)
         {
             chargeTime = (2 + ChargeLevel) * castTicksTime;
-            if (start) { ChargeTick = chargeTime; start = false; }
+            if (start) { ChargeTick = chargeTime; castStart(); start = false; }
 
             //release at lower power if can't act
             if (canChannel(player))
@@ -302,7 +310,7 @@ namespace WeaponOut.Projectiles
 
             projectile.scale += (explosionScale - 1) / fireTicksTime;
 
-            explosionTime(
+            explosionFX(
                 projectile.timeLeft /
                 (float)(fireTicksTime * (1 + ChargeLevel))
                 );
@@ -326,6 +334,30 @@ namespace WeaponOut.Projectiles
         #endregion
 
         #region Visuaudio
+        public void chargeFX(bool notMoving)
+        {
+            projectile.frameCounter++;
+            if (projectile.frameCounter > (8 + maxCharge - ChargeLevel))
+            {
+                projectile.frameCounter = 0;
+                Main.PlaySound(2, projectile.Center, 34);
+            }
+        }
+        public void chargeNext()
+        {
+            Player player = Main.player[projectile.owner];
+            if (Main.myPlayer == projectile.owner)
+            {
+                Main.PlaySound(25, player.position);
+            }
+        }
+
+        public void castStart()
+        {
+            Player player = Main.player[projectile.owner];
+            Main.PlaySound(2, player.position, 72);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             drawChargeCircles(spriteBatch);
@@ -783,19 +815,11 @@ namespace WeaponOut.Projectiles
             if (ChargeLevel >= 7 && ChargeLevel < 9) Main.PlaySound(2, soundPoint, 69); //add staff of earth why not
             if (ChargeLevel >= 9) Main.PlaySound(2, soundPoint, 74); //inferno explosion
             if (ChargeLevel >= 10) Main.PlaySound(4, soundPoint, 43); //death explosion of some kind
-            if (ChargeLevel >= 12) Main.PlaySound(2, soundPoint, 119); //roar lol
+            if (ChargeLevel >= 12) Main.PlaySound(2, soundPoint, 122); //roar lol
+            if (ChargeLevel >= 14) Main.PlaySound(2, soundPoint, 119); //roar lol
         }
-        public void explosionTime(float normalTime)
+        public void explosionFX(float normalTime)
         {
-            try
-            {
-                float denominator = 1 + Vector2.DistanceSquared(Main.player[Main.myPlayer].Center, projectile.Center) / 500000;
-                WeaponOut.shakeIntensity = Math.Max(WeaponOut.shakeIntensity, (int)(2 * ChargeLevel / denominator));
-                //Main.NewText("shake: " + ChargeLevel + "/" + denominator);
-            }
-            catch { }
-                
-
             //TEMPORARY dust indicates size
             for (int i = 0; i < (ChargeLevel + 1) * 3; i++)
             {
@@ -805,6 +829,13 @@ namespace WeaponOut.Projectiles
                 Main.dust[d].velocity *= 1.5f;
             }
 
+            try
+            {
+                float denominator = 1 + Vector2.DistanceSquared(Main.player[Main.myPlayer].Center, projectile.Center) / 500000;
+                WeaponOut.shakeIntensity = Math.Max(WeaponOut.shakeIntensity, (int)(2 * ChargeLevel / denominator));
+                //Main.NewText("shake: " + ChargeLevel + "/" + denominator);
+            }
+            catch { Main.NewText("ERROR IN SHAKING"); }
         }
 
         private void drawLaser(SpriteBatch spritebatch, Vector2 start, Vector2 end)
