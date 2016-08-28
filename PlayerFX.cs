@@ -787,7 +787,7 @@ namespace WeaponOut
         }
         private void modifyHitByAnything(ref int damage, ref bool crit)
         {
-            Main.NewText("Took damage: " + damage + " vs " + damageKnockbackThreshold);
+            //Main.NewText("Took damage: " + damage + " vs " + damageKnockbackThreshold);
             if (damage <= damageKnockbackThreshold) player.noKnockback = true;
         }
 

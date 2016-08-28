@@ -342,7 +342,8 @@ namespace WeaponOut.Projectiles
                 Vector2 knockBack = (n.Center - projectile.Center);
                 knockBack.Normalize();
                 knockBack *= (projectile.width) / (projectile.width / 2 + dist * 2) * (6f + ChargeLevel * 0.3f);
-                knockBack *= n.knockBackResist;
+                //Main.NewText("knockback: " + projectile.knockBack);
+                knockBack *= n.knockBackResist * (1 + projectile.knockBack / 2);
                 n.velocity = (n.velocity + knockBack * 9) / 10;
             }
         }
