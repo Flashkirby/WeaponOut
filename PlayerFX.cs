@@ -30,6 +30,8 @@ namespace WeaponOut
 
         public int weaponFrame;//frame of weapon...
 
+        public int damageKnockbackThreshold;
+
         /*
         public Item shieldItem;
         public int shieldLastBlock;
@@ -72,6 +74,11 @@ namespace WeaponOut
 
             openFist = mod.ItemType("Fist");
             fireFistType = mod.ItemType("FistsOfFury");
+        }
+
+        public override void ResetEffects()
+        {
+            damageKnockbackThreshold = 0;
         }
 
         public override void PreUpdate()
@@ -767,8 +774,22 @@ namespace WeaponOut
             Main.playerDrawData.Add(data);
         }
         */
-        
 
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        {
+            modifyHitByAnything(ref damage, ref crit);
+            base.ModifyHitByNPC(npc, ref damage, ref crit);
+        }
+        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+        {
+            modifyHitByAnything(ref damage, ref crit);
+            base.ModifyHitByProjectile(proj, ref damage, ref crit);
+        }
+        private void modifyHitByAnything(ref int damage, ref bool crit)
+        {
+            Main.NewText("Took damage: " + damage + " vs " + damageKnockbackThreshold);
+            if (damage <= damageKnockbackThreshold) player.noKnockback = true;
+        }
 
 
 
