@@ -25,7 +25,7 @@ namespace WeaponOut.Projectiles
             projectile.penetrate = 1;
 
             projectile.friendly = true;
-            projectile.ranged = true;
+            projectile.melee = true;
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
         }
@@ -33,14 +33,13 @@ namespace WeaponOut.Projectiles
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
+            //rotate in direction
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+            //follow player
+            projectile.position += player.position - player.oldPosition;
 
             //core dust effects
             int d;
-            /*int d = Dust.NewDust(projectile.position, 8, 8, 90,
-                -projectile.velocity.X * 0.5f, -projectile.velocity.Y * 0.5f, 0, Color.White,
-                1.2f);
-            Main.dust[d].noGravity = true;*/
             for (int i = 0; i < 5; i++)
             {
                 d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174,
@@ -51,12 +50,14 @@ namespace WeaponOut.Projectiles
             //side fire
             d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127,
                 projectile.velocity.Y * 0.8f, -projectile.velocity.X * 0.8f, 0, Color.White,
-                1.4f);
+                1.2f);
             Main.dust[d].noGravity = true;
+            Main.dust[d].noLight = true;
             d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127,
                 -projectile.velocity.Y * 0.8f, projectile.velocity.X * 0.8f, 0, Color.White,
-                1.4f);
+                1.2f);
             Main.dust[d].noGravity = true;
+            Main.dust[d].noLight = true;
 
             Lighting.AddLight(
                 (int)((projectile.Center.X) / 16f),
