@@ -266,7 +266,7 @@ namespace WeaponOut.Projectiles
             else //already fully charged
             {
                 ChargeTick = 0;
-                if (manaCost > player.statMana)
+                if (manaMaintainCost > player.statMana)
                 {
                     if (player.manaFlower)
                     {
