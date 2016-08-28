@@ -24,26 +24,6 @@ namespace WeaponOut.Items.Weapons
 
         public static short customGlowMask = 0;
 
-        //minimum transform stats, usually the melee one
-        const int damage = 17;
-        const int damageM = 4;
-        const float knockBack = 4f;
-        const float knockBackM = 4f;
-        const int sound = 1;
-        const int soundM = 9;
-        const int useAnimation = 24;
-        const int useAnimationM = 14;
-        const int useTime = 24;
-        const int useTimeM = 4;
-        const int mana = 8;
-        const float shootSpeed = 2f;
-
-        public int damageMod;
-        public float knockBackMod;
-        public int useAnimationMod;
-        public int manaMod;
-        public float shootSpeedMod;
-
         /// <summary>
         /// Generate a completely legit glowmask ;)
         /// </summary>
@@ -66,15 +46,27 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Channeler Staff";
             item.toolTip = @"Greatly increases mana regen when held
-Right click to cast a mana restoring ray to players on your team
+Cast a mana restoring ray to players on your team
 Ray also increases magic damage";
             item.width = 42;
             item.height = 42;
 
-            //generate a default style, where melee stats take precedent
-            magicDefaults();
+            item.magic = true; //magic damage
+            item.melee = false;
+            item.noMelee = true;
+            item.damage = 4;
+            item.knockBack = 0;
+
+            item.mana = 8;
+            item.shoot = mod.ProjectileType("ManaRestoreBeam");
+            item.shootSpeed = 2;
+
+            item.useStyle = 5; //aim
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
-            meleeDefaults(true);
+            item.useSound = 9;
+            item.useAnimation = 24;
+            item.useTime = 4;
+            item.autoReuse = true;
 
             item.glowMask = customGlowMask;
             item.rare = 3;
@@ -83,11 +75,6 @@ Ray also increases magic damage";
 
         public override void HoldItem(Player player)
         {
-            if (player.itemAnimation == 0)
-            {
-                magicDefaults();
-                meleeDefaults(true);
-            }
             //basic mana regen behaviour addon (increases at count>=120)
             if (player.manaRegenDelay <= 0)
             {
@@ -114,11 +101,13 @@ Ray also increases magic damage";
 
         public override void UseStyle(Player player)
         {
-            if (player.altFunctionUse == 2)
-            {
-                PlayerFX.modifyPlayerItemLocation(player, -14, 0);
-                Lighting.AddLight(player.Center, 0.2f, 0.6f, 0.6f);
-            }
+            PlayerFX.modifyPlayerItemLocation(player, -14, 0);
+            Lighting.AddLight(player.Center, 0.2f, 0.6f, 0.6f);
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return getPlayerTeamAtCursor(player) != null;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -150,93 +139,5 @@ Ray also increases magic damage";
             }
             return null;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-        #region (type 1 - custom defaults) Crazy Value Swapping Transform Stuff (Should probably make this its own class at some point)
-
-        /// <summary>
-        /// Here are some standard settings for switching between melee and magic
-        /// </summary>
-        /// <param name="keepMagicValues"></param>
-        private void meleeDefaults(bool keepMagicValues = false)
-        {
-            item.noMelee = false;
-            item.knockBack = knockBack + knockBackMod;
-
-            item.useSound = sound;
-            item.useAnimation = useAnimation + useAnimationMod;
-            item.useTime = useTime + useAnimationMod;
-
-            if (!keepMagicValues)
-            {
-                item.useStyle = 1; //swing
-
-                item.melee = true; //melee damage
-                item.magic = false;
-                item.damage = damage + damageMod;
-
-                item.mana = 0;
-                item.shoot = 0;
-                item.shootSpeed = 0;
-            }
-        }
-        /// <summary>
-        /// The general design has the magic aspect being more powerful but slower/less frequent
-        /// </summary>
-        private void magicDefaults()
-        {
-            item.useStyle = 5; //aim
-            item.noMelee = true;
-
-            item.magic = true; //magic damage
-            item.melee = false;
-            item.damage = damageM + damageMod;
-            item.knockBack = knockBackM + knockBackMod;
-
-            item.useSound = soundM;
-            item.useAnimation = useAnimationM + useAnimationMod;
-            item.useTime = useTimeM;
-
-            item.mana = mana + manaMod;
-            item.shoot = mod.ProjectileType("ManaRestoreBeam");
-            item.shootSpeed = shootSpeed + shootSpeedMod;
-        }
-        public override void PostReforge()
-        {
-            damageMod = item.damage - damageM;
-            knockBackMod = item.knockBack - knockBack;
-            useAnimationMod = item.useAnimation - useAnimation;
-            manaMod = item.mana - mana;
-            shootSpeedMod = item.shootSpeed - shootSpeed;
-        }
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse > 0)
-            {
-                if (getPlayerTeamAtCursor(player) == null) return false;
-                magicDefaults();
-            }
-            else
-            {
-                meleeDefaults();
-            }
-            return base.CanUseItem(player);
-        }
-        #endregion
-
     }
 }
