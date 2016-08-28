@@ -78,6 +78,8 @@ namespace WeaponOut.Projectiles
             projectile.magic = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
+
+            projectile.netImportant = true;
         }
 
         public override void AI()
@@ -119,7 +121,7 @@ namespace WeaponOut.Projectiles
                 projectile.damage = 0;
                 centreY = projectile.Center.Y;
 
-                Main.NewText("Damage: " + Damage);
+                //-//Main.NewText("Damage: " + Damage);
             }
 
             Vector2 vectorDiff = player.Center - projectile.Center;
@@ -218,7 +220,7 @@ namespace WeaponOut.Projectiles
                     textureSizes[ChargeLevel - 1] = projectile.width;
 
                     player.CheckMana(manaCost, true);
-                    Main.NewText("Increase... tier " + ChargeLevel + " | current manacost: " + manaCost + "| size: " + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
+                    //-//Main.NewText("Increase... tier " + ChargeLevel + " | current manacost: " + manaCost + "| size: " + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
 
                     chargeNext();
                 }
@@ -228,7 +230,7 @@ namespace WeaponOut.Projectiles
             {
                 ExplosionState = 1;
                 projectile.netUpdate = true;
-                Main.NewText("Changing to CastState");
+                //-//Main.NewText("Changing to CastState");
             }
         }
         
@@ -246,7 +248,7 @@ namespace WeaponOut.Projectiles
             }
             else
             {
-                Main.NewText("Changing to weak FireState");
+                //-//Main.NewText("Changing to weak FireState");
                 ChargeLevel /= 2;
                 ExplosionState = 2;
                 projectile.netUpdate = true;
@@ -270,7 +272,7 @@ namespace WeaponOut.Projectiles
                 ) * player.direction;
 
                 /*
-                //Main.NewText("casting... " + ((float)ChargeTick / castTicksTime));
+                ////-//Main.NewText("casting... " + ((float)ChargeTick / castTicksTime));
                 int d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2, 3),
                     0, 0, 130, 0, 0, 0, Color.White, 0.5f + (0.1f * ((float)ChargeTick / castTicksTime)));
                 Main.dust[d].noGravity = true;
@@ -279,7 +281,7 @@ namespace WeaponOut.Projectiles
             }
             else
             {
-                Main.NewText("Changing to FireState");
+                //-//Main.NewText("Changing to FireState");
                 ExplosionState = 2;
                 projectile.netUpdate = true;
             }
@@ -303,10 +305,11 @@ namespace WeaponOut.Projectiles
                 //in this case, since it hits every 10 ticks
                 int divDamage = Damage / (1 + (projectile.timeLeft / 10));
                 projectile.damage = divDamage;
-                Main.NewText("lifetime: " + projectile.timeLeft + " | dmg: " + divDamage + "/" + Damage);
+                //-//Main.NewText("lifetime: " + projectile.timeLeft + " | dmg: " + divDamage + "/" + Damage);
 
                 explosionStart();
             }
+            pushAway();
 
             projectile.scale += (explosionScale - 1) / fireTicksTime;
 
@@ -314,6 +317,34 @@ namespace WeaponOut.Projectiles
                 projectile.timeLeft /
                 (float)(fireTicksTime * (1 + ChargeLevel))
                 );
+        }
+        private void pushAway()
+        {
+            foreach(Player p in Main.player)
+            {
+                if (!p.active || p.dead || p.webbed || p.stoned) continue;
+                float dist = p.Distance(projectile.Center);
+                if (dist > projectile.width) continue;
+
+                Vector2 knockBack = (p.Center - projectile.Center);
+                knockBack.Normalize();
+                knockBack *= (projectile.width) / (projectile.width / 2 + dist * 2) * (6f + ChargeLevel * 0.3f);
+                ////-//Main.NewText("knockback: " + knockBack);
+                if (p.noKnockback) knockBack /= 2;
+                p.velocity = (p.velocity + knockBack * 9) / 10;
+            }
+            foreach (NPC n in Main.npc)
+            {
+                if (!n.active || n.life == 0 || n.knockBackResist == 0) continue;
+                float dist = n.Distance(projectile.Center);
+                if (dist > projectile.width) continue;
+
+                Vector2 knockBack = (n.Center - projectile.Center);
+                knockBack.Normalize();
+                knockBack *= (projectile.width) / (projectile.width / 2 + dist * 2) * (6f + ChargeLevel * 0.3f);
+                knockBack *= n.knockBackResist;
+                n.velocity = (n.velocity + knockBack * 9) / 10;
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit) { faceExplosion(target); }
@@ -330,7 +361,12 @@ namespace WeaponOut.Projectiles
                 projectile.direction = 1;
             }
         }
-        
+
+        public override void Kill(int timeLeft)
+        {
+            explosionEnd();
+        }
+
         #endregion
 
         #region Visuaudio
@@ -390,7 +426,7 @@ namespace WeaponOut.Projectiles
                 Main.dust[d].noGravity = true;
             }
 
-            //Main.NewText("draw " + i + " with alpha " + alpha);
+            ////-//Main.NewText("draw " + i + " with alpha " + alpha);
             float size;
             float alpha;
             Vector2 castCentre;
@@ -702,7 +738,7 @@ namespace WeaponOut.Projectiles
                 || (ExplosionState == 0 && player.velocity.X == 0 && player.velocity.Y == 0))
             {
                 //casting circle
-                PlayerFX.drawMagicCast(player, spriteBatch, (int)projectile.timeLeft % 48 / 12);
+                PlayerFX.drawMagicCast(player, spriteBatch, Color.OrangeRed, (int)projectile.timeLeft % 48 / 12);
             }
             float size;
             float alpha;
@@ -717,7 +753,7 @@ namespace WeaponOut.Projectiles
                 //Casting cicle
                 if (ExplosionState == 1) textureCastAlphas[0] = 1f;
                 if (ExplosionState == 2) textureCastAlphas[0] *= 0.9f;
-                //Main.NewText("cast circle target alpha " + textureCastAlphas[0]);
+                ////-//Main.NewText("cast circle target alpha " + textureCastAlphas[0]);
                 alpha = textureCastAlphas[0];
 
                 size = projectile.width;
@@ -820,29 +856,109 @@ namespace WeaponOut.Projectiles
         }
         public void explosionFX(float normalTime)
         {
-            //TEMPORARY dust indicates size
-            for (int i = 0; i < (ChargeLevel + 1) * 3; i++)
+            //explosion ball dust indicates size
+            for (int i = 0; i < (ChargeLevel + 3) * 3; i++)
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0, 0, 0, Color.White, 1 + ChargeLevel * 0.5f);
-                Main.dust[d].fadeIn = 0.1f;
+                Vector2 velocity = new Vector2(
+                    Main.rand.Next(-projectile.width, projectile.width + 1),
+                    Main.rand.Next(-projectile.height, projectile.height + 1) );
+
+                //make into a circle
+                Vector2 normal = new Vector2(velocity.X * 0.5f, velocity.Y * 0.5f);
+                normal.Normalize();
+                normal.X = Math.Abs(normal.X);
+                normal.Y = Math.Abs(normal.Y);
+                //make dust move distance of projectile size
+                float log = (float)Math.Log((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
+
+                //make into a ring
+                float ring = projectile.width / velocity.Length();
+
+                //explosion INNER
+                int d = Dust.NewDust(projectile.Center - new Vector2(16, 16), 32, 32, 262,
+                    velocity.X * normal.X / log,
+                    velocity.Y * normal.Y / log,
+                    0, Color.White, 1f + ChargeLevel * 0.3f);
                 Main.dust[d].noGravity = true;
-                Main.dust[d].velocity *= 1.5f;
+                Main.dust[d].velocity *= 0.6f;
+                //explosion OUTER
+                d = Dust.NewDust(projectile.Center - new Vector2(16, 16), 32, 32, 262,
+                    velocity.X * ring / log,
+                    velocity.Y * ring / log,
+                    0, Color.White, 0.6f + ChargeLevel * 0.1f);
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= 0.5f;
+
+                if (i % 2 == 0)
+                {
+                    //explosion shockwave horizontal
+                    d = Dust.NewDust(projectile.Center - new Vector2(16, 16), 32, 32, 262,
+                        velocity.X * ring * 1.5f / log,
+                        velocity.Y * ring * 0.3f / log,
+                        0, Color.White, 0.2f);
+                    Main.dust[d].noGravity = true;
+                    Main.dust[d].fadeIn = 0.8f + ChargeLevel * 0.1f;
+                    Main.dust[d].velocity *= 0.5f;
+
+                    //explosion shockwave vertical
+                    d = Dust.NewDust(projectile.Center - new Vector2(16, 16), 32, 32, 262,
+                        velocity.X * ring * 0.2f / log,
+                        velocity.Y * ring * 1.5f / log,
+                        0, Color.White, 0.2f);
+                    Main.dust[d].noGravity = true;
+                    Main.dust[d].fadeIn = 0.8f + ChargeLevel * 0.1f;
+                    Main.dust[d].velocity *= 0.5f;
+                }
             }
 
             try
             {
                 float denominator = 1 + Vector2.DistanceSquared(Main.player[Main.myPlayer].Center, projectile.Center) / 500000;
                 WeaponOut.shakeIntensity = Math.Max(WeaponOut.shakeIntensity, (int)(2 * ChargeLevel / denominator));
-                //Main.NewText("shake: " + ChargeLevel + "/" + denominator);
+                ////-//Main.NewText("shake: " + ChargeLevel + "/" + denominator);
             }
-            catch { Main.NewText("ERROR IN SHAKING"); }
+            catch
+            { //-//Main.NewText("ERROR IN SHAKING"); 
+            }
+        }
+        public void explosionEnd()
+        {
+            //smoke dust
+            for (int i = 0; i < 30 + ChargeLevel * 10; i++)
+            {
+                int d = Dust.NewDust(projectile.position + new Vector2(projectile.width / 4, projectile.height / 4),
+                    projectile.width / 2, projectile.height / 2,
+                    31, 0f, 0f, 150, default(Color), 0.8f);
+                Main.dust[d].fadeIn = 1f + ChargeLevel * 0.2f;
+                Main.dust[d].velocity *= 0.8f;
+            }
+            int totalSmoke = 1 + ChargeLevel;
+            for (int i = 0; i < totalSmoke; i++)
+            {
+                Vector2 velocity = new Vector2(
+                    Main.rand.Next(-projectile.width, projectile.width + 1),
+                    Main.rand.Next(-projectile.height, projectile.height + 1));
+                //make into a circle
+                Vector2 normal = new Vector2(velocity.X * 0.5f, velocity.Y * 0.5f);
+                normal.Normalize();
+                normal.X = Math.Abs(normal.X);
+                normal.Y = Math.Abs(normal.Y);
+                velocity *= normal;
+                //make dust move distance of projectile size
+                float log = (float)Math.Log((double)(velocity.X * velocity.X + velocity.Y * velocity.Y));
+                velocity /= log;
+
+                int g = Gore.NewGore(projectile.Center - new Vector2(16, 16), velocity, Main.rand.Next(61, 64), 1f);
+                Main.gore[g].scale *= 1 + 0.08f * ChargeLevel;
+                Main.gore[g].velocity *= 0.1f;
+            }
         }
 
         private void drawLaser(SpriteBatch spritebatch, Vector2 start, Vector2 end)
         {
             try
             {
-                //Main.NewText("charge: " + ChargeTick + " / "  + chargeTime);
+                ////-//Main.NewText("charge: " + ChargeTick + " / "  + chargeTime);
                 Utils.DrawLaser(
                     spritebatch,
                     textureLaser,
