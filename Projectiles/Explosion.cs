@@ -25,6 +25,17 @@ namespace WeaponOut.Projectiles
         public static Texture2D textureTargetXL;
         public static Texture2D textureLaser;
 
+        public const int chargeTicksIdle = 3; //bonus ticks for standing still
+        public const int chargeTicksMax = 48 * (1 + chargeTicksIdle); //3 ticks per update
+        public const float chargeTickGameMax = (chargeTicksMax / chargeTicksIdle);
+        public const int castTicksTime = 5; //time per charge spent casting
+        public const int fireTicksTime = 3; //time per charge spent exploding (penetrating projs gives npcs 10tick immune)
+        public const float manaIncrease = 0.5f;//additive mana multiplier per increase
+        public const float explosionScale = 1.15f; //width * this^15
+        public const float farDistance = 2000;
+        public const float maxDistance = 2500;
+        //10, 15, 20, 25 etc.
+
         public float[] textureSizes = new float[maxCharge];
         public float[] textureAlphas = new float[maxCharge];
         public float[] textureCastAlphas = new float[2];
@@ -36,15 +47,6 @@ namespace WeaponOut.Projectiles
                 return new Vector2(projectile.Center.X, centreY);
             }
         }
-
-        public const int chargeTicksIdle = 3; //bonus ticks for standing still
-        public const int chargeTicksMax = 48 * (1 + chargeTicksIdle); //3 ticks per update
-        public const float chargeTickGameMax = (chargeTicksMax / chargeTicksIdle);
-        public const int castTicksTime = 5; //time per charge spent casting
-        public const int fireTicksTime = 3; //time per charge spent exploding (penetrating projs gives npcs 10tick immune)
-        public const float manaIncrease = 0.5f;//additive mana multiplier per increase
-        public const float explosionScale = 1.15f; //width * this^15
-        //10, 15, 20, 25 etc.
 
         private int ChargeLevel { get { return (int)projectile.ai[0]; } set { projectile.ai[0] = value; } }
         private int ExplosionState { get { return (int)projectile.ai[1]; } set { projectile.ai[1] = value; } }
@@ -172,14 +174,17 @@ namespace WeaponOut.Projectiles
             //can't instantly use
             bool littleCharge = ChargeLevel == 0 && ChargeTick < chargeTicksMax / 2;
 
-            //cancelled if no longer channelling or can't act, also always channel if moving
-            if ((player.channel || littleCharge) 
-                && canChannel(player) && ChargeLevel < maxCharge)
+            float distance = Vector2.Distance(player.Center, projectile.Center);
+            //Main.NewText("distance: " + distance + "/" + maxDistance);
+
+            //cancelled if no longer channelling or can't act, or simply too far
+            if ((player.channel || littleCharge)
+                && canChannel(player) && ChargeLevel < maxCharge && distance <= maxDistance)
             {
                 //hold player usage
                 playerFaceProjectileChannel(player);
                 ChargeTick += 1; //increase charge a bit
-                if (player.velocity.X == 0 && player.velocity.Y == 0)
+                if (player.velocity.X == 0 && player.velocity.Y == 0 && distance <= farDistance)
                 {
                     ChargeTick += chargeTicksIdle; //increase charge
 
