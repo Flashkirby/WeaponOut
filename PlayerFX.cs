@@ -352,6 +352,20 @@ namespace WeaponOut
             }
         }
 
+        public static void drawMagicCast(Player player, SpriteBatch spriteBatch, int frame)
+        {
+            Texture2D textureCasting = Main.extraTexture[51];
+            Vector2 origin = player.Bottom + new Vector2(0f, player.gfxOffY + 4f);
+            if (player.gravDir < 0) origin.Y -= player.height + 8f;
+            Rectangle rectangle = textureCasting.Frame(1, 4, 0, Math.Max(0, Math.Min(3, frame)));
+            Vector2 origin2 = rectangle.Size() * new Vector2(0.5f, 1f);
+            if (player.gravDir < 0) origin2.Y = 0f;
+            spriteBatch.Draw(
+                textureCasting, new Vector2((float)((int)(origin.X - Main.screenPosition.X)), (float)((int)(origin.Y - Main.screenPosition.Y))),
+                new Rectangle?(rectangle), player.GetHairColor(false), 0f, origin2, 1f,
+                player.gravDir >= 0f ? SpriteEffects.None : SpriteEffects.FlipVertically, 0f);
+        }
+
         #region Player Layers
         public static readonly PlayerLayer HeldItem = new PlayerLayer("WeaponOut", "HeldItem", PlayerLayer.HeldItem, delegate(PlayerDrawInfo drawInfo)
         {

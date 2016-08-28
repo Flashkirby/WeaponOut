@@ -22,6 +22,7 @@ namespace WeaponOut.Projectiles
         public static Texture2D textureTargetS;
         public static Texture2D textureTargetM;
         public static Texture2D textureTargetL;
+        public static Texture2D textureTargetXL;
         public static Texture2D textureLaser;
 
         public float[] textureSizes = new float[maxCharge];
@@ -168,8 +169,8 @@ namespace WeaponOut.Projectiles
             bool littleCharge = ChargeLevel == 0 && ChargeTick < chargeTicksMax / 2;
 
             //cancelled if no longer channelling or can't act, also always channel if moving
-            if ((player.channel || player.velocity.X != 0 || player.velocity.Y != 0 || littleCharge) 
-                && canChannel(player) && ChargeLevel < maxCharge && player.statMana >= manaCost)
+            if ((player.channel || littleCharge) 
+                && canChannel(player) && ChargeLevel < maxCharge)
             {
                 //hold player usage
                 playerFaceProjectileChannel(player);
@@ -198,7 +199,7 @@ namespace WeaponOut.Projectiles
                     Main.dust[d].noGravity = true;
                     Main.dust[d].velocity *= -0.1f;
                 }
-                if (ChargeTick >= chargeTicksMax)
+                if (ChargeTick >= chargeTicksMax && player.statMana >= manaCost)
                 {
                     ChargeTick = 0;
                     ChargeLevel++;
@@ -327,9 +328,18 @@ namespace WeaponOut.Projectiles
         #region Visuaudio
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            drawChargeCircles(spriteBatch);
+
+            drawCastingCircles(spriteBatch);
+
+            return false;
+        }
+        
+        private void drawChargeCircles(SpriteBatch spriteBatch)
+        {
             Vector2 circleVector;
 
-            //intitial dist
+            //first circle dust
             for (int i = 0; i < 2; i++)
             {
                 float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
@@ -348,15 +358,6 @@ namespace WeaponOut.Projectiles
                 Main.dust[d].noGravity = true;
             }
 
-            drawChargeCircles(spriteBatch);
-
-            drawCastingCircles(spriteBatch);
-
-            return false;
-        }
-        
-        private void drawChargeCircles(SpriteBatch spriteBatch)
-        {
             //Main.NewText("draw " + i + " with alpha " + alpha);
             float size;
             float alpha;
@@ -504,6 +505,22 @@ namespace WeaponOut.Projectiles
                             size * projectile.scale / textureTargetL.Width,
                             SpriteEffects.None,
                             0f);
+
+                            //second dust circle
+                            for (int j = 0; j < 2; j++)
+                            {
+                                float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
+                                circleVector = new Vector2(
+                                    textureTargetL.Width * 0.25f * (float)Math.Cos(randAng) - 20,
+                                    textureTargetL.Height * 0.25f * (float)Math.Sin(randAng) - 24
+                                    );
+                                //still dust
+                                int d = Dust.NewDust(GraphicCentre + circleVector,
+                                    32, 32, 174, 0, 0, 0, Color.White, 0.1f);
+                                Main.dust[d].fadeIn = 0.6f;
+                                Main.dust[d].noGravity = true;
+                                Main.dust[d].velocity *= 0.25f;
+                            }
                         break;
                     case 8: ///////////////////////////////////////////////////////////////////// top circle
                         if (alpha > 0.5f) { alpha = 0.5f; }
@@ -515,13 +532,13 @@ namespace WeaponOut.Projectiles
                             -sizeOffset * 0.5f
                         );
 
-                        spriteBatch.Draw(textureTargetM,
+                        spriteBatch.Draw(textureTargetXL,
                             castCentre,
                             null,
                             new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
                             0,
-                            textureTargetM.Bounds.Center.ToVector2(),
-                            new Vector2(size, sizeCircle) * projectile.scale / textureTargetM.Width,
+                            textureTargetXL.Bounds.Center.ToVector2(),
+                            new Vector2(size, sizeCircle) * projectile.scale / textureTargetXL.Width,
                             SpriteEffects.None,
                             0f);
                         break;
@@ -535,13 +552,13 @@ namespace WeaponOut.Projectiles
                             sizeOffset * 0.5f
                         );
 
-                        spriteBatch.Draw(textureTargetM,
+                        spriteBatch.Draw(textureTargetXL,
                             castCentre,
                             null,
                             new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
                             0,
-                            textureTargetM.Bounds.Center.ToVector2(),
-                            new Vector2(size, sizeCircle) * projectile.scale / textureTargetM.Width,
+                            textureTargetXL.Bounds.Center.ToVector2(),
+                            new Vector2(size, sizeCircle) * projectile.scale / textureTargetXL.Width,
                             SpriteEffects.None,
                             0f);
                         break;
@@ -590,13 +607,13 @@ namespace WeaponOut.Projectiles
                             -sizeOffset * 0.5f
                         );
 
-                        spriteBatch.Draw(textureTargetM,
+                        spriteBatch.Draw(textureTargetXL,
                             castCentre,
                             null,
                             new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
                             0,
-                            textureTargetM.Bounds.Center.ToVector2(),
-                            new Vector2(size * 0.8f, sizeCircle) * projectile.scale / textureTargetM.Width,
+                            textureTargetXL.Bounds.Center.ToVector2(),
+                            new Vector2(size * 0.8f, sizeCircle) * projectile.scale / textureTargetXL.Width,
                             SpriteEffects.None,
                             0f);
                         break;
@@ -610,13 +627,13 @@ namespace WeaponOut.Projectiles
                             -sizeOffset * 0.5f
                         );
 
-                        spriteBatch.Draw(textureTargetM,
+                        spriteBatch.Draw(textureTargetXL,
                             castCentre,
                             null,
                             new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
                             0,
-                            textureTargetM.Bounds.Center.ToVector2(),
-                            new Vector2(size * 0.85f, sizeCircle) * projectile.scale / textureTargetM.Width,
+                            textureTargetXL.Bounds.Center.ToVector2(),
+                            new Vector2(size * 0.85f, sizeCircle) * projectile.scale / textureTargetXL.Width,
                             SpriteEffects.None,
                             0f);
                         break;
@@ -630,13 +647,13 @@ namespace WeaponOut.Projectiles
                             -sizeOffset * 0.5f
                         );
 
-                        spriteBatch.Draw(textureTargetS,
+                        spriteBatch.Draw(textureTargetXL,
                             castCentre,
                             null,
                             new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
                             0,
-                            textureTargetS.Bounds.Center.ToVector2(),
-                            new Vector2(size * 0.6f, sizeCircle) * projectile.scale / textureTargetS.Width,
+                            textureTargetXL.Bounds.Center.ToVector2(),
+                            new Vector2(size * 0.6f, sizeCircle) * projectile.scale / textureTargetXL.Width,
                             SpriteEffects.None,
                             0f);
                         break;
@@ -646,6 +663,15 @@ namespace WeaponOut.Projectiles
         }
         private void drawCastingCircles(SpriteBatch spriteBatch)
         {
+            Player player = Main.player[projectile.owner];
+
+            //when casting or standing still
+            if (ExplosionState == 1
+                || (ExplosionState == 0 && player.velocity.X == 0 && player.velocity.Y == 0))
+            {
+                //casting circle
+                PlayerFX.drawMagicCast(player, spriteBatch, (int)projectile.timeLeft % 48 / 12);
+            }
             float size;
             float alpha;
             Vector2 castCentre;
@@ -653,7 +679,6 @@ namespace WeaponOut.Projectiles
             if (ExplosionState != 0)
             {
                 //set up casting from player
-                Player player = Main.player[projectile.owner];
                 int distance = 120 + ChargeLevel * 3;
 
 
@@ -695,10 +720,9 @@ namespace WeaponOut.Projectiles
 
                     //to explosion
                     drawLaser(spriteBatch, castCentre, GraphicCentre);
-                }
 
-                if (ExplosionState == 1)
-                {
+
+
                     //dust fly into top circle
                     Vector2 circleVector;
                     float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
@@ -707,7 +731,7 @@ namespace WeaponOut.Projectiles
                         10 * (float)Math.Sin(randAng)
                         );
                     //dust spawn at cricle and move in
-                    int d = Dust.NewDust(player.Top + new Vector2(-4, -distance - 4) + circleVector, 0, 0,
+                    d = Dust.NewDust(player.Top + new Vector2(-4, -distance - 4) + circleVector, 0, 0,
                         170, circleVector.X, circleVector.Y, 0, Color.White, 0.1f);
                     Main.dust[d].fadeIn = 1f;
                     Main.dust[d].noGravity = true;
@@ -787,13 +811,13 @@ namespace WeaponOut.Projectiles
         {
             try
             {
-                Main.NewText("charge: " + ChargeTick + " / "  + chargeTime);
+                //Main.NewText("charge: " + ChargeTick + " / "  + chargeTime);
                 Utils.DrawLaser(
                     spritebatch,
                     textureLaser,
                     start - Main.screenPosition,
                     end - Main.screenPosition,
-                    new Vector2(Math.Max(0.1f, 2f / (1f + chargeTime - ChargeTick))),
+                    new Vector2(Math.Max(0.1f, 4f / (3f + chargeTime - ChargeTick))),
                     new Utils.LaserLineFraming(ExplosionLaser)); //uses delegate (see method below)
             }
             catch { }
