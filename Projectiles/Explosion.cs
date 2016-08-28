@@ -31,7 +31,7 @@ namespace WeaponOut.Projectiles
         public const int castTicksTime = 5; //time per charge spent casting
         public const int fireTicksTime = 3; //time per charge spent exploding (penetrating projs gives npcs 10tick immune)
         public const float manaIncrease = 0.5f;//additive mana multiplier per increase
-        public const int manaMaintainCost = 20;
+        public const int manaMaintainCost = 3;//cost per tick to maintain full charge
         public const float explosionScale = 1.15f; //width * this^15
         public const float farDistance = 2000;
         public const float maxDistance = 2500;
@@ -173,83 +173,118 @@ namespace WeaponOut.Projectiles
             if ((player.channel || littleCharge)
                 && canChannel(player) && distance <= maxDistance)
             {
-                //hold player usage
-                playerFaceProjectileChannel(player);
-                ChargeTick += 1; //increase charge a bit
-                if (player.velocity.X == 0 && player.velocity.Y == 0 && distance <= farDistance)
-                {
-                    ChargeTick += chargeTicksIdle; //increase charge
-
-                    //extra dust to indicate charging faster
-                    d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2 + ChargeLevel * 0.05f, 3 + ChargeLevel * 0.05f),
-                        0, 0, 174, 0, 0, 0, Color.White, 0.5f + (0.1f * ChargeLevel));
-                    Main.dust[d].noGravity = true;
-                    Main.dust[d].velocity *= 0.7f;
-
-                    //dust fly into staff
-                    Vector2 circleVector;
-                    float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
-                    circleVector = new Vector2(
-                        ChargeLevel * 8 * (float)Math.Cos(randAng),
-                        ChargeLevel * 8 * (float)Math.Sin(randAng)
-                        );
-                    //dust spawn at cricle and move in
-                    d = Dust.NewDust(staffTip + circleVector, 0, 0,
-                        106, circleVector.X, circleVector.Y, 0, Color.White, 0.1f);
-                    Main.dust[d].fadeIn = 0.8f;
-                    Main.dust[d].noGravity = true;
-                    Main.dust[d].velocity *= -0.1f;
-
-                    chargeFX(true);
-                }
-                else
-                {
-                    chargeFX(false);
-                }
-                if (ChargeTick >= chargeTicksMax)
-                {
-                    ChargeTick = 0;
-                    if (ChargeLevel < maxCharge)
-                    {
-                        //use manaflower
-                        if (manaCost > player.statMana)
-                        {
-                            if (player.manaFlower)
-                            {
-                                player.QuickMana();
-                            }
-                        }
-                        if (player.statMana >= manaCost)
-                        {
-                            ChargeLevel++;
-                            projectile.timeLeft += chargeTicksMax;
-
-                            float recentre = projectile.width;
-                            projectile.Size *= explosionScale;
-                            recentre = (projectile.width - recentre) / 2f;
-                            projectile.Center -= new Vector2(recentre, recentre * 1.75f);
-                            textureSizes[ChargeLevel - 1] = projectile.width;
-
-                            player.CheckMana(manaCost, true);
-                            //-//Main.NewText("Increase... tier " + ChargeLevel + " | current manacost: " + manaCost + "| size: " + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
-
-                            chargeNext();
-                        }
-                    }
-                    else
-                    {
-                        player.CheckMana(manaMaintainCost, true);
-                    }
-                }
+                chargeTickLogic(player, ref staffTip, ref d, distance);
+                chargeLevelLogic(player);
 
             }
             else
             {
-                ExplosionState = 1;
-                projectile.netUpdate = true;
-                //-//Main.NewText("Changing to CastState");
+                changeToCast();
             }
         }
+
+        private void changeToCast()
+        {
+            ExplosionState = 1;
+            projectile.netUpdate = true;
+            //-//Main.NewText("Changing to CastState");
+        }
+        private void chargeTickLogic(Player player, ref Vector2 staffTip, ref int d, float distance)
+        {
+            //hold player usage
+            playerFaceProjectileChannel(player);
+            ChargeTick += 1; //increase charge a bit
+            if (player.velocity.X == 0 && player.velocity.Y == 0 && distance <= farDistance)
+            {
+                ChargeTick += chargeTicksIdle; //increase charge
+
+                //extra dust to indicate charging faster
+                d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2 + ChargeLevel * 0.05f, 3 + ChargeLevel * 0.05f),
+                    0, 0, 174, 0, 0, 0, Color.White, 0.5f + (0.1f * ChargeLevel));
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= 0.7f;
+
+                //dust fly into staff
+                Vector2 circleVector;
+                float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
+                circleVector = new Vector2(
+                    ChargeLevel * 8 * (float)Math.Cos(randAng),
+                    ChargeLevel * 8 * (float)Math.Sin(randAng)
+                    );
+                //dust spawn at cricle and move in
+                d = Dust.NewDust(staffTip + circleVector, 0, 0,
+                    106, circleVector.X, circleVector.Y, 0, Color.White, 0.1f);
+                Main.dust[d].fadeIn = 0.8f;
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= -0.1f;
+
+                chargeFX(true);
+            }
+            else
+            {
+                chargeFX(false);
+            }
+        }
+        private void chargeLevelLogic(Player player)
+        {
+            if (ChargeLevel < maxCharge) //under full charge
+            {
+                if (ChargeTick >= chargeTicksMax) //past level tick
+                {
+                    ChargeTick = 0;//past, reset tick
+                    //use manaflower
+                    if (manaCost > player.statMana)
+                    {
+                        if (player.manaFlower)
+                        {
+                            player.QuickMana();
+                        }
+                        else
+                        {
+                            changeToCast();
+                        }
+                    }
+                    //now has mana available?
+                    if (player.statMana >= manaCost)
+                    {
+                        ChargeLevel++;
+                        projectile.timeLeft += chargeTicksMax;
+
+                        float recentre = projectile.width;
+                        projectile.Size *= explosionScale;
+                        recentre = (projectile.width - recentre) / 2f;
+                        projectile.Center -= new Vector2(recentre, recentre * 1.75f);
+                        textureSizes[ChargeLevel - 1] = projectile.width;
+
+                        player.CheckMana(manaCost, true);
+                        //-//Main.NewText("Increase... tier " + ChargeLevel + " | current manacost: " + manaCost + "| size: " + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
+
+                        chargeNext();
+                    }
+                }
+            }
+            else //already fully charged
+            {
+                ChargeTick = 0;
+                if (manaCost > player.statMana)
+                {
+                    if (player.manaFlower)
+                    {
+                        player.QuickMana();
+                    }
+                    else
+                    {
+                        changeToCast();
+                    }
+                }
+                //now has mana available?
+                if (player.statMana >= manaMaintainCost)
+                {
+                    player.CheckMana(manaMaintainCost, true);
+                }
+            }
+        }
+
         
         private bool start = true;
         private int chargeTime;
