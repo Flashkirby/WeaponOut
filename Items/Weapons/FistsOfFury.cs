@@ -8,13 +8,19 @@ namespace WeaponOut.Items.Weapons
 {
     public class FistsOfFury : ModItem
     {
-        private int comboInvuln;
-        private int charge;
+        private const int punchComboMax = 5;
+        private static Color comboColour = Color.Cyan;
+
+        private bool isDramatic { get { return punchCombo >= punchComboMax; } }
+
+        private int punchCombo;
+        private int punchCount;
 
         public override void SetDefaults()
         {
             item.name = "Fists of Fury";
-            item.toolTip = "Combo to dodge attacks";
+            item.toolTip = punchComboMax + @" combo potential
+Dodge attacks during combos";
             item.useStyle = 6;//6+ for custom styles
             item.useTurn = false;
             item.autoReuse = true;
@@ -42,6 +48,34 @@ namespace WeaponOut.Items.Weapons
             recipe.AddRecipe();
         }
 
+        public override void HoldItem(Player player)
+        {
+            if (player.itemAnimation == 0)
+            {
+                if (punchCombo != 0) comboReset(player);
+            }
+            else
+            {
+                if (player.itemAnimation == player.itemAnimationMax - 1) punchCount++;
+                if (player.itemAnimation == 1 && punchCount > punchCombo)
+                {
+                    comboReset(player);
+                }
+            }
+            //Main.NewText(punchCombo + " / " + punchCount);
+        }
+
+        private void comboReset(Player player)
+        {
+            if (punchCombo > 2)
+            {
+                CombatText.NewText(player.getRect(),
+                    comboColour, punchCombo + " hit combo", isDramatic, false);
+            }
+            //Main.NewText("punch reset");
+            punchCombo = 0;
+            punchCount = 0;
+        }
         public override bool UseItemFrame(Player player)
         {
             UseStyles.FistStyle.UseItemFrame(player);
@@ -71,12 +105,28 @@ namespace WeaponOut.Items.Weapons
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             //C-C-Combo!
-            player.itemAnimation = 2 * player.itemAnimation / 3;
-            UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
-            if (target.life > 0)
+            punchCombo++;
+            CombatText.NewText(player.getRect(),
+                comboColour, string.Concat(punchCombo), isDramatic, false);
+            if (punchCombo < punchComboMax)
             {
-                player.velocity = target.velocity;
-                if (target.noGravity) player.velocity.Y -= player.gravDir * 4f;
+                player.itemAnimation = 2 * player.itemAnimation / 3;
+                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
+
+                if (target.life > 0)
+                {
+                    //follow target
+                    player.velocity = target.velocity;
+                    if (target.noGravity) player.velocity.Y -= player.gravDir * 4f;
+                }
+            }
+            if(punchCount == punchComboMax)
+            {
+                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
+                //disengage
+                player.velocity += new Vector2(target.velocity.X * -2, target.velocity.Y * 2);
+                //set on fire
+                target.AddBuff(BuffID.OnFire, 300);
             }
         }
     }
