@@ -31,6 +31,7 @@ namespace WeaponOut.Projectiles
         public const int castTicksTime = 5; //time per charge spent casting
         public const int fireTicksTime = 3; //time per charge spent exploding (penetrating projs gives npcs 10tick immune)
         public const float manaIncrease = 0.5f;//additive mana multiplier per increase
+        public const int manaMaintainCost = 20;
         public const float explosionScale = 1.15f; //width * this^15
         public const float farDistance = 2000;
         public const float maxDistance = 2500;
@@ -160,15 +161,6 @@ namespace WeaponOut.Projectiles
             Main.dust[d].noGravity = true;
             Main.dust[d].velocity *= 0.3f;
 
-            //use manaflower
-            if (manaCost > player.statMana)
-            {
-                if (player.manaFlower)
-                {
-                    player.QuickMana();
-                }
-            }
-
             player.aggro += 900;//same as beetle armour
 
             //can't instantly use
@@ -179,7 +171,7 @@ namespace WeaponOut.Projectiles
 
             //cancelled if no longer channelling or can't act, or simply too far
             if ((player.channel || littleCharge)
-                && canChannel(player) && ChargeLevel < maxCharge && distance <= maxDistance)
+                && canChannel(player) && distance <= maxDistance)
             {
                 //hold player usage
                 playerFaceProjectileChannel(player);
@@ -214,22 +206,40 @@ namespace WeaponOut.Projectiles
                 {
                     chargeFX(false);
                 }
-                if (ChargeTick >= chargeTicksMax && player.statMana >= manaCost)
+                if (ChargeTick >= chargeTicksMax)
                 {
                     ChargeTick = 0;
-                    ChargeLevel++;
-                    projectile.timeLeft += chargeTicksMax;
+                    if (ChargeLevel < maxCharge)
+                    {
+                        //use manaflower
+                        if (manaCost > player.statMana)
+                        {
+                            if (player.manaFlower)
+                            {
+                                player.QuickMana();
+                            }
+                        }
+                        if (player.statMana >= manaCost)
+                        {
+                            ChargeLevel++;
+                            projectile.timeLeft += chargeTicksMax;
 
-                    float recentre = projectile.width;
-                    projectile.Size *= explosionScale;
-                    recentre = (projectile.width - recentre) / 2f;
-                    projectile.Center -= new Vector2(recentre, recentre * 1.75f);
-                    textureSizes[ChargeLevel - 1] = projectile.width;
+                            float recentre = projectile.width;
+                            projectile.Size *= explosionScale;
+                            recentre = (projectile.width - recentre) / 2f;
+                            projectile.Center -= new Vector2(recentre, recentre * 1.75f);
+                            textureSizes[ChargeLevel - 1] = projectile.width;
 
-                    player.CheckMana(manaCost, true);
-                    //-//Main.NewText("Increase... tier " + ChargeLevel + " | current manacost: " + manaCost + "| size: " + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
+                            player.CheckMana(manaCost, true);
+                            //-//Main.NewText("Increase... tier " + ChargeLevel + " | current manacost: " + manaCost + "| size: " + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
 
-                    chargeNext();
+                            chargeNext();
+                        }
+                    }
+                    else
+                    {
+                        player.CheckMana(manaMaintainCost, true);
+                    }
                 }
 
             }
