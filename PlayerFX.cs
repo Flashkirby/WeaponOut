@@ -421,6 +421,10 @@ namespace WeaponOut
 
             //get this player
             Player drawPlayer = drawInfo.drawPlayer;
+
+            //hide if dead, stoned etc.
+            if (!drawPlayer.active || drawPlayer.dead || drawPlayer.stoned) return;
+
             if (drawPlayer.itemAnimation > 0 //do nothing if player is doing something
                 || drawPlayer.hideVisual[3]) return; //also hide if accessory 1 is hidden
 
