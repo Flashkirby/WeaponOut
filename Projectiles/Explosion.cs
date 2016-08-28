@@ -167,6 +167,8 @@ namespace WeaponOut.Projectiles
                 }
             }
 
+            player.aggro += 900;//same as beetle armour
+
             //can't instantly use
             bool littleCharge = ChargeLevel == 0 && ChargeTick < chargeTicksMax / 2;
 
