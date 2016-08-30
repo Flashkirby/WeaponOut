@@ -1,7 +1,7 @@
 A compilation of random things that started with weapon holding:
 * Hold out weapons even when not using them!
-* Block damage with your shield!
 * Set up temporary spawn points with Tents!
-* Various custom weapons and behaviours
+* Various custom weapons and projectile behaviours
 
 And a bunch of other stuff...
+(not actually version 1.0 yet, probably more like v0.3
