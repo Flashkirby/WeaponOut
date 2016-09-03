@@ -27,6 +27,7 @@ namespace WeaponOut
         public static Texture2D textureMANB;
 
         public static int shakeIntensity = 0;
+        private static int shakeTick = 0;
 
         public WeaponOut()
         {
@@ -62,13 +63,23 @@ namespace WeaponOut
         {
             if (!Main.gameMenu)
             {
-                if (shakeIntensity >= 0 && Main.time % 4 == 0) shakeIntensity--;
-                if (shakeIntensity < 0) shakeIntensity = 0;
-                return Transform
-                    * Microsoft.Xna.Framework.Matrix.CreateTranslation(
-                    Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
-                    Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)), 
-                    0f);
+				if(!Main.gamePaused)
+				{
+					shakeTick++;
+					if (shakeIntensity >= 0 && shakeTick >= 4) shakeIntensity--;
+					if (shakeIntensity > 10) shakeIntensity = 10;//cap it
+					if (shakeIntensity < 0) shakeIntensity = 0;
+					return Transform
+						* Microsoft.Xna.Framework.Matrix.CreateTranslation(
+						Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
+						Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
+						0f);
+				}
+            }
+            else
+            {
+                shakeIntensity = 0;
+                shakeTick = 0;
             }
             return Transform;
         }

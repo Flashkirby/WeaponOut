@@ -968,7 +968,7 @@ namespace WeaponOut.Projectiles
             {
                 float denominator = 1 + Vector2.DistanceSquared(Main.player[Main.myPlayer].Center, projectile.Center) / 500000;
                 WeaponOut.shakeIntensity = Math.Max(WeaponOut.shakeIntensity, (int)(2 * ChargeLevel / denominator));
-                ////-//Main.NewText("shake: " + ChargeLevel + "/" + denominator);
+                //Main.NewText("shake = " + (int)(2 * ChargeLevel / denominator) + ": " + (2 * ChargeLevel) + "/" + denominator);
             }
             catch
             { //-//Main.NewText("ERROR IN SHAKING"); 
