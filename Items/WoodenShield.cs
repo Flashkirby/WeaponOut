@@ -17,7 +17,7 @@ namespace WeaponOut.Items
             item.name = "Wooden Shield";
             item.width = 24;
             item.height = 28;
-            item.toolTip = "Grants immunity to knockback"; //see playerfx
+            item.toolTip = "Grants immunity to low damage knockback"; //see playerfx
             item.accessory = true;
             item.defense = 1;
             item.value = Item.sellPrice(0,0,15,0);
@@ -38,10 +38,7 @@ namespace WeaponOut.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             PlayerFX modPlayer = player.GetModPlayer<PlayerFX>(mod);
-            if (modPlayer.damageKnockbackThreshold < 15)
-            {
-                modPlayer.damageKnockbackThreshold = 15;
-            }
+            modPlayer.DamageKnockbackThreshold = 15;
         }
     }
 }

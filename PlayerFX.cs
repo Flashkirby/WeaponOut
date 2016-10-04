@@ -30,7 +30,15 @@ namespace WeaponOut
 
         public int weaponFrame;//frame of weapon...
 
-        public int damageKnockbackThreshold;
+        private int damageKnockbackThreshold;
+        public int DamageKnockbackThreshold
+        {
+            get { return damageKnockbackThreshold; }
+            set
+            {
+                if (value > damageKnockbackThreshold) damageKnockbackThreshold = value;
+            }
+        }
 
         /*
         public Item shieldItem;
@@ -787,8 +795,8 @@ namespace WeaponOut
         }
         private void modifyHitByAnything(ref int damage, ref bool crit)
         {
-            //Main.NewText("Took damage: " + damage + " vs " + damageKnockbackThreshold);
-            if (damage <= damageKnockbackThreshold) player.noKnockback = true;
+            //Main.NewText("Took damage: " + damage + " vs " + DamageKnockbackThreshold);
+            if (damage <= DamageKnockbackThreshold) player.noKnockback = true;
         }
 
 
