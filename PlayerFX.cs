@@ -463,6 +463,11 @@ namespace WeaponOut
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
         }
         #endregion
+        /// <summary>
+        /// We gonna handle all the weapon identification and calls here
+        /// </summary>
+        /// <param name="drawInfo"></param>
+        /// <param name="drawOnBack"></param>
         private static void drawPlayerItem(PlayerDrawInfo drawInfo, bool drawOnBack)
         {
             //don't draw when not ingame
@@ -598,6 +603,14 @@ namespace WeaponOut
                 heldItem.useStyle == 2 || //eat
                 heldItem.useStyle == 3)   //stab
             {
+                //|       ######        
+                //|       ##  ##        
+                //|     ##########            
+                //|       ##  ##    
+                //|       ##  ##    
+                //|       ##  ##    
+                //|       ##  ##    
+                //|         ##      
                 //Items, daggers and other throwables lie below 28 and are easily held in the hand
                 if ((larger < 28 && !heldItem.magic) || //nonmagic weapons
                     (larger <= 32 && heldItem.shoot != 0) || //larger for throwing weapons
@@ -608,6 +621,14 @@ namespace WeaponOut
                     if (drawOnBack) return;
                     data = modDraw_HandWeapon(data, drawPlayer, larger, lesser);
                 }
+                //|             ####
+                //|           ##  ##
+                //|         ##  ##   
+                //|       ##  ##    
+                //|   ####  ##      
+                //|   ##  ##        
+                //| ##  ####        
+                //| ####            
                 //Broadsword weapons are swing type weapons between 28 - 48
                 //They are worn on the waist, and react to falling!
                 else if (larger <= 48)
@@ -616,6 +637,14 @@ namespace WeaponOut
                     if (!drawOnBack) return;
                     data = modDraw_WaistWeapon(data, drawPlayer, larger);
                 }
+                //|           ########
+                //|           ##    ##
+                //|         ##    ####
+                //|   ##  ##    ##  
+                //|   ####    ##    
+                //|   ##  ####      
+                //| ##  ########    
+                //| ######          
                 //Great weapons are swing type weapons past 36 in size and slung on the back
                 else
                 {
@@ -635,6 +664,14 @@ namespace WeaponOut
                 //staves, guns and bows
                 if (gHeight >= gWidth * 1.2f && !isAStaff)
                 {
+                    //|    ######       
+                    //|    ##  ######   
+                    //|    ##    ##  ##  
+                    //|    ##    ##  ## 
+                    //|    ##    ##  ## 
+                    //|    ##    ##  ## 
+                    //|    ##  ######   
+                    //|    ######       
                     //bows
                     if (drawPlayer.grapCount > 0) return; // can't see while grappling
                     //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(bow): " + itemWidth + " x " + itemHeight);
@@ -645,6 +682,14 @@ namespace WeaponOut
                 {
                     if (heldItem.noUseGraphic && heldItem.melee)
                     {
+                        //|                 
+                        //|    ####         
+                        //|  ##  ########## 
+                        //|  ####    ##    ####
+                        //|  ##  ##  ##        ####
+                        //|  ##      ##  ######
+                        //|    ############ 
+                        //|                 
                         //drills, chainsaws
                         if (drawPlayer.grapCount > 0) return; // can't see while grappling
                         //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(drill): " + itemWidth + " x " + itemHeight);
@@ -655,6 +700,14 @@ namespace WeaponOut
                     {
                         if (larger < 45)
                         {
+                            //| ####        ####
+                            //| ##  ########  ##
+                            //|   ####        ##
+                            //|   ##    ########
+                            //|   ##  ##  ##      
+                            //|   ##  ####        
+                            //|   ######          
+                            //|                 
                             if (drawPlayer.grapCount > 0) return; // can't see while grappling
                             //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(pistol): " + itemWidth + " x " + itemHeight);
                             if (drawOnBack) return;
@@ -663,6 +716,14 @@ namespace WeaponOut
                         }
                         else
                         {
+                            //|                 
+                            //|               ##
+                            //| ######################
+                            //| ##  ##      ##  ##
+                            //| ##  ############
+                            //| ####  ##    ##  
+                            //|     ####    ##  
+                            //|                 
                             //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(gun): " + itemWidth + " x " + itemHeight);
                             if (drawOnBack) return;
                             //large guns (rifles, launchers, etc.) held with both hands
@@ -681,11 +742,19 @@ namespace WeaponOut
                             if (drawOnBack) return;
                             if (isYoyo)
                             {
-                                //sam
+                                //sam (?why did i write sam? maybe same?)
                                 data = modDraw_HandWeapon(data, drawPlayer, larger, lesser, isYoyo);
                             }
                             else
                             {
+                                //|             ####
+                                //|         ####  ##
+                                //|       ##    ##  
+                                //|         ##  ##  
+                                //|       ##  ##    
+                                //|     ##          
+                                //|   ##            
+                                //| ##              
                                 //spears are held facing to the floor, maces generally held
                                 data = modDraw_PoleWeapon(data, drawPlayer, larger);
                             }
@@ -708,6 +777,14 @@ namespace WeaponOut
                     }
                     else
                     {
+                        //|                 
+                        //|             ####
+                        //|   ############  ##
+                        //| ##        ##      ##
+                        //|   ############  ##
+                        //|             ####
+                        //|                 
+                        //|                 
                         if (drawPlayer.grapCount > 0) return; // can't see while grappling
                         //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(staff): " + itemWidth + " x " + itemHeight);
                         if (drawOnBack) return;
@@ -1038,19 +1115,19 @@ namespace WeaponOut
             {
                 data.rotation = (float)(Math.PI * 0.005d) * width * p.direction * p.gravDir;
                 data.position.X += 4 * p.direction; //forward
-                data.position.Y += (width * 0.1f) + 6 * p.gravDir; //down
+                data.position.Y += (width * 0.1f + 6) * p.gravDir; //down
             }
             else if (playerBodyFrameNum == 5) //jumping
             {
                 data.rotation = (float)(Math.PI * -0.002d) * width * p.direction * p.gravDir;
                 data.position.X += 2 * p.direction; //forward
-                data.position.Y -= (width * 0.1f) + 10 * p.gravDir; //up
+                data.position.Y -= (width * 0.1f + 10) * p.gravDir; //up
             }
             else //walk cycle base
             {
                 data.rotation = (float)(Math.PI * 0.008d) * (width * 0.2f + rotationWalkCycle(playerBodyFrameNum) * 6) * p.direction * p.gravDir;
                 data.position.X += 8 * p.direction; //forward
-                data.position.Y += (width * 0.15f) * p.gravDir; //down
+                data.position.Y += width * 0.15f * p.gravDir; //down
                 data = modDraw_WalkCycle(data, p);
             }
             return data;
