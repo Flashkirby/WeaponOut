@@ -174,7 +174,7 @@ namespace WeaponOut.Projectiles
                 SpriteEffects.None,
                 0
             );
-            if (tick % 2 == 0)
+            if (tick % 2 == 0 && !Main.gamePaused)
             {
                 oldStar2 = oldStar1;
                 oldStar3 = oldStar2;
