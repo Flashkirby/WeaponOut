@@ -159,12 +159,12 @@ namespace WeaponOut.Items.Weapons
                 {
                     player.altFunctionUse = 2;
                     setValues(true);
-                    Main.NewText(item.name + " is ALT + " + setToDefaults);
+                    //Main.NewText(item.name + " is ALT + " + setToDefaults);
                 }
                 else
                 {
                     setValues(false);
-                    Main.NewText(item.name + " is VANILLA + " + setToDefaults);
+                    //Main.NewText(item.name + " is VANILLA + " + setToDefaults);
                 }
             }
         }
@@ -177,7 +177,7 @@ namespace WeaponOut.Items.Weapons
                 {
                 if (player.altFunctionUse == 0)
                 {
-                        Main.NewText(item.name + " is net ALT, len " + Main.projectile.Length);
+                        //Main.NewText(item.name + " is net ALT, len " + Main.projectile.Length);
                         player.altFunctionUse = 2;
                         setValues(true);
 
@@ -185,7 +185,7 @@ namespace WeaponOut.Items.Weapons
                         foreach (Projectile p in Main.projectile)
                         {
                             if (!p.active) continue;
-                            Main.NewText("[" + p.whoAmI + "] " + p.name);
+                            //Main.NewText("[" + p.whoAmI + "] " + p.name);
                             if (p.type == item.shoot && p.owner == player.whoAmI)
                             {
                                 //check a bit ahead to get better idea of direction
@@ -232,10 +232,10 @@ namespace WeaponOut.Items.Weapons
                         && player.altFunctionUse != 0)
                     {
                         setValues(false, true);
-                        Main.NewText("buff is " + buff + ", altfunc = " + player.altFunctionUse);
+                        //Main.NewText("buff is " + buff + ", altfunc = " + player.altFunctionUse);
                     }
                 }/*
-                Main.NewText(buff + " : " +
+                //Main.NewText(buff + " : " +
                     item.autoReuse + " : " +
                     !player.noItems + " : " +
                     player.itemAnimation + " : " +
@@ -249,7 +249,7 @@ namespace WeaponOut.Items.Weapons
                 && setToDefaults)
             {
                 setValues(false, true);
-                Main.NewText(item.name + " at END HOLDSTYLE");
+                //Main.NewText(item.name + " at END HOLDSTYLE");
             }
         }
 

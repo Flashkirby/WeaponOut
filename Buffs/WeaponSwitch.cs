@@ -18,7 +18,6 @@ namespace WeaponOut.Buffs
             {
                 player.buffTime[buffIndex] = player.itemAnimation;
             }
-            Dust.NewDust(player.position, player.width, player.height, 6);
         }
     }
 }
