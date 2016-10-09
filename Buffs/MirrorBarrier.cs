@@ -13,7 +13,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             Main.buffName[Type] = "Magic Barrier";
-            Main.buffTip[Type] = "Sends projectiles from whence they came";
+            Main.buffTip[Type] = "Hostile projectiles may be reflected";
             Main.buffNoTimeDisplay[Type] = true;
         }
 
@@ -103,73 +103,5 @@ namespace WeaponOut.Buffs
                 }
             }
         }
-
-        /*
- 
-        public void ReflectProjectile(int playerID, int projectileOwnerID, int projectileID, float posX, float posY, float veloX, float veloY, int damage, float knockBack, bool selfHandle)
-        {
-            int reflectCost = Config.itemDefs.byName["Mirror Badge"].mana;
-            Player player = Main.player[playerID];
-            Player projOwner = Main.player[projectileOwnerID];
-            Projectile projectile = Main.projectile[projectileID];
-
-            if (playerBarrierActive[player.whoAmi])//if this player can reflect
-            {
-                if (player.statMana >= player.statMana)
-                {
-                    //mana cost
-                    player.manaRegenDelay = (int)player.maxRegenDelay;
-                    player.statMana -= reflectCost;
-                    if (player.statMana < 0) player.statMana = 0;
-                }
-
-                //set projectile movement
-                projectile.position = new Vector2(posX, posY);
-                projectile.velocity = new Vector2(-veloX, -veloY);
-                if (projectile.position.X + projectile.width * 0.5f > player.position.X + player.width * 0.5f)
-                {
-                    projectile.direction = 1;
-                    projectile.spriteDirection = 1;
-                }
-                else
-                {
-                    projectile.direction = -1;
-                    projectile.spriteDirection = -1;
-                }
-
-                //set projetile stats
-                projectile.damage = damage;
-                projectile.knockBack = knockBack;
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.owner = playerID;
-                projectile.timeLeft = projectile.timeLeft / 2;
-                //Main.NewText("Reflected projectile: "+projectile.name+" | "+projectile.damage+" | "+projectile.knockBack+" | "+Main.player[projectile.owner].name);
-
-                //shield visual
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 28);
-                for (int j = 0; j < 30; j++)
-                {
-                    int d = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 15, j * projectile.velocity.X * 0.03f, j * projectile.velocity.Y * 0.03f, 50, Color.Transparent, 1f);
-                    Main.dust[d].velocity *= 0.5f;
-
-                    float rotToTarget = Main.rand.Next((int)(-Math.PI * 10000), (int)(Math.PI * 10000)) / 10000f;
-                    Vector2 spawnPosition = player.position + new Vector2(player.width / 2 - 2, player.height / 2) + new Vector2((float)(40 * Math.Cos(rotToTarget)), (float)(40 * Math.Sin(rotToTarget)));
-                    d = Dust.NewDust(spawnPosition, 0, 0, 43, 2f * (float)Math.Cos(rotToTarget), 2f * (float)Math.Sin(rotToTarget), 0, default(Color), 0.8f);
-                    Main.dust[d].fadeIn = 1f;
-                    Main.dust[d].velocity *= 0.25f;
-                }
-
-                if (Main.netMode == 1)//multiplayer
-                {
-                    if ((selfHandle && playerID == Main.myPlayer) || (!selfHandle && projectileOwnerID == Main.myPlayer))
-                    {
-                        NetMessage.SendModData(ModWorld.ModIndex, 5, -1, -1, playerID, projectileOwnerID, projectileID, posX, posY, veloX, veloY, damage, knockBack, selfHandle);
-                    }
-                }
-            }
-        }
-    
-        */
     }
 }

@@ -32,7 +32,7 @@ namespace WeaponOut.Items.Weapons
             item.rare = 1;
             item.value = 5400;
 
-            dual = new HelperDual(item);
+            dual = new HelperDual(item, false);
             dual.UseSound = 8;
             dual.UseStyle = 5;
             dual.UseTurn = false;

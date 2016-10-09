@@ -26,6 +26,8 @@ namespace WeaponOut
         public static Texture2D textureDMNB;
         public static Texture2D textureMANB;
 
+        public static int BuffIDManaReduction;
+        public static int BuffIDMirrorBarrier;
         public static int BuffIDWeaponSwitch;
 
         public static int shakeIntensity = 0;
@@ -43,6 +45,8 @@ namespace WeaponOut
 
         public override void PostSetupContent()
         {
+            BuffIDManaReduction = GetBuff("ManaReduction").Type;
+            BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             BuffIDWeaponSwitch = GetBuff("WeaponSwitch").Type;
 
             if (Main.netMode != 2)

@@ -24,6 +24,7 @@ namespace WeaponOut.Items.Weapons
         // Prefix managed values
         private int rare;
         private int value;
+        private bool preferAltDamage;
 
         private int[] damage = new int[2];
         public int Damage { set { damage[1] = value; } }
@@ -68,12 +69,12 @@ namespace WeaponOut.Items.Weapons
         private int[] shoot = new int[2];
         public int Shoot { set { shoot[1] = value; } }
 
-
         /// <summary>
         /// Initialise the helper AFTER setting the item defaults, BEFORE setting alt stats
         /// </summary>
         /// <param name="item"></param>
-        public HelperDual(Item item)
+        /// <param name="preferAltPrefix">If the damage type prefers the alt function</param>
+        public HelperDual(Item item, bool preferAltPrefix)
         {
             //initiliase this static arrray if never been used before, dunno how 2 singleton with arrays
             if (dualItems == null) dualItems = new bool[Item.staff.Length];
@@ -82,7 +83,9 @@ namespace WeaponOut.Items.Weapons
             this.item = item;
             rare = item.rare;
             value = item.value;
+            preferAltDamage = preferAltPrefix;
 
+            //setup these variables
             damage[0] = item.damage; 
             damage[1] = item.damage;
             useAnimation[0] = item.useAnimation;
@@ -150,6 +153,10 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
+        /// <summary>
+        /// Sets the item to either state on swing
+        /// </summary>
+        /// <param name="player"></param>
         public void CanUseItem(Player player)
         {
             int buff = player.HasBuff(WeaponOut.BuffIDWeaponSwitch);
@@ -168,6 +175,10 @@ namespace WeaponOut.Items.Weapons
                 }
             }
         }
+        /// <summary>
+        /// Manages multiplayer syncing of altFunction and weapon state
+        /// </summary>
+        /// <param name="player"></param>
         public void UseStyleMultiplayer(Player player)
         {
             if (player.whoAmI != Main.myPlayer)
@@ -224,6 +235,7 @@ namespace WeaponOut.Items.Weapons
                 }
                 else
                 {
+                    //fix autoswing items doing silly things
                     //Main.NewText(player.name + " animation is " + player.itemAnimation + "/" + player.itemAnimationMax);
                     if (item.autoReuse
                         && !player.noItems
@@ -243,6 +255,10 @@ namespace WeaponOut.Items.Weapons
                     player.altFunctionUse);*/
             }
         }
+        /// <summary>
+        /// Resets the item state to default
+        /// </summary>
+        /// <param name="player"></param>
         public void HoldStyle(Player player)
         {
             if (player.itemAnimation == 0
@@ -255,14 +271,18 @@ namespace WeaponOut.Items.Weapons
 
         public void setValues(bool altFunction, bool showDefaults = false)
         {
+            //setup vars
             if (showDefaults) altFunction = false;
+            setToDefaults = !showDefaults;
+
+            //get indices
             int index = altFunction ? 1 : 0;
             int inver = altFunction ? 0 : 1;
+            //reset value and rarity (they get modified by prefix)
             item.rare = rare;
             item.value = value;
 
-            setToDefaults = !showDefaults;
-
+            //setup values
             item.useAnimation = useAnimation[index];
             item.useTime = useTime[index];
             item.reuseDelay = reuseDelay[index];
@@ -270,9 +290,12 @@ namespace WeaponOut.Items.Weapons
             item.melee = melee[index];
             item.ranged = ranged[index];
             item.magic = magic[index];
-            //setup values
             if (showDefaults)
             {
+                // for defaults, we want to display as much info as
+                // possible to allow for players to know what the item
+                // does, as well as let prefix assign correctly
+
                 if (damage[index] <= 0) item.damage = damage[inver];
                 if (mana[index] == 0) item.mana = mana[inver];
                 if (shootSpeed[index] <= 0) item.shootSpeed = shootSpeed[inver];
@@ -280,9 +303,13 @@ namespace WeaponOut.Items.Weapons
                 if (ammo[index] <= 0) item.ammo = ammo[inver];
                 if (shoot[index] <= 0) item.shoot = shoot[inver];
                 if (shootSpeed[index] <= 0) item.shootSpeed = shootSpeed[inver];
+                
                 //give priority due to prefix assignment
-                if (ranged[inver]) { item.melee = false; item.ranged = true; item.magic = false; }
-                if (magic[inver]) { item.melee = false; item.ranged = false; item.magic = true; }
+                if (preferAltDamage)
+                {
+                    if (ranged[inver]) { item.melee = false; item.ranged = true; item.magic = false; }
+                    if (magic[inver]) { item.melee = false; item.ranged = false; item.magic = true; }
+                }
             }
             else
             {

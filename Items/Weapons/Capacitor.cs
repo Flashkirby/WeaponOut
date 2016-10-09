@@ -57,12 +57,12 @@ namespace WeaponOut.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            player.AddBuff(mod.BuffType("ManaReduction"), 180);//3 second buff
+            player.AddBuff(WeaponOut.BuffIDManaReduction, 180);//3 second buff
         }
 
         public override void MeleeEffects(Player player, Microsoft.Xna.Framework.Rectangle hitbox)
         {
-            if (player.HasBuff(mod.BuffType("ManaReduction")) != -1)
+            if (player.HasBuff(WeaponOut.BuffIDManaReduction) != -1)
             {
                 int d = Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 15, (player.velocity.X * 0.2f) + (player.direction * 3), player.velocity.Y * 0.2f, 100, Color.White, 1.3f);
                 Main.dust[d].noGravity = true;

@@ -11,7 +11,7 @@ namespace WeaponOut.Items
         public override void SetDefaults()
         {
             item.name = "Mirror Badge";
-            item.toolTip = "Reflects enemy projectiles";
+            item.toolTip = "Reflects some enemy projectiles";
             item.width = 18;
             item.height = 20;
             item.mana = 8;
@@ -24,7 +24,7 @@ namespace WeaponOut.Items
         {
             if(player.CheckMana(item.mana,false,false))
             {
-                player.AddBuff(mod.BuffType("MirrorBarrier"), 1);
+                player.AddBuff(WeaponOut.BuffIDMirrorBarrier, 2);
             }
         }
 
