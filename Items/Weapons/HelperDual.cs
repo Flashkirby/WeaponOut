@@ -298,6 +298,7 @@ namespace WeaponOut.Items.Weapons
 
                 if (damage[index] <= 0) item.damage = damage[inver];
                 if (mana[index] == 0) item.mana = mana[inver];
+                if (knockBack[index] == 0) item.knockBack = knockBack[inver];
                 if (shootSpeed[index] <= 0) item.shootSpeed = shootSpeed[inver];
                 if (crit[index] <= 0) item.crit = crit[inver];
                 if (ammo[index] <= 0) item.ammo = ammo[inver];
@@ -315,6 +316,7 @@ namespace WeaponOut.Items.Weapons
             {
                 item.damage = damage[index];
                 item.mana = mana[index];
+                item.knockBack = knockBack[index];
                 item.shootSpeed = shootSpeed[index];
                 item.crit = crit[index];
                 item.ammo = ammo[index];
