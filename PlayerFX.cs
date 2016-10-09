@@ -13,6 +13,7 @@ namespace WeaponOut
 {
     public class PlayerFX : ModPlayer
     {
+        private const bool DEBUG_WEAPONHOLD = false;
         /* //disabled for now 
         private const int shieldDelayReset = 120; //delay after attacking or losing
         private const int shieldDelayPause = 60; //delay after recieving a hit
@@ -607,7 +608,7 @@ namespace WeaponOut
                     (larger <= 24 && heldItem.magic)) //only smallest magic weapons
                 {
                     if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                    //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(hand): " + itemWidth + " x " + itemHeight);
+                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(hand): " + itemWidth + " x " + itemHeight);
                     if (drawOnBack) return;
                     data = modDraw_HandWeapon(data, drawPlayer, larger, lesser);
                 }
@@ -623,7 +624,7 @@ namespace WeaponOut
                 //They are worn on the waist, and react to falling!
                 else if (larger <= 48)
                 {
-                    //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(waist): " + itemWidth + " x " + itemHeight);
+                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(waist): " + itemWidth + " x " + itemHeight);
                     if (!drawOnBack) return;
                     data = modDraw_WaistWeapon(data, drawPlayer, larger);
                 }
@@ -638,7 +639,7 @@ namespace WeaponOut
                 //Great weapons are swing type weapons past 36 in size and slung on the back
                 else
                 {
-                    //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(back): " + itemWidth + " x " + itemHeight);
+                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(back): " + itemWidth + " x " + itemHeight);
                     if (!drawOnBack) return;
                     data = modDraw_BackWeapon(data, drawPlayer, larger);
                 }
@@ -664,7 +665,7 @@ namespace WeaponOut
                     //|    ######       
                     //bows
                     if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                    //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(bow): " + itemWidth + " x " + itemHeight);
+                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(bow): " + itemWidth + " x " + itemHeight);
                     if (drawOnBack) return;
                     data = modDraw_ForwardHoldWeapon(data, drawPlayer, lesser);
                 }
@@ -682,7 +683,7 @@ namespace WeaponOut
                         //|                 
                         //drills, chainsaws
                         if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                        //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(drill): " + itemWidth + " x " + itemHeight);
+                        if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(drill): " + itemWidth + " x " + itemHeight);
                         if (drawOnBack) return;
                         data = modDraw_DrillWeapon(data, drawPlayer, larger);
                     }
@@ -699,7 +700,7 @@ namespace WeaponOut
                             //|   ######          
                             //|                 
                             if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                            //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(pistol): " + itemWidth + " x " + itemHeight);
+                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(pistol): " + itemWidth + " x " + itemHeight);
                             if (drawOnBack) return;
                             //small aimed weapons (like handgun/aquasceptre) held halfway down, 1/3 back
                             data = modDraw_AimedWeapon(data, drawPlayer, larger);
@@ -714,7 +715,7 @@ namespace WeaponOut
                             //| ####  ##    ##  
                             //|     ####    ##  
                             //|                 
-                            //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(gun): " + itemWidth + " x " + itemHeight);
+                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(rifle): " + itemWidth + " x " + itemHeight);
                             if (drawOnBack) return;
                             //large guns (rifles, launchers, etc.) held with both hands
                             data = modDraw_HeavyWeapon(data, drawPlayer, lesser);
@@ -728,7 +729,7 @@ namespace WeaponOut
                         if (!heldItem.autoReuse)
                         {
                             if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                            //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(polearm): " + itemWidth + " x " + itemHeight);
+                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(polearm): " + itemWidth + " x " + itemHeight);
                             if (drawOnBack) return;
                             if (isYoyo)
                             {
@@ -752,14 +753,15 @@ namespace WeaponOut
                         else
                         {
                             //nebula blaze, flairon, solar eruption (too inconsistent)
-                            //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(uhh): " + itemWidth + " x " + itemHeight);
                             if (larger <= 48)
                             {
+                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(waist safe): " + itemWidth + " x " + itemHeight);
                                 if (!drawOnBack) return;
                                 data = modDraw_WaistWeapon(data, drawPlayer, larger);
                             }
                             else
                             {
+                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(back safe): " + itemWidth + " x " + itemHeight);
                                 if (!drawOnBack) return;
                                 data = modDraw_BackWeapon(data, drawPlayer, larger);
                             }
@@ -767,19 +769,44 @@ namespace WeaponOut
                     }
                     else
                     {
-                        //|                 
-                        //|             ####
-                        //|   ############  ##
-                        //| ##        ##      ##
-                        //|   ############  ##
-                        //|             ####
-                        //|                 
-                        //|                 
-                        if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                        //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(staff): " + itemWidth + " x " + itemHeight);
-                        if (drawOnBack) return;
-                        //staves
-                        data = modDraw_MagicWeapon(data, drawPlayer, larger);
+                        if (larger + lesser <= 72) //only smallest magic weapons
+                        {
+                            //|         ######  
+                            //|       ##  ##  ##
+                            //|     ##      ##  ##
+                            //|   ##        ######
+                            //| ##        ##  ##
+                            //| ##      ##  ##  
+                            //|   ##  ##  ##    
+                            //|     ######
+                            if (drawPlayer.grapCount > 0) return; // can't see while grappling
+                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(hand magic): " + itemWidth + " x " + itemHeight);
+                            if (drawOnBack) return;
+                            data = modDraw_HandWeapon(data, drawPlayer, larger, lesser);
+                        }
+                        else if (lesser <= 42) //medium sized magic weapons, treated like polearms
+                        {
+                            if (drawPlayer.grapCount > 0) return; // can't see while grappling
+                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(polearm magic): " + itemWidth + " x " + itemHeight);
+                            if (drawOnBack) return;
+                            data = modDraw_PoleWeapon(data, drawPlayer, larger);
+                        }
+                        else
+                        {
+                            //|                 
+                            //|             ####
+                            //|   ############  ##
+                            //| ##        ##      ##
+                            //|   ############  ##
+                            //|             ####
+                            //|                 
+                            //|                 
+                            if (drawPlayer.grapCount > 0) return; // can't see while grappling
+                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(staff): " + itemWidth + " x " + itemHeight);
+                            if (drawOnBack) return;
+                            //staves
+                            data = modDraw_MagicWeapon(data, drawPlayer, larger);
+                        }
                     }
                 }
                 //Add the weapon to the draw layers
@@ -788,7 +815,7 @@ namespace WeaponOut
                 //largestaves are held straight up
             }
 
-            //if (drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100,200,150);
+            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100,200,150);
             
         }
         /*
