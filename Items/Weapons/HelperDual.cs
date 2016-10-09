@@ -290,6 +290,15 @@ namespace WeaponOut.Items.Weapons
             item.melee = melee[index];
             item.ranged = ranged[index];
             item.magic = magic[index];
+
+            item.damage = damage[index];
+            item.knockBack = knockBack[index];
+            item.mana = mana[index];
+            item.shootSpeed = shootSpeed[index];
+            item.crit = crit[index];
+            item.ammo = ammo[index];
+            item.shoot = shoot[index];
+            item.shootSpeed = shootSpeed[index];
             if (showDefaults)
             {
                 // for defaults, we want to display as much info as
@@ -311,17 +320,6 @@ namespace WeaponOut.Items.Weapons
                     if (ranged[inver]) { item.melee = false; item.ranged = true; item.magic = false; }
                     if (magic[inver]) { item.melee = false; item.ranged = false; item.magic = true; }
                 }
-            }
-            else
-            {
-                item.damage = damage[index];
-                item.mana = mana[index];
-                item.knockBack = knockBack[index];
-                item.shootSpeed = shootSpeed[index];
-                item.crit = crit[index];
-                item.ammo = ammo[index];
-                item.shoot = shoot[index];
-                item.shootSpeed = shootSpeed[index];
             }
             item.useSound = useSound[index];
             item.useStyle = useStyle[index];
