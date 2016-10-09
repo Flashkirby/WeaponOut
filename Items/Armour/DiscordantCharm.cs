@@ -21,7 +21,7 @@ namespace WeaponOut.Items.Armour
         public override void SetDefaults()
         {
             item.name = "Discordant Charm";
-            item.toolTip = @"Teleports you instead of grappling
+            item.toolTip = @"Prioritise teleporting over grappling
 Requires the Rod of Discord
 Functions in the Head Vanity Slot
 Can be equipped as an accessory";
@@ -48,6 +48,14 @@ Can be equipped as an accessory";
         public override void UpdateVanity(Player player, EquipType type)
         {
             useDiscordHookOverride(player, false);
+        }
+        public override void UpdateEquip(Player player)
+        {
+            if (skipFrameAcc)
+            {
+                useDiscordHookOverride(player, false);
+            }
+            useDiscordHookOverride(player, true);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
