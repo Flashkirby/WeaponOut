@@ -308,22 +308,12 @@ namespace WeaponOut
         */
         public override bool PreItemCheck()
         {
-            preItemTransformCheck();
+            Items.Weapons.HelperDual.PreItemCheckDualItem(player);
             createBareFistInInv();
             return true;
         }
-        private void preItemTransformCheck()
-        {
-            if (player.itemAnimation == 0)
-            {
-                Item item = player.inventory[player.selectedItem];
-                try //effectively using this as a custom hook before ItemCheck for items
-                {
-                    if (item.modItem.mod.Name == mod.Name) { item.modItem.CanUseItem(player); }
-                }
-                catch { }
-            }
-        }
+        /// <summary>Adds the weaponswitch network-synced buff</summary>
+
         private void createBareFistInInv()
         {
             if (player.inventory[player.selectedItem].type == 0 && player.controlUseItem)

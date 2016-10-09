@@ -7,8 +7,8 @@
     <ProjectGuid>{4E3DFB86-01BB-4397-B63C-D5ABE1E5597C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HowToCode</RootNamespace>
-    <AssemblyName>HowToCode</AssemblyName>
+    <RootNamespace>WeaponOut</RootNamespace>
+    <AssemblyName>WeaponOut</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,10 +35,12 @@
     <Folder Include="Glow\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\WeaponSwitch.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
     <Compile Include="Items\MirrorBadge.cs" />
+    <Compile Include="Items\Weapons\HelperGemini.cs" />
     <Compile Include="Items\Weapons\StaffOfExplosion.cs" />
     <Compile Include="Items\Weapons\Whiplash.cs" />
     <Compile Include="Items\Weapons\LeatherWhip.cs" />

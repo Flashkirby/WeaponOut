@@ -6,27 +6,7 @@ namespace WeaponOut.Items.Weapons
 {
     public class SparkShovel : ModItem
     {
-        //the main transformation stats, for convenience
-        const int damage = 5;
-        const int damageM = 8;
-        const float knockBack = 3f;
-        const float knockBackM = 1f;
-        const int sound = 1;
-        const int soundM = 8;
-        const int useAnimation = 16;
-        const int useAnimationM = 28;
-        const int useTime = 16;
-        const int useTimeM = 28;
-        const int mana = 2;
-        const int shoot = ProjectileID.Spark;
-        const float shootSpeed = 8f;
-
-        public int damageMod;
-        public float knockBackMod;
-        public int useAnimationMod;
-        public int manaMod;
-        public float shootSpeedMod;
-
+        HelperDual dual;
         public override void SetDefaults()
         {
             item.name = "Spark Shovel";
@@ -36,13 +16,40 @@ namespace WeaponOut.Items.Weapons
 
             item.autoReuse = true;
             item.pick = 35;
-            //generate a default style, where melee stats take precedent
-            magicDefaults();
+
+            item.useSound = 1;
+            item.useStyle = 1; //swing
+            item.useTurn = true; //face player dir
+            item.useAnimation = 16;
+            item.useTime = 15;
+
+            item.melee = true; //melee damage
+            item.damage = 5;
+            item.knockBack = 3f;
+
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
-            meleeDefaults(true);
 
             item.rare = 1;
             item.value = 5400;
+
+            dual = new HelperDual(item);
+            dual.UseSound = 8;
+            dual.UseStyle = 5;
+            dual.UseTurn = false;
+            dual.UseAnimation = 28;
+            dual.UseTime = 28;
+
+            dual.Magic = true;
+            dual.NoMelee = true;
+            dual.Damage = 8;
+            dual.KnockBack = 1f;
+
+            dual.Mana = 2;
+            dual.Shoot = ProjectileID.Spark;
+            dual.ShootSpeed = 8f;
+
+            dual.setValues(false, true);
+            //end by setting default values
         }
         public override void AddRecipes()
         {
@@ -64,103 +71,21 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
+        public override bool AltFunctionUse(Player player) { return true; }
         public override void UseStyle(Player player)
         {
+            dual.UseStyleMultiplayer(player);
             if (player.altFunctionUse > 0) PlayerFX.modifyPlayerItemLocation(player, -4, 0);
-        }
-
-
-        //TODO: - ALT FUNCTION DOESN'T APPEAR IN MULTIPLAYER
-
-
-
-
-
-
-
-        #region (type 1 + useTurn) Crazy Value Swapping Transform Stuff (Should probably make this its own class at some point)
-
-        /// <summary>
-        /// Here are some standard settings for switching between melee and magic
-        /// </summary>
-        /// <param name="keepMagicValues"></param>
-        private void meleeDefaults(bool keepMagicValues = false)
-        {
-            item.useStyle = 1; //swing
-            item.noMelee = false;
-            item.useTurn = true;
-
-            item.melee = true; //melee damage
-            item.magic = false;
-            item.damage = damage + damageMod;
-            item.knockBack = knockBack + knockBackMod;
-
-            item.useSound = sound;
-            item.useAnimation = useAnimation + useAnimationMod;
-            item.useTime = useTime + useAnimationMod;
-
-            if (!keepMagicValues)
-            {
-                item.mana = 0;
-                item.shoot = 0;
-                item.shootSpeed = 0;
-            }
-        }
-        /// <summary>
-        /// The general design has the magic aspect being more powerful but slower/less frequent
-        /// </summary>
-        private void magicDefaults()
-        {
-            item.useStyle = 5; //aim
-            item.noMelee = true;
-            item.useTurn = false;
-
-            item.magic = true; //magic damage
-            item.melee = false;
-            item.damage = damageM + damageMod;
-            item.knockBack = knockBackM + knockBackMod;
-
-            item.useSound = soundM;
-            item.useAnimation = useAnimationM + useAnimationMod;
-            item.useTime = useTimeM + useAnimationMod;
-
-            item.mana = mana + manaMod;
-            item.shoot = shoot;
-            item.shootSpeed = shootSpeed + shootSpeedMod;
-        }
-        public override void PostReforge()
-        {
-            damageMod = item.damage - damage;
-            knockBackMod = item.knockBack - knockBack;
-            useAnimationMod = item.useAnimation - useAnimation;
-            manaMod = item.mana - mana;
-            shootSpeedMod = item.shootSpeed - shootSpeed;
-        }
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
         }
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse > 0)
-            {
-                magicDefaults();
-            }
-            else
-            {
-                meleeDefaults();
-            }
+            dual.CanUseItem(player);
             return base.CanUseItem(player);
         }
-        public override void HoldItem(Player player)
+        public override void HoldStyle(Player player)
         {
-            if (player.itemAnimation == 0)
-            {
-                magicDefaults();
-                meleeDefaults(true);
-            }
+            dual.HoldStyle(player);
+            base.HoldStyle(player);
         }
-        #endregion
-
     }
 }

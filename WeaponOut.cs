@@ -26,6 +26,8 @@ namespace WeaponOut
         public static Texture2D textureDMNB;
         public static Texture2D textureMANB;
 
+        public static int BuffIDWeaponSwitch;
+
         public static int shakeIntensity = 0;
         private static int shakeTick = 0;
 
@@ -41,6 +43,8 @@ namespace WeaponOut
 
         public override void PostSetupContent()
         {
+            BuffIDWeaponSwitch = GetBuff("WeaponSwitch").Type;
+
             if (Main.netMode != 2)
             {
                 textureDMNB = GetTexture("Projectiles/DemonBlast");
@@ -55,7 +59,7 @@ namespace WeaponOut
             }
             else
             {
-                Console.WriteLine("WeaponOut loaded with no errors:   net#5");
+                Console.WriteLine("WeaponOut loaded with no errors:   dual#11");
             }
         }
 
