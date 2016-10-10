@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -79,18 +81,38 @@ namespace WeaponOut.Items.Weapons
             base.HoldStyle(player);
         }
 
-        public override void MeleeEffects(Player player, Microsoft.Xna.Framework.Rectangle hitbox)
+        public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if (player.HasBuff(WeaponOut.BuffIDManaReduction) != -1)
+            Vector2 dustPosition;
+            Vector2 dustVelocity = CalculateDustVelocityNormal(player, -1.57f); //send dust flying backwards of blade vlocity
+            for (int i = 0; i < 10; i++)
             {
-                int d = Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 15, (player.velocity.X * 0.2f) + (player.direction * 3), player.velocity.Y * 0.2f, 100, Color.White, 1.3f);
-                Main.dust[d].noGravity = true;
+                float dist = Main.rand.NextFloat();
+                dustPosition = CalculateDustPosition(player, item, 4, dist, 4f);
+                int d = Dust.NewDust(dustPosition, 0, 0,
+                    WeaponOut.DustIDManaDust, player.velocity.X, player.velocity.Y, 100, Color.White, 1.3f - 0.8f * dist);
+                Main.dust[d].velocity += dustVelocity * 5 * dist;
             }
-            else
-            {
-                int d = Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 15, (player.velocity.X * 0.2f) + (player.direction * 3), player.velocity.Y * 0.2f, 100, Color.White, 0.6f);
-                Main.dust[d].noGravity = true;
-            }
+        }
+
+        private static Vector2 CalculateDustPosition(Player player, Item item, int handleLength, float distNormal, float scaleDisplace)
+        {
+            handleLength += 16;
+            int length = (int)(item.width * 1.414f * item.scale) - handleLength;
+            float cosRot = (float)Math.Cos(player.itemRotation - 0.78f * player.direction * player.gravDir);
+            float sinRot = (float)Math.Sin(player.itemRotation - 0.78f * player.direction * player.gravDir);
+            if (length < 1) length = 1;
+            return new Vector2(
+                        (float)(player.itemLocation.X + (handleLength + length * distNormal) * cosRot * player.direction) - scaleDisplace,
+                        (float)(player.itemLocation.Y + (handleLength + length * distNormal) * sinRot * player.direction) - scaleDisplace);
+        }
+        private static Vector2 CalculateDustVelocityNormal(Player player, float angleOffset)
+        {
+            float cosRot = (float)Math.Cos(player.itemRotation - (0.78f - angleOffset) * player.direction * player.gravDir);
+            float sinRot = (float)Math.Sin(player.itemRotation - (0.78f - angleOffset) * player.direction * player.gravDir);
+            return new Vector2(
+                        (float)(cosRot * player.direction),
+                        (float)(sinRot * player.direction));
         }
 
     }

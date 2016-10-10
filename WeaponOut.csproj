@@ -40,6 +40,7 @@
     <Compile Include="Buffs\ManaReduction.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
     <Compile Include="Items\MirrorBadge.cs" />
+    <Compile Include="Items\Weapons\ManaSword.cs" />
     <Compile Include="Items\Weapons\HelperDual.cs" />
     <Compile Include="Items\Weapons\StaffOfExplosion.cs" />
     <Compile Include="Items\Weapons\Whiplash.cs" />
