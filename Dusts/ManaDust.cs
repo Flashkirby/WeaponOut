@@ -10,7 +10,6 @@ namespace WeaponOut.Dusts
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
-            dust.scale = 1f;
             dust.rotation += Main.rand.NextFloat() * 6.282f;
             dust.velocity *= 0.1f;
         }
