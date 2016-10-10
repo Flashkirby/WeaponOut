@@ -30,6 +30,8 @@ namespace WeaponOut
         public static int BuffIDMirrorBarrier;
         public static int BuffIDWeaponSwitch;
 
+        public static int DustIDManaDust;
+
         public static int shakeIntensity = 0;
         private static int shakeTick = 0;
 
@@ -48,6 +50,8 @@ namespace WeaponOut
             BuffIDManaReduction = GetBuff("ManaReduction").Type;
             BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             BuffIDWeaponSwitch = GetBuff("WeaponSwitch").Type;
+
+            DustIDManaDust = GetDust("ManaDust").Type;
 
             if (Main.netMode != 2)
             {
