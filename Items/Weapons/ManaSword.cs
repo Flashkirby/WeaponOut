@@ -13,7 +13,9 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Mana Sword";
-            item.toolTip = "";
+            item.toolTip = @"Casts a mana restoring star
+Right click to cast a mana bolt
+Mana bolt damage increases with mana";
             item.width = 58;
             item.height = 28;
             item.scale = 0.9f;
@@ -48,9 +50,9 @@ namespace WeaponOut.Items.Weapons
             dual.Damage = 30;
             dual.KnockBack = 10f;
 
-            dual.Mana = 10;
-            dual.Shoot = ProjectileID.ChargedBlasterOrb; //staff one is magic, sword one is melee
-            dual.ShootSpeed = 14f;
+            dual.Mana = 30;
+            dual.Shoot = mod.ProjectileType("ManaBolt");
+            item.shootSpeed = 30f;
 
             dual.setValues(false, true);
         }
@@ -79,6 +81,16 @@ namespace WeaponOut.Items.Weapons
         {
             dual.HoldStyle(player);
             base.HoldStyle(player);
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse > 0)
+            {
+                //Main.NewText("Bolt buffed by " + (player.statMana / 4));
+                damage += player.statMana / 4;
+            }
+            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
