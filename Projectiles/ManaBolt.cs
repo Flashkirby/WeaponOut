@@ -74,7 +74,7 @@ namespace WeaponOut.Projectiles
             else //loop projectile
             {
                 projectile.localAI[0]--;
-                //projectile.damage = 0;
+                projectile.damage = 0;
 
                 //loop around until death
                 //Main.NewText(projectile.localAI[0] + " < " + (-reachEnd));
