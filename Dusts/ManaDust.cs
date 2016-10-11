@@ -33,11 +33,11 @@ namespace WeaponOut.Dusts
                 {
                     dust.rotation -= 0.1f / dust.scale;
                 }
-                float strength = dust.scale / 3f;
+                float strength = dust.scale * 0.5f;
                 Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), 
-                    dust.color.R / 255f * 0.6f * strength, 
-                    dust.color.G / 255f * 0.4f * strength, 
-                    dust.color.B / 255f * 1.1f * strength);
+                    0.3f * strength, 
+                    0.2f * strength, 
+                    0.55f * strength);
             }
             return false;
         }
