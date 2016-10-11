@@ -38,6 +38,7 @@
     <Compile Include="Buffs\WeaponSwitch.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Dusts\ManaDust.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
     <Compile Include="Items\MirrorBadge.cs" />
     <Compile Include="Items\Weapons\ManaSword.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Items\WoodenShield.cs" />
     <Compile Include="PlayerFX.cs" />
     <Compile Include="Projectiles\Explosion.cs" />
+    <Compile Include="Projectiles\ManaBolt.cs" />
     <Compile Include="Projectiles\Whiplash.cs" />
     <Compile Include="Projectiles\LeatherWhip.cs" />
     <Compile Include="Projectiles\FistFlameBlast.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Projectiles\DemonBlast.cs" />
     <Compile Include="Projectiles\Hayauchi.cs" />
     <Compile Include="Projectiles\ManaBlast.cs" />
+    <Content Include="Dusts\ManaDust.png" />
     <Content Include="Items\Armour\DiscordantCharm.png" />
     <Content Include="Projectiles\TentSetup.txt" />
     <Compile Include="Tiles\CampTent.cs" />

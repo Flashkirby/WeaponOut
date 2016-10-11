@@ -58,12 +58,22 @@ Mana bolt damage increases with mana";
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.EnchantedSword, 1);
-            recipe.AddIngredient(mod.GetItem("ManaBlast").item.type, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            for (int i = 0; i < 2; i++)
+            {
+                ModRecipe recipe = new ModRecipe(mod);
+                if (i == 0)
+                {
+                    recipe.AddIngredient(ItemID.AdamantiteSword, 1);
+                }
+                else
+                {
+                    recipe.AddIngredient(ItemID.TitaniumSword, 1);
+                }
+                recipe.AddIngredient(mod.GetItem("ManaBlast").item.type, 5);
+                recipe.AddTile(TileID.MythrilAnvil);
+                recipe.SetResult(this);
+                recipe.AddRecipe();
+            }
         }
 
         public override bool AltFunctionUse(Player player) { return true; }
