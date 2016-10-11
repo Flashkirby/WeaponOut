@@ -41,7 +41,7 @@ Mana bolt damage increases with mana";
             item.value = Item.sellPrice(0, 5, 0, 0);
 
             dual = new HelperDual(item, true); //prioritise magic defaults
-            dual.UseSound = 60;
+            dual.UseSound = 68;
             dual.UseStyle = 5;
             dual.UseAnimation = 40;
             dual.UseTime = 40;

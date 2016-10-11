@@ -102,24 +102,25 @@ namespace WeaponOut.Projectiles
             //dividers
             d = Dust.NewDust(projectile.position, projectile.width, projectile.height, WeaponOut.DustIDManaDust);
             Main.dust[d].velocity = new Vector2(
-                projectile.velocity.Y * projectile.scale * 0.1f,
-                -projectile.velocity.X * projectile.scale * 0.1f);
+                projectile.velocity.Y * projectile.scale * 0.2f,
+                -projectile.velocity.X * projectile.scale * 0.2f);
             d = Dust.NewDust(projectile.position, projectile.width, projectile.height, WeaponOut.DustIDManaDust);
             Main.dust[d].velocity = new Vector2(
-                -projectile.velocity.Y * projectile.scale * 0.1f,
-                projectile.velocity.X * projectile.scale * 0.1f);
+                -projectile.velocity.Y * projectile.scale * 0.2f,
+                projectile.velocity.X * projectile.scale * 0.2f);
 
             //tilehitter
             if (tileHit != null)
             {
+                float timeLeftNormal = (float)projectile.timeLeft / 45;
                 d = Dust.NewDust(tileHit, projectile.width, projectile.height, WeaponOut.DustIDManaDust, 0f, 0f, 0, default(Color), projectile.scale * 2);
                 Main.dust[d].velocity = new Vector2(
-                    projectile.velocity.Y * projectile.scale * 0.4f,
-                    -projectile.velocity.X * projectile.scale);
+                    projectile.velocity.Y * projectile.scale * 0.6f * timeLeftNormal,
+                    -projectile.velocity.X * projectile.scale * 0.6f * timeLeftNormal);
                 d = Dust.NewDust(tileHit, projectile.width, projectile.height, WeaponOut.DustIDManaDust, 0f, 0f, 0, default(Color), projectile.scale * 2);
                 Main.dust[d].velocity = new Vector2(
-                    -projectile.velocity.Y * projectile.scale * 0.4f,
-                    projectile.velocity.X * projectile.scale * 0.4f);
+                    -projectile.velocity.Y * projectile.scale * 0.6f * timeLeftNormal,
+                    projectile.velocity.X * projectile.scale * 0.6f * timeLeftNormal);
             }
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
         }
