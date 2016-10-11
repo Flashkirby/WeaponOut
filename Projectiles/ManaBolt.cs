@@ -21,7 +21,7 @@ namespace WeaponOut.Projectiles
             projectile.height = 32;
            // projectile.aiStyle = -1;
 
-            projectile.timeLeft = 50;
+            projectile.timeLeft = 45;
             projectile.penetrate = -1;
             projectile.extraUpdates = 2;
 
@@ -71,10 +71,10 @@ namespace WeaponOut.Projectiles
             {
                 projectile.localAI[0]++;
             }
-            else //become inert
+            else //loop projectile
             {
                 projectile.localAI[0]--;
-                projectile.damage = 0;
+                //projectile.damage = 0;
 
                 //loop around until death
                 //Main.NewText(projectile.localAI[0] + " < " + (-reachEnd));
@@ -147,8 +147,8 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft < 16) projectile.frame = 2;
-            else if (projectile.timeLeft < 33) projectile.frame = 1;
+            if (projectile.timeLeft < 15) projectile.frame = 2;
+            else if (projectile.timeLeft < 30) projectile.frame = 1;
             else projectile.frame = 0;
 
             Player player = Main.player[projectile.owner];//owner
