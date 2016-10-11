@@ -14,7 +14,7 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Mana Sword";
             item.toolTip = @"Casts a mana restoring star
-Right click to cast a mana bolt
+Right click to cast a powerful mana bolt
 Mana bolt damage increases with mana";
             item.width = 58;
             item.height = 28;
@@ -28,7 +28,7 @@ Mana bolt damage increases with mana";
             item.useTime = 15;
 
             item.magic = true;
-            item.damage = 10;
+            item.damage = 32;
             item.knockBack = 5f;
 
             item.mana = 10;
@@ -37,8 +37,8 @@ Mana bolt damage increases with mana";
 
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
 
-            item.rare = 4;
-            item.value = 10;
+            item.rare = 5;
+            item.value = Item.sellPrice(0, 5, 0, 0);
 
             dual = new HelperDual(item, true); //prioritise magic defaults
             dual.UseSound = 60;
@@ -47,7 +47,7 @@ Mana bolt damage increases with mana";
             dual.UseTime = 40;
 
             dual.NoMelee = true;
-            dual.Damage = 30;
+            dual.Damage = 100;
             dual.KnockBack = 10f;
 
             dual.Mana = 30;
@@ -88,7 +88,7 @@ Mana bolt damage increases with mana";
             if (player.altFunctionUse > 0)
             {
                 //Main.NewText("Bolt buffed by " + (player.statMana / 4));
-                damage += player.statMana / 4;
+                damage += player.statMana / 4; //up to 100 with max mana, though will be around 25
             }
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
