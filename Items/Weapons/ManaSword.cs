@@ -69,7 +69,7 @@ Mana bolt damage increases with mana";
                 {
                     recipe.AddIngredient(ItemID.TitaniumSword, 1);
                 }
-                recipe.AddIngredient(mod.GetItem("ManaBlast").item.type, 5);
+                recipe.AddIngredient(mod.GetItem("ManaBlast").item.type, 1);
                 recipe.AddTile(TileID.MythrilAnvil);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
