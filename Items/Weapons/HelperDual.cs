@@ -64,8 +64,8 @@ namespace WeaponOut.Items.Weapons
         public bool UseTurn { set { useTurn[1] = value; } }
 
         //ranged & magic
-        private int[] ammo = new int[2];
-        public int Ammo { set { ammo[1] = value; } }
+        private int[] useAmmo = new int[2];
+        public int UseAmmo { set { useAmmo[1] = value; } }
         private int[] shoot = new int[2];
         public int Shoot { set { shoot[1] = value; } }
 
@@ -117,8 +117,8 @@ namespace WeaponOut.Items.Weapons
             autoReuse[1] = item.autoReuse;
             useTurn[0] = item.useTurn; 
             useTurn[1] = item.useTurn;
-            ammo[0] = item.ammo; 
-            ammo[1] = item.ammo;
+            useAmmo[0] = item.useAmmo;
+            useAmmo[1] = item.useAmmo;
             shoot[0] = item.shoot; 
             shoot[1] = item.shoot;
         }
@@ -296,7 +296,7 @@ namespace WeaponOut.Items.Weapons
             item.mana = mana[index];
             item.shootSpeed = shootSpeed[index];
             item.crit = crit[index];
-            item.ammo = ammo[index];
+            item.useAmmo = useAmmo[index];
             item.shoot = shoot[index];
             item.shootSpeed = shootSpeed[index];
             if (showDefaults)
@@ -310,7 +310,7 @@ namespace WeaponOut.Items.Weapons
                 if (knockBack[index] == 0) item.knockBack = knockBack[inver];
                 if (shootSpeed[index] <= 0) item.shootSpeed = shootSpeed[inver];
                 if (crit[index] <= 0) item.crit = crit[inver];
-                if (ammo[index] <= 0) item.ammo = ammo[inver];
+                if (useAmmo[index] <= 0) item.useAmmo = useAmmo[inver];
                 if (shoot[index] <= 0) item.shoot = shoot[inver];
                 if (shootSpeed[index] <= 0) item.shootSpeed = shootSpeed[inver];
                 
