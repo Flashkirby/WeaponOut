@@ -13,7 +13,8 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Steam Persuader";
-            item.toolTip = "Right click to fire something else";
+            item.toolTip = @"Normal shots have no knockback
+Right click to fire a forceful burst";
             item.width = 62;
             item.height = 20;
 
@@ -21,20 +22,20 @@ namespace WeaponOut.Items.Weapons
             item.useStyle = 5;
             item.useAnimation = 12; //4 shots
             item.useTime = 3;
-            item.reuseDelay = 14;
+            item.reuseDelay = 14;//12 + 14 = 26 usetime
             item.autoReuse = true;
 
             item.ranged = true; //melee damage
             item.noMelee = true;
-            item.damage = 7;
-            item.knockBack = 1f;
+            item.damage = 21;
+            item.knockBack = 8f;
 
             item.useAmmo = 14;
             item.shoot = 10;
             item.shootSpeed = 9f;
 
             item.rare = 4;
-            item.value = Item.sellPrice(0, 0, 30, 0);
+            item.value = Item.sellPrice(0, 2, 0, 0);
 
             dual = new HelperDual(item, true);
             dual.UseSound = 38;
@@ -42,7 +43,7 @@ namespace WeaponOut.Items.Weapons
             dual.UseTime = 28;
             dual.ReuseDelay = 0;
 
-            dual.KnockBack = 4f;
+            dual.KnockBack = 8f;
 
             dual.ShootSpeed = 6f;
 
@@ -81,9 +82,10 @@ namespace WeaponOut.Items.Weapons
             {
                 speedX += 0.5f * (Main.rand.NextFloat() - 0.5f);
                 speedY += 0.5f * (Main.rand.NextFloat() - 0.5f);
+                knockBack = 0f;
                 return true;
             }
-            else
+            else if (player.itemAnimation == player.itemAnimationMax -1)
             {
                 float veloX, veloY;
                 int numShots = 4 + Main.rand.Next(3);
@@ -94,8 +96,8 @@ namespace WeaponOut.Items.Weapons
                     Projectile.NewProjectile(position, new Vector2(veloX, veloY),
                         type, damage, knockBack, player.whoAmI);
                 }
-                return false;
             }
+            return false;
         }
     }
 }

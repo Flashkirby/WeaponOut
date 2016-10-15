@@ -58,8 +58,6 @@ namespace WeaponOut.Items.Weapons
         public int UseStyle { set { useStyle[1] = value; } }
         private bool[] noMelee = new bool[2];
         public bool NoMelee { set { noMelee[1] = value; } }
-        private bool[] autoReuse = new bool[2];
-        public bool AutoReuse { set { autoReuse[1] = value; } }
         private bool[] useTurn = new bool[2];
         public bool UseTurn { set { useTurn[1] = value; } }
 
@@ -113,8 +111,6 @@ namespace WeaponOut.Items.Weapons
             useStyle[1] = item.useStyle;
             noMelee[0] = item.noMelee;
             noMelee[1] = item.noMelee;
-            autoReuse[0] = item.autoReuse; 
-            autoReuse[1] = item.autoReuse;
             useTurn[0] = item.useTurn; 
             useTurn[1] = item.useTurn;
             useAmmo[0] = item.useAmmo;
@@ -133,8 +129,10 @@ namespace WeaponOut.Items.Weapons
                 if (dualItems[item.type])
                 {
                     if (player.altFunctionUse > 0
-                        && player.HasBuff(WeaponOut.BuffIDWeaponSwitch) == -1)
+                        && player.HasBuff(WeaponOut.BuffIDWeaponSwitch) == -1
+                        && player.itemAnimation <= 0 + (item.autoReuse ? 1 : 0)) //why is autoreuse so awkward :(
                     {
+                        Main.NewText(player.itemAnimation + " <= " + (0 + (item.autoReuse ? 1 : 0)));
                         //add buff quietly
                         player.AddBuff(WeaponOut.BuffIDWeaponSwitch, 2, true);
                         item.modItem.CanUseItem(player);
@@ -324,7 +322,6 @@ namespace WeaponOut.Items.Weapons
             item.useSound = useSound[index];
             item.useStyle = useStyle[index];
             item.noMelee = noMelee[index];
-            item.autoReuse = autoReuse[index];
             item.useTurn = useTurn[index];
 
 
