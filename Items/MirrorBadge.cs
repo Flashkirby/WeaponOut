@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,15 +29,15 @@ namespace WeaponOut.Items
             }
         }
 
-        public override bool PreDrawInWorld(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale)
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             if (Main.rand.Next(15) == 0)
             {
                 int dustIndex = Dust.NewDust(item.position, item.width, item.height, 43, 0, 0, 100, Color.White, 0.3f);
                 Main.dust[dustIndex].velocity *= 0.1f;
                 Main.dust[dustIndex].fadeIn = 1f;
-            }
-            return base.PreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale);
+            } 
+            return true;
         }
     }
 }

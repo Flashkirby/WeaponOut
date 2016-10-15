@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -69,11 +70,11 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
-        public override void PostDrawInWorld(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale)
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             int length = Main.rand.Next(24);
             int dust = Dust.NewDust(
-                    item.position + new Vector2(item.width - length - 5,length),
+                    item.position + new Vector2(item.width - length - 5, length),
                     0, 0, 15,
                     item.velocity.X * 5f,
                     item.velocity.Y * 5f,
