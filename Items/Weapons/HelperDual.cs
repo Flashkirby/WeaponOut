@@ -132,7 +132,7 @@ namespace WeaponOut.Items.Weapons
                         && player.HasBuff(WeaponOut.BuffIDWeaponSwitch) == -1
                         && player.itemAnimation <= 0 + (item.autoReuse ? 1 : 0)) //why is autoreuse so awkward :(
                     {
-                        Main.NewText(player.itemAnimation + " <= " + (0 + (item.autoReuse ? 1 : 0)));
+                        //Main.NewText(player.itemAnimation + " <= " + (0 + (item.autoReuse ? 1 : 0)));
                         //add buff quietly
                         player.AddBuff(WeaponOut.BuffIDWeaponSwitch, 2, true);
                         item.modItem.CanUseItem(player);
