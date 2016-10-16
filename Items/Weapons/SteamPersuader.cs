@@ -34,8 +34,8 @@ Right click to fire a forceful burst";
             item.shoot = 10;
             item.shootSpeed = 9f;
 
-            item.rare = 4;
-            item.value = Item.sellPrice(0, 2, 0, 0);
+            item.rare = 5;
+            item.value = Item.sellPrice(0, 3, 0, 0);
 
             dual = new HelperDual(item, true);
             dual.UseSound = 38;
@@ -49,6 +49,20 @@ Right click to fire a forceful burst";
 
             dual.setValues(false, true);
             //end by setting default values
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.ClockworkAssaultRifle, 1);
+            recipe.AddIngredient(ItemID.Cog, 7);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+        public override void OnCraft(Recipe recipe)
+        {
+            HelperDual.OnCraft(item);
+            base.OnCraft(recipe);
         }
 
         public override bool AltFunctionUse(Player player) { return true; }

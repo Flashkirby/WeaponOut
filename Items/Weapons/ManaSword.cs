@@ -75,6 +75,10 @@ Mana bolt damage increases with mana";
                 recipe.AddRecipe();
             }
         }
+        public override void OnCraft(Recipe recipe)
+        {
+            HelperDual.OnCraft(item);
+        }
 
         public override bool AltFunctionUse(Player player) { return true; }
         public override void UseStyle(Player player)

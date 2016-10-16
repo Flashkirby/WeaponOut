@@ -70,6 +70,11 @@ namespace WeaponOut.Items.Weapons
                 recipe.AddRecipe();
             }
         }
+        public override void OnCraft(Recipe recipe)
+        {
+            HelperDual.OnCraft(item);
+            base.OnCraft(recipe);
+        }
 
         public override bool AltFunctionUse(Player player) { return true; }
         public override void UseStyle(Player player)

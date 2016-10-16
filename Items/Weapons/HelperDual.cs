@@ -152,6 +152,17 @@ namespace WeaponOut.Items.Weapons
         }
 
         /// <summary>
+        /// For some reason the items fail to work unless they are re-instanced
+        /// </summary>
+        /// <param name="item"></param>
+        public static void OnCraft(Item item)
+        {
+            int pre = item.prefix;
+            item.SetDefaults(item.type);
+            item.Prefix(pre);
+        }
+
+        /// <summary>
         /// Sets the item to either state on swing
         /// </summary>
         /// <param name="player"></param>
