@@ -13,8 +13,11 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Steam Persuader";
-            item.toolTip = @"Normal shots have no knockback
-Right click to fire a forceful burst";
+            item.toolTip = @"No knockback on normal shots
+Four round burst
+Only the first shot consumes ammo
+Right click to fire a forceful burst
+10% chance to not consume ammo";
             item.width = 62;
             item.height = 20;
 
@@ -86,7 +89,7 @@ Right click to fire a forceful burst";
         public override bool ConsumeAmmo(Player player)
         {
             if (player.itemAnimation < item.useAnimation - 1) { return false; } //only use first shot
-            if (Main.rand.Next(10) == 1) { return false; } // if number is 1, don't use ammo also
+            if (Main.rand.Next(10) == 0) { return false; } // if number is 0, don't use ammo also
             return true;
         }
 
