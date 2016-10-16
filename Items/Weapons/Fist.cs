@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+
 using Terraria;
 using Terraria.ModLoader;
+
+using WeaponOut.Items.Weapons.UseStyles;
 
 namespace WeaponOut.Items.Weapons
 {
@@ -11,7 +14,7 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Bare Fist";
             item.toolTip = "Damage scales with chest defense";
-            item.useStyle = 6;//6+ for custom styles
+            item.useStyle = FistStyle.useStyle;
             item.useAnimation = 19;//actually treated as -2
             item.damage = 2;
             item.knockBack = 2f;
@@ -27,12 +30,12 @@ namespace WeaponOut.Items.Weapons
                 item.damage += player.armor[1].defense; //defence increase attack
                 increaseDamage = true;
             }
-            UseStyles.FistStyle.UseItemFrame(player);
+            FistStyle.UseItemFrame(player);
             return true;
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            noHitbox = UseStyles.FistStyle.UseItemHitbox(player, ref hitbox, 4);
+            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 4);
         }
     }
 }

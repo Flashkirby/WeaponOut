@@ -1,13 +1,120 @@
 ﻿using System;
+
 using Microsoft.Xna.Framework;
+
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace WeaponOut.Items.Weapons.UseStyles
 {
-    public static class FistStyle
+    public class FistStyle
     {
+        public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
+        private static Color highColour = Color.Cyan;
+        private static Color lowColour = Color.DarkCyan;
+        private Color comboColour
+        {
+            get
+            {
+                if (isDramatic) return highColour;
+                return lowColour;
+            }
+        }
+
+        Item item;
+        public int punchComboMax;
+        public int punchComboMax2
+        {
+            get { return punchComboMax; }
+        }
+        public int punchCombo; //keeps track of every successful punch
+        public int punchCount; //keeps track of every punch thrown
+        public bool isDramatic { get { return punchCount % punchComboMax2 == 0; } }
+
+        public FistStyle(Item item, int maxCombo = 0)
+        {
+            this.item = item;
+            punchComboMax = maxCombo;
+            punchCombo = 0;
+            punchCount = 0;
+        }
+
+        public void HoldItem(Player player)
+        {
+            if (punchCombo > 0) item.toolTip = punchComboMax2 + " combo power";
+            if (player.itemAnimation == 0)
+            {
+                if (punchCombo != 0) comboReset(player);
+            }
+            else
+            {
+                if (player.itemAnimation == player.itemAnimationMax - 1) punchCount++;
+                if (player.itemAnimation == 1 && punchCount > punchCombo)
+                {
+                    comboReset(player);
+                }
+            }
+            //Main.NewText(punchCombo + " / " + punchCount);
+        }
+        private void comboReset(Player player)
+        {
+            if (punchCombo > 2)
+            {
+                CombatText.NewText(player.getRect(),
+                    highColour, punchCombo + " hit", false, false);
+            }
+            //Main.NewText("punch reset");
+            punchCombo = 0;
+            punchCount = 0;
+        }
+
+        /// <summary>
+        /// Hits the NPC and generates client message, and returns combo completion
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public bool OnHitNPC(Player player, NPC target, bool follow = false)
+        {
+            //if (target.immortal) return false; //don't trigger on dummy
+
+            //C-C-Combo!
+            punchCombo++;
+            Rectangle rect = player.getRect();
+            if (!isDramatic) rect.Y += (int)(rect.Height * player.gravDir);
+            CombatText.NewText(rect,
+                comboColour, string.Concat(punchCombo), isDramatic);
+            if (punchCount % punchComboMax2 != 0)
+            {
+                player.itemAnimation = 2 * player.itemAnimation / 3;
+                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
+
+                if (target.life > 0 && follow)
+                {
+                    //follow target
+                    player.velocity = target.velocity;
+                    if (target.noGravity) player.velocity.Y -= player.gravDir * 4f;
+                }
+            }
+            if (punchCount % punchComboMax2 == 0)
+            {
+                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
+                //disengage
+                if (follow) player.velocity += new Vector2(target.velocity.X * -2, target.velocity.Y * 2);
+            }
+            return false;
+        }
+
+        public static void UseItemFramePauseCharge(Player player, Item item)
+        {
+            //Stop charging charge shot
+            if (player.itemTime < item.useTime - 1) //if less than max
+            {
+                player.itemTime = item.useTime; //freeze at at this point until player stops attacking
+            }
+        }
+
         public static void UseItemFrame(Player player)
         {
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
@@ -46,6 +153,13 @@ namespace WeaponOut.Items.Weapons.UseStyles
             else player.bodyFrame.Y = player.bodyFrame.Height * 17;
         }
 
+        /// <summary>
+        /// Generates a hitbox
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="hitbox"></param>
+        /// <param name="boxSize"></param>
+        /// <returns>True if no hitbox (so no dust)</returns>
         public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int boxSize)
         {
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
