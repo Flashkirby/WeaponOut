@@ -1,7 +1,7 @@
 A compilation of random things that started with weapon holding:
-* Hold out weapons even when not using them!
+* Hold out weapons even when not using them! Show/Hide with 1st accessory slot visibility
 * Set up temporary spawn points with Tents!
 * Various custom weapons and projectile behaviours
 
 And a bunch of other stuff...
-(not actually version 1.0 yet, probably more like v0.3
+WARNING: STILL A WIP
