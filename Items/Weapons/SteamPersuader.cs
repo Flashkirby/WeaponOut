@@ -16,8 +16,8 @@ namespace WeaponOut.Items.Weapons
             item.toolTip = @"No knockback on normal shots
 Four round burst
 Only the first shot consumes ammo
-Right click to fire a forceful burst
-10% chance to not consume ammo";
+10% chance to not consume ammo
+Right click to fire a forceful burst";
             item.width = 62;
             item.height = 20;
 
