@@ -41,7 +41,7 @@ namespace WeaponOut.Items.Weapons
         }
 
         //buff used for detecthing altfunc
-        public static int altbuff = WeaponOut.BuffIDWeaponSwitch;
+        public static int altbuff { get { return WeaponOut.BuffIDWeaponSwitch; } }
 
         Item item;
         bool setToDefaults = true;
