@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +16,15 @@ namespace WeaponOut.Items.Weapons
     public class HelperDual
     {
         //singleton
-        public static bool[] dualItems;
+        private static List<int> dualItems;
+        public static List<int> DualItems
+        {
+            get
+            {
+                if (dualItems == null) dualItems = new List<int>();
+                return dualItems;
+            }
+        }
 
         Item item;
         bool setToDefaults = true;
@@ -75,8 +83,7 @@ namespace WeaponOut.Items.Weapons
         public HelperDual(Item item, bool preferAltPrefix)
         {
             //initiliase this static arrray if never been used before, dunno how 2 singleton with arrays
-            if (dualItems == null) dualItems = new bool[Item.staff.Length];
-            dualItems[item.type] = true;
+            if (!DualItems.Contains(item.type)) DualItems.Add(item.type);
 
             this.item = item;
             rare = item.rare;
@@ -121,12 +128,10 @@ namespace WeaponOut.Items.Weapons
 
         public static void PreItemCheckDualItem(Player player)
         {
-            //initiliase this static arrray if never been used before, dunno how 2 singleton with arrays
-            if (dualItems == null) dualItems = new bool[Item.staff.Length];
             if (player.whoAmI == Main.myPlayer)
             {
                 Item item = player.inventory[player.selectedItem];
-                if (dualItems[item.type])
+                if (DualItems.Contains(item.type))
                 {
                     if (player.altFunctionUse > 0
                         && player.HasBuff(WeaponOut.BuffIDWeaponSwitch) == -1
