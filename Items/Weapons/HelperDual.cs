@@ -11,7 +11,21 @@ namespace WeaponOut.Items.Weapons
     /// in sync in every (feasible) possible scenario. Also handles
     /// the swapping of item values as well prefix value management. 
     /// 
-    /// Methods are used in ModPlayer and ModItem
+    /// NOTE: sounds aren't synced reliably, so use projectiles or
+    /// other alternative to guarantee better net syncing.
+    /// 
+    /// HelperDual requires:
+    ///     ModItem method calls:
+    ///         HelperDual(Item item, bool preferAltPrefix)
+    ///         FinishDefaults()
+    ///         OnCraft(Item item)
+    ///         CanUseItem(Player player)
+    ///         UseStyleMultiplayer(Player player)
+    ///         HoldStyle(Player player)
+    ///     ModPlayer method call:
+    ///         PreItemCheckDualItem(Player player)
+    ///     Alt func buff:
+    ///         WeaponSwitch.cs
     /// </summary>
     public class HelperDual
     {
@@ -26,6 +40,9 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
+        //buff used for detecthing altfunc
+        public static int altbuff = WeaponOut.BuffIDWeaponSwitch;
+
         Item item;
         bool setToDefaults = true;
 
@@ -35,6 +52,7 @@ namespace WeaponOut.Items.Weapons
         private bool autoReuse;
         private bool preferAltDamage;
 
+        //saved default values (before prefixing)
         private int[] damage = new int[2];
         public int Damage { set { damage[1] = value; } }
         private int[] useAnimation = new int[2];
@@ -128,6 +146,18 @@ namespace WeaponOut.Items.Weapons
             shoot[1] = item.shoot;
         }
 
+        /// <summary>
+        /// Call this after setting up dual defaults to set the item to its correct calculated stat display
+        /// </summary>
+        public void FinishDefaults()
+        {
+            setValues(false, true);
+        }
+
+        /// <summary>
+        /// Call in PreItemCheck to intercept and change the item's stats before the game realises
+        /// </summary>
+        /// <param name="player"></param>
         public static void PreItemCheckDualItem(Player player)
         {
             if (player.whoAmI == Main.myPlayer)
@@ -136,21 +166,21 @@ namespace WeaponOut.Items.Weapons
                 if (DualItems.Contains(item.type))
                 {
                     if (player.altFunctionUse == 1 //the frame you right click
-                        && player.HasBuff(WeaponOut.BuffIDWeaponSwitch) == -1
+                        && player.HasBuff(altbuff) == -1
                         && player.itemAnimation <= 0 + (item.autoReuse ? 1 : 0)) //why is autoreuse so awkward :(
                     {
                         //Main.NewText(player.altFunctionUse + " | " + player.itemAnimation + " <= " + (0 + (item.autoReuse ? 1 : 0)));
                         //add buff quietly
-                        player.AddBuff(WeaponOut.BuffIDWeaponSwitch, 2, true);
+                        player.AddBuff(altbuff, 2, true);
                         item.modItem.CanUseItem(player);
                         //add buff network
                         if (player.itemAnimation > 0)
                         {
-                            player.AddBuff(WeaponOut.BuffIDWeaponSwitch, player.itemAnimation, false);
+                            player.AddBuff(altbuff, player.itemAnimation, false);
                         }
                         else
                         {
-                            player.AddBuff(WeaponOut.BuffIDWeaponSwitch, item.useAnimation, false);
+                            player.AddBuff(altbuff, item.useAnimation, false);
                         }
                         player.altFunctionUse = 0;
                     }
@@ -170,12 +200,12 @@ namespace WeaponOut.Items.Weapons
         }
 
         /// <summary>
-        /// Sets the item to either state on swing
+        /// Sets the item to either state on swing. 
         /// </summary>
         /// <param name="player"></param>
         public void CanUseItem(Player player)
         {
-            int buff = player.HasBuff(WeaponOut.BuffIDWeaponSwitch);
+            int buff = player.HasBuff(altbuff);
             bool raceScenario = (buff != -1 && player.itemAnimation <= 0); //just before int weaponDamage is setup
             if (raceScenario) setToDefaults = false;
             if (player.altFunctionUse == 0 //during CanUseItem in ItemCheck
@@ -194,66 +224,74 @@ namespace WeaponOut.Items.Weapons
             }
         }
         /// <summary>
-        /// Manages multiplayer syncing of altFunction and weapon state
+        /// Manages multiplayer syncing of altFunction and weapon state. 
+        /// Very important because this is where multiplayer checks for the buff,
+        /// and does the magic so it "works". Basically netcode boooooo
         /// </summary>
         /// <param name="player"></param>
         public void UseStyleMultiplayer(Player player)
         {
-            if (player.whoAmI != Main.myPlayer)
+            //multiplayer clients not inc. host
+            if (player.whoAmI != Main.myPlayer && Main.netMode == 1)
             {
-                int buff = player.HasBuff(WeaponOut.BuffIDWeaponSwitch);
-                if (buff != -1)
+                int buff = player.HasBuff(altbuff);
+                if (buff != -1) //has the buff
                 {
-                if (player.altFunctionUse == 0)
-                {
+                    if (player.altFunctionUse == 0)
+                    {
                         //Main.NewText(item.name + " is net ALT, len " + Main.projectile.Length);
                         player.altFunctionUse = 2;
                         setValues(true);
 
-                        //search for most recent shot and point
-                        foreach (Projectile p in Main.projectile)
+                        if (item.useStyle == 5) //guns don't sync, we gotta do this manually
                         {
-                            if (!p.active) continue;
-                            //Main.NewText("[" + p.whoAmI + "] " + p.name);
-                            if (p.type == item.shoot && p.owner == player.whoAmI)
+                            //search for a shot and point at it, its probably the right one
+                            foreach (Projectile p in Main.projectile)
                             {
-                                //check a bit ahead to get better idea of direction
-                                player.itemRotation = (float)Math.Atan2(
-                                    (double)((p.Center.Y + p.velocity.Y * 2 - player.Center.Y) * (float)player.direction),
-                                    (double)((p.Center.X + p.velocity.X * 2 - player.Center.X) * (float)player.direction));
-                                //set bodyframe because nothing else does...
-                                float num18 = player.itemRotation * (float)player.direction;
-                                player.bodyFrame.Y = player.bodyFrame.Height * 3;
-                                if ((double)num18 < -0.75)
+                                if (!p.active) continue;
+                                //Main.NewText("[" + p.whoAmI + "] " + p.name);
+                                //is the projectile something we did
+                                if (p.type == item.shoot && p.owner == player.whoAmI)
                                 {
-                                    player.bodyFrame.Y = player.bodyFrame.Height * 2;
-                                    if (player.gravDir == -1f)
-                                    {
-                                        player.bodyFrame.Y = player.bodyFrame.Height * 4;
-                                    }
-                                }
-                                if ((double)num18 > 0.6)
-                                {
-                                    player.bodyFrame.Y = player.bodyFrame.Height * 4;
-                                    if (player.gravDir == -1f)
+                                    //since projectiles spawn on use, see where its going first and point there.
+                                    player.itemRotation = (float)Math.Atan2(
+                                        (double)((p.Center.Y + p.velocity.Y * 2 - player.Center.Y) * (float)player.direction),
+                                        (double)((p.Center.X + p.velocity.X * 2 - player.Center.X) * (float)player.direction));
+
+                                    //set bodyframe because it dun don't sync bruh
+                                    //this si just copypastoed
+                                    float num18 = player.itemRotation * (float)player.direction;
+                                    player.bodyFrame.Y = player.bodyFrame.Height * 3;
+                                    if ((double)num18 < -0.75)
                                     {
                                         player.bodyFrame.Y = player.bodyFrame.Height * 2;
-                                        return;
+                                        if (player.gravDir == -1f)
+                                        {
+                                            player.bodyFrame.Y = player.bodyFrame.Height * 4;
+                                        }
                                     }
-                                }
+                                    if ((double)num18 > 0.6)
+                                    {
+                                        player.bodyFrame.Y = player.bodyFrame.Height * 4;
+                                        if (player.gravDir == -1f)
+                                        {
+                                            player.bodyFrame.Y = player.bodyFrame.Height * 2;
+                                            return;
+                                        }
+                                    }
 
-                                break;
+                                    break;
+                                }
                             }
                         }
                         //Main.NewText(item.name + " is net ALT, point at " + player.itemRotation);
                         player.DelBuff(buff);
-
-                        //stop looping issue from never reaching 0
+                        //stop looping issue from never reaching 0?? what is thi comment
                     }
                 }
-                else
+                else    //no buff
                 {
-                    //fix autoswing items doing silly things
+                    //fix autoswing items doing silly things by resesting to defualt
                     //Main.NewText(player.name + " animation is " + player.itemAnimation + "/" + player.itemAnimationMax);
                     if (item.autoReuse
                         && !player.noItems
@@ -287,7 +325,13 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
-        public void setValues(bool altFunction, bool showDefaults = false)
+        /// <summary>
+        /// Where the magic happens. setToDefaults 
+        /// toggles on and off here between usages.
+        /// </summary>
+        /// <param name="altFunction"></param>
+        /// <param name="showDefaults"></param>
+        private void setValues(bool altFunction, bool showDefaults = false)
         {
             //setup vars
             if (showDefaults) altFunction = false;
@@ -357,6 +401,5 @@ namespace WeaponOut.Items.Weapons
             //set prefix to modify numbers
             item.Prefix(item.prefix);
         }
-
     }
 }

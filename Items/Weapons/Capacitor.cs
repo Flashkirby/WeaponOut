@@ -47,7 +47,7 @@ namespace WeaponOut.Items.Weapons
             dual.Shoot = ProjectileID.FrostBoltStaff; //staff one is magic, sword one is melee
             dual.ShootSpeed = 14f;
 
-            dual.setValues(false, true);
+            dual.FinishDefaults();
         }
         public override void AddRecipes()
         {

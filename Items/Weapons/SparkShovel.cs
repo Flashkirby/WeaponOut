@@ -48,7 +48,7 @@ namespace WeaponOut.Items.Weapons
             dual.Shoot = ProjectileID.Spark;
             dual.ShootSpeed = 8f;
 
-            dual.setValues(false, true);
+            dual.FinishDefaults();
             //end by setting default values
         }
         public override void AddRecipes()

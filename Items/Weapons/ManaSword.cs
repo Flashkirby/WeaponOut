@@ -54,7 +54,7 @@ Mana bolt damage increases with mana";
             dual.Shoot = mod.ProjectileType("ManaBolt");
             item.shootSpeed = 30f;
 
-            dual.setValues(false, true);
+            dual.FinishDefaults();
         }
         public override void AddRecipes()
         {

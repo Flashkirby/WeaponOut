@@ -50,7 +50,7 @@ Right click to fire a forceful burst";
 
             dual.ShootSpeed = 6f;
 
-            dual.setValues(false, true);
+            dual.FinishDefaults();
             //end by setting default values
         }
         public override void AddRecipes()
