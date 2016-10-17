@@ -41,14 +41,16 @@ namespace WeaponOut.Projectiles
             if (projectile.localAI[0] == 0)
             {
                 spawnPosCentre = projectile.Center;
-                projectile.scale = 0.5f + 0.8f * player.statMana / 400f;
                 projectile.ai[1] = projectile.scale;
             }
-            if (projectile.ai[1] != 0)
+            if (projectile.ai[1] == 1f)
             {
-                projectile.scale = projectile.ai[1];
+                //damage scales between 100-200 average
+                projectile.ai[1] = 1f + 0.25f + projectile.damage * 0.0075f;
             }
-            int reachEnd = (int)(150f / projectile.velocity.Length() * projectile.ai[1]);
+            projectile.scale = projectile.ai[1] - 1f;
+
+            int reachEnd = (int)(150f / projectile.velocity.Length() * (projectile.ai[1] - 1f));
             if (projectile.localAI[0] == reachEnd)
             {
                 if (projectile.owner == Main.myPlayer && projectile.ai[0] < BEAM_LENGTH) //spawn new projectil to carry on
@@ -60,7 +62,7 @@ namespace WeaponOut.Projectiles
                         projectile.damage,
                         projectile.knockBack,
                         projectile.owner,
-                       projectile.ai[0] + 1,
+                        projectile.ai[0] + 1, 
                         projectile.ai[1]);
                 }
                 projectile.localAI[0] = -reachEnd; //disable any possible projectile spawns
@@ -152,6 +154,9 @@ namespace WeaponOut.Projectiles
             else if (projectile.timeLeft < 30) projectile.frame = 1;
             else projectile.frame = 0;
 
+            SpriteEffects se = SpriteEffects.None;
+            if (projectile.velocity.X < 0) se = SpriteEffects.FlipHorizontally;
+
             Player player = Main.player[projectile.owner];//owner
             int halfWidth = WeaponOut.textureMANBO.Width / 2;
             int singleFrameHeight = WeaponOut.textureMANBO.Height / Main.projFrames[projectile.type];
@@ -164,7 +169,7 @@ namespace WeaponOut.Projectiles
                 projectile.rotation + 1.57f,
                 centre,
                 projectile.scale,
-                SpriteEffects.None,
+                se,
                 0
             );
             return false;
