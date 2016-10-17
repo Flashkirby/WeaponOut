@@ -32,6 +32,7 @@ namespace WeaponOut.Items.Weapons
         // Prefix managed values
         private int rare;
         private int value;
+        private bool autoReuse;
         private bool preferAltDamage;
 
         private int[] damage = new int[2];
@@ -88,6 +89,7 @@ namespace WeaponOut.Items.Weapons
             this.item = item;
             rare = item.rare;
             value = item.value;
+            autoReuse = item.autoReuse;
             preferAltDamage = preferAltPrefix;
 
             //setup these variables
@@ -133,11 +135,11 @@ namespace WeaponOut.Items.Weapons
                 Item item = player.inventory[player.selectedItem];
                 if (DualItems.Contains(item.type))
                 {
-                    if (player.altFunctionUse > 0
+                    if (player.altFunctionUse == 1 //the frame you right click
                         && player.HasBuff(WeaponOut.BuffIDWeaponSwitch) == -1
                         && player.itemAnimation <= 0 + (item.autoReuse ? 1 : 0)) //why is autoreuse so awkward :(
                     {
-                        //Main.NewText(player.itemAnimation + " <= " + (0 + (item.autoReuse ? 1 : 0)));
+                        Main.NewText(player.altFunctionUse + " | " + player.itemAnimation + " <= " + (0 + (item.autoReuse ? 1 : 0)));
                         //add buff quietly
                         player.AddBuff(WeaponOut.BuffIDWeaponSwitch, 2, true);
                         item.modItem.CanUseItem(player);
@@ -349,6 +351,8 @@ namespace WeaponOut.Items.Weapons
                 item.ranged = ranged[inver];
                 item.magic = magic[inver];
             }
+
+            if (altFunction) item.autoReuse = false; else item.autoReuse = autoReuse;
 
             //set prefix to modify numbers
             item.Prefix(item.prefix);
