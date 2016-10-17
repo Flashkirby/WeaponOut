@@ -31,6 +31,7 @@ namespace WeaponOut.Projectiles
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
         {
+            if (target.immortal) return;
             projectile.ai[1] = 2;
             projectile.netUpdate = true;
         }
