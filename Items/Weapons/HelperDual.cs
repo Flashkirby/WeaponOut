@@ -104,9 +104,9 @@ namespace WeaponOut.Items.Weapons
             crit[1] = item.crit;
             useSound[0] = item.useSound;
             useSound[1] = item.useSound;
-            melee[0] = item.melee; 
-            ranged[0] = item.ranged; 
-            magic[0] = item.magic; 
+            melee[0] = item.melee;
+            ranged[0] = item.ranged;
+            magic[0] = item.magic;
             useStyle[0] = item.useStyle; 
             useStyle[1] = item.useStyle;
             noMelee[0] = item.noMelee;
@@ -169,19 +169,21 @@ namespace WeaponOut.Items.Weapons
         public void CanUseItem(Player player)
         {
             int buff = player.HasBuff(WeaponOut.BuffIDWeaponSwitch);
-            if (player.altFunctionUse == 0)
+            bool raceScenario = (buff != -1 && player.itemAnimation <= 0); //just before int weaponDamage is setup
+            if (raceScenario) setToDefaults = false;
+            if (player.altFunctionUse == 0 //during CanUseItem in ItemCheck
+                || raceScenario)
             {
                 if (buff != -1 && !setToDefaults)
                 {
                     player.altFunctionUse = 2;
                     setValues(true);
-                    //Main.NewText(item.name + " is ALT + " + setToDefaults);
                 }
                 else
                 {
                     setValues(false);
-                    //Main.NewText(item.name + " is VANILLA + " + setToDefaults);
                 }
+                //Main.NewText("anim: " + player.itemAnimation + " | weapon damage is " + player.GetWeaponDamage(item));
             }
         }
         /// <summary>
@@ -335,6 +337,13 @@ namespace WeaponOut.Items.Weapons
             item.noMelee = noMelee[index];
             item.useTurn = useTurn[index];
 
+            //use original type if none specified
+            if (!item.melee && !item.ranged && !item.magic)
+            {
+                item.melee = melee[inver];
+                item.ranged = ranged[inver];
+                item.magic = magic[inver];
+            }
 
             //set prefix to modify numbers
             item.Prefix(item.prefix);

@@ -101,8 +101,8 @@ Mana bolt damage increases with mana";
         {
             if (player.altFunctionUse > 0)
             {
-                //Main.NewText("Bolt buffed by " + (player.statMana / 4));
                 damage += player.statMana / 4; //up to 100 with max mana, though will be around 25
+                //Main.NewText("Bolt buffed by " + (player.statMana / 4) + " to " + damage);
             }
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }

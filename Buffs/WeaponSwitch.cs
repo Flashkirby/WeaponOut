@@ -14,9 +14,9 @@ namespace WeaponOut.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            if (player.itemAnimation > 0 && player.altFunctionUse > 0)
+            if (player.itemAnimation > 1 && player.altFunctionUse > 0)
             {
-                player.buffTime[buffIndex] = player.itemAnimation;
+                player.buffTime[buffIndex] = player.itemAnimation - 1;
             }
         }
     }
