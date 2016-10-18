@@ -9,6 +9,11 @@ namespace WeaponOut.Items.Weapons
 {
     public class AllPorpoiseAssaultRifle : ModItem
     {
+        public static int proji;
+        public static int projii;
+        public static int projiii;
+        public static int projiv;
+
         HelperDual dual;
         public override void SetDefaults()
         {
@@ -44,6 +49,12 @@ namespace WeaponOut.Items.Weapons
 
             dual.UseAmmo = 771;
             dual.Shoot = 134;
+            dual.ShootSpeed = 6f;
+
+            proji = mod.GetProjectile("APARocketI").projectile.type;
+            projii = mod.GetProjectile("APARocketII").projectile.type;
+            projiii = mod.GetProjectile("APARocketIII").projectile.type;
+            projiv = mod.GetProjectile("APARocketIV").projectile.type;
 
             dual.FinishDefaults();
             //end by setting default values
@@ -83,16 +94,16 @@ namespace WeaponOut.Items.Weapons
                 switch (type)
                 {
                     case 134: //Rocket I
-
+                        type = proji;
                         break;
                     case 137: //Rocket II
-                        
+                        type = projii;
                         break;
                     case 140: //Rocket III
-
+                        type = projiii;
                         break;
                     case 143: //Rocket IV
-                        
+                        type = projiv;
                         break;
                 }
             }
