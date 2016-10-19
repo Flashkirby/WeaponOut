@@ -41,12 +41,14 @@
     <Compile Include="Dusts\ManaDust.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
     <Compile Include="Items\MirrorBadge.cs" />
+    <Compile Include="Items\Weapons\AllPorpoiseAssaultRifle.cs" />
     <Compile Include="Items\Weapons\ManaSword.cs" />
     <Compile Include="Items\Weapons\HelperDual.cs" />
     <Compile Include="Items\Weapons\StaffOfExplosion.cs" />
     <Compile Include="Items\Weapons\SteamPersuader.cs" />
     <Compile Include="Items\Weapons\Whiplash.cs" />
     <Compile Include="Items\Weapons\LeatherWhip.cs" />
+    <Compile Include="Projectiles\APARocketI.cs" />
     <Compile Include="Projectiles\BaseWhip.cs" />
     <Compile Include="Items\Weapons\Capacitor.cs" />
     <Compile Include="Items\Weapons\ChannelerStaff.cs" />
@@ -64,6 +66,9 @@
     <Compile Include="Items\Weapons\ManaBlast.cs" />
     <Compile Include="Items\WoodenShield.cs" />
     <Compile Include="PlayerFX.cs" />
+    <Compile Include="Projectiles\APARocketII.cs" />
+    <Compile Include="Projectiles\APARocketIII.cs" />
+    <Compile Include="Projectiles\APARocketIV.cs" />
     <Compile Include="Projectiles\Explosion.cs" />
     <Compile Include="Projectiles\ManaBolt.cs" />
     <Compile Include="Projectiles\Whiplash.cs" />

@@ -7,6 +7,11 @@ using Terraria.ModLoader;
 
 namespace WeaponOut.Items.Weapons
 {
+    /// <summary>
+    /// Vs Vortex Beater
+    /// Higher accuracy, similiar DPS at range due to vortex spray
+    /// 
+    /// </summary>
     public class AllPorpoiseAssaultRifle : ModItem
     {
         public static int proji;
@@ -14,11 +19,15 @@ namespace WeaponOut.Items.Weapons
         public static int projiii;
         public static int projiv;
 
+        private const int rocketCooldownMax = 60;
+        private int rocketCooldown;
+
         HelperDual dual;
         public override void SetDefaults()
         {
             item.name = "All-Porpoise Assault Rifle";
-            item.toolTip = "Right click to fire a rocket";
+            item.toolTip = "Right click to fire a powerful underbarrel rocket";
+            item.toolTip2 = "'Perfect for target rich environments'";
             item.width = 60;
             item.height = 20;
 
@@ -41,10 +50,10 @@ namespace WeaponOut.Items.Weapons
             item.value = Item.sellPrice(0, 1, 0, 0);
 
             dual = new HelperDual(item, true);
-            dual.UseAnimation = 40;
-            dual.UseTime = 40;
+            dual.UseAnimation = 16;
+            dual.UseTime = 16;
 
-            dual.Damage = 130; //+base 40
+            dual.Damage = 260; //+base 40
             dual.KnockBack = 4f;
 
             dual.UseAmmo = 771;
@@ -58,6 +67,8 @@ namespace WeaponOut.Items.Weapons
 
             dual.FinishDefaults();
             //end by setting default values
+
+            rocketCooldown = 0;
         }
         public override void AddRecipes()
         {
@@ -69,7 +80,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override void OnCraft(Recipe recipe) { HelperDual.OnCraft(item); }
 
-        public override bool AltFunctionUse(Player player) { return true; }
+        public override bool AltFunctionUse(Player player) { return rocketCooldown <= 0; }
         public override void UseStyle(Player player)
         {
             dual.UseStyleMultiplayer(player);
@@ -82,6 +93,15 @@ namespace WeaponOut.Items.Weapons
         }
         public override void HoldStyle(Player player) { dual.HoldStyle(player); }
 
+        public override void HoldItem(Player player)
+        {
+            if (rocketCooldown >= 0) rocketCooldown--;
+            if (rocketCooldown == 0 && player.whoAmI == Main.myPlayer)
+            {
+                Main.PlaySound(25, player.Center); //alert player has rocket up
+            }
+        }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 0)
@@ -91,6 +111,8 @@ namespace WeaponOut.Items.Weapons
             }
             else
             {
+                if (rocketCooldown > 0) return false;
+                rocketCooldown = rocketCooldownMax;
                 switch (type)
                 {
                     case 134: //Rocket I

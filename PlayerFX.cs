@@ -339,6 +339,13 @@ namespace WeaponOut
         {
             manageBodyFrame();
             tentScript();
+            /*foreach (Projectile p in Main.projectile)
+            {
+                if (p.active && p.owner == Main.myPlayer)
+                {
+                    Main.NewText(p.name + "> " + p.ai[0] + " | " + p.ai[1] + " || " + p.localAI[0] + " | " + p.localAI[1] + " : " + p.timeLeft);
+                }
+            }*/
         }
         private void manageBodyFrame()
         {
