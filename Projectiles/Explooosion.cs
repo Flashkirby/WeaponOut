@@ -45,6 +45,7 @@ namespace WeaponOut.Projectiles
                 ChargeTick = -1;
                 projectile.timeLeft = Explosion.fireTicksTime * (1 + ChargeLevel);
 
+                nameExplosion();
 
                //-// Main.NewText("newSize = " + projectile.width + " / charge = " + ChargeLevel);
                 for (int i = 0; i < ChargeLevel; i++)
@@ -67,6 +68,21 @@ namespace WeaponOut.Projectiles
                 projectile.timeLeft /
                 (float)(Explosion.fireTicksTime * (1 + ChargeLevel))
                 );
+        }
+
+        private void nameExplosion()
+        {
+            string prefix = "";
+            if (ChargeLevel >= 2) prefix = "Large ";
+            if (ChargeLevel >= 4) prefix = "Great ";
+            if (ChargeLevel >= 6) prefix = "Mega ";
+            if (ChargeLevel >= 8) prefix = "Ultra ";
+            if (ChargeLevel >= 10) prefix = "Grand ";
+            if (ChargeLevel >= 12) prefix = "Extreme ";
+            if (ChargeLevel >= 14) prefix = "Ultra Extreme ";
+            if (ChargeLevel >= 15) prefix = "Super Mega Ultra Extreme ";
+            projectile.name = prefix + "Explo" + new String('o', ChargeLevel) + "sion";
+            //Main.NewText(projectile.name);
         }
 
         public void explosionStart()
