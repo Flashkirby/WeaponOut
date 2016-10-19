@@ -310,30 +310,37 @@ namespace WeaponOut
         public override bool PreItemCheck()
         {
             Items.Weapons.HelperDual.PreItemCheckDualItem(player);
-            createBareFistInInv();
+            //createBareFistInInv();
             return true;
         }
         /// <summary>Adds the weaponswitch network-synced buff</summary>
 
+        /*
         private void createBareFistInInv()
         {
-            if (player.inventory[player.selectedItem].type == 0 && player.controlUseItem)
+            if (player.inventory[player.selectedItem].type == 0 
+                && player.controlUseItem
+                && player.itemAnimation == 0)
             {
                 player.inventory[player.selectedItem].SetDefaults(openFist);
             }
-        }
+        }*/
 
         public override void PostItemCheck()
         {
-            emptyBareFistFromInv();
+            //emptyBareFistFromInv();
         }
+        
+        /*
         private void emptyBareFistFromInv()
         {
-            if (player.inventory[player.selectedItem].type == openFist && player.itemAnimation == 0)
+            if (player.inventory[player.selectedItem].type == openFist
+                && !player.controlUseItem
+                && player.itemAnimation == 0)
             {
                 player.inventory[player.selectedItem] = new Item();
             }
-        }
+        }*/
 
         public override void PostUpdate()
         {
