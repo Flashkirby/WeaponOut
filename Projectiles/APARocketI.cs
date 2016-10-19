@@ -346,8 +346,9 @@ namespace WeaponOut.Projectiles
         private static void aiExplode(Projectile projectile, bool largeExplode)
         {
             int explodeSize = largeExplode ? 200 : 120;
-            if (projectile.owner == Main.myPlayer && projectile.timeLeft <= explosionTimeLeft)
+            if (projectile.timeLeft <= explosionTimeLeft)
             {
+                if (projectile.aiStyle != 16) projectile.damage /= 2;
                 projectile.aiStyle = 16; //explosion damage player
 
                 projectile.tileCollide = false;

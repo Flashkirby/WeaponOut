@@ -26,10 +26,11 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "All-Porpoise Assault Rifle";
-            item.toolTip = "Right click to fire a powerful underbarrel rocket";
+            item.toolTip = "Right click to fire a powerful underbarrel rocket\n50% chance to not consume ammo";
             item.toolTip2 = "'Perfect for target rich environments'";
             item.width = 60;
             item.height = 20;
+            item.scale = 1.1f;
 
             item.useSound = 99;
             item.useStyle = 5;
@@ -53,12 +54,12 @@ namespace WeaponOut.Items.Weapons
             dual.UseAnimation = 16;
             dual.UseTime = 16;
 
-            dual.Damage = 260; //+base 40
+            dual.Damage = 130; //+base 40
             dual.KnockBack = 4f;
 
             dual.UseAmmo = 771;
             dual.Shoot = 134;
-            dual.ShootSpeed = 6f;
+            dual.ShootSpeed = 5.5f;
 
             proji = mod.GetProjectile("APARocketI").projectile.type;
             projii = mod.GetProjectile("APARocketII").projectile.type;
@@ -102,6 +103,15 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
+        public override bool ConsumeAmmo(Player player)
+        {
+            if (player.altFunctionUse == 0)
+            {
+                if (Main.rand.Next(2) == 0) return false;
+            }
+            return true;
+        }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 0)
@@ -113,6 +123,7 @@ namespace WeaponOut.Items.Weapons
             {
                 if (rocketCooldown > 0) return false;
                 rocketCooldown = rocketCooldownMax;
+                damage *= 2; //douvle for direct hits, this halves on explosion in rocket code
                 switch (type)
                 {
                     case 134: //Rocket I
