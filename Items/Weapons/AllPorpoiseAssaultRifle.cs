@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
 using Terraria.ID;
@@ -22,6 +23,26 @@ namespace WeaponOut.Items.Weapons
         private const int rocketCooldownMax = 90;
         private int rocketCooldown;
 
+        public static short customGlowMask = 0;
+
+        /// <summary>
+        /// Generate a completely legit glowmask ;)
+        /// </summary>
+        public override bool Autoload(ref string name, ref string texture, System.Collections.Generic.IList<EquipType> equips)
+        {
+            if (Main.netMode != 2)
+            {
+                Texture2D[] glowMasks = new Texture2D[Main.glowMaskTexture.Length + 1];
+                for (int i = 0; i < Main.glowMaskTexture.Length; i++)
+                {
+                    glowMasks[i] = Main.glowMaskTexture[i];
+                }
+                glowMasks[glowMasks.Length - 1] = mod.GetTexture("Glow/" + this.GetType().Name + "_Glow");
+                customGlowMask = (short)(glowMasks.Length - 1);
+                Main.glowMaskTexture = glowMasks;
+            }
+            return base.Autoload(ref name, ref texture, equips);
+        }
         HelperDual dual;
         public override void SetDefaults()
         {
@@ -47,6 +68,7 @@ namespace WeaponOut.Items.Weapons
             item.shoot = 10;
             item.shootSpeed = 10f;
 
+            item.glowMask = customGlowMask;
             item.rare = 9;
             item.value = Item.sellPrice(0, 1, 0, 0);
 
