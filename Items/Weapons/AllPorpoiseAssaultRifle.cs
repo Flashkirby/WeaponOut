@@ -19,7 +19,7 @@ namespace WeaponOut.Items.Weapons
         public static int projiii;
         public static int projiv;
 
-        private const int rocketCooldownMax = 60;
+        private const int rocketCooldownMax = 90;
         private int rocketCooldown;
 
         HelperDual dual;
@@ -84,7 +84,7 @@ namespace WeaponOut.Items.Weapons
         public override void UseStyle(Player player)
         {
             dual.UseStyleMultiplayer(player);
-            PlayerFX.modifyPlayerItemLocation(player, -16, 0);
+            PlayerFX.modifyPlayerItemLocation(player, -22, 0);
         }
         public override bool CanUseItem(Player player)
         {

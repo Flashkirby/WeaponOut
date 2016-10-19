@@ -333,6 +333,8 @@ namespace WeaponOut.Projectiles
         /// <param name="dustType">90,89,92,87</param>
         public static void rocketAI(Projectile projectile, int dustType, bool largeExplode = false)
         {
+            if (projectile.ai[0] == 3) Main.PlaySound(2, projectile.Center, 89);
+
             aiDust(projectile, dustType);
             aiExplode(projectile, largeExplode);
 
