@@ -69,6 +69,7 @@
     <Compile Include="Projectiles\APARocketII.cs" />
     <Compile Include="Projectiles\APARocketIII.cs" />
     <Compile Include="Projectiles\APARocketIV.cs" />
+    <Compile Include="Projectiles\Explooosion.cs" />
     <Compile Include="Projectiles\Explosion.cs" />
     <Compile Include="Projectiles\ManaBolt.cs" />
     <Compile Include="Projectiles\Whiplash.cs" />

@@ -46,11 +46,6 @@ namespace WeaponOut.Items.Weapons
             recipe.AddRecipe();
         }
 
-        public override void HoldItem(Player player)
-        {
-            fist.HoldItem(player);
-        }
-
         public override bool UseItemFrame(Player player)
         {
             FistStyle.UseItemFrame(player);

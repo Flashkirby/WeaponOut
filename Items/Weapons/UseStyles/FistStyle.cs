@@ -40,8 +40,10 @@ namespace WeaponOut.Items.Weapons.UseStyles
             punchCount = 0;
         }
 
-        public void HoldItem(Player player)
+        //TODO find where to callthis safely withou item freeze or..
+        public void UseItemFrameComboStop(Player player)
         {
+            //Main.NewText(player.itemAnimation + " | " + player.itemTime);
             if (punchCombo > 0) item.toolTip = punchComboMax2 + " combo power";
             if (player.itemAnimation == 0)
             {
@@ -108,10 +110,11 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
         public static void UseItemFramePauseCharge(Player player, Item item)
         {
+            if (player.selectedItem == 58) return;
             //Stop charging charge shot
             if (player.itemTime < item.useTime - 1) //if less than max
             {
-                player.itemTime = item.useTime; //freeze at at this point until player stops attacking
+                player.itemTime = item.useTime - 1; //freeze at at this point until player stops attacking
             }
         }
 

@@ -16,6 +16,8 @@ namespace WeaponOut.Items.Weapons
             item.toolTip = "Damage scales with chest defense";
             item.useStyle = FistStyle.useStyle;
             item.useAnimation = 19;//actually treated as -2
+            item.width = 28;
+            item.height = 28;
             item.damage = 2;
             item.knockBack = 2f;
             item.useSound = 7;
