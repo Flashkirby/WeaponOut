@@ -6,9 +6,7 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Weapons
 {
     /// <summary>
-    /// Acts a bit like the solar eruption
-    /// ai0 = time out?
-    /// local ai0 = projectile rotation
+    /// Corruption whip, high speed
     /// </summary>
     public class NotchedWhip : ModItem
     {

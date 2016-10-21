@@ -5,6 +5,9 @@ using Terraria.ModLoader;
 
 namespace WeaponOut.Items.Weapons
 {
+    /// <summary>
+    /// Earliest game whip for corruption, low base but high crit
+    /// </summary>
     public class LeatherWhip : ModItem
     {
         private bool increaseDamage;

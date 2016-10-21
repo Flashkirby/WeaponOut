@@ -5,6 +5,9 @@ using Terraria.ModLoader;
 
 namespace WeaponOut.Items.Weapons
 {
+    /// <summary>
+    /// Earliest game whip for crimson, with better, more consistant damage than leather but slower
+    /// </summary>
     public class Whiplash : ModItem
     {
         private bool increaseDamage;
