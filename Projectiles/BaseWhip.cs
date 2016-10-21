@@ -174,7 +174,7 @@ namespace WeaponOut.Projectiles
             return false;
         }
 
-        public static bool PreDraw(Projectile projectile, int handleHeight, int chainHeight, int partHeight, int tipHeight)
+        public static bool PreDraw(Projectile projectile, int handleHeight, int chainHeight, int partHeight, int tipHeight, int partCount = 18)
         {
             Vector2 vector38 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D17 = Main.projectileTexture[projectile.type];
@@ -191,26 +191,26 @@ namespace WeaponOut.Projectiles
             {
                 return false;
             }
-            float num197 = projectile.velocity.Length() + 16f;
-            bool flag21 = num197 < 100f;
+            float chainCount = projectile.velocity.Length() + 16f;
+            bool halfSize = chainCount < 100f;
             Vector2 value17 = Vector2.Normalize(projectile.velocity);
             Microsoft.Xna.Framework.Rectangle rectangle6 = handle;
             Vector2 value18 = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
             float rotation24 = projectile.rotation + 3.14159274f;
             Main.spriteBatch.Draw(texture2D17, projectile.Center.Floor() - Main.screenPosition + value18, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, rectangle6.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, SpriteEffects.None, 0f);
-            num197 -= 40f * projectile.scale;
+            chainCount -= 40f * projectile.scale;
             Vector2 vector39 = projectile.Center.Floor();
             vector39 += value17 * projectile.scale * handle.Height / 2;
             Vector2 vector40;
             rectangle6 = chain;
-            if (num197 > 0f)
+            if (chainCount > 0f)
             {
                 float num198 = 0f;
-                while (num198 + 1f < num197)
+                while (num198 + 1f < chainCount)
                 {
-                    if (num197 - num198 < (float)rectangle6.Height)
+                    if (chainCount - num198 < (float)rectangle6.Height)
                     {
-                        rectangle6.Height = (int)(num197 - num198);
+                        rectangle6.Height = (int)(chainCount - num198);
                     }
                     vector40 = vector39 + value18;
                     alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
@@ -223,20 +223,20 @@ namespace WeaponOut.Projectiles
             vector39 = projectile.Center.Floor();
             vector39 += value17 * projectile.scale * chain.Height / 2;
             rectangle6 = part;
-            int num199 = 18;
-            if (flag21)
+            //int partCount = 18;
+            if (halfSize)
             {
-                num199 = 9;
+                partCount /= 2;
             }
-            float num200 = num197;
-            if (num197 > 0f)
+            float num200 = chainCount;
+            if (chainCount > 0f)
             {
                 float num201 = 0f;
-                float num202 = num200 / (float)num199;
+                float num202 = num200 / (float)partCount;
                 num201 += num202 * 0.25f;
                 vector39 += value17 * num202 * 0.25f;
                 int num44;
-                for (int num203 = 0; num203 < num199; num203 = num44 + 1)
+                for (int num203 = 0; num203 < partCount; num203 = num44 + 1)
                 {
                     float num204 = num202;
                     if (num203 == 0)
