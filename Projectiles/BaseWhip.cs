@@ -128,11 +128,11 @@ namespace WeaponOut.Projectiles
             float pvpKnockback = 0f;
             ModifyHitAny(projectile, ref damage, ref pvpKnockback, ref crit);*/
         }
-        public static void ModifyHitAny(Projectile projectile, ref int damage, ref float knockback, ref bool crit)
+        public static void ModifyHitAny(Projectile projectile, ref int damage, ref float knockback, ref bool crit, bool easyCrit = false)
         {
             //Main.NewText("tip hit : " + (projectile.ai[0]) + " | " + (projectile.localAI[1] / 2));
-            if (projectile.ai[0] <= projectile.localAI[1] / 2 + (projectile.localAI[1] / 16) &&
-                projectile.ai[0] >= projectile.localAI[1] / 2 - (projectile.localAI[1] / 8))
+            if (projectile.ai[0] <= projectile.localAI[1] / 2 + (projectile.localAI[1] / (easyCrit ? 12 : 16)) &&
+                projectile.ai[0] >= projectile.localAI[1] / 2 - (projectile.localAI[1] / (easyCrit ? 6 : 8)))
             {
                 Player p = Main.player[projectile.owner];
                 //Main.NewText("crit: " + p.inventory[p.selectedItem].crit + p.meleeCrit);

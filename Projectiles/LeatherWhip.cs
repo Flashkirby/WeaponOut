@@ -46,7 +46,7 @@ namespace WeaponOut.Projectiles
         
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            BaseWhip.ModifyHitAny(projectile, ref damage, ref knockback, ref crit);
+            BaseWhip.ModifyHitAny(projectile, ref damage, ref knockback, ref crit, true);
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
