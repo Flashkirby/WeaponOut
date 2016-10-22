@@ -1,5 +1,5 @@
 author = Flashkirby99
-version = 1.0.4
+version = 1.0.5
 displayName = WeaponOut
 homepage = http://forums.terraria.org/index.php?threads/weaponout.47130/
 hideCode = false
