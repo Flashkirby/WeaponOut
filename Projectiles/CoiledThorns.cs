@@ -8,20 +8,20 @@ using System;
 
 namespace WeaponOut.Projectiles
 {
-    public class Whiplash : ModProjectile
+    public class CoiledThorns : ModProjectile
     {
-        public const float whipLength = 20f;
+        public const float whipLength = 38f;
         public const bool whipSoftSound = false;
         public const int handleHeight = 24;
         public const int chainHeight = 12;
         public const int partHeight = 16;
-        public const int tipHeight = 8;
+        public const int tipHeight = 12;
         public override void SetDefaults()
         {
-            projectile.name = "Crimson Whiplash";
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.scale = 1f;
+            projectile.name = "Coiled Thorns";
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.scale = 1.1f;
             projectile.alpha = 255;
             projectile.aiStyle = 75;
             projectile.penetrate = -1;
@@ -39,7 +39,30 @@ namespace WeaponOut.Projectiles
 
         public override void AI()
         {
-            BaseWhip.WhipAI(projectile, whipLength, 0, 0);
+            Vector2 endPos = BaseWhip.WhipAI(projectile, whipLength);
+
+            //Dust effect at the end
+            if (Main.rand.Next(2) == 0)
+            {
+                Dust dust = Main.dust[Dust.NewDust(endPos, projectile.width, projectile.height, 40, 0f, 0f, 0, Color.Transparent, 1.5f)];
+                dust.noGravity = true;
+            }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            BaseWhip.OnHitAny(projectile, target, crit, whipSoftSound);
+            if (crit || Main.rand.Next(5) == 0) target.AddBuff(20, 240);
+        }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            BaseWhip.OnHitAny(projectile, crit, whipSoftSound);
+            if (crit || Main.rand.Next(5) == 0) target.AddBuff(20, 240);
+        }
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            BaseWhip.OnHitAny(projectile, crit, whipSoftSound);
+            if (crit || Main.rand.Next(5) == 0) target.AddBuff(20, 240);
         }
 
         #region BaseWhip Stuff
@@ -57,19 +80,6 @@ namespace WeaponOut.Projectiles
             BaseWhip.ModifyHitAny(projectile, ref damage, ref crit);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            BaseWhip.OnHitAny(projectile, target, crit, whipSoftSound);
-        }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            BaseWhip.OnHitAny(projectile, crit, whipSoftSound);
-        }
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            BaseWhip.OnHitAny(projectile, crit, whipSoftSound);
-        }
-
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             return BaseWhip.Colliding(projectile, targetHitbox);
@@ -77,7 +87,7 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            return BaseWhip.PreDraw(projectile, handleHeight, chainHeight, partHeight, tipHeight, 6);
+            return BaseWhip.PreDraw(projectile, handleHeight, chainHeight, partHeight, tipHeight, 10);
         }
         
         #endregion

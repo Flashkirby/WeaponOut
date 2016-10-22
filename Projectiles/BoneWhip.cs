@@ -8,20 +8,20 @@ using System;
 
 namespace WeaponOut.Projectiles
 {
-    public class Whiplash : ModProjectile
+    public class BoneWhip : ModProjectile
     {
         public const float whipLength = 20f;
         public const bool whipSoftSound = false;
-        public const int handleHeight = 24;
-        public const int chainHeight = 12;
+        public const int handleHeight = 32;
+        public const int chainHeight = 16;
         public const int partHeight = 16;
-        public const int tipHeight = 8;
+        public const int tipHeight = 16;
         public override void SetDefaults()
         {
-            projectile.name = "Crimson Whiplash";
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.scale = 1f;
+            projectile.name = "Bone Whip";
+            projectile.width = 14;
+            projectile.height = 14;
+            projectile.scale = 0.9f;
             projectile.alpha = 255;
             projectile.aiStyle = 75;
             projectile.penetrate = -1;
@@ -39,7 +39,7 @@ namespace WeaponOut.Projectiles
 
         public override void AI()
         {
-            BaseWhip.WhipAI(projectile, whipLength, 0, 0);
+            BaseWhip.WhipAI(projectile, whipLength);
         }
 
         #region BaseWhip Stuff
@@ -77,7 +77,7 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            return BaseWhip.PreDraw(projectile, handleHeight, chainHeight, partHeight, tipHeight, 6);
+            return BaseWhip.PreDraw(projectile, handleHeight, chainHeight, partHeight, tipHeight, 10);
         }
         
         #endregion

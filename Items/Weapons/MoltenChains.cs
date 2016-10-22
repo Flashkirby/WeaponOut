@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Weapons
 {
     /// <summary>
-    /// Corruption whip, high speed. Whip damage variates between 1 lower and higher tier
+    /// Hellstone tier, about sun fury DPS
     /// </summary>
-    public class NotchedWhip : ModItem
+    public class MoltenChains : ModItem
     {
         private bool increaseDamage;
         public override void SetDefaults()
         {
-            item.name = "Vilelash";
+            item.name = "Molten Chains";
 			item.width = 34;
 			item.height = 34;
 
@@ -26,21 +26,21 @@ namespace WeaponOut.Items.Weapons
             
             item.melee = true;
             item.channel = true;
-            item.damage = 12;
-            item.crit = 21; //damage = 2 * (base * bonus crit)
-            item.knockBack = 1f;
+            item.damage = 19;
+            item.crit = 16; //crit chance on whips increase crit damage instead
+            item.knockBack = 4f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
-            item.rare = 1;
-            item.value = Item.sellPrice(0,0,25,0);
+            item.rare = 3;
+            item.value = Item.sellPrice(0,0,54,0);
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Vilethorn, 1);
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ItemID.HellstoneBar, 10);
+            recipe.AddIngredient(ItemID.Chain, 5);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -48,7 +48,7 @@ namespace WeaponOut.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
-                Main.rand.Next(-50, 50) * 0.001f * player.gravDir); //whip swinging
+                Main.rand.Next(-100, 100) * 0.001f * player.gravDir); //whip swinging
             return false;
         }
     }

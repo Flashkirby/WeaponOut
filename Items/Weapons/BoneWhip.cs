@@ -6,40 +6,39 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Weapons
 {
     /// <summary>
-    /// Corruption whip, high speed. Whip damage variates between 1 lower and higher tier
+    /// Bone sword style
     /// </summary>
-    public class NotchedWhip : ModItem
+    public class BoneWhip : ModItem
     {
         private bool increaseDamage;
         public override void SetDefaults()
         {
-            item.name = "Vilelash";
+            item.name = "Bone Whip";
 			item.width = 34;
 			item.height = 34;
 
             item.useStyle = 5;
-            item.useAnimation = 18;
-            item.useTime = 18;
+            item.useAnimation = 24;
+            item.useTime = 24;
             item.useSound = 19;
             item.noUseGraphic = true;
             item.noMelee = true;
             
             item.melee = true;
             item.channel = true;
-            item.damage = 12;
-            item.crit = 21; //damage = 2 * (base * bonus crit)
-            item.knockBack = 1f;
+            item.damage = 13;
+            item.crit = 21; //crit chance on whips increase crit damage instead
+            item.knockBack = 2f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
-            item.rare = 1;
-            item.value = Item.sellPrice(0,0,25,0);
+            item.rare = 2;
+            item.value = Item.sellPrice(0,0,50,0);
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Vilethorn, 1);
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
+             recipe.AddIngredient(ItemID.Bone, 60);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -48,7 +47,7 @@ namespace WeaponOut.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
-                Main.rand.Next(-50, 50) * 0.001f * player.gravDir); //whip swinging
+                Main.rand.Next(-200, 200) * 0.001f * player.gravDir); //whip swinging
             return false;
         }
     }
