@@ -174,11 +174,19 @@ namespace WeaponOut.Projectiles
             return false;
         }
 
-        public static bool PreDraw(Projectile projectile, int handleHeight, int chainHeight, int partHeight, int tipHeight, int partCount = 18)
+        public static bool PreDraw(Projectile projectile, int handleHeight, int chainHeight, int partHeight, int tipHeight, int partCount = 18, bool ignoreLight = false)
         {
             Vector2 vector38 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D17 = Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Color alpha3 = projectile.GetAlpha(Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16));
+            Color alpha3;
+            if (ignoreLight)
+            {
+                alpha3 = Color.White;
+            }
+            else
+            {
+                alpha3 = projectile.GetAlpha(Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16));
+            }
 
             //define texture parts here
             Rectangle handle = new Rectangle(0, 0, texture2D17.Width, handleHeight);
@@ -213,7 +221,7 @@ namespace WeaponOut.Projectiles
                         rectangle6.Height = (int)(chainCount - num198);
                     }
                     vector40 = vector39 + value18;
-                    alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
+                    if(!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
                     Main.spriteBatch.Draw(texture2D17, vector40 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, new Vector2((float)(rectangle6.Width / 2), 0f), projectile.scale, SpriteEffects.None, 0f);
                     num198 += (float)rectangle6.Height * projectile.scale;
                     vector39 += value17 * (float)rectangle6.Height * projectile.scale;
@@ -244,7 +252,7 @@ namespace WeaponOut.Projectiles
                         num204 *= 0.75f;
                     }
                     vector40 = vector39 + value18;
-                    alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
+                    if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
                     Main.spriteBatch.Draw(texture2D17, vector40 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, new Vector2((float)(rectangle6.Width / 2), 0f), projectile.scale, SpriteEffects.None, 0f);
                     num201 += num204;
                     vector39 += value17 * num204;
@@ -253,7 +261,7 @@ namespace WeaponOut.Projectiles
             }
             rectangle6 = tip;
             Vector2 vector41 = value19 + value18;
-            alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector41.X / 16, (int)vector41.Y / 16));
+            if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector41.X / 16, (int)vector41.Y / 16));
             Main.spriteBatch.Draw(texture2D17, vector41 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
 
             return false;
