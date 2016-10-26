@@ -14,6 +14,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Whiplash";
+            item.toolTip = "Whips deal critical damage at the tip";
 			item.width = 34;
 			item.height = 34;
 
