@@ -583,13 +583,15 @@ namespace WeaponOut
                     0);
 
             //items that GLOOOW
+            Color glowLighting = new Microsoft.Xna.Framework.Color(250, 250, 250, heldItem.alpha);
+            glowLighting = drawPlayer.GetImmuneAlpha(heldItem.GetAlpha(lighting) * drawPlayer.stealth, 0);
             if (heldItem.glowMask != -1)
             {
                 DrawData glowData = new DrawData(
                    Main.glowMaskTexture[(int)heldItem.glowMask],
                    new Vector2(drawX, drawY),
                    sourceRect,
-                   new Microsoft.Xna.Framework.Color(250, 250, 250, heldItem.alpha),
+                   glowLighting,
                    0f,
                    new Vector2(gWidth / 2f, gHeight / 2f),
                    scale,
