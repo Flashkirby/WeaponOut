@@ -46,7 +46,6 @@ namespace WeaponOut.Items
                 {
                     recipe.AddIngredient(ItemID.Vertebrae, 1);
                 }
-                recipe.AddIngredient(ItemID.Gel, 2);
                 recipe.AddTile(TileID.WorkBenches);
                 recipe.SetResult(this, 15);
                 recipe.AddRecipe();
