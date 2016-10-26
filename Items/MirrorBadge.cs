@@ -12,7 +12,9 @@ namespace WeaponOut.Items
         public override void SetDefaults()
         {
             item.name = "Mirror Badge";
-            item.toolTip = "Reflects some enemy projectiles";
+            item.toolTip = @"
+Immunity to petrification
+Reflects some enemy projectiles";
             item.toolTip2 = "'A mark of courage, if a bit unpolished'";
             item.width = 18;
             item.height = 20;
@@ -27,7 +29,7 @@ namespace WeaponOut.Items
             recipe.AddIngredient(ItemID.PocketMirror, 1);
             recipe.AddIngredient(ItemID.ShroomiteBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 15);
+            recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
 
