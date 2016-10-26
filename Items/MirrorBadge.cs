@@ -16,7 +16,7 @@ namespace WeaponOut.Items
             item.toolTip2 = "'A mark of courage, if a bit unpolished'";
             item.width = 18;
             item.height = 20;
-            item.mana = 8;
+            item.mana = 10;
             item.rare = 8;
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.accessory = true;
@@ -24,8 +24,8 @@ namespace WeaponOut.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FrozenTurtleShell, 1);
-            recipe.AddIngredient(ItemID.ShroomiteBar, 6);
+            recipe.AddIngredient(ItemID.PocketMirror, 1);
+            recipe.AddIngredient(ItemID.ShroomiteBar, 12);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 15);
             recipe.AddRecipe();
@@ -33,6 +33,7 @@ namespace WeaponOut.Items
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.buffImmune[BuffID.Stoned] = true;
             if(player.CheckMana(item.mana,false,false))
             {
                 player.AddBuff(WeaponOut.BuffIDMirrorBarrier, 2);
