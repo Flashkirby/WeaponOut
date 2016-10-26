@@ -200,7 +200,7 @@ namespace WeaponOut.Projectiles
                 return false;
             }
             float chainCount = projectile.velocity.Length() + 16f;
-            bool halfSize = chainCount < 100f;
+            bool halfSize = chainCount < partHeight * 4.5f;
             Vector2 value17 = Vector2.Normalize(projectile.velocity);
             Microsoft.Xna.Framework.Rectangle rectangle6 = handle;
             Vector2 value18 = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
