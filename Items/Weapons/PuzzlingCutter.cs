@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Weapons
 {
     /// <summary>
-    /// Not the garrion sword :P
+    /// Not the garian sword :P
     /// </summary>
     public class PuzzlingCutter : ModItem
     {
@@ -14,6 +14,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Puzzling Cutter";
+            item.toolTip = "'No one said it was a sword'";
 			item.width = 34;
 			item.height = 34;
 
@@ -39,8 +40,8 @@ namespace WeaponOut.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
-                Main.rand.Next(-150, 150) * 0.001f * player.gravDir); //whip swinging
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0,
+                0.15f * player.gravDir + Main.rand.Next(-50, 50) * 0.001f * player.gravDir); //overhead swinging
             return false;
         }
     }

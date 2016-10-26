@@ -77,7 +77,7 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            return BaseWhip.PreDraw(projectile, handleHeight, chainHeight, partHeight, tipHeight, 8);
+            return BaseWhip.PreDraw(projectile, handleHeight, chainHeight, partHeight, tipHeight, 6);
         }
         
         #endregion
