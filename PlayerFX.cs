@@ -582,24 +582,6 @@ namespace WeaponOut
                     spriteEffects,
                     0);
 
-            //items that GLOOOW
-            Color glowLighting = new Microsoft.Xna.Framework.Color(250, 250, 250, heldItem.alpha);
-            glowLighting = drawPlayer.GetImmuneAlpha(heldItem.GetAlpha(lighting) * drawPlayer.stealth, 0);
-            if (heldItem.glowMask != -1)
-            {
-                DrawData glowData = new DrawData(
-                   Main.glowMaskTexture[(int)heldItem.glowMask],
-                   new Vector2(drawX, drawY),
-                   sourceRect,
-                   glowLighting,
-                   0f,
-                   new Vector2(gWidth / 2f, gHeight / 2f),
-                   scale,
-                   spriteEffects,
-                   0);
-            }
-
-
             //work out what type of weapon it is!
             float itemWidth = gWidth * heldItem.scale;
             float itemHeight = gHeight * heldItem.scale;
@@ -661,7 +643,7 @@ namespace WeaponOut
                 }
                 //Add the weapon to the draw layers
                 Main.playerDrawData.Add(data);
-                drawGlowLayer(data, heldItem.glowMask, heldItem.alpha);
+                drawGlowLayer(data, drawPlayer, heldItem);
             }
 
             if (heldItem.useStyle == 4 || //hold up
@@ -827,7 +809,7 @@ namespace WeaponOut
                 }
                 //Add the weapon to the draw layers
                 Main.playerDrawData.Add(data);
-                drawGlowLayer(data, heldItem.glowMask, heldItem.alpha);
+                drawGlowLayer(data, drawPlayer, heldItem);
                 //largestaves are held straight up
             }
 
@@ -972,16 +954,18 @@ namespace WeaponOut
 
             return rot;
         }
-        private static void drawGlowLayer(DrawData data, int glowMask, int alpha)
+        private static void drawGlowLayer(DrawData data, Player drawPlayer, Item heldItem)
         {
             //items that GLOOOW
-            if (glowMask != -1)
+            if (heldItem.glowMask != -1)
             {
+                Color glowLighting = new Microsoft.Xna.Framework.Color(250, 250, 250, heldItem.alpha);
+                glowLighting = drawPlayer.GetImmuneAlpha(heldItem.GetAlpha(glowLighting) * drawPlayer.stealth, 0);
                 DrawData glowData = new DrawData(
-                   Main.glowMaskTexture[glowMask],
+                   Main.glowMaskTexture[heldItem.glowMask],
                    data.position,
                    data.sourceRect,
-                   new Microsoft.Xna.Framework.Color(250, 250, 250, alpha),
+                   glowLighting,
                    data.rotation,
                    data.origin,
                    data.scale,
