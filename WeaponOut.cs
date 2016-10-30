@@ -54,6 +54,8 @@ namespace WeaponOut
 
             DustIDManaDust = GetDust("ManaDust").Type;
 
+            Items.HeliosphereEmblem.SetUpGlobalDPS();
+
             if (Main.netMode != 2)
             {
                 textureDMNB = GetTexture("Projectiles/DemonBlast");
