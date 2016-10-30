@@ -61,10 +61,12 @@ namespace WeaponOut.Items
             if (heldItem.shoot > 0) damageSources++; //fires projectiles
             if (heldItem.melee && bonusType == 0)
             {
+                //melee
                 rawIncrease = SetBonusMelee(heldItem, defaultItem, damageSources, rawIncrease);
             }
             else if (heldItem.ranged && bonusType == 1)
             {
+                //ranged
                 rawIncrease = SetBonusRanged(player, heldItem, defaultItem, damageSources, rawIncrease);
             }
             else if (heldItem.thrown && bonusType == 2)
@@ -108,9 +110,9 @@ namespace WeaponOut.Items
             Projectile p = new Projectile();
             p.SetDefaults(heldItem.shoot);
             float ammoInfluence = 1f;
+            //arrow
             if (heldItem.useAmmo == 1 || heldItem.useAmmo == 323)
             {
-                //arrow
                 if (p.aiStyle == 75)
                     // lunar weapon behaviours are busted
                     rawIncrease = CalculateBonusRaw(arrowDPS, damageSources, defaultItem.damage,
@@ -121,9 +123,9 @@ namespace WeaponOut.Items
                 //modify damage due to differences caused by ammo damage relative to weapon damage
                 ammoInfluence = (float)testArrow / defaultItem.damage;
             }
+            //bullet
             else if (heldItem.useAmmo == 14 || heldItem.useAmmo == 311)
             {
-                //bullet - to check, makes minishark busted af
                 if (p.aiStyle == 75)
                     // lunar weapon behaviours are busted
                     rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage,
@@ -135,18 +137,18 @@ namespace WeaponOut.Items
                 //modify damage due to differences caused by ammo damage relative to weapon damage
                 ammoInfluence = (float)testBullet / defaultItem.damage;
             }
+            //rocket
             else if (heldItem.useAmmo == 771 || heldItem.useAmmo == 246 || heldItem.useAmmo == 312 || heldItem.useAmmo == 514)
             {
-                //rocket
                 rawIncrease = CalculateBonusRaw(rocketDPS, damageSources, defaultItem.damage + testRocket,
                     defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
                 
                 //modify damage due to differences caused by ammo damage relative to weapon damage
                 ammoInfluence = (float)testRocket / defaultItem.damage;
             }
+            //non-standard or non-ammo benefiting weapon, eg. flamethrower
             else
             {
-                //non-standard or non-ammo benefiting weapon, eg. flamethrower
                 // = rangedDPS;
             }
             rawIncrease /= 0.5f + ammoInfluence / 2f;
@@ -156,7 +158,6 @@ namespace WeaponOut.Items
 
         private static float SetBonusMelee(Item heldItem, Item defaultItem, int damageSources, float rawIncrease)
         {
-            //melee
 
             if (heldItem.shoot > 0)
             {
@@ -169,10 +170,10 @@ namespace WeaponOut.Items
                     // moonlord weapon behaviours are busted
                     rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, 5, 5, defaultItem.reuseDelay);
-                else if (p.penetrate < 0 && defaultItem.useTime < 10)
+                else if (p.penetrate < 0 && defaultItem.useTime < (10 * damageSources))
                     // penetrating projectiles cannot hit faster than 10 usetime due to npc immune
                     rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
-                        defaultItem.crit, defaultItem.useAnimation, 10, defaultItem.reuseDelay);
+                        defaultItem.crit, 10, 10, defaultItem.reuseDelay);
                 else
                     //standard calculation
                     rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
@@ -205,8 +206,6 @@ namespace WeaponOut.Items
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
                 }
             }
-            //reduce due to crit double principle - high dmg weapons will get better crits
-            rawIncrease *= 0.667f;
             return rawIncrease;
         }
 
@@ -273,7 +272,7 @@ namespace WeaponOut.Items
         public static float summonDPS;
         public static void SetUpGlobalDPS()
         {
-            meleeDPS = CalculateDPS(2, 200, 0, 16); //meowmere (spawns laser rainbow cats)
+            meleeDPS = CalculateDPS(1, 190, 10, 10); //terrarian (yoyos hit 6 times per second)
             arrowDPS = CalculateDPS(1, 50 + testArrow, 0, 2); //phantasm (it's really fast)
             bulletDPS = CalculateDPS(1, 77 + testBullet, 5, 5); //S.D.M.G (boring, but effecient)
             rocketDPS = CalculateDPS(2, 65 + testRocket, 10, 29); //Celebration (which contrary to popular belief is higher damage due to double damage when direct hit)
