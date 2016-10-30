@@ -78,6 +78,7 @@ namespace WeaponOut.Items.Weapons
                     !p.friendly || 
                     !p.ranged ||
                     p.arrow ||
+                    p.npcProj ||
                     p.owner != player.whoAmI) continue;
                 //if (Main.netMode == 1) Main.NewText("proj: " + p.name + " to be modded - " + p.penetrate + " | " + p.maxPenetrate);
                 if (p.width == (int)(4 * p.scale) && p.height == (int)(4 * p.scale))//bullets are all this size
