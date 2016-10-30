@@ -107,6 +107,7 @@ namespace WeaponOut.Items
         {
             Projectile p = new Projectile();
             p.SetDefaults(heldItem.shoot);
+            float ammoInfluence = 1f;
             if (heldItem.useAmmo == 1 || heldItem.useAmmo == 323)
             {
                 //arrow
@@ -117,6 +118,8 @@ namespace WeaponOut.Items
                 else
                     rawIncrease = CalculateBonusRaw(arrowDPS, damageSources, defaultItem.damage + testArrow,
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+                //modify damage due to differences caused by ammo damage relative to weapon damage
+                ammoInfluence = (float)testArrow / defaultItem.damage;
             }
             else if (heldItem.useAmmo == 14 || heldItem.useAmmo == 311)
             {
@@ -129,21 +132,24 @@ namespace WeaponOut.Items
                     rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage + testBullet,
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
 
-                //reduce due to differences caused by ammo damage relative to weapon damage
-                float ammoInfluence = (float)testBullet / defaultItem.damage;
-                rawIncrease /= 0.5f + ammoInfluence / 2f;
+                //modify damage due to differences caused by ammo damage relative to weapon damage
+                ammoInfluence = (float)testBullet / defaultItem.damage;
             }
             else if (heldItem.useAmmo == 771 || heldItem.useAmmo == 246 || heldItem.useAmmo == 312 || heldItem.useAmmo == 514)
             {
                 //rocket
                 rawIncrease = CalculateBonusRaw(rocketDPS, damageSources, defaultItem.damage + testRocket,
                     defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+                
+                //modify damage due to differences caused by ammo damage relative to weapon damage
+                ammoInfluence = (float)testRocket / defaultItem.damage;
             }
             else
             {
                 //non-standard or non-ammo benefiting weapon, eg. flamethrower
                 // = rangedDPS;
             }
+            rawIncrease /= 0.5f + ammoInfluence / 2f;
 
             return rawIncrease;
         }
