@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
@@ -60,95 +61,11 @@ namespace WeaponOut.Items
             if (heldItem.shoot > 0) damageSources++; //fires projectiles
             if (heldItem.melee && bonusType == 0)
             {
-                //melee
-                
-                if (heldItem.shoot > 0)
-                {
-                    Projectile p = new Projectile();
-                    p.SetDefaults(heldItem.shoot);
-                    if (p.aiStyle == 99) 
-                        // YOYO is aiStyle 99, 10 real usespeed due to constant hits
-                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, defaultItem.crit, 10, 10, defaultItem.reuseDelay);
-                    else if (p.aiStyle == 75) 
-                        // moonlord weapon behaviours are busted
-                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, 
-                            defaultItem.crit, 5, 5, defaultItem.reuseDelay);
-                    else if (p.penetrate < 0 && defaultItem.useTime < 10)
-                        // penetrating projectiles cannot hit faster than 10 usetime due to npc immune
-                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, 
-                            defaultItem.crit, defaultItem.useAnimation, 10, defaultItem.reuseDelay);
-                    else
-                        //standard calculation
-                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, 
-                            defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
-                }
-                else
-                {
-                    if (heldItem.pick > 0
-                        || heldItem.axe > 0
-                        || heldItem.hammer > 0)
-                    {
-                        //tools don't benefit from usetime in combat, so only swing as normal
-                        if (heldItem.shoot > 0)
-                        {
-                            //drills yo
-                            rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, 
-                                defaultItem.crit, 10, 10, defaultItem.reuseDelay);
-                        }
-                        else
-                        {
-                            //not drills, yo
-                            rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, 
-                                defaultItem.crit, defaultItem.useAnimation, defaultItem.useAnimation, defaultItem.reuseDelay);
-                        }
-                    }
-                    else
-                    {
-                        //standard caluclation
-                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, 
-                            defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
-                    }
-                }
+                rawIncrease = SetBonusMelee(heldItem, defaultItem, damageSources, rawIncrease);
             }
             else if (heldItem.ranged && bonusType == 1)
             {
-                Projectile p = new Projectile();
-                p.SetDefaults(heldItem.shoot);
-                if (heldItem.useAmmo == 1 || heldItem.useAmmo == 323)
-                {
-                    //arrow
-                    if (p.aiStyle == 75)
-                        // lunar weapon behaviours are busted
-                        rawIncrease = CalculateBonusRaw(arrowDPS, damageSources, defaultItem.damage,
-                            defaultItem.crit, 2, 2, defaultItem.reuseDelay);
-                    else
-                        rawIncrease = CalculateBonusRaw(arrowDPS, damageSources, defaultItem.damage + testArrow, 
-                            //-1 because autoreuse usually matters a lot with these weapons
-                            defaultItem.crit, defaultItem.useAnimation - 1, defaultItem.useTime - 1, defaultItem.reuseDelay);
-                }
-                else if (heldItem.useAmmo == 14 || heldItem.useAmmo == 311)
-                {
-                    //bullet - to check, makes minishark busted af
-                    if (p.aiStyle == 75)
-                        // lunar weapon behaviours are busted
-                        rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage,
-                            defaultItem.crit, 2, 2, defaultItem.reuseDelay);
-                    else
-                        rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage + testBullet,
-                            //-1 because autoreuse usually matters a lot with these weapons
-                            defaultItem.crit, defaultItem.useAnimation - 1, defaultItem.useTime - 1, defaultItem.reuseDelay);
-                }
-                else if (heldItem.useAmmo == 771 || heldItem.useAmmo == 246 || heldItem.useAmmo == 312 || heldItem.useAmmo == 514)
-                {
-                    //rocket
-                    rawIncrease = CalculateBonusRaw(rocketDPS, damageSources, defaultItem.damage + testRocket,
-                        defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
-                }
-                else
-                {
-                    //non-standard or non-ammo benefiting weapon, eg. flamethrower
-                    // = rangedDPS;
-                }
+                rawIncrease = SetBonusRanged(player, heldItem, defaultItem, damageSources, rawIncrease);
             }
             else if (heldItem.thrown && bonusType == 2)
             {
@@ -181,8 +98,143 @@ namespace WeaponOut.Items
                 }
                 if (heldItem.summon) player.minionDamage += bonus - 1f;
             }
+            NerfMultiShots(player, rawIncrease);
 
             return bonus;
+        }
+
+        private static float SetBonusRanged(Player player, Item heldItem, Item defaultItem, int damageSources, float rawIncrease)
+        {
+            Projectile p = new Projectile();
+            p.SetDefaults(heldItem.shoot);
+            if (heldItem.useAmmo == 1 || heldItem.useAmmo == 323)
+            {
+                //arrow
+                if (p.aiStyle == 75)
+                    // lunar weapon behaviours are busted
+                    rawIncrease = CalculateBonusRaw(arrowDPS, damageSources, defaultItem.damage,
+                        defaultItem.crit, 2, 2, defaultItem.reuseDelay);
+                else
+                    rawIncrease = CalculateBonusRaw(arrowDPS, damageSources, defaultItem.damage + testArrow,
+                        defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+            }
+            else if (heldItem.useAmmo == 14 || heldItem.useAmmo == 311)
+            {
+                //bullet - to check, makes minishark busted af
+                if (p.aiStyle == 75)
+                    // lunar weapon behaviours are busted
+                    rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage,
+                        defaultItem.crit, 2, 2, defaultItem.reuseDelay);
+                else
+                    rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage + testBullet,
+                        defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+
+                //reduce due to differences caused by ammo damage relative to weapon damage
+                float ammoInfluence = (float)testBullet / defaultItem.damage;
+                rawIncrease /= 0.5f + ammoInfluence / 2f;
+            }
+            else if (heldItem.useAmmo == 771 || heldItem.useAmmo == 246 || heldItem.useAmmo == 312 || heldItem.useAmmo == 514)
+            {
+                //rocket
+                rawIncrease = CalculateBonusRaw(rocketDPS, damageSources, defaultItem.damage + testRocket,
+                    defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+            }
+            else
+            {
+                //non-standard or non-ammo benefiting weapon, eg. flamethrower
+                // = rangedDPS;
+            }
+
+            return rawIncrease;
+        }
+
+        private static float SetBonusMelee(Item heldItem, Item defaultItem, int damageSources, float rawIncrease)
+        {
+            //melee
+
+            if (heldItem.shoot > 0)
+            {
+                Projectile p = new Projectile();
+                p.SetDefaults(heldItem.shoot);
+                if (p.aiStyle == 99)
+                    // YOYO is aiStyle 99, 10 real usespeed due to constant hits
+                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, defaultItem.crit, 10, 10, defaultItem.reuseDelay);
+                else if (p.aiStyle == 75)
+                    // moonlord weapon behaviours are busted
+                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                        defaultItem.crit, 5, 5, defaultItem.reuseDelay);
+                else if (p.penetrate < 0 && defaultItem.useTime < 10)
+                    // penetrating projectiles cannot hit faster than 10 usetime due to npc immune
+                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                        defaultItem.crit, defaultItem.useAnimation, 10, defaultItem.reuseDelay);
+                else
+                    //standard calculation
+                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                        defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+            }
+            else
+            {
+                if (heldItem.pick > 0
+                    || heldItem.axe > 0
+                    || heldItem.hammer > 0)
+                {
+                    //tools don't benefit from usetime in combat, so only swing as normal
+                    if (heldItem.shoot > 0)
+                    {
+                        //drills yo
+                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                            defaultItem.crit, 10, 10, defaultItem.reuseDelay);
+                    }
+                    else
+                    {
+                        //not drills, yo
+                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                            defaultItem.crit, defaultItem.useAnimation, defaultItem.useAnimation, defaultItem.reuseDelay);
+                    }
+                }
+                else
+                {
+                    //standard caluclation
+                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                        defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+                }
+            }
+            //reduce due to crit double principle - high dmg weapons will get better crits
+            rawIncrease *= 0.667f;
+            return rawIncrease;
+        }
+
+        private static void NerfMultiShots(Player player, float rawIncrease)
+        {
+            Projectile check = new Projectile();
+            List<Projectile> myProjs = new List<Projectile>();
+            foreach (Projectile proj in Main.projectile)
+            {
+                if (!proj.active ||
+                    !proj.friendly ||
+                    (!proj.melee && !proj.ranged && !proj.magic && !proj.thrown) ||
+                    proj.npcProj ||
+                    proj.owner != player.whoAmI) continue;
+                //if (Main.netMode == 1) Main.NewText("proj: " + p.name + " to be modded - " + p.penetrate + " | " + p.maxPenetrate);
+                check.SetDefaults(proj.type);
+                if (proj.timeLeft == (check.timeLeft - (1 + check.extraUpdates)))
+                {
+                    //spawn just now
+                    myProjs.Add(proj);
+                }
+            }
+            if (myProjs.Count > 1)
+            {
+                Main.NewText("Balancing " + myProjs[0].name + " damage");
+                foreach (Projectile proj in myProjs)
+                {
+                    float semiBaseDmg = proj.damage - rawIncrease;
+                    //Divide damage by count, because the emblem already buffs it
+                    Main.NewText((proj.damage / myProjs.Count * 2) + " | " + semiBaseDmg);
+                    proj.damage /= myProjs.Count;
+                    if (proj.damage * 1.5 < semiBaseDmg) proj.damage = (int)(semiBaseDmg + rawIncrease / myProjs.Count);
+                }
+            }
         }
 
         public static float CalculateBonusRaw(float goalDPS, int damageSources, int damage, int crit, int useAnimation, int useTime, int reuseDelay)
@@ -200,8 +252,7 @@ namespace WeaponOut.Items
             Main.NewText("all = " + (goalDPS / hps / hits / damageSources - pureDamage));
 
             float rawBonus = goalDPS / hps / hits / damageSources - pureDamage;
-
-            return rawBonus * 0.667f; //reduce by a third due to crit double principle - high dmg weapons will get better crits
+            return rawBonus;
         }
 
         #region initial calculations
@@ -218,8 +269,9 @@ namespace WeaponOut.Items
         {
             meleeDPS = CalculateDPS(2, 200, 0, 16); //meowmere (spawns laser rainbow cats)
             arrowDPS = CalculateDPS(1, 50 + testArrow, 0, 2); //phantasm (it's really fast)
-            bulletDPS = CalculateDPS(1, 77 + testBullet, 10, 10); //S.D.M.G (boring, but effecient)
-            rocketDPS = CalculateDPS(2, 65 + testRocket, 10, 29); //Celebration because its the moonlord rocket, though snowman is "better"
+            bulletDPS = CalculateDPS(1, 77 + testBullet, 5, 5); //S.D.M.G (boring, but effecient)
+            rocketDPS = CalculateDPS(2, 65 + testRocket, 10, 29); //Celebration (which contrary to popular belief is higher damage due to double damage when direct hit)
+
         }
 
         public const int testDEF = 30; //high def enemies, not moonlord (who is 50) - also ichor's busted def reduction
