@@ -14,10 +14,10 @@ namespace WeaponOut.Items
         public override void SetDefaults()
         {
             item.name = "Heliosphere Emblem";
-            item.toolTip = "Supercharges melee weapons";
+            item.toolTip = "Supercharges melee weapons to their lunar potential";
             item.toolTip2 = "'Rekindling old flames'";
-            item.width = 24;
-            item.height = 24;
+            item.width = 28;
+            item.height = 28;
             item.rare = 10;
             item.value = Item.sellPrice(0, 25, 0, 0);
             item.accessory = true;
@@ -27,6 +27,7 @@ namespace WeaponOut.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ShinyStone, 1);
+            recipe.AddIngredient(ItemID.WarriorEmblem, 1);
             recipe.AddIngredient(ItemID.Terrarian, 1);
             recipe.AddIngredient(ItemID.Meowmere, 1);
             recipe.AddTile(TileID.LunarCraftingStation);
@@ -41,6 +42,8 @@ namespace WeaponOut.Items
             HeliosphereEmblem.SetBonus(player, 3);
             HeliosphereEmblem.SetBonus(player, 4);
         }
+
+        #region General Emblem Code
 
         public static float SetBonus(Player player, int bonusType)
         {
@@ -63,26 +66,31 @@ namespace WeaponOut.Items
             {
                 //melee
                 rawIncrease = SetBonusMelee(heldItem, defaultItem, damageSources, rawIncrease);
+                NerfMultiShots(player, rawIncrease);
             }
             else if (heldItem.ranged && bonusType == 1)
             {
                 //ranged
                 rawIncrease = SetBonusRanged(player, heldItem, defaultItem, damageSources, rawIncrease);
+                NerfMultiShots(player, rawIncrease);
             }
             else if (heldItem.thrown && bonusType == 2)
             {
                 //throwing
                 // = throwingDPS;
+                NerfMultiShots(player, rawIncrease);
             }
             else if (heldItem.magic && bonusType == 3)
             {
                 //magic
                 // = magicDPS;
+                NerfMultiShots(player, rawIncrease);
             }
             else if (heldItem.summon && bonusType == 4)
             {
                 //minions
                 // = summonDPS;
+                NerfMultiShots(player, rawIncrease);
             }
 
             //calculate wepaon bonus
@@ -100,7 +108,6 @@ namespace WeaponOut.Items
                 }
                 if (heldItem.summon) player.minionDamage += bonus - 1f;
             }
-            NerfMultiShots(player, rawIncrease);
 
             return bonus;
         }
@@ -259,8 +266,9 @@ namespace WeaponOut.Items
             float rawBonus = goalDPS / hps / hits / damageSources - pureDamage;
             return rawBonus;
         }
+        #endregion
 
-        #region initial calculations
+        #region Global Emblem Calculations
 
         public static float meleeDPS;
         public static float arrowDPS;
