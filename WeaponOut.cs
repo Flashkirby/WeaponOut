@@ -71,7 +71,7 @@ namespace WeaponOut
             }
             else
             {
-                Console.WriteLine("WeaponOut loaded with no errors:   dual#11");
+                Console.WriteLine("WeaponOut loaded with no errors:   supercharge#01");
             }
         }
 
