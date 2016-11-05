@@ -39,7 +39,11 @@
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
     <Compile Include="Dusts\ManaDust.cs" />
+    <Compile Include="Items\AccretionEmblem.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
+    <Compile Include="Items\WormholeEmblem.cs" />
+    <Compile Include="Items\PerihelionEmblem.cs" />
+    <Compile Include="Items\SupernovaEmblem.cs" />
     <Compile Include="Items\HeliosphereEmblem.cs" />
     <Compile Include="Items\MirrorBadge.cs" />
     <Compile Include="Items\Weapons\AllPorpoiseAssaultRifle.cs" />

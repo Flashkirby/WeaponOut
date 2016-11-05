@@ -242,12 +242,10 @@ namespace WeaponOut.Items
 
         private static float SetBonusMelee(Item heldItem, Item defaultItem, float rawIncrease)
         {
-            int damageSources = 0;
+            int damageSources = 1; //deadls damage from melee hits
             //Main.NewText("myDPS = " + CalculateDPS(damageSources, item.damage, item.crit, item.useAnimation));
-            if (!heldItem.noMelee) damageSources++; //deadls damage from melee hits
             if (heldItem.shoot > 0)
             {
-                damageSources++; //fires projectiles
                 Projectile p = new Projectile();
                 p.SetDefaults(heldItem.shoot);
                 if (p.aiStyle == 99)
@@ -262,6 +260,7 @@ namespace WeaponOut.Items
                     rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, 10, 10, defaultItem.reuseDelay);
                 else
+                    if(p.penetrate <= 1) damageSources++; //fires (that don't interefere with sword damage)
                     //standard calculation
                     rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
