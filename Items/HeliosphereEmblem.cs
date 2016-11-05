@@ -56,40 +56,37 @@ namespace WeaponOut.Items
             Item defaultItem = new Item();
             defaultItem.SetDefaults(player.inventory[player.selectedItem].type);
 
-            int damageSources = 0;
             float rawIncrease = 0;
 
-            //Main.NewText("myDPS = " + CalculateDPS(damageSources, item.damage, item.crit, item.useAnimation));
-            if (!heldItem.noMelee) damageSources++; //deadls damage from melee hits
-            if (heldItem.shoot > 0) damageSources++; //fires projectiles
             if (heldItem.melee && bonusType == 0)
             {
                 //melee
-                rawIncrease = SetBonusMelee(heldItem, defaultItem, damageSources, rawIncrease);
+                rawIncrease = SetBonusMelee(heldItem, defaultItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
             }
             else if (heldItem.ranged && bonusType == 1)
             {
                 //ranged
-                rawIncrease = SetBonusRanged(player, heldItem, defaultItem, damageSources, rawIncrease);
+                rawIncrease = SetBonusRanged(player, heldItem, defaultItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
             }
             else if (heldItem.thrown && bonusType == 2)
             {
                 //throwing
-                rawIncrease = SetBonusThrowing(defaultItem, heldItem, damageSources, rawIncrease);
+                rawIncrease = SetBonusThrowing(defaultItem, heldItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
             }
             else if (heldItem.magic && bonusType == 3)
             {
                 //magic
-                // = magicDPS;
+                rawIncrease = SetBonusMagic(defaultItem, heldItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
             }
             else if (heldItem.summon && bonusType == 4)
             {
                 //minions
-                // = summonDPS;
+                rawIncrease = Math.Max(0, 50 - defaultItem.damage);
+                //all minion things basically do this...
             }
 
             //calculate wepaon bonus
@@ -97,13 +94,14 @@ namespace WeaponOut.Items
             if (rawIncrease > 0)
             {
                 bonus = (defaultItem.damage + rawIncrease) / defaultItem.damage;
-                if (heldItem.melee || !heldItem.noMelee) player.meleeDamage += bonus - 1f;
+                if (heldItem.melee || (!heldItem.noMelee && heldItem.shoot != 0)) player.meleeDamage += bonus - 1f;
                 if (heldItem.ranged) player.rangedDamage += bonus - 1f;
                 if (heldItem.thrown) player.thrownDamage += bonus - 1f;
                 if (heldItem.magic)
                 {
+                    //modfy mana costs
                     player.magicDamage += bonus - 1f;
-                    player.manaCost += 1f;
+                    player.manaCost += CalculateRawManaCost(player, defaultItem) / defaultItem.mana;
                 }
                 if (heldItem.summon) player.minionDamage += bonus - 1f;
             }
@@ -111,27 +109,58 @@ namespace WeaponOut.Items
             return bonus;
         }
 
-        private static float SetBonusThrowing(Item defaultItem, Item heldItem, int damageSources, float rawIncrease)
+        private static float CalculateRawManaCost(Player player, Item defaultItem)
+        {
+            //silly formula mostly does what its meant to...
+            float modHitsPerSecond = 30 / Math.Max(1, defaultItem.useAnimation);
+            return 1.5f * Math.Max(0, 10 - defaultItem.rare) / modHitsPerSecond;
+        }
+
+        private static float SetBonusMagic(Item defaultItem, Item heldItem, float rawIncrease)
         {
             Projectile p = new Projectile();
             p.SetDefaults(heldItem.shoot);
-
-            if (p.penetrate != 0 && p.penetrate != 1)
+            if (p.updatedNPCImmunity || p.aiStyle == 75)
+            {
+                //projectiles with updatedNPCImmunity hit much more often, so do lunar weapons eg last prism
+                rawIncrease = CalculateBonusRaw(magicDPS, 1, defaultItem.damage,
+                    defaultItem.crit, Math.Min(defaultItem.useAnimation, 2), Math.Min(defaultItem.useTime, 2), defaultItem.reuseDelay);
+            }
+            else if (isPenetrating(p.penetrate))
             {
                 //projectiles with penetrate = -1 tend to rely on 6hps repeated damage
-                rawIncrease = CalculateBonusRaw(throwingDPS, damageSources, defaultItem.damage,
+                rawIncrease = CalculateBonusRaw(magicDPS, 1, defaultItem.damage,
                     defaultItem.crit, Math.Min(defaultItem.useAnimation, 10), Math.Min(defaultItem.useTime, 10), defaultItem.reuseDelay);
             }
             else
             {
-                //"standard" calcitlation, no throwing weapons are even past hardmode anyway so this is... mods?
-                rawIncrease = CalculateBonusRaw(throwingDPS, damageSources, defaultItem.damage,
+                //standard calculiation
+                rawIncrease = CalculateBonusRaw(magicDPS, 1, defaultItem.damage,
                     defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
             }
             return rawIncrease;
         }
 
-        private static float SetBonusRanged(Player player, Item heldItem, Item defaultItem, int damageSources, float rawIncrease)
+        private static float SetBonusThrowing(Item defaultItem, Item heldItem, float rawIncrease)
+        {
+            Projectile p = new Projectile();
+            p.SetDefaults(heldItem.shoot);
+            //Throwing weapons do have melee, but realistically it doesn't factor in so dmgb source is always 1
+            if (isPenetrating(p.penetrate))
+            {
+                rawIncrease = CalculateBonusRaw(throwingDPS, 1, defaultItem.damage,
+                    defaultItem.crit, Math.Min(defaultItem.useAnimation, 10), Math.Min(defaultItem.useTime, 10), defaultItem.reuseDelay);
+            }
+            else
+            {
+                //"standard" calcitlation, no throwing weapons are even past hardmode anyway so this is... mods?
+                rawIncrease = CalculateBonusRaw(throwingDPS, 1, defaultItem.damage,
+                    defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+            }
+            return rawIncrease;
+        }
+
+        private static float SetBonusRanged(Player player, Item heldItem, Item defaultItem, float rawIncrease)
         {
             Projectile p = new Projectile();
             p.SetDefaults(heldItem.shoot);
@@ -141,10 +170,10 @@ namespace WeaponOut.Items
             {
                 if (p.aiStyle == 75)
                     // lunar weapon behaviours are busted
-                    rawIncrease = CalculateBonusRaw(arrowDPS, damageSources, defaultItem.damage,
+                    rawIncrease = CalculateBonusRaw(arrowDPS, 1, defaultItem.damage,
                         defaultItem.crit, 2, 2, defaultItem.reuseDelay);
                 else
-                    rawIncrease = CalculateBonusRaw(arrowDPS, damageSources, defaultItem.damage + testArrow,
+                    rawIncrease = CalculateBonusRaw(arrowDPS, 1, defaultItem.damage + testArrow,
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
                 //modify damage due to differences caused by ammo damage relative to weapon damage
                 ammoInfluence = (float)testArrow / defaultItem.damage;
@@ -154,10 +183,10 @@ namespace WeaponOut.Items
             {
                 if (p.aiStyle == 75)
                     // lunar weapon behaviours are busted
-                    rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage,
+                    rawIncrease = CalculateBonusRaw(bulletDPS, 1, defaultItem.damage,
                         defaultItem.crit, 2, 2, defaultItem.reuseDelay);
                 else
-                    rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage + testBullet,
+                    rawIncrease = CalculateBonusRaw(bulletDPS, 1, defaultItem.damage + testBullet,
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
 
                 //modify damage due to differences caused by ammo damage relative to weapon damage
@@ -166,7 +195,7 @@ namespace WeaponOut.Items
             //rocket
             else if (heldItem.useAmmo == 771 || heldItem.useAmmo == 246 || heldItem.useAmmo == 312 || heldItem.useAmmo == 514)
             {
-                rawIncrease = CalculateBonusRaw(rocketDPS, damageSources, defaultItem.damage + testRocket,
+                rawIncrease = CalculateBonusRaw(rocketDPS, 1, defaultItem.damage + testRocket,
                     defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
                 
                 //modify damage due to differences caused by ammo damage relative to weapon damage
@@ -175,15 +204,15 @@ namespace WeaponOut.Items
             //non-standard or non-ammo benefiting weapon, eg. flamethrower
             else
             {
-                if (p.penetrate != 0 && p.penetrate != 1)
+                if (isPenetrating(p.penetrate))
                 {
                     //projectiles with penetrate = -1 tend to rely on 6hps repeated damage
-                    rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage,
+                    rawIncrease = CalculateBonusRaw(bulletDPS, 1, defaultItem.damage,
                         defaultItem.crit, Math.Min(defaultItem.useAnimation, 10), Math.Min(defaultItem.useTime, 10), defaultItem.reuseDelay);
                 }
                 else
                 {
-                    rawIncrease = CalculateBonusRaw(bulletDPS, damageSources, defaultItem.damage,
+                    rawIncrease = CalculateBonusRaw(bulletDPS, 1, defaultItem.damage,
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
                 }
             }
@@ -192,11 +221,14 @@ namespace WeaponOut.Items
             return rawIncrease;
         }
 
-        private static float SetBonusMelee(Item heldItem, Item defaultItem, int damageSources, float rawIncrease)
+        private static float SetBonusMelee(Item heldItem, Item defaultItem, float rawIncrease)
         {
-
+            int damageSources = 0;
+            //Main.NewText("myDPS = " + CalculateDPS(damageSources, item.damage, item.crit, item.useAnimation));
+            if (!heldItem.noMelee) damageSources++; //deadls damage from melee hits
             if (heldItem.shoot > 0)
             {
+                damageSources++; //fires projectiles
                 Projectile p = new Projectile();
                 p.SetDefaults(heldItem.shoot);
                 if (p.aiStyle == 99)
@@ -206,7 +238,7 @@ namespace WeaponOut.Items
                     // moonlord weapon behaviours are busted
                     rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, 5, 5, defaultItem.reuseDelay);
-                else if ((p.penetrate != 0 && p.penetrate != 1) && defaultItem.useTime < (10 * damageSources))
+                else if (isPenetrating(p.penetrate) && defaultItem.useTime < (10 * damageSources))
                     // penetrating projectiles cannot hit faster than 10 usetime due to npc immune
                     rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, 10, 10, defaultItem.reuseDelay);
@@ -245,6 +277,8 @@ namespace WeaponOut.Items
             return rawIncrease;
         }
 
+        private static bool isPenetrating(int penetrateAmount) { return penetrateAmount < 0 || penetrateAmount >= 5; }
+
         private static void NerfMultiShots(Player player, float rawIncrease)
         {
             Projectile check = new Projectile();
@@ -258,7 +292,8 @@ namespace WeaponOut.Items
                     proj.owner != player.whoAmI) continue;
                 //if (Main.netMode == 1) Main.NewText("proj: " + p.name + " to be modded - " + p.penetrate + " | " + p.maxPenetrate);
                 check.SetDefaults(proj.type);
-                if (proj.timeLeft == (check.timeLeft - (1 + check.extraUpdates)))
+                if (proj.timeLeft == (check.timeLeft - (1 + check.extraUpdates))
+                    && !isPenetrating(proj.penetrate))
                 {
                     //spawn just now
                     myProjs.Add(proj);
@@ -313,8 +348,8 @@ namespace WeaponOut.Items
             arrowDPS = CalculateDPS(1, 50 + testArrow, 0, 2); //phantasm (it's really fast)
             bulletDPS = CalculateDPS(1, 77 + testBullet, 5, 5); //S.D.M.G (boring, but effecient)
             rocketDPS = CalculateDPS(2, 65 + testRocket, 10, 29); //Celebration (which contrary to popular belief is higher damage due to double damage when direct hit)
-            throwingDPS = CalculateDPS(2, 200, 0, 11); //Bone (but dem bones be 10 times as powerful, also has melee)
-            //to test javelins
+            throwingDPS = CalculateDPS(1, 200, 0, 11); //Bone (but dem bones be 5 times as powerful, also has melee)
+            magicDPS = CalculateDPS(3, 100, 0, 10); //lunar flare, which fires 3 shots
         }
 
         public const int testDEF = 30; //high def enemies, not moonlord (who is 50) - also ichor's busted def reduction
