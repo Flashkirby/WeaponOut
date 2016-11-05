@@ -14,7 +14,8 @@ namespace WeaponOut.Items
         public override void SetDefaults()
         {
             item.name = "Heliosphere Emblem";
-            item.toolTip = "Supercharges melee weapons to their lunar potential";
+            item.toolTip = @"Supercharges melee weapons to their lunar potential
+12% increased melee speed";
             item.toolTip2 = "'Rekindling old flames'";
             item.width = 28;
             item.height = 28;
@@ -28,8 +29,8 @@ namespace WeaponOut.Items
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ShinyStone, 1);
             recipe.AddIngredient(ItemID.WarriorEmblem, 1);
-            recipe.AddIngredient(ItemID.Terrarian, 1);
             recipe.AddIngredient(ItemID.Meowmere, 1);
+            recipe.AddIngredient(ItemID.Terrarian, 1);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
@@ -37,14 +38,18 @@ namespace WeaponOut.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             HeliosphereEmblem.SetBonus(player, 0);
-            HeliosphereEmblem.SetBonus(player, 1);
-            HeliosphereEmblem.SetBonus(player, 2);
-            HeliosphereEmblem.SetBonus(player, 3);
-            HeliosphereEmblem.SetBonus(player, 4);
+            player.meleeSpeed += 0.12f;
+            player.magmaStone = true;
         }
 
         #region General Emblem Code
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="bonusType">0 melee, 1 ranged, 2 thrown, 3 magic, 4 summon</param>
+        /// <returns></returns>
         public static float SetBonus(Player player, int bonusType)
         {
             if (player.inventory[player.selectedItem].type == 0) return 0f; //exit for empty slot
@@ -85,8 +90,7 @@ namespace WeaponOut.Items
             else if (heldItem.summon && bonusType == 4)
             {
                 //minions
-                rawIncrease = Math.Max(0, 50 - defaultItem.damage);
-                //all minion things basically do this...
+                rawIncrease = SetBonusSummon(defaultItem, rawIncrease);
             }
 
             //calculate wepaon bonus
@@ -109,13 +113,19 @@ namespace WeaponOut.Items
             return bonus;
         }
 
+        private static float SetBonusSummon(Item defaultItem, float rawIncrease)
+        {
+            //minions all have similar damage output that increases with game progress and complexity
+            rawIncrease = Math.Max(0, 50 + (10 - defaultItem.rare) * 5 - defaultItem.damage);
+            return rawIncrease;
+        }
+
         private static float CalculateRawManaCost(Player player, Item defaultItem)
         {
             //silly formula mostly does what its meant to...
             float modHitsPerSecond = 30 / Math.Max(1, defaultItem.useAnimation);
             return 1.5f * Math.Max(0, 10 - defaultItem.rare) / modHitsPerSecond;
         }
-
         private static float SetBonusMagic(Item defaultItem, Item heldItem, float rawIncrease)
         {
             Projectile p = new Projectile();
@@ -301,12 +311,12 @@ namespace WeaponOut.Items
             }
             if (myProjs.Count > 1)
             {
-                Main.NewText("Balancing " + myProjs[0].name + " damage");
+                //Main.NewText("Balancing " + myProjs[0].name + " damage");
                 foreach (Projectile proj in myProjs)
                 {
                     float semiBaseDmg = proj.damage - rawIncrease;
                     //Divide damage by count, because the emblem already buffs it
-                    Main.NewText((proj.damage / myProjs.Count * 2) + " | " + semiBaseDmg);
+                    //Main.NewText((proj.damage / myProjs.Count * 2) + " | " + semiBaseDmg);
                     proj.damage /= myProjs.Count;
                     if (proj.damage * 1.5 < semiBaseDmg) proj.damage = (int)(semiBaseDmg + rawIncrease / myProjs.Count);
                 }
@@ -321,11 +331,11 @@ namespace WeaponOut.Items
             float trueAnimation = Math.Max(useAnimation + reuseDelay, 1);
             float hps = 60f / trueAnimation;
 
-            Main.NewText("src " + damageSources + " | hits " + hits + " | dmg " + +pureDamage + " | hps " + hps);
+            //Main.NewText("src " + damageSources + " | hits " + hits + " | dmg " + +pureDamage + " | hps " + hps);
 
             //Main.NewText("goalDPS = " + goalDPS + " | puredmg = " + pureDamage);
             //Main.NewText("goalDPS / anim/hits/dmgsrc = " + (goalDPS / (60 / trueAnimation) / hits / damageSources));
-            Main.NewText("all = " + (goalDPS / hps / hits / damageSources - pureDamage));
+            //Main.NewText("all = " + (goalDPS / hps / hits / damageSources - pureDamage));
 
             float rawBonus = goalDPS / hps / hits / damageSources - pureDamage;
             return rawBonus;
@@ -341,7 +351,6 @@ namespace WeaponOut.Items
         public static float rangedDPS;
         public static float throwingDPS;
         public static float magicDPS;
-        public static float summonDPS;
         public static void SetUpGlobalDPS()
         {
             meleeDPS = CalculateDPS(1, 190, 10, 10); //terrarian (yoyos hit 6 times per second)
