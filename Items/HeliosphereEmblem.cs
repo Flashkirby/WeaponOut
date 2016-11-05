@@ -68,24 +68,28 @@ namespace WeaponOut.Items
                 //melee
                 rawIncrease = SetBonusMelee(heldItem, defaultItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
+                ApplyAutoReuse(heldItem);
             }
             else if (heldItem.ranged && bonusType == 1)
             {
                 //ranged
                 rawIncrease = SetBonusRanged(player, heldItem, defaultItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
+                ApplyAutoReuse(heldItem);
             }
             else if (heldItem.thrown && bonusType == 2)
             {
                 //throwing
                 rawIncrease = SetBonusThrowing(defaultItem, heldItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
+                ApplyAutoReuse(heldItem);
             }
             else if (heldItem.magic && bonusType == 3)
             {
                 //magic
                 rawIncrease = SetBonusMagic(defaultItem, heldItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
+                ApplyAutoReuse(heldItem);
             }
             else if (heldItem.summon && bonusType == 4)
             {
@@ -111,6 +115,11 @@ namespace WeaponOut.Items
             }
 
             return bonus;
+        }
+
+        private static void ApplyAutoReuse(Item heldItem)
+        {
+            if (!heldItem.autoReuse && !heldItem.channel) heldItem.autoReuse = true;
         }
 
         private static float SetBonusSummon(Item defaultItem, float rawIncrease)
