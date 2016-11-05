@@ -333,7 +333,7 @@ namespace WeaponOut.Items
 
         public static float CalculateBonusRaw(float goalDPS, int damageSources, int damage, int crit, int useAnimation, int useTime, int reuseDelay)
         {
-            if(damageSources <= 0) return 0;
+            if(damageSources <= 1) return 1;
             int hits = CalculateNumOfHits(useAnimation, useTime);
             int pureDamage = (int)(damage * (1f + 0.01f * (crit + 4)));
             float trueAnimation = Math.Max(useAnimation + reuseDelay, 1);
