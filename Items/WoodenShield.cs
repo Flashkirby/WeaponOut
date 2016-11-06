@@ -38,7 +38,7 @@ namespace WeaponOut.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             PlayerFX modPlayer = player.GetModPlayer<PlayerFX>(mod);
-            modPlayer.DamageKnockbackThreshold = 10;
+            modPlayer.DamageKnockbackThreshold += 10;
         }
     }
 }

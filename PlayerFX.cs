@@ -41,6 +41,16 @@ namespace WeaponOut
             }
         }
 
+
+        private int frontDefence;
+        public int FrontDefence
+        {
+            get { return frontDefence; }
+            set
+            {
+                if (value > frontDefence) frontDefence = value;
+            }
+        }
         public bool frontNoKnockback;
 
         /*
@@ -90,6 +100,7 @@ namespace WeaponOut
         public override void ResetEffects()
         {
             damageKnockbackThreshold = 0;
+            frontDefence = 0;
             frontNoKnockback = false;
         }
 
@@ -889,12 +900,15 @@ namespace WeaponOut
             {
                 if (crit) damage *= 2;
                 damage = (int)Main.CalculatePlayerDamage(damage, player.statDefense);
-                Main.NewText("Took damage: " + damage + " vs " + DamageKnockbackThreshold);
+                //Main.NewText("Took damage: " + damage + " vs " + DamageKnockbackThreshold);
                 if (damage <= DamageKnockbackThreshold) player.noKnockback = true;
             }
-            if (frontNoKnockback && player.direction != hitDirection)
+
+            if (player.direction != hitDirection)
             {
-                player.noKnockback = true;
+                if (FrontDefence > 0) player.statDefense += FrontDefence;
+                //Main.NewText("DEF " + player.statDefense + " | " + FrontDefence);
+                if (frontNoKnockback) player.noKnockback = true;
             }
         }
 
