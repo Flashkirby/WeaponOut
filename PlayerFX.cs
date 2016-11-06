@@ -41,6 +41,8 @@ namespace WeaponOut
             }
         }
 
+        public bool frontNoKnockback;
+
         /*
         public Item shieldItem;
         public int shieldLastBlock;
@@ -88,6 +90,7 @@ namespace WeaponOut
         public override void ResetEffects()
         {
             damageKnockbackThreshold = 0;
+            frontNoKnockback = false;
         }
 
         public override void PreUpdate()
@@ -875,20 +878,24 @@ namespace WeaponOut
         }
         */
 
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref string deathText)
         {
-            modifyHitByAnything(ref damage, ref crit);
-            base.ModifyHitByNPC(npc, ref damage, ref crit);
+            ShieldPreHurt(damage, crit, hitDirection);
+            return true;
         }
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+        private void ShieldPreHurt(int damage, bool crit, int hitDirection)
         {
-            modifyHitByAnything(ref damage, ref crit);
-            base.ModifyHitByProjectile(proj, ref damage, ref crit);
-        }
-        private void modifyHitByAnything(ref int damage, ref bool crit)
-        {
-            //Main.NewText("Took damage: " + damage + " vs " + DamageKnockbackThreshold);
-            if (damage <= DamageKnockbackThreshold) player.noKnockback = true;
+            if (DamageKnockbackThreshold > 0)
+            {
+                if (crit) damage *= 2;
+                damage = (int)Main.CalculatePlayerDamage(damage, player.statDefense);
+                Main.NewText("Took damage: " + damage + " vs " + DamageKnockbackThreshold);
+                if (damage <= DamageKnockbackThreshold) player.noKnockback = true;
+            }
+            if (frontNoKnockback && player.direction != hitDirection)
+            {
+                player.noKnockback = true;
+            }
         }
 
 
