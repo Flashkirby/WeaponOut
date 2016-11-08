@@ -41,6 +41,7 @@
     <Compile Include="Dusts\ManaDust.cs" />
     <Compile Include="Items\AccretionEmblem.cs" />
     <Compile Include="Items\Armour\DiscordantCharm.cs" />
+    <Compile Include="Items\Pavise.cs" />
     <Compile Include="Items\WormholeEmblem.cs" />
     <Compile Include="Items\PerihelionEmblem.cs" />
     <Compile Include="Items\SupernovaEmblem.cs" />
