@@ -928,7 +928,7 @@ namespace WeaponOut
                 && !player.immune && this.frontNoKnockback && !npc.dontTakeDamage)
             {
                 int hitDamage = 1;
-                float knockBack = (Math.Abs(player.velocity.X) + 2f) / (0.2f + npc.knockBackResist); //sclaing knockback with kbr
+                float knockBack = (Math.Abs(player.velocity.X * 2) + 2f) / (0.2f + npc.knockBackResist); //sclaing knockback with kbr
                 int hitDirection = player.direction;
                 npc.StrikeNPC(hitDamage, (float)knockBack, hitDirection, false, false, false);
                 if (Main.netMode != 0)

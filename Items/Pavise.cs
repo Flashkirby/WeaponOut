@@ -14,13 +14,22 @@ namespace WeaponOut.Items
         }
         public override void SetDefaults()
         {
-            item.name = "Pavise";
+            item.name = "Ceratopsian Shield";
             item.width = 24;
             item.height = 28;
             item.toolTip = "10 defense when facing attacks"; //see playerfx
             item.toolTip2 = "Grants immunity to knockback when facing attacks"; //see playerfx
+            item.rare = 1;
             item.accessory = true;
-            item.value = Item.sellPrice(0, 0, 50, 0);
+            item.value = Item.sellPrice(0, 0, 20, 0);
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FossilOre, 25);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
