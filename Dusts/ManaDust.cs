@@ -21,14 +21,14 @@ namespace WeaponOut.Dusts
                 if (Main.rand.Next(4) == 0)
                 {
                     dust.noLight = false;
-                    dust.scale -= 0.5f;
+                    dust.scale += 0.3f;
                 }
             }
             else
             {
                 if (Main.rand.Next(10) == 0)
                 {
-                    dust.scale += 0.5f;
+                    dust.scale -= 0.3f;
                     dust.noLight = true;
                 }
             }
@@ -36,7 +36,7 @@ namespace WeaponOut.Dusts
             dust.position += dust.velocity;
             dust.velocity *= 0.85f;
 
-            if (dust.scale < 0.2f && !dust.noLight)
+            if (dust.scale < 0.05f && !dust.noLight)
             {
                 dust.active = false;
             }
