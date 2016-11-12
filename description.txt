@@ -1,7 +1,13 @@
-A compilation of random things that started with weapon holding:
-* Hold out weapons even when not using them! Show/Hide with 1st accessory slot visibility
-* Set up temporary spawn points with Tents!
-* Various custom weapons and projectile behaviours
+A compilation of features built around weapons and accessories:
 
-And a bunch of other stuff...
-WARNING: STILL A WIP, but should be more stable now...
+* Hide/Show weapons being held via 1st accessory slot visibilty.
+* Temporary spawn point tents! Silk + Wood.
+* Whips! Deals crits when hitting at the tip.
+* Fists! Combo punch things, become INVINCIBLE.
+* Dual-use Weapons! Right-click for secondary weapon abilities.
+* More shields! 
+* Endgame powerup accessories! Buff weapons to lunar tier.
+
+And a bunch of other stuff!
+
+MULTIPLAYER: Partially functional, but not reliably so.
