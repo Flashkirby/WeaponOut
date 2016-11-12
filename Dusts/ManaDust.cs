@@ -16,15 +16,33 @@ namespace WeaponOut.Dusts
 
         public override bool Update(Dust dust)
         {
+            if (dust.noLight)
+            {
+                if (Main.rand.Next(4) == 0)
+                {
+                    dust.noLight = false;
+                    dust.scale -= 0.5f;
+                }
+            }
+            else
+            {
+                if (Main.rand.Next(10) == 0)
+                {
+                    dust.scale += 0.5f;
+                    dust.noLight = true;
+                }
+            }
+
             dust.position += dust.velocity;
             dust.velocity *= 0.85f;
-            dust.scale -= 0.04f;
-            if (dust.scale < 0.2f)
+
+            if (dust.scale < 0.2f && !dust.noLight)
             {
                 dust.active = false;
             }
             else
             {
+                dust.scale -= 0.04f;
                 if (dust.velocity.X > 0)
                 {
                     dust.rotation += 0.1f / dust.scale;
@@ -48,7 +66,7 @@ namespace WeaponOut.Dusts
                 128 + lightColor.R / 2,
                 128 + lightColor.G / 2,
                 128 + lightColor.B / 2,
-                100 + (Main.rand.Next(3) == 0 ? 50 : 0));
+                100);
         }
     }
 }
