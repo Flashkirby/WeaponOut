@@ -68,28 +68,28 @@ namespace WeaponOut.Items
                 //melee
                 rawIncrease = SetBonusMelee(heldItem, defaultItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
-                ApplyAutoReuse(heldItem);
+                ApplyAutoReuse(player, heldItem);
             }
             else if (heldItem.ranged && bonusType == 1)
             {
                 //ranged
                 rawIncrease = SetBonusRanged(player, heldItem, defaultItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
-                ApplyAutoReuse(heldItem);
+                ApplyAutoReuse(player, heldItem);
             }
             else if (heldItem.thrown && bonusType == 2)
             {
                 //throwing
                 rawIncrease = SetBonusThrowing(defaultItem, heldItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
-                ApplyAutoReuse(heldItem);
+                ApplyAutoReuse(player, heldItem);
             }
             else if (heldItem.magic && bonusType == 3)
             {
                 //magic
                 rawIncrease = SetBonusMagic(defaultItem, heldItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
-                ApplyAutoReuse(heldItem);
+                ApplyAutoReuse(player, heldItem);
             }
             else if (heldItem.summon && bonusType == 4)
             {
@@ -117,9 +117,21 @@ namespace WeaponOut.Items
             return bonus;
         }
 
-        private static void ApplyAutoReuse(Item heldItem)
+        /// <summary>
+        /// Custom auto rese script, because normal autoreuse breaks things like spears
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="heldItem"></param>
+        private static void ApplyAutoReuse(Player player, Item heldItem)
         {
-            if (!heldItem.autoReuse && !heldItem.channel) heldItem.autoReuse = true;
+            //Main.NewText("auto is melee? " + heldItem.melee + " | reuse? " + heldItem.autoReuse);
+            if (!heldItem.autoReuse)
+            {
+                if (player.itemAnimation == 0)
+                {
+                    player.releaseUseItem = true;
+                }
+            }
         }
 
         private static float SetBonusSummon(Item defaultItem, float rawIncrease)
