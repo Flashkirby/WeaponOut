@@ -27,7 +27,7 @@ namespace WeaponOut.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FossilOre, 25);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
