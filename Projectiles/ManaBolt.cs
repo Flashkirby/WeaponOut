@@ -35,6 +35,7 @@ namespace WeaponOut.Projectiles
         //ai[1] is spawnscale
         //localAI[0] is countdowntospawn
         Vector2 spawnPosCentre;
+        bool sizeChanged;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -48,7 +49,25 @@ namespace WeaponOut.Projectiles
                 //damage scales between 100-200 average
                 projectile.ai[1] = 1f + 0.25f + projectile.damage * 0.0075f;
             }
+            //limit size to stonkingly big (instead of ゴジラ big)
+            projectile.ai[1] = Math.Min(3f, projectile.ai[1]);
             projectile.scale = projectile.ai[1] - 1f;
+
+            //only the first projectile, on spawn
+            if (projectile.ai[0] == 0f && projectile.localAI[0] == 0) 
+            {
+                projectile.velocity *= (2f + projectile.ai[1]) / 2;
+            }
+
+            //resize projectile to match scale
+            if (!sizeChanged)
+            {
+                sizeChanged = true;
+                Vector2 centre = projectile.Center;
+                projectile.width = (int)(projectile.width * projectile.scale);
+                projectile.height = (int)(projectile.height * projectile.scale);
+                projectile.Center = centre;
+            }
 
             int reachEnd = (int)(150f / projectile.velocity.Length() * (projectile.ai[1] - 1f));
             if (projectile.localAI[0] == reachEnd)
@@ -114,17 +133,23 @@ namespace WeaponOut.Projectiles
             //tilehitter
             if (tileHit != null)
             {
-                float timeLeftNormal = (float)projectile.timeLeft / 45;
-                d = Dust.NewDust(tileHit, projectile.width, projectile.height, WeaponOut.DustIDManaDust, 0f, 0f, 0, default(Color), projectile.scale * 2);
-                Main.dust[d].velocity = new Vector2(
-                    projectile.velocity.Y * projectile.scale * 0.6f * timeLeftNormal,
-                    -projectile.velocity.X * projectile.scale * 0.6f * timeLeftNormal);
-                d = Dust.NewDust(tileHit, projectile.width, projectile.height, WeaponOut.DustIDManaDust, 0f, 0f, 0, default(Color), projectile.scale * 2);
-                Main.dust[d].velocity = new Vector2(
-                    -projectile.velocity.Y * projectile.scale * 0.6f * timeLeftNormal,
-                    projectile.velocity.X * projectile.scale * 0.6f * timeLeftNormal);
+                generateTileDust(projectile.scale);
             }
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+        }
+
+        private void generateTileDust(float scale)
+        {
+            int d;
+            float timeLeftNormal = (float)projectile.timeLeft / 45;
+            d = Dust.NewDust(tileHit, projectile.width, projectile.height, WeaponOut.DustIDManaDust, 0f, 0f, 0, default(Color), projectile.scale * 2);
+            Main.dust[d].velocity = new Vector2(
+                projectile.velocity.Y * scale * 0.3f * timeLeftNormal,
+                -projectile.velocity.X * scale * 0.3f * timeLeftNormal);
+            d = Dust.NewDust(tileHit, projectile.width, projectile.height, WeaponOut.DustIDManaDust, 0f, 0f, 0, default(Color), projectile.scale * 2);
+            Main.dust[d].velocity = new Vector2(
+                -projectile.velocity.Y * scale * 0.5f * timeLeftNormal,
+                projectile.velocity.X * scale * 0.5f * timeLeftNormal);
         }
 
         public override void TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
