@@ -192,7 +192,7 @@ namespace WeaponOut
             {
                 if (player.noKnockback)
                 {
-                    //probably the shield is giving knockback immunity so assume its this
+                    //probably the shield is giving knockback immunity so assume its player
                     return heartsPerDefence * (check.defense + prefixBonus);
                 }
                 else
@@ -492,7 +492,7 @@ namespace WeaponOut
             //don't draw when not ingame
             if (Main.gameMenu) return;
 
-            //get this player
+            //get player player
             Player drawPlayer = drawInfo.drawPlayer;
 
             //hide if dead, stoned etc.
@@ -501,7 +501,7 @@ namespace WeaponOut
             if (drawPlayer.itemAnimation > 0 //do nothing if player is doing something
                 || drawPlayer.hideVisual[3]) return; //also hide if accessory 1 is hidden
 
-            //this player's held item
+            //player player's held item
             Item heldItem = drawPlayer.inventory[drawPlayer.selectedItem];
             if (heldItem == null || heldItem.type == 0 || heldItem.holdStyle != 0) return; //no item so nothing to show
 
@@ -834,7 +834,7 @@ namespace WeaponOut
         private static void drawShieldOver(PlayerDrawInfo drawInfo)
         {
             //go away if disappeared
-            //get this
+            //get player
             PlayerFX p = drawInfo.drawPlayer.GetModPlayer<PlayerFX>
                 (ModLoader.GetMod("WeaponOut"));
             if (p.shieldGraphicAlpha >= 255) return;
@@ -894,6 +894,12 @@ namespace WeaponOut
             ShieldPreHurt(damage, crit, hitDirection);
             return true;
         }
+
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        {
+            ShieldBounceNPC(npc);
+        }
+
         private void ShieldPreHurt(int damage, bool crit, int hitDirection)
         {
             if (DamageKnockbackThreshold > 0)
@@ -911,6 +917,27 @@ namespace WeaponOut
                 if (frontNoKnockback) player.noKnockback = true;
             }
         }
+        private void ShieldBounceNPC(NPC npc)
+        {
+            //ignore if not facing
+            if (player.direction == 1 && npc.Center.X < player.Center.X) return;
+            if (player.direction == -1 && npc.Center.X > player.Center.X) return;
+
+            //bump if not attacking
+            if (player.whoAmI == Main.myPlayer && player.itemAnimation == 0
+                && !player.immune && this.frontNoKnockback && !npc.dontTakeDamage)
+            {
+                int hitDamage = 1;
+                float knockBack = (Math.Abs(player.velocity.X) + 2f) / (0.2f + npc.knockBackResist); //sclaing knockback with kbr
+                int hitDirection = player.direction;
+                npc.StrikeNPC(hitDamage, (float)knockBack, hitDirection, false, false, false);
+                if (Main.netMode != 0)
+                {
+                    NetMessage.SendData(28, -1, -1, "", npc.whoAmI, (float)hitDamage, (float)knockBack, (float)hitDirection, 0, 0, 0);
+                }
+            }
+        }
+
 
 
 
