@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons
             item.useTurn = true;
 
             item.useStyle = 1;
-            item.useSound = 1;
+            item.UseSound = SoundID.Item1;
             item.useTime = 20;
             item.useAnimation = 20;
 

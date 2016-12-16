@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons
             item.shoot = mod.ProjectileType("FistFlameBlast");
             item.shootSpeed = 6;
             item.knockBack = 4f;
-            item.useSound = 32;
+            item.UseSound = SoundID.Item32;
 
             item.value = Item.sellPrice(0, 0, 24, 0);
             item.rare = 2;

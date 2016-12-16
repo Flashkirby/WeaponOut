@@ -22,7 +22,7 @@ namespace WeaponOut.Items.Placeable
             item.useAnimation = 15;
             item.useTime = 10;
             item.createTile = mod.TileType("CampTent");
-            //item.useSound = 32;
+            //item.UseSound = SoundID.Item32;
 
             item.useTurn = true;
             item.autoReuse = true;

@@ -22,7 +22,7 @@ Mana bolt damage increases with mana";
 
             item.autoReuse = true;
 
-            item.useSound = 28;
+            item.UseSound = SoundID.Item28;
             item.useStyle = 1; //swing
             item.useAnimation = 16;
             item.useTime = 15;
@@ -41,7 +41,7 @@ Mana bolt damage increases with mana";
             item.value = Item.sellPrice(0, 5, 0, 0);
 
             dual = new HelperDual(item, true); //prioritise magic defaults
-            dual.UseSound = 68;
+            dual.UseSound = SoundID.Item68;
             dual.UseStyle = 5;
             dual.UseAnimation = 40;
             dual.UseTime = 40;

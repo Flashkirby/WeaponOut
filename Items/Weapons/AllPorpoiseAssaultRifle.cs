@@ -53,7 +53,7 @@ namespace WeaponOut.Items.Weapons
             item.height = 20;
             item.scale = 1.1f;
 
-            item.useSound = 99;
+            item.UseSound = SoundID.Item99;
             item.useStyle = 5;
             item.useAnimation = 7; //just above insanely fast, because its not really that fast
             item.useTime = 7;

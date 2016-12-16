@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 using WeaponOut.Items.Weapons.UseStyles;
@@ -20,7 +21,7 @@ namespace WeaponOut.Items.Weapons
             item.height = 28;
             item.damage = 2;
             item.knockBack = 2f;
-            item.useSound = 7;
+            item.UseSound = SoundID.Item7;
             item.noUseGraphic = true;
             item.melee = true;
         }

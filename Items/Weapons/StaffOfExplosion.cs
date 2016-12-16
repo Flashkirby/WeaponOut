@@ -30,7 +30,7 @@ Enemies are more likely to target you while casting";
             item.shootSpeed = 1;
 
             item.useStyle = 5;
-            item.useSound = 8;
+            item.UseSound = SoundID.Item8;
             item.useTime = 60;
             item.useAnimation = 60;
 

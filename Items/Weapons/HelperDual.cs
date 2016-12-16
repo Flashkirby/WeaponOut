@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace WeaponOut.Items.Weapons
 {
@@ -73,8 +73,8 @@ namespace WeaponOut.Items.Weapons
         public int Crit { set { crit[1] = value; } }
 
         //general
-        private int[] useSound = new int[2];
-        public int UseSound { set { useSound[1] = value; } }
+        private LegacySoundStyle[] useSound = new LegacySoundStyle[2];
+        public LegacySoundStyle UseSound { set { useSound[1] = value; } }
         private bool[] melee = new bool[2];
         public bool Melee { set { melee[1] = value; } }
         private bool[] ranged = new bool[2];
@@ -129,8 +129,8 @@ namespace WeaponOut.Items.Weapons
             shootSpeed[1] = item.shootSpeed;
             crit[0] = item.crit; 
             crit[1] = item.crit;
-            useSound[0] = item.useSound;
-            useSound[1] = item.useSound;
+            useSound[0] = item.UseSound;
+            useSound[1] = item.UseSound;
             melee[0] = item.melee;
             ranged[0] = item.ranged;
             magic[0] = item.magic;
@@ -166,7 +166,7 @@ namespace WeaponOut.Items.Weapons
                 if (DualItems.Contains(item.type))
                 {
                     if (player.altFunctionUse == 1 //the frame you right click
-                        && player.HasBuff(altbuff) == -1
+                        && player.FindBuffIndex(altbuff) == -1
                         && player.itemAnimation <= 0 + (item.autoReuse ? 1 : 0)) //why is autoreuse so awkward :(
                     {
                         //Main.NewText(player.altFunctionUse + " | " + player.itemAnimation + " <= " + (0 + (item.autoReuse ? 1 : 0)));
@@ -205,7 +205,7 @@ namespace WeaponOut.Items.Weapons
         /// <param name="player"></param>
         public void CanUseItem(Player player)
         {
-            int buff = player.HasBuff(altbuff);
+            int buff = player.FindBuffIndex(altbuff);
             bool raceScenario = (buff != -1 && player.itemAnimation <= 0); //just before int weaponDamage is setup
             if (raceScenario) setToDefaults = false;
             if (player.altFunctionUse == 0 //during CanUseItem in ItemCheck
@@ -234,7 +234,7 @@ namespace WeaponOut.Items.Weapons
             //multiplayer clients not inc. host
             if (player.whoAmI != Main.myPlayer && Main.netMode == 1)
             {
-                int buff = player.HasBuff(altbuff);
+                int buff = player.FindBuffIndex(altbuff);
                 if (buff != -1) //has the buff
                 {
                     if (player.altFunctionUse == 0)
@@ -383,7 +383,7 @@ namespace WeaponOut.Items.Weapons
                     if (magic[inver]) { item.melee = false; item.ranged = false; item.magic = true; }
                 }
             }
-            item.useSound = useSound[index];
+            item.UseSound = useSound[index];
             item.useStyle = useStyle[index];
             item.noMelee = noMelee[index];
             item.useTurn = useTurn[index];

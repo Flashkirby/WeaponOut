@@ -233,7 +233,7 @@ namespace WeaponOut.Projectiles
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit) { faceExplosion(target); }
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) { faceExplosion(target); }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) { faceExplosion(target); }
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) { faceExplosion(target); }
         private void faceExplosion(Entity entity)

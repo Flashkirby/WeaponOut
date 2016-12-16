@@ -18,7 +18,7 @@ namespace WeaponOut.Items.Weapons
 
             item.autoReuse = true;
 
-            item.useSound = 1;
+            item.UseSound = SoundID.Item1;
             item.useStyle = 1; //swing
             item.useAnimation = 16;
             item.useTime = 15;
@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons
             item.value = 20000;
 
             dual = new HelperDual(item, true); //prioritise magic defaults
-            dual.UseSound = 0;
+            dual.UseSound = null;
             dual.UseStyle = 5;
             dual.UseAnimation = 21;
             dual.UseTime = 21;
@@ -88,7 +88,7 @@ namespace WeaponOut.Items.Weapons
 
         public override void MeleeEffects(Player player, Microsoft.Xna.Framework.Rectangle hitbox)
         {
-            if (player.HasBuff(WeaponOut.BuffIDManaReduction) != -1)
+            if (player.FindBuffIndex(WeaponOut.BuffIDManaReduction) != -1)
             {
                 int d = Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 15, (player.velocity.X * 0.2f) + (player.direction * 3), player.velocity.Y * 0.2f, 100, Color.White, 1.3f);
                 Main.dust[d].noGravity = true;

@@ -77,8 +77,8 @@ namespace WeaponOut.Projectiles
             projectile.spriteDirection = projectile.direction;
             player.ChangeDir(projectile.direction);
             player.heldProj = projectile.whoAmI;
-            player.itemTime = 2;
-            player.itemAnimation = 2;
+            player.itemTime = Math.Max(player.itemTime, player.itemAnimationMax - (int)projectile.localAI[1]);
+            player.itemAnimation = Math.Max(2, player.itemAnimationMax - (int)projectile.localAI[1]);
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
 
             Vector2 vector34 = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
@@ -155,7 +155,7 @@ namespace WeaponOut.Projectiles
             if (crit) { Main.PlaySound(2, target.Center, whipSoftSound ? 98 : 40); }
             if (target != null)
             {
-                projectile.npcImmune[target.whoAmI] = 10;
+                projectile.localNPCImmunity[target.whoAmI] = 10;
                 target.immune[projectile.owner] = (int)(projectile.localAI[1] - projectile.ai[0] / projectile.MaxUpdates);
             }
         }

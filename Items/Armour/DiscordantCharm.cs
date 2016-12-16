@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -71,7 +72,7 @@ Can be equipped as an accessory";
         {
             if (player.controlHook)
             {
-                if (player.HasBuff(BuffID.ChaosState) == -1)
+                if (player.FindBuffIndex(BuffID.ChaosState) == -1)
                 {
                     for (int i = 0; i < player.inventory.Length; i++)
                     {
@@ -98,50 +99,43 @@ Can be equipped as an accessory";
         {
             if (Main.myPlayer == player.whoAmI)
             {
-                Vector2 vector22;
-                vector22.X = (float)Main.mouseX + Main.screenPosition.X;
+                Vector2 vector32;
+                vector32.X = (float)Main.mouseX + Main.screenPosition.X;
                 if (player.gravDir == 1f)
                 {
-                    vector22.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
+                    vector32.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
                 }
                 else
                 {
-                    vector22.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
+                    vector32.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
                 }
-                vector22.X -= (float)(player.width / 2);
-                if (vector22.X > 50f && vector22.X < (float)(Main.maxTilesX * 16 - 50) && vector22.Y > 50f && vector22.Y < (float)(Main.maxTilesY * 16 - 50))
+                vector32.X -= (float)(player.width / 2);
+                if (vector32.X > 50f && vector32.X < (float)(Main.maxTilesX * 16 - 50) && vector32.Y > 50f && vector32.Y < (float)(Main.maxTilesY * 16 - 50))
                 {
-                    int num246 = (int)(vector22.X / 16f);
-                    int num247 = (int)(vector22.Y / 16f);
-                    if ((Main.tile[num246, num247].wall != 87 || (double)num247 <= Main.worldSurface || NPC.downedPlantBoss) && !Collision.SolidCollision(vector22, player.width, player.height))
+                    int num246 = (int)(vector32.X / 16f);
+                    int num247 = (int)(vector32.Y / 16f);
+                    if ((Main.tile[num246, num247].wall != 87 || (double)num247 <= Main.worldSurface || NPC.downedPlantBoss) && !Collision.SolidCollision(vector32, player.width, player.height))
                     {
-                        player.Teleport(vector22, 1, 0);
-                        NetMessage.SendData(65, -1, -1, "", 0, (float)player.whoAmI, vector22.X, vector22.Y, 1, 0, 0);
+                        player.Teleport(vector32, 1, 0);
+                        NetMessage.SendData(65, -1, -1, "", 0, (float)player.whoAmI, vector32.X, vector32.Y, 1, 0, 0);
                         if (player.chaosState)
                         {
                             player.statLife -= player.statLifeMax2 / 7;
                             if (Lang.lang <= 1)
                             {
-                                string deathText = " didn't materialize";
+                                PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
                                 if (Main.rand.Next(2) == 0)
                                 {
-                                    if (player.Male)
-                                    {
-                                        deathText = "'s legs appeared where his head should be";
-                                    }
-                                    else
-                                    {
-                                        deathText = "'s legs appeared where her head should be";
-                                    }
+                                    damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
                                 }
                                 if (player.statLife <= 0)
                                 {
-                                    player.KillMe(1.0, 0, false, deathText);
+                                    player.KillMe(damageSource, 1.0, 0, false);
                                 }
                             }
                             else if (player.statLife <= 0)
                             {
-                                player.KillMe(1.0, 0, false, "");
+                                player.KillMe(PlayerDeathReason.LegacyEmpty(), 1.0, 0, false);
                             }
                             player.lifeRegenCount = 0;
                             player.lifeRegenTime = 0;

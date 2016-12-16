@@ -21,7 +21,7 @@ Right click to fire a forceful burst";
             item.width = 62;
             item.height = 20;
 
-            item.useSound = 31;
+            item.UseSound = SoundID.Item31;
             item.useStyle = 5;
             item.useAnimation = 12; //4 shots
             item.useTime = 3;
@@ -41,7 +41,7 @@ Right click to fire a forceful burst";
             item.value = Item.sellPrice(0, 3, 0, 0);
 
             dual = new HelperDual(item, true);
-            dual.UseSound = 38;
+            dual.UseSound = SoundID.Item38;
             dual.UseAnimation = 28;
             dual.UseTime = 28;
             dual.ReuseDelay = 0;

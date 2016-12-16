@@ -34,7 +34,7 @@ namespace WeaponOut.Projectiles
             projectile.melee = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.updatedNPCImmunity = true;
+            projectile.usesLocalNPCImmunity = true;
         }
 
         public override void AI()
@@ -44,7 +44,7 @@ namespace WeaponOut.Projectiles
 
         #region BaseWhip Stuff
         
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             BaseWhip.ModifyHitAny(projectile, ref damage, ref knockback, ref crit);
         }

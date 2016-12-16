@@ -29,7 +29,7 @@ namespace WeaponOut.Projectiles
             projectile.ignoreWater = false;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (target.immortal) return;
             projectile.ai[1] = 2;

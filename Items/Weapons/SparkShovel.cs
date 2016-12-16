@@ -17,7 +17,7 @@ namespace WeaponOut.Items.Weapons
             item.autoReuse = true;
             item.pick = 35;
 
-            item.useSound = 1;
+            item.UseSound = SoundID.Item1;
             item.useStyle = 1; //swing
             item.useTurn = true; //face player dir
             item.useAnimation = 16;
@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons
             item.value = 5400;
 
             dual = new HelperDual(item, true);
-            dual.UseSound = 8;
+            dual.UseSound = SoundID.Item8;
             dual.UseStyle = 5;
             dual.UseTurn = false;
             dual.UseAnimation = 28;

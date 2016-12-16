@@ -151,9 +151,9 @@ namespace WeaponOut.Items
         {
             Projectile p = new Projectile();
             p.SetDefaults(heldItem.shoot);
-            if (p.updatedNPCImmunity || p.aiStyle == 75)
+            if (p.usesLocalNPCImmunity || p.aiStyle == 75)
             {
-                //projectiles with updatedNPCImmunity hit much more often, so do lunar weapons eg last prism
+                //projectiles with usesLocalNPCImmunity hit much more often, so do lunar weapons eg last prism
                 rawIncrease = CalculateBonusRaw(magicDPS, 1, defaultItem.damage,
                     defaultItem.crit, Math.Min(defaultItem.useAnimation, 2), Math.Min(defaultItem.useTime, 2), defaultItem.reuseDelay);
             }
