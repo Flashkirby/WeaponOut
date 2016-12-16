@@ -75,6 +75,11 @@ namespace WeaponOut
             }
         }
 
+        /// <summary>
+        /// Handy dandy game method for implementating screen shake
+        /// </summary>
+        /// <param name="Transform"></param>
+        /// <returns></returns>
         public override Microsoft.Xna.Framework.Matrix ModifyTransformMatrix(Microsoft.Xna.Framework.Matrix Transform)
         {
             if (!Main.gameMenu)
