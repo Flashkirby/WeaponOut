@@ -40,13 +40,13 @@ namespace WeaponOut.Buffs
                 if (Vector2.Distance(projCentre, playerCentre) < shieldDist + Vector2.Distance(default(Vector2), projectile.velocity * 2.5f))
                 {
                     //		NPC					concerns shielded player		OR		player proj	   concerns the projectile owner due to PVP	  both shooter and target are PVP		shooter on no team OR   shooter in different team to target
-                    if ((projectile.hostile && Main.myPlayer == player.whoAmI) || (projectile.friendly && Main.myPlayer == projectile.owner && projOwner.hostile && player.hostile && (projOwner.team == 0 || projOwner.team != player.team)))
+                    if ((projectile.hostile && Main.myPlayer == player.whoAmI) || (projectile.friendly && Main.myPlayer == projectile.owner && projOwner.hostile && player.hostile && (projOwner.team == 0 || projOwner.team != player.team) && !projectile.minion))
                     {
                         //check if there are projectiles in close proximity with the player
                         //Main.NewText("Have send!");
                         //bool selfHandle = true;
                         //if (projectile.friendly) selfHandle = false;
-                        ReflectProjectile(i, player);
+                        if(projectile.damage < 100 * Main.damageMultiplier) ReflectProjectile(i, player);
                         //Codable.RunGlobalMethod("ModWorld", "ReflectProjectile", player.whoAmI, projectile.owner, projectile.whoAmI, projectile.position.X, projectile.position.Y, projectile.velocity.X, projectile.velocity.Y, projectile.damage, projectile.knockBack, selfHandle);
                     }
                 }
