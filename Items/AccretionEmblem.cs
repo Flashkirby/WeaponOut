@@ -39,6 +39,7 @@ Increases maximum mana by 20";
         {
             HeliosphereEmblem.SetBonus(player, 3);
             player.statManaMax2 += 20;
+            HeliosphereEmblem.DustVisuals(player, DustID.PinkFlame, 2f);
         }
     }
 }

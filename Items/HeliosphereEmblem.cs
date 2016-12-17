@@ -40,7 +40,7 @@ namespace WeaponOut.Items
             HeliosphereEmblem.SetBonus(player, 0);
             player.meleeSpeed += 0.12f;
             player.magmaStone = true;
-            DustVisuals(player, DustID.Fire);
+            HeliosphereEmblem.DustVisuals(player, DustID.Fire, 1.5f);
         }
 
         #region General Emblem Code
@@ -365,17 +365,17 @@ namespace WeaponOut.Items
             float trueAnimation = Math.Max(useAnimation + reuseDelay, 1);
             float hps = 60f / trueAnimation;
 
-            Main.NewText("src " + damageSources + " | hits " + hits + " | dmg " + +pureDamage + " | hps " + hps);
+            //Main.NewText("src " + damageSources + " | hits " + hits + " | dmg " + +pureDamage + " | hps " + hps);
 
             //Main.NewText("goalDPS = " + goalDPS + " | puredmg = " + pureDamage);
             //Main.NewText("goalDPS / anim/hits/dmgsrc = " + (goalDPS / (60 / trueAnimation) / hits / damageSources));
-            Main.NewText("all = " + (goalDPS / hps / hits / damageSources - pureDamage));
+            //Main.NewText("all = " + (goalDPS / hps / hits / damageSources - pureDamage));
 
             float rawBonus = goalDPS / hps / hits / damageSources - pureDamage;
             return rawBonus;
         }
 
-        public static void DustVisuals(Player player, int dustType)
+        public static void DustVisuals(Player player, int dustType, float scale = 1.3f)
         {
             Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
             if (player.direction != 1)
@@ -393,7 +393,7 @@ namespace WeaponOut.Items
             {
                 Dust d = Main.dust[Dust.NewDust
                     (player.Center, 0, 0, dustType, (float)(player.direction * 2), 0f,
-                    100, default(Color), 1.3f)
+                    100, default(Color), scale)
                     ];
                 d.position = dustPos + player.velocity;
                 d.velocity = Utils.RandomVector2(Main.rand, -0.5f, 0.5f) + player.velocity * 0.5f;

@@ -39,6 +39,7 @@ Increases your max number of minions";
         {
             HeliosphereEmblem.SetBonus(player, 4);
             player.maxMinions += 1;
+            HeliosphereEmblem.DustVisuals(player, 135, 2f);
         }
     }
 }

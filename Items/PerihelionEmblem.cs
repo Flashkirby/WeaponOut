@@ -39,6 +39,7 @@ namespace WeaponOut.Items
         {
             HeliosphereEmblem.SetBonus(player, 2);
             player.thrownVelocity += 0.3f;
+            HeliosphereEmblem.DustVisuals(player, 75, 1.5f);
         }
     }
 }
