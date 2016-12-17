@@ -40,6 +40,7 @@ namespace WeaponOut.Items
             HeliosphereEmblem.SetBonus(player, 0);
             player.meleeSpeed += 0.12f;
             player.magmaStone = true;
+            DustVisuals(player, DustID.Fire);
         }
 
         #region General Emblem Code
@@ -267,21 +268,28 @@ namespace WeaponOut.Items
                 Projectile p = new Projectile();
                 p.SetDefaults(heldItem.shoot);
                 if (p.aiStyle == 99)
+                {
                     // YOYO is aiStyle 99, 10 real usespeed due to constant hits
-                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, defaultItem.crit, 10, 10, defaultItem.reuseDelay);
+                    return CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage, defaultItem.crit, 10, 10, defaultItem.reuseDelay);
+                }
                 else if (p.aiStyle == 75)
+                {
                     // moonlord weapon behaviours are busted
-                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                    return CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, 5, 5, defaultItem.reuseDelay);
+                }
                 else if (isPenetrating(p.penetrate) && defaultItem.useTime < (10 * damageSources))
+                {
                     // penetrating projectiles cannot hit faster than 10 usetime due to npc immune
-                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                    return CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, 10, 10, defaultItem.reuseDelay);
-                else
-                    if(p.penetrate <= 1) damageSources++; //fires (that don't interefere with sword damage)
+                }
+                else if (p.penetrate <= 1) damageSources++;
+                { //fires (that don't interefere with sword damage)
                     //standard calculation
-                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                    return CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
+                }
             }
             else
             {
@@ -293,20 +301,20 @@ namespace WeaponOut.Items
                     if (heldItem.shoot > 0)
                     {
                         //drills yo
-                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                        return CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                             defaultItem.crit, 10, 10, defaultItem.reuseDelay);
                     }
                     else
                     {
                         //not drills, yo
-                        rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                        return CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                             defaultItem.crit, defaultItem.useAnimation, defaultItem.useAnimation, defaultItem.reuseDelay);
                     }
                 }
                 else
                 {
                     //standard caluclation
-                    rawIncrease = CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
+                    return CalculateBonusRaw(meleeDPS, damageSources, defaultItem.damage,
                         defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
                 }
             }
@@ -357,14 +365,40 @@ namespace WeaponOut.Items
             float trueAnimation = Math.Max(useAnimation + reuseDelay, 1);
             float hps = 60f / trueAnimation;
 
-            //Main.NewText("src " + damageSources + " | hits " + hits + " | dmg " + +pureDamage + " | hps " + hps);
+            Main.NewText("src " + damageSources + " | hits " + hits + " | dmg " + +pureDamage + " | hps " + hps);
 
             //Main.NewText("goalDPS = " + goalDPS + " | puredmg = " + pureDamage);
             //Main.NewText("goalDPS / anim/hits/dmgsrc = " + (goalDPS / (60 / trueAnimation) / hits / damageSources));
-            //Main.NewText("all = " + (goalDPS / hps / hits / damageSources - pureDamage));
+            Main.NewText("all = " + (goalDPS / hps / hits / damageSources - pureDamage));
 
             float rawBonus = goalDPS / hps / hits / damageSources - pureDamage;
             return rawBonus;
+        }
+
+        public static void DustVisuals(Player player, int dustType)
+        {
+            Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
+            if (player.direction != 1)
+            {
+                hand.X = (float)player.bodyFrame.Width - hand.X;
+            }
+            if (player.gravDir != 1f)
+            {
+                hand.Y = (float)player.bodyFrame.Height - hand.Y;
+            }
+            hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
+            Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
+            
+            for (int i = 0; i < 3; i++)
+            {
+                Dust d = Main.dust[Dust.NewDust
+                    (player.Center, 0, 0, dustType, (float)(player.direction * 2), 0f,
+                    100, default(Color), 1.3f)
+                    ];
+                d.position = dustPos + player.velocity;
+                d.velocity = Utils.RandomVector2(Main.rand, -0.5f, 0.5f) + player.velocity * 0.5f;
+                d.noGravity = true;
+            }
         }
         #endregion
 
