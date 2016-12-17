@@ -50,6 +50,7 @@ namespace WeaponOut.Items.Weapons
         {
             FistStyle.UseItemFrame(player);
             FistStyle.UseItemFramePauseCharge(player, item);
+            fist.UseItemFrameComboStop(player);
             return true;
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)

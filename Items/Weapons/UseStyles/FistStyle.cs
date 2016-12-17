@@ -39,8 +39,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
             punchCombo = 0;
             punchCount = 0;
         }
-
-        //TODO find where to callthis safely withou item freeze or..
+        
         public void UseItemFrameComboStop(Player player)
         {
             //Main.NewText(player.itemAnimation + " | " + player.itemTime);
