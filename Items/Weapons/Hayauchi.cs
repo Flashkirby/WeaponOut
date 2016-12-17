@@ -224,18 +224,18 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
-        //x3 damage + crit to make up for terrible (but cool) usage
+        //x6 damage + crit to make up for terrible (but cool) usage
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
             if (!drawStrike) return;
-            damage *= 4;
+            damage *= 6;
             knockBack *= 2;
             crit = true;
         }
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
         {
             if (!drawStrike) return;
-            damage *= 4;
+            damage *= 6;
             crit = true;
         }
 
