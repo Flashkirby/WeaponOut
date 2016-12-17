@@ -23,6 +23,13 @@ namespace WeaponOut.Items.Weapons
         private const int rocketCooldownMax = 90;
         private int rocketCooldown;
 
+        private const float maxAccuracyMod = 1.2f;
+        private const float minAccuracyMod = -0.6f;
+        private const float addAccuracyMod = 0.2f;
+        private const float decayAccuracyMod = 0.07f;
+        private float accuracyMod = minAccuracyMod;
+        private float Accuracy { get { return Math.Max(0, accuracyMod); } }
+
         public static short customGlowMask = 0;
 
         /// <summary>
@@ -61,7 +68,7 @@ namespace WeaponOut.Items.Weapons
 
             item.ranged = true;
             item.noMelee = true;
-            item.damage = 52;
+            item.damage = 82;
             item.knockBack = 1f;
 
             item.useAmmo = AmmoID.Bullet;
@@ -76,7 +83,7 @@ namespace WeaponOut.Items.Weapons
             dual.UseAnimation = 16;
             dual.UseTime = 16;
 
-            dual.Damage = 130; //+base 40
+            dual.Damage = 140; //+base 40
             dual.KnockBack = 4f;
 
             dual.UseAmmo = AmmoID.Rocket;
@@ -123,6 +130,28 @@ namespace WeaponOut.Items.Weapons
             {
                 Main.PlaySound(25, player.Center); //alert player has rocket up
             }
+
+            //increase accuracy
+            if((player.itemAnimation == 0 || player.altFunctionUse != 0) && accuracyMod > minAccuracyMod)
+            {
+                accuracyMod -= decayAccuracyMod;
+            }
+
+            if(player.whoAmI == Main.myPlayer)
+            {
+                Vector2 vector2Mouse = Vector2.Zero;
+                if (player.itemAnimation > 0)
+                {
+                    vector2Mouse = Main.MouseWorld - player.Center
+                        + new Vector2(Main.rand.NextFloat() - 0.5f, Main.rand.NextFloat() - 0.5f)
+                        * 75f * Accuracy;
+                    vector2Mouse.Normalize();
+                    int d = Dust.NewDust(player.Center + vector2Mouse * 45f - new Vector2(4, 4) - player.velocity,
+                        0, 0, 45, 0, 0, 125, Accuracy <= 0 ? Color.White : Color.LightCyan, Accuracy <= 0 ? 1.5f : 0.9f);
+                    Main.dust[d].velocity = vector2Mouse * 5f;
+                    Main.dust[d].noLight = true;
+                }
+            }
         }
 
         public override bool ConsumeAmmo(Player player)
@@ -138,8 +167,10 @@ namespace WeaponOut.Items.Weapons
         {
             if (player.altFunctionUse == 0)
             {
-                speedX += 0.3f * (Main.rand.NextFloat() - 0.5f);
-                speedY += 0.3f * (Main.rand.NextFloat() - 0.5f);
+                if (accuracyMod < maxAccuracyMod - addAccuracyMod) accuracyMod += addAccuracyMod;
+                if (accuracyMod <= 0) damage = (int)(damage * 1.33);
+                speedX += Accuracy * (Main.rand.NextFloat() - 0.5f);
+                speedY += Accuracy * (Main.rand.NextFloat() - 0.5f);
             }
             else
             {
