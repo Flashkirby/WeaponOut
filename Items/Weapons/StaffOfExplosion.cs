@@ -7,6 +7,7 @@ namespace WeaponOut.Items.Weapons
 {
     public class StaffOfExplosion : ModItem
     {
+        public const int baseDamage = 40;
         public override void SetDefaults()
         {
             item.name = "Staff of Explosion";
@@ -20,7 +21,7 @@ Enemies are more likely to target you while casting";
             item.magic = true;
             item.channel = true;
             item.mana = 10;
-            item.damage = 40; //damage * (charge ^ 2) *1(0) - *25(8) - *160(11) - *1000(15)
+            item.damage = baseDamage; //damage * (charge ^ 2) *1(0) - *25(8) - *160(11) - *1000(15)
             item.knockBack = 3; //up to x2.18
             item.autoReuse = true;
 

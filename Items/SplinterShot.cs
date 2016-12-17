@@ -20,7 +20,7 @@ namespace WeaponOut.Items
             item.consumable = true;
 
             item.ranged = true;
-            item.ammo = 14;//bullet
+            item.ammo = AmmoID.Bullet;
             item.shoot = mod.ProjectileType("SplinterShot");
             item.shootSpeed = 2;
             item.damage = 4;

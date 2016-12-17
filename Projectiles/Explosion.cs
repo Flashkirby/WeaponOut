@@ -120,7 +120,7 @@ namespace WeaponOut.Projectiles
         {
             if (projectile.damage != 0) //first tiome
             {
-                Damage = projectile.damage;
+                Damage = (projectile.damage + Items.Weapons.StaffOfExplosion.baseDamage * 5) / 6;
                 projectile.damage = 0;
                 centreY = projectile.Center.Y;
 
