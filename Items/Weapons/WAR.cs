@@ -26,7 +26,7 @@ namespace WeaponOut.Items.Weapons
             item.knockBack = 5;
 
             item.noMelee = true;
-            item.useAmmo = 14;
+            item.useAmmo = AmmoID.Bullet;
             item.shoot = 14;
             item.shootSpeed = 16;
 

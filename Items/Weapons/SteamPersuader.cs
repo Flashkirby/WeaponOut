@@ -33,7 +33,7 @@ Right click to fire a forceful burst";
             item.damage = 21;
             item.knockBack = 8f;
 
-            item.useAmmo = 14;
+            item.useAmmo = AmmoID.Bullet;
             item.shoot = 10;
             item.shootSpeed = 9f;
 

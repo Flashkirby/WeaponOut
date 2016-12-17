@@ -61,10 +61,10 @@ namespace WeaponOut.Items.Weapons
 
             item.ranged = true;
             item.noMelee = true;
-            item.damage = 48;
+            item.damage = 52;
             item.knockBack = 1f;
 
-            item.useAmmo = 14;
+            item.useAmmo = AmmoID.Bullet;
             item.shoot = 10;
             item.shootSpeed = 10f;
 
@@ -79,7 +79,7 @@ namespace WeaponOut.Items.Weapons
             dual.Damage = 130; //+base 40
             dual.KnockBack = 4f;
 
-            dual.UseAmmo = 771;
+            dual.UseAmmo = AmmoID.Rocket;
             dual.Shoot = 134;
             dual.ShootSpeed = 5.5f;
 

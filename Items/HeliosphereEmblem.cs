@@ -197,7 +197,8 @@ namespace WeaponOut.Items
             p.SetDefaults(heldItem.shoot);
             float ammoInfluence = 1f;
             //arrow
-            if (heldItem.useAmmo == 1 || heldItem.useAmmo == 323)
+            if (heldItem.useAmmo == AmmoID.Arrow || 
+                heldItem.useAmmo == AmmoID.Stake)
             {
                 if (p.aiStyle == 75)
                     // lunar weapon behaviours are busted
@@ -210,7 +211,9 @@ namespace WeaponOut.Items
                 ammoInfluence = (float)testArrow / defaultItem.damage;
             }
             //bullet
-            else if (heldItem.useAmmo == 14 || heldItem.useAmmo == 311)
+            else if (heldItem.useAmmo == AmmoID.Bullet || 
+                heldItem.useAmmo == AmmoID.FallenStar || 
+                heldItem.useAmmo == AmmoID.CandyCorn)
             {
                 if (p.aiStyle == 75)
                     // lunar weapon behaviours are busted
@@ -224,7 +227,10 @@ namespace WeaponOut.Items
                 ammoInfluence = (float)testBullet / defaultItem.damage;
             }
             //rocket
-            else if (heldItem.useAmmo == 771 || heldItem.useAmmo == 246 || heldItem.useAmmo == 312 || heldItem.useAmmo == 514)
+            else if (heldItem.useAmmo == AmmoID.Rocket || 
+                heldItem.useAmmo == AmmoID.StyngerBolt || 
+                heldItem.useAmmo == AmmoID.JackOLantern || 
+                heldItem.useAmmo == AmmoID.NailFriendly)
             {
                 rawIncrease = CalculateBonusRaw(rocketDPS, 1, defaultItem.damage + testRocket,
                     defaultItem.crit, defaultItem.useAnimation, defaultItem.useTime, defaultItem.reuseDelay);
