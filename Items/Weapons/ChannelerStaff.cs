@@ -18,7 +18,7 @@ namespace WeaponOut.Items.Weapons
         {
             get
             {
-                return new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y);
+                return Main.MouseWorld;
             }
         }
 
