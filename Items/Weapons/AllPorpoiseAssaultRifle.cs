@@ -123,6 +123,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override void HoldStyle(Player player) { dual.HoldStyle(player); }
 
+        Vector2 vector2Mouse = Vector2.Zero;
         public override void HoldItem(Player player)
         {
             if (rocketCooldown >= 0) rocketCooldown--;
@@ -139,13 +140,16 @@ namespace WeaponOut.Items.Weapons
 
             if(player.whoAmI == Main.myPlayer)
             {
-                Vector2 vector2Mouse = Vector2.Zero;
                 if (player.itemAnimation > 0)
                 {
-                    vector2Mouse = Main.MouseWorld - player.Center
-                        + new Vector2(Main.rand.NextFloat() - 0.5f, Main.rand.NextFloat() - 0.5f)
-                        * 75f * Accuracy;
-                    vector2Mouse.Normalize();
+                    if(player.itemAnimation == player.itemAnimationMax - 1)
+                    {
+                        //Update shoot direction
+                        vector2Mouse = Main.MouseWorld - player.Center
+                            + new Vector2(Main.rand.NextFloat() - 0.5f, Main.rand.NextFloat() - 0.5f)
+                            * 75f * Accuracy;
+                        vector2Mouse.Normalize();
+                    }
                     int d = Dust.NewDust(player.Center + vector2Mouse * 45f - new Vector2(4, 4) - player.velocity,
                         0, 0, 45, 0, 0, 125, Accuracy <= 0 ? Color.White : Color.LightCyan, Accuracy <= 0 ? 1.5f : 0.9f);
                     Main.dust[d].velocity = vector2Mouse * 5f;
