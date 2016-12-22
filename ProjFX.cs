@@ -45,7 +45,7 @@ namespace WeaponOut
             }
             if(p.lunarThrowVisual && projectile.thrown)
             {
-                if (projectile.whoAmI < 100) // Do not use Beenades.
+                if (projectile.whoAmI < 200) // Do not use Beenades.
                 {
                     float speed = (10f + projectile.velocity.Length()) / 11;
                     Vector2 trailLeft = new Vector2(
