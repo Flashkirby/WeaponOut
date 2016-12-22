@@ -53,6 +53,10 @@ namespace WeaponOut
         }
         public bool frontNoKnockback;
 
+        public bool lunarRangeVisual;
+        public bool lunarMagicVisual;
+        public bool lunarThrowVisual;
+
         /*
         public Item shieldItem;
         public int shieldLastBlock;
@@ -102,6 +106,11 @@ namespace WeaponOut
             damageKnockbackThreshold = 0;
             frontDefence = 0;
             frontNoKnockback = false;
+
+            // Reset visuals
+            lunarRangeVisual = false;
+            lunarMagicVisual = false;
+            lunarThrowVisual = false;
         }
 
         public override void PreUpdate()
