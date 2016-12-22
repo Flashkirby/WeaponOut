@@ -126,7 +126,7 @@ namespace WeaponOut.Items
         private static void ApplyAutoReuse(Player player, Item heldItem)
         {
             //Main.NewText("auto is melee? " + heldItem.melee + " | reuse? " + heldItem.autoReuse);
-            if (!heldItem.autoReuse)
+            if (!heldItem.autoReuse && !heldItem.channel)
             {
                 if (player.itemAnimation == 0)
                 {
