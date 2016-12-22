@@ -17,7 +17,18 @@ namespace WeaponOut
             PlayerFX p = Main.player[projectile.owner].GetModPlayer<PlayerFX>(mod);
             if (p.lunarMagicVisual)
             {
+                Dust d = Main.dust[Dust.NewDust(
+                    projectile.position, projectile.width, projectile.height,
+                    DustID.PinkFlame,
+                    projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f,
+                    0, default(Color), 0.2f
+                    )];
+                d.fadeIn = 1f;
+                d.velocity = d.velocity * 0.7f;
+                d.noGravity = true;
 
+                if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                { d.noLight = true; }
             }
             if (p.lunarRangeVisual && projectile.ranged)
             {
@@ -34,7 +45,48 @@ namespace WeaponOut
             }
             if(p.lunarThrowVisual)
             {
+                if (projectile.whoAmI < 100) // Do not use Beenades.
+                {
+                    float speed = (10f + projectile.velocity.Length()) / 11;
+                    Vector2 trailLeft = new Vector2(
+                        projectile.velocity.X * 0.2f,
+                        projectile.velocity.Y * 0.2f).
+                        RotatedBy(1);
+                    Vector2 trailRght = new Vector2(
+                        projectile.velocity.X * 0.2f,
+                        projectile.velocity.Y * 0.2f).
+                        RotatedBy(-1);
 
+                    bool solid = Collision.SolidCollision(projectile.position, projectile.width, projectile.height);
+
+                    Vector2 pos = projectile.Center - new Vector2(4, 4) + projectile.velocity * 2;
+                    Dust d = Main.dust[Dust.NewDust(
+                        pos, 0, 0,
+                        75,
+                        0, 0, 0, default(Color), projectile.scale * speed
+                        )];
+                    d.velocity = trailLeft;
+                    d.noGravity = true;
+                    if (solid) { d.noLight = true; }
+                    d = Main.dust[Dust.NewDust(
+                        pos, 0, 0,
+                        75,
+                        0, 0, 0, default(Color), projectile.scale * speed
+                        )];
+                    d.velocity = trailRght;
+                    d.noGravity = true;
+                    if (solid) { d.noLight = true; }
+                }
+                else
+                {
+                    Dust d = Main.dust[Dust.NewDust(
+                        projectile.position, projectile.width, projectile.height,
+                        75,
+                        0, 0, 0, default(Color), 0.8f
+                        )];
+                    d.velocity = projectile.velocity * 0.6f;
+                    d.noGravity = true;
+                }
             }
         }
     }
