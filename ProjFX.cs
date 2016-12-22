@@ -11,11 +11,11 @@ namespace WeaponOut
         public override void PostAI(Projectile projectile)
         {
             //Ignore npcs and statics
-            if (projectile.npcProj) return;
+            if (projectile.npcProj || projectile.hostile) return;
             if (projectile.position == projectile.oldPosition) return;
 
             PlayerFX p = Main.player[projectile.owner].GetModPlayer<PlayerFX>(mod);
-            if (p.lunarMagicVisual)
+            if (p.lunarMagicVisual && projectile.magic)
             {
                 Dust d = Main.dust[Dust.NewDust(
                     projectile.position, projectile.width, projectile.height,
@@ -43,7 +43,7 @@ namespace WeaponOut
                 if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 { d.noLight = true; }
             }
-            if(p.lunarThrowVisual)
+            if(p.lunarThrowVisual && projectile.thrown)
             {
                 if (projectile.whoAmI < 100) // Do not use Beenades.
                 {
@@ -82,7 +82,7 @@ namespace WeaponOut
                     Dust d = Main.dust[Dust.NewDust(
                         projectile.position, projectile.width, projectile.height,
                         75,
-                        0, 0, 0, default(Color), 0.8f
+                        0, 0, 0, default(Color), 2f
                         )];
                     d.velocity = projectile.velocity * 0.6f;
                     d.noGravity = true;
