@@ -39,6 +39,7 @@ namespace WeaponOut.Items.Weapons
                 return dualItems;
             }
         }
+        public static void ResetListOnLoad() { dualItems = new List<int>(); }
 
         //buff used for detecthing altfunc
         public static int altbuff { get { return WeaponOut.BuffIDWeaponSwitch; } }
