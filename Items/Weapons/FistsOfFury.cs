@@ -13,10 +13,19 @@ namespace WeaponOut.Items.Weapons
     public class FistsOfFury : ModItem
     {
         public FistStyle fist;
+        public FistStyle Fist
+        {
+            get
+            {
+                if (fist == null)
+                {
+                    fist = new FistStyle(item, 5);
+                }
+                return fist;
+            }
+        }
         public override void SetDefaults()
         {
-            fist = new FistStyle(item, 5);
-
             item.name = "Fists of Fury";
             item.toolTip2 = "Unleashes a fiery blast";
             item.useStyle = FistStyle.useStyle;
@@ -50,7 +59,7 @@ namespace WeaponOut.Items.Weapons
         {
             FistStyle.UseItemFrame(player);
             FistStyle.UseItemFramePauseCharge(player, item);
-            fist.UseItemFrameComboStop(player);
+            Fist.UseItemFrameComboStop(player);
             return true;
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
@@ -71,7 +80,7 @@ namespace WeaponOut.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (fist.OnHitNPC(player, target, true))
+            if (Fist.OnHitNPC(player, target, true))
             {
                 //set on fire
                 target.AddBuff(BuffID.OnFire, 300);
@@ -80,6 +89,7 @@ namespace WeaponOut.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            if (player.itemAnimation != player.itemAnimationMax - 1) return false;
             knockBack = 0f;
             return true;
         }
