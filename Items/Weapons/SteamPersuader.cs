@@ -10,6 +10,7 @@ namespace WeaponOut.Items.Weapons
     public class SteamPersuader : ModItem
     {
         HelperDual dual;
+        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(item); } return dual; } }
         public override void SetDefaults()
         {
             item.name = "Steam Persuader";

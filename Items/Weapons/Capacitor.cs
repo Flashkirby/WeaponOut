@@ -8,6 +8,7 @@ namespace WeaponOut.Items.Weapons
     public class Capacitor : ModItem
     {
         HelperDual dual;
+        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(item); } return dual; } }
         public override void SetDefaults()
         {
             item.name = "Capacitor";
