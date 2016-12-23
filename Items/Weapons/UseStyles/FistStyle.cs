@@ -109,8 +109,9 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
         public static void UseItemFramePauseCharge(Player player, Item item)
         {
+            // Ignore freeze timer in hand (also, using fists inhand - hahah get it)
             if (player.selectedItem == 58) return;
-            //Stop charging charge shot
+            // Stop charging charge shot
             if (player.itemTime < item.useTime - 1) //if less than max
             {
                 player.itemTime = item.useTime - 1; //freeze at at this point until player stops attacking
@@ -216,8 +217,11 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 }
             }
             //no hitbox during winding
-            hitbox = new Rectangle();
-            if (anim > 0.8f || anim <= 0.6f) return true;
+            if (anim > 0.8f || anim <= 0.6f)
+            {
+                hitbox = new Rectangle();
+                return true;
+            }
 
             //set player direction/hitbox
             Vector2 centre = new Vector2();
