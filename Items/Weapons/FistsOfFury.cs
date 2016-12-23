@@ -81,10 +81,14 @@ namespace WeaponOut.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (Fist.OnHitNPC(player, target, true))
+            int combo = Fist.OnHitNPC(player, target, true);
+            if (combo != -1)
             {
-                //set on fire
-                target.AddBuff(BuffID.OnFire, 300);
+                if (combo % Fist.punchComboMax2 == 0)
+                {
+                    //set on fire
+                    target.AddBuff(BuffID.OnFire, 300);
+                }
             }
         }
 
