@@ -27,6 +27,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Fists of Fury";
+            item.toolTip = "Combos up to 5 times";
             item.toolTip2 = "Unleashes a fiery blast";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;

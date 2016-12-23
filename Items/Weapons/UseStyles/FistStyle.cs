@@ -37,13 +37,11 @@ namespace WeaponOut.Items.Weapons.UseStyles
             this.item = item;
             punchComboMax = maxCombo;
             punchCombo = 0;
-            punchCount = 0;
         }
         
         public void UseItemFrameComboStop(Player player)
         {
             //Main.NewText(player.itemAnimation + " | " + player.itemTime);
-            if (punchCombo > 0) item.toolTip = punchComboMax2 + " combo power";
             if (player.itemAnimation == 0)
             {
                 if (punchCombo != 0) comboReset(player);
