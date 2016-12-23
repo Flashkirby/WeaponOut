@@ -7,6 +7,7 @@ namespace WeaponOut.Items.Weapons
 {
     /// <summary>
     /// Hellstone tier, about sun fury DPS
+	/// Resprite by Eli10293
     /// </summary>
     public class MoltenChains : ModItem
     {

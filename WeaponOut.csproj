@@ -99,6 +99,7 @@
     <Content Include="Dusts\ManaDust.png" />
     <Content Include="Items\Armour\DiscordantCharm.png" />
     <Content Include="Projectiles\TentSetup.txt" />
+    <Compile Include="ProjFX.cs" />
     <Compile Include="Tiles\CampTent.cs" />
     <Compile Include="WeaponOut.cs" />
   </ItemGroup>
