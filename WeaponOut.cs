@@ -44,6 +44,7 @@ namespace WeaponOut
                 //AutoloadGores = true,
                 //AutoloadSounds = true
             };
+            Items.Weapons.HelperDual.ResetListOnLoad();
         }
 
         public override void PostSetupContent()
