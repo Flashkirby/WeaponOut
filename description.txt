@@ -8,6 +8,7 @@ A compilation of features built around weapons and accessories:
 * More shields! 
 * Endgame powerup accessories! Buff weapons to lunar tier.
 
-And a bunch of other stuff!
-
-MULTIPLAYER: Partially functional, but not reliably so.
+Credits:
+Flashkirby99 - I am making this mod.
+kiedev666 - Playtesting and ideas.
+Eli10293 - Updated Sprites for: Mana Blast, Mana Sword.
