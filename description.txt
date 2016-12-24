@@ -11,4 +11,4 @@ A compilation of features built around weapons and accessories:
 Credits:
 Flashkirby99 - I am making this mod.
 kiedev666 - Playtesting and ideas.
-Eli10293 - Updated Sprites for: Mana Blast, Mana Sword.
+Eli10293 - Updated Sprites for: Mana Blast, Mana Sword, Molten Chains
