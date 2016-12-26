@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using System.Collections.Generic;
 
 namespace WeaponOut.Items.Weapons
 {
@@ -11,6 +12,11 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class WAR : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModConf.enableBasicContent;
+        }
+
         public const int penetrateBonus = 4;
 
         public override void SetDefaults()

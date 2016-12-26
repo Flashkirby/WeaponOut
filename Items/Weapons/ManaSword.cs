@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Weapons
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
-            return ModConf.enableDualWeapons;
+            return ModConf.enableDualWeapons && ModConf.enableBasicContent;
         }
 
         HelperDual dual;

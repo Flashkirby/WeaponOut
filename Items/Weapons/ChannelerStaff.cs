@@ -29,7 +29,7 @@ namespace WeaponOut.Items.Weapons
         /// </summary>
         public override bool Autoload(ref string name, ref string texture, System.Collections.Generic.IList<EquipType> equips)
         {
-            if (Main.netMode != 2)
+            if (Main.netMode != 2 && ModConf.enableBasicContent)
             {
                 Texture2D[] glowMasks = new Texture2D[Main.glowMaskTexture.Length + 1];
                 for (int i = 0; i < Main.glowMaskTexture.Length; i++)
@@ -39,8 +39,10 @@ namespace WeaponOut.Items.Weapons
                 glowMasks[glowMasks.Length - 1] = mod.GetTexture("Glow/" + this.GetType().Name + "_Glow");
                 customGlowMask = (short)(glowMasks.Length - 1);
                 Main.glowMaskTexture = glowMasks;
+
+                return true;
             }
-            return base.Autoload(ref name, ref texture, equips);
+            return false;
         }
         public override void SetDefaults()
         {

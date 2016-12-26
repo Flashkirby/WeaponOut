@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +13,10 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class DemonBlaster : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModConf.enableBasicContent;
+        }
         public override void SetDefaults()
         {
             item.name = "Demon Blaster";

@@ -4,11 +4,17 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using System.Collections.Generic;
 
 namespace WeaponOut.Items.Weapons
 {
     public class ImmaterialBlade : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModConf.enableBasicContent;
+        }
+
         public override void SetDefaults()
         {
             item.name = "Immaterial Blade";

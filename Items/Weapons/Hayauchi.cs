@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +16,11 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class Hayauchi : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModConf.enableBasicContent;
+        }
+
         private const int waitTime = 80; //charge for special attack, due to coding must be >60
         private const int extraSwingTime = 15; //additional special attack time
 
