@@ -11,11 +11,24 @@ namespace WeaponOut
     /// </summary>
     static class ModCfg
     {
-        public const int configVersion = -1;
+        public const int configVersion = 1;
         public static bool showWeaponOut = true;
-        public const string showWeaponOutField = "show_weaponOut";
+        public const string showWeaponOutField = "show_weaponOut_visuals";
+
+        public static bool enableBasicContent = true;
+        public const string enableBasicContentField = "enable_base_weapons_and_tiles";
+
         public static bool enableWhips = true;
         public const string enableWhipsField = "enable_whips";
+
+        public static bool enableFists = true;
+        public const string enableFistsField = "enable_fists";
+
+        public static bool enableDualWeapons = true;
+        public const string enableDualWeaponsField = "enable_dual_weapons";
+
+        public static bool enableAccessories = true;
+        public const string enableAccessoriesField = "enable_accessories";
 
         static string ConfigPath = Path.Combine(Main.SavePath, "WeaponOut.json");
 
@@ -44,7 +57,12 @@ namespace WeaponOut
                 if (readVersion != configVersion) return false;
 
                 ModConfig.Get(showWeaponOutField, ref showWeaponOut);
+                ModConfig.Get(enableBasicContentField, ref enableBasicContent);
                 ModConfig.Get(enableWhipsField, ref enableWhips);
+                ModConfig.Get(enableFistsField, ref enableFists);
+                ModConfig.Get(enableDualWeaponsField, ref enableDualWeapons);
+                ModConfig.Get(enableAccessoriesField, ref enableAccessories);
+
                 return true;
             }
             return false;
@@ -57,8 +75,14 @@ namespace WeaponOut
         {
             ModConfig.Clear();
             ModConfig.Put("version", configVersion);
+
             ModConfig.Put(showWeaponOutField, showWeaponOut);
+            ModConfig.Put(enableBasicContentField, enableBasicContent);
             ModConfig.Put(enableWhipsField, enableWhips);
+            ModConfig.Put(enableFistsField, enableFists);
+            ModConfig.Put(enableDualWeaponsField, enableDualWeapons);
+            ModConfig.Put(enableAccessoriesField, enableAccessories);
+
             ModConfig.Save();
         }
     }
