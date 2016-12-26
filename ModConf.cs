@@ -9,7 +9,7 @@ namespace WeaponOut
     /// <summary>
     /// Tutorial by goldenapple: https://forums.terraria.org/index.php?threads/modders-guide-to-config-files-and-optional-features.48581/
     /// </summary>
-    static class ModCfg
+    static class ModConf
     {
         public const int configVersion = 1;
         public static bool showWeaponOut = true;

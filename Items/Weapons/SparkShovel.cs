@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -6,6 +7,11 @@ namespace WeaponOut.Items.Weapons
 {
     public class SparkShovel : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModConf.enableDualWeapons;
+        }
+
         HelperDual dual;
         HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(item); } return dual; } }
         public override void SetDefaults()
