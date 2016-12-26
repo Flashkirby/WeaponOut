@@ -11,11 +11,13 @@ namespace WeaponOut
     /// </summary>
     static class ModCfg
     {
-        public static bool showWeaponOut = false;
+        public const int configVersion = -1;
+        public static bool showWeaponOut = true;
         public const string showWeaponOutField = "show_weaponOut";
+        public static bool enableWhips = true;
+        public const string enableWhipsField = "enable_whips";
 
-        // Terraria/ModLoader/Mod Configs/
-        static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs", "WeaponOut.json");
+        static string ConfigPath = Path.Combine(Main.SavePath, "WeaponOut.json");
 
         static Preferences ModConfig = new Preferences(ConfigPath);
 
@@ -37,7 +39,12 @@ namespace WeaponOut
         {
             if (ModConfig.Load())
             {
+                int readVersion = 0;
+                ModConfig.Get("version", ref readVersion);
+                if (readVersion != configVersion) return false;
+
                 ModConfig.Get(showWeaponOutField, ref showWeaponOut);
+                ModConfig.Get(enableWhipsField, ref enableWhips);
                 return true;
             }
             return false;
@@ -49,7 +56,9 @@ namespace WeaponOut
         static void CreateConfig()
         {
             ModConfig.Clear();
+            ModConfig.Put("version", configVersion);
             ModConfig.Put(showWeaponOutField, showWeaponOut);
+            ModConfig.Put(enableWhipsField, enableWhips);
             ModConfig.Save();
         }
     }

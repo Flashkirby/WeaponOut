@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +11,11 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class Whiplash : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModCfg.enableWhips;
+        }
+
         private bool increaseDamage;
         public override void SetDefaults()
         {
