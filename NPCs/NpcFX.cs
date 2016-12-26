@@ -12,22 +12,25 @@ namespace WeaponOut.NPCs
     {
         public override bool Autoload(ref string name)
         {
-            return true;
+            return ModConf.enableWhips;
         }
 
         public override void SetupShop(int type, Chest shop, ref int nextSlot)
         {
-            if (type == NPCID.Wizard)
+            if (ModConf.enableWhips)
             {
-                //add puzzling cutter if any mech boss was defeated
-                if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+                if (type == NPCID.Wizard)
                 {
-                    try
+                    //add puzzling cutter if any mech boss was defeated
+                    if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
                     {
-                        shop.item[nextSlot].SetDefaults(mod.GetItem("PuzzlingCutter").item.type);
-                        nextSlot++;
+                        try
+                        {
+                            shop.item[nextSlot].SetDefaults(mod.GetItem("PuzzlingCutter").item.type);
+                            nextSlot++;
+                        }
+                        catch (Exception e) { }
                     }
-                    catch (Exception e) { }
                 }
             }
         }

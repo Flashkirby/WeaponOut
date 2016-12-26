@@ -15,8 +15,12 @@ namespace WeaponOut.Items.Armour
         private bool skipFrameAcc = false;
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
-            equips.Add(EquipType.Head);
-            return true;
+            if (ModConf.enableAccessories)
+            {
+                equips.Add(EquipType.Head);
+                return true;
+            }
+            return false;
         }
 
         public override void SetDefaults()

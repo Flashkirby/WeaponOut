@@ -9,6 +9,11 @@ namespace WeaponOut.Items
 {
     public class MirrorBadge : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModConf.enableAccessories;
+        }
+
         public override void SetDefaults()
         {
             item.name = "Mirror Badge";

@@ -9,9 +9,14 @@ namespace WeaponOut.Items
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
-            equips.Add(EquipType.Shield);
-            return true;
+            if (ModConf.enableAccessories)
+            {
+                equips.Add(EquipType.Shield);
+                return true;
+            }
+            return false;
         }
+
         public override void SetDefaults()
         {
             item.name = "Ceratopsian Shield";
