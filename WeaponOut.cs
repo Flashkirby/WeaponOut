@@ -49,7 +49,7 @@ namespace WeaponOut
 
         public override void Load()
         {
-            ModCfg.Load();
+            ModConf.Load();
         }
 
         public override void PostSetupContent()
