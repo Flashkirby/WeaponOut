@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
@@ -10,6 +11,11 @@ namespace WeaponOut.Items.Weapons
 {
     public class Fist : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModConf.enableFists;
+        }
+
         private bool increaseDamage;
         public override void SetDefaults()
         {

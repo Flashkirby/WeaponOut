@@ -7,11 +7,17 @@ using Terraria.ModLoader;
 using Terraria.ID;
 
 using WeaponOut.Items.Weapons.UseStyles;
+using System.Collections.Generic;
 
 namespace WeaponOut.Items.Weapons
 {
     public class FistsOfFury : ModItem
     {
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        {
+            return ModConf.enableFists;
+        }
+
         public FistStyle fist;
         public FistStyle Fist
         {
