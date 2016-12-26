@@ -47,6 +47,11 @@ namespace WeaponOut
             Items.Weapons.HelperDual.ResetListOnLoad();
         }
 
+        public override void Load()
+        {
+            ModCfg.Load();
+        }
+
         public override void PostSetupContent()
         {
             BuffIDManaReduction = GetBuff("ManaReduction").Type;
