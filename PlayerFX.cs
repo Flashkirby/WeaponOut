@@ -97,8 +97,11 @@ namespace WeaponOut
             localTempSpawn = new Vector2();
             //shieldGraphicAlpha = 0;
 
-            openFist = mod.ItemType("Fist");
-            fireFistType = mod.ItemType("FistsOfFury");
+            if (ModConf.enableFists)
+            {
+                openFist = mod.ItemType("Fist");
+                fireFistType = mod.ItemType("FistsOfFury");
+            }
         }
 
         public override void ResetEffects()
@@ -262,7 +265,7 @@ namespace WeaponOut
             if (player.itemTime == 1 && player.whoAmI == Main.myPlayer)
             {
                 int itemT = player.inventory[player.selectedItem].type;
-                if (itemT == fireFistType)
+                if (itemT == fireFistType && ModConf.enableFists)
                 {
                     Main.PlaySound(25, -1, -1, 1);
                     for (int i = 0; i < 5; i++)
@@ -332,7 +335,10 @@ namespace WeaponOut
         */
         public override bool PreItemCheck()
         {
-            Items.Weapons.HelperDual.PreItemCheckDualItem(player);
+            if (ModConf.enableDualWeapons)
+            {
+                Items.Weapons.HelperDual.PreItemCheckDualItem(player);
+            }
             //createBareFistInInv();
             return true;
         }
@@ -382,7 +388,7 @@ namespace WeaponOut
             //change idle pose for player using a heavy weapon
             //copypasting from drawPlayerItem
             Item heldItem = player.inventory[player.selectedItem];
-            if (heldItem == null || heldItem.type == 0 || heldItem.holdStyle != 0) return; //no item so nothing to show
+            if (heldItem == null || heldItem.type == 0 || heldItem.holdStyle != 0 || !ModConf.showWeaponOut) return; //no item so nothing to show
             Texture2D weaponTex = weaponTex = Main.itemTexture[heldItem.type];
             if (weaponTex == null) return; //no texture to item so ignore too
             float itemWidth = weaponTex.Width * heldItem.scale;
@@ -499,7 +505,7 @@ namespace WeaponOut
         private static void drawPlayerItem(PlayerDrawInfo drawInfo, bool drawOnBack)
         {
             //don't draw when not ingame
-            if (Main.gameMenu) return;
+            if (Main.gameMenu || !ModConf.showWeaponOut) return;
 
             //get player player
             Player drawPlayer = drawInfo.drawPlayer;
