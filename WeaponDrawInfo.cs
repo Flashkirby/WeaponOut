@@ -5,7 +5,7 @@ using Terraria.DataStructures;
 
 namespace WeaponOut
 {
-    internal static class ModWeaponDraws
+    static class WeaponDrawInfo
     {
         internal static DrawData modDraw_WalkCycle(DrawData data, Player p)
         {
