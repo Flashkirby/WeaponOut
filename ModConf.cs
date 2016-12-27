@@ -83,6 +83,8 @@ namespace WeaponOut
             ModConfig.Put(enableDualWeaponsField, enableDualWeapons);
             ModConfig.Put(enableAccessoriesField, enableAccessories);
 
+            ModConfig.Put("readme", "WARNING: Clients will desync if their local config is different to the server - this cannot be fixed without forcing the clients to download the server's mods and forcing the mods to reload. So don't mess with this too much outside of singleplayer unless you know what you're doing. And no I'm too lazy to find out how to even fix this behaviour. Feel free to delete this.");
+
             ModConfig.Save();
         }
     }
