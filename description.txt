@@ -5,10 +5,12 @@ A compilation of features built around weapons and accessories:
 * Whips! Deals crits when hitting at the tip.
 * Fists! Combo punch things, become INVINCIBLE.
 * Dual-use Weapons! Right-click for secondary weapon abilities.
-* More shields! 
-* Endgame powerup accessories! Buff weapons to lunar tier.
+* More shields! Obtainable early, with situational uses.
+* Endgame powerup accessories! Make low tier weapons lunar.
+* Custom config file, if you want to toggle the above features.
 
 Credits:
 Flashkirby99 - I am making this mod.
 kiedev666 - Playtesting and ideas.
 Eli10293 - Updated Sprites for: Mana Blast, Mana Sword, Molten Chains
+goldenapple - "Modder's Guide to Config Files"
