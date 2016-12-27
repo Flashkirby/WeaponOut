@@ -7,6 +7,11 @@ namespace WeaponOut.Buffs
 {
     public class MirrorBarrier : ModBuff
     {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            return ModConf.enableAccessories;
+        }
+
         public int manaCost { get { return mod.GetItem("MirrorBadge").item.mana; } }
         public const float shieldDist = 40f;
 
