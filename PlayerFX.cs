@@ -915,6 +915,19 @@ namespace WeaponOut
             ShieldBounceNPC(npc);
         }
 
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            ModifyHitAny(item, ref damage, ref crit);
+        }
+        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        {
+            ModifyHitAny(item, ref damage, ref crit);
+        }
+        public void ModifyHitAny(Item item, ref int damage, ref bool crit)
+        {
+            if (item.type == openFist) damage += player.armor[1].defense;
+        }
+
         private void ShieldPreHurt(int damage, bool crit, int hitDirection)
         {
             if (DamageKnockbackThreshold > 0)

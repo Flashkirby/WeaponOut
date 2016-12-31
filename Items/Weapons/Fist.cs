@@ -19,7 +19,7 @@ namespace WeaponOut.Items.Weapons
         private bool increaseDamage;
         public override void SetDefaults()
         {
-            item.name = "Bare Fist";
+            item.name = "Knuckleduster";
             item.toolTip = "Damage scales with chest defense";
             item.useStyle = FistStyle.useStyle;
             item.useAnimation = 19;//actually treated as -2
@@ -31,14 +31,18 @@ namespace WeaponOut.Items.Weapons
             item.noUseGraphic = true;
             item.melee = true;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.IronBar, 5);
+            recipe.anyIronBar = true;
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
         public override bool UseItemFrame(Player player)
         {
-            if (!increaseDamage)
-            {
-                //Main.NewText((player.itemAnimation - 2) + "/" + player.itemAnimationMax);
-                item.damage += player.armor[1].defense; //defence increase attack
-                increaseDamage = true;
-            }
             FistStyle.UseItemFrame(player);
             return true;
         }
