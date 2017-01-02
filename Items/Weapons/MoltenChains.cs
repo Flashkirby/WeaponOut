@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
@@ -13,26 +13,9 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class MoltenChains : ModItem
     {
-        public static short customGlowMask = 0;
-
-        /// <summary>
-        /// Generate a completely legit glowmask ;)
-        /// </summary>
-        public override bool Autoload(ref string name, ref string texture, System.Collections.Generic.IList<EquipType> equips)
+        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
-            if (Main.netMode != 2 && ModConf.enableWhips)
-            {
-                Texture2D[] glowMasks = new Texture2D[Main.glowMaskTexture.Length + 1];
-                for (int i = 0; i < Main.glowMaskTexture.Length; i++)
-                {
-                    glowMasks[i] = Main.glowMaskTexture[i];
-                }
-                glowMasks[glowMasks.Length - 1] = mod.GetTexture("Glow/" + this.GetType().Name + "_Glow");
-                customGlowMask = (short)(glowMasks.Length - 1);
-                Main.glowMaskTexture = glowMasks;
-                return true;
-            }
-            return false;
+            return ModConf.enableWhips;
         }
 
         private bool increaseDamage;
@@ -57,7 +40,6 @@ namespace WeaponOut.Items.Weapons
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
-            item.glowMask = customGlowMask;
             item.rare = 3;
             item.value = Item.sellPrice(0,0,54,0);
         }
@@ -73,10 +55,14 @@ namespace WeaponOut.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
                 Main.rand.Next(-100, 100) * 0.001f * player.gravDir); //whip swinging
             return false;
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
         }
     }
 }
