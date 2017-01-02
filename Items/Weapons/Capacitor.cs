@@ -74,17 +74,17 @@ namespace WeaponOut.Items.Weapons
         public override bool AltFunctionUse(Player player) { return true; }
         public override void UseStyle(Player player)
         {
-            dual.UseStyleMultiplayer(player);
+            Dual.UseStyleMultiplayer(player);
             if (player.altFunctionUse > 0) PlayerFX.modifyPlayerItemLocation(player, -6, 0);
         }
         public override bool CanUseItem(Player player)
         {
-            dual.CanUseItem(player);
+            Dual.CanUseItem(player);
             return base.CanUseItem(player);
         }
         public override void HoldStyle(Player player)
         {
-            dual.HoldStyle(player);
+            Dual.HoldStyle(player);
             base.HoldStyle(player);
         }
 

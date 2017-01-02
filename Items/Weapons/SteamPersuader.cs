@@ -78,17 +78,17 @@ Right click to fire a forceful burst";
         public override bool AltFunctionUse(Player player) { return true; }
         public override void UseStyle(Player player)
         {
-            dual.UseStyleMultiplayer(player);
+            Dual.UseStyleMultiplayer(player);
             PlayerFX.modifyPlayerItemLocation(player, -28, -2);
         }
         public override bool CanUseItem(Player player)
         {
-            dual.CanUseItem(player);
+            Dual.CanUseItem(player);
             return base.CanUseItem(player);
         }
         public override void HoldStyle(Player player)
         {
-            dual.HoldStyle(player);
+            Dual.HoldStyle(player);
             base.HoldStyle(player);
         }
 

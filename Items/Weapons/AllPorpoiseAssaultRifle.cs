@@ -116,15 +116,15 @@ namespace WeaponOut.Items.Weapons
         public override bool AltFunctionUse(Player player) { return rocketCooldown <= 0; }
         public override void UseStyle(Player player)
         {
-            dual.UseStyleMultiplayer(player);
+            Dual.UseStyleMultiplayer(player);
             PlayerFX.modifyPlayerItemLocation(player, -22, 0);
         }
         public override bool CanUseItem(Player player)
         {
-            dual.CanUseItem(player);
+            Dual.CanUseItem(player);
             return base.CanUseItem(player);
         }
-        public override void HoldStyle(Player player) { dual.HoldStyle(player); }
+        public override void HoldStyle(Player player) { Dual.HoldStyle(player); }
 
         Vector2 vector2Mouse = Vector2.Zero;
         public override void HoldItem(Player player)
