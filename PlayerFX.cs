@@ -406,7 +406,9 @@ namespace WeaponOut
                 && weaponTex.Width >= weaponTex.Height * 1.2f
                 && (!heldItem.noUseGraphic || !heldItem.melee)
                 && larger >= 45
-                && !player.hideVisual[3] //accessory1 must be visible
+                && (
+                !player.hideVisual[3] || ModConf.forceShowWeaponOut
+                ) //toggle with accessory1 visibility, or forceshow is on
             )
             {
                 if (playerBodyFrameNum == 0) player.bodyFrame.Y = 10 * player.bodyFrame.Height;
@@ -514,7 +516,7 @@ namespace WeaponOut
             if (!drawPlayer.active || drawPlayer.dead || drawPlayer.stoned) return;
 
             if (drawPlayer.itemAnimation > 0 //do nothing if player is doing something
-                || drawPlayer.hideVisual[3]) return; //also hide if accessory 1 is hidden
+                || (drawPlayer.hideVisual[3] && !ModConf.forceShowWeaponOut)) return; //also hide if accessory 1 is hidden
 
             //player player's held item
             Item heldItem = drawPlayer.inventory[drawPlayer.selectedItem];
