@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Terraria;
-using Terraria.ID;
 using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace WeaponOut.Items.Weapons
 {
@@ -53,6 +54,8 @@ namespace WeaponOut.Items.Weapons
         private bool autoReuse;
         private bool preferAltDamage;
 
+        #region Item Value Fields
+
         //saved default values (before prefixing)
         private int[] damage = new int[2];
         public int Damage { set { damage[1] = value; } }
@@ -94,6 +97,8 @@ namespace WeaponOut.Items.Weapons
         public int UseAmmo { set { useAmmo[1] = value; } }
         private int[] shoot = new int[2];
         public int Shoot { set { shoot[1] = value; } }
+
+        #endregion
 
         /// <summary>
         /// Initialise the helper AFTER setting the item defaults, BEFORE setting alt stats
@@ -193,11 +198,17 @@ namespace WeaponOut.Items.Weapons
         /// For some reason the items fail to work unless they are re-instanced
         /// </summary>
         /// <param name="item"></param>
-        public static void OnCraft(Item item)
+        public static void OnCraft(ModItem modItem)
         {
-            int pre = item.prefix;
-            item.SetDefaults(item.type);
-            item.Prefix(pre);
+            byte pre = modItem.item.prefix;
+
+            // Reset item to new stats, since in hand (selected == 58) constantly makes new items
+            modItem.item.ResetStats(modItem.item.type);
+
+            modItem.item.SetDefaults(modItem.item.type);
+            modItem.SetDefaults();
+            
+            modItem.item.Prefix(pre);
         }
 
         /// <summary>

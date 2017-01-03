@@ -53,7 +53,7 @@ namespace WeaponOut.Items.Weapons
         }
 
         HelperDual dual;
-        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(item); } return dual; } }
+        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
         public override void SetDefaults()
         {
             item.name = "All-Porpoise Assault Rifle";
@@ -111,7 +111,7 @@ namespace WeaponOut.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void OnCraft(Recipe recipe) { HelperDual.OnCraft(item); }
+        public override void OnCraft(Recipe recipe) { HelperDual.OnCraft(this); }
 
         public override bool AltFunctionUse(Player player) { return rocketCooldown <= 0; }
         public override void UseStyle(Player player)

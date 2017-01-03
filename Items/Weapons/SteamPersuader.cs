@@ -16,7 +16,7 @@ namespace WeaponOut.Items.Weapons
         }
 
         HelperDual dual;
-        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(item); } return dual; } }
+        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
         public override void SetDefaults()
         {
             item.name = "Steam Persuader";
@@ -71,7 +71,7 @@ Right click to fire a forceful burst";
         }
         public override void OnCraft(Recipe recipe)
         {
-            HelperDual.OnCraft(item);
+            HelperDual.OnCraft(this);
             base.OnCraft(recipe);
         }
 

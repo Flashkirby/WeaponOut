@@ -14,7 +14,7 @@ namespace WeaponOut.Items.Weapons
         }
 
         HelperDual dual;
-        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(item); } return dual; } }
+        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
         public override void SetDefaults()
         {
             item.name = "Capacitor";
@@ -33,6 +33,10 @@ namespace WeaponOut.Items.Weapons
             item.melee = true; //melee damage
             item.damage = 17;
             item.knockBack = 4f;
+
+            item.mana = 0; // These values are not reset 
+            item.shoot = 0; // when held in hand so they
+            item.shootSpeed = 0f; // must be done manually
 
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
 
@@ -67,7 +71,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override void OnCraft(Recipe recipe)
         {
-            HelperDual.OnCraft(item);
+            HelperDual.OnCraft(this);
             base.OnCraft(recipe);
         }
 

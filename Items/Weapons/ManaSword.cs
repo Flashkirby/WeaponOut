@@ -16,7 +16,7 @@ namespace WeaponOut.Items.Weapons
         }
 
         HelperDual dual;
-        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(item); } return dual; } }
+        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
         public override void SetDefaults()
         {
             item.name = "Mana Sword";
@@ -84,7 +84,7 @@ Mana bolt damage increases with mana";
         }
         public override void OnCraft(Recipe recipe)
         {
-            HelperDual.OnCraft(item);
+            HelperDual.OnCraft(this);
         }
 
         public override bool AltFunctionUse(Player player) { return true; }
