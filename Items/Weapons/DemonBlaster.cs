@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -56,6 +59,14 @@ namespace WeaponOut.Items.Weapons
         public override void UseStyle(Player player)
         {
             PlayerFX.modifyPlayerItemLocation(player, -4, 0);
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            lightColor.R = 255;
+            lightColor.G = Math.Max((byte)119, lightColor.G);
+            lightColor.B = 255;
+            return lightColor;
         }
     }
 }
