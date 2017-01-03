@@ -50,11 +50,12 @@ namespace WeaponOut.Projectiles
                     projectile.velocity.Y = (projectile.velocity.Y * 20f + velocityYModify) / 21f;
                     return;
                 }
-                projectile.velocity.X = (projectile.velocity.X * 100f + velocityXModify) / 101f;
-                projectile.velocity.Y = (projectile.velocity.Y * 100f + velocityYModify) / 101f;
+                projectile.velocity.X = (projectile.velocity.X * 30f + velocityXModify) / 31f;
+                projectile.velocity.Y = (projectile.velocity.Y * 30f + velocityYModify) / 31f;
 
-                if (Math.Abs(projectile.position.X - targetPos.X) < 8 && // p.width / 2 &&
-                    Math.Abs(projectile.position.Y - targetPos.Y) < 8) // p.height / 2)
+                // When near the player
+                if (Math.Abs(projectile.Center.X - targetPos.X) < Player.defaultWidth &&
+                    Math.Abs(projectile.Center.Y - targetPos.Y) < Player.defaultWidth)
                 {
                     projectile.Kill();
                 }
