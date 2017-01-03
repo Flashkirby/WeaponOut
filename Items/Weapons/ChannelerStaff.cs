@@ -64,7 +64,7 @@ Ray also increases magic damage";
             item.shootSpeed = 2;
 
             item.useStyle = 5; //aim
-            Item.staff[item.type] = true; //rotate weapon, as it is a staff
+            Item.staff[item.type] = true; //rotate weapon, as it is a staff though this removes glow
             item.UseSound = SoundID.Item9;
             item.useAnimation = 24;
             item.useTime = 4;
