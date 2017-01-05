@@ -25,34 +25,25 @@ namespace WeaponOut.Items.Weapons
             return ModConf.enableBasicContent;
         }
 
-        public static Vector2 mouse
-        {
-            get
-            {
-                return Main.MouseWorld;
-            }
-        }
-        float targetRange = 256;
-        float selectRange = 64;
-        float dashSpeed = 10f;
-        NPC target = null;
-
         public override void SetDefaults()
         {
             item.name = "Onsoku";
-            item.toolTip = "Dash and strike towards nearby foes";
-            item.toolTip2 = "Like a leaf in the wind";
-            item.width = 46;
-            item.height = 46;
+            item.toolTip = "Dash forward and strike a single foe";
+            item.toolTip2 = "'Like a leaf in the wind'";
+            item.width = 38;
+            item.height = 42;
 
             item.melee = true;
             item.damage = 30;
             item.knockBack = 3;
 
             item.useStyle = 1;
-            item.UseSound = SoundID.Item71;
+            item.UseSound = SoundID.Item1;
             item.useTime = 20;
             item.useAnimation = 20;
+
+            item.shoot = mod.ProjectileType<Projectiles.OnsokuSlash>();
+            item.shootSpeed = 16f;
 
             item.rare = 5;
             item.value = 25000;
@@ -62,122 +53,43 @@ namespace WeaponOut.Items.Weapons
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.BladeofGrass, 1);
-                recipe.AddIngredient(ItemID.AnkletoftheWind, 1);
                 recipe.AddIngredient(ItemID.Muramasa, 1);
+                recipe.AddIngredient(ItemID.SoulofLight, 15);
                 recipe.AddTile(TileID.AdamantiteForge);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
             }
         }
 
-        public override bool CanUseItem(Player player)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            return target != null;
-        }
-
-        public override void HoldItem(Player player) //called when holding but not swinging
-        {
-            target = null;
-            if (player.whoAmI == Main.myPlayer)
+            if (player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack == 0)
             {
-                foreach (NPC n in Main.npc)
-                {
-                    if (!n.active ||
-                        n.life <= 0 ||
-                        n.townNPC ||
-                        n.friendly ||
-                        n.dontTakeDamage
-                        //|| n.immortal
-                        ) continue;
-
-
-                    if (Math.Abs(mouse.X - n.Center.X) < selectRange &&
-                        Math.Abs(mouse.Y - n.Center.Y) < selectRange)
-                    {
-                        if (Math.Abs(player.Center.X - n.Center.X) < targetRange &&
-                            Math.Abs(player.Center.X - n.Center.X) < targetRange)
-                        {
-                            target = n;
-                        }
-                    }
-                }
-            }
-        }
-
-        public override bool HoldItemFrame(Player player) //called on player holding but not swinging
-        {
-            if (target != null) //ready to slash
-            {
-                player.bodyFrame.Y = 4 * player.bodyFrame.Height;
+                player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack = PlayerFX.dashingSpecialAttackOnsoku;
                 return true;
             }
             return false;
         }
 
-        public override void UseStyle(Player player)
+        public override void HoldItem(Player player)
         {
-            int frame = player.itemAnimationMax - player.itemAnimation;
-            if (frame == 1)
+            if (player.itemAnimation == 0)
             {
-                dashVelocity = target.Center - player.Center;
-
-                // teleport to npc
-                Vector2 teleportLoc = target.Bottom - new Vector2(0, player.height);
-                player.Teleport(teleportLoc, 1, 0);
-                NetMessage.SendData(65, -1, -1, "", 0, (float)player.whoAmI, teleportLoc.X, teleportLoc.Y, 1, 0, 0);
-                player.immune = true;
-                player.immuneTime = Math.Max(player.immuneTime, 4);
-
-                // set dash velocity
-                dashVelocity.Normalize();
-                dashVelocity *= dashSpeed;
-            }
-            if (frame > 2 && frame < 6) // frames 3-5
-            {
-                Main.NewText(frame + ": Dash Frame, immune = " + player.immuneTime);
-
-                // Make player temporarily immune
-                player.immune = true;
-                player.immuneTime = Math.Max(player.immuneTime, 6);
-                player.immuneNoBlink = true;
-                player.fallStart = (int)(player.position.Y / 16f);
-                player.fallStart2 = player.fallStart;
-                
-                // player dashes
-                player.velocity = dashVelocity; // set dash
-                player.direction = Math.Sign(dashVelocity.X);
+                item.useStyle = 1;
             }
         }
 
-        //Changes the hitbox of this melee weapon when it is used.
-        Vector2 dashVelocity = new Vector2();
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            int frame = player.itemAnimationMax - player.itemAnimation;
-
-            if(frame > 2 && frame < 6) // frames 3-5
+            if(player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack == PlayerFX.dashingSpecialAttackOnsoku)
             {
-                //centre the hitbox on the enemy
+                noHitbox = !player.immuneNoBlink;
+                if(!noHitbox)
+                {
+                    Main.SetCameraLerp(0.1f, 10);
+                    player.attackCD = 0;
+                }
                 hitbox = player.getRect();
-
-                // set attack CD to hit 2 enemies
-                if(player.attackCD > 1) player.attackCD = 1;
-            }
-            else
-            {
-                noHitbox = true;
-            }
-        }
-
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            // TODO: make trailing effect
-            for (int i = 0; i < 20; i++)
-            {
-                int d = Dust.NewDust(player.Center - new Vector2(4, 4), 0, 0,
-                    131, dashVelocity.X, dashVelocity.Y);
-                Main.dust[d].noGravity = true;
             }
         }
     }

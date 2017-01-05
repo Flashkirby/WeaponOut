@@ -53,6 +53,9 @@ namespace WeaponOut
         }
         public bool frontNoKnockback;
 
+        public int dashingSpecialAttack;
+        public const int dashingSpecialAttackOnsoku = 1;
+
         public bool lunarRangeVisual;
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
@@ -94,6 +97,8 @@ namespace WeaponOut
 
         public override void Initialize()
         {
+            dashingSpecialAttack = 0;
+
             localTempSpawn = new Vector2();
             //shieldGraphicAlpha = 0;
 
@@ -109,6 +114,17 @@ namespace WeaponOut
             damageKnockbackThreshold = 0;
             frontDefence = 0;
             frontNoKnockback = false;
+
+            if (player.velocity.Y == 0 && player.itemTime == 0)
+            {
+                if(dashingSpecialAttack != 0)
+                {
+                    //bleep
+                    itemFlashFX();
+                }
+                // Restore special dashing if grounded
+                dashingSpecialAttack = 0;
+            }
 
             // Reset visuals
             lunarRangeVisual = false;
@@ -267,72 +283,77 @@ namespace WeaponOut
                 int itemT = player.inventory[player.selectedItem].type;
                 if (itemT == fireFistType && ModConf.enableFists)
                 {
-                    Main.PlaySound(25, -1, -1, 1);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        int d = Dust.NewDust(
-                            player.position, player.width, player.height, 45, 0f, 0f, 255, 
-                            default(Color), (float)Main.rand.Next(20, 26) * 0.1f);
-                        Main.dust[d].noLight = true;
-                        Main.dust[d].noGravity = true;
-                        Main.dust[d].velocity *= 0.5f;
-                    }
+                    itemFlashFX();
                 }
             }
         }
+        private void itemFlashFX()
+        {
+            Main.PlaySound(25, -1, -1, 1);
+            for (int i = 0; i < 5; i++)
+            {
+                int d = Dust.NewDust(
+                    player.position, player.width, player.height, 45, 0f, 0f, 255,
+                    default(Color), (float)Main.rand.Next(20, 26) * 0.1f);
+                Main.dust[d].noLight = true;
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= 0.5f;
+            }
+        }
+
         /*
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref string deathText)
-        {
-            int originalDmg = damage;
-            damage = generateBlockDamage(damage);
-            if (originalDmg != damage)
-            {
-                if (shieldBlock == 0)
-                { Main.PlaySound(4, player.position, 15); } //BREAK SHIELD 
-                else
-                {
-                    if (originalDmg < shieldBlockMax / 3)
-                    {
-                        if (damage == 1)
-                        { Main.PlaySound(3, player.position, 15); } //scratch
-                        else { Main.PlaySound(3, player.position, 16); } //light
-                    } 
-                    else
-                    { Main.PlaySound(3, player.position, 17); }//heavy
-                    playSound = false;
-                }
-                //Main.NewText("Shield: " + shieldBlock, 255, 0, 100);
-            }
-            return true;
-        }
-        
-        /// <summary>
-        /// Reduces damage taken, and removes it from shield health
-        /// </summary>
-        /// <param name="damage"></param>
-        /// <returns></returns>
-        private int generateBlockDamage(int damage)
-        {
-            if (shieldBlock >= damage)
-            {
-                shieldBlock -= damage;
-                damage = 1;
-                shieldRegenDelay = shieldDelayPause;
-                shieldRegenCounter = shieldCounterBase;
-            }
-            else
-            {
-                damage -= shieldBlock;
-                if (shieldBlock > 0) //if first time block, create delay
-                {
-                    shieldRegenDelay = shieldDelayReset;
-                    shieldRegenCounter = shieldCounterBase;
-                }
-                shieldBlock = 0;
-            }
-            return damage;
-        }
-        */
+public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref string deathText)
+{
+   int originalDmg = damage;
+   damage = generateBlockDamage(damage);
+   if (originalDmg != damage)
+   {
+       if (shieldBlock == 0)
+       { Main.PlaySound(4, player.position, 15); } //BREAK SHIELD 
+       else
+       {
+           if (originalDmg < shieldBlockMax / 3)
+           {
+               if (damage == 1)
+               { Main.PlaySound(3, player.position, 15); } //scratch
+               else { Main.PlaySound(3, player.position, 16); } //light
+           } 
+           else
+           { Main.PlaySound(3, player.position, 17); }//heavy
+           playSound = false;
+       }
+       //Main.NewText("Shield: " + shieldBlock, 255, 0, 100);
+   }
+   return true;
+}
+
+/// <summary>
+/// Reduces damage taken, and removes it from shield health
+/// </summary>
+/// <param name="damage"></param>
+/// <returns></returns>
+private int generateBlockDamage(int damage)
+{
+   if (shieldBlock >= damage)
+   {
+       shieldBlock -= damage;
+       damage = 1;
+       shieldRegenDelay = shieldDelayPause;
+       shieldRegenCounter = shieldCounterBase;
+   }
+   else
+   {
+       damage -= shieldBlock;
+       if (shieldBlock > 0) //if first time block, create delay
+       {
+           shieldRegenDelay = shieldDelayReset;
+           shieldRegenCounter = shieldCounterBase;
+       }
+       shieldBlock = 0;
+   }
+   return damage;
+}
+*/
         public override bool PreItemCheck()
         {
             if (ModConf.enableDualWeapons)

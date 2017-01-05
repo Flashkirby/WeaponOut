@@ -38,6 +38,7 @@
     <Compile Include="Buffs\WeaponSwitch.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Items\Weapons\Onsoku.cs" />
     <Compile Include="ModConf.cs" />
     <Compile Include="Dusts\ManaDust.cs" />
     <Compile Include="Items\AccretionEmblem.cs" />
