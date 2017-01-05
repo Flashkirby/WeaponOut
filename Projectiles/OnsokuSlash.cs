@@ -57,10 +57,9 @@ namespace WeaponOut.Projectiles
                     {
                         pos += dashStep * (j / 5f);
                         Dust d = Main.dust[Dust.NewDust(pos, 0, 0,
-                            43, projectile.velocity.X, projectile.velocity.Y,
-                            50, Color.White, 0.1f)];
+                            175, projectile.velocity.X, projectile.velocity.Y,
+                            0, Color.White, 1f)];
                         d.noGravity = true;
-                        d.fadeIn = 0.5f;
                         d.velocity *= 0.05f;
                     }
                 }
@@ -83,8 +82,8 @@ namespace WeaponOut.Projectiles
                 player.itemTime = player.itemAnimationMax - 2;
 
                 //dash
-                player.position += dashStep;
-                player.velocity = dashStep * 0.00001f;
+                player.position += dashStep / 2;
+                player.velocity = dashStep / 2;
 
                 // Set immunities
                 player.immune = true;
@@ -94,7 +93,8 @@ namespace WeaponOut.Projectiles
                 player.fallStart2 = player.fallStart;
 
                 //point in direction
-                player.direction = Math.Sign(dashStep.X);
+                if (dashStep.X > 0) player.direction = 1;
+                if (dashStep.X < 0) player.direction = -1;
 
                 if (UpdateCount >= dashStepDelay + dashStepCount - 1)
                 {

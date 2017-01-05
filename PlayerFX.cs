@@ -127,7 +127,7 @@ namespace WeaponOut
                 if(dashingSpecialAttack != 0)
                 {
                     //bleep
-                    itemFlashFX();
+                    itemFlashFX(175);
                 }
                 // Restore special dashing if grounded
                 dashingSpecialAttack = 0;
@@ -303,13 +303,13 @@ namespace WeaponOut
                 }
             }
         }
-        private void itemFlashFX()
+        private void itemFlashFX(int dustType = 45)
         {
             Main.PlaySound(25, -1, -1, 1);
             for (int i = 0; i < 5; i++)
             {
                 int d = Dust.NewDust(
-                    player.position, player.width, player.height, 45, 0f, 0f, 255,
+                    player.position, player.width, player.height, dustType, 0f, 0f, 255,
                     default(Color), (float)Main.rand.Next(20, 26) * 0.1f);
                 Main.dust[d].noLight = true;
                 Main.dust[d].noGravity = true;
