@@ -29,8 +29,8 @@ namespace WeaponOut.Items.Weapons
             item.height = 40;
 
             item.melee = true;
-            item.damage = 30;
-            item.knockBack = 3;
+            item.damage = 35;
+            item.knockBack = 1;
 
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
