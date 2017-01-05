@@ -25,8 +25,8 @@ namespace WeaponOut.Items.Weapons
             item.name = "Onsoku";
             item.toolTip = "Dashes through enemies";
             item.toolTip2 = "Land after dashing to recharge";
-            item.width = 38;
-            item.height = 42;
+            item.width = 40;
+            item.height = 40;
 
             item.melee = true;
             item.damage = 30;
