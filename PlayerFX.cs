@@ -53,6 +53,10 @@ namespace WeaponOut
         }
         public bool frontNoKnockback;
 
+        public int lastSelectedItem;
+        public int itemSkillDelay;
+        public const int itemSkillDelayHayauchi = Items.Weapons.Hayauchi.waitTime;
+
         public int dashingSpecialAttack;
         public const int dashingSpecialAttackOnsoku = 1;
 
@@ -97,6 +101,9 @@ namespace WeaponOut
 
         public override void Initialize()
         {
+            lastSelectedItem = 0;
+
+            itemSkillDelay = 0;
             dashingSpecialAttack = 0;
 
             localTempSpawn = new Vector2();
@@ -124,6 +131,15 @@ namespace WeaponOut
                 }
                 // Restore special dashing if grounded
                 dashingSpecialAttack = 0;
+            }
+
+            // Manage item skills
+            if (player.selectedItem != lastSelectedItem)
+            {
+                lastSelectedItem = player.selectedItem;
+
+                itemSkillDelay = 0;
+                //Main.NewText(String.Concat(player.selectedItem, " / ", player.oldSelectItem));
             }
 
             // Reset visuals

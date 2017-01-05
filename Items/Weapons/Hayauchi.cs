@@ -21,10 +21,9 @@ namespace WeaponOut.Items.Weapons
             return ModConf.enableBasicContent;
         }
 
-        private const int waitTime = 80; //charge for special attack, due to coding must be >60
+        internal const int waitTime = 80; //charge for special attack, due to coding must be >60 since that's the charge time
         private const int extraSwingTime = 15; //additional special attack time
-
-        private int patience = waitTime;//patience goes from waitTime to 0, but the max is a mininum of 60 due to coding
+        
         private bool drawStrike;
 
         public override void SetDefaults()
@@ -48,7 +47,6 @@ namespace WeaponOut.Items.Weapons
             item.rare = 5;
             item.value = 25000;
 
-            patience = waitTime;
             drawStrike = false; 
         }
         public override void AddRecipes()
@@ -72,24 +70,38 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
-        public override void UpdateInventory(Player player)
+        public int getPatience(Player player)
         {
-            //resets when not in use
-            if (player.inventory[player.selectedItem] != item)
-            {
-                patience = waitTime;
-            }
+            return player.GetModPlayer<PlayerFX>(mod).itemSkillDelay;
         }
+        public void updatePatience(Player player, int valueEquals)
+        {
+            player.GetModPlayer<PlayerFX>(mod).itemSkillDelay = valueEquals;
+        }
+
         public override void HoldItem(Player player) //called when holding but not swinging
         {
+            int patience = getPatience(player);
+            int sheenTime = 60;
+
             //standing still and not grappling, to lower wait
             if (System.Math.Abs(player.velocity.X) < 1f && player.velocity.Y == 0f
                 && player.grapCount == 0
                 && !player.pulley
-                && !(player.frozen || player.webbed || player.stoned)
+                && !(player.frozen || player.webbed || player.stoned || player.noItems)
                 && player.itemAnimation == 0)
-            { if (patience >= 0) patience--; }
-            else { patience = waitTime; }
+            {
+                if (patience < waitTime + 1)
+                {
+                    patience++;
+                    updatePatience(player, patience);
+                }
+            }
+            else
+            {
+                patience = 0;
+                updatePatience(player, patience);
+            }
 
             if (player.itemAnimation == 0)//at the end of a strike
             {
@@ -97,25 +109,35 @@ namespace WeaponOut.Items.Weapons
                 item.useStyle = 1; //set back to swing
             }
 
-            if (patience <= 0) //blade glow
+            if (patience >= waitTime) //blade glow
             {
                 int random = Main.rand.Next(60);
                 Vector2 dustPos = player.Center;
                 if (player.stealth > 0)
                 {
-                    dustPos.X += ((30 - random) * 0.55f - 12) * player.direction - 4;
-                    dustPos.Y -= ((30 - random) * 0.29f - 12) * player.gravDir;
+                    dustPos.X += (
+                        ((sheenTime / 2) - random) * 0.55f - 12)
+                        * player.direction - 4;
+                    dustPos.Y -= (
+                        ((sheenTime / 2) - random) * 0.29f - 12)
+                        * player.gravDir;
+
                     if (player.gravDir < 0) dustPos.Y -= 6;
                     int d = Dust.NewDust(dustPos, 1, 1, 90, 0f, 0f, 0, Color.White, 0.2f);
                     Main.dust[d].velocity = Vector2.Zero;
                     Main.dust[d].noGravity = true;
                     Main.dust[d].fadeIn = 0.8f;
                 }
-                if (patience == 0)//burst
+                if (patience == waitTime)//burst
                 {
                     dustPos = player.Center;
-                    dustPos.X += (30 * 0.55f - 12) * player.direction - 4;
-                    dustPos.Y -= (30 * 0.29f - 12) * player.gravDir;
+                    dustPos.X += (
+                        (sheenTime / 2) * 0.55f - 12)
+                        * player.direction - 4;
+                    dustPos.Y -= (
+                        (sheenTime / 2) * 0.29f - 12)
+                        * player.gravDir;
+
                     if (player.gravDir < 0) dustPos.Y -= 6;
                     Main.PlaySound(25, player.position);
                     for (int i = 0; i < 10; i++)
@@ -124,11 +146,16 @@ namespace WeaponOut.Items.Weapons
                     }
                 }
             }
-            else if (patience < 60) //blade sheen
+            else if (patience > waitTime - sheenTime) //blade sheen
             {
                 Vector2 dustPos = player.Center;
-                dustPos.X += ((30 - patience) * 0.55f - 12) * player.direction - 4;
-                dustPos.Y -= ((30 - patience) * 0.29f - 12) * player.gravDir;
+                dustPos.X += (
+                    (patience + (sheenTime / 2) - waitTime) * 0.55f - 12)
+                    * player.direction - 4;
+                dustPos.Y -= (
+                    (patience + (sheenTime / 2) - waitTime) * 0.29f - 12)
+                    * player.gravDir;
+
                 if (player.gravDir < 0) dustPos.Y -= 6;
 
                 int d = Dust.NewDust(dustPos, 1, 1, 71, 0f, 0f, 0, Color.White, 0.5f);
@@ -138,7 +165,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override bool HoldItemFrame(Player player) //called on player holding but not swinging
         {
-            if (patience <= 0) //ready to slash
+            if (getPatience(player) >= waitTime) //ready to slash
             {
                 player.bodyFrame.Y = 4 * player.bodyFrame.Height;
                 return true;
@@ -149,7 +176,7 @@ namespace WeaponOut.Items.Weapons
         //Allows you to modify the location and rotation of this item in its use animation. Does get called in multiplayer
         public override void UseStyle(Player player)
         {
-            if (patience <= 0) //on the frame when first swung
+            if (getPatience(player) >= waitTime) //on the frame when first swung
             {
                 drawStrike = true; //set up super strike
                 player.itemAnimation += extraSwingTime; //a bit longer
@@ -195,10 +222,12 @@ namespace WeaponOut.Items.Weapons
                 }
                 else if (anim > 0.4f)
                 {
+                    // put hand down
                     player.bodyFrame.Y = 1 * player.bodyFrame.Height;
                 }
                 else
                 {
+                    // hand on sheath
                     player.bodyFrame.Y = 4 * player.bodyFrame.Height;
                 }
             }
