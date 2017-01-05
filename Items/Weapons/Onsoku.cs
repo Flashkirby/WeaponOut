@@ -11,12 +11,7 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Weapons
 {
     /// <summary>
-    /// Stand (mostly) still to charge a slash, messes with hitboxes etc.
-    /// drawstrike does quad damage, with added crit for a total of x8
-    /// 35 * 8 == 280
-    /// Draw Strike speed = 80 + 20 + 15 == 115
-    /// Draw Strike DPS = 146
-    /// hey, its me, jetstream sammy
+    /// Dash around like some kind of... cyborg ninja
     /// </summary>
     public class Onsoku : ModItem
     {
@@ -28,8 +23,8 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Onsoku";
-            item.toolTip = "Dash forward and strike a single foe";
-            item.toolTip2 = "'Like a leaf in the wind'";
+            item.toolTip = "Dashes through enemies";
+            item.toolTip2 = "Land after dashing to recharge";
             item.width = 38;
             item.height = 42;
 
@@ -39,13 +34,13 @@ namespace WeaponOut.Items.Weapons
 
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 24;
+            item.useAnimation = 24;
 
             item.shoot = mod.ProjectileType<Projectiles.OnsokuSlash>();
             item.shootSpeed = 16f;
 
-            item.rare = 5;
+            item.rare = 4;
             item.value = 25000;
         }
         public override void AddRecipes()
@@ -65,6 +60,7 @@ namespace WeaponOut.Items.Weapons
         {
             if (player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack == 0)
             {
+                // Allow dash projectile only if landed since last dash
                 player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack = PlayerFX.dashingSpecialAttackOnsoku;
                 return true;
             }
@@ -73,6 +69,7 @@ namespace WeaponOut.Items.Weapons
 
         public override void HoldItem(Player player)
         {
+            // Reset style to swing when neutral
             if (player.itemAnimation == 0)
             {
                 item.useStyle = 1;
@@ -83,6 +80,7 @@ namespace WeaponOut.Items.Weapons
         {
             if(player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack == PlayerFX.dashingSpecialAttackOnsoku)
             {
+                // Dash with self as hitbox, only when invincible via projectile
                 noHitbox = !player.immuneNoBlink;
                 if(!noHitbox)
                 {
