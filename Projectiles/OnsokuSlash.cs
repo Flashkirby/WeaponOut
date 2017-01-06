@@ -40,11 +40,11 @@ namespace WeaponOut.Projectiles
                 for (int i = 0; i < dashStepCount * 8; i++)
                 {
                     Vector2 move = Collision.TileCollision(
-                        projectile.position, projectile.velocity,
+                        projectile.position, projectile.velocity / 2,
                         projectile.width, projectile.height,
                         true, true, (int)player.gravDir);
-                    projectile.position += move / 4;
                     if (move == Vector2.Zero) break;
+                    projectile.position += move / 2;
                 }
                 dashStep = (projectile.Center - player.Center) / dashStepCount;
 
@@ -81,9 +81,17 @@ namespace WeaponOut.Projectiles
                 player.itemAnimation = player.itemAnimationMax - 2;
                 player.itemTime = player.itemAnimationMax - 2;
 
-                //dash
-                player.position += dashStep / 2;
-                player.velocity = dashStep / 2;
+                // dash, change position to influence camera lerp
+                player.position += Collision.TileCollision(player.position,
+                    dashStep / 2,
+                    player.width,
+                    player.height,
+                    true, true, (int)player.gravDir);
+                player.velocity = Collision.TileCollision(player.position,
+                    dashStep * 0.8f,
+                    player.width,
+                    player.height,
+                    true, true, (int)player.gravDir);
 
                 // Set immunities
                 player.immune = true;
