@@ -21,7 +21,7 @@ namespace WeaponOut.Items.Weapons
             return ModConf.enableBasicContent;
         }
 
-        internal const int waitTime = 80; //charge for special attack, due to coding must be >60 since that's the charge time
+        public const int waitTime = 80; //charge for special attack, due to coding must be >60 since that's the charge time
         private const int extraSwingTime = 15; //additional special attack time
         
         private bool drawStrike;

@@ -55,7 +55,6 @@ namespace WeaponOut
 
         public int lastSelectedItem;
         public int itemSkillDelay;
-        public const int itemSkillDelayHayauchi = Items.Weapons.Hayauchi.waitTime;
 
         public int dashingSpecialAttack;
         public const int dashingSpecialAttackOnsoku = 1;
