@@ -82,7 +82,12 @@ namespace WeaponOut.Projectiles
                 // Guarantee hit the target
                 if (FrameCheck % dashTime == 0)
                 {
-                    player.Bottom = allTargets[currentTarget].Bottom;
+                    // Only teleport if can hit
+                    NPC npc = allTargets[currentTarget];
+                    if (Collision.CanHit(player.Center, 1, 1, npc.position, npc.width, npc.height))
+                    {
+                        player.Bottom = allTargets[currentTarget].Bottom;
+                    }
                 }
                 if (currentTarget >= allTargets.Count)
                 {
@@ -169,7 +174,10 @@ namespace WeaponOut.Projectiles
                     float distance = (center - npc.Center).Length();
                     if (distance <= radius)
                     {
-                        targets.Add(npc, distance);
+                        if (Collision.CanHit(center, 1, 1, npc.position, npc.width, npc.height))
+                        {
+                            targets.Add(npc, distance);
+                        }
                     }
                 }
             }
