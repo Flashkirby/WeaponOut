@@ -145,7 +145,7 @@ namespace WeaponOut.Projectiles
             Dictionary<NPC, float> targets = new Dictionary<NPC, float>();
             foreach(NPC npc in Main.npc)
             {
-                if (npc.active)//npc.CanBeChasedBy())
+                if (npc.CanBeChasedBy())
                 {
                     float distance = (center - npc.Center).Length();
                     if (distance <= radius)
