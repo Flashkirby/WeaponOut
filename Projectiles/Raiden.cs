@@ -48,7 +48,7 @@ namespace WeaponOut.Projectiles
             {
                 FocusAttack(player);
             }
-            else
+            if (!FocusSlash)
             {
                 NormalSlash(player);
             }
@@ -70,7 +70,7 @@ namespace WeaponOut.Projectiles
 
                 if(allTargets.Count <= 0)
                 {
-                    projectile.Kill();
+                    projectile.ai[0] = 1f;
                     return;
                 }
             }
@@ -88,14 +88,14 @@ namespace WeaponOut.Projectiles
                 // Draw dash dust
                 DrawDustToBetweenVectors(player.Center, allTargets[currentTarget].Center, 159,
                     10, 1.4f, true);
-                DrawDustToBetweenVectors(player.Center, allTargets[currentTarget].Center, 106,
-                    5, 2f, true);
 
 
                 Vector2 nextPosition = allTargets[currentTarget].Bottom;
                 if (currentTarget * dashTime == FrameCheck - 1)
                 {
                     Main.PlaySound(2, player.Center, 71);
+                    DrawDustToBetweenVectors(player.Center, allTargets[currentTarget].Center, 106,
+                        30, 2f, true);
 
                     // Set directions
                     projectile.direction = 1;

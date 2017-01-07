@@ -157,8 +157,15 @@ namespace WeaponOut.Items.Weapons
                     Main.PlaySound(2, player.position, 24);
                 }
 
+                int amount = 4;
+                int alpha = 200;
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    amount = 16;
+                    alpha = 100;
+                }
                 // Range display dust;
-                for (int i = 0; i < 16; i++)
+                for (int i = 0; i < amount; i++)
                 {
                     Vector2 offset = new Vector2();
                     double angle = Main.rand.NextDouble() * 2d * Math.PI;
@@ -166,19 +173,23 @@ namespace WeaponOut.Items.Weapons
                     offset.Y += (float)(Math.Cos(angle) * focusRadius);
                     Dust dust = Main.dust[Dust.NewDust(
                         player.Center + offset - new Vector2(4, 4), 0, 0,
-                        106, 0, 0, 100, Color.White, 0.3f
+                        106, 0, 0, alpha, Color.White, 0.3f
                         )];
                     dust.velocity = player.velocity;
                     dust.fadeIn = 0.5f;
                     dust.noGravity = true;
                 }
 
-                List<NPC> targets = Projectiles.Raiden.GetTargettableNPCs(player.Center, focusRadius);
-                Vector2 last = player.Center;
-                for (int i = 0; i < targets.Count; i++)
+                // Display targets for client
+                if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectiles.Raiden.DrawDustToBetweenVectors(last, targets[i].Center, 106);
-                    last = targets[i].Center;
+                    List<NPC> targets = Projectiles.Raiden.GetTargettableNPCs(player.Center, focusRadius);
+                    Vector2 last = player.Center;
+                    for (int i = 0; i < targets.Count; i++)
+                    {
+                        Projectiles.Raiden.DrawDustToBetweenVectors(last, targets[i].Center, 106);
+                        last = targets[i].Center;
+                    }
                 }
             }
 
@@ -252,7 +263,17 @@ namespace WeaponOut.Items.Weapons
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
+            // First check to see if projectile exists. If not, this dpesn't work
+            focusSlash = false;
+            foreach (Projectile p in Main.projectile)
+            {
+                if (p.owner == player.whoAmI && p.type == item.shoot && p.ai[0] == 0)
+                {
+                    focusSlash = true;
+                }
+            }
 
+            // Set hitboxes accordingly
             if (focusSlash)
             {
                 noHitbox = !player.immuneNoBlink;
@@ -263,7 +284,7 @@ namespace WeaponOut.Items.Weapons
                 }
                 hitbox = player.getRect();
             }
-            else
+            if (!focusSlash)
             {
                 NormalHitBox(player, ref hitbox, ref noHitbox);
             }
