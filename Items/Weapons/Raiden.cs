@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Weapons
 {
     /// <summary>
-    /// Dash around like some kind of... cyborg ninja
+    /// Yo it's like, a homing weapon or something.
     /// </summary>
     public class Raiden : ModItem
     {
@@ -21,9 +21,10 @@ namespace WeaponOut.Items.Weapons
         }
 
         public const int focusTime = 60;
-        public const int focusRange = 128;
+        public const int focusRadius = 256;
 
-        private bool slashFlip = false;
+        public bool slashFlip = false;
+        public bool focusSlash = false;
 
         public override void SetDefaults()
         {
@@ -39,16 +40,14 @@ namespace WeaponOut.Items.Weapons
 
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
-            item.useTime = 30;
+            item.useTime = 0;
             item.useAnimation = 30;
-
-            item.shoot = mod.ProjectileType("Hayauchi");
-            item.shootSpeed = 16f;
 
             item.rare = 4;
             item.value = 25000;
 
             slashFlip = false;
+            focusSlash = false;
         }
         public override void AddRecipes()
         {
@@ -64,37 +63,146 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
-        public int getPatience(Player player)
+        public int getFocus(Player player)
         {
             return player.GetModPlayer<PlayerFX>(mod).itemSkillDelay;
         }
-        public void updatePatience(Player player, int valueEquals)
+        public void updateFocus(Player player, int valueEquals)
         {
             player.GetModPlayer<PlayerFX>(mod).itemSkillDelay = valueEquals;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (getPatience(player) >= focusTime)
-            {
-                Projectile.NewProjectile(
-                    player.position.X,
-                    player.position.Y, 0, 0,
-                    mod.ProjectileType(item.name),
-                    player.direction, 0, player.whoAmI);
-            }
             return false;
         }
 
         public override void HoldItem(Player player)
         {
+            int focus = getFocus(player);
+
             // Reset style to swing when neutral
             if (player.itemAnimation == 0)
-            { item.useStyle = 1; }
-            else { item.useStyle = 0; }
+            {
+                item.useStyle = 1;
+                focusSlash = false;
+
+                if ((Math.Abs(player.velocity.X) < 1.5f && player.velocity.Y == 0f
+                && player.grapCount == 0
+                && !player.pulley
+                && !(player.frozen || player.webbed || player.stoned || player.noItems)
+                )
+                || getFocus(player) >= focusTime)
+                {
+                    if (getFocus(player) < focusTime + 1)
+                    {
+                        focus++;
+                        updateFocus(player, focus);
+
+                        Vector2 vector = player.Center;
+                        vector.X += (float)Main.rand.Next(-2048, 2048) * 0.02f;
+                        vector.Y += (float)Main.rand.Next(-2048, 2048) * 0.02f;
+
+
+                        // Charging dust
+                        Dust d = Main.dust[Dust.NewDust(
+                            vector, 1, 1,
+                            235, 0f, 0f, 0,
+                            Color.White, 1f)];
+
+                        d.velocity *= 0f;
+                        d.scale = Main.rand.Next(70, 85) * 0.01f;
+                        // This dust uses fadeIn for homing into players
+                        d.fadeIn = Main.myPlayer + 1;
+                    }
+                }
+                else
+                {
+                    focus = 0;
+                    updateFocus(player, focus);
+                }
+            }
+            else
+            {
+                if (player.itemAnimation == player.itemAnimationMax - 1)
+                {
+                    int focusType = 0; // focus attack
+                    if (!focusSlash)
+                    {
+                        if (slashFlip)
+                        { focusType = -1; } //normal slash flipped
+                        else
+                        { focusType = 1; } //normal slash 
+                    }
+                    Projectile.NewProjectile(
+                    player.position.X,
+                    player.position.Y,
+                    0, 0,
+                    mod.ProjectileType(item.name), 
+                    0, 0f,
+                    player.whoAmI,
+                    focusType);
+                }
+
+                item.useStyle = 0;
+                focus = 0;
+                updateFocus(player, focus);
+            }
+
+
+            if (focus >= focusTime)
+            {
+                if (focus == focusTime)
+                {
+                    Main.PlaySound(2, player.position, 24);
+                }
+
+                // Range display dust;
+                for (int i = 0; i < 16; i++)
+                {
+                    Vector2 offset = new Vector2();
+                    double angle = Main.rand.NextDouble() * 2d * Math.PI;
+                    offset.X += (float)(Math.Sin(angle) * focusRadius);
+                    offset.Y += (float)(Math.Cos(angle) * focusRadius);
+                    Dust dust = Main.dust[Dust.NewDust(
+                        player.Center + offset - new Vector2(4, 4), 0, 0,
+                        106, 0, 0, 100, Color.White, 0.3f
+                        )];
+                    dust.velocity = player.velocity;
+                    dust.fadeIn = 0.5f;
+                    dust.noGravity = true;
+                }
+
+                List<NPC> targets = Projectiles.Raiden.GetTargettableNPCs(player.Center, focusRadius);
+                Vector2 last = player.Center;
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    Projectiles.Raiden.DrawDustToBetweenVectors(last, targets[i].Center, 106);
+                    last = targets[i].Center;
+                }
+            }
 
             if(player.itemAnimation == 1) // when almost done, swap around
             { slashFlip = !slashFlip; }
+        }
+
+        public override bool HoldItemFrame(Player player) //called on player holding but not swinging
+        {
+            if (getFocus(player) >= focusTime) //ready to slash
+            {
+                player.bodyFrame.Y = 4 * player.bodyFrame.Height;
+                return true;
+            }
+            return false;
+        }
+
+        public override void UseStyle(Player player)
+        {
+            if(getFocus(player) >= focusTime)
+            {
+                focusSlash = true;
+                slashFlip = false;
+            }
         }
 
         public override bool UseItemFrame(Player player)
@@ -145,29 +253,47 @@ namespace WeaponOut.Items.Weapons
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
 
+            if (focusSlash)
+            {
+                noHitbox = !player.immuneNoBlink;
+                if (!noHitbox)
+                {
+                    Main.SetCameraLerp(0.1f, 10);
+                    player.attackCD = 0;
+                }
+                hitbox = player.getRect();
+            }
+            else
+            {
+                NormalHitBox(player, ref hitbox, ref noHitbox);
+            }
+        }
+
+        private static void NormalHitBox(Player player, ref Rectangle hitbox, ref bool noHitbox)
+        {
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
             // hit box only active during these frames
             if (anim <= 0.9f && anim > 0.6f)
             {
                 int offsetX = 0;
-                if(anim > 0.75f) //first half of wing, covers behind
+                if (anim > 0.75f) //first half of wing, covers behind
                 {
-                    hitbox.Width = 48;
+                    hitbox.Width = 64;
                     hitbox.Height = 92;
-                    offsetX = 6;
+                    offsetX = 14;
                 }
                 else
                 {
-                    hitbox.Width = 80;
-                    hitbox.Height = 96;
-                    offsetX = 32;
+                    hitbox.Width = 96;
+                    hitbox.Height = 112;
+                    offsetX = 40;
                 }
                 // Center hitbox and offset accordingly
                 hitbox.X = (int)player.Center.X - hitbox.Width / 2
                     + offsetX * player.direction;
                 hitbox.Y = (int)player.Center.Y - hitbox.Height / 2;
 
-                if(player.attackCD > 1) player.attackCD = 1;
+                if (player.attackCD > 1) player.attackCD = 1;
             }
             else
             {
@@ -175,22 +301,36 @@ namespace WeaponOut.Items.Weapons
             }
         }
 
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if(focusSlash)
+            {
+                damage *= 4;
+                crit = true;
+            }
+        }
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            float ySpeed = 4f;
-            Vector2 pos = hitbox.TopLeft();
-            if (slashFlip)
+            if (!focusSlash)
             {
-                ySpeed = -4f;
-                pos = hitbox.BottomLeft();
-            }
-            pos -= new Vector2(4, 4);
+                float ySpeed = 4f;
+                Vector2 pos = hitbox.TopLeft();
+                if (slashFlip)
+                {
+                    ySpeed = -4f;
+                    pos = hitbox.BottomLeft();
+                }
+                pos -= new Vector2(4, 4);
 
-            for (int i = 0; i < 10; i++)
-            {
-                Dust.NewDust(pos, hitbox.Width, 0,
-                    159, player.velocity.X * 0.5f, ySpeed,
-                    0, Color.Green, 0.7f);
+                /*
+                for (int i = 0; i < 10; i++)
+                {
+                    Dust.NewDust(pos, hitbox.Width, 0,
+                        159, player.velocity.X * 0.5f, ySpeed,
+                        0, Color.Green, 0.7f);
+                }
+                */
             }
         }
     }

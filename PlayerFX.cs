@@ -395,7 +395,7 @@ private int generateBlockDamage(int damage)
         {
             //emptyBareFistFromInv();
         }
-        
+
         /*
         private void emptyBareFistFromInv()
         {
@@ -406,6 +406,19 @@ private int generateBlockDamage(int damage)
                 player.inventory[player.selectedItem] = new Item();
             }
         }*/
+
+        public override void PostUpdateRunSpeeds()
+        {
+            if(player.inventory[player.selectedItem].type == mod.ItemType<Items.Weapons.Raiden>())
+            {
+                if (itemSkillDelay >= Items.Weapons.Raiden.focusTime)
+                {
+                    float setSpeed = player.maxRunSpeed / 4f;
+                    player.maxRunSpeed -= setSpeed;
+                    player.accRunSpeed = player.maxRunSpeed;
+                }
+            }
+        }
 
         public override void PostUpdate()
         {
