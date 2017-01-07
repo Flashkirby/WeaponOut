@@ -51,6 +51,11 @@ namespace WeaponOut.Projectiles
         {
             if (projectile.timeLeft <= 16)
             {
+                Player player = Main.player[projectile.owner];
+                Point playerCentre = player.Center.ToTileCoordinates();
+
+                lightColor = Lighting.GetColor(playerCentre.X, playerCentre.Y);
+
                 projectile.alpha = 75;
                 projectile.frame = 16 - (projectile.timeLeft * 2);
                 return true;
