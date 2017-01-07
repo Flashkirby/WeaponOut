@@ -66,7 +66,7 @@ namespace WeaponOut.Projectiles
 
             if(FrameCheck == 0)
             {
-                allTargets = GetTargettableNPCs(projectile.Center, Items.Weapons.Raiden.focusRadius);
+                allTargets = GetTargettableNPCs(player.Center, Items.Weapons.Raiden.focusRadius);
 
                 if(allTargets.Count <= 0)
                 {
@@ -78,9 +78,15 @@ namespace WeaponOut.Projectiles
             {
                 int currentTarget = (int)((FrameCheck - 1) / dashTime);
                 player.immuneNoBlink = false;
-                if (currentTarget > allTargets.Count)
+
+                // Guarantee hit the target
+                if (FrameCheck % dashTime == 0)
                 {
-                    projectile.Kill();
+                    player.Bottom = allTargets[currentTarget].Bottom;
+                }
+                if (currentTarget >= allTargets.Count)
+                {
+                    projectile.timeLeft = 0;
                     return;
                 }
 
@@ -136,16 +142,29 @@ namespace WeaponOut.Projectiles
             projectile.frame = (int)FrameCheck * 2;
             if (projectile.frame > Main.projFrames[projectile.type])
             {
-                projectile.Kill();
+                projectile.timeLeft = 0;
             }
         }
+
+        public override bool PreKill(int timeLeft)
+        {
+            if (FocusSlash)
+            {
+                // Reverse direction to avoid recently struck enemy
+                Player player = Main.player[projectile.owner];
+                player.velocity.X *= -1.5f;
+                player.direction *= -1;
+            }
+            return true;
+        }
+
 
         public static List<NPC> GetTargettableNPCs(Vector2 center, float radius)
         {
             Dictionary<NPC, float> targets = new Dictionary<NPC, float>();
             foreach(NPC npc in Main.npc)
             {
-                if (npc.CanBeChasedBy())
+                if (npc.CanBeChasedBy() || npc.type == NPCID.TargetDummy)
                 {
                     float distance = (center - npc.Center).Length();
                     if (distance <= radius)

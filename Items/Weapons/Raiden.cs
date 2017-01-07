@@ -263,16 +263,6 @@ namespace WeaponOut.Items.Weapons
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            // First check to see if projectile exists. If not, this dpesn't work
-            focusSlash = false;
-            foreach (Projectile p in Main.projectile)
-            {
-                if (p.owner == player.whoAmI && p.type == item.shoot && p.ai[0] == 0)
-                {
-                    focusSlash = true;
-                }
-            }
-
             // Set hitboxes accordingly
             if (focusSlash)
             {
@@ -284,7 +274,7 @@ namespace WeaponOut.Items.Weapons
                 }
                 hitbox = player.getRect();
             }
-            if (!focusSlash)
+            else
             {
                 NormalHitBox(player, ref hitbox, ref noHitbox);
             }
@@ -326,7 +316,7 @@ namespace WeaponOut.Items.Weapons
         {
             if(focusSlash)
             {
-                damage *= 4;
+                damage *= 3;
                 crit = true;
             }
         }
