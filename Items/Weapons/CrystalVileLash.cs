@@ -25,7 +25,7 @@ namespace WeaponOut.Items.Weapons
             item.useStyle = 5;
             item.useAnimation = 28;
             item.useTime = 28;
-            item.UseSound = SoundID.Item19;
+            item.UseSound = SoundID.Item101;
             item.noUseGraphic = true;
             item.noMelee = true;
             item.autoReuse = true;
