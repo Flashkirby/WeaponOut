@@ -571,25 +571,26 @@ private int generateBlockDamage(int damage)
             Item heldItem = drawPlayer.inventory[drawPlayer.selectedItem];
             if (heldItem == null || heldItem.type == 0 || heldItem.holdStyle != 0) return; //no item so nothing to show
 
-            //ignore boomerangs with a projectile out
+            //ignore projectile melee weapons
             bool isYoyo = false; ;
             if (heldItem.shoot != 0)
             {
-                Projectile p = new Projectile();
-                p.SetDefaults(heldItem.shoot);
-                if (p.aiStyle == 3)
+                if (heldItem.melee && heldItem.noMelee)
                 {
                     for (int i = 0; i < Main.projectile.Length; i++)
                     {
                         if (!Main.projectile[i].active) continue;
-                        if (Main.projectile[i].owner == heldItem.owner
-                            && Main.projectile[i].aiStyle == 3)
+                        if (Main.projectile[i].owner == heldItem.owner &&
+                            Main.projectile[i].melee)
                         {
                             return;
                         }
                     }
                 }
+
                 //  YOYO is aiStyle 99
+                Projectile p = new Projectile();
+                p.SetDefaults(heldItem.shoot);
                 if (p.aiStyle == 99)
                 {
                     isYoyo = true;
