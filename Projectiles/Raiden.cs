@@ -20,7 +20,7 @@ namespace WeaponOut.Projectiles
             projectile.height = 94;
             projectile.aiStyle = -1;
 
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[projectile.type] = 9;
 
             projectile.friendly = true;
             projectile.melee = true;

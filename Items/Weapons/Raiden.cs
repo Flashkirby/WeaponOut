@@ -30,6 +30,7 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Raiden";
             item.toolTip = "Stand still to focus on nearby foes";
+            item.toolTip2 = "'Imbued with ancient arts'";
             item.width = 40;
             item.height = 40;
 
@@ -43,7 +44,7 @@ namespace WeaponOut.Items.Weapons
             item.useTime = 0;
             item.useAnimation = 30;
 
-            item.rare = 4;
+            item.rare = 7;
             item.value = 25000;
 
             slashFlip = false;
@@ -56,7 +57,7 @@ namespace WeaponOut.Items.Weapons
                 ModRecipe recipe = new ModRecipe(mod);
                 recipe.AddIngredient(mod.ItemType<Hayauchi>(), 1);
                 recipe.AddIngredient(mod.ItemType<Onsoku>(), 1);
-                recipe.AddIngredient(ItemID.HallowedBar, 5);
+                recipe.AddIngredient(ItemID.ChlorophyteBar, 8);
                 recipe.AddTile(TileID.AdamantiteForge);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
