@@ -79,14 +79,21 @@ namespace WeaponOut.Projectiles
                 int currentTarget = (int)((FrameCheck - 1) / dashTime);
                 player.immuneNoBlink = false;
 
+                bool skip = false;
                 // Guarantee hit the target
                 if (FrameCheck % dashTime == 0)
                 {
                     // Only teleport if can hit
                     NPC npc = allTargets[currentTarget];
-                    if (Collision.CanHit(player.Center, 1, 1, npc.position, npc.width, npc.height))
+                    if (npc.active &&
+                        Collision.CanHitLine(player.Center, 1, 1, npc.position, npc.width, npc.height))
                     {
                         player.Bottom = allTargets[currentTarget].Bottom;
+                    }
+                    else
+                    {
+                        FrameCheck += dashTime - 1;
+                        skip = true;
                     }
                 }
                 if (currentTarget >= allTargets.Count)
@@ -94,11 +101,13 @@ namespace WeaponOut.Projectiles
                     projectile.timeLeft = 0;
                     return;
                 }
+                if (skip)
+                { return; }
 
 
                 // Draw dash dust
                 DrawDustToBetweenVectors(player.Center, allTargets[currentTarget].Center, 159,
-                    10, 1.4f, true);
+                10, 1.4f, true);
 
 
                 Vector2 nextPosition = allTargets[currentTarget].Bottom;
@@ -174,7 +183,7 @@ namespace WeaponOut.Projectiles
                     float distance = (center - npc.Center).Length();
                     if (distance <= radius)
                     {
-                        if (Collision.CanHit(center, 1, 1, npc.position, npc.width, npc.height))
+                        if (Collision.CanHitLine(center, 1, 1, npc.position, npc.width, npc.height))
                         {
                             targets.Add(npc, distance);
                         }
