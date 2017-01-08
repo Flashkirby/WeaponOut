@@ -74,6 +74,14 @@ Ray also increases magic damage";
             item.rare = 3;
             item.value = Item.sellPrice(0, 1, 0, 0);
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SunplateBlock, 100);
+            recipe.AddTile(TileID.SkyMill);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
         public override void HoldItem(Player player)
         {
