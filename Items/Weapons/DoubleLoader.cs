@@ -44,6 +44,7 @@ namespace WeaponOut.Items.Weapons
             item.value = Item.sellPrice(0, 5, 0, 0);
 
             dual = new HelperDual(item, true);
+            dual.Damage = 48;
             dual.UseAnimation = 28;
             dual.UseTime = 28;
 
@@ -88,6 +89,17 @@ namespace WeaponOut.Items.Weapons
         public override bool ConsumeAmmo(Player player)
         {
             if (Main.rand.Next(5) == 0) { return false; } // if number is 0, don't use ammo also
+            return true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if(player.altFunctionUse == 0)
+            {
+                // (float)r.NextDouble() * 2f - 1f
+                speedX += 0.3f * Main.rand.NextFloatDirection();
+                speedY += 0.3f * Main.rand.NextFloatDirection();
+            }
             return true;
         }
     }
