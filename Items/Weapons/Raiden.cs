@@ -35,14 +35,14 @@ namespace WeaponOut.Items.Weapons
             item.height = 40;
 
             item.melee = true;
-            item.damage = 35;
+            item.damage = 55;
             item.knockBack = 5;
             item.autoReuse = true;
 
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
             item.useTime = 0;
-            item.useAnimation = 30;
+            item.useAnimation = 20;
 
             item.rare = 7;
             item.value = 25000;
@@ -246,11 +246,11 @@ namespace WeaponOut.Items.Weapons
             {
                 player.bodyFrame.Y = start;
             }
-            else if (anim > 0.75f)
+            else if (anim > 0.8f)
             {
                 player.bodyFrame.Y = swing;
             }
-            else if (anim > 0.6f)
+            else if (anim > 0.7f)
             {
                 player.bodyFrame.Y = swing2;
             }
@@ -285,10 +285,10 @@ namespace WeaponOut.Items.Weapons
         {
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
             // hit box only active during these frames
-            if (anim <= 0.9f && anim > 0.6f)
+            if (anim <= 0.9f && anim > 0.7f)
             {
                 int offsetX = 0;
-                if (anim > 0.75f) //first half of wing, covers behind
+                if (anim > 0.8f) //first half of wing, covers behind
                 {
                     hitbox.Width = 64;
                     hitbox.Height = 92;
