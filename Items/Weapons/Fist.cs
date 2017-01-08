@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 5);
+            recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.anyIronBar = true;
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
