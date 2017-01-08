@@ -270,7 +270,6 @@ namespace WeaponOut.Items.Weapons
                 noHitbox = !player.immuneNoBlink;
                 if (!noHitbox)
                 {
-                    Main.SetCameraLerp(0.1f, 10);
                     player.attackCD = 0;
                 }
                 hitbox = player.getRect();

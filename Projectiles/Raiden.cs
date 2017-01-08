@@ -73,6 +73,9 @@ namespace WeaponOut.Projectiles
                     projectile.ai[0] = 1f;
                     return;
                 }
+
+                if (player.whoAmI == Main.myPlayer)
+                { Main.SetCameraLerp(0.1f, 10); }
             }
             else
             {
@@ -104,6 +107,9 @@ namespace WeaponOut.Projectiles
                 if (skip)
                 { return; }
 
+                //LERP the camera
+                if (player.whoAmI == Main.myPlayer)
+                { Main.SetCameraLerp(0.1f, 10); }
 
                 // Draw dash dust
                 DrawDustToBetweenVectors(player.Center, allTargets[currentTarget].Center, 159,
