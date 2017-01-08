@@ -210,7 +210,7 @@ namespace WeaponOut.Projectiles
             for (int i = 0; i < amount; i++)
             {
                 Dust d = Main.dust[Dust.NewDust(
-                    vector1 + difference * Main.rand.NextFloat() - dustDisplace,
+                    vector1 + difference * Main.rand.NextFloat() + dustDisplace,
                     0, 0, dust)];
                 d.noGravity = noGravity;
                 d.velocity = difference * 0.01f;
