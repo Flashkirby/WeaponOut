@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Weapons
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
             item.useTime = 0;
-            item.useAnimation = 20;
+            item.useAnimation = 17;
 
             item.rare = 7;
             item.value = 25000;
