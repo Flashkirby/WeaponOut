@@ -22,7 +22,6 @@ namespace WeaponOut.Projectiles
             Main.projFrames[projectile.type] = 2;
             
             projectile.penetrate = -1;
-            projectile.light = 0.5f;
 
             projectile.friendly = true;
             projectile.magic = true;
@@ -34,21 +33,24 @@ namespace WeaponOut.Projectiles
 
         public override void AI()
         {
-            if (projectile.ai[1] < 0) // Blue Wave
+            if (projectile.ai[0] < 20)
             {
-                projectile.frame = 1;
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-                    88, projectile.velocity.X, projectile.velocity.Y, 200);
-                Main.dust[d].noGravity = true;
-                Main.dust[d].velocity *= 0.4f;
-            }
-            else
-            {
-                projectile.frame = 0; // Red Wave
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-                    90, projectile.velocity.X, projectile.velocity.Y, 200);
-                Main.dust[d].noGravity = true;
-                Main.dust[d].velocity *= 0.4f;
+                if (projectile.ai[1] < 0) // Blue Wave
+                {
+                    projectile.frame = 1;
+                    int d = Dust.NewDust(projectile.position, projectile.width, projectile.height,
+                        88, projectile.velocity.X, projectile.velocity.Y, 200);
+                    Main.dust[d].noGravity = true;
+                    Main.dust[d].velocity *= 0.4f;
+                }
+                else
+                {
+                    projectile.frame = 0; // Red Wave
+                    int d = Dust.NewDust(projectile.position, projectile.width, projectile.height,
+                        90, projectile.velocity.X, projectile.velocity.Y, 200);
+                    Main.dust[d].noGravity = true;
+                    Main.dust[d].velocity *= 0.4f;
+                }
             }
 
             if(projectile.ai[0] >= 20)
@@ -64,6 +66,7 @@ namespace WeaponOut.Projectiles
                     {
                         dustType = 88;
                     }
+
                     for (int i = 0; i < 50; i++)
                     {
                         int d = Dust.NewDust(projectile.position, projectile.width, projectile.height,
