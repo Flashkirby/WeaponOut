@@ -434,6 +434,8 @@ private int generateBlockDamage(int damage)
         }
         private void manageBodyFrame()
         {
+            if (Main.netMode == 2) return; // Oh yeah, server calls this so don't pls
+
             //change idle pose for player using a heavy weapon
             //copypasting from drawPlayerItem
             Item heldItem = player.inventory[player.selectedItem];
