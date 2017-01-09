@@ -575,14 +575,14 @@ private int generateBlockDamage(int damage)
 
             //ignore projectile melee weapons
             bool isYoyo = false; ;
+            // items work when checked at least once in singleplayer first...?
             if (heldItem.shoot != 0)
             {
                 if (heldItem.melee && heldItem.noMelee)
                 {
                     for (int i = 0; i < Main.projectile.Length; i++)
                     {
-                        if (!Main.projectile[i].active) continue;
-                        if (Main.projectile[i].owner == heldItem.owner &&
+                        if (Main.projectile[i].owner == drawPlayer.whoAmI &&
                             Main.projectile[i].melee)
                         {
                             return;
