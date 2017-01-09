@@ -41,19 +41,16 @@ namespace WeaponOut.Items.Weapons
             item.shootSpeed = 16f;
 
             item.rare = 4;
-            item.value = 25000;
+            item.value = Item.sellPrice(0, 0, 50, 0);
         }
         public override void AddRecipes()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.Muramasa, 1);
-                recipe.AddIngredient(ItemID.SoulofLight, 15);
-                recipe.AddTile(TileID.AdamantiteForge);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Muramasa, 1);
+            recipe.AddIngredient(ItemID.SoulofLight, 15);
+            recipe.AddTile(TileID.AdamantiteForge);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
