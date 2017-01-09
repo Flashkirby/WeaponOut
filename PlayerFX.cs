@@ -343,12 +343,15 @@ namespace WeaponOut
 
                 if(p.team == player.team)
                 {
+                    bool noTeam = player.team == 0;
                     if (
                         // on my own team, only me
-                        (p.team == 0 && p.whoAmI == player.whoAmI) 
+                        (noTeam && p.whoAmI == player.whoAmI)
                         || // or
-                        // in range of team mate
-                        (p.position.X >= player.position.X - Buffs.RallyBanner.buffRadius &&
+                           // in range of team mate
+                        (
+                            !noTeam &&
+                            p.position.X >= player.position.X - Buffs.RallyBanner.buffRadius &&
                             p.position.X <= player.position.X + Buffs.RallyBanner.buffRadius &&
                             p.position.Y >= player.position.Y - Buffs.RallyBanner.buffRadius &&
                             p.position.Y <= player.position.Y + Buffs.RallyBanner.buffRadius
