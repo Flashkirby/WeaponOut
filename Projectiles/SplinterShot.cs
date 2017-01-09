@@ -75,11 +75,12 @@ namespace WeaponOut.Projectiles
 
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
         }
-
-        public override void Kill(int timeLeft)
+        
+        public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

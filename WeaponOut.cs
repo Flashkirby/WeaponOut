@@ -26,6 +26,7 @@ namespace WeaponOut
         public static Texture2D textureDMNB;
         public static Texture2D textureMANB;
         public static Texture2D textureMANBO;
+        public static Texture2D textureSCSH;
 
         public static int BuffIDManaReduction;
         public static int BuffIDMirrorBarrier;
@@ -68,6 +69,7 @@ namespace WeaponOut
                 textureMANB = GetTexture("Projectiles/ManaBlast");
                 textureMANBO = GetTexture("Projectiles/ManaBolt");
                 textureSPSH = GetTexture("Projectiles/SplinterShot");
+                textureSCSH = GetTexture("Projectiles/ScatterShot");
 
                 Projectiles.Explosion.textureTargetS = GetTexture("Projectiles/Explosion_Targetsm");
                 Projectiles.Explosion.textureTargetM = GetTexture("Projectiles/Explosion_Targetmd");
