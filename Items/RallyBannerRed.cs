@@ -16,8 +16,7 @@ namespace WeaponOut.Items
         {
             return ModConf.enableBasicContent;
         }
-
-        public const int buffRadius = 1024;
+        
         public override void SetDefaults()
         {
             RallyBannerRed.SetDefaults(item);
@@ -25,11 +24,6 @@ namespace WeaponOut.Items
         public override void AddRecipes()
         {
             RallyBannerRed.AddRecipe(this);
-        }
-
-        public override void HoldItem(Player player)
-        {
-            RallyBannerRed.HoldItem(this, player);
         }
 
         public override void HoldStyle(Player player)
@@ -60,35 +54,6 @@ namespace WeaponOut.Items
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(modItem);
             recipe.AddRecipe();
-        }
-
-        public static void HoldItem(ModItem modItem, Player player)
-        {
-            if (player.team == 0)
-            {
-                // Only buff self if no team
-                player.AddBuff(modItem.mod.BuffType<Buffs.RallyBanner>(), 2);
-            }
-            else
-            {
-                foreach (Player p in Main.player)
-                {
-                    if (!p.active || p.dead || p.team == 0) continue;
-                    if (p.team == player.team)
-                    {
-                        // In bounding box
-                        if (p.position.X >= player.position.X - buffRadius &&
-                            p.position.X <= player.position.X + buffRadius &&
-                            p.position.Y >= player.position.Y - buffRadius &&
-                            p.position.Y <= player.position.Y + buffRadius
-                            )
-                        {
-                            player.AddBuff(modItem.mod.BuffType<Buffs.RallyBanner>(), 2);
-                        }
-                    }
-                }
-
-            }
         }
 
         public static void HoldStyle(Item item, Player player)

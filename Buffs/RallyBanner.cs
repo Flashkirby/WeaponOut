@@ -7,6 +7,7 @@ namespace WeaponOut.Buffs
 {
     public class RallyBanner : ModBuff
     {
+        public const float buffRadius = 1024;
         public override bool Autoload(ref string name, ref string texture)
         {
             return ModConf.enableBasicContent;

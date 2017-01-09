@@ -316,61 +316,13 @@ namespace WeaponOut
             }
         }
 
-        /*
-public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref string deathText)
-{
-   int originalDmg = damage;
-   damage = generateBlockDamage(damage);
-   if (originalDmg != damage)
-   {
-       if (shieldBlock == 0)
-       { Main.PlaySound(4, player.position, 15); } //BREAK SHIELD 
-       else
-       {
-           if (originalDmg < shieldBlockMax / 3)
-           {
-               if (damage == 1)
-               { Main.PlaySound(3, player.position, 15); } //scratch
-               else { Main.PlaySound(3, player.position, 16); } //light
-           } 
-           else
-           { Main.PlaySound(3, player.position, 17); }//heavy
-           playSound = false;
-       }
-       //Main.NewText("Shield: " + shieldBlock, 255, 0, 100);
-   }
-   return true;
-}
-
-/// <summary>
-/// Reduces damage taken, and removes it from shield health
-/// </summary>
-/// <param name="damage"></param>
-/// <returns></returns>
-private int generateBlockDamage(int damage)
-{
-   if (shieldBlock >= damage)
-   {
-       shieldBlock -= damage;
-       damage = 1;
-       shieldRegenDelay = shieldDelayPause;
-       shieldRegenCounter = shieldCounterBase;
-   }
-   else
-   {
-       damage -= shieldBlock;
-       if (shieldBlock > 0) //if first time block, create delay
-       {
-           shieldRegenDelay = shieldDelayReset;
-           shieldRegenCounter = shieldCounterBase;
-       }
-       shieldBlock = 0;
-   }
-   return damage;
-}
-*/
         public override bool PreItemCheck()
         {
+            if(ModConf.enableBasicContent)
+            {
+                applyBannerBuff();
+            }
+            /// <summary>Adds the weaponswitch network-synced buff</summary>
             if (ModConf.enableDualWeapons)
             {
                 Items.Weapons.HelperDual.PreItemCheckDualItem(player);
@@ -378,34 +330,36 @@ private int generateBlockDamage(int damage)
             //createBareFistInInv();
             return true;
         }
-        /// <summary>Adds the weaponswitch network-synced buff</summary>
-
-        /*
-        private void createBareFistInInv()
+        private void applyBannerBuff()
         {
-            if (player.inventory[player.selectedItem].type == 0 
-                && player.controlUseItem
-                && player.itemAnimation == 0)
+            foreach (Player p in Main.player)
             {
-                player.inventory[player.selectedItem].SetDefaults(openFist);
-            }
-        }*/
+                int itemType = p.inventory[p.selectedItem].type;
+                if (itemType != mod.ItemType<Items.RallyBannerBlue>() &&
+                    itemType != mod.ItemType<Items.RallyBannerGreen>() &&
+                    itemType != mod.ItemType<Items.RallyBannerRed>() &&
+                    itemType != mod.ItemType<Items.RallyBannerYellow>()
+                    ) continue; //only use these banner items
 
-        public override void PostItemCheck()
-        {
-            //emptyBareFistFromInv();
+                if(p.team == player.team)
+                {
+                    if (
+                        // on my own team, only me
+                        (p.team == 0 && p.whoAmI == player.whoAmI) 
+                        || // or
+                        // in range of team mate
+                        (p.position.X >= player.position.X - Buffs.RallyBanner.buffRadius &&
+                            p.position.X <= player.position.X + Buffs.RallyBanner.buffRadius &&
+                            p.position.Y >= player.position.Y - Buffs.RallyBanner.buffRadius &&
+                            p.position.Y <= player.position.Y + Buffs.RallyBanner.buffRadius
+                            )
+                        )
+                    {
+                        player.AddBuff(mod.BuffType<Buffs.RallyBanner>(), 2);
+                    }
+                }
+            }
         }
-
-        /*
-        private void emptyBareFistFromInv()
-        {
-            if (player.inventory[player.selectedItem].type == openFist
-                && !player.controlUseItem
-                && player.itemAnimation == 0)
-            {
-                player.inventory[player.selectedItem] = new Item();
-            }
-        }*/
 
         public override void PostUpdateRunSpeeds()
         {
@@ -899,64 +853,7 @@ private int generateBlockDamage(int damage)
             if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100,200,150);
             
         }
-        /*
-        private static void drawShieldOver(PlayerDrawInfo drawInfo)
-        {
-            //go away if disappeared
-            //get player
-            PlayerFX p = drawInfo.drawPlayer.GetModPlayer<PlayerFX>
-                (ModLoader.GetMod("WeaponOut"));
-            if (p.shieldGraphicAlpha >= 255) return;
-            //get shield accessory texture
-            Texture2D shieldTex;
-            if (p.shieldItem.type == 216)
-            {
-                shieldTex = Main.itemTexture[156]; //for some mysterious reason cobalt shield thinks its a shackle...
-            }
-            else
-            {
-                shieldTex = Main.itemTexture[p.shieldItem.type];
-            }
 
-            Vector2 drawPos = new Vector2(
-            (int)(drawInfo.drawPlayer.MountedCenter.X - Main.screenPosition.X) + drawInfo.drawPlayer.direction * 16,
-            (int)(drawInfo.drawPlayer.MountedCenter.Y - Main.screenPosition.Y + drawInfo.drawPlayer.gfxOffY) + drawInfo.drawPlayer.gravDir * 4);
-            //get the lighting on the player's tile
-            Color lighting = Lighting.GetColor(
-                    (int)((drawInfo.position.X + drawInfo.drawPlayer.width / 2f) / 16f),
-                    (int)((drawInfo.position.Y + drawInfo.drawPlayer.height / 2f) / 16f));
-            float alphaMult = (float)(255 - p.shieldGraphicAlpha) / 255f;
-            lighting.R = (byte)((float)lighting.R * alphaMult);
-            lighting.G = (byte)((float)lighting.G * alphaMult);
-            lighting.B = (byte)((float)lighting.B * alphaMult);
-            lighting.A = (byte)(lighting.A - p.shieldGraphicAlpha);
-            if (lighting.A < 0) lighting.A = 0;
-            if (lighting.A > 255) lighting.A = 255;
-
-            int amount = 2 * ((int)(shieldTex.Height * (p.shieldBlock / (float)p.shieldBlockMax)) / 2);
-            Rectangle sourceRect = new Rectangle(
-                0, 
-                shieldTex.Height - amount, 
-                shieldTex.Width,
-                amount);
-            Vector2 shieldCentre = new Vector2(shieldTex.Width / 2, shieldTex.Height / 2);
-
-
-            DrawData data = new DrawData(
-                    shieldTex,
-                    drawPos + new Vector2(0, shieldTex.Height - amount),
-                    sourceRect,
-                    lighting,
-                    0f,
-                    shieldCentre,
-                    Vector2.One,
-                    drawInfo.drawPlayer.gravDir >= 0 ? SpriteEffects.None : SpriteEffects.FlipVertically,
-                    0);
-            //apply shield dye, because why not
-            data.shader = drawInfo.shieldShader;
-            Main.playerDrawData.Add(data);
-        }
-        */
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
