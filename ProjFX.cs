@@ -15,7 +15,8 @@ namespace WeaponOut
 
         private void LunarAccessoryVisuals(Projectile projectile)
         {
-            if (Main.netMode == 2) return;
+            // Servers and server projectiles ignore this otherwise falling star bug
+            if (Main.netMode == 2 || projectile.owner == 255) return;
 
             //Ignore npcs and statics
             if (projectile.npcProj || projectile.hostile) return;
