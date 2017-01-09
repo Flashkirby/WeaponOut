@@ -25,6 +25,19 @@ namespace WeaponOut.Items.Weapons
             item.width = 28;
             item.height = 48;
             item.toolTip = "Increases stats for your team whilst held";
+
+            item.value = 3000;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Silk, 5);
+            recipe.AddIngredient(ItemID.Wood, 5);
+            recipe.anyWood = true;
+            recipe.AddIngredient(ItemID.FallenStar, 1);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
         public override void HoldItem(Player player)
@@ -41,8 +54,15 @@ namespace WeaponOut.Items.Weapons
                     if (!p.active || p.dead || p.team == 0) continue;
                     if (p.team == player.team)
                     {
-                        if((p.Center - player.Center).Length() <= buffRadius)
-                        player.AddBuff(mod.BuffType<Buffs.RallyBanner>(), 2);
+                        // In bounding box
+                        if (p.position.X >= player.position.X - buffRadius &&
+                            p.position.X <= player.position.X + buffRadius &&
+                            p.position.Y >= player.position.Y - buffRadius &&
+                            p.position.Y <= player.position.Y + buffRadius
+                            )
+                        {
+                            player.AddBuff(mod.BuffType<Buffs.RallyBanner>(), 2);
+                        }
                     }
                 }
 
