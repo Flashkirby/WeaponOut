@@ -1,13 +1,21 @@
-A compilation of features built around weapons and accessories:
+A compilation of features built around weapons and accessories. A lot of these are basically gimmicky systems that do cool stuff.
 
+Summary: 
 * Hide/Show weapons being held via 1st accessory slot visibilty.
 * Temporary spawn point tents! Silk + Wood.
 * Whips! Deals crits when hitting at the tip.
 * Fists! Combo punch things, become INVINCIBLE.
 * Dual-use Weapons! Right-click for secondary weapon abilities.
 * More shields! Obtainable early, with situational uses.
+* Team-centric items for buffing, and restoring mana.
 * Endgame powerup accessories! Make low tier weapons lunar.
 * Custom config file, if you want to toggle the above features.
+
+Content:
+* 26 Weapons
+* 10 Accessories
+* 1 Tile
+* 2 Bullets
 
 Credits:
 Flashkirby99 - I am making this mod.
