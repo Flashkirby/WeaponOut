@@ -39,6 +39,9 @@
     <Compile Include="Buffs\WeaponSwitch.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Items\RallyBannerGreen.cs" />
+    <Compile Include="Items\RallyBannerBlue.cs" />
+    <Compile Include="Items\RallyBannerYellow.cs" />
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\Weapons\CrystalVileLash.cs" />
     <Compile Include="Items\Weapons\PsyWave.cs" />
@@ -46,7 +49,7 @@
     <Compile Include="Items\Weapons\Raiden.cs" />
     <Compile Include="Items\Weapons\Onsoku.cs" />
     <Compile Include="Items\Weapons\DoubleLoader.cs" />
-    <Compile Include="Items\Weapons\RallyBanner.cs" />
+    <Compile Include="Items\RallyBannerRed.cs" />
     <Compile Include="ModConf.cs" />
     <Compile Include="Dusts\ManaDust.cs" />
     <Compile Include="Items\AccretionEmblem.cs" />
@@ -74,7 +77,7 @@
     <Compile Include="Projectiles\CrystalVileLash.cs" />
     <Compile Include="Projectiles\Raiden.cs" />
     <Compile Include="Projectiles\ScatterShot.cs" />
-    <Compile Include="StarWatch.cs" />
+    <Compile Include="StarObserver.cs" />
     <Compile Include="WeaponDrawInfo.cs" />
     <Compile Include="NPCs\NpcFX.cs" />
     <Compile Include="Projectiles\APARocketI.cs" />

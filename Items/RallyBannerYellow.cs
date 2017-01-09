@@ -10,7 +10,7 @@ namespace WeaponOut.Items
     /// Provides AoE banner bonus to players "nearby".
     /// Buff DPS pays itself back in a 7-8 player team,
     /// </summary>
-    public class RallyBannerRed : ModItem
+    public class RallyBannerYellow : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -21,6 +21,7 @@ namespace WeaponOut.Items
         public override void SetDefaults()
         {
             RallyBannerRed.SetDefaults(item);
+            item.name = "Yellow Rally Banner";
         }
         public override void AddRecipes()
         {
