@@ -10,6 +10,13 @@ namespace WeaponOut
     {
         public override void PostAI(Projectile projectile)
         {
+            LunarAccessoryVisuals(projectile);
+        }
+
+        private void LunarAccessoryVisuals(Projectile projectile)
+        {
+            if (Main.netMode == 2) return;
+
             //Ignore npcs and statics
             if (projectile.npcProj || projectile.hostile) return;
             if (projectile.position == projectile.oldPosition) return;
@@ -43,7 +50,7 @@ namespace WeaponOut
                 if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 { d.noLight = true; }
             }
-            if(p.lunarThrowVisual && projectile.thrown)
+            if (p.lunarThrowVisual && projectile.thrown)
             {
                 if (projectile.whoAmI < 200) // Do not use Beenades.
                 {
