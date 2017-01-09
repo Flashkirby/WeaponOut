@@ -17,6 +17,10 @@ namespace WeaponOut.Items.Placeable
             
             item.name = "Camping Tent";
             item.toolTip = "Acts as a temporary spawn point";
+			if (Main.netMode > 0)
+			{
+				item.toolTip2 = "Warning: Unreliable in multiplayer";
+			}
             item.width = 16;
             item.height = 16;
             item.maxStack = 99;
