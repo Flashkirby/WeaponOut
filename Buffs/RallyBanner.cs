@@ -45,8 +45,9 @@ namespace WeaponOut.Buffs
             player.minionKB += 0.5f;
             player.thrownCrit += 2;
 
-            // Anklet bonus
+            // Sunflower buff
             player.moveSpeed += 0.1f;
+            player.moveSpeed *= 1.1f;
         }
     }
 }
