@@ -35,12 +35,18 @@
     <Folder Include="Glow\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\RallyBanner.cs" />
     <Compile Include="Buffs\WeaponSwitch.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Items\ScatterShot.cs" />
+    <Compile Include="Items\Weapons\CrystalVileLash.cs" />
+    <Compile Include="Items\Weapons\PsyWave.cs" />
+    <Compile Include="Items\Weapons\Reverb.cs" />
     <Compile Include="Items\Weapons\Raiden.cs" />
     <Compile Include="Items\Weapons\Onsoku.cs" />
     <Compile Include="Items\Weapons\DoubleLoader.cs" />
+    <Compile Include="Items\Weapons\RallyBanner.cs" />
     <Compile Include="ModConf.cs" />
     <Compile Include="Dusts\ManaDust.cs" />
     <Compile Include="Items\AccretionEmblem.cs" />
@@ -62,8 +68,13 @@
     <Compile Include="Items\Weapons\SteamPersuader.cs" />
     <Compile Include="Items\Weapons\Whiplash.cs" />
     <Compile Include="Items\Weapons\LeatherWhip.cs" />
+    <Compile Include="Projectiles\PsyWave.cs" />
+    <Compile Include="Projectiles\Reverb.cs" />
     <Compile Include="Projectiles\OnsokuSlash.cs" />
+    <Compile Include="Projectiles\CrystalVileLash.cs" />
     <Compile Include="Projectiles\Raiden.cs" />
+    <Compile Include="Projectiles\ScatterShot.cs" />
+    <Compile Include="StarWatch.cs" />
     <Compile Include="WeaponDrawInfo.cs" />
     <Compile Include="NPCs\NpcFX.cs" />
     <Compile Include="Projectiles\APARocketI.cs" />
@@ -105,7 +116,6 @@
     <Compile Include="Projectiles\ManaBlast.cs" />
     <Content Include="Dusts\ManaDust.png" />
     <Content Include="Items\Armour\DiscordantCharm.png" />
-    <Content Include="Projectiles\TentSetup.txt" />
     <Compile Include="ProjFX.cs" />
     <Compile Include="Tiles\CampTent.cs" />
     <Compile Include="WeaponOut.cs" />
