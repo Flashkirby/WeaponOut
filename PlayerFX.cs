@@ -96,6 +96,13 @@ namespace WeaponOut
             player.itemLocation.X = player.itemLocation.X + (X * cosRot * player.direction) + (Y * sinRot * player.gravDir);
             player.itemLocation.Y = player.itemLocation.Y + (X * sinRot * player.direction) - (Y * cosRot * player.gravDir);
         }
+
+        public static bool SameTeam(Player player1, Player player2)
+        {
+            if (player1.whoAmI == player2.whoAmI) return true;
+            if (player1.team > 0 && player1.team == player2.team) return true;
+            return false;
+        }
         #endregion
 
         public override void Initialize()
@@ -332,33 +339,30 @@ namespace WeaponOut
         }
         private void applyBannerBuff()
         {
-            foreach (Player p in Main.player)
+            foreach (Player bannerPlayer in Main.player)
             {
-                int itemType = p.inventory[p.selectedItem].type;
+                if (!bannerPlayer.active || bannerPlayer.dead) continue;
+
+                int itemType = bannerPlayer.inventory[bannerPlayer.selectedItem].type;
                 if (itemType != mod.ItemType<Items.RallyBannerBlue>() &&
                     itemType != mod.ItemType<Items.RallyBannerGreen>() &&
                     itemType != mod.ItemType<Items.RallyBannerRed>() &&
                     itemType != mod.ItemType<Items.RallyBannerYellow>()
                     ) continue; //only use these banner items
 
-                if(p.team == player.team)
+                foreach(Player otherPlayer in Main.player)
                 {
-                    bool noTeam = player.team == 0;
-                    if (
-                        // on my own team, only me
-                        (noTeam && p.whoAmI == player.whoAmI)
-                        || // or
-                           // in range of team mate
-                        (
-                            !noTeam &&
-                            p.position.X >= player.position.X - Buffs.RallyBanner.buffRadius &&
-                            p.position.X <= player.position.X + Buffs.RallyBanner.buffRadius &&
-                            p.position.Y >= player.position.Y - Buffs.RallyBanner.buffRadius &&
-                            p.position.Y <= player.position.Y + Buffs.RallyBanner.buffRadius
-                            )
-                        )
+                    if (SameTeam(otherPlayer, bannerPlayer))
                     {
-                        player.AddBuff(mod.BuffType<Buffs.RallyBanner>(), 2);
+                        // Within the 100ft box
+                        if (
+                                otherPlayer.position.X >= bannerPlayer.position.X - Buffs.RallyBanner.buffRadius &&
+                                otherPlayer.position.X <= bannerPlayer.position.X + Buffs.RallyBanner.buffRadius &&
+                                otherPlayer.position.Y >= bannerPlayer.position.Y - Buffs.RallyBanner.buffRadius &&
+                                otherPlayer.position.Y <= bannerPlayer.position.Y + Buffs.RallyBanner.buffRadius)
+                        {
+                            otherPlayer.AddBuff(mod.BuffType<Buffs.RallyBanner>(), 2);
+                        }
                     }
                 }
             }
