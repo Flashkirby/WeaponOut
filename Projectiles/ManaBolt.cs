@@ -16,7 +16,7 @@ namespace WeaponOut.Projectiles
         public override void SetDefaults()
         {
             projectile.name = "Mana Bolt";
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[projectile.type] = 2;
             projectile.width = 32;
             projectile.height = 32;
            // projectile.aiStyle = -1;
@@ -175,9 +175,28 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft < 15) projectile.frame = 2;
-            else if (projectile.timeLeft < 30) projectile.frame = 1;
-            else projectile.frame = 0;
+            int framePoint = (projectile.timeLeft / 5);
+            projectile.frame = (projectile.timeLeft / 15) % 2 == 0 ? 1 : 0;
+            projectile.alpha = 0;
+            switch(framePoint)
+            {
+                case 5:
+                    projectile.alpha = 0;
+                    break;
+                case 4:
+                    projectile.alpha = 50;
+                    break;
+                case 3:
+                    projectile.alpha = 100;
+                    break;
+                case 2:
+                    projectile.alpha = 150;
+                    break;
+                default:
+                    projectile.alpha = 200;
+                    break;
+            }
+
 
             SpriteEffects se = SpriteEffects.None;
             if (projectile.velocity.X < 0) se = SpriteEffects.FlipHorizontally;
@@ -190,7 +209,7 @@ namespace WeaponOut.Projectiles
             spriteBatch.Draw(WeaponOut.textureMANBO,
                 spawnPosCentre - Main.screenPosition,
                 new Rectangle?(new Rectangle(0, singleFrameHeight * projectile.frame, WeaponOut.textureMANBO.Width, WeaponOut.textureMANBO.Height / Main.projFrames[projectile.type])),
-                Color.White,
+                new Color(projectile.Opacity, projectile.Opacity, projectile.Opacity, projectile.Opacity),
                 projectile.rotation + 1.57f,
                 centre,
                 projectile.scale,
