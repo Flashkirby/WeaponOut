@@ -83,9 +83,14 @@ namespace WeaponOut
 
         public static bool SameTeam(Player player1, Player player2)
         {
+            // Always affects self
             if (player1.whoAmI == player2.whoAmI) return true;
-            if (player1.team > 0 && player1.team == player2.team) return true;
-            return false;
+            // If on a team, must be sharding a team
+            if (player1.team > 0 && player1.team != player2.team) return false;
+            // Not on same team during PVP
+            if (player1.hostile && player2.hostile && (player1.team == 0 || player2.team == 0)) return false;
+            // Banner applies to all (See Nebula Buff mechanics)
+            return true;
         }
         #endregion
 
