@@ -712,12 +712,16 @@ namespace WeaponOut
         
         private static void ItemCustomizerIntegration(PlayerDrawInfo drawInfo, Item item, ref int shader)
         {
-            Mod itemCustomizer = ModLoader.GetMod("ItemCustomizer");
-            if (itemCustomizer != null)
+            try
             {
-                CustomizerItemInfo cii = item.GetModInfo<CustomizerItemInfo>(itemCustomizer);
-                shader = cii.shaderID;
+                Mod itemCustomizer = ModLoader.GetMod("ItemCustomizer");
+                if (itemCustomizer != null)
+                {
+                    CustomizerItemInfo cii = item.GetModInfo<CustomizerItemInfo>(itemCustomizer);
+                    shader = cii.shaderID;
+                }
             }
+            catch { }
         }
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
