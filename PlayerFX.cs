@@ -503,11 +503,15 @@ namespace WeaponOut
             HeldItem.visible = true;
             HairBack.visible = true;
             //MiscEffectsFront.visible = !player.dead;
-            int heldItemStack = layers.IndexOf(PlayerLayer.HeldItem);
-            int hairBackStack = layers.IndexOf(PlayerLayer.HairBack);
-            int MiscEffectsFrontStack = layers.IndexOf(PlayerLayer.MiscEffectsFront);
-            layers.Insert(heldItemStack, HeldItem);
-            layers.Insert(hairBackStack, HairBack);
+            try
+            {
+                int heldItemStack = layers.IndexOf(PlayerLayer.HeldItem);
+                int hairBackStack = layers.IndexOf(PlayerLayer.HairBack);
+                int MiscEffectsFrontStack = layers.IndexOf(PlayerLayer.MiscEffectsFront);
+                layers.Insert(heldItemStack, HeldItem);
+                layers.Insert(hairBackStack, HairBack);
+            }
+            catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
         }
         #endregion
