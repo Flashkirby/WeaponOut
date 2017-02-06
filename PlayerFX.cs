@@ -14,6 +14,7 @@ namespace WeaponOut
     public class PlayerFX : ModPlayer
     {
         private const bool DEBUG_WEAPONHOLD = false;
+        private const bool DEBUG_BOOMERANGS = true;
         /* //disabled for now 
         private const int shieldDelayReset = 120; //delay after attacking or losing
         private const int shieldDelayPause = 60; //delay after recieving a hit
@@ -539,14 +540,18 @@ namespace WeaponOut
             if (heldItem == null || heldItem.type == 0 || heldItem.holdStyle != 0) return; //no item so nothing to show
 
             //ignore projectile melee weapons
-            bool isYoyo = false; ;
+            bool isYoyo = false;
             // items work when checked at least once in singleplayer first...?
+            if (DEBUG_BOOMERANGS) Main.NewText("Shoot is " + heldItem.shoot + " (!=0)");
             if (heldItem.shoot != 0)
             {
+                if (DEBUG_BOOMERANGS) Main.NewText("heldItem.melee = " + heldItem.melee);
+                if (DEBUG_BOOMERANGS) Main.NewText("heldItem.noMelee = " + heldItem.noMelee);
                 if (heldItem.melee && heldItem.noMelee)
                 {
                     for (int i = 0; i < Main.projectile.Length; i++)
                     {
+                        if (!Main.projectile[i].active) continue;
                         if (Main.projectile[i].owner == drawPlayer.whoAmI &&
                             Main.projectile[i].melee)
                         {
