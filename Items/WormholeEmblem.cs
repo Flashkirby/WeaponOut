@@ -13,7 +13,7 @@ namespace WeaponOut.Items
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
-            return ModConf.enableAccessories;
+            return ModConf.enableEmblems;
         }
 
         public override void SetDefaults()

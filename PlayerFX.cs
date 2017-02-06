@@ -14,7 +14,7 @@ namespace WeaponOut
     public class PlayerFX : ModPlayer
     {
         private const bool DEBUG_WEAPONHOLD = false;
-        private const bool DEBUG_BOOMERANGS = true;
+        private const bool DEBUG_BOOMERANGS = false;
         /* //disabled for now 
         private const int shieldDelayReset = 120; //delay after attacking or losing
         private const int shieldDelayPause = 60; //delay after recieving a hit

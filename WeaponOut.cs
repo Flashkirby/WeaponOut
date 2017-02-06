@@ -55,9 +55,10 @@ namespace WeaponOut
 
         public override void PostSetupContent()
         {
-            BuffIDManaReduction = GetBuff("ManaReduction").Type;
-            BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
-            BuffIDWeaponSwitch = GetBuff("WeaponSwitch").Type;
+
+            if (ModConf.enableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
+            if (ModConf.enableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
+            if (ModConf.enableDualWeapons) BuffIDWeaponSwitch = GetBuff("WeaponSwitch").Type;
 
             DustIDManaDust = GetDust("ManaDust").Type;
 
