@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+
+using ItemCustomizer;
 //using Terraria.Graphics.Shaders;
 //vs collapse all Ctrl-M-O
 
@@ -469,6 +471,10 @@ namespace WeaponOut
                     spriteEffects,
                     0);
 
+            // Item customiser integration
+            // https://github.com/gamrguy/ItemCustomizer
+            ItemCustomizerIntegration(drawInfo, heldItem, ref data.shader);
+
             //work out what type of weapon it is!
             float itemWidth = gWidth * heldItem.scale;
             float itemHeight = gHeight * heldItem.scale;
@@ -700,10 +706,19 @@ namespace WeaponOut
                 //largestaves are held straight up
             }
 
-            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100,200,150);
-            
-        }
+            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100, 200, 150);
 
+        }
+        
+        private static void ItemCustomizerIntegration(PlayerDrawInfo drawInfo, Item item, ref int shader)
+        {
+            Mod itemCustomizer = ModLoader.GetMod("ItemCustomizer");
+            if (itemCustomizer != null)
+            {
+                CustomizerItemInfo cii = item.GetModInfo<CustomizerItemInfo>(itemCustomizer);
+                shader = cii.shaderID;
+            }
+        }
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
