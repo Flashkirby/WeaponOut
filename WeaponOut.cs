@@ -62,7 +62,7 @@ namespace WeaponOut
 
             DustIDManaDust = GetDust("ManaDust").Type;
 
-            Items.HeliosphereEmblem.SetUpGlobalDPS();
+            if (ModConf.enableEmblems) Items.HeliosphereEmblem.SetUpGlobalDPS();
 
             if (Main.netMode != 2)
             {
