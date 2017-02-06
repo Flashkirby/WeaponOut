@@ -15,14 +15,6 @@ namespace WeaponOut
     {
         private const bool DEBUG_WEAPONHOLD = false;
         private const bool DEBUG_BOOMERANGS = false;
-        /* //disabled for now 
-        private const int shieldDelayReset = 120; //delay after attacking or losing
-        private const int shieldDelayPause = 60; //delay after recieving a hit
-        private const int shieldCounterBase = 4; //tick counter base
-        private const int shieldAlphaDelay = 30; //stay time
-        private const int shieldAlphaDown = 5; //tick alpha
-        private const int heartsPerDefence = 10; //number of shield points per heart
-        */
 
         private bool wasDead; //used to check if player just revived
         public Vector2 localTempSpawn;//spawn used by tent
@@ -64,17 +56,6 @@ namespace WeaponOut
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
 
-        /*
-        public Item shieldItem;
-        public int shieldLastBlock;
-        public int shieldBlock; //current block points
-        public int shieldBlockMax; //max block of equipped shield
-        public int shieldRegenDelay; //at 0, shield can regen
-        public int shieldRegenCounter; //at 0, shield goes up 1 point
-        private int shieldGraphicDelay; //disappear at full charge
-        private int shieldGraphicAlpha; //disappear at full charge
-        */
-
         #region Utils
         public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
         {
@@ -114,7 +95,6 @@ namespace WeaponOut
             dashingSpecialAttack = 0;
 
             localTempSpawn = new Vector2();
-            //shieldGraphicAlpha = 0;
 
             if (ModConf.enableFists)
             {
@@ -157,144 +137,8 @@ namespace WeaponOut
 
         public override void PreUpdate()
         {
-            //setShieldBlock();
-            //handleShieldBlockRecovery();
             itemCooldownFlash();
         }
-        /*
-        private void setShieldBlock()
-        {
-            //shieldBlockMax = 0;
-            int shieldPower = 0;
-            //accessory slots
-
-            for (int i = 3; i < 8 + player.extraAccessorySlots; i++ )
-            {
-                Item check = player.armor[i];
-                shieldPower = validateIsShield(check);
-                //Main.NewText("shieldpower of " + check.name + ": " + shieldPower, 100, 0, 255);
-
-                if (shieldPower > shieldBlockMax)
-                {
-                    shieldBlockMax = shieldPower;
-                    shieldItem = check;
-                }
-            }
-            if (shieldBlockMax == 0) shieldItem = new Item();
-
-            //manage alpha and sound
-            if (shieldBlock != shieldLastBlock)
-            {
-                shieldGraphicDelay = shieldAlphaDelay;
-                shieldGraphicAlpha = 0;
-                //play sound at max shield
-                if (shieldBlock == shieldBlockMax && 
-                    player.whoAmI == Main.myPlayer &&
-                    shieldBlockMax > 0)
-                {
-                    Main.PlaySound(2, -1, -1, 53);
-                }
-            }
-            else
-            {
-                //reached regen full/interrupted
-                if (shieldGraphicAlpha < 255)
-                {
-                    if (shieldGraphicDelay <= 0)
-                    {
-                        shieldGraphicAlpha += shieldAlphaDown;
-                    }
-                    else
-                    {
-                        shieldGraphicDelay--;
-                    }
-                }
-                else
-                {
-                    shieldGraphicAlpha = 255;
-                }
-            }
-            shieldLastBlock = shieldBlock;
-        }
-        private int validateIsShield(Item check)
-        {
-            //give bonus from prefixes
-            int prefixBonus = 0;
-            if (check.prefix == 62) prefixBonus++;
-            if (check.prefix == 63) prefixBonus += 2;
-            if (check.prefix == 64) prefixBonus += 3;
-            if (check.prefix == 65) prefixBonus += 4;
-
-            //check vanilla shields first
-            if (check.type == 156 || //cobalt shield
-                check.type == 397 || //obsidian shield
-                check.type == 938 || //paladin
-                check.type == 1613   //ankh
-                ) 
-            {
-
-                if (check.defense > 0) return heartsPerDefence * (check.defense + prefixBonus);
-            }
-
-            //check things that are called shields, and shield of cthulu
-            if (check.name.Contains("Shield") || 
-                check.type == 3097 || //shield of cthulu
-                check.shieldSlot > 0) //anything else that sits in the shield slot
-            {
-                if (player.noKnockback)
-                {
-                    //probably the shield is giving knockback immunity so assume its player
-                    return heartsPerDefence * (check.defense + prefixBonus);
-                }
-                else
-                {
-                    //weaker since they don't give kb immunity
-                    return (heartsPerDefence * (check.defense + prefixBonus)) / 2;
-                }
-            }
-            return 0;
-        }
-        private void handleShieldBlockRecovery()
-        {
-            if (player.itemAnimation > 0 || player.dead)
-            {
-                //delay when player makes an active move
-                shieldRegenDelay = shieldDelayReset;
-                shieldRegenCounter = shieldCounterBase;
-            }
-            else
-            {
-                if (shieldRegenDelay <= 0)
-                {
-                    //regen shield
-                    shieldRegenDelay = 0;
-                    if (shieldBlock < shieldBlockMax)
-                    {
-                        //count down to 0
-                        shieldRegenCounter--;
-                        if (shieldRegenCounter <= 0)
-                        {
-                            //reset counter
-                            shieldRegenCounter = shieldCounterBase;
-                            //replenish shield, double if below half
-                            shieldBlock++;
-                            if (shieldBlock < shieldBlockMax / 2) shieldBlock++;
-                            //Main.NewText("Shield: " + shieldBlock, 100, 255, 100);
-                        }
-                    }
-                    if (shieldBlock > shieldBlockMax)
-                    {
-                        shieldBlock = shieldBlockMax;
-                    }
-                }
-                else
-                {
-                    //countdown
-                    shieldRegenDelay--;
-                }
-            }
-        }
-        */ 
 
         /// <summary>
         /// UseItem flash when itemTime is 0 to indicate charge
@@ -489,16 +333,6 @@ namespace WeaponOut
             }
             catch { }
         });
-        /*
-        public static readonly PlayerLayer MiscEffectsFront = new PlayerLayer("WeaponOut", "MiscEffectsFront", PlayerLayer.MiscEffectsFront, delegate(PlayerDrawInfo drawInfo)
-        {
-            try
-            {
-                drawShieldOver(drawInfo);
-            }
-            catch { }
-        });
-        */ 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             HeldItem.visible = true;
