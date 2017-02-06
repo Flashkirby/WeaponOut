@@ -4,12 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
-    /// Earliest game whip for corruption, low base but high crit
+    /// Corruption whip, high speed. Whip damage variates between 1 lower and higher tier
     /// </summary>
-    public class LeatherWhip : ModItem
+    public class NotchedWhip : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -19,8 +19,7 @@ namespace WeaponOut.Items.Weapons
         private bool increaseDamage;
         public override void SetDefaults()
         {
-            item.name = "Leather Whip";
-            item.toolTip = "Whips deal critical damage at the tip";
+            item.name = "Vilelash";
 			item.width = 34;
 			item.height = 34;
 
@@ -33,19 +32,20 @@ namespace WeaponOut.Items.Weapons
             
             item.melee = true;
             item.channel = true;
-            item.damage = 4;
-            item.crit = 36; //crit chance on whips increase crit damage instead
-            item.knockBack = 2f;
+            item.damage = 12;
+            item.crit = 21; //damage = 2 * (base * bonus crit)
+            item.knockBack = 1f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
-            item.rare = 0;
-            item.value = Item.sellPrice(0,0,0,80);
+            item.rare = 1;
+            item.value = Item.sellPrice(0,0,25,0);
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-             recipe.AddIngredient(ItemID.Leather, 1); //for leather whip later
+            recipe.AddIngredient(ItemID.Vilethorn, 1);
+            recipe.AddIngredient(ItemID.DemoniteBar, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -54,7 +54,7 @@ namespace WeaponOut.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
-                Main.rand.Next(-150, 150) * 0.001f * player.gravDir); //whip swinging
+                Main.rand.Next(-50, 50) * 0.001f * player.gravDir); //whip swinging
             return false;
         }
     }

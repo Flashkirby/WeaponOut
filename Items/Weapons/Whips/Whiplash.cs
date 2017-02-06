@@ -4,49 +4,49 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
-    /// Not the garian sword :P
+    /// Earliest game whip for crimson, with better, more consistant damage than leather but slower
     /// </summary>
-    public class CrystalVileLash : ModItem
+    public class Whiplash : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
             return ModConf.enableWhips;
         }
-        
+
+        private bool increaseDamage;
         public override void SetDefaults()
         {
-            item.name = "Crystal Vilelash";
+            item.name = "Whiplash";
+            item.toolTip = "Whips deal critical damage at the tip";
 			item.width = 34;
 			item.height = 34;
 
             item.useStyle = 5;
-            item.useAnimation = 28;
-            item.useTime = 28;
-            item.UseSound = SoundID.Item101;
+            item.useAnimation = 21;
+            item.useTime = 22;
+            item.UseSound = SoundID.Item19;
             item.noUseGraphic = true;
             item.noMelee = true;
-            item.autoReuse = true;
             
             item.melee = true;
             item.channel = true;
-            item.damage = 35;
-            item.crit = 36; //crit chance on whips increase crit damage instead
-            item.knockBack = 1.5f;
+            item.damage = 8;
+            item.crit = 11; //crit chance on whips increase crit damage instead
+            item.knockBack = 2.5f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
-            item.rare = 5;
-            item.value = Item.sellPrice(0, 7, 0, 0);
+            item.rare = 0;
+            item.value = Item.sellPrice(0,0,0,80);
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrystalVileShard, 1);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+             recipe.AddIngredient(ItemID.Vertebrae, 5);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -54,7 +54,7 @@ namespace WeaponOut.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
-                Main.rand.Next(-100, 100) * 0.001f * player.gravDir); //whip swinging
+                Main.rand.Next(-150, 150) * 0.001f * player.gravDir); //whip swinging
             return false;
         }
     }

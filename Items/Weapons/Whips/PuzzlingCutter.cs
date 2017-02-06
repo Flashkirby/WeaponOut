@@ -4,12 +4,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
-    /// Corruption whip, high speed. Whip damage variates between 1 lower and higher tier
+    /// Not the garian sword :P
     /// </summary>
-    public class NotchedWhip : ModItem
+    public class PuzzlingCutter : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -19,42 +19,35 @@ namespace WeaponOut.Items.Weapons
         private bool increaseDamage;
         public override void SetDefaults()
         {
-            item.name = "Vilelash";
+            item.name = "Puzzling Cutter";
+            item.toolTip = "'No one said it was a sword'";
 			item.width = 34;
 			item.height = 34;
 
             item.useStyle = 5;
-            item.useAnimation = 18;
-            item.useTime = 18;
+            item.useAnimation = 17;
+            item.useTime = 17;
             item.UseSound = SoundID.Item19;
             item.noUseGraphic = true;
             item.noMelee = true;
+            item.autoReuse = true;
             
             item.melee = true;
             item.channel = true;
-            item.damage = 12;
-            item.crit = 21; //damage = 2 * (base * bonus crit)
+            item.damage = 20;
+            item.crit = 36; //crit chance on whips increase crit damage instead
             item.knockBack = 1f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
-            item.rare = 1;
-            item.value = Item.sellPrice(0,0,25,0);
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Vilethorn, 1);
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            item.rare = 5;
+            item.value = Item.sellPrice(0,6,0,0);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
-                Main.rand.Next(-50, 50) * 0.001f * player.gravDir); //whip swinging
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0,
+                0.15f * player.gravDir + Main.rand.Next(-50, 50) * 0.001f * player.gravDir); //overhead swinging
             return false;
         }
     }

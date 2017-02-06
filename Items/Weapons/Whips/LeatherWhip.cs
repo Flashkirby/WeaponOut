@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
-    /// Hellstone tier, about sun fury DPS
-	/// Resprite by Eli10293
+    /// Earliest game whip for corruption, low base but high crit
     /// </summary>
-    public class MoltenChains : ModItem
+    public class LeatherWhip : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -21,7 +19,8 @@ namespace WeaponOut.Items.Weapons
         private bool increaseDamage;
         public override void SetDefaults()
         {
-            item.name = "Molten Chains";
+            item.name = "Leather Whip";
+            item.toolTip = "Whips deal critical damage at the tip";
 			item.width = 34;
 			item.height = 34;
 
@@ -34,21 +33,20 @@ namespace WeaponOut.Items.Weapons
             
             item.melee = true;
             item.channel = true;
-            item.damage = 19;
-            item.crit = 16; //crit chance on whips increase crit damage instead
-            item.knockBack = 4f;
+            item.damage = 4;
+            item.crit = 36; //crit chance on whips increase crit damage instead
+            item.knockBack = 2f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
-            item.rare = 3;
-            item.value = Item.sellPrice(0,0,54,0);
+            item.rare = 0;
+            item.value = Item.sellPrice(0,0,0,80);
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddIngredient(ItemID.Chain, 5);
-            recipe.AddTile(TileID.Anvils);
+             recipe.AddIngredient(ItemID.Leather, 1); //for leather whip later
+            recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -56,13 +54,8 @@ namespace WeaponOut.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
-                Main.rand.Next(-100, 100) * 0.001f * player.gravDir); //whip swinging
+                Main.rand.Next(-150, 150) * 0.001f * player.gravDir); //whip swinging
             return false;
-        }
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return Color.White;
         }
     }
 }
