@@ -9,6 +9,8 @@ namespace WeaponOut.Items
 {
     public class MirrorBadge : ModItem
     {
+        public const int reflectDelay = 60;
+
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
             return ModConf.enableAccessories;
@@ -18,11 +20,10 @@ namespace WeaponOut.Items
         {
             item.name = "Mirror Badge";
             item.toolTip = @"Immunity to petrification
-Reflects some enemy projectiles";
+Occasionally reflects projectiles";
             item.toolTip2 = "'A mark of courage, if a bit unpolished'";
             item.width = 18;
             item.height = 20;
-            item.mana = 10;
             item.rare = 8;
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.accessory = true;
@@ -40,7 +41,9 @@ Reflects some enemy projectiles";
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.buffImmune[BuffID.Stoned] = true;
-            if(player.CheckMana(item.mana,false,false))
+
+            PlayerFX pFX = player.GetModPlayer<PlayerFX>(mod);
+            if (pFX.reflectingProjectileDelay <= 0)
             {
                 player.AddBuff(WeaponOut.BuffIDMirrorBarrier, 2);
             }

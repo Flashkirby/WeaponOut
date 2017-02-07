@@ -54,6 +54,11 @@ namespace WeaponOut
         public int dashingSpecialAttack;
         public const int dashingSpecialAttackOnsoku = 1;
 
+        public bool reflectingProjectiles;
+        public int reflectingProjectileDelay;
+        public bool CanReflectProjectiles
+        { get { return reflectingProjectiles && reflectingProjectileDelay <= 0; } }
+
         public bool lunarRangeVisual;
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
@@ -140,6 +145,10 @@ namespace WeaponOut
             lunarRangeVisual = false;
             lunarMagicVisual = false;
             lunarThrowVisual = false;
+
+            // Handle reflecting timer
+            reflectingProjectiles = false;
+            if (reflectingProjectileDelay > 0) reflectingProjectileDelay = Math.Max(0, reflectingProjectileDelay - 1);
         }
 
         public override void PreUpdate()
