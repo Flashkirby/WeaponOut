@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
-    /// Bone sword style
+    /// Bone sword style, built to send enemies to tip naturally
+    /// Dungeon tier (Muramasa)
     /// </summary>
     public class BoneWhip : ModItem
     {
@@ -24,19 +25,19 @@ namespace WeaponOut.Items.Weapons.Whips
 			item.height = 34;
 
             item.useStyle = 5;
-            item.useAnimation = 24;
-            item.useTime = 24;
+            item.useAnimation = 14;
+            item.useTime = 14;
             item.UseSound = SoundID.Item19;
             item.noUseGraphic = true;
             item.noMelee = true;
             
             item.melee = true;
             item.channel = true;
-            item.damage = 13;
-            item.crit = 21; //crit chance on whips increase crit damage instead
-            item.knockBack = 2f;
+            item.damage = 14;
+            item.crit = 64; //crit chance on whips increase crit damage instead
+            item.knockBack = 4f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
-            item.shootSpeed = 1f; //projectile length
+            item.shootSpeed = 5f; //projectile length
 
             item.rare = 2;
             item.value = Item.sellPrice(0,0,50,0);

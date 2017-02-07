@@ -22,7 +22,8 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetDefaults()
         {
             item.name = "Molten Chains";
-			item.width = 34;
+            item.toolTip = "Ignites enemies at the tip";
+            item.width = 34;
 			item.height = 34;
 
             item.useStyle = 5;
@@ -34,9 +35,9 @@ namespace WeaponOut.Items.Weapons.Whips
             
             item.melee = true;
             item.channel = true;
-            item.damage = 19;
+            item.damage = 28; // Balanced against possed armour with fiery greatsword
             item.crit = 16; //crit chance on whips increase crit damage instead
-            item.knockBack = 4f;
+            item.knockBack = 4.5f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
