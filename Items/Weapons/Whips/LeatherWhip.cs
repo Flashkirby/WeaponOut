@@ -9,6 +9,10 @@ namespace WeaponOut.Items.Weapons.Whips
     /// <summary>
     /// Earliest game whip for corruption, low base but high crit
     /// Silver Broadsword
+    /// What Categpry is a whip?
+    /// Mid-Low damage for tier by default
+    /// Poorer knockback than spears - not designed to protect
+    /// High tier damage on crit tip - requires spacing and skill
     /// </summary>
     public class LeatherWhip : ModItem
     {
