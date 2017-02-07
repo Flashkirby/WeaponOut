@@ -8,6 +8,7 @@ namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
     /// Earliest game whip for corruption, low base but high crit
+    /// Silver Broadsword
     /// </summary>
     public class LeatherWhip : ModItem
     {
@@ -33,9 +34,9 @@ namespace WeaponOut.Items.Weapons.Whips
             
             item.melee = true;
             item.channel = true;
-            item.damage = 4;
-            item.crit = 36; //crit chance on whips increase crit damage instead
-            item.knockBack = 2f;
+            item.damage = 7;
+            item.crit = 46; //crit chance on whips increase crit damage instead
+            item.knockBack = 3.5f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 

@@ -8,6 +8,7 @@ namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
     /// Corruption whip, high speed. Whip damage variates between 1 lower and higher tier
+    /// Blue tier
     /// </summary>
     public class NotchedWhip : ModItem
     {
@@ -24,17 +25,17 @@ namespace WeaponOut.Items.Weapons.Whips
 			item.height = 34;
 
             item.useStyle = 5;
-            item.useAnimation = 18;
-            item.useTime = 18;
+            item.useAnimation = 28;
+            item.useTime = 28;
             item.UseSound = SoundID.Item19;
             item.noUseGraphic = true;
             item.noMelee = true;
             
             item.melee = true;
             item.channel = true;
-            item.damage = 12;
+            item.damage = 15; // For balancing, damage should try to match when base*(bonuscrit/2)
             item.crit = 21; //damage = 2 * (base * bonus crit)
-            item.knockBack = 1f;
+            item.knockBack = 4; // Testing effectiveness against hoplite with Vilethorn
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 

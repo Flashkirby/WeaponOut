@@ -8,6 +8,7 @@ namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
     /// Earliest game whip for crimson, with better, more consistant damage than leather but slower
+    /// Tungsten Broadsword Tier
     /// </summary>
     public class Whiplash : ModItem
     {
@@ -33,9 +34,9 @@ namespace WeaponOut.Items.Weapons.Whips
             
             item.melee = true;
             item.channel = true;
-            item.damage = 8;
+            item.damage = 11;
             item.crit = 11; //crit chance on whips increase crit damage instead
-            item.knockBack = 2.5f;
+            item.knockBack = 5f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
