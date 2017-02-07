@@ -8,6 +8,7 @@ namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
     /// Normal jungle tier
+    /// Blade of Grass?
     /// </summary>
     public class CoiledThorns : ModItem
     {
@@ -32,8 +33,8 @@ namespace WeaponOut.Items.Weapons.Whips
             
             item.melee = true;
             item.channel = true;
-            item.damage = 15;
-            item.crit = 21; //crit chance on whips increase crit damage instead
+            item.damage = 20;
+            item.crit = 31; //crit chance on whips increase crit damage instead
             item.knockBack = 2f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
