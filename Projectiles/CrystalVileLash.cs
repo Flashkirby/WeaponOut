@@ -10,7 +10,7 @@ namespace WeaponOut.Projectiles
 {
     public class CrystalVileLash : ModProjectile
     {
-        public const float whipLength = 32f;
+        public const float whipLength = 40f; //Long enough for spazmatism
         public const bool whipSoftSound = false;
         public const int handleHeight = 24;
         public const int chainHeight = 14;

@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Weapons.Whips
 {
     /// <summary>
-    /// Not the garian sword :P
+    /// So I heard you don't like the crystal vilethorn so we made it better
+    /// Chain guillotines, or Lightred-Pink tier
     /// </summary>
     public class CrystalVileLash : ModItem
     {
@@ -32,8 +33,8 @@ namespace WeaponOut.Items.Weapons.Whips
             
             item.melee = true;
             item.channel = true;
-            item.damage = 35;
-            item.crit = 36; //crit chance on whips increase crit damage instead
+            item.damage = 52;
+            item.crit = 2; //crit chance on whips increase crit damage instead
             item.knockBack = 1.5f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
