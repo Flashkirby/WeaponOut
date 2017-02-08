@@ -21,8 +21,8 @@ namespace WeaponOut.NPCs
             {
                 if (type == NPCID.Wizard)
                 {
-                    //add puzzling cutter if any mech boss was defeated
-                    if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+                    //add puzzling cutter if hardmode
+                    if (Main.hardMode)
                     {
                         try
                         {
