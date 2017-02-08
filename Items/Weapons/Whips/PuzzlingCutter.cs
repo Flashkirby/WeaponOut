@@ -34,9 +34,9 @@ namespace WeaponOut.Items.Weapons.Whips
             
             item.melee = true;
             item.channel = true;
-            item.damage = 20;
+            item.damage = 35;
             item.crit = 36; //crit chance on whips increase crit damage instead
-            item.knockBack = 1f;
+            item.knockBack = 2f;
             item.shoot = mod.ProjectileType(this.GetType().Name);
             item.shootSpeed = 1f; //projectile length
 
