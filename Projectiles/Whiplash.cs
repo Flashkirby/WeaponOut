@@ -39,7 +39,7 @@ namespace WeaponOut.Projectiles
 
         public override void AI()
         {
-            BaseWhip.WhipAI(projectile, whipLength, 0, 0);
+            BaseWhip.WhipAI(projectile, whipLength, false, 0, 0);
         }
 
         #region BaseWhip Stuff

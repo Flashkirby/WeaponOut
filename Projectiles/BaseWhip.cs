@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System;
-
+// version = 1.2.3
 namespace WeaponOut.Projectiles
 {
     public static class BaseWhip
@@ -16,14 +16,14 @@ namespace WeaponOut.Projectiles
         /// <param name="projectile">Reference to the projectile</param>
         /// <param name="whipLength">Approximately half length in tiles</param>
         /// <returns>End position of the whip</returns>
-        public static Vector2 WhipAI(Projectile projectile, float whipLength = 16, int sndgroup = 2, int sound = 39)
+        public static Vector2 WhipAI(Projectile projectile, float whipLength = 16, bool ignoreTiles = false, int sndgroup = 2, int sound = 39)
         {
             //use localAI[1] to track hitting something
             if (projectile.ai[0] == 0f)
             {
                 projectile.localAI[1] = Main.player[projectile.owner].itemAnimationMax;
             }
-            return AI_075(projectile, whipLength / projectile.MaxUpdates, (int)projectile.localAI[1], sndgroup, sound);
+            return AI_075(projectile, whipLength / projectile.MaxUpdates, (int)projectile.localAI[1], ignoreTiles, sndgroup, sound);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace WeaponOut.Projectiles
         /// lai0:static rotation
         /// lai1:custom swingtime
         /// </summary>
-        private static Vector2 AI_075(Projectile projectile, float swingLength, int swingTime, int sndgroup, int sound)
+        private static Vector2 AI_075(Projectile projectile, float swingLength, int swingTime, bool ignoreTiles, int sndgroup, int sound)
         {
             Player player = Main.player[projectile.owner];
             float num = 1.57079637f;
@@ -96,7 +96,7 @@ namespace WeaponOut.Projectiles
             //collide with tiles
             Vector2 endPoint = projectile.position + projectile.velocity * 2f;
 
-            if (projectile.ai[0] > 1)//delay and stops close tile collision
+            if (projectile.ai[0] > 1 && !ignoreTiles)//delay and stops close tile collision
             {
                 Vector2 prevPoint = projectile.oldPosition + projectile.oldVelocity * 2f;
                 if (!Collision.CanHit(endPoint, projectile.width, projectile.height, prevPoint, projectile.width, projectile.height))
