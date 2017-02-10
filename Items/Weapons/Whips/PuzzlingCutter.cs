@@ -33,7 +33,6 @@ namespace WeaponOut.Items.Weapons.Whips
             item.autoReuse = true;
             
             item.melee = true;
-            item.channel = true;
             item.damage = 35;
             item.crit = 36; //crit chance on whips increase crit damage instead
             item.knockBack = 2f;

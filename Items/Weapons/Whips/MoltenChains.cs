@@ -34,7 +34,6 @@ namespace WeaponOut.Items.Weapons.Whips
             item.noMelee = true;
             
             item.melee = true;
-            item.channel = true;
             item.damage = 28; // Balanced against possed armour with fiery greatsword
             item.crit = 16; //crit chance on whips increase crit damage instead
             item.knockBack = 4.5f;

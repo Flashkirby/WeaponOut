@@ -32,7 +32,6 @@ namespace WeaponOut.Items.Weapons.Whips
             item.noMelee = true;
             
             item.melee = true;
-            item.channel = true;
             item.damage = 15; // For balancing, damage should try to match when base*(bonuscrit/2)
             item.crit = 21; //damage = 2 * (base * bonus crit)
             item.knockBack = 4; // Testing effectiveness against hoplite with Vilethorn

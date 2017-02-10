@@ -37,7 +37,6 @@ namespace WeaponOut.Items.Weapons.Whips
             item.noMelee = true;
             
             item.melee = true;
-            item.channel = true;
             item.damage = 7;
             item.crit = 46; //crit chance on whips increase crit damage instead
             item.knockBack = 3.5f;
