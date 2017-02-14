@@ -59,10 +59,13 @@ namespace WeaponOut.Items
         /// <returns></returns>
         public static float SetBonus(Player player, int bonusType)
         {
-            if (player.inventory[player.selectedItem].type == 0) return 0f; //exit for empty slot
+            if (player.inventory[player.selectedItem].type == 0) return 0f; //exit for empty slot)
 
             //keep track of current weapon state
             Item heldItem = player.inventory[player.selectedItem];
+
+            // Ignore showing buffs to ammo
+            if (heldItem.ammo > 0 && heldItem.useAnimation <= 0) return 0f;
 
             //keep track of default stats disregarding prefixes and other bonues effects
             Item defaultItem = new Item();
