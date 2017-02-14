@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -113,9 +114,9 @@ namespace WeaponOut.Items
                 if (heldItem.thrown) player.thrownDamage += bonus - 1f;
                 if (heldItem.magic)
                 {
-                    //modfy mana costs
+                    //modify mana costs
                     player.magicDamage += bonus - 1f;
-                    player.manaCost += CalculateRawManaCost(player, defaultItem) / defaultItem.mana;
+                    player.manaCost += CalculateRawManaCost(player, defaultItem) / Math.Max(defaultItem.mana, 1f);
                 }
                 if (heldItem.summon) player.minionDamage += bonus - 1f;
             }
@@ -150,7 +151,9 @@ namespace WeaponOut.Items
         private static float CalculateRawManaCost(Player player, Item defaultItem)
         {
             //silly formula mostly does what its meant to...
-            float modHitsPerSecond = 30 / Math.Max(1, defaultItem.useAnimation);
+            float modHitsPerSecond = 30f / Math.Max(1, defaultItem.useAnimation);
+            int rare = defaultItem.rare;
+            if (rare < 0) rare = 10; // mods like thorium
             return 1.5f * Math.Max(0, 10 - defaultItem.rare) / modHitsPerSecond;
         }
         private static float SetBonusMagic(Item defaultItem, Item heldItem, float rawIncrease)
