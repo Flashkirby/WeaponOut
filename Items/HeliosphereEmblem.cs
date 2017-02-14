@@ -152,6 +152,7 @@ namespace WeaponOut.Items
         {
             //silly formula mostly does what its meant to...
             float modHitsPerSecond = 30f / Math.Max(1, defaultItem.useAnimation);
+            if (modHitsPerSecond <= 0) modHitsPerSecond = 0.5f;
             int rare = defaultItem.rare;
             if (rare < 0) rare = 10; // mods like thorium
             return 1.5f * Math.Max(0, 10 - defaultItem.rare) / modHitsPerSecond;
