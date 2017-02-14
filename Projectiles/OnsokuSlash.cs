@@ -24,6 +24,7 @@ namespace WeaponOut.Projectiles
         public const float dashStepCount = 6;
         public const float dashStepDelay = 8;
 
+        bool playedLocalSound = false;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -71,7 +72,11 @@ namespace WeaponOut.Projectiles
             {
                 if (UpdateCount == dashStepDelay)
                 {
-                    Main.PlaySound(2, player.Center, 28);
+                    if (!playedLocalSound)
+                    {
+                        Main.PlaySound(2, player.Center, 28);
+                        playedLocalSound = true; // Stop multiplayer sound bug
+                    }
 
                     dashStep = (projectile.Center - player.Center) / dashStepCount;
                     player.inventory[player.selectedItem].useStyle = 3;
