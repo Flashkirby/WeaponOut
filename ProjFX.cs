@@ -19,6 +19,7 @@ namespace WeaponOut
                     if (!player.active) continue;
                     if (projectile.melee ||
                         projectile.minion ||
+                        projectile.npcProj ||
                         projectile.damage <= 0 ||
                         projectile.aiStyle == 7 ||
                         projectile.aiStyle == 13 ||
