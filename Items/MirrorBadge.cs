@@ -9,7 +9,7 @@ namespace WeaponOut.Items
 {
     public class MirrorBadge : ModItem
     {
-        public const int reflectDelay = 60;
+        public const int reflectDelay = 90;
 
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -20,7 +20,7 @@ namespace WeaponOut.Items
         {
             item.name = "Mirror Badge";
             item.toolTip = @"Immunity to petrification
-Occasionally reflects projectiles";
+Reflects most projectiles";
             item.toolTip2 = "'A mark of courage, if a bit unpolished'";
             item.width = 18;
             item.height = 20;
