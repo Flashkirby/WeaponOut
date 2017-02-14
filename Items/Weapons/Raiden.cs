@@ -114,7 +114,7 @@ namespace WeaponOut.Items.Weapons
                         d.velocity *= 0f;
                         d.scale = Main.rand.Next(70, 85) * 0.01f;
                         // This dust uses fadeIn for homing into players
-                        d.fadeIn = Main.myPlayer + 1;
+                        d.fadeIn = player.whoAmI + 1;
                     }
                 }
                 else
