@@ -64,6 +64,10 @@ namespace WeaponOut.Items
             //keep track of current weapon state
             Item heldItem = player.inventory[player.selectedItem];
 
+            // If weapons have 0 damage, eh, just buff it by rarity
+            int tRare = heldItem.rare < -1 ? 10 : heldItem.rare;
+            if (heldItem.damage <= 0) return 1 + 0.3f * (10 - Math.Max(tRare, 0));
+
             // Ignore showing buffs to ammo
             if (heldItem.ammo > 0 && heldItem.useAnimation <= 0) return 0f;
 
