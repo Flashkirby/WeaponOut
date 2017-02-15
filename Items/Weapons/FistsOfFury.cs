@@ -71,17 +71,16 @@ namespace WeaponOut.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 12);
-            if (!noHitbox)
+            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 20);
+
+            Rectangle graphic = FistStyle.UseItemGraphicbox(player, 12);
+            Vector2 velo = FistStyle.GetFistVelocity(player) * -2f + player.velocity * 0.5f;
+            int d = Dust.NewDust(graphic.TopLeft(), graphic.Width, graphic.Height, 174, velo.X, velo.Y);
+            Main.dust[d].noGravity = true;
+            for (int i = 0; i < 10; i++)
             {
-                Vector2 velo = FistStyle.GetFistVelocity(player) * -2f + player.velocity * 0.5f;
-                int d = Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 174, velo.X, velo.Y);
+                d = Dust.NewDust(graphic.TopLeft(), graphic.Width, graphic.Height, 174, velo.X * 1.2f, velo.Y * 1.2f);
                 Main.dust[d].noGravity = true;
-                for (int i = 0; i < 10; i++)
-                {
-                    d = Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 174, velo.X * 1.2f, velo.Y * 1.2f);
-                    Main.dust[d].noGravity = true;
-                }
             }
         }
 

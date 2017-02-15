@@ -48,7 +48,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 4);
+            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 20);
         }
     }
 }

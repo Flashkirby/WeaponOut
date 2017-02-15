@@ -30,7 +30,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
         }
         public int punchCombo; //keeps track of every successful punch
         public int punchCount; //keeps track of every punch thrown
-        public bool isDramatic { get { return punchCount % punchComboMax2 == 0; } }
+        public bool isDramatic { get { return punchCount % punchComboMax2 == 0 && punchCount > 0; } }
 
         public FistStyle(Item item, int maxCombo = 0)
         {
@@ -44,11 +44,18 @@ namespace WeaponOut.Items.Weapons.UseStyles
             //Main.NewText(player.itemAnimation + " | " + player.itemTime);
             if (player.itemAnimation == 0)
             {
+                // Reset if no hit during swing
                 if (punchCombo != 0) comboReset(player);
             }
             else
             {
+                // If below, set to combo minimum
+                if (punchCount < punchCombo) punchCount = punchCombo;
+
+                // Increase count per punch
                 if (player.itemAnimation == player.itemAnimationMax - 1) punchCount++;
+
+                // Reset if no hit during swing (autoswinger)
                 if (player.itemAnimation == 1 && punchCount > punchCombo)
                 {
                     comboReset(player);
@@ -84,7 +91,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
             if (!isDramatic) rect.Y += (int)(rect.Height * player.gravDir);
             CombatText.NewText(rect,
                 comboColour, string.Concat(punchCombo), isDramatic);
-            if (punchCount % punchComboMax2 != 0)
+            if (!isDramatic)
             {
                 player.itemAnimation = 2 * player.itemAnimation / 3;
                 UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
@@ -96,11 +103,11 @@ namespace WeaponOut.Items.Weapons.UseStyles
                     if (target.noGravity) player.velocity.Y -= player.gravDir * 4f;
                 }
             }
-            if (punchCount % punchComboMax2 == 0)
+            else
             {
                 UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
                 //disengage
-                if (follow) player.velocity += new Vector2(target.velocity.X * -2, target.velocity.Y * 2);
+                if (follow) player.velocity += new Vector2(player.direction * -3f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
             }
             return punchCombo;
         }
@@ -125,9 +132,8 @@ namespace WeaponOut.Items.Weapons.UseStyles
             else if (anim > 0.7f)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height * 17;
-                provideImmunity(player);
             }
-            //punch (gives invulnerability)
+            //punch
             else if (anim > 0.3f)
             {
                 if (Math.Abs(player.itemRotation) > Math.PI / 8 && Math.Abs(player.itemRotation) < 7 * Math.PI / 8)
@@ -148,47 +154,24 @@ namespace WeaponOut.Items.Weapons.UseStyles
                     //along the middle
                     player.bodyFrame.Y = player.bodyFrame.Height * 3;
                 }
-                provideImmunity(player);
             }
             //wind back
             else player.bodyFrame.Y = player.bodyFrame.Height * 17;
         }
 
-        /// <summary>
-        /// Generates a hitbox
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="hitbox"></param>
-        /// <param name="boxSize"></param>
-        /// <returns>True if no hitbox (so no dust)</returns>
-        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int boxSize)
+        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance)
         {
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
-            //get rotation at use
-            if (player.itemAnimation == player.itemAnimationMax - 1)
+
+            if (anim > 0.3f)
             {
-                if (Main.myPlayer == player.whoAmI)
-                {
-                    Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-                    Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default(Vector2));
-                    Vector2 vector3 = Main.MouseWorld - vector2;
-                    if (vector3 != Vector2.Zero)
-                    {
-                        vector3.Normalize();
-                    }
-                    float num79 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                    float num80 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                    if (player.gravDir == -1f)
-                    {
-                        num80 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
-                    }
-                    player.itemRotation = (float)Math.Atan2((double)(num80 * (float)player.direction), (double)(num79 * (float)player.direction)) - player.fullRotation;
-                }
+                // Provide immunity for 2/3
+                provideImmunity(player);
 
-                if (Math.Abs(player.itemRotation) > Math.PI / 2) //swapping then doing it again because lazy and can't be bothered to find in code
+                //get rotation at use
+                if (player.itemAnimation == player.itemAnimationMax - 1)
                 {
-                    player.direction *= -1;
-
+                    #region Attack Rotation
                     if (Main.myPlayer == player.whoAmI)
                     {
                         Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -206,25 +189,112 @@ namespace WeaponOut.Items.Weapons.UseStyles
                         }
                         player.itemRotation = (float)Math.Atan2((double)(num80 * (float)player.direction), (double)(num79 * (float)player.direction)) - player.fullRotation;
                     }
+
+                    if (Math.Abs(player.itemRotation) > Math.PI / 2) //swapping then doing it again because lazy and can't be bothered to find in code
+                    {
+                        player.direction *= -1;
+
+                        if (Main.myPlayer == player.whoAmI)
+                        {
+                            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+                            Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default(Vector2));
+                            Vector2 vector3 = Main.MouseWorld - vector2;
+                            if (vector3 != Vector2.Zero)
+                            {
+                                vector3.Normalize();
+                            }
+                            float num79 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
+                            float num80 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                            if (player.gravDir == -1f)
+                            {
+                                num80 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                            }
+                            player.itemRotation = (float)Math.Atan2((double)(num80 * (float)player.direction), (double)(num79 * (float)player.direction)) - player.fullRotation;
+                        }
+                    }
+
+                    if (Main.myPlayer == player.whoAmI)
+                    {
+
+                        NetMessage.SendData(MessageID.PlayerControls, -1, -1, "", player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.ItemAnimation, -1, -1, "", player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    }
+                    #endregion
                 }
 
-                if (Main.myPlayer == player.whoAmI)
+                // Starts as player box
+                if (anim > 0.7f)
                 {
-                    NetMessage.SendData(13, -1, -1, "", player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                    NetMessage.SendData(41, -1, -1, "", player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    hitbox = player.getRect();
+                }
+                // Moves outwards to direction
+                else
+                {
+                    // Size is relative to distance past default size
+                    hitbox.Width = Player.defaultWidth + (int)(distance - 14);
+                    hitbox.Height = hitbox.Width;
+
+                    // Work out which way to go
+                    float xDir = player.direction;
+                    float yDir = 1.5f;
+
+                    if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
+                    {
+                        xDir /= 2;
+                        if (player.itemRotation * player.direction > 0)
+                        {
+                            //Up high
+                            yDir *= 1f;
+                        }
+                        else
+                        {
+                            //Down low
+                            yDir *= -1f;
+                        }
+                    }
+                    else
+                    {
+                        //along the middle
+                        yDir = 0;
+                    }
+
+                    hitbox.Location = (player.Center + new Vector2(
+                         xDir * distance - (hitbox.Width / 2),
+                         yDir * distance - (hitbox.Height / 2)
+                        )).ToPoint();
                 }
             }
-            //no hitbox during winding
+            else
+            {
+                // No hitbox during last third
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Generates a fisticuffs rectangle
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="hitbox"></param>
+        /// <param name="boxSize"></param>
+        /// <returns>True if no hitbox (so no dust)</returns>
+        public static Rectangle UseItemGraphicbox(Player player, int boxSize)
+        {
+            Rectangle box = new Rectangle();
+            float anim = player.itemAnimation / (float)player.itemAnimationMax;
+
+            //no show during winding
             if (anim > 0.8f || anim <= 0.6f)
             {
-                hitbox = new Rectangle();
-                return true;
+                return new Rectangle();
             }
 
             //set player direction/hitbox
             Vector2 centre = new Vector2();
             float swing = 1 - (anim - 0.6f) * 5f;//0.8 -> 0.6
-            if (Math.Abs(player.itemRotation) > Math.PI / 8 && Math.Abs(player.itemRotation) < 7 * Math.PI / 8)
+            if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
             {
                 if (player.itemRotation * player.direction > 0)
                 {
@@ -248,21 +318,21 @@ namespace WeaponOut.Items.Weapons.UseStyles
                     player.Center.X - (player.width * 0.5f * player.direction) + player.width * 1.6f * swing * player.direction, 
                     player.Center.Y);
             }
-            hitbox.X = (int)centre.X - boxSize/2;
-            hitbox.Y = (int)centre.Y - boxSize/2;
-            hitbox.Width = boxSize;
-            hitbox.Height = boxSize;
+            box.X = (int)centre.X - boxSize/2;
+            box.Y = (int)centre.Y - boxSize/2;
+            box.Width = boxSize;
+            box.Height = boxSize;
 
             if (player.direction > 0)
             {
-                hitbox.X += player.width / 2;
+                box.X += player.width / 2;
             }
             else
             {
-                hitbox.X -= player.width / 2;
+                box.X -= player.width / 2;
             }
 
-            return false;
+            return box;
         }
 
         public static Vector2 GetFistVelocity(Player player)
