@@ -3,8 +3,9 @@
 using Microsoft.Xna.Framework;
 
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.World.Generation;
+using Terraria.ModLoader;
 
 namespace WeaponOut.Items.Weapons.UseStyles
 {
@@ -98,14 +99,28 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
                 if (target.life > 0 && follow)
                 {
+                    // Check if NPC is in air
+                    bool aerial = target.noGravity;
+                    Point origin = target.Center.ToTileCoordinates();
+                    Point point;
+                    if (!WorldUtils.Find(origin, Searches.Chain(new Searches.Down(4), new GenCondition[]
+                    {
+                        new Conditions.IsSolid()
+                    }), out point))
+                    {
+                        aerial = true;
+                    }
+
                     //follow target
                     player.velocity = target.velocity;
-                    if (target.noGravity) player.velocity.Y -= player.gravDir * 4f;
+                    if (aerial) player.velocity.Y -= player.gravDir * 4f;
                 }
             }
             else
             {
+                // Grant extra immune whilst disengaging
                 UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
+
                 //disengage
                 if (follow) player.velocity += new Vector2(player.direction * -3f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
             }
