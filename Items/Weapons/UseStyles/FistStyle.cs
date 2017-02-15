@@ -151,7 +151,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
             //punch
             else if (anim > 0.3f)
             {
-                if (Math.Abs(player.itemRotation) > Math.PI / 8 && Math.Abs(player.itemRotation) < 7 * Math.PI / 8)
+                if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
                 {
                     if (player.itemRotation * player.direction * player.gravDir > 0)
                     {
@@ -352,7 +352,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
         public static Vector2 GetFistVelocity(Player player)
         {
-            if (Math.Abs(player.itemRotation) > Math.PI / 8 && Math.Abs(player.itemRotation) < 7 * Math.PI / 8)
+            if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
             {
                 if (player.itemRotation * player.direction > 0)
                 {
