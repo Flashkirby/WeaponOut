@@ -50,9 +50,6 @@ namespace WeaponOut.Items.Weapons.UseStyles
             }
             else
             {
-                // If below, set to combo minimum
-                if (punchCount < punchCombo) punchCount = punchCombo;
-
                 // Increase count per punch
                 if (player.itemAnimation == player.itemAnimationMax - 1) punchCount++;
 
@@ -84,10 +81,12 @@ namespace WeaponOut.Items.Weapons.UseStyles
         /// <returns>Hit number, or -1</returns>
         public int OnHitNPC(Player player, NPC target, bool follow = false)
         {
-            if (target.immortal) return -1; //don't trigger on dummy
+           // if (target.immortal) return -1; //don't trigger on dummy
 
             //C-C-Combo!
             punchCombo++;
+            if (punchCombo > punchCount) punchCount++;
+
             Rectangle rect = player.getRect();
             if (!isDramatic) rect.Y += (int)(rect.Height * player.gravDir);
             CombatText.NewText(rect,
@@ -124,18 +123,8 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 //disengage
                 if (follow) player.velocity += new Vector2(player.direction * -3f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
             }
-            return punchCombo;
-        }
 
-        public static void UseItemFramePauseCharge(Player player, Item item)
-        {
-            // Ignore freeze timer in hand (also, using fists inhand - hahah get it)
-            if (player.selectedItem == 58) return;
-            // Stop charging charge shot
-            if (player.itemTime < item.useTime - 1) //if less than max
-            {
-                player.itemTime = item.useTime - 1; //freeze at at this point until player stops attacking
-            }
+            return punchCombo;
         }
 
         public static void UseItemFrame(Player player)

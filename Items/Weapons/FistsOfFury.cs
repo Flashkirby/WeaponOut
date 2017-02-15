@@ -65,7 +65,6 @@ namespace WeaponOut.Items.Weapons
         public override bool UseItemFrame(Player player)
         {
             FistStyle.UseItemFrame(player);
-            FistStyle.UseItemFramePauseCharge(player, item);
             Fist.UseItemFrameComboStop(player);
             return true;
         }
