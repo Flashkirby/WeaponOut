@@ -18,7 +18,7 @@ namespace WeaponOut.Items.Weapons
             return ModConf.enableFists;
         }
 
-        public FistStyle fist;
+        private FistStyle fist;
         public FistStyle Fist
         {
             get
@@ -33,8 +33,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Fists of Fury";
-            item.toolTip = "Combos up to 5 times";
-            item.toolTip2 = "<right> to dash attack";
+            item.toolTip = "<right> to dash attack";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
             item.autoReuse = true;
@@ -50,6 +49,10 @@ namespace WeaponOut.Items.Weapons
             item.rare = 2;
             item.noUseGraphic = true;
             item.melee = true;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            Fist.ModifyTooltips(tooltips, mod);
         }
         public override void AddRecipes()
         {

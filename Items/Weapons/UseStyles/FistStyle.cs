@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
@@ -25,13 +26,9 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
         Item item;
         public int punchComboMax;
-        public int punchComboMax2
-        {
-            get { return punchComboMax; }
-        }
         public int punchCombo; //keeps track of every successful punch
         public int punchCount; //keeps track of every punch thrown
-        public bool isDramatic { get { return punchCount % punchComboMax2 == 0 && punchCount > 0; } }
+        public bool isDramatic { get { return punchCount % punchComboMax == 0 && punchCount > 0; } }
 
         public FistStyle(Item item, int maxCombo = 0)
         {
@@ -125,6 +122,11 @@ namespace WeaponOut.Items.Weapons.UseStyles
             }
 
             return punchCombo;
+        }
+
+        public void ModifyTooltips(List<TooltipLine> tooltips, Mod mod)
+        {
+            tooltips.Add(new TooltipLine(mod, "comboPower", punchComboMax + " combo power"));
         }
 
         public static void UseItemFrame(Player player)
