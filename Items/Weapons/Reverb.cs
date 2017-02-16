@@ -16,7 +16,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Reverb";
-            item.toolTip = "Right click to cast backwards";
+            item.toolTip = "<right> to cast reverse bolt";
             item.width = 38;
             item.height = 14;
             item.scale = 0.9f;

@@ -24,7 +24,7 @@ namespace WeaponOut.Items.Weapons
 Four round burst
 Only the first shot consumes ammo
 10% chance to not consume ammo
-Right click to fire a forceful burst";
+<right> to fire a spread shot";
             item.width = 62;
             item.height = 20;
 

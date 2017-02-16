@@ -21,7 +21,7 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Mana Sword";
             item.toolTip = @"Casts a mana restoring star
-Right click to cast a powerful mana bolt
+<right> to cast a powerful mana bolt
 Mana bolt damage increases with mana";
             item.width = 58;
             item.height = 28;

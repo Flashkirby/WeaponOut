@@ -21,7 +21,7 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Double Loader";
             item.toolTip = "20% chance to not consume ammo";
-            item.toolTip2 = "Right click to fire darts";
+            item.toolTip2 = "<right> to fire darts";
             item.width = 50;
             item.height = 20;
 

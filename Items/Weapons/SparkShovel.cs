@@ -17,7 +17,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Spark Shovel";
-            item.toolTip = "Right click to shoot a small spark";
+            item.toolTip = "<right> to shoot a small spark";
             item.width = 32;
             item.height = 32;
 

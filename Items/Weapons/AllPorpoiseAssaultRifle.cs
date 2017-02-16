@@ -57,7 +57,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "All-Porpoise Assault Rifle";
-            item.toolTip = "Right click to fire a powerful underbarrel rocket\n50% chance to not consume ammo";
+            item.toolTip = "<right> to fire a powerful underbarrel rocket\n50% chance to not consume ammo";
             item.toolTip2 = "'Perfect for target rich environments'";
             item.width = 60;
             item.height = 20;

@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Fists of Fury";
             item.toolTip = "Combos up to 5 times";
-            item.toolTip2 = "Unleashes a fiery blast";
+            item.toolTip2 = "<right> to dash attack";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
             item.autoReuse = true;

@@ -18,7 +18,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Capacitor";
-            item.toolTip = "Right click to cast a frost bolt\nMelee attacks grant 80% reduced mana cost";
+            item.toolTip = "<right> to cast a frost bolt\nMelee attacks grant 80% reduced mana cost";
             item.width = 40;
             item.height = 40;
             item.scale = 1.15f;
