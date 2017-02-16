@@ -36,19 +36,27 @@ namespace WeaponOut.Items.Weapons.UseStyles
             punchComboMax = maxCombo;
             punchCombo = 0;
         }
-        
+
+        private bool incrementCountInHitFirst = false;
         public void UseItemFrameComboStop(Player player)
         {
             //Main.NewText(player.itemAnimation + " | " + player.itemTime);
             if (player.itemAnimation == 0)
             {
                 // Reset if no hit during swing
-                if (punchCombo != 0) comboReset(player);
+                if (punchCombo != 0)
+                {
+                    comboReset(player);
+                }
             }
             else
             {
-                // Increase count per punch
-                if (player.itemAnimation == player.itemAnimationMax - 1) punchCount++;
+                // Increase count per punch, but only if method didn't already
+                if (player.itemAnimation == player.itemAnimationMax - 1 && !incrementCountInHitFirst)
+                {
+                    punchCount++;
+                }
+                incrementCountInHitFirst = false;
 
                 // Reset if no hit during swing (autoswinger)
                 if (player.itemAnimation == 1 && punchCount > punchCombo)
@@ -82,7 +90,13 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
             //C-C-Combo!
             punchCombo++;
-            if (punchCombo > punchCount) punchCount++;
+
+            // Check to keep up, will call before other increase if hit on first frame
+            if (punchCombo > punchCount)
+            {
+                if (player.itemAnimation == player.itemAnimationMax - 1) incrementCountInHitFirst = true;
+                punchCount++;
+            }
 
             Rectangle rect = player.getRect();
             if (!isDramatic) rect.Y += (int)(rect.Height * player.gravDir);
@@ -90,6 +104,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 comboColour, string.Concat(punchCombo), isDramatic);
             if (!isDramatic)
             {
+
                 player.itemAnimation = 2 * player.itemAnimation / 3;
                 UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
 
@@ -127,6 +142,20 @@ namespace WeaponOut.Items.Weapons.UseStyles
         public void ModifyTooltips(List<TooltipLine> tooltips, Mod mod)
         {
             tooltips.Add(new TooltipLine(mod, "comboPower", punchComboMax + " combo power"));
+        }
+
+        public int ExpendCombo(Player player, bool dontConsumeCombo = false)
+        {
+            if(punchCount >= punchComboMax)
+            {
+                int charge = punchCount / punchComboMax;
+                if (dontConsumeCombo) comboReset(player);
+                return charge;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public static void UseItemFrame(Player player)

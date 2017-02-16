@@ -126,7 +126,7 @@ namespace WeaponOut
                 if(dashingSpecialAttack != 0)
                 {
                     //bleep
-                    itemFlashFX(175);
+                    ItemFlashFX(player, 175);
                 }
                 // Restore special dashing if grounded
                 dashingSpecialAttack = 0;
@@ -150,27 +150,8 @@ namespace WeaponOut
             reflectingProjectiles = false;
             if (reflectingProjectileDelay > 0) reflectingProjectileDelay = Math.Max(0, reflectingProjectileDelay - 1);
         }
-
-        public override void PreUpdate()
-        {
-            itemCooldownFlash();
-        }
-
-        /// <summary>
-        /// UseItem flash when itemTime is 0 to indicate charge
-        /// </summary>
-        private void itemCooldownFlash()
-        {
-            if (player.itemTime == 1 && player.whoAmI == Main.myPlayer)
-            {
-                int itemT = player.inventory[player.selectedItem].type;
-                if (itemT == fireFistType && ModConf.enableFists)
-                {
-                    itemFlashFX();
-                }
-            }
-        }
-        private void itemFlashFX(int dustType = 45)
+        
+        public static void ItemFlashFX(Player player, int dustType = 45)
         {
             Main.PlaySound(25, -1, -1, 1);
             for (int i = 0; i < 5; i++)

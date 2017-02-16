@@ -9,7 +9,7 @@ using WeaponOut.Items.Weapons.UseStyles;
 
 namespace WeaponOut.Items.Weapons
 {
-    public class Fist : ModItem
+    public class Knuckles : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -23,7 +23,7 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 5);
+                    fist = new FistStyle(item, 3);
                 }
                 return fist;
             }
@@ -31,14 +31,21 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Knuckleduster";
-            item.toolTip = "Damage scales with chest defense";
+            item.toolTip = "<right> at full combo power to fire an test";
             item.useStyle = FistStyle.useStyle;
+            item.useTurn = false;
             item.useAnimation = 19;//actually treated as -2
+            item.useTime = 19;
+
             item.width = 28;
             item.height = 28;
-            item.damage = 2;
+            item.damage = 5;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
+
+            item.shoot = ProjectileID.FrostBoltSword;
+            item.shootSpeed = 12f;
+
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -56,14 +63,40 @@ namespace WeaponOut.Items.Weapons
             recipe.AddRecipe();
         }
 
+        public override bool AltFunctionUse(Player player)
+        {
+            return Fist.ExpendCombo(player) > 0 && player.itemAnimation <= (item.autoReuse ? 1 : 0);
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            damage *= 2;
+            knockBack *= 2;
+            return player.altFunctionUse > 0;
+        }
+
         public override bool UseItemFrame(Player player)
         {
             FistStyle.UseItemFrame(player);
+            Fist.UseItemFrameComboStop(player);
             return true;
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
             noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 20);
+        }
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            int combo = Fist.OnHitNPC(player, target, true);
+            if (combo != -1)
+            {
+                if (combo % Fist.punchComboMax == 0)
+                {
+                    // Ready flash
+                    PlayerFX.ItemFlashFX(player);
+                }
+            }
         }
     }
 }
