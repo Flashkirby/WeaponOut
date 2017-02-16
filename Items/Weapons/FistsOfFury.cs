@@ -38,14 +38,11 @@ namespace WeaponOut.Items.Weapons
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
             item.autoReuse = true;
-            item.useAnimation = 30;
-            item.useTime = 60;
+            item.useAnimation = 30; //Half speed whilst combo-ing
 
             item.width = 28;
             item.height = 28;
             item.damage = 15;
-            item.shoot = mod.ProjectileType("FistFlameBlast");
-            item.shootSpeed = 6;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item32;
 
@@ -60,6 +57,12 @@ namespace WeaponOut.Items.Weapons
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+        
+        public override bool AltFunctionUse(Player player)
+        {
+            player.GetModPlayer<PlayerFX>(mod).weaponDash = 1;
+            return player.dashDelay == 0;
         }
 
         public override bool UseItemFrame(Player player)
@@ -94,13 +97,6 @@ namespace WeaponOut.Items.Weapons
                     target.AddBuff(BuffID.OnFire, 300);
                 }
             }
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (player.itemAnimation != player.itemAnimationMax - 1) return false;
-            knockBack = 0f;
-            return true;
         }
     }
 }

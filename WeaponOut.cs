@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -112,6 +113,36 @@ namespace WeaponOut
                 shakeTick = 0;
             }
             return Transform;
+        }
+
+        public override void HandlePacket(BinaryReader reader, int whoAmI)
+        {
+            int code = reader.ReadInt32();
+            int sender = reader.ReadInt32();
+            if (code == 1)
+            {
+                int dash = reader.ReadInt32();
+                if (Main.netMode == 2)
+                {
+                    for (int i = 0; i < 255; i++)
+                    {
+                        if (i != sender)
+                        {
+                            ModPacket me = GetPacket();
+                            me.Write(code);
+                            me.Write(sender);
+                            me.Write(dash);
+                            me.Send();
+                        }
+                    }
+                    // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                }
+                else
+                {
+                    Main.player[sender].GetModPlayer<PlayerFX>(this).weaponDash = dash;
+                    // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                }
+            }
         }
     }
 }

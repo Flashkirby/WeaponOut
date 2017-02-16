@@ -231,6 +231,8 @@ namespace WeaponOut
 
         public override void PostUpdateRunSpeeds()
         {
+            CustomDashMovement();
+
             if(player.inventory[player.selectedItem].type == mod.ItemType<Items.Weapons.Raiden>())
             {
                 if (itemSkillDelay >= Items.Weapons.Raiden.focusTime)
@@ -240,6 +242,78 @@ namespace WeaponOut
                     player.accRunSpeed = player.maxRunSpeed;
                 }
             }
+        }
+
+        public int weaponDash = 0;
+        private const float dashMaxSpeedThreshold = 12f;
+        private const float dashMaxFriction = 0.992f;
+        private const float dashMinFriction = 0.96f;
+        private const int dashSetDelay = 20;
+        private void CustomDashMovement()
+        {
+            // dash = player equipped dash type
+            // dashTime = timeWindow for double tap
+            // dashDelay = -1 during active, counts down to 0 after dash ends (30 for SoC, 20 for tabi)
+            // eocDash = SoC active frame time, 15 until dash ends, then count down (still active during deccel)
+            // eocHit = registers the hit NPC for 8 frames
+
+            // Reset here because reasons.
+            if(weaponDash > 0)
+            {
+
+                if (player.dashDelay == 0)
+                {
+                    float dashSpeed = 14.5f;
+                    
+                    // Set initial dash speed
+                    player.velocity.X = dashSpeed * (float)player.direction;
+                    Point point3 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), player.gravDir * -(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                    Point point4 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                    if (WorldGen.SolidOrSlopedTile(point3.X, point3.Y) || WorldGen.SolidOrSlopedTile(point4.X, point4.Y))
+                    {
+                        player.velocity.X = player.velocity.X / 2f;
+                    }
+                    player.dashDelay = -1;
+                    
+                    if (Main.netMode == 1 && player.whoAmI == Main.myPlayer)
+                    {
+                        ModPacket message = mod.GetPacket();
+                        message.Write(1);
+                        message.Write(Main.myPlayer);
+                        message.Write(weaponDash);
+                        message.Send();
+                    }
+                }
+
+                // Apply movement during dash, delay is managed already in DashMovement()
+                float maxAccRunSpeed = Math.Max(player.accRunSpeed, player.maxRunSpeed);
+                if (player.dashDelay < 0)
+                {
+                    player.vortexStealthActive = false;
+                    if (player.velocity.X > dashMaxSpeedThreshold || player.velocity.X < -dashMaxSpeedThreshold)
+                    {
+                        player.velocity.X = player.velocity.X * dashMaxFriction;
+                    }
+                    else if (player.velocity.X > maxAccRunSpeed || player.velocity.X < -maxAccRunSpeed)
+                    {
+                        player.velocity.X = player.velocity.X * dashMinFriction;
+                    }
+                    else
+                    {
+                        player.dashDelay = dashSetDelay;
+                        if (player.velocity.X < 0f)
+                        {
+                            player.velocity.X = -maxAccRunSpeed;
+                        }
+                        else if (player.velocity.X > 0f)
+                        {
+                            player.velocity.X = maxAccRunSpeed;
+                        }
+                    }
+                }
+            }
+
+            weaponDash = 0;
         }
 
         public override void PostUpdate()
@@ -787,7 +861,7 @@ namespace WeaponOut
 
             //bump if not attacking
             if (player.whoAmI == Main.myPlayer && player.itemAnimation == 0
-                && !player.immune && this.frontNoKnockback && !npc.dontTakeDamage)
+                && !player.immune && frontNoKnockback && !npc.dontTakeDamage)
             {
                 int hitDamage = 1;
                 float knockBack = (Math.Abs(player.velocity.X * 2) + 2f) / (0.2f + npc.knockBackResist); //sclaing knockback with kbr

@@ -81,7 +81,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
         /// <returns>Hit number, or -1</returns>
         public int OnHitNPC(Player player, NPC target, bool follow = false)
         {
-           // if (target.immortal) return -1; //don't trigger on dummy
+           // if (target.immortal) return -1; //don't trigger on dummy TODO: remember to enable before publish
 
             //C-C-Combo!
             punchCombo++;
