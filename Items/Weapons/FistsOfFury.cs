@@ -41,7 +41,7 @@ namespace WeaponOut.Items.Weapons
 
             item.width = 28;
             item.height = 28;
-            item.damage = 15;
+            item.damage = 25;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item32;
 
@@ -76,7 +76,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 20);
+            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 24);
 
             Rectangle graphic = FistStyle.UseItemGraphicbox(player, 12);
             Vector2 velo = FistStyle.GetFistVelocity(player) * -2f + player.velocity * 0.5f;
