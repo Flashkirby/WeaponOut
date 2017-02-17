@@ -26,9 +26,6 @@ namespace WeaponOut.Projectiles
             projectile.friendly = true;
             projectile.magic = true;
             projectile.ignoreWater = true;
-
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
         }
 
         public override void AI()
@@ -123,8 +120,29 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            lightColor = Color.White;
-            return true;
+            #region lighting free multi-frame alpha render
+            Texture2D t = Main.projectileTexture[projectile.type];
+            int height = t.Height;
+            Rectangle? source = null;
+            if (Main.projFrames[projectile.type] > 1)
+            {
+                height = t.Height / Main.projFrames[projectile.type]; ;
+                source = new Rectangle(0, height * projectile.frame, t.Width, height);
+            }
+            Vector2 p = projectile.position - Main.screenPosition;
+            Vector2 c = new Vector2(projectile.width / 2, projectile.height / 2);
+            spriteBatch.Draw(t,
+                p + c,
+                source, new Color(
+                    255 - projectile.alpha, 255 - projectile.alpha,
+                    255 - projectile.alpha, 255 - projectile.alpha),
+                projectile.rotation,
+                new Vector2(t.Width / 2, height / 2),
+                projectile.scale,
+                SpriteEffects.None,
+                0f);
+            #endregion
+            return false;
         }
     }
 }

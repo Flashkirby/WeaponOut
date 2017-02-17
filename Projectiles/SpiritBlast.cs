@@ -46,6 +46,7 @@ namespace WeaponOut.Projectiles
                 projectile.width / 2, projectile.height / 2,
                  226, 0, 0, 100, default(Color), Main.rand.NextFloat() + 0.5f)];
             d.noGravity = true;
+            d.noLight = true;
             d.velocity = projectile.velocity / 2;
 
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
@@ -73,8 +74,30 @@ namespace WeaponOut.Projectiles
                 projectile.frame++;
                 if (projectile.frame >= Main.projFrames[projectile.type]) projectile.frame = 0;
             }
-            lightColor = Color.White;
-            return true;
+
+            #region lighting free multi-frame alpha render
+            Texture2D t = Main.projectileTexture[projectile.type];
+            int height = t.Height;
+            Rectangle? source = null;
+            if (Main.projFrames[projectile.type] > 1)
+            {
+                height = t.Height / Main.projFrames[projectile.type]; ;
+                source = new Rectangle(0, height * projectile.frame, t.Width, height);
+            }
+            Vector2 p = projectile.position - Main.screenPosition;
+            Vector2 c = new Vector2(projectile.width / 2, projectile.height / 2);
+            spriteBatch.Draw(t,
+                p + c,
+                source, new Color(
+                    255 - projectile.alpha, 255 - projectile.alpha,
+                    255 - projectile.alpha, 255 - projectile.alpha),
+                projectile.rotation,
+                new Vector2(t.Width / 2, height / 2),
+                projectile.scale,
+                SpriteEffects.None,
+                0f);
+            #endregion
+            return false;
         }
     }
 }
