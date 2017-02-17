@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Knuckleduster";
-            item.toolTip = "<right> at full combo power to fire an test";
+            item.toolTip = "<right> at full combo power to unleash spirit";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
             item.useAnimation = 19;//actually treated as -2
@@ -43,8 +43,8 @@ namespace WeaponOut.Items.Weapons
             item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
 
-            item.shoot = ProjectileID.FrostBoltSword;
-            item.shootSpeed = 12f;
+            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
+            item.shootSpeed = 10f;
 
             item.noUseGraphic = true;
             item.melee = true;
@@ -63,15 +63,21 @@ namespace WeaponOut.Items.Weapons
             recipe.AddRecipe();
         }
 
+        public override void HoldItem(Player player)
+        {
+            if (Fist.ExpendCombo(player, true) > 0)
+            { HeliosphereEmblem.DustVisuals(player, 20, 0.9f); }
+        }
+
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.ExpendCombo(player) > 0 && player.itemAnimation <= (item.autoReuse ? 1 : 0);
+            return player.itemAnimation <= (item.autoReuse ? 1 : 0) && Fist.ExpendCombo(player) > 0;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             damage *= 2;
-            knockBack *= 2;
+            knockBack *= 0.25f;
             return player.altFunctionUse > 0;
         }
 

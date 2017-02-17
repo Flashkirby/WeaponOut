@@ -149,7 +149,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
             if(punchCount >= punchComboMax)
             {
                 int charge = punchCount / punchComboMax;
-                if (dontConsumeCombo) comboReset(player);
+                if (!dontConsumeCombo) comboReset(player);
                 return charge;
             }
             else

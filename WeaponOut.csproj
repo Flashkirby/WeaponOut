@@ -87,7 +87,7 @@
     <Compile Include="Items\Weapons\Whips\NotchedWhip.cs" />
     <Compile Include="Items\Weapons\SparkShovel.cs" />
     <Compile Include="Items\Weapons\WAR.cs" />
-    <Compile Include="Items\Weapons\Fist.cs" />
+    <Compile Include="Items\Weapons\Knuckles.cs" />
     <Compile Include="Items\Weapons\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\UseStyles\FistStyle.cs" />
     <Compile Include="Items\Placeable\CampTent.cs" />
@@ -141,7 +141,7 @@
     <Content Include="description.txt" />
     <Content Include="Items\SplinterShot.png" />
     <Content Include="Items\Placeable\CampTent.png" />
-    <Content Include="Items\Weapons\Fist.png" />
+    <Content Include="Items\Weapons\Knuckles.png" />
     <Content Include="Items\Weapons\ImmaterialBlade.png" />
     <Content Include="Items\Weapons\ManaBlast.png" />
     <Content Include="Items\Weapons\FistsOfFury.png" />
