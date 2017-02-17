@@ -824,7 +824,11 @@ namespace WeaponOut
                 if (crit) damage *= 2;
                 damage = (int)Main.CalculatePlayerDamage(damage, player.statDefense);
                 //Main.NewText("Took damage: " + damage + " vs " + DamageKnockbackThreshold);
-                if (damage <= DamageKnockbackThreshold) player.noKnockback = true;
+                if(Main.expertMode)
+                { if (damage <= DamageKnockbackThreshold) player.noKnockback = true; }
+                else
+                { if (damage <= DamageKnockbackThreshold * Main.expertNPCDamage) player.noKnockback = true; }
+               
             }
 
             if (player.direction != hitDirection)

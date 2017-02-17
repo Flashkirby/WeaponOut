@@ -72,6 +72,7 @@
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />
+    <Compile Include="Projectiles\SpiritBlast.cs" />
     <Compile Include="Projectiles\Reverb.cs" />
     <Compile Include="Projectiles\OnsokuSlash.cs" />
     <Compile Include="Projectiles\CrystalVileLash.cs" />
