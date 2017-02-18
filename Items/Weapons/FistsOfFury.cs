@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons
             item.name = "Fists of Fury";
             item.toolTip = "<right> to dash attack";
             item.useStyle = FistStyle.useStyle;
-            item.useTurn = false;
+            item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 30; //Half speed whilst combo-ing
 
@@ -75,7 +75,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 24);
+            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 24, 8f, 7f, 12f);
 
             Rectangle graphic = FistStyle.UseItemGraphicbox(player, 12);
             Vector2 velo = FistStyle.GetFistVelocity(player) * -2f + player.velocity * 0.5f;

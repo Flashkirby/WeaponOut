@@ -91,7 +91,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 20);
+            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 20, 8f, 8f, 8f);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

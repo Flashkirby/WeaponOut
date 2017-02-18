@@ -97,12 +97,22 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 else
                 {
                     // Grant extra immune whilst disengaging
-                    UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax / 2);
+                    UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
 
                     //disengage
-                    if (follow) player.velocity += new Vector2(player.direction * -3f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
+                    if (follow) player.velocity += new Vector2(player.direction * -2f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
                 }
                 #endregion
+            }
+            else if (specialMove == 2)
+            {
+                // Grant extra immune whilst disengaging
+                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax / 2);
+
+                //disengage
+                int direction = 1;
+                if (player.Center.X < target.Center.X) direction = -1;
+                player.velocity = new Vector2(direction * 3f, player.gravDir * -1f);
             }
 
             return punchCombo;
@@ -251,22 +261,33 @@ namespace WeaponOut.Items.Weapons.UseStyles
             punchCount = 0;
         }
 
-        public bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance)
+        public bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed, float fallSpeedX = 8f, float fallSpeedY = 8f)
         {
             // Special attack assign on Start frame
             if (player.itemAnimation == player.itemAnimationMax - 1)
             {
-                if (player.controlDown)
+                if (player.controlDown && jumpSpeed > 0)
                 {
                     if (player.velocity.Y == 0 && player.oldVelocity.Y == 0)
                     {
                         specialMove = 1;
                         player.itemRotation = -(float)(player.direction * Math.PI / 2);
+                        player.velocity.Y = -jumpSpeed * player.gravDir;
                     }
                     else
                     {
                         specialMove = 2;
                         player.itemRotation = (float)(player.direction * Math.PI / 2);
+                        player.velocity.X = player.direction * ((player.velocity.X + fallSpeedX * 5) / 6);
+                        if(player.gravDir > 0)
+                        {
+                            if (player.velocity.Y < fallSpeedY) player.velocity.Y = fallSpeedY;
+                        }
+                        else
+                        {
+                            if (player.velocity.Y > -fallSpeedY) player.velocity.Y = -fallSpeedY;
+                        }
+                        player.jump = 0;
                     }
                 }
                 else
@@ -386,7 +407,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
                     // Size is relative to distance past default size
                     hitbox.Width = Player.defaultWidth + distance;
-                    hitbox.Height = Player.defaultHeight + (distance * 2);
+                    hitbox.Height = Player.defaultHeight + distance;
 
                     // Work out which way to go
                     if (player.direction < 0)
