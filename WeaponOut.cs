@@ -126,6 +126,7 @@ namespace WeaponOut
                 {
                     for (int i = 0; i < 255; i++)
                     {
+						if (!Main.player[i].active) continue;
                         if (i != sender)
                         {
                             ModPacket me = GetPacket();
@@ -152,6 +153,7 @@ namespace WeaponOut
                 {
                     for (int i = 0; i < 255; i++)
                     {
+						if (!Main.player[i].active) continue;
                         if (i != sender)
                         {
                             ModPacket me = GetPacket();

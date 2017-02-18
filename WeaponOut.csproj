@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\RallyBanner.cs" />
+    <Compile Include="Buffs\ParryActive.cs" />
     <Compile Include="Buffs\WeaponSwitch.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
@@ -43,6 +44,8 @@
     <Compile Include="Items\RallyBannerBlue.cs" />
     <Compile Include="Items\RallyBannerYellow.cs" />
     <Compile Include="Items\ScatterShot.cs" />
+    <Compile Include="Items\Weapons\GlovesWooden.cs" />
+    <Compile Include="Items\Weapons\KnucklesLead.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
     <Compile Include="Items\Weapons\PsyWave.cs" />
     <Compile Include="Items\Weapons\Reverb.cs" />
@@ -88,7 +91,7 @@
     <Compile Include="Items\Weapons\Whips\NotchedWhip.cs" />
     <Compile Include="Items\Weapons\SparkShovel.cs" />
     <Compile Include="Items\Weapons\WAR.cs" />
-    <Compile Include="Items\Weapons\Knuckles.cs" />
+    <Compile Include="Items\Weapons\KnucklesIron.cs" />
     <Compile Include="Items\Weapons\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\UseStyles\FistStyle.cs" />
     <Compile Include="Items\Placeable\CampTent.cs" />
@@ -142,7 +145,9 @@
     <Content Include="description.txt" />
     <Content Include="Items\SplinterShot.png" />
     <Content Include="Items\Placeable\CampTent.png" />
-    <Content Include="Items\Weapons\Knuckles.png" />
+    <Content Include="Items\Weapons\GlovesWooden.png" />
+    <Content Include="Items\Weapons\KnucklesLead.png" />
+    <Content Include="Items\Weapons\KnucklesIron.png" />
     <Content Include="Items\Weapons\ImmaterialBlade.png" />
     <Content Include="Items\Weapons\ManaBlast.png" />
     <Content Include="Items\Weapons\FistsOfFury.png" />
