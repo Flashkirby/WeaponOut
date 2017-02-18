@@ -119,7 +119,7 @@ namespace WeaponOut
         {
             int code = reader.ReadInt32();
             int sender = reader.ReadInt32();
-            if (code == 1)
+            if (code == 1) // Set dash used
             {
                 int dash = reader.ReadInt32();
                 if (Main.netMode == 2)
@@ -142,6 +142,49 @@ namespace WeaponOut
                     Main.player[sender].GetModPlayer<PlayerFX>(this).weaponDash = dash;
                     // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
                 }
+            }
+
+            if (code == 2) // Set parry move
+            {
+                int parryTime = reader.ReadInt32();
+                int parryActive = reader.ReadInt32();
+                if (Main.netMode == 2)
+                {
+                    for (int i = 0; i < 255; i++)
+                    {
+                        if (i != sender)
+                        {
+                            ModPacket me = GetPacket();
+                            me.Write(code);
+                            me.Write(sender);
+                            me.Write(parryTime);
+                            me.Write(parryActive);
+                            me.Send();
+                        }
+                    }
+                    // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                }
+                else
+                {
+                    PlayerFX pfx = Main.player[sender].GetModPlayer<PlayerFX>(this);
+                    pfx.parryTime = parryTime;
+                    pfx.parryTimeMax = parryTime;
+                    pfx.parryActive = parryActive;
+                    // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                }
+            }
+        }
+
+        public static void NetUpdateParry(Mod mod, PlayerFX pfx)
+        {
+            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
+            {
+                ModPacket message = mod.GetPacket();
+                message.Write(2);
+                message.Write(Main.myPlayer);
+                message.Write(pfx.parryTimeMax);
+                message.Write(pfx.parryActive);
+                message.Send();
             }
         }
     }

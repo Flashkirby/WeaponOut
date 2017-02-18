@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.GameInput;
 using Terraria.World.Generation;
 using Terraria.ModLoader;
 
@@ -125,6 +126,8 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
         public int ExpendCombo(Player player, bool dontConsumeCombo = false)
         {
+            if (!dontConsumeCombo && player.itemAnimation > (item.autoReuse ? 1 : 0)) return 0;
+
             if(punchCount >= punchComboMax)
             {
                 int charge = punchCount / punchComboMax;
@@ -526,5 +529,76 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 player.immuneAlphaDirection = -1;
             }
         }
+
+        #region Parry Setup - see PlayerFX
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="mod"></param>
+        /// <param name="parryWindow"></param>
+        /// <param name="parryCooldown">Determines time between parries. Success triples, effect lasts double</param>
+        /// <returns></returns>
+        public bool AtlFunctionParry(Player player, Mod mod, int parryWindow, int parryCooldown)
+        {
+            parryCooldownSave = parryCooldown;
+
+            PlayerFX pfx = player.GetModPlayer<PlayerFX>(mod);
+            if (player.itemAnimation == 0 && pfx.parryTime == 0)
+            {
+                pfx.parryTimeMax = parryWindow + parryCooldown;
+                pfx.parryTime = pfx.parryTimeMax;
+                pfx.parryActive = pfx.parryTimeMax - parryWindow;
+
+                WeaponOut.NetUpdateParry(mod, pfx);
+                return true;
+            }
+            return false;
+        }
+        private int parryCooldownSave;
+
+        public bool HoldItemOnParryFrame(Player player, Mod mod, bool OnlyFirstFrame = false)
+        {
+            int parryIndex = player.FindBuffIndex(mod.BuffType<Buffs.ParryActive>());
+            if (parryIndex >= 0)
+            {
+                if(player.buffTime[parryIndex] == parryCooldownSave * 2 || !OnlyFirstFrame)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Called by ModPlayer in manageBodyFrame (PostUpdate)
+        /// </summary>
+        /// <param name="pfx"></param>
+        public static void ParryBodyFrame(PlayerFX pfx)
+        {
+            Player player = pfx.player;
+            float positiveTimeMax = pfx.parryTimeMax - pfx.parryActive;
+            if (positiveTimeMax < 1) positiveTimeMax = 1;
+            float anim = (pfx.parryTime - pfx.parryActive) / positiveTimeMax;
+            if (anim > 0.6)
+            {
+                player.bodyFrame.Y = player.bodyFrame.Height * 4;
+            }
+            else if (anim > 0.3)
+            {
+                player.bodyFrame.Y = player.bodyFrame.Height * 3;
+            }
+            else if (anim > 0)
+            {
+                player.bodyFrame.Y = player.bodyFrame.Height * 2;
+            }
+            else
+            {
+                player.bodyFrame.Y = player.bodyFrame.Height * 1;
+            }
+        }
+
+        #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace WeaponOut
     {
         private const bool DEBUG_WEAPONHOLD = false;
         private const bool DEBUG_BOOMERANGS = false;
+        private const bool DEBUG_PARRYFISTS = false;
 
         private bool wasDead; //used to check if player just revived
         public Vector2 localTempSpawn;//spawn used by tent
@@ -35,8 +36,7 @@ namespace WeaponOut
                 if (value > damageKnockbackThreshold) damageKnockbackThreshold = value;
             }
         }
-
-
+        
         private int frontDefence;
         public int FrontDefence
         {
@@ -62,6 +62,11 @@ namespace WeaponOut
         public bool lunarRangeVisual;
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
+
+        public int parryTime;
+        public int parryTimeMax;
+        public int parryActive;
+        public bool IsParryActive { get { return parryTime >= parryActive && parryTime > 0; } }
 
         #region Utils
         public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
@@ -97,9 +102,23 @@ namespace WeaponOut
             // Banner applies to all (See Nebula Buff mechanics)
             return true;
         }
+
+        public static void ItemFlashFX(Player player, int dustType = 45)
+        {
+            Main.PlaySound(25, -1, -1, 1);
+            for (int i = 0; i < 5; i++)
+            {
+                int d = Dust.NewDust(
+                    player.position, player.width, player.height, dustType, 0f, 0f, 255,
+                    default(Color), (float)Main.rand.Next(20, 26) * 0.1f);
+                Main.dust[d].noLight = true;
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= 0.5f;
+            }
+        }
         #endregion
 
-        public override void Initialize()
+        public override void OnEnterWorld(Player player)
         {
             lastSelectedItem = 0;
 
@@ -113,6 +132,10 @@ namespace WeaponOut
                 openFist = mod.ItemType("Fist");
                 fireFistType = mod.ItemType("FistsOfFury");
             }
+
+            parryTime = 0;
+            parryTimeMax = 0;
+            parryActive = 0;
         }
 
         public override void ResetEffects()
@@ -150,26 +173,20 @@ namespace WeaponOut
             reflectingProjectiles = false;
             if (reflectingProjectileDelay > 0) reflectingProjectileDelay = Math.Max(0, reflectingProjectileDelay - 1);
         }
-        
-        public static void ItemFlashFX(Player player, int dustType = 45)
-        {
-            Main.PlaySound(25, -1, -1, 1);
-            for (int i = 0; i < 5; i++)
-            {
-                int d = Dust.NewDust(
-                    player.position, player.width, player.height, dustType, 0f, 0f, 255,
-                    default(Color), (float)Main.rand.Next(20, 26) * 0.1f);
-                Main.dust[d].noLight = true;
-                Main.dust[d].noGravity = true;
-                Main.dust[d].velocity *= 0.5f;
-            }
-        }
 
         public override bool PreItemCheck()
         {
             if(ModConf.enableBasicContent)
             {
                 applyBannerBuff();
+            }
+
+            if (ModConf.enableFists)
+            {
+                if(ItemCheckParry())
+                {
+                    return false;
+                }
             }
             /// <summary>Adds the weaponswitch network-synced buff</summary>
             if (ModConf.enableDualWeapons)
@@ -209,6 +226,51 @@ namespace WeaponOut
                 }
             }
         }
+        private bool ItemCheckParry()
+        {
+            if(parryTime != 0)
+            {
+                if(parryTime == parryTimeMax)
+                {
+                    Main.PlaySound(2, player.Center, 32);
+                }
+
+                if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parrying: ", parryTime, "/", parryActive, "/", parryTimeMax));
+
+                if (parryTime > 0)
+                {
+                    player.itemAnimation = 1; // prevent switching
+                    parryTime--;
+
+                    if (parryTime == 0)
+                    {
+                        player.itemAnimation = 0; // release lock
+                        parryTime = 0;
+                        parryTimeMax = 0;
+                        parryActive = 0;
+                    }
+
+                    return true;
+                }
+
+                // Cooldown
+                if(parryTime < 0)
+                {
+                    parryTime++;
+
+                    if (parryTime == 0)
+                    {
+                        ItemFlashFX(player);
+                        parryTime = 0;
+                        parryTimeMax = 0;
+                        parryActive = 0;
+                    }
+
+                    return false;
+                }
+            }
+            return false;
+        }
 
         public override void PostUpdateRunSpeeds()
         {
@@ -224,6 +286,8 @@ namespace WeaponOut
                 }
             }
         }
+
+        #region Dash
 
         public int weaponDash = 0;
         private const float dashMaxSpeedThreshold = 12f;
@@ -297,6 +361,8 @@ namespace WeaponOut
             weaponDash = 0;
         }
 
+        #endregion
+
         public override void PostUpdate()
         {
             manageBodyFrame();
@@ -312,6 +378,12 @@ namespace WeaponOut
         private void manageBodyFrame()
         {
             if (Main.netMode == 2) return; // Oh yeah, server calls this so don't pls
+
+            if (ModConf.enableFists && parryTime > 0)
+            {
+                Items.Weapons.UseStyles.FistStyle.ParryBodyFrame(this);
+                return;
+            }
 
             //change idle pose for player using a heavy weapon
             //copypasting from drawPlayerItem
@@ -793,28 +865,70 @@ namespace WeaponOut
             catch { }
         }
 
+        #region Hurt Methods
+
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             ShieldPreHurt(damage, crit, hitDirection);
+
+            if (ParryPreHurt(damageSource)) return false;
             return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="damageSource"></param>
+        /// <returns>True when attack is parried</returns>
+        private bool ParryPreHurt(PlayerDeathReason damageSource)
+        {
+            // Caused by normal damage?
+            if (damageSource.SourceNPCIndex >= 0 || damageSource.SourcePlayerIndex >= 0 || damageSource.SourceProjectileIndex >= 0)
+            {
+                // Stop this attack and parry with cooldown
+                if (IsParryActive)
+                {
+                    player.itemAnimation = 0; //release item lock
+
+                    int timeSet = parryActive;
+
+                    //set cooldown to prevent spam
+                    parryTime = timeSet * -3;
+                    parryActive = 0;
+                    parryTimeMax = 0;
+
+                    // Strike the NPC away slightly
+                    if(damageSource.SourceNPCIndex >= 0)
+                    {
+                        NPC npc = Main.npc[damageSource.SourceNPCIndex];
+                        int hitDirection = player.direction;
+                        float knockback = 5f;
+                        if (npc.knockBackResist > 0)
+                        {
+                            knockback /= npc.knockBackResist;
+                        }
+                        npc.StrikeNPC(npc.defense, (float)3, player.direction, false, false, false);
+                        if (Main.netMode != 0)
+                        {
+                            NetMessage.SendData(28, -1, -1, "", npc.whoAmI, (float)npc.defense, (float)knockback, (float)hitDirection, 0, 0, 0);
+                        }
+                    }
+
+                    // Add parry buff and short invincibility
+                    Items.Weapons.UseStyles.FistStyle.provideImmunity(player, 20);
+                    player.AddBuff(mod.BuffType<Buffs.ParryActive>(), timeSet * 2, false);
+
+                    if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parried! : ", parryTime, "/", parryActive, "/", parryTimeMax));
+                    WeaponOut.NetUpdateParry(mod, this);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
             ShieldBounceNPC(npc);
-        }
-
-        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
-        {
-            ModifyHitAny(item, ref damage, ref crit);
-        }
-        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
-        {
-            ModifyHitAny(item, ref damage, ref crit);
-        }
-        public void ModifyHitAny(Item item, ref int damage, ref bool crit)
-        {
-            if (item.type == openFist) damage += player.armor[1].defense;
         }
 
         private void ShieldPreHurt(int damage, bool crit, int hitDirection)
@@ -858,5 +972,7 @@ namespace WeaponOut
                 }
             }
         }
+
+        #endregion
     }
 }
