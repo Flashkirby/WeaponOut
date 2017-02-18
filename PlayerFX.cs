@@ -902,12 +902,12 @@ namespace WeaponOut
                     {
                         NPC npc = Main.npc[damageSource.SourceNPCIndex];
                         int hitDirection = player.direction;
-                        float knockback = 5f;
+                        float knockback = 4f;
                         if (npc.knockBackResist > 0)
                         {
                             knockback /= npc.knockBackResist;
                         }
-                        npc.StrikeNPC(npc.defense, (float)3, player.direction, false, false, false);
+                        npc.StrikeNPC(npc.defense, knockback, player.direction, false, false, false);
                         if (Main.netMode != 0)
                         {
                             NetMessage.SendData(28, -1, -1, "", npc.whoAmI, (float)npc.defense, (float)knockback, (float)hitDirection, 0, 0, 0);
