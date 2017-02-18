@@ -30,52 +30,14 @@ namespace WeaponOut.Items.Weapons.UseStyles
         public int punchCount; //keeps track of every punch thrown
         public bool isDramatic { get { return punchCount % punchComboMax == 0 && punchCount > 0; } }
 
+        // Keep track of attacks initiated with controlDown
+        public ushort specialMove = 0;
+
         public FistStyle(Item item, int maxCombo = 0)
         {
             this.item = item;
             punchComboMax = maxCombo;
             punchCombo = 0;
-        }
-
-        private bool incrementCountInHitFirst = false;
-        public void UseItemFrameComboStop(Player player)
-        {
-            //Main.NewText(player.itemAnimation + " | " + player.itemTime);
-            if (player.itemAnimation == 0)
-            {
-                // Reset if no hit during swing
-                if (punchCombo != 0)
-                {
-                    comboReset(player);
-                }
-            }
-            else
-            {
-                // Increase count per punch, but only if method didn't already
-                if (player.itemAnimation == player.itemAnimationMax - 1 && !incrementCountInHitFirst)
-                {
-                    punchCount++;
-                }
-                incrementCountInHitFirst = false;
-
-                // Reset if no hit during swing (autoswinger)
-                if (player.itemAnimation == 1 && punchCount > punchCombo)
-                {
-                    comboReset(player);
-                }
-            }
-            //Main.NewText(punchCombo + " / " + punchCount);
-        }
-        private void comboReset(Player player)
-        {
-            if (punchCombo > 2)
-            {
-                CombatText.NewText(player.getRect(),
-                    highColour, punchCombo + " hit", false, false);
-            }
-            //Main.NewText("punch reset");
-            punchCombo = 0;
-            punchCount = 0;
         }
 
         /// <summary>
@@ -98,42 +60,49 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 punchCount++;
             }
 
+            // Display combo counter
             Rectangle rect = player.getRect();
             if (!isDramatic) rect.Y += (int)(rect.Height * player.gravDir);
             CombatText.NewText(rect,
                 comboColour, string.Concat(punchCombo), isDramatic);
-            if (!isDramatic)
+
+            // Manage player combo movement
+            if (specialMove == 0)
             {
-
-                player.itemAnimation = 2 * player.itemAnimation / 3;
-                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
-
-                if (target.life > 0 && follow)
+                #region Normal Punch
+                if (!isDramatic)
                 {
-                    // Check if NPC is in air
-                    bool aerial = target.noGravity;
-                    Point origin = target.Center.ToTileCoordinates();
-                    Point point;
-                    if (!WorldUtils.Find(origin, Searches.Chain(new Searches.Down(4), new GenCondition[]
+                    player.itemAnimation = 2 * player.itemAnimation / 3;
+                    UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
+
+                    if (target.life > 0 && follow)
                     {
+                        // Check if NPC is in air
+                        bool aerial = target.noGravity;
+                        Point origin = target.Center.ToTileCoordinates();
+                        Point point;
+                        if (!WorldUtils.Find(origin, Searches.Chain(new Searches.Down(4), new GenCondition[]
+                        {
                         new Conditions.IsSolid()
-                    }), out point))
-                    {
-                        aerial = true;
+                        }), out point))
+                        {
+                            aerial = true;
+                        }
+
+                        //follow target
+                        player.velocity = target.velocity;
+                        if (aerial) player.velocity.Y -= player.gravDir * 4f;
                     }
-
-                    //follow target
-                    player.velocity = target.velocity;
-                    if (aerial) player.velocity.Y -= player.gravDir * 4f;
                 }
-            }
-            else
-            {
-                // Grant extra immune whilst disengaging
-                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
+                else
+                {
+                    // Grant extra immune whilst disengaging
+                    UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax / 2);
 
-                //disengage
-                if (follow) player.velocity += new Vector2(player.direction * -3f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
+                    //disengage
+                    if (follow) player.velocity += new Vector2(player.direction * -3f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
+                }
+                #endregion
             }
 
             return punchCombo;
@@ -158,64 +127,156 @@ namespace WeaponOut.Items.Weapons.UseStyles
             }
         }
 
-        public static void UseItemFrame(Player player)
+        #region UseItem
+        public void UseItemFrame(Player player)
         {
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
 
-            //wind up animation
-            if (anim > 0.9f) player.bodyFrame.Y = player.bodyFrame.Height * 10; 
-            else if (anim > 0.7f)
+            if (specialMove == 0)
             {
-                player.bodyFrame.Y = player.bodyFrame.Height * 17;
-            }
-            //punch
-            else if (anim > 0.3f)
-            {
-                if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
+                #region Normal Punch
+                //wind up animation
+                if (anim > 0.9f) player.bodyFrame.Y = player.bodyFrame.Height * 10;
+                else if (anim > 0.7f)
                 {
-                    if (player.itemRotation * player.direction * player.gravDir > 0)
+                    player.bodyFrame.Y = player.bodyFrame.Height * 17;
+                }
+                //punch
+                else if (anim > 0.3f)
+                {
+                    if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
                     {
-                        //Down low
+                        if (player.itemRotation * player.direction * player.gravDir > 0)
+                        {
+                            //Down low
+                            player.bodyFrame.Y = player.bodyFrame.Height * 4;
+                        }
+                        else
+                        {
+                            //Up high
+                            player.bodyFrame.Y = player.bodyFrame.Height * 2;
+                        }
+                    }
+                    else
+                    {
+                        //along the middle
+                        player.bodyFrame.Y = player.bodyFrame.Height * 3;
+                    }
+                }
+                //wind back
+                else player.bodyFrame.Y = player.bodyFrame.Height * 17;
+                #endregion
+            }
+            else
+            {
+                #region Special
+                if (specialMove == 1)
+                {
+                    if (anim > 0.8)
+                    {
+                        player.bodyFrame.Y = player.bodyFrame.Height * 4;
+                    }
+                    else if (anim > 0.6)
+                    {
+                        player.bodyFrame.Y = player.bodyFrame.Height * 3;
+                    }
+                    else if (anim > 0.2)
+                    {
+                        player.bodyFrame.Y = player.bodyFrame.Height * 2;
+                    }
+                    else
+                    {
+                        player.bodyFrame.Y = player.bodyFrame.Height * 17;
+                    }
+                }
+                else if (specialMove == 2)
+                {
+                    if (anim > 0.6)
+                    {
+                        player.bodyFrame.Y = player.bodyFrame.Height * 1;
+                    }
+                    else if (anim > 0.5)
+                    {
+                        player.bodyFrame.Y = player.bodyFrame.Height * 2;
+                    }
+                    else if (anim > 0.2)
+                    {
                         player.bodyFrame.Y = player.bodyFrame.Height * 4;
                     }
                     else
                     {
-                        //Up high
-                        player.bodyFrame.Y = player.bodyFrame.Height * 2;
+                        player.bodyFrame.Y = player.bodyFrame.Height * 17;
+                    }
+                }
+                #endregion
+            }
+
+            UseItemComboStop(player);
+        }
+
+        private bool incrementCountInHitFirst = false;
+        private void UseItemComboStop(Player player)
+        {
+            //Main.NewText(player.itemAnimation + " | " + player.itemTime);
+            // Increase count per punch, but only if method didn't already
+            if (player.itemAnimation == player.itemAnimationMax - 1 && !incrementCountInHitFirst)
+            {
+                punchCount++;
+            }
+            incrementCountInHitFirst = false;
+
+            // Reset frame
+            if (player.itemAnimation == 1)
+            {
+                // Stop special punch move
+                specialMove = 0;
+
+                // Reset if no hit during swing (autoswinger)
+                if (punchCount > punchCombo)
+                {
+                    comboReset(player);
+                }
+            }
+            //Main.NewText(punchCombo + " / " + punchCount);
+        }
+        private void comboReset(Player player)
+        {
+            if (punchCombo > 2)
+            {
+                CombatText.NewText(player.getRect(),
+                    highColour, punchCombo + " hit", false, false);
+            }
+            //Main.NewText("punch reset");
+            punchCombo = 0;
+            punchCount = 0;
+        }
+
+        public bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance)
+        {
+            // Special attack assign on Start frame
+            if (player.itemAnimation == player.itemAnimationMax - 1)
+            {
+                if (player.controlDown)
+                {
+                    if (player.velocity.Y == 0 && player.oldVelocity.Y == 0)
+                    {
+                        specialMove = 1;
+                        player.itemRotation = -(float)(player.direction * Math.PI / 2);
+                    }
+                    else
+                    {
+                        specialMove = 2;
+                        player.itemRotation = (float)(player.direction * Math.PI / 2);
                     }
                 }
                 else
                 {
-                    //along the middle
-                    player.bodyFrame.Y = player.bodyFrame.Height * 3;
-                }
-            }
-            //wind back
-            else player.bodyFrame.Y = player.bodyFrame.Height * 17;
-        }
-
-        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance)
-        {
-            float anim = player.itemAnimation / (float)player.itemAnimationMax;
-
-            if (anim > 0.3f)
-            {
-                // Provide immunity for 2/3
-                provideImmunity(player);
-
-                //get rotation at use
-                if (player.itemAnimation == player.itemAnimationMax - 1)
-                {
+                    //get rotation at use
                     #region Attack Rotation
                     if (Main.myPlayer == player.whoAmI)
                     {
                         Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                         Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default(Vector2));
-                        Vector2 vector3 = Main.MouseWorld - vector2;
-                        if (vector3 != Vector2.Zero)
-                        {
-                            vector3.Normalize();
-                        }
                         float num79 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
                         float num80 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
                         if (player.gravDir == -1f)
@@ -233,11 +294,6 @@ namespace WeaponOut.Items.Weapons.UseStyles
                         {
                             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                             Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default(Vector2));
-                            Vector2 vector3 = Main.MouseWorld - vector2;
-                            if (vector3 != Vector2.Zero)
-                            {
-                                vector3.Normalize();
-                            }
                             float num79 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
                             float num80 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
                             if (player.gravDir == -1f)
@@ -247,66 +303,112 @@ namespace WeaponOut.Items.Weapons.UseStyles
                             player.itemRotation = (float)Math.Atan2((double)(num80 * (float)player.direction), (double)(num79 * (float)player.direction)) - player.fullRotation;
                         }
                     }
-
-                    if (Main.myPlayer == player.whoAmI)
-                    {
-
-                        NetMessage.SendData(MessageID.PlayerControls, -1, -1, "", player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                        NetMessage.SendData(MessageID.ItemAnimation, -1, -1, "", player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                    }
                     #endregion
                 }
 
-                // Starts as player box
-                if (anim > 0.7f)
+                if (Main.myPlayer == player.whoAmI)
                 {
-                    hitbox = player.getRect();
+
+                    NetMessage.SendData(MessageID.PlayerControls, -1, -1, "", player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.ItemAnimation, -1, -1, "", player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
                 }
-                // Moves outwards to direction
-                else
+            }
+
+            float anim = player.itemAnimation / (float)player.itemAnimationMax;
+
+            hitbox = new Rectangle();
+            if (specialMove == 0)
+            {
+                // Calculate hitbox for normal punch
+                #region Standard Punch
+                if (anim > 0.3f)
                 {
-                    // Size is relative to distance past default size
-                    hitbox.Width = Player.defaultWidth + (int)(distance - 14);
-                    hitbox.Height = hitbox.Width;
+                    // Provide immunity for 2/3
+                    provideImmunity(player);
 
-                    // Work out which way to go
-                    float xDir = player.direction;
-                    float yDir = 1.5f;
-
-                    if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
+                    // Start as player hitbox
+                    if (anim > 0.7f)
                     {
-                        xDir /= 2;
-                        if (player.itemRotation * player.direction > 0)
+                        hitbox = player.getRect();
+                    }
+                    // Move to pointed direction
+                    else
+                    {
+                        // Size is relative to distance past default size
+                        hitbox.Width = Player.defaultWidth + (int)(distance - 14);
+                        hitbox.Height = hitbox.Width;
+
+                        // Work out which way to go
+                        float xDir = player.direction;
+                        float yDir = 1.5f;
+
+                        if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
                         {
-                            //Up high
-                            yDir *= 1f;
+                            xDir /= 2;
+                            if (player.itemRotation * player.direction > 0)
+                            {
+                                //Up high
+                                yDir *= 1f;
+                            }
+                            else
+                            {
+                                //Down low
+                                yDir *= -1f;
+                            }
                         }
                         else
                         {
-                            //Down low
-                            yDir *= -1f;
+                            //along the middle
+                            yDir = 0;
                         }
-                    }
-                    else
-                    {
-                        //along the middle
-                        yDir = 0;
-                    }
 
-                    hitbox.Location = (player.Center + new Vector2(
-                         xDir * distance - (hitbox.Width / 2),
-                         yDir * distance - (hitbox.Height / 2)
-                        )).ToPoint();
+                        hitbox.Location = (player.Center + new Vector2(
+                             xDir * distance - (hitbox.Width / 2),
+                             yDir * distance - (hitbox.Height / 2)
+                            )).ToPoint();
+                    }
                 }
+                else
+                {
+                    // No hitbox during last third
+                    return true;
+                }
+                #endregion
             }
             else
             {
-                // No hitbox during last third
-                return true;
+                // Calculate hitbox for rising/falling
+                #region Special Attack
+                if (anim > 0.2f)
+                {
+                    // Provide immunity for 2/3
+                    provideImmunity(player);
+
+                    // Size is relative to distance past default size
+                    hitbox.Width = Player.defaultWidth + distance;
+                    hitbox.Height = Player.defaultHeight + (distance * 2);
+
+                    // Work out which way to go
+                    if (player.direction < 0)
+                    {
+                        hitbox.Location = (player.Right - new Vector2(hitbox.Width, hitbox.Height / 2f)).ToPoint();
+                    }
+                    else
+                    {
+                        hitbox.Location = (player.Left - new Vector2(0, hitbox.Height / 2f)).ToPoint();
+                    }
+                }
+                else
+                {
+                    // No hitbox during last bit
+                    return true;
+                }
+                #endregion
             }
 
             return false;
         }
+        #endregion
 
         /// <summary>
         /// Generates a fisticuffs rectangle

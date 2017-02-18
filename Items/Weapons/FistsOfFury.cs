@@ -70,13 +70,12 @@ namespace WeaponOut.Items.Weapons
 
         public override bool UseItemFrame(Player player)
         {
-            FistStyle.UseItemFrame(player);
-            Fist.UseItemFrameComboStop(player);
+            Fist.UseItemFrame(player);
             return true;
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 24);
+            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 24);
 
             Rectangle graphic = FistStyle.UseItemGraphicbox(player, 12);
             Vector2 velo = FistStyle.GetFistVelocity(player) * -2f + player.velocity * 0.5f;

@@ -66,7 +66,10 @@ namespace WeaponOut.Items.Weapons
         public override void HoldItem(Player player)
         {
             if (Fist.ExpendCombo(player, true) > 0)
-            { HeliosphereEmblem.DustVisuals(player, 20, 0.9f); }
+            {
+                if (player.itemTime > 0) player.itemTime = 0;
+                HeliosphereEmblem.DustVisuals(player, 20, 0.9f);
+            }
         }
 
         public override bool AltFunctionUse(Player player)
@@ -83,13 +86,12 @@ namespace WeaponOut.Items.Weapons
 
         public override bool UseItemFrame(Player player)
         {
-            FistStyle.UseItemFrame(player);
-            Fist.UseItemFrameComboStop(player);
+            Fist.UseItemFrame(player);
             return true;
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            noHitbox = FistStyle.UseItemHitbox(player, ref hitbox, 20);
+            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 20);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
