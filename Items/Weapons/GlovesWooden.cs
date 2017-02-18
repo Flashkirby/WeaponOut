@@ -23,7 +23,7 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 2);
+                    fist = new FistStyle(item, 4);
                 }
                 return fist;
             }
