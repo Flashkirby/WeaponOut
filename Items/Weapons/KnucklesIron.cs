@@ -9,7 +9,7 @@ using WeaponOut.Items.Weapons.UseStyles;
 
 namespace WeaponOut.Items.Weapons
 {
-    public class KnucklesWooden : ModItem
+    public class KnucklesIron : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -30,18 +30,21 @@ namespace WeaponOut.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.name = "Wooden Knuckles";
-            item.toolTip = "<right> to parry attacks";
+            item.name = "Iron Knuckleduster";
+            item.toolTip = "<right> at full combo power to unleash spirit";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 25;//actually treated as -2
-            item.useTime = 25;
+            item.useAnimation = 18;//actually treated as -2
+            item.useTime = 19;
 
             item.width = 28;
             item.height = 28;
-            item.damage = 5;
+            item.damage = 13;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
+
+            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
+            item.shootSpeed = 10f;
 
             item.noUseGraphic = true;
             item.melee = true;
@@ -53,8 +56,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 3);
-            recipe.anyWood = true;
+            recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -62,15 +64,23 @@ namespace WeaponOut.Items.Weapons
 
         public override void HoldItem(Player player)
         {
-            if(Fist.HoldItemOnParryFrame(player, mod, true))
+            if (Fist.ExpendCombo(player, true) > 0)
             {
-                FistStyle.provideImmunity(player, 60);
+                if (player.itemTime > 0) player.itemTime = 0;
+                HeliosphereEmblem.DustVisuals(player, 20, 0.9f);
             }
         }
 
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.AtlFunctionParry(player, mod, 15, 25);
+            return Fist.ExpendCombo(player) > 0;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            damage *= 2;
+            knockBack *= 0.25f;
+            return player.altFunctionUse > 0;
         }
 
         public override bool UseItemFrame(Player player)
@@ -86,6 +96,14 @@ namespace WeaponOut.Items.Weapons
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             int combo = Fist.OnHitNPC(player, target, true);
+            if (combo != -1)
+            {
+                if (combo % Fist.punchComboMax == 0)
+                {
+                    // Ready flash
+                    PlayerFX.ItemFlashFX(player);
+                }
+            }
         }
     }
 }
