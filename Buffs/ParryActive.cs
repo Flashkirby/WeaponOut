@@ -12,8 +12,8 @@ namespace WeaponOut.Buffs
 
         public override void SetDefaults()
         {
-            Main.buffName[Type] = "Parry Bonus";
-            Main.buffTip[Type] = "You parried an attack!";
+            Main.buffName[Type] = "Parrying Moment";
+            Main.buffTip[Type] = "Ready for parry bonus";
         }
     }
 }
