@@ -46,6 +46,7 @@ namespace WeaponOut.Items.Weapons
             item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
             item.shootSpeed = 10f;
 
+            item.value = Item.sellPrice(0, 0, 90, 0);
             item.noUseGraphic = true;
             item.melee = true;
         }

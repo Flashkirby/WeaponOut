@@ -43,6 +43,8 @@ namespace WeaponOut.Items.Weapons
             item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
 
+            item.value = Item.sellPrice(0, 0, 0, 50);
+            item.rare = 1;
             item.noUseGraphic = true;
             item.melee = true;
         }
