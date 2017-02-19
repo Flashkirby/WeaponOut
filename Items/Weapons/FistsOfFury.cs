@@ -35,7 +35,6 @@ namespace WeaponOut.Items.Weapons
             item.name = "Fists of Fury";
             item.toolTip = "<right> to dash attack";
             item.useStyle = FistStyle.useStyle;
-            item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 30; //Half speed whilst combo-ing
 
@@ -64,7 +63,7 @@ namespace WeaponOut.Items.Weapons
         
         public override bool AltFunctionUse(Player player)
         {
-            player.GetModPlayer<PlayerFX>(mod).weaponDash = 1;
+            if(player.dashDelay == 0) player.GetModPlayer<PlayerFX>(mod).weaponDash = 1;
             return player.dashDelay == 0;
         }
 

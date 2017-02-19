@@ -290,10 +290,6 @@ namespace WeaponOut
         #region Dash
 
         public int weaponDash = 0;
-        private const float dashMaxSpeedThreshold = 12f;
-        private const float dashMaxFriction = 0.992f;
-        private const float dashMinFriction = 0.96f;
-        private const int dashSetDelay = 20;
         private void CustomDashMovement()
         {
             // dash = player equipped dash type
@@ -305,11 +301,27 @@ namespace WeaponOut
             // Reset here because reasons.
             if(weaponDash > 0)
             {
-
                 if (player.dashDelay == 0)
                 {
+
+                    #region Dash Stats
+                    /*
+                     * Normal: 3
+                     * Aglet/Anklet: 3.15, 3.3
+                     * Hermes: 6
+                     * Lightning: 6.75
+                     * Fishron Air: 8
+                     * Solar Wings: 9
+                     */
                     float dashSpeed = 14.5f;
-                    
+                    switch (weaponDash)
+                    {
+                        case 1:
+                            dashSpeed = 10;
+                            break;
+                    }
+                    #endregion
+
                     // Set initial dash speed
                     player.velocity.X = dashSpeed * (float)player.direction;
                     Point point3 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), player.gravDir * -(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
@@ -334,6 +346,23 @@ namespace WeaponOut
                 float maxAccRunSpeed = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 if (player.dashDelay < 0)
                 {
+                    player.dash = 0; // Prevent vanilla dash movement
+
+                    #region Dash Stats
+                    float dashMaxSpeedThreshold = 12f;
+                    float dashMaxFriction = 0.992f;
+                    float dashMinFriction = 0.96f;
+                    int dashSetDelay = 20;
+                    switch (weaponDash)
+                    {
+                        case 1:
+                            dashMaxSpeedThreshold = 8f;
+                            dashMaxFriction = 0.98f;
+                            dashMinFriction = 0.94f;
+                            break;
+                    }
+                    #endregion
+
                     player.vortexStealthActive = false;
                     if (player.velocity.X > dashMaxSpeedThreshold || player.velocity.X < -dashMaxSpeedThreshold)
                     {
@@ -357,8 +386,11 @@ namespace WeaponOut
                     }
                 }
             }
-
-            weaponDash = 0;
+            
+            if(player.dashDelay == 1)
+            {
+                weaponDash = 0;
+            }
         }
 
         #endregion
