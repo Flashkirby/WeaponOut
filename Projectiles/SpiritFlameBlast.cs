@@ -16,7 +16,7 @@ namespace WeaponOut.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.name = "Fist of Fury";
+            projectile.name = "Furious Flames";
             projectile.width = 8;
             projectile.height = 8;
             projectile.alpha = 255;

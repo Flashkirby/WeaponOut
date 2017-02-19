@@ -63,7 +63,7 @@ namespace WeaponOut.Items.Weapons
         
         public override bool AltFunctionUse(Player player)
         {
-            if(player.dashDelay == 0) player.GetModPlayer<PlayerFX>(mod).weaponDash = 1;
+            if (player.dashDelay == 0) player.GetModPlayer<PlayerFX>(mod).weaponDash = 1;
             return player.dashDelay == 0;
         }
 
