@@ -37,8 +37,8 @@ namespace WeaponOut.Items.Weapons
             item.useAnimation = 20;
             item.useTime = 20;
 
-            item.width = 28;
-            item.height = 28;
+            item.width = 20;
+            item.height = 20;
             item.damage = 10;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item11;

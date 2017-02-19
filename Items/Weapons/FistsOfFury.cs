@@ -38,8 +38,8 @@ namespace WeaponOut.Items.Weapons
             item.autoReuse = true;
             item.useAnimation = 30; //Half speed whilst combo-ing
 
-            item.width = 28;
-            item.height = 28;
+            item.width = 20;
+            item.height = 20;
             item.damage = 25;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item32;
