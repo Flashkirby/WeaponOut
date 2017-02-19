@@ -331,15 +331,8 @@ namespace WeaponOut
                         player.velocity.X = player.velocity.X / 2f;
                     }
                     player.dashDelay = -1;
-                    
-                    if (Main.netMode == 1 && player.whoAmI == Main.myPlayer)
-                    {
-                        ModPacket message = mod.GetPacket();
-                        message.Write(1);
-                        message.Write(Main.myPlayer);
-                        message.Write(weaponDash);
-                        message.Send();
-                    }
+
+                    WeaponOut.NetUpdateDash(mod, this);
                 }
 
                 // Apply movement during dash, delay is managed already in DashMovement()
@@ -914,7 +907,10 @@ namespace WeaponOut
         {
             ShieldPreHurt(damage, crit, hitDirection);
 
-            if (ParryPreHurt(damageSource)) return false;
+            if (ModConf.enableFists)
+            {
+                if (ParryPreHurt(damageSource)) return false;
+            }
             return true;
         }
 

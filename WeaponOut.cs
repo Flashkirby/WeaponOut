@@ -177,6 +177,18 @@ namespace WeaponOut
             }
         }
 
+        public static void NetUpdateDash(Mod mod, PlayerFX pfx)
+        {
+            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
+            {
+                ModPacket message = mod.GetPacket();
+                message.Write(1);
+                message.Write(Main.myPlayer);
+                message.Write(pfx.weaponDash);
+                message.Send();
+            }
+        }
+
         public static void NetUpdateParry(Mod mod, PlayerFX pfx)
         {
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
