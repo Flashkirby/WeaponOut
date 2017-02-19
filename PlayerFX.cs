@@ -614,9 +614,14 @@ namespace WeaponOut
 
             // Item customiser integration
             // https://github.com/gamrguy/ItemCustomizer
-            ItemCustomizerIntegration(drawInfo, heldItem, ref data.shader);
+            try
+            {
+                ItemCustomizerIntegration(drawInfo, heldItem, ref data.shader);
+            }
+            catch { } // Mod not found/loaded
 
             //work out what type of weapon it is!
+            #region Weapon Algorithm
             float itemWidth = gWidth * heldItem.scale;
             float itemHeight = gHeight * heldItem.scale;
             //not all items have width/height set the same, so use largest as "length" including weapon sizemod
@@ -846,23 +851,29 @@ namespace WeaponOut
                 WeaponDrawInfo.drawGlowLayer(data, drawPlayer, heldItem);
                 //largestaves are held straight up
             }
+            #endregion
 
             if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100, 200, 150);
 
         }
         
+        /// <summary>
+        /// Weak reference, must wrap in try catch exception becase won't catch FileNotFoundException
+        /// </summary>
+        /// <param name="drawInfo"></param>
+        /// <param name="item"></param>
+        /// <param name="shader"></param>
         private static void ItemCustomizerIntegration(PlayerDrawInfo drawInfo, Item item, ref int shader)
         {
-            try
+            if (!Main.dedServ)
             {
-                Mod itemCustomizer = ModLoader.GetMod("ItemCustomizer");
+                Mod itemCustomizer = itemCustomizer = ModLoader.GetMod("ItemCustomizer");
                 if (itemCustomizer != null)
                 {
                     CustomizerItemInfo cii = item.GetModInfo<CustomizerItemInfo>(itemCustomizer);
                     shader = cii.shaderID;
                 }
             }
-            catch { }
         }
 
         #region Hurt Methods
