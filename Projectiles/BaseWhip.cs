@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System;
-// version = 1.2.3
+// version = 1.3
 namespace WeaponOut.Projectiles
 {
     public static class BaseWhip

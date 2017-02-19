@@ -8,9 +8,21 @@ using Terraria.ID;
 using Terraria.GameInput;
 using Terraria.World.Generation;
 using Terraria.ModLoader;
-
+// version = 1.3
 namespace WeaponOut.Items.Weapons.UseStyles
 {
+    /// <summary>
+    /// Provides a class which handles methods for a melee based movement/attack kit.
+    /// Turn your character into a living projectile of uncontrollable whirlwind death!
+    /// Controls:
+    ///     LMB: Standard punch, which has invincibilty throughout active hitbox (2/3).
+    ///     LMB + Down (ground): Rising uppercut, no invulnerability.
+    ///     LMB + Down (aerial): Dive bomv, dashes down and forwards, but no invulnerability.
+    ///     Combo: Build up with punches that grant invulnerability.
+    ///         Standard attack on last combo hit bounces player away with increased invulnerability.
+    ///     RMB (parry): Parries the next incoming combat damage which grants half sec invuln and 5 sec buff.
+    ///     RMB (combo): Expends current combo to do something (weapon dependant).
+    /// </summary>
     public class FistStyle
     {
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
@@ -104,6 +116,11 @@ namespace WeaponOut.Items.Weapons.UseStyles
                     if (follow) player.velocity += new Vector2(player.direction * -2f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
                 }
                 #endregion
+            }
+            else if (specialMove == 1)
+            {
+                // Grant extra immune on rising
+                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax / 2);
             }
             else if (specialMove == 2)
             {
