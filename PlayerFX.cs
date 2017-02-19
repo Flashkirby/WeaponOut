@@ -953,9 +953,9 @@ namespace WeaponOut
                         }
                     }
 
-                    // Add parry buff and short invincibility
+                    // Add 5 sec parry buff and short invincibility
                     Items.Weapons.UseStyles.FistStyle.provideImmunity(player, 20);
-                    player.AddBuff(mod.BuffType<Buffs.ParryActive>(), timeSet * 2, false);
+                    player.AddBuff(mod.BuffType<Buffs.ParryActive>(), 300, false);
 
                     if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parried! : ", parryTime, "/", parryActive, "/", parryTimeMax));
                     WeaponOut.NetUpdateParry(mod, this);

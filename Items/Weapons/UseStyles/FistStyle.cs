@@ -563,9 +563,9 @@ namespace WeaponOut.Items.Weapons.UseStyles
             int parryIndex = player.FindBuffIndex(mod.BuffType<Buffs.ParryActive>());
             if (parryIndex >= 0)
             {
-                if(player.buffTime[parryIndex] == parryCooldownSave * 2 || !OnlyFirstFrame)
+                if(player.buffTime[parryIndex] != 300 && OnlyFirstFrame)
                 {
-                    return parryIndex;
+                    return -1;
                 }
                 if(buffDescription != "" && player.whoAmI == Main.myPlayer)
                 {

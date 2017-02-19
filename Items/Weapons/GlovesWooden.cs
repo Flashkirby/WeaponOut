@@ -62,9 +62,12 @@ namespace WeaponOut.Items.Weapons
 
         public override void HoldItem(Player player)
         {
-            if(Fist.HoldItemOnParryFrame(player, mod, true, "You are temporarily invulnerable!") >= 0)
+            int buffIndex = Fist.HoldItemOnParryFrame(player, mod, true, "You are temporarily invulnerable!");
+            if (buffIndex >= 0)
             {
+                Main.NewText("bi:" + buffIndex);
                 FistStyle.provideImmunity(player, 60);
+                player.buffTime[buffIndex] = 60; // set to same as invincibility;
             }
         }
 
