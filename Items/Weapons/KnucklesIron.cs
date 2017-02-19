@@ -66,7 +66,6 @@ namespace WeaponOut.Items.Weapons
         {
             if (Fist.ExpendCombo(player, true) > 0)
             {
-                if (player.itemTime > 0) player.itemTime = 0;
                 HeliosphereEmblem.DustVisuals(player, 20, 0.9f);
             }
         }

@@ -9,7 +9,7 @@ using WeaponOut.Items.Weapons.UseStyles;
 
 namespace WeaponOut.Items.Weapons
 {
-    public class KnucklesLead : ModItem
+    public class KnucklesFlintlock : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -23,31 +23,34 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 3);
+                    fist = new FistStyle(item, 4);
                 }
                 return fist;
             }
         }
         public override void SetDefaults()
         {
-            item.name = "Lead Knuckleduster";
-            item.toolTip = "<right> at full combo power to unleash spirit";
+            item.name = "Flintknuckle";
+            item.toolTip = "<right> at full combo power to fire forceful shots";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 19;//actually treated as -2
-            item.useTime = 19;
+            item.useAnimation = 20;
+            item.useTime = 20;
 
             item.width = 28;
             item.height = 28;
-            item.damage = 15;
-            item.knockBack = 2.5f;
-            item.UseSound = SoundID.Item7;
+            item.damage = 13;
+            item.knockBack = 2f;
+            item.UseSound = SoundID.Item11;
 
-            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
-            item.shootSpeed = 8f;
+            item.useAmmo = AmmoID.Bullet;
+            item.shoot = ProjectileID.Bullet;
+            item.shootSpeed = 6f;
 
+            item.value = Item.sellPrice(0, 1, 0, 0);
+            item.rare = 1;
             item.noUseGraphic = true;
-            item.melee = true;
+            item.ranged = true;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
@@ -56,7 +59,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LeadBar, 2);
+            recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -69,7 +72,7 @@ namespace WeaponOut.Items.Weapons
                 HeliosphereEmblem.DustVisuals(player, 20, 0.9f);
             }
         }
-
+        
         public override bool AltFunctionUse(Player player)
         {
             return Fist.ExpendCombo(player) > 0;
@@ -77,9 +80,12 @@ namespace WeaponOut.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            damage *= 2;
-            knockBack *= 0.25f;
-            return player.altFunctionUse > 0;
+            if(player.altFunctionUse > 0)
+            {
+                damage *= 2;
+                knockBack *= 2;
+            }
+            return true;
         }
 
         public override bool UseItemFrame(Player player)

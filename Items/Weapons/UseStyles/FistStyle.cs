@@ -133,6 +133,9 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 player.velocity = new Vector2(direction * 3f, player.gravDir * -1f);
             }
 
+            // Set time to match
+            player.itemTime = player.itemAnimation;
+
             return punchCombo;
         }
 
