@@ -9,7 +9,7 @@ using WeaponOut.Items.Weapons.UseStyles;
 
 namespace WeaponOut.Items.Weapons
 {
-    public class GlovesWooden : ModItem
+    public class GlovesPalm : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -30,7 +30,7 @@ namespace WeaponOut.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.name = "Wooden Tekko";
+            item.name = "Palm Striker";
             item.toolTip = "<right> to parry attacks";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
@@ -39,7 +39,7 @@ namespace WeaponOut.Items.Weapons
 
             item.width = 28;
             item.height = 28;
-            item.damage = 7;
+            item.damage = 9;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
 
@@ -53,8 +53,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 3);
-            recipe.anyWood = true;
+            recipe.AddIngredient(ItemID.PalmWood, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -62,15 +61,26 @@ namespace WeaponOut.Items.Weapons
 
         public override void HoldItem(Player player)
         {
-            if(Fist.HoldItemOnParryFrame(player, mod, true, "You are temporarily invulnerable!") >= 0)
+            Fist.HoldItemOnParryFrame(player, mod, false, "20 bonus damage for next palm strike");
+        }
+
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        { ModifyHitAny(player, ref damage, ref crit); }
+        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        { ModifyHitAny(player, ref damage, ref crit); }
+        public void ModifyHitAny(Player player, ref int damage, ref bool crit)
+        {
+            int buffIndex = Fist.HoldItemOnParryFrame(player, mod, false);
+            if (buffIndex >= 0)
             {
-                FistStyle.provideImmunity(player, 60);
+                player.ClearBuff(player.buffType[buffIndex]);
+                damage += 20;
             }
         }
 
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.AtlFunctionParry(player, mod, 15, 25);
+            return Fist.AtlFunctionParry(player, mod, 15, 30);
         }
 
         public override bool UseItemFrame(Player player)
