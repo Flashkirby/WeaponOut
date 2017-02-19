@@ -10,7 +10,7 @@ namespace WeaponOut.Projectiles
     /// <summary>
     /// splinters
     /// </summary>
-    public class FistFlameBlast : ModProjectile
+    public class SpiritFlameBlast : ModProjectile
     {
         private const float bulletFadeTime = 10;
 
