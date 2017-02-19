@@ -18,7 +18,8 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Immaterial Blade";
-            item.toolTip = "'Light as a feather'";
+            item.toolTip = "Bypasses thick armor";
+            item.toolTip2 = "'Light as a feather'";
             item.width = 40;
             item.height = 40;
             item.scale = 1.15f;
