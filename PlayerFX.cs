@@ -316,11 +316,16 @@ namespace WeaponOut
                     float dashSpeed = 14.5f;
                     switch (weaponDash)
                     {
-                        case 1:
+                        case 1: // Fists of fury
                             dashSpeed = 10;
+                            break;
+                        case 2: // Caestus
+                            dashSpeed = 15;
                             break;
                     }
                     #endregion
+
+                    #region Set Dash speed
 
                     // Set initial dash speed
                     player.velocity.X = dashSpeed * (float)player.direction;
@@ -333,6 +338,8 @@ namespace WeaponOut
                     player.dashDelay = -1;
 
                     WeaponOut.NetUpdateDash(mod, this);
+
+                    #endregion
                 }
 
                 // Apply movement during dash, delay is managed already in DashMovement()
@@ -348,13 +355,21 @@ namespace WeaponOut
                     int dashSetDelay = 20;
                     switch (weaponDash)
                     {
-                        case 1:
+                        case 1: // Normal short-ish dash
                             dashMaxSpeedThreshold = 8f;
                             dashMaxFriction = 0.98f;
                             dashMinFriction = 0.94f;
                             break;
+                        case 2: // Super quick ~12 tile dash
+                            dashMaxSpeedThreshold = 6f;
+                            dashMaxFriction = 0.8f;
+                            dashMinFriction = 0.94f;
+                            dashSetDelay = 10;
+                            break;
                     }
                     #endregion
+
+                    #region Modify dash speeds
 
                     player.vortexStealthActive = false;
                     if (player.velocity.X > dashMaxSpeedThreshold || player.velocity.X < -dashMaxSpeedThreshold)
@@ -377,6 +392,8 @@ namespace WeaponOut
                             player.velocity.X = maxAccRunSpeed;
                         }
                     }
+
+                    #endregion
                 }
             }
             
