@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons
         public override void SetDefaults()
         {
             item.name = "Flintknuckle";
-            item.toolTip = "<right> at full combo power to fire forceful shots";
+            item.toolTip = "100% chance not to consume ammo at full combo power";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
             item.useAnimation = 20;
@@ -39,13 +39,13 @@ namespace WeaponOut.Items.Weapons
 
             item.width = 28;
             item.height = 28;
-            item.damage = 13;
+            item.damage = 10;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item11;
 
             item.useAmmo = AmmoID.Bullet;
             item.shoot = ProjectileID.Bullet;
-            item.shootSpeed = 6f;
+            item.shootSpeed = 5f;
 
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 1;
@@ -59,32 +59,24 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 2);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ItemID.FlintlockPistol, 1);
+            recipe.AddIngredient(ItemID.IronBar, 3);
+            recipe.anyIronBar = true;
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
-        public override void HoldItem(Player player)
-        {
-            if (Fist.ExpendCombo(player, true) > 0)
-            {
-                HeliosphereEmblem.DustVisuals(player, 20, 0.9f);
-            }
-        }
         
-        public override bool AltFunctionUse(Player player)
+        public override bool ConsumeAmmo(Player player)
         {
-            return Fist.ExpendCombo(player) > 0;
+            return !Fist.IsFullCombo(player);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if(player.altFunctionUse > 0)
-            {
-                damage *= 2;
-                knockBack *= 2;
-            }
+            speedX += Main.rand.NextFloatDirection() * 0.5f;
+            speedY += Main.rand.NextFloatDirection() * 0.5f;
+            knockBack = 0f; // Flintlock pistol has no knockback
             return true;
         }
 

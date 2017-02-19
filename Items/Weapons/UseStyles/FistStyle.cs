@@ -144,6 +144,17 @@ namespace WeaponOut.Items.Weapons.UseStyles
             tooltips.Add(new TooltipLine(mod, "comboPower", punchComboMax + " combo power"));
         }
 
+        public bool IsFullCombo(Player player)
+        {
+            return punchCount >= punchComboMax;
+        }
+
+        /// <summary>
+        /// Expends charges = to combo
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="dontConsumeCombo">Returns the charge only whilst at idle (0 during swing - see IsFullCombo)</param>
+        /// <returns></returns>
         public int ExpendCombo(Player player, bool dontConsumeCombo = false)
         {
             if (!dontConsumeCombo && player.itemAnimation > (item.autoReuse ? 1 : 0)) return 0;
