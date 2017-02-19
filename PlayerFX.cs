@@ -503,8 +503,8 @@ namespace WeaponOut
         });
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            HeldItem.visible = true;
-            HairBack.visible = true;
+            HeldItem.visible = true; // For items held in hand
+            HairBack.visible = true; // For items behind the player (sheathed)
             //MiscEffectsFront.visible = !player.dead;
             try
             {

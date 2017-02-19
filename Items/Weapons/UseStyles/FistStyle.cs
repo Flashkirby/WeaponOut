@@ -558,7 +558,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
         }
         private int parryCooldownSave;
 
-        public bool HoldItemOnParryFrame(Player player, Mod mod, bool OnlyFirstFrame = false)
+        public bool HoldItemOnParryFrame(Player player, Mod mod, bool OnlyFirstFrame, string buffDescription = "")
         {
             int parryIndex = player.FindBuffIndex(mod.BuffType<Buffs.ParryActive>());
             if (parryIndex >= 0)
@@ -566,6 +566,10 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 if(player.buffTime[parryIndex] == parryCooldownSave * 2 || !OnlyFirstFrame)
                 {
                     return true;
+                }
+                if(buffDescription != "" && player.whoAmI == Main.myPlayer)
+                {
+                    Main.buffTip[mod.BuffType<Buffs.ParryActive>()] = buffDescription;
                 }
             }
             return false;
