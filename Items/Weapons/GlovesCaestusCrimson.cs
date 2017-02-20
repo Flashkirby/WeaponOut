@@ -23,7 +23,7 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 2);
+                    fist = new FistStyle(item, 3);
                 }
                 return fist;
             }
@@ -88,7 +88,7 @@ namespace WeaponOut.Items.Weapons
 
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.AtlFunctionParry(player, mod, 12, 18);
+            return Fist.AtlFunctionParry(player, mod, 12, 28);
         }
 
         public override bool UseItemFrame(Player player)
