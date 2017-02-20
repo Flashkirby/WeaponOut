@@ -44,6 +44,7 @@
     <Compile Include="Items\RallyBannerBlue.cs" />
     <Compile Include="Items\RallyBannerYellow.cs" />
     <Compile Include="Items\ScatterShot.cs" />
+    <Compile Include="Items\Weapons\GlovesCaestusCrimson.cs" />
     <Compile Include="Items\Weapons\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\GlovesPalm.cs" />
     <Compile Include="Items\Weapons\GlovesWooden.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />
     <Compile Include="Projectiles\SpiritBlast.cs" />
+    <Compile Include="Projectiles\SpiritComet.cs" />
     <Compile Include="Projectiles\Reverb.cs" />
     <Compile Include="Projectiles\OnsokuSlash.cs" />
     <Compile Include="Projectiles\CrystalVileLash.cs" />
@@ -157,8 +159,10 @@
     <Content Include="Items\Weapons\FistsBoxing.png" />
     <Content Include="Items\Weapons\FistsJungleClaws.png" />
     <Content Include="Items\Weapons\GlovesCaestus.png" />
+    <Content Include="Items\Weapons\GlovesCaestusCrimson.png" />
     <Content Include="Items\Weapons\GlovesPalm.png" />
     <Content Include="Items\Weapons\GlovesWooden.png" />
+    <Content Include="Items\Weapons\Hayauchi.png" />
     <Content Include="Items\Weapons\KnucklesFlintlock.png" />
     <Content Include="Items\Weapons\KnucklesMeteor.png" />
     <Content Include="Items\Weapons\KnucklesLead.png" />
