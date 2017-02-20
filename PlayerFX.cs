@@ -322,6 +322,9 @@ namespace WeaponOut
                         case 2: // Caestus
                             dashSpeed = 15;
                             break;
+                        case 3: // Boxing Gloves
+                            dashSpeed = 12;
+                            break;
                     }
                     #endregion
 
@@ -352,7 +355,7 @@ namespace WeaponOut
                     float dashMaxSpeedThreshold = 12f;
                     float dashMaxFriction = 0.992f;
                     float dashMinFriction = 0.96f;
-                    int dashSetDelay = 20;
+                    int dashSetDelay = 30; // normally 20 but given that his ends sooner...
                     switch (weaponDash)
                     {
                         case 1: // Normal short-ish dash
@@ -364,7 +367,11 @@ namespace WeaponOut
                             dashMaxSpeedThreshold = 6f;
                             dashMaxFriction = 0.8f;
                             dashMinFriction = 0.94f;
-                            dashSetDelay = 10;
+                            dashSetDelay = 20;
+                            break;
+                        case 3: // Boxing Gloves ~ 4.5 tile step
+                            dashMaxSpeedThreshold = 3f;
+                            dashMaxFriction = 0.8f;
                             break;
                     }
                     #endregion
