@@ -302,11 +302,15 @@ namespace WeaponOut.Items.Weapons.UseStyles
             {
                 if (player.controlDown && jumpSpeed > 0)
                 {
-                    if (player.velocity.Y == 0 && player.oldVelocity.Y == 0)
+                    if (
+                        (player.velocity.Y == 0 && player.oldVelocity.Y == 0) ||
+                        (player.jump > 0)
+                        )
                     {
                         specialMove = 1;
                         player.itemRotation = -(float)(player.direction * Math.PI / 2);
                         player.velocity.Y = -jumpSpeed * player.gravDir;
+                        player.jump = 0;
                     }
                     else
                     {
