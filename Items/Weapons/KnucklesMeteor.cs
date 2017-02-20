@@ -23,7 +23,7 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 3);
+                    fist = new FistStyle(item, 4);
                 }
                 return fist;
             }
@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons
             item.toolTip = "<right> at full combo power to unleash meteors";
             item.toolTip2 = "'Space CQC is explicitly stated to be whatever you claim it to be'"; // これは宇宙CQC! but no jpn support, rip MPT
             item.useStyle = FistStyle.useStyle;
-            item.useTurn = false;
+            item.autoReuse = true;
             item.useAnimation = 19;//actually treated as -2
             item.useTime = 19;
 
@@ -44,9 +44,11 @@ namespace WeaponOut.Items.Weapons
             item.knockBack = 2.5f;
             item.UseSound = SoundID.Item7;
 
-            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
-            item.shootSpeed = 8f;
+            item.shoot = mod.ProjectileType<Projectiles.SpiritComet>();
+            item.shootSpeed = 6f;
 
+            item.value = Item.sellPrice(0, 0, 24, 0);
+            item.rare = 2;
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -57,7 +59,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LeadBar, 2);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -74,14 +76,30 @@ namespace WeaponOut.Items.Weapons
 
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.ExpendCombo(player) > 0;
+            return Fist.IsFullCombo(player);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            damage *= 2;
-            knockBack *= 0.25f;
-            return player.altFunctionUse > 0;
+            if(player.altFunctionUse > 0)
+            {
+                damage *= 2;
+                knockBack *= 2f;
+
+                int charges = Fist.ExpendCombo(player);
+                if(charges > 0)
+                {
+                    for(int i = 0; i < System.Math.Min(3, charges); i++)
+                    {
+                        Projectile.NewProjectile(position, 
+                            new Vector2(
+                                speedX + i * Main.rand.NextFloatDirection(),
+                                speedY + i * Main.rand.NextFloatDirection()),
+                            type, damage, knockBack, player.whoAmI);
+                    }
+                }
+            }
+            return false;
         }
 
         public override bool UseItemFrame(Player player)
