@@ -124,17 +124,17 @@ namespace WeaponOut.Projectiles
             Vector2 p = projectile.position - Main.screenPosition;
             Vector2 c = new Vector2(projectile.width / 2, projectile.height / 2);
 
-            // Draw wuth trail
+            // Draw with trail
             for (int i = 2; i >= 0; i--)
             {
                 spriteBatch.Draw(t,
-                    p - (projectile.velocity * i) + c,
+                    p - (projectile.velocity * 3 * i) + c,
                     source, new Color(
                         255 - (projectile.alpha + 80 * i), 255 - (projectile.alpha + 80 * i),
                         255 - (projectile.alpha + 80 * i), 255 - (projectile.alpha + 80 * i)),
                     projectile.rotation,
                     new Vector2(t.Width / 2, height / 2),
-                    projectile.scale,
+                    3f * projectile.scale / (i + 3),
                     SpriteEffects.None,
                     0f);
             }

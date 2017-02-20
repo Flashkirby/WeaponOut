@@ -74,7 +74,7 @@ namespace WeaponOut.Projectiles
                 projectile.frame++;
                 if (projectile.frame >= Main.projFrames[projectile.type]) projectile.frame = 0;
             }
-
+            
             #region lighting free multi-frame alpha render
             Texture2D t = Main.projectileTexture[projectile.type];
             int height = t.Height;
@@ -86,16 +86,21 @@ namespace WeaponOut.Projectiles
             }
             Vector2 p = projectile.position - Main.screenPosition;
             Vector2 c = new Vector2(projectile.width / 2, projectile.height / 2);
-            spriteBatch.Draw(t,
-                p + c,
-                source, new Color(
-                    255 - projectile.alpha, 255 - projectile.alpha,
-                    255 - projectile.alpha, 255 - projectile.alpha),
-                projectile.rotation,
-                new Vector2(t.Width / 2, height / 2),
-                projectile.scale,
-                SpriteEffects.None,
-                0f);
+
+            // Draw with trail
+            for (int i = 2; i >= 0; i--)
+            {
+                spriteBatch.Draw(t,
+                    p - (projectile.velocity * 3 * i) + c,
+                    source, new Color(
+                        255 - (projectile.alpha + 80 * i), 255 - (projectile.alpha + 80 * i),
+                        255 - (projectile.alpha + 80 * i), 255 - (projectile.alpha + 80 * i)),
+                    projectile.rotation,
+                    new Vector2(t.Width / 2, height / 2),
+                    3f * projectile.scale / (i + 3),
+                    SpriteEffects.None,
+                    0f);
+            }
             #endregion
             return false;
         }
