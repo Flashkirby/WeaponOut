@@ -26,7 +26,7 @@ namespace WeaponOut.Items.Weapons
 
             item.melee = true;
             item.damage = 23;
-            item.knockBack = 0;
+            item.knockBack = 2.5f;
             item.crit = 15;
             item.autoReuse = false;
             item.useTurn = false;
