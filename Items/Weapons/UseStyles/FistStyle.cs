@@ -110,7 +110,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 else
                 {
                     // Grant extra immune whilst disengaging
-                    UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax);
+                    UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax / 2);
 
                     //disengage
                     if (follow) player.velocity += new Vector2(player.direction * -2f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
@@ -120,12 +120,12 @@ namespace WeaponOut.Items.Weapons.UseStyles
             else if (specialMove == 1)
             {
                 // Grant extra immune on rising
-                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax / 2);
+                UseStyles.FistStyle.provideImmunity(player, 2 * player.itemAnimationMax / 3);
             }
             else if (specialMove == 2)
             {
                 // Grant extra immune whilst disengaging
-                UseStyles.FistStyle.provideImmunity(player, player.itemAnimationMax / 2);
+                UseStyles.FistStyle.provideImmunity(player, Math.Max(10, player.itemAnimationMax / 2));
 
                 //disengage
                 int direction = 1;
