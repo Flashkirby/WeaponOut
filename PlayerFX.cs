@@ -969,6 +969,10 @@ namespace WeaponOut
                             NetMessage.SendData(28, -1, -1, "", npc.whoAmI, (float)npc.defense, (float)knockback, (float)hitDirection, 0, 0, 0);
                         }
                     }
+                    else
+                    {
+                        Main.PlaySound(SoundID.NPCHit3, player.position);
+                    }
 
                     // Add 5 sec parry buff and short invincibility
                     Items.Weapons.UseStyles.FistStyle.provideImmunity(player, 20);
