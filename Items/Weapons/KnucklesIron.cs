@@ -39,7 +39,7 @@ namespace WeaponOut.Items.Weapons
 
             item.width = 20;
             item.height = 20;
-            item.damage = 13;
+            item.damage = 11;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
 
