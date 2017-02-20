@@ -40,7 +40,7 @@ namespace WeaponOut.Items.Weapons
             item.width = 20;
             item.height = 20;
             item.damage = 11;
-            item.knockBack = 2f;
+            item.knockBack = 3f;
             item.UseSound = SoundID.Item7;
 
             item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();

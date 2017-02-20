@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Weapons
             item.height = 20;
             item.damage = 25;
             item.knockBack = 4f;
-            item.UseSound = SoundID.Item32;
+            item.UseSound = SoundID.Item20;
 
             item.value = Item.sellPrice(0, 0, 24, 0);
             item.rare = 2;

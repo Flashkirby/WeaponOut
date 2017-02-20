@@ -40,7 +40,7 @@ namespace WeaponOut.Items.Weapons
             item.width = 20;
             item.height = 20;
             item.damage = 10;
-            item.knockBack = 2f;
+            item.knockBack = 3f;
             item.UseSound = SoundID.Item11;
 
             item.useAmmo = AmmoID.Bullet;
