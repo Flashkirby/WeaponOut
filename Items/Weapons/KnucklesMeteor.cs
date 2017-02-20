@@ -32,7 +32,7 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Comet Fu";
             item.toolTip = "<right> at full combo power to unleash meteors";
-            item.toolTip2 = "'Kore wa uchuu CQC!'"; // これは宇宙CQC! but no jpn support, rip MPT
+            item.toolTip2 = "'Space CQC is explicitly stated to be whatever you claim it to be'"; // これは宇宙CQC! but no jpn support, rip MPT
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
             item.useAnimation = 19;//actually treated as -2
