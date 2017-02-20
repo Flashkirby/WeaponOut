@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons
             item.toolTip = "<right> at full combo power to unleash spirit";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 19;//actually treated as -2
+            item.useAnimation = 19;
             item.useTime = 19;
 
             item.width = 20;

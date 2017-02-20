@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons
             item.toolTip2 = "'Space CQC is explicitly stated to be whatever you claim it to be'"; // これは宇宙CQC! but no jpn support, rip MPT
             item.useStyle = FistStyle.useStyle;
             item.autoReuse = true;
-            item.useAnimation = 19;//actually treated as -2
+            item.useAnimation = 19;
             item.useTime = 19;
 
             item.width = 20;

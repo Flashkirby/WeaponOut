@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons
             item.toolTip = "<right> to parry attacks";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 22;//actually treated as -2
+            item.useAnimation = 22;
             item.useTime = 22;
 
             item.width = 28;

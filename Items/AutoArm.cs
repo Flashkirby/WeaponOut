@@ -21,7 +21,7 @@ namespace WeaponOut.Items
         {
             item.name = "Voodoo Arm";
             item.toolTip = "Causes weapons to autoswing whilst in inventory";
-            item.toolTip2 = "'It shudders constantly'";
+            item.toolTip2 = "'It writhes unnervingly'";
             item.width = 28;
             item.height = 28;
             item.rare = 1;
