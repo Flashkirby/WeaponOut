@@ -48,7 +48,7 @@ namespace WeaponOut
                         if (Vector2.Distance(projectile.Center, player.Center) <= shieldDist +
                             Vector2.Distance(default(Vector2), projectile.velocity * 2.5f))
                         {
-                            ReflectProjectilePlayer(projectile, player, pFX);
+                            ReflectProjectilePlayer(projectile, player, pFX, true);
                         }
                     }
                 }
@@ -61,7 +61,7 @@ namespace WeaponOut
             LunarAccessoryVisuals(projectile);
         }
 
-        private void ReflectProjectilePlayer(Projectile projectile, Player player, PlayerFX modPlayer)
+        internal static void ReflectProjectilePlayer(Projectile projectile, Player player, PlayerFX modPlayer, bool showEffect)
         {
             // Set internal timer
             try { modPlayer.reflectingProjectileDelay = Items.MirrorBadge.reflectDelay; } catch { }
@@ -93,8 +93,11 @@ namespace WeaponOut
             // Don't know if this will help but here it is
             projectile.netUpdate = true;
 
-            // Shield visual
-            ShieldVisual(projectile, player);
+            if (showEffect)
+            {
+                // Shield visual
+                ShieldVisual(projectile, player);
+            }
         }
 
         private static void ShieldVisual(Projectile projectile, Player player)

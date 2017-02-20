@@ -972,6 +972,14 @@ namespace WeaponOut
                     else
                     {
                         Main.PlaySound(SoundID.NPCHit3, player.position);
+                        if(damageSource.SourceProjectileIndex >= 0)
+                        {
+                            ProjFX.ReflectProjectilePlayer(
+                                Main.projectile[damageSource.SourceProjectileIndex],
+                                player,
+                                this,
+                                false);
+                        }
                     }
 
                     // Add 5 sec parry buff and short invincibility
