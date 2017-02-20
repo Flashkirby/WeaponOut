@@ -91,13 +91,13 @@ namespace WeaponOut.Projectiles
             for (int i = 2; i >= 0; i--)
             {
                 spriteBatch.Draw(t,
-                    p - (projectile.velocity * 3 * i) + c,
+                    p - (projectile.velocity * i) + c,
                     source, new Color(
                         255 - (projectile.alpha + 80 * i), 255 - (projectile.alpha + 80 * i),
                         255 - (projectile.alpha + 80 * i), 255 - (projectile.alpha + 80 * i)),
                     projectile.rotation,
                     new Vector2(t.Width / 2, height / 2),
-                    3f * projectile.scale / (i + 3),
+                    6f * projectile.scale / (i + 6),
                     SpriteEffects.None,
                     0f);
             }
