@@ -20,8 +20,8 @@ namespace WeaponOut.Items
         public override void SetDefaults()
         {
             item.name = "Voodoo Arm";
-            item.toolTip = "Causes weapons to autoswing whilst in inventory";
-            item.toolTip2 = "'It writhes unnervingly'";
+            item.toolTip = "Enables auto-swing for weapons while in inventory";
+            item.toolTip2 = "'It twitches occasionally'";
             item.width = 28;
             item.height = 28;
             item.rare = 1;
