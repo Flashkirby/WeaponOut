@@ -61,7 +61,7 @@ namespace WeaponOut.Items.Weapons
 
         public override void HoldItem(Player player)
         {
-            Fist.HoldItemOnParryFrame(player, mod, false, "20 bonus damage for next palm strike");
+            Fist.HoldItemOnParryFrame(player, mod, false, "20 bonus damage for next landed punch");
         }
 
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
