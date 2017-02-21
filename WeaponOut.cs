@@ -87,7 +87,7 @@ namespace WeaponOut
             }
             else
             {
-                Console.WriteLine("WeaponOut loaded with no errors:   supercharge#01");
+                Console.WriteLine("WeaponOut loaded with no errors:   visuals&fists#01");
             }
         }
 
@@ -295,7 +295,7 @@ namespace WeaponOut
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
             {
                 ModPacket message = mod.GetPacket();
-                message.Write(2);
+                message.Write(3);
                 message.Write(Main.myPlayer);
                 message.Write(pfx.weaponVisual);
                 message.Send();

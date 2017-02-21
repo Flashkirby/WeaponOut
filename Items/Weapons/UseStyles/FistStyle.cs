@@ -61,7 +61,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
         /// <returns>Hit number, or -1</returns>
         public int OnHitNPC(Player player, NPC target, bool follow = false)
         {
-           // if (target.immortal) return -1; //don't trigger on dummy TODO: remember to enable before publish
+            // if (target.immortal) return -1; //don't trigger on dummy TODO: remember to enable before publish
 
             //C-C-Combo!
             punchCombo++;
@@ -114,6 +114,12 @@ namespace WeaponOut.Items.Weapons.UseStyles
 
                     //disengage
                     if (follow) player.velocity += new Vector2(player.direction * -2f + target.velocity.X * -1.5f, player.gravDir * -2f + target.velocity.Y * 2);
+
+                    // Sync player movement on net
+                    if (Main.netMode == 1 && player.whoAmI == Main.myPlayer)
+                    {
+                        NetMessage.SendData(MessageID.SyncPlayer, -1, -1, Main.player[Main.myPlayer].name, Main.myPlayer);
+                    }
                 }
                 #endregion
             }
@@ -131,6 +137,18 @@ namespace WeaponOut.Items.Weapons.UseStyles
                 int direction = 1;
                 if (player.Center.X < target.Center.X) direction = -1;
                 player.velocity = new Vector2(direction * 3f, player.gravDir * -1f);
+
+                // Sync player movement on net
+                if (Main.netMode == 1 && player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendData(MessageID.SyncPlayer, -1, -1, Main.player[Main.myPlayer].name, Main.myPlayer);
+                }
+
+                // Sync player movement on net
+                if (Main.netMode == 1 && player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendData(MessageID.SyncPlayer, -1, -1, Main.player[Main.myPlayer].name, Main.myPlayer);
+                }
             }
 
             // Set time to match

@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 
 using ItemCustomizer;
 using Terraria.ModLoader.IO;
+using System.IO;
 //using Terraria.Graphics.Shaders;
 //vs collapse all Ctrl-M-O
 
