@@ -10,7 +10,7 @@ namespace WeaponOut.Items.Armour
     /// <summary>
     /// Intercepts hook controls for discord teleporting when free
     /// </summary>
-    public class DiscordantCharm : ModItem
+    public class DiscordantShades : ModItem
     {
         private bool skipFrameAcc = false;
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
@@ -25,13 +25,14 @@ namespace WeaponOut.Items.Armour
 
         public override void SetDefaults()
         {
-            item.name = "Discordant Charm";
+            item.name = "Discordant Shades";
             item.toolTip = @"Prioritise teleporting over grappling
 Requires the Rod of Discord
 Functions in the Head Vanity Slot
 Can be equipped as an accessory";
+            item.toolTip2 = "'The future's so bright, I gotta wear shades'";
             item.width = 28;
-            item.height = 28;
+            item.height = 12;
             item.rare = 7;
             item.accessory = true;
             item.vanity = false;
@@ -90,61 +91,10 @@ Can be equipped as an accessory";
                             else
                             {
                                 skipFrameAcc = false;
-                                rodOfDiscord(player);
+                                DiscordantCharm.rodOfDiscord(player);
                             }
                             break;
                         }
-                    }
-                }
-            }
-        }
-
-        internal static void rodOfDiscord(Player player)
-        {
-            if (Main.myPlayer == player.whoAmI)
-            {
-                Vector2 vector32;
-                vector32.X = (float)Main.mouseX + Main.screenPosition.X;
-                if (player.gravDir == 1f)
-                {
-                    vector32.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
-                }
-                else
-                {
-                    vector32.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
-                }
-                vector32.X -= (float)(player.width / 2);
-                if (vector32.X > 50f && vector32.X < (float)(Main.maxTilesX * 16 - 50) && vector32.Y > 50f && vector32.Y < (float)(Main.maxTilesY * 16 - 50))
-                {
-                    int num246 = (int)(vector32.X / 16f);
-                    int num247 = (int)(vector32.Y / 16f);
-                    if ((Main.tile[num246, num247].wall != 87 || (double)num247 <= Main.worldSurface || NPC.downedPlantBoss) && !Collision.SolidCollision(vector32, player.width, player.height))
-                    {
-                        player.Teleport(vector32, 1, 0);
-                        NetMessage.SendData(65, -1, -1, "", 0, (float)player.whoAmI, vector32.X, vector32.Y, 1, 0, 0);
-                        if (player.chaosState)
-                        {
-                            player.statLife -= player.statLifeMax2 / 7;
-                            if (Lang.lang <= 1)
-                            {
-                                PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
-                                if (Main.rand.Next(2) == 0)
-                                {
-                                    damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
-                                }
-                                if (player.statLife <= 0)
-                                {
-                                    player.KillMe(damageSource, 1.0, 0, false);
-                                }
-                            }
-                            else if (player.statLife <= 0)
-                            {
-                                player.KillMe(PlayerDeathReason.LegacyEmpty(), 1.0, 0, false);
-                            }
-                            player.lifeRegenCount = 0;
-                            player.lifeRegenTime = 0;
-                        }
-                        player.AddBuff(88, 360, true);
                     }
                 }
             }
