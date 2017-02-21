@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 
 using ItemCustomizer;
+using Terraria.ModLoader.IO;
 //using Terraria.Graphics.Shaders;
 //vs collapse all Ctrl-M-O
 
@@ -18,6 +19,8 @@ namespace WeaponOut
         private const bool DEBUG_WEAPONHOLD = false;
         private const bool DEBUG_BOOMERANGS = false;
         private const bool DEBUG_PARRYFISTS = false;
+
+        public bool weaponVisual = true;
 
         private bool wasDead; //used to check if player just revived
         public Vector2 localTempSpawn;//spawn used by tent
@@ -136,6 +139,9 @@ namespace WeaponOut
             parryTime = 0;
             parryTimeMax = 0;
             parryActive = 0;
+
+            // Update visuals
+            WeaponOut.NetUpdateWeaponVisual(mod, this);
         }
 
         public override void ResetEffects()
@@ -173,6 +179,20 @@ namespace WeaponOut
             reflectingProjectiles = false;
             if (reflectingProjectileDelay > 0) reflectingProjectileDelay = Math.Max(0, reflectingProjectileDelay - 1);
         }
+
+        #region Save and Load
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                { "weaponVisual", weaponVisual }
+            };
+        }
+        public override void Load(TagCompound tag)
+        {
+            weaponVisual = tag.GetBool("weaponVisual");
+        }
+        #endregion
 
         public override bool PreItemCheck()
         {
@@ -456,7 +476,7 @@ namespace WeaponOut
                 && (!heldItem.noUseGraphic || !heldItem.melee)
                 && larger >= 45
                 && (
-                !player.hideVisual[3] || ModConf.forceShowWeaponOut
+                weaponVisual || ModConf.forceShowWeaponOut
                 ) //toggle with accessory1 visibility, or forceshow is on
             )
             {
@@ -558,8 +578,12 @@ namespace WeaponOut
             //hide if dead, stoned etc.
             if (!drawPlayer.active || drawPlayer.dead || drawPlayer.stoned) return;
 
-            if (drawPlayer.itemAnimation > 0 //do nothing if player is doing something
-                || (drawPlayer.hideVisual[3] && !ModConf.forceShowWeaponOut)) return; //also hide if accessory 1 is hidden
+            try
+            {
+                if (drawPlayer.itemAnimation > 0 //do nothing if player is doing something
+                    || !(drawPlayer.GetModPlayer<PlayerFX>(WeaponOut.mod).weaponVisual && !ModConf.forceShowWeaponOut)) return; //also hide if accessory 1 is hidden
+            }
+            catch { }
 
             //player player's held item
             Item heldItem = drawPlayer.inventory[drawPlayer.selectedItem];

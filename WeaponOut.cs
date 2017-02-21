@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,6 +26,8 @@ namespace WeaponOut
 {
     public class WeaponOut : Mod
     {
+        internal static Mod mod;
+
         public static Texture2D textureSPSH;
         public static Texture2D textureDMNB;
         public static Texture2D textureMANB;
@@ -51,6 +56,7 @@ namespace WeaponOut
 
         public override void Load()
         {
+            mod = this;
             ModConf.Load();
         }
 
@@ -115,10 +121,59 @@ namespace WeaponOut
             return Transform;
         }
 
+        public override void PostDrawInterface(SpriteBatch spriteBatch)
+        {
+            // Janky quick inventory visibilty
+            if (Main.playerInventory)
+            {
+                //Get vars
+                PlayerFX pfx = Main.LocalPlayer.GetModPlayer<PlayerFX>(this);
+                Texture2D eye = Main.inventoryTickOnTexture;
+                string hoverText = "Weapon " + Lang.inter[59]; // Visible
+                Vector2 position = new Vector2(20, 10);
+
+                // Show hidden instead
+                if (!pfx.weaponVisual)
+                {
+                    eye = Main.inventoryTickOffTexture;
+                    hoverText = "Weapon " + Lang.inter[60]; // Hidden
+                }
+
+                // Get rectangle for eye
+                Rectangle eyeRect = new Rectangle(
+                    (int)position.X, (int)position.Y,
+                    eye.Width, eye.Height);
+                if (eyeRect.Contains(Main.mouseX, Main.mouseY))
+                {
+                    // Prevent item use and show text
+                    Main.hoverItemName = hoverText;
+                    Main.blockMouse = true;
+
+                    // On click
+                    if(Main.mouseLeft && Main.mouseLeftRelease)
+                    {
+                        Main.PlaySound(SoundID.MenuTick);
+                        pfx.weaponVisual = !pfx.weaponVisual;
+
+                        NetUpdateWeaponVisual(this, pfx);
+                    }
+                }
+
+                // Draw this!
+                spriteBatch.Draw(
+                    eye,
+                    new Vector2(20, 4),
+                    null,
+                    Color.White
+                    );
+            }
+        }
+
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             int code = reader.ReadInt32();
             int sender = reader.ReadInt32();
+            #region Dash
             if (code == 1) // Set dash used
             {
                 int dash = reader.ReadInt32();
@@ -144,7 +199,9 @@ namespace WeaponOut
                     // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
                 }
             }
+            #endregion
 
+            #region Parrying
             if (code == 2) // Set parry move
             {
                 int parryTime = reader.ReadInt32();
@@ -175,6 +232,37 @@ namespace WeaponOut
                     // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
                 }
             }
+            #endregion
+
+            #region Weapon Visual
+            if (code == 3) // Set weapon
+            {
+                bool weaponVis = reader.ReadBoolean();
+
+                if (Main.netMode == 2)
+                {
+                    for (int i = 0; i < 255; i++)
+                    {
+                        if (!Main.player[i].active) continue;
+                        if (i != sender)
+                        {
+                            ModPacket me = GetPacket();
+                            me.Write(code);
+                            me.Write(sender);
+                            me.Write(weaponVis);
+                            me.Send();
+                        }
+                    }
+                    // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                }
+                else
+                {
+                    PlayerFX pfx = Main.player[sender].GetModPlayer<PlayerFX>(this);
+                    pfx.weaponVisual = weaponVis;
+                    // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                }
+            }
+            #endregion
         }
 
         public static void NetUpdateDash(Mod mod, PlayerFX pfx)
@@ -198,6 +286,18 @@ namespace WeaponOut
                 message.Write(Main.myPlayer);
                 message.Write(pfx.parryTimeMax);
                 message.Write(pfx.parryActive);
+                message.Send();
+            }
+        }
+
+        public static void NetUpdateWeaponVisual(Mod mod, PlayerFX pfx)
+        {
+            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
+            {
+                ModPacket message = mod.GetPacket();
+                message.Write(2);
+                message.Write(Main.myPlayer);
+                message.Write(pfx.weaponVisual);
                 message.Send();
             }
         }
