@@ -69,7 +69,10 @@ Can be equipped as an accessory";
             {
                 useDiscordHookOverride(player, false);
             }
-            useDiscordHookOverride(player, true);
+            else
+            {
+                useDiscordHookOverride(player, true);
+            }
         }
 
         private void useDiscordHookOverride(Player player, bool isAcc)
@@ -86,6 +89,7 @@ Can be equipped as an accessory";
                             if (isAcc)
                             {
                                 skipFrameAcc = true;
+                                player.releaseHook = false;
                             }
                             else
                             {
