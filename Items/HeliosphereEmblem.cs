@@ -46,6 +46,7 @@ namespace WeaponOut.Items
             HeliosphereEmblem.SetBonus(player, 0);
             player.meleeSpeed += 0.12f;
             player.magmaStone = true;
+            if (hideVisual) return;
             HeliosphereEmblem.DustVisuals(player, DustID.Fire, 1.5f);
         }
 

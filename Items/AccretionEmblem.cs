@@ -44,6 +44,7 @@ Increases maximum mana by 20";
         {
             HeliosphereEmblem.SetBonus(player, 3);
             player.statManaMax2 += 20;
+            if (hideVisual) return;
             HeliosphereEmblem.DustVisuals(player, DustID.PinkFlame, 2f);
             player.GetModPlayer<PlayerFX>(mod).lunarMagicVisual = true;
         }

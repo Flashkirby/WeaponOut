@@ -44,6 +44,7 @@ namespace WeaponOut.Items
         {
             HeliosphereEmblem.SetBonus(player, 2);
             player.thrownVelocity += 0.3f;
+            if (hideVisual) return;
             HeliosphereEmblem.DustVisuals(player, 75, 1.5f);
             player.GetModPlayer<PlayerFX>(mod).lunarThrowVisual = true;
         }

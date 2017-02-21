@@ -44,6 +44,7 @@ namespace WeaponOut.Items
         {
             HeliosphereEmblem.SetBonus(player, 1);
             player.ammoCost80 = true;
+            if (hideVisual) return;
             HeliosphereEmblem.DustVisuals(player, DustID.Vortex);
             player.GetModPlayer<PlayerFX>(mod).lunarRangeVisual = true;
         }
