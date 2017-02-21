@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
-using System;
+using Terraria.Enums;
 // version = 1.3
 namespace WeaponOut.Projectiles
 {
@@ -121,6 +121,12 @@ namespace WeaponOut.Projectiles
             // Main.NewText("anim: " + player.itemAnimation);// ==== 2
         }
 
+        public static bool IsCrit(Projectile projectile, bool easyCrit = false)
+        {
+            return projectile.ai[0] <= projectile.localAI[1] / 2 + (projectile.localAI[1] / (easyCrit ? 12 : 16)) &&
+                projectile.ai[0] >= projectile.localAI[1] / 2 - (projectile.localAI[1] / (easyCrit ? 6 : 8));
+        }
+
         public static void ModifyHitAny(Projectile projectile, ref int damage, ref bool crit)
         {
             return; //disabled due to not working in multiplayer.
@@ -131,8 +137,7 @@ namespace WeaponOut.Projectiles
         public static void ModifyHitAny(Projectile projectile, ref int damage, ref float knockback, ref bool crit, bool easyCrit = false)
         {
             //Main.NewText("tip hit : " + (projectile.ai[0]) + " | " + (projectile.localAI[1] / 2));
-            if (projectile.ai[0] <= projectile.localAI[1] / 2 + (projectile.localAI[1] / (easyCrit ? 12 : 16)) &&
-                projectile.ai[0] >= projectile.localAI[1] / 2 - (projectile.localAI[1] / (easyCrit ? 6 : 8)))
+            if (IsCrit(projectile, easyCrit))
             {
                 Player p = Main.player[projectile.owner];
                 //Main.NewText("crit: " + p.inventory[p.selectedItem].crit + p.meleeCrit);
@@ -174,7 +179,14 @@ namespace WeaponOut.Projectiles
             return false;
         }
 
-        public static bool PreDraw(Projectile projectile, int handleHeight, int chainHeight, int partHeight, int tipHeight, int partCount = 18, bool ignoreLight = false)
+        public static bool CanCutTiles(Projectile projectile)
+        {
+            DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity, (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            return true;
+        }
+
+        public static bool PreDraw(Projectile projectile, int handleHeight, int chainHeight, int partHeight, int tipHeight, int partCount = 18, bool ignoreLight = false, bool easyCrit = false)
         {
             Vector2 vector38 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D17 = Main.projectileTexture[projectile.type];
@@ -262,6 +274,12 @@ namespace WeaponOut.Projectiles
             rectangle6 = tip;
             Vector2 vector41 = value19 + value18;
             if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector41.X / 16, (int)vector41.Y / 16));
+
+            if (IsCrit(projectile, easyCrit))
+            {
+                Main.spriteBatch.Draw(texture2D17, vector41 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.5f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 2f, SpriteEffects.None, 0f);
+            }
+
             Main.spriteBatch.Draw(texture2D17, vector41 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
 
             return false;
