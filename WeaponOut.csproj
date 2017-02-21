@@ -40,10 +40,12 @@
     <Compile Include="Buffs\WeaponSwitch.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Items\AutoArm.cs" />
     <Compile Include="Items\RallyBannerGreen.cs" />
     <Compile Include="Items\RallyBannerBlue.cs" />
     <Compile Include="Items\RallyBannerYellow.cs" />
     <Compile Include="Items\ScatterShot.cs" />
+    <Compile Include="Items\Weapons\FistsBoxing.cs" />
     <Compile Include="Items\Weapons\GlovesCaestusCrimson.cs" />
     <Compile Include="Items\Weapons\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\GlovesPalm.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Projectiles\Hayauchi.cs" />
     <Compile Include="Projectiles\ManaBlast.cs" />
     <Content Include="Dusts\ManaDust.png" />
+    <Content Include="Items\AccretionEmblem.png" />
     <Content Include="Items\Armour\DiscordantCharm.png" />
     <Compile Include="ProjFX.cs" />
     <Compile Include="Tiles\CampTent.cs" />
@@ -149,8 +152,20 @@
   <ItemGroup>
     <Content Include="build.txt" />
     <Content Include="description.txt" />
+    <Content Include="Items\AutoArm.png" />
+    <Content Include="Items\HeliosphereEmblem.png" />
+    <Content Include="Items\MirrorBadge.png" />
+    <Content Include="Items\Pavise.png" />
+    <Content Include="Items\Pavise_Shield.png" />
+    <Content Include="Items\PerihelionEmblem.png" />
+    <Content Include="Items\RallyBannerBlue.png" />
+    <Content Include="Items\RallyBannerGreen.png" />
+    <Content Include="Items\RallyBannerRed.png" />
+    <Content Include="Items\RallyBannerYellow.png" />
+    <Content Include="Items\ScatterShot.png" />
     <Content Include="Items\SplinterShot.png" />
     <Content Include="Items\Placeable\CampTent.png" />
+    <Content Include="Items\SupernovaEmblem.png" />
     <Content Include="Items\Weapons\AllPorpoiseAssaultRifle.png" />
     <Content Include="Items\Weapons\Capacitor.png" />
     <Content Include="Items\Weapons\ChannelerStaff.png" />
@@ -179,6 +194,9 @@
     <Content Include="Items\Weapons\StaffOfExplosion.png" />
     <Content Include="Items\Weapons\SteamPersuader.png" />
     <Content Include="Items\Weapons\WAR.png" />
+    <Content Include="Items\WoodenShield.png" />
+    <Content Include="Items\WoodenShield_Shield.png" />
+    <Content Include="Items\WormholeEmblem.png" />
     <Content Include="Projectiles\SplinterShot.png" />
     <Content Include="Projectiles\Hayauchi.png" />
     <Content Include="Projectiles\ManaBlast.png" />

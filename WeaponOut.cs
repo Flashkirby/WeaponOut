@@ -141,7 +141,7 @@ namespace WeaponOut
 
                 // Get rectangle for eye
                 Rectangle eyeRect = new Rectangle(
-                    (int)position.X, (int)position.Y,
+                    (int)position.X, (int)position.Y - (eye.Height / 2),
                     eye.Width, eye.Height);
                 if (eyeRect.Contains(Main.mouseX, Main.mouseY))
                 {
