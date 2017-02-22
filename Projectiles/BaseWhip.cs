@@ -107,7 +107,7 @@ namespace WeaponOut.Projectiles
                 {
                     if (projectile.ai[0] * 2 < projectile.localAI[1])
                     {
-                        projectile.localAI[1] = projectile.ai[0] * 2;
+                        projectile.localAI[1] = Math.Max(1f, projectile.ai[0] * 2 - 3);
                         Main.PlaySound(sndgroup, endPoint, sound);
                         Collision.HitTiles(endPoint, endPoint - prevPoint, 8, 8);
                     }
