@@ -125,7 +125,7 @@ namespace WeaponOut.Projectiles
             // Main.NewText("anim: " + player.itemAnimation);// ==== 2
         }
 
-        public static bool IsCrit(Projectile projectile, bool easyCrit = false)
+        public static bool IsCrit(Projectile projectile, bool easyCrit)
         {
             return projectile.ai[0] <= projectile.localAI[1] / 2 + (projectile.localAI[1] / (easyCrit ? 12 : 16)) &&
                 projectile.ai[0] >= projectile.localAI[1] / 2 - (projectile.localAI[1] / (easyCrit ? 6 : 8));
@@ -189,8 +189,8 @@ namespace WeaponOut.Projectiles
             Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity, (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
             return true;
         }
-
-        public static bool PreDraw(Projectile projectile, int handleHeight, int chainHeight, int partHeight, int tipHeight, int partCount = 18, bool ignoreLight = false, bool easyCrit = false)
+        
+        public static bool PreDraw(Projectile projectile, int handleHeight, int chainHeight, int partHeight, int tipHeight, int partCount, bool ignoreLight, bool easyCrit)
         {
             Vector2 vector38 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D17 = Main.projectileTexture[projectile.type];
@@ -218,7 +218,7 @@ namespace WeaponOut.Projectiles
             float chainCount = projectile.velocity.Length() + 16f;
             bool halfSize = chainCount < partHeight * 4.5f;
             Vector2 value17 = Vector2.Normalize(projectile.velocity);
-            Microsoft.Xna.Framework.Rectangle rectangle6 = handle;
+            Rectangle rectangle6 = handle;
             Vector2 value18 = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
             float rotation24 = projectile.rotation + 3.14159274f;
             Main.spriteBatch.Draw(texture2D17, projectile.Center.Floor() - Main.screenPosition + value18, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, rectangle6.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, SpriteEffects.None, 0f);
@@ -278,10 +278,16 @@ namespace WeaponOut.Projectiles
             rectangle6 = tip;
             Vector2 vector41 = value19 + value18;
             if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector41.X / 16, (int)vector41.Y / 16));
-
-            if (IsCrit(projectile, easyCrit))
+            
+            if (IsCrit(projectile, easyCrit) && projectile.oldVelocity != Vector2.Zero)
             {
-                Main.spriteBatch.Draw(texture2D17, vector41 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.5f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 2f, SpriteEffects.None, 0f);
+                Vector2 lastDiff = (projectile.velocity - projectile.oldVelocity);
+                Vector2 lastPosition2 = vector41 - lastDiff * 2;
+                Vector2 lastPosition = vector41 - lastDiff * 1;
+
+                Main.spriteBatch.Draw(texture2D17, lastPosition2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.4f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 2f, SpriteEffects.None, 0f);
+
+                Main.spriteBatch.Draw(texture2D17, lastPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.66f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 1.5f, SpriteEffects.None, 0f);
             }
 
             Main.spriteBatch.Draw(texture2D17, vector41 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);

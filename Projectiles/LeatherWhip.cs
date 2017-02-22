@@ -16,6 +16,8 @@ namespace WeaponOut.Projectiles
         public const int chainHeight = 12;
         public const int partHeight = 12;
         public const int tipHeight = 12;
+        public const bool doubleCritWindow = true;
+        public const bool ignoreLighting = false;
         public override void SetDefaults()
         {
             projectile.name = "Leather Whip";
@@ -46,7 +48,7 @@ namespace WeaponOut.Projectiles
         
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            BaseWhip.ModifyHitAny(projectile, ref damage, ref knockback, ref crit, true);
+            BaseWhip.ModifyHitAny(projectile, ref damage, ref knockback, ref crit, doubleCritWindow);
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
@@ -82,7 +84,7 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            return BaseWhip.PreDraw(projectile, handleHeight, chainHeight, partHeight, tipHeight, 3);
+            return BaseWhip.PreDraw(projectile, handleHeight, chainHeight, partHeight, tipHeight, 3, ignoreLighting, doubleCritWindow);
         }
 
         #endregion
