@@ -1,17 +1,15 @@
-﻿using System;
-
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 using WeaponOut.Items.Weapons.UseStyles;
-using System.Collections.Generic;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Fists
 {
-    public class FistsBoxing : ModItem
+    public class GlovesWooden : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -25,27 +23,26 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 3);
+                    fist = new FistStyle(item, 4);
                 }
                 return fist;
             }
         }
         public override void SetDefaults()
         {
-            item.name = "Boxing Glove";
-            item.toolTip = "<right> to dash";
-            item.toolTip2 = "Has a chance to confuse at the end of combos";
+            item.name = "Wooden Tekko";
+            item.toolTip = "<right> to parry attacks";
             item.useStyle = FistStyle.useStyle;
-            item.autoReuse = true;
-            item.useAnimation = 24; //Half speed whilst combo-ing
+            item.useTurn = false;
+            item.useAnimation = 25;//actually treated as -2
+            item.useTime = 25;
 
             item.width = 20;
             item.height = 20;
-            item.damage = 10;
-            item.knockBack = 6f;
+            item.damage = 7;
+            item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
 
-            item.value = Item.sellPrice(0, 0, 10, 0);
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -56,15 +53,26 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 6);
+            recipe.AddIngredient(ItemID.Wood, 3);
+            recipe.anyWood = true;
+            recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        
+
+        public override void HoldItem(Player player)
+        {
+            int buffIndex = Fist.HoldItemOnParryFrame(player, mod, true, "You are temporarily invulnerable!");
+            if (buffIndex >= 0)
+            {
+                FistStyle.provideImmunity(player, 60);
+                player.buffTime[buffIndex] = 60; // set to same as invincibility;
+            }
+        }
+
         public override bool AltFunctionUse(Player player)
         {
-            if (player.dashDelay == 0) player.GetModPlayer<PlayerFX>(mod).weaponDash = 3;
-            return player.dashDelay == 0;
+            return Fist.AtlFunctionParry(player, mod, 15, 25);
         }
 
         public override bool UseItemFrame(Player player)
@@ -74,21 +82,12 @@ namespace WeaponOut.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            // jump exactly 6 blocks high!
-            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 22, 9f, 7f, 12f);
+            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 20, 9f, 8f, 8f);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             int combo = Fist.OnHitNPC(player, target, true);
-            if (combo != -1)
-            {
-                if (combo % Fist.punchComboMax == 0)
-                {
-                    //maybe confuse
-                    target.AddBuff(BuffID.Confused, 30 * Main.rand.Next(1, 4), false);
-                }
-            }
         }
     }
 }

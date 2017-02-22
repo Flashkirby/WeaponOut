@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 using WeaponOut.Items.Weapons.UseStyles;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Fists
 {
-    public class GlovesWooden : ModItem
+    public class GlovesCaestusCrimson : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -23,26 +23,28 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 4);
+                    fist = new FistStyle(item, 3);
                 }
                 return fist;
             }
         }
         public override void SetDefaults()
         {
-            item.name = "Wooden Tekko";
+            item.name = "The Tenderizer";
             item.toolTip = "<right> to parry attacks";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 25;//actually treated as -2
-            item.useTime = 25;
+            item.useAnimation = 22;
+            item.useTime = 22;
 
-            item.width = 20;
-            item.height = 20;
-            item.damage = 7;
-            item.knockBack = 2f;
+            item.width = 28;
+            item.height = 28;
+            item.damage = 24;
+            item.knockBack = 4f;
             item.UseSound = SoundID.Item7;
 
+            item.value = Item.sellPrice(0, 0, 10, 0);
+            item.rare = 1;
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -53,8 +55,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 3);
-            recipe.anyWood = true;
+            recipe.AddIngredient(ItemID.CrimtaneBar, 4);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -62,17 +63,32 @@ namespace WeaponOut.Items.Weapons
 
         public override void HoldItem(Player player)
         {
-            int buffIndex = Fist.HoldItemOnParryFrame(player, mod, true, "You are temporarily invulnerable!");
+            Fist.HoldItemOnParryFrame(player, mod, false, "Heal 5 life and dash for next landed punch");
+        }
+
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        { ModifyHitAny(player, ref damage, ref crit); }
+        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        { ModifyHitAny(player, ref damage, ref crit); }
+        public void ModifyHitAny(Player player, ref int damage, ref bool crit)
+        {
+            int buffIndex = Fist.HoldItemOnParryFrame(player, mod, false);
             if (buffIndex >= 0)
             {
-                FistStyle.provideImmunity(player, 60);
-                player.buffTime[buffIndex] = 60; // set to same as invincibility;
+                player.ClearBuff(player.buffType[buffIndex]);
+                if (!player.moonLeech)
+                {
+                    player.HealEffect(5, false);
+                    player.statLife += 5;
+                    player.statLife = System.Math.Min(player.statLife, player.statLifeMax2);
+                    NetMessage.SendData(MessageID.SpiritHeal, -1, -1, "", player.whoAmI, 5f);
+                }
             }
         }
 
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.AtlFunctionParry(player, mod, 15, 25);
+            return Fist.AtlFunctionParry(player, mod, 12, 28);
         }
 
         public override bool UseItemFrame(Player player)
@@ -82,6 +98,12 @@ namespace WeaponOut.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
+            int buffIndex = Fist.HoldItemOnParryFrame(player, mod, false);
+            if (buffIndex >= 0)
+            {
+                if (player.dashDelay == 0) player.GetModPlayer<PlayerFX>(mod).weaponDash = 2;
+            }
+
             noHitbox = Fist.UseItemHitbox(player, ref hitbox, 20, 9f, 8f, 8f);
         }
 

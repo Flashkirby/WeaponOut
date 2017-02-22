@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 using WeaponOut.Items.Weapons.UseStyles;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Fists
 {
-    public class GlovesCaestusCrimson : ModItem
+    public class GlovesPalm : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -23,28 +23,26 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 3);
+                    fist = new FistStyle(item, 4);
                 }
                 return fist;
             }
         }
         public override void SetDefaults()
         {
-            item.name = "The Tenderizer";
+            item.name = "Palm Striker";
             item.toolTip = "<right> to parry attacks";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 22;
-            item.useTime = 22;
+            item.useAnimation = 25;//actually treated as -2
+            item.useTime = 25;
 
-            item.width = 28;
-            item.height = 28;
-            item.damage = 24;
-            item.knockBack = 4f;
+            item.width = 20;
+            item.height = 20;
+            item.damage = 9;
+            item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
 
-            item.value = Item.sellPrice(0, 0, 10, 0);
-            item.rare = 1;
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -55,7 +53,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 4);
+            recipe.AddIngredient(ItemID.PalmWood, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -63,7 +61,7 @@ namespace WeaponOut.Items.Weapons
 
         public override void HoldItem(Player player)
         {
-            Fist.HoldItemOnParryFrame(player, mod, false, "Heal 5 life and dash for next landed punch");
+            Fist.HoldItemOnParryFrame(player, mod, false, "20 bonus damage for next landed punch");
         }
 
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
@@ -76,19 +74,13 @@ namespace WeaponOut.Items.Weapons
             if (buffIndex >= 0)
             {
                 player.ClearBuff(player.buffType[buffIndex]);
-                if (!player.moonLeech)
-                {
-                    player.HealEffect(5, false);
-                    player.statLife += 5;
-                    player.statLife = System.Math.Min(player.statLife, player.statLifeMax2);
-                    NetMessage.SendData(MessageID.SpiritHeal, -1, -1, "", player.whoAmI, 5f);
-                }
+                damage += 20;
             }
         }
 
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.AtlFunctionParry(player, mod, 12, 28);
+            return Fist.AtlFunctionParry(player, mod, 15, 30);
         }
 
         public override bool UseItemFrame(Player player)
@@ -98,12 +90,6 @@ namespace WeaponOut.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            int buffIndex = Fist.HoldItemOnParryFrame(player, mod, false);
-            if (buffIndex >= 0)
-            {
-                if (player.dashDelay == 0) player.GetModPlayer<PlayerFX>(mod).weaponDash = 2;
-            }
-
             noHitbox = Fist.UseItemHitbox(player, ref hitbox, 20, 9f, 8f, 8f);
         }
 

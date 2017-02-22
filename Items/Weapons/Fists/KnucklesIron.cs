@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 using WeaponOut.Items.Weapons.UseStyles;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Fists
 {
-    public class KnucklesLead : ModItem
+    public class KnucklesIron : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -30,23 +30,23 @@ namespace WeaponOut.Items.Weapons
         }
         public override void SetDefaults()
         {
-            item.name = "Lead Knuckleduster";
+            item.name = "Iron Knuckleduster";
             item.toolTip = "<right> at full combo power to unleash spirit";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 19;
+            item.useAnimation = 18;//actually treated as -2
             item.useTime = 19;
 
             item.width = 20;
             item.height = 20;
-            item.damage = 12;
-            item.knockBack = 3.5f;
+            item.damage = 11;
+            item.knockBack = 3f;
             item.UseSound = SoundID.Item7;
 
             item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
-            item.shootSpeed = 8f;
+            item.shootSpeed = 10f;
 
-            item.value = Item.sellPrice(0, 1, 35, 0);
+            item.value = Item.sellPrice(0, 0, 90, 0);
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -57,7 +57,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LeadBar, 2);
+            recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

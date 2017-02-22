@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 using WeaponOut.Items.Weapons.UseStyles;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Fists
 {
-    public class GlovesPalm : ModItem
+    public class KnucklesLead : ModItem
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
@@ -23,26 +23,30 @@ namespace WeaponOut.Items.Weapons
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 4);
+                    fist = new FistStyle(item, 3);
                 }
                 return fist;
             }
         }
         public override void SetDefaults()
         {
-            item.name = "Palm Striker";
-            item.toolTip = "<right> to parry attacks";
+            item.name = "Lead Knuckleduster";
+            item.toolTip = "<right> at full combo power to unleash spirit";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 25;//actually treated as -2
-            item.useTime = 25;
+            item.useAnimation = 19;
+            item.useTime = 19;
 
             item.width = 20;
             item.height = 20;
-            item.damage = 9;
-            item.knockBack = 2f;
+            item.damage = 12;
+            item.knockBack = 3.5f;
             item.UseSound = SoundID.Item7;
 
+            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
+            item.shootSpeed = 8f;
+
+            item.value = Item.sellPrice(0, 1, 35, 0);
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -53,7 +57,7 @@ namespace WeaponOut.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PalmWood, 5);
+            recipe.AddIngredient(ItemID.LeadBar, 2);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -61,26 +65,22 @@ namespace WeaponOut.Items.Weapons
 
         public override void HoldItem(Player player)
         {
-            Fist.HoldItemOnParryFrame(player, mod, false, "20 bonus damage for next landed punch");
-        }
-
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-        { ModifyHitAny(player, ref damage, ref crit); }
-        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
-        { ModifyHitAny(player, ref damage, ref crit); }
-        public void ModifyHitAny(Player player, ref int damage, ref bool crit)
-        {
-            int buffIndex = Fist.HoldItemOnParryFrame(player, mod, false);
-            if (buffIndex >= 0)
+            if (Fist.ExpendCombo(player, true) > 0)
             {
-                player.ClearBuff(player.buffType[buffIndex]);
-                damage += 20;
+                HeliosphereEmblem.DustVisuals(player, 20, 0.9f);
             }
         }
 
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.AtlFunctionParry(player, mod, 15, 30);
+            return Fist.ExpendCombo(player) > 0;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            damage *= 2;
+            knockBack *= 0.25f;
+            return player.altFunctionUse > 0;
         }
 
         public override bool UseItemFrame(Player player)
@@ -96,6 +96,14 @@ namespace WeaponOut.Items.Weapons
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             int combo = Fist.OnHitNPC(player, target, true);
+            if (combo != -1)
+            {
+                if (combo % Fist.punchComboMax == 0)
+                {
+                    // Ready flash
+                    PlayerFX.ItemFlashFX(player);
+                }
+            }
         }
     }
 }

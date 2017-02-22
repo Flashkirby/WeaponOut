@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 using WeaponOut.Items.Weapons.UseStyles;
 
-namespace WeaponOut.Items.Weapons
+namespace WeaponOut.Items.Weapons.Fists
 {
     public class GlovesCaestus : ModItem
     {
