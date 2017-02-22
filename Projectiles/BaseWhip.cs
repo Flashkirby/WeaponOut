@@ -19,11 +19,15 @@ namespace WeaponOut.Projectiles
         public static Vector2 WhipAI(Projectile projectile, float whipLength = 16, bool ignoreTiles = false, int sndgroup = 2, int sound = 39)
         {
             //use localAI[1] to track hitting something
+            Player player = Main.player[projectile.owner];
             if (projectile.ai[0] == 0f)
             {
-                projectile.localAI[1] = Main.player[projectile.owner].itemAnimationMax;
+                projectile.localAI[1] = player.itemAnimationMax;
             }
-            return AI_075(projectile, whipLength / projectile.MaxUpdates, (int)projectile.localAI[1], ignoreTiles, sndgroup, sound);
+            float speedIncrease = (float)player.HeldItem.useAnimation / projectile.localAI[1];
+
+            return AI_075(projectile, whipLength * speedIncrease / projectile.MaxUpdates, 
+                (int)projectile.localAI[1], ignoreTiles, sndgroup, sound);
         }
 
         /// <summary>
