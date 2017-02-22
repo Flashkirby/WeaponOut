@@ -26,9 +26,6 @@ namespace WeaponOut
         private bool wasDead; //used to check if player just revived
         public Vector2 localTempSpawn;//spawn used by tent
 
-        private static int openFist; //item ID of Fist Weapon
-        private static int fireFistType;
-
         public int weaponFrame;//frame of weapon...
 
         private int damageKnockbackThreshold;
@@ -130,13 +127,7 @@ namespace WeaponOut
             dashingSpecialAttack = 0;
 
             localTempSpawn = new Vector2();
-
-            if (ModConf.enableFists)
-            {
-                openFist = mod.ItemType("Fist");
-                fireFistType = mod.ItemType("FistsOfFury");
-            }
-
+            
             parryTime = 0;
             parryTimeMax = 0;
             parryActive = 0;
