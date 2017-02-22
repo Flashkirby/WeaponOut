@@ -40,6 +40,7 @@
     <Compile Include="Buffs\WeaponSwitch.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Items\Armour\DiscordantShades.cs" />
     <Compile Include="Items\AutoArm.cs" />
     <Compile Include="Items\RallyBannerGreen.cs" />
     <Compile Include="Items\RallyBannerBlue.cs" />

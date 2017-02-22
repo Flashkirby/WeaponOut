@@ -262,6 +262,7 @@ namespace WeaponOut.Items.Weapons
                 return true;
         }
 
+        private int minFrames = 6;
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
             // Set hitboxes accordingly
@@ -276,15 +277,16 @@ namespace WeaponOut.Items.Weapons
             }
             else
             {
-                NormalHitBox(player, ref hitbox, ref noHitbox);
+                if (player.itemAnimation == player.itemAnimationMax - 1) minFrames = 6;
+                NormalHitBox(player, ref hitbox, ref noHitbox, ref minFrames);
             }
         }
 
-        private static void NormalHitBox(Player player, ref Rectangle hitbox, ref bool noHitbox)
+        private static void NormalHitBox(Player player, ref Rectangle hitbox, ref bool noHitbox, ref int minFrames)
         {
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
             // hit box only active during these frames
-            if (anim <= 0.9f && anim > 0.7f)
+            if ((anim <= 0.9f && anim > 0.7f) || minFrames >= 0)
             {
                 int offsetX = 0;
                 if (anim > 0.8f) //first half of wing, covers behind
@@ -305,6 +307,7 @@ namespace WeaponOut.Items.Weapons
                 hitbox.Y = (int)player.Center.Y - hitbox.Height / 2;
 
                 if (player.attackCD > 1) player.attackCD = 1;
+                minFrames--;
             }
             else
             {
