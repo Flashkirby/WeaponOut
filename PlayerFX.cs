@@ -337,6 +337,21 @@ namespace WeaponOut
                             break;
                         case 3: // Boxing Gloves
                             dashSpeed = 12;
+                            Gore g;
+                            if (player.velocity.Y == 0f)
+                            {
+                                g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 4f), default(Vector2), Main.rand.Next(61, 64), 1f)];
+                            }
+                            else
+                            {
+                                g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 14f), default(Vector2), Main.rand.Next(61, 64), 1f)];
+                            }
+                            g.velocity.X = (float)Main.rand.Next(-50, 51) * 0.01f;
+                            g.velocity.Y = (float)Main.rand.Next(-50, 51) * 0.01f;
+                            g.velocity *= 0.4f;
+                            break;
+                        case 4: // Spiked Gauntlets
+                            dashSpeed = 13;
                             break;
                     }
                     #endregion
@@ -403,7 +418,7 @@ namespace WeaponOut
                         case 3: // Boxing Gloves ~ 4.5 tile step
                             dashMaxSpeedThreshold = 3f;
                             dashMaxFriction = 0.8f;
-                            for (int k = 0; k < 2; k++)
+                            for (int j = 0; j < 2; j++)
                             {
                                 Dust d;
                                 if (player.velocity.Y == 0f)
@@ -416,6 +431,27 @@ namespace WeaponOut
                                 }
                                 d.velocity *= 0.1f;
                                 d.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                            }
+                            break;
+                        case 4: // Spiked Gauntlets
+                            dashMaxSpeedThreshold = 10f;
+                            dashMaxFriction = 0.985f;
+                            dashMinFriction = 0.95f;
+                            for (int k = 0; k < 2; k++)
+                            {
+                                Dust d;
+                                if (player.velocity.Y == 0f)
+                                {
+                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 8f), player.width, 16, 39, player.velocity.X, 0f, 0, default(Color), 1.4f)];
+                                }
+                                else
+                                {
+                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 10f), player.width, 20, 40, player.velocity.X, 0f, 0, default(Color), 1.4f)];
+                                }
+                                d.velocity *= 0.1f;
+                                d.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                                d.noGravity = true;
                                 d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                             }
                             break;
