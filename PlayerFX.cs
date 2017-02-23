@@ -384,6 +384,13 @@ namespace WeaponOut
                             dashMaxSpeedThreshold = 8f;
                             dashMaxFriction = 0.98f;
                             dashMinFriction = 0.94f;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Dust d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
+                                    DustID.Fire, 0, 0, 100, default(Color), 1.8f)];
+                                d.velocity = d.velocity * 0.5f + player.velocity * -0.4f;
+                                d.noGravity = true;
+                            }
                             break;
                         case 2: // Super quick ~12 tile dash
                             dashMaxSpeedThreshold = 6f;
