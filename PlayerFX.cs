@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
 
 using ItemCustomizer;
 using Terraria.ModLoader.IO;
@@ -390,6 +391,7 @@ namespace WeaponOut
                                     DustID.Fire, 0, 0, 100, default(Color), 1.8f)];
                                 d.velocity = d.velocity * 0.5f + player.velocity * -0.4f;
                                 d.noGravity = true;
+                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                             }
                             break;
                         case 2: // Super quick ~12 tile dash
@@ -401,6 +403,21 @@ namespace WeaponOut
                         case 3: // Boxing Gloves ~ 4.5 tile step
                             dashMaxSpeedThreshold = 3f;
                             dashMaxFriction = 0.8f;
+                            for (int k = 0; k < 2; k++)
+                            {
+                                Dust d;
+                                if (player.velocity.Y == 0f)
+                                {
+                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f)];
+                                }
+                                else
+                                {
+                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 31, 0f, 0f, 100, default(Color), 1.4f)];
+                                }
+                                d.velocity *= 0.1f;
+                                d.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                            }
                             break;
                     }
                     #endregion
