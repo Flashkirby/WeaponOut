@@ -42,13 +42,18 @@ namespace WeaponOut.Projectiles
         public override void AI()
         {
             Vector2 endPos = BaseWhip.WhipAI(projectile, whipLength);
+
             //Dust effect at the end
-            if (projectile.ai[0] % 2 == 0)
+            if (BaseWhip.IsCrit(projectile, doubleCritWindow))
             {
-                Dust dust = Main.dust[Dust.NewDust(endPos, projectile.width, projectile.height, 6, 0f, 0f, 0, Color.Transparent, 2.2f)];
-                dust.noGravity = true;
-                dust.velocity += projectile.localAI[0].ToRotationVector2();
+                for (int i = 0; i < 2; i++)
+                {
+                    Dust dust = Main.dust[Dust.NewDust(endPos, projectile.width, projectile.height, 6, 0f, 0f, 0, Color.Transparent, 2.6f)];
+                    dust.noGravity = true;
+                    dust.velocity += projectile.localAI[0].ToRotationVector2();
+                }
             }
+
             //Dust along projectile
             for (int i = 0; i < 18; i++)
             {

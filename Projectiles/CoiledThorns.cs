@@ -44,10 +44,21 @@ namespace WeaponOut.Projectiles
             Vector2 endPos = BaseWhip.WhipAI(projectile, whipLength);
 
             //Dust effect at the end
-            if (Main.rand.Next(2) == 0)
+            if(BaseWhip.IsCrit(projectile, doubleCritWindow))
             {
-                Dust dust = Main.dust[Dust.NewDust(endPos, projectile.width, projectile.height, 40, 0f, 0f, 0, Color.Transparent, 1.5f)];
-                dust.noGravity = true;
+                for (int i = 0; i < 2; i++) 
+                {
+                    Dust dust = Main.dust[Dust.NewDust(endPos, projectile.width, projectile.height, 50, 0f, 0f, 0, Color.Transparent, 1.2f)];
+                    dust.noGravity = true;
+                }
+            }
+            else
+            {
+                if (Main.rand.Next(2) == 0)
+                {
+                    Dust dust = Main.dust[Dust.NewDust(endPos, projectile.width, projectile.height, 40, 0f, 0f, 0, Color.Transparent, 1.5f)];
+                    dust.noGravity = true;
+                }
             }
         }
 
