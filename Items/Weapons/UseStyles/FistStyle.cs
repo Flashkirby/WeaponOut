@@ -175,7 +175,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
         /// <returns></returns>
         public int ExpendCombo(Player player, bool dontConsumeCombo = false)
         {
-            if (!dontConsumeCombo && player.itemAnimation > (item.autoReuse ? 1 : 0)) return 0;
+            if (!dontConsumeCombo && player.itemTime > 0) return 0;
 
             if(punchCount >= punchComboMax)
             {

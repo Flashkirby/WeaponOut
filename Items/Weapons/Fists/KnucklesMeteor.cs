@@ -74,9 +74,14 @@ namespace WeaponOut.Items.Weapons.Fists
             }
         }
 
+        int charges;
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.IsFullCombo(player);
+            if (player.itemTime == 0)
+            {
+                charges = Fist.ExpendCombo(player);
+            }
+            return charges > 0;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -85,8 +90,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 damage *= 2;
                 knockBack *= 2f;
-
-                int charges = Fist.ExpendCombo(player);
+                
                 if(charges > 0)
                 {
                     for(int i = 0; i < System.Math.Min(3, charges); i++)
@@ -97,6 +101,7 @@ namespace WeaponOut.Items.Weapons.Fists
                                 speedY + i * Main.rand.NextFloatDirection()),
                             type, damage, knockBack, player.whoAmI);
                     }
+                    charges = 0;
                 }
             }
             return false;
