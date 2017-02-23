@@ -428,14 +428,9 @@ namespace WeaponOut
         {
             manageBodyFrame();
             tentScript();
-            /*foreach (Projectile p in Main.projectile)
-            {
-                if (p.active && p.owner == Main.myPlayer)
-                {
-                    Main.NewText(p.name + "> " + p.ai[0] + " | " + p.ai[1] + " || " + p.localAI[0] + " | " + p.localAI[1] + " : " + p.timeLeft);
-                }
-            }*/
+            setHandToFistWeapon();
         }
+
         private void manageBodyFrame()
         {
             if (Main.netMode == 2) return; // Oh yeah, server calls this so don't pls
@@ -539,6 +534,8 @@ namespace WeaponOut
         });
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
+            setHandToFistWeapon();
+
             HeldItem.visible = true; // For items held in hand
             HairBack.visible = true; // For items behind the player (sheathed)
             //MiscEffectsFront.visible = !player.dead;
@@ -921,7 +918,19 @@ namespace WeaponOut
             if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100, 200, 150);
 
         }
-        
+
+        private void setHandToFistWeapon()
+        {
+            if (ModConf.enableFists && weaponVisual)
+            {
+                if (player.HeldItem.useStyle == Items.Weapons.UseStyles.FistStyle.useStyle)
+                {
+                    if (player.handoff> 0) player.handoff = player.HeldItem.handOffSlot;
+                    if (player.handon > 0) player.handon = player.HeldItem.handOnSlot;
+                }
+            }
+        }
+
         /// <summary>
         /// Weak reference, must wrap in try catch exception becase won't catch FileNotFoundException
         /// </summary>
