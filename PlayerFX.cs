@@ -343,7 +343,17 @@ namespace WeaponOut
                     #region Set Dash speed
 
                     // Set initial dash speed
-                    player.velocity.X = dashSpeed * (float)player.direction;
+                    float direction = 0;
+                    /*
+                    if (player.controlLeft && !player.controlRight) direction = -1;
+                    if (player.controlRight && !player.controlLeft) direction = 1;
+                    if (direction == 0)
+                    {
+                        direction = player.direction;
+                    }
+                    */
+                    direction = player.direction;
+                    player.velocity.X = dashSpeed * direction;
                     Point point3 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), player.gravDir * -(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
                     Point point4 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                     if (WorldGen.SolidOrSlopedTile(point3.X, point3.Y) || WorldGen.SolidOrSlopedTile(point4.X, point4.Y))
