@@ -198,8 +198,8 @@ namespace WeaponOut.Items.Weapons.UseStyles
             {
                 #region Normal Punch
                 //wind up animation
-                if (anim > 0.9f) player.bodyFrame.Y = player.bodyFrame.Height * 10;
-                else if (anim > 0.7f)
+                if (anim > 0.7f) player.bodyFrame.Y = player.bodyFrame.Height * 10;
+                else if (anim > 0.66f)
                 {
                     player.bodyFrame.Y = player.bodyFrame.Height * 17;
                 }
