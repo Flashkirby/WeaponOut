@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetDefaults()
         {
             item.name = "Caestus";
-            item.toolTip = "<right> to parry attacks";
+            item.toolTip = "<right> to parry attacks for a temporary dash";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
             item.useAnimation = 15;//actually treated as -2

@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetDefaults()
         {
             item.name = "Honeycomb Glove";
-            item.toolTip = "<right> to parry attacks";
+            item.toolTip = "<right> to parry attacks and release bees";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
             item.useAnimation = 23;
