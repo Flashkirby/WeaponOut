@@ -312,11 +312,11 @@ namespace WeaponOut
             // eocHit = registers the hit NPC for 8 frames
 
             // Reset here because reasons.
+            if (player.pulley || player.grapCount > 0) weaponDash = 0;
             if(weaponDash > 0)
             {
                 if (player.dashDelay == 0)
                 {
-
                     #region Dash Stats
                     /*
                      * Normal: 3
