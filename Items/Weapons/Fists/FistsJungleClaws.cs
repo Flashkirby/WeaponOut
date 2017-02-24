@@ -78,7 +78,7 @@ namespace WeaponOut.Items.Weapons.Fists
             // jump exactly 6 blocks high!
             noHitbox = Fist.UseItemHitbox(player, ref hitbox, 22, 9f, 7f, 8f);
 
-            Rectangle graphic = FistStyle.UseItemGraphicbox(player, 12);
+            Rectangle graphic = FistStyle.UseItemGraphicboxWithHitBox(player, 12, 22);
             Vector2 velo = FistStyle.GetFistVelocity(player) * -2f + player.velocity * 0.5f;
             for (int i = 0; i < 5; i++)
             {

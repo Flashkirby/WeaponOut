@@ -487,6 +487,8 @@ namespace WeaponOut.Items.Weapons.UseStyles
         }
         #endregion
 
+        const float maxShow = 0.8f;
+        const float minShow = 0.4f;
         /// <summary>
         /// Generates a fisticuffs rectangle
         /// </summary>
@@ -494,42 +496,42 @@ namespace WeaponOut.Items.Weapons.UseStyles
         /// <param name="hitbox"></param>
         /// <param name="boxSize"></param>
         /// <returns>True if no hitbox (so no dust)</returns>
-        public static Rectangle UseItemGraphicbox(Player player, int boxSize)
+        public static Rectangle UseItemGraphicbox(Player player, int boxSize, float distanceFactor = 1f)
         {
             Rectangle box = new Rectangle();
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
 
             //no show during winding
-            if (anim > 0.8f || anim <= 0.6f)
+            if (anim > maxShow || anim <= minShow)
             {
                 return new Rectangle();
             }
 
             //set player direction/hitbox
             Vector2 centre = new Vector2();
-            float swing = 1 - (anim - 0.6f) * 5f;//0.8 -> 0.6
+            float swing = 1 - (anim - minShow) / (maxShow - minShow); //0.8 -> 0.4
             if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
             {
                 if (player.itemRotation * player.direction > 0)
                 {
                     //Up high
                     centre = new Vector2(
-                        player.Center.X - (player.width * 0.4f * player.direction) + player.width * 1.1f * swing * player.direction,
-                        player.Center.Y + (player.height * 0.7f * swing));
+                        player.Center.X - (player.width * 0.4f * player.direction) + player.width * 1.1f * distanceFactor * swing * player.direction,
+                        player.Center.Y + (player.height * 0.7f * distanceFactor * swing));
                 }
                 else
                 {
                     //Down low
                     centre = new Vector2(
-                        player.Center.X - (player.width * 0.4f * player.direction) + player.width * 1.1f * swing * player.direction,
-                        player.Center.Y - (player.height * 0.7f * swing));
+                        player.Center.X - (player.width * 0.4f * player.direction) + player.width * 1.1f * distanceFactor * swing * player.direction,
+                        player.Center.Y - (player.height * 0.7f * distanceFactor * swing));
                 }
             }
             else
             {
                 //along the middle
                 centre = new Vector2(
-                    player.Center.X - (player.width * 0.5f * player.direction) + player.width * 1.6f * swing * player.direction, 
+                    player.Center.X - (player.width * 0.5f * player.direction) + player.width * 1.6f * distanceFactor * swing * player.direction, 
                     player.Center.Y);
             }
             box.X = (int)centre.X - boxSize/2;
@@ -547,6 +549,11 @@ namespace WeaponOut.Items.Weapons.UseStyles
             }
 
             return box;
+        }
+
+        public static Rectangle UseItemGraphicboxWithHitBox(Player player, int boxSize, int hitBoxSize)
+        {
+            return UseItemGraphicbox(player, boxSize, hitBoxSize / Player.defaultWidth);
         }
 
         public static Vector2 GetFistVelocity(Player player)

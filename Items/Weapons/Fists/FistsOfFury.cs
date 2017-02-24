@@ -77,11 +77,11 @@ namespace WeaponOut.Items.Weapons.Fists
             // jump exactly 6 blocks high!
             noHitbox = Fist.UseItemHitbox(player, ref hitbox, 24, 9f, 7f, 12f);
 
-            Rectangle graphic = FistStyle.UseItemGraphicbox(player, 12);
+            Rectangle graphic = FistStyle.UseItemGraphicboxWithHitBox(player, 12, 24);
             Vector2 velo = FistStyle.GetFistVelocity(player) * -2f + player.velocity * 0.5f;
             int d = Dust.NewDust(graphic.TopLeft(), graphic.Width, graphic.Height, 174, velo.X, velo.Y);
             Main.dust[d].noGravity = true;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 6; i++)
             {
                 d = Dust.NewDust(graphic.TopLeft(), graphic.Width, graphic.Height, 174, velo.X * 1.2f, velo.Y * 1.2f);
                 Main.dust[d].noGravity = true;
