@@ -70,7 +70,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (Fist.ExpendCombo(player, true) > 0)
             {
                 if (player.itemTime > 0) player.itemTime = 0;
-                HeliosphereEmblem.DustVisuals(player, 20, 0.9f);
+                HeliosphereEmblem.DustVisuals(player, 174, 0.9f);
             }
         }
 
