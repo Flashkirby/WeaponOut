@@ -330,13 +330,13 @@ namespace WeaponOut
                     switch (weaponDash)
                     {
                         case 1: // Fists of fury
-                            dashSpeed = 10;
+                            dashSpeed = 10f;
                             break;
                         case 2: // Caestus
-                            dashSpeed = 15;
+                            dashSpeed = 15f;
                             break;
                         case 3: // Boxing Gloves
-                            dashSpeed = 12;
+                            dashSpeed = 12f;
                             Gore g;
                             if (player.velocity.Y == 0f)
                             {
@@ -351,7 +351,10 @@ namespace WeaponOut
                             g.velocity *= 0.4f;
                             break;
                         case 4: // Spiked Gauntlets
-                            dashSpeed = 13;
+                            dashSpeed = 13f;
+                            break;
+                        case 5: // Apocafist
+                            dashSpeed = 13f;
                             break;
                     }
                     #endregion
@@ -452,6 +455,24 @@ namespace WeaponOut
                                 d.velocity *= 0.1f;
                                 d.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
                                 d.noGravity = true;
+                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                            }
+                            break;
+                        case 5: // Long range
+                            dashMaxSpeedThreshold = 7f;
+                            dashMaxFriction = 0.99f;
+                            dashMinFriction = 0.8f;
+                            for (int i = 0; i < 4; i++)
+                            {
+                                Dust d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
+                                    DustID.Fire, 0, 0, 100, default(Color), 2f)];
+                                d.velocity = d.velocity * 0.5f + player.velocity * -0.4f;
+                                d.noGravity = true;
+                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                                d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
+                                    DustID.Smoke, 0, 0, 100, default(Color), 0.4f)];
+                                d.fadeIn = 0.7f;
+                                d.velocity = d.velocity * 0.1f + player.velocity * -0.2f;
                                 d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                             }
                             break;
@@ -1020,7 +1041,7 @@ namespace WeaponOut
             }
         }
 
-        #region Hurt Methods
+        #region Hurt && Parry Methods
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
