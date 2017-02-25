@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.name = "Honeycomb Glove";
             item.toolTip = "<right> to parry attacks and release bees";
             item.useStyle = FistStyle.useStyle;
-            item.useTurn = false;
+            item.autoReuse = true;
             item.useAnimation = 23;
             item.useTime = 23;
 
