@@ -51,18 +51,17 @@ namespace WeaponOut
                 //AutoloadGores = true,
                 //AutoloadSounds = true
             };
+            ModConf.Load();
             Items.Weapons.HelperDual.ResetListOnLoad();
         }
 
         public override void Load()
         {
             mod = this;
-            ModConf.Load();
         }
 
         public override void PostSetupContent()
         {
-
             if (ModConf.enableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             if (ModConf.enableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
             if (ModConf.enableDualWeapons) BuffIDWeaponSwitch = GetBuff("WeaponSwitch").Type;
@@ -124,7 +123,7 @@ namespace WeaponOut
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
             // Janky quick inventory visibilty
-            if (Main.playerInventory)
+            if (Main.playerInventory && ModConf.showWeaponOut && !ModConf.forceShowWeaponOut)
             {
                 //Get vars
                 PlayerFX pfx = Main.LocalPlayer.GetModPlayer<PlayerFX>(this);
@@ -150,7 +149,7 @@ namespace WeaponOut
                     Main.blockMouse = true;
 
                     // On click
-                    if(Main.mouseLeft && Main.mouseLeftRelease)
+                    if (Main.mouseLeft && Main.mouseLeftRelease)
                     {
                         Main.PlaySound(SoundID.MenuTick);
                         pfx.weaponVisual = !pfx.weaponVisual;
