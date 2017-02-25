@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
+            equips.Add(EquipType.HandsOn);
             return ModConf.enableFists;
         }
 
@@ -32,8 +33,8 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         public override void SetDefaults()
         {
-            item.name = "Apocafist";
-            item.toolTip = "<right> to dash";
+            item.name = "Phoenix Mark";
+            item.toolTip = "<right> to dash for 50% increased melee damage and knockback";
             item.useStyle = FistStyle.useStyle;
             item.autoReuse = true;
             item.useAnimation = 26;
@@ -60,11 +61,48 @@ namespace WeaponOut.Items.Weapons.Fists
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        
+
+        public override void HoldItem(Player player)
+        {
+            // Dust effect when Idle
+            if (Main.time % 3 == 0)
+            {
+                Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
+                if (player.direction != 1)
+                {
+                    hand.X = (float)player.bodyFrame.Width - hand.X;
+                }
+                if (player.gravDir != 1f)
+                {
+                    hand.Y = (float)player.bodyFrame.Height - hand.Y;
+                }
+                hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
+                Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
+
+                Dust d = Main.dust[Dust.NewDust
+                    (player.Center, 0, 0, 174, (float)(player.direction * 2), 0f,
+                    100, default(Color), 0.5f)
+                    ];
+                d.position = dustPos + player.velocity;
+                d.velocity = Utils.RandomVector2(Main.rand, -0.5f, 0.5f) + player.velocity * 0.5f - new Vector2(0, player.gravDir);
+                d.noGravity = true;
+                d.fadeIn = 0.7f;
+            }
+        }
+
         public override bool AltFunctionUse(Player player)
         {
             if (player.dashDelay == 0) player.GetModPlayer<PlayerFX>(mod).weaponDash = 5;
             return player.dashDelay == 0;
+        }
+
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if(player.GetModPlayer<PlayerFX>(mod).weaponDash == 5)
+            {
+                damage = (int)(damage * 1.5f);
+                knockBack *= 1.5f;
+            }
         }
 
         public override bool UseItemFrame(Player player)
@@ -74,8 +112,8 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            // jump exactly 6 blocks high!
-            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 26, 9f, 7f, 12f);
+            // jump exactly 16 blocks high!
+            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 26, 14.6f, 3f, 14f);
 
             Rectangle graphic = FistStyle.UseItemGraphicboxWithHitBox(player, 16, 26);
             Vector2 velo = FistStyle.GetFistVelocity(player) * -3f + player.velocity * 0.5f;
@@ -97,6 +135,11 @@ namespace WeaponOut.Items.Weapons.Fists
                     //set on fire
                     target.AddBuff(BuffID.OnFire, 300);
                 }
+            }
+            else
+            {
+                //set on fire a bit
+                target.AddBuff(BuffID.OnFire, 60);
             }
         }
     }
