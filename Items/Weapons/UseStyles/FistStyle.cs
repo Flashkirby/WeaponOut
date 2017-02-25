@@ -398,7 +398,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
             {
                 // Calculate hitbox for normal punch
                 #region Standard Punch
-                if (anim > 0.3f)
+                if (anim > 0.15f)
                 {
                     // Provide immunity for 2/3
                     provideImmunity(player);
