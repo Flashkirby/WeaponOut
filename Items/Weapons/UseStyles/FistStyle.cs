@@ -16,7 +16,7 @@ namespace WeaponOut.Items.Weapons.UseStyles
     /// Turn your character into a living projectile of uncontrollable whirlwind death!
     /// Controls:
     ///     LMB: Standard punch, which has invincibilty throughout active hitbox (2/3).
-    ///     LMB + Down (ground): Rising uppercut, no invulnerability.
+    ///     LMB + Down/Up (ground): Rising uppercut, no invulnerability.
     ///     LMB + Down (aerial): Dive bomv, dashes down and forwards, but no invulnerability.
     ///     Combo: Build up with punches that grant invulnerability.
     ///         Standard attack on last combo hit bounces player away with increased invulnerability.
@@ -318,24 +318,27 @@ namespace WeaponOut.Items.Weapons.UseStyles
             // Special attack assign on Start frame
             if (player.itemAnimation == player.itemAnimationMax - 1)
             {
-                if (player.controlDown && jumpSpeed > 0)
+                bool canUseGrounded = (player.velocity.Y == 0 && player.oldVelocity.Y == 0) || (player.jump > 0);
+                bool useSpecial = false;
+                if (jumpSpeed > 0) // will only use if jump speed is provided
                 {
+                    #region Set special attacks
                     if (
-                        (player.velocity.Y == 0 && player.oldVelocity.Y == 0) ||
-                        (player.jump > 0)
+                        (player.controlDown || player.controlUp) && canUseGrounded
                         )
                     {
-                        specialMove = 1;
-                        player.itemRotation = -(float)(player.direction * Math.PI / 2);
-                        player.velocity.Y = -jumpSpeed * player.gravDir;
-                        player.jump = 0;
+                            specialMove = 1;
+                            player.itemRotation = -(float)(player.direction * Math.PI / 2);
+                            player.velocity.Y = -jumpSpeed * player.gravDir;
+                            player.jump = 0;
+                            useSpecial = true;
                     }
-                    else
+                    else if (player.controlDown)
                     {
                         specialMove = 2;
                         player.itemRotation = (float)(player.direction * Math.PI / 2);
                         player.velocity.X = player.direction * ((player.velocity.X + fallSpeedX * 5) / 6);
-                        if(player.gravDir > 0)
+                        if (player.gravDir > 0)
                         {
                             if (player.velocity.Y < fallSpeedY) player.velocity.Y = fallSpeedY;
                         }
@@ -344,9 +347,12 @@ namespace WeaponOut.Items.Weapons.UseStyles
                             if (player.velocity.Y > -fallSpeedY) player.velocity.Y = -fallSpeedY;
                         }
                         player.jump = 0;
+                        useSpecial = true;
                     }
+                    #endregion
                 }
-                else
+                
+                if(!useSpecial)
                 {
                     //get rotation at use
                     #region Attack Rotation
