@@ -36,12 +36,12 @@ namespace WeaponOut.Items.Weapons.Fists
             item.toolTip = "<right> to parry attacks";
             item.useStyle = FistStyle.useStyle;
             item.autoReuse = true;
-            item.useAnimation = 26;
-            item.useTime = 26;
+            item.useAnimation = 16;
+            item.useTime = 16;
 
             item.width = 26;
             item.height = 26;
-            item.damage = 28;
+            item.damage = 18;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item7;
 
