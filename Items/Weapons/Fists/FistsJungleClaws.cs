@@ -77,8 +77,8 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            // jump exactly 6 blocks high!
-            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 22, 9f, 7f, 8f);
+            // jump exactly 10 blocks high!
+            noHitbox = Fist.UseItemHitbox(player, ref hitbox, 22, 11.7f, 7f, 8f);
 
             Rectangle graphic = FistStyle.UseItemGraphicboxWithHitBox(player, 12, 22);
             Vector2 velo = FistStyle.GetFistVelocity(player) * -2f + player.velocity * 0.5f;
