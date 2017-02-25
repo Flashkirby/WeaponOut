@@ -15,6 +15,8 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
         {
+            equips.Add(EquipType.HandsOn);
+            equips.Add(EquipType.HandsOff);
             return ModConf.enableFists;
         }
 
