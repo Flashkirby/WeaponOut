@@ -1016,8 +1016,8 @@ namespace WeaponOut
             {
                 if (player.HeldItem.useStyle == Items.Weapons.UseStyles.FistStyle.useStyle)
                 {
-                    if (player.handon > 0) player.handon = player.HeldItem.handOnSlot;
-                    if (player.handoff> 0) player.handoff = player.HeldItem.handOffSlot;
+                    if (player.HeldItem.handOnSlot > 0) player.handon = player.HeldItem.handOnSlot;
+                    if (player.HeldItem.handOffSlot > 0) player.handoff = player.HeldItem.handOffSlot;
                 }
             }
         }
