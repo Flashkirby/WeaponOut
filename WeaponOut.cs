@@ -47,8 +47,8 @@ namespace WeaponOut
         {
             Properties = new ModProperties()
             {
-                Autoload = true
-                //AutoloadGores = true,
+                Autoload = true,
+                AutoloadGores = true,
                 //AutoloadSounds = true
             };
             ModConf.Load();

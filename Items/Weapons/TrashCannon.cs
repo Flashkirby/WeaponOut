@@ -30,7 +30,6 @@ namespace WeaponOut.Items.Weapons
 
             item.ranged = true;
             item.damage = 14;
-            item.crit = 16;
             item.knockBack = 5;
 
             item.noMelee = true;
