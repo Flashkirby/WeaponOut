@@ -12,8 +12,6 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class MeteorBreakshatter : ModProjectile
     {
-        private const float bulletFadeTime = 10;
-
         public override void SetDefaults()
         {
             projectile.name = "Meteoric Breakshot";
@@ -39,7 +37,7 @@ namespace WeaponOut.Projectiles
                 ));
 
             Dust d = Main.dust[Dust.NewDust(projectile.position, 0, 0, DustID.Fire, projectile.velocity.X, projectile.velocity.Y)];
-            d.scale *= 0.8f + 0.5f * timeNormal;
+            d.scale *= 0.5f + 0.5f * timeNormal;
             d.velocity *= 0.25f;
             d.noGravity = true;
 

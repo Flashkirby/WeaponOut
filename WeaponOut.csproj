@@ -47,6 +47,7 @@
     <Compile Include="Items\RallyBannerBlue.cs" />
     <Compile Include="Items\RallyBannerYellow.cs" />
     <Compile Include="Items\ScatterShot.cs" />
+    <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\BoneZone.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
     <Compile Include="Items\Weapons\Fists\FistsJungleClaws.cs" />
@@ -61,6 +62,8 @@
     <Compile Include="Items\Weapons\Fists\KnucklesDungeon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesMeteor.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesLead.cs" />
+    <Compile Include="Items\Weapons\Startillery.cs" />
+    <Compile Include="Items\Weapons\ScrapSalvo.cs" />
     <Compile Include="Items\Weapons\TrashCannon.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
     <Compile Include="Items\Weapons\PsyWave.cs" />
@@ -90,6 +93,7 @@
     <Compile Include="Items\Weapons\SteamPersuader.cs" />
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
+    <Compile Include="Projectiles\MeteorBreakshatter.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />
     <Compile Include="Projectiles\SpiritBlast.cs" />
     <Compile Include="Projectiles\SpiritComet.cs" />
@@ -98,6 +102,7 @@
     <Compile Include="Projectiles\CrystalVileLash.cs" />
     <Compile Include="Projectiles\Raiden.cs" />
     <Compile Include="Projectiles\ScatterShot.cs" />
+    <Compile Include="Projectiles\MeteorBreakshot.cs" />
     <Compile Include="StarObserver.cs" />
     <Compile Include="WeaponDrawInfo.cs" />
     <Compile Include="NPCs\NpcFX.cs" />
@@ -172,6 +177,7 @@
     <Content Include="Items\RallyBannerRed.png" />
     <Content Include="Items\RallyBannerYellow.png" />
     <Content Include="Items\ScatterShot.png" />
+    <Content Include="Items\MeteorBreakshot.png" />
     <Content Include="Items\SplinterShot.png" />
     <Content Include="Items\Placeable\CampTent.png" />
     <Content Include="Items\SupernovaEmblem.png" />
@@ -206,6 +212,7 @@
     <Content Include="Items\Weapons\PsyWave.png" />
     <Content Include="Items\Weapons\Raiden.png" />
     <Content Include="Items\Weapons\Reverb.png" />
+    <Content Include="Items\Weapons\ScrapSalvo.png" />
     <Content Include="Items\Weapons\SparkShovel.png" />
     <Content Include="Items\Weapons\StaffOfExplosion.png" />
     <Content Include="Items\Weapons\SteamPersuader.png" />
@@ -214,6 +221,8 @@
     <Content Include="Items\WoodenShield.png" />
     <Content Include="Items\WoodenShield_Shield.png" />
     <Content Include="Items\WormholeEmblem.png" />
+    <Content Include="Projectiles\MeteorBreakshatter.png" />
+    <Content Include="Projectiles\MeteorBreakshot.png" />
     <Content Include="Projectiles\SplinterShot.png" />
     <Content Include="Projectiles\Hayauchi.png" />
     <Content Include="Projectiles\ManaBlast.png" />
