@@ -26,7 +26,7 @@ namespace WeaponOut.Items.Weapons
             item.damage = 250;
             item.useTime = 80;
             item.useAnimation = 81;
-            item.UseSound = SoundID.Item33;
+            item.UseSound = SoundID.DD2_BallistaTowerShot;
             item.shootSpeed += 10f;
         }
         public override void AddRecipes()
