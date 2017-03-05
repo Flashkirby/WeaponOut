@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Glow\" />
+    <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buffs\RallyBanner.cs" />
@@ -46,9 +47,11 @@
     <Compile Include="Items\RallyBannerBlue.cs" />
     <Compile Include="Items\RallyBannerYellow.cs" />
     <Compile Include="Items\ScatterShot.cs" />
+    <Compile Include="Items\Weapons\BoneZone.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
     <Compile Include="Items\Weapons\Fists\FistsJungleClaws.cs" />
     <Compile Include="Items\Weapons\Fists\FistsMolten.cs" />
+    <Compile Include="Items\Weapons\Fists\GlovesFossil.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestusCrimson.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesPalm.cs" />
@@ -58,6 +61,7 @@
     <Compile Include="Items\Weapons\Fists\KnucklesDungeon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesMeteor.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesLead.cs" />
+    <Compile Include="Items\Weapons\TrashCannon.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
     <Compile Include="Items\Weapons\PsyWave.cs" />
     <Compile Include="Items\Weapons\Reverb.cs" />
@@ -172,6 +176,7 @@
     <Content Include="Items\Placeable\CampTent.png" />
     <Content Include="Items\SupernovaEmblem.png" />
     <Content Include="Items\Weapons\AllPorpoiseAssaultRifle.png" />
+    <Content Include="Items\Weapons\BoneZone.png" />
     <Content Include="Items\Weapons\Capacitor.png" />
     <Content Include="Items\Weapons\ChannelerStaff.png" />
     <Content Include="Items\Weapons\DemonBlaster.png" />
@@ -179,6 +184,7 @@
     <Content Include="Items\Weapons\Fists\FistsBoxing.png" />
     <Content Include="Items\Weapons\Fists\FistsJungleClaws.png" />
     <Content Include="Items\Weapons\Fists\FistsMolten.png" />
+    <Content Include="Items\Weapons\Fists\GlovesFossil.png" />
     <Content Include="Items\Weapons\Fists\GlovesBee.png" />
     <Content Include="Items\Weapons\Fists\GlovesCaestus.png" />
     <Content Include="Items\Weapons\Fists\GlovesCaestusCrimson.png" />
@@ -203,6 +209,7 @@
     <Content Include="Items\Weapons\SparkShovel.png" />
     <Content Include="Items\Weapons\StaffOfExplosion.png" />
     <Content Include="Items\Weapons\SteamPersuader.png" />
+    <Content Include="Items\Weapons\TrashCannon.png" />
     <Content Include="Items\Weapons\WAR.png" />
     <Content Include="Items\WoodenShield.png" />
     <Content Include="Items\WoodenShield_Shield.png" />
