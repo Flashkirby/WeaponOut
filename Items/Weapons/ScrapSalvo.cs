@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons
             item.noMelee = true;
             item.useAmmo = AmmoID.Bullet;
             item.shoot = 14;
-            item.shootSpeed = 5;
+            item.shootSpeed = 8f;
 
             item.useStyle = 5;
             item.useTime = 10;
