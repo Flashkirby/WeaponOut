@@ -139,7 +139,7 @@ namespace WeaponOut.Projectiles
             spriteBatch.Draw(texture,
                 projectile.position - Main.screenPosition + centre,
                 new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
-                Color.White,
+                new Color(1f, 1f, 1f, 0.75f),
                 projectile.rotation,
                 centre,
                 projectile.scale,

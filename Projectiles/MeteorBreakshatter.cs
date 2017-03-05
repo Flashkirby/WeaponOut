@@ -19,7 +19,6 @@ namespace WeaponOut.Projectiles
             projectile.name = "Meteoric Breakshot";
             projectile.width = 4;
             projectile.height = 4;
-            projectile.alpha = 255;
 
             projectile.timeLeft = 30;
             projectile.penetrate = 2;
@@ -35,8 +34,12 @@ namespace WeaponOut.Projectiles
         {
             Player player = Main.player[projectile.owner];
 
-            Dust d = Main.dust[Dust.NewDust(projectile.position, 0, 0, DustID.Fire)];
-            d.scale *= 0.8f;
+            float timeNormal = Math.Max(0f, Math.Min(1f,
+                projectile.timeLeft / 30f
+                ));
+
+            Dust d = Main.dust[Dust.NewDust(projectile.position, 0, 0, DustID.Fire, projectile.velocity.X, projectile.velocity.Y)];
+            d.scale *= 0.8f + 0.5f * timeNormal;
             d.velocity *= 0.25f;
             d.noGravity = true;
 
@@ -47,7 +50,7 @@ namespace WeaponOut.Projectiles
                 0.1f,
                 0f
             );
-
+            
             projectile.rotation += projectile.velocity.X;
         }
 
