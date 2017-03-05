@@ -70,25 +70,42 @@ namespace WeaponOut.Items.Weapons
             return false;
         }
 
-        private static int volleySFX;
         public override void HoldItem(Player player)
         {
-            if(player.itemAnimation > 0 && volleySFX <= 1)
+            if(HoldItemSFX(player, item, 2, 14))
             {
-                volleySFX = item.useAnimation + item.reuseDelay - 1;
-
                 Gore.NewGore(player.Top, new Vector2(0, -2),
                     mod.GetGoreSlot("Gores/TrashCannon_Lid"), item.scale);
             }
-            if(volleySFX > 0)
+        }
+
+        public static int HoldItemSFXCounter;
+        /// <summary>
+        /// Allows sounds to be played in time with reuseDelay, with true returned on 1st frame
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="item"></param>
+        /// <param name="type"></param>
+        /// <param name="style"></param>
+        /// <returns></returns>
+        public static bool HoldItemSFX(Player player, Item item, int type, int style)
+        {
+            bool firstFrame = false;
+            if (player.itemAnimation > 0 && HoldItemSFXCounter <= 1)
             {
-                int activeVolley = volleySFX - item.reuseDelay;
+                HoldItemSFXCounter = item.useAnimation + item.reuseDelay - 1;
+                firstFrame = true;
+            }
+            if (HoldItemSFXCounter > 0)
+            {
+                int activeVolley = HoldItemSFXCounter - item.reuseDelay;
                 if (activeVolley >= 0 && (activeVolley + 1) % item.useTime == 0)
                 {
-                    Main.PlaySound(2, player.position, 14);
+                    Main.PlaySound(type, player.position, style);
                 }
-                volleySFX--;
+                HoldItemSFXCounter--;
             }
+            return firstFrame;
         }
 
         public override Vector2? HoldoutOffset()
