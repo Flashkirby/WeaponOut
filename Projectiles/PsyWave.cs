@@ -50,7 +50,7 @@ namespace WeaponOut.Projectiles
                 }
             }else
             {
-                projectile.position += player.velocity;
+                projectile.position += player.position - player.oldPosition;
             }
 
             projectile.direction = 1;
