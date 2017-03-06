@@ -60,13 +60,16 @@ namespace WeaponOut.Items.Weapons
             {
                 item.useStyle = 1;
             }
-            if (player.itemTime > 0 && player.velocity.Y == 0)
+            if (player.itemTime > 0)
             {
                 if (player.itemTime == 1) PlayerFX.ItemFlashFX(player, 175);
-                for (int i = 0; i < 3; i++) // 3 extra recharge speed
+                if (player.velocity.Y == 0)
                 {
-                    if (player.itemTime > 0) player.itemTime--;
-                    if (player.itemTime == 1) PlayerFX.ItemFlashFX(player, 175);
+                    for (int i = 0; i < 3; i++) // 3 extra recharge speed
+                    {
+                        if (player.itemTime > 0) player.itemTime--;
+                        if (player.itemTime == 1) PlayerFX.ItemFlashFX(player, 175);
+                    }
                 }
             }
         }
