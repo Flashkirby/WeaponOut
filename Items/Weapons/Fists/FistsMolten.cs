@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Graphics.Shaders;
 
 using WeaponOut.Items.Weapons.UseStyles;
 using System.Collections.Generic;
@@ -87,6 +88,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 d.velocity = Utils.RandomVector2(Main.rand, -0.5f, 0.5f) + player.velocity * 0.5f - new Vector2(0, player.gravDir);
                 d.noGravity = true;
                 d.fadeIn = 0.7f;
+                d.shader = GameShaders.Armor.GetSecondaryShader(player.cHandOn, player);
             }
         }
 
