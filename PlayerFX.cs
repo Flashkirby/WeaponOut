@@ -53,9 +53,6 @@ namespace WeaponOut
         public int lastSelectedItem;
         public int itemSkillDelay;
 
-        public int dashingSpecialAttack;
-        public const int dashingSpecialAttackOnsoku = 1;
-
         public bool reflectingProjectiles;
         public int reflectingProjectileDelay;
         public bool CanReflectProjectiles
@@ -125,7 +122,6 @@ namespace WeaponOut
             lastSelectedItem = 0;
 
             itemSkillDelay = 0;
-            dashingSpecialAttack = 0;
 
             localTempSpawn = new Vector2();
             
@@ -142,17 +138,6 @@ namespace WeaponOut
             damageKnockbackThreshold = 0;
             frontDefence = 0;
             frontNoKnockback = false;
-
-            if (player.velocity.Y == 0 && player.itemTime == 0)
-            {
-                if(dashingSpecialAttack != 0)
-                {
-                    //bleep
-                    ItemFlashFX(player, 175);
-                }
-                // Restore special dashing if grounded
-                dashingSpecialAttack = 0;
-            }
 
             // Manage item skills
             if (player.selectedItem != lastSelectedItem)

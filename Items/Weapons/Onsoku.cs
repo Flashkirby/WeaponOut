@@ -24,7 +24,7 @@ namespace WeaponOut.Items.Weapons
         {
             item.name = "Onsoku";
             item.toolTip = "Dashes through enemies";
-            item.toolTip2 = "Land after dashing to recharge";
+            item.toolTip2 = "Dash cooldown reduced on the ground";
             item.width = 40;
             item.height = 40;
 
@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons
 
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
-            item.useTime = 24;
+            item.useTime = 140;
             item.useAnimation = 24;
 
             item.shoot = mod.ProjectileType<Projectiles.OnsokuSlash>();
@@ -53,17 +53,6 @@ namespace WeaponOut.Items.Weapons
             recipe.AddRecipe();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack == 0)
-            {
-                // Allow dash projectile only if landed since last dash
-                player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack = PlayerFX.dashingSpecialAttackOnsoku;
-                return true;
-            }
-            return false;
-        }
-
         public override void HoldItem(Player player)
         {
             // Reset style to swing when neutral
@@ -71,20 +60,42 @@ namespace WeaponOut.Items.Weapons
             {
                 item.useStyle = 1;
             }
+            if (player.itemTime > 0 && player.velocity.Y == 0)
+            {
+                if (player.itemTime == 1) PlayerFX.ItemFlashFX(player, 175);
+                for (int i = 0; i < 3; i++) // 3 extra recharge speed
+                {
+                    if (player.itemTime > 0) player.itemTime--;
+                    if (player.itemTime == 1) PlayerFX.ItemFlashFX(player, 175);
+                }
+            }
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if(player.itemAnimation == player.itemAnimationMax - 1)
+            {
+                return true;
+            }
+            player.itemTime = 0; //don't try otherwise
+            return false;
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            if(player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack == PlayerFX.dashingSpecialAttackOnsoku)
+            foreach (Projectile p in Main.projectile)
             {
-                // Dash with self as hitbox, only when invincible via projectile
-                noHitbox = !player.immuneNoBlink;
-                if(!noHitbox)
+                if (p.active && p.owner == player.whoAmI && p.type == item.shoot)
                 {
-                    Main.SetCameraLerp(0.1f, 10);
-                    player.attackCD = 0;
+                    // Dash with self as hitbox, only when invincible via projectile
+                    noHitbox = !player.immuneNoBlink;
+                    if (!noHitbox)
+                    {
+                        Main.SetCameraLerp(0.1f, 10);
+                        player.attackCD = 0;
+                    }
+                    hitbox = player.getRect();
                 }
-                hitbox = player.getRect();
             }
         }
     }

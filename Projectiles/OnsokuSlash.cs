@@ -33,7 +33,6 @@ namespace WeaponOut.Projectiles
                 projectile.timeLeft = 0;
                 return;
             }
-            player.GetModPlayer<PlayerFX>(mod).dashingSpecialAttack = PlayerFX.dashingSpecialAttackOnsoku;
 
             // Get dash location
             if (UpdateCount == 0)
@@ -84,7 +83,6 @@ namespace WeaponOut.Projectiles
 
                 // freeze in swing
                 player.itemAnimation = player.itemAnimationMax - 2;
-                player.itemTime = player.itemAnimationMax - 2;
 
                 // dash, change position to influence camera lerp
                 player.position += Collision.TileCollision(player.position,
