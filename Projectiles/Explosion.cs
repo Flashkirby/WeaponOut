@@ -106,6 +106,11 @@ namespace WeaponOut.Projectiles
             }
         }
 
+        public override bool? CanCutTiles()
+        {
+            return false;
+        }
+
         #region Behaviours
 
         private static bool canChannel(Player player)
