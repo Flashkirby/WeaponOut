@@ -15,7 +15,9 @@ namespace WeaponOut.Tiles
             //extra info
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            AddMapEntry(new Color(90, 190, 20), "Camping Tent");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Camping Tent");
+            AddMapEntry(new Color(90, 190, 20), name);
             dustType = 93;
             disableSmartCursor = true;
 
