@@ -20,7 +20,6 @@ namespace WeaponOut
     {
         private const bool DEBUG_WEAPONHOLD = false;
         private const bool DEBUG_BOOMERANGS = false;
-        private const bool DEBUG_PARRYFISTS = false;
 
         public bool weaponVisual = true;
 
@@ -61,11 +60,6 @@ namespace WeaponOut
         public bool lunarRangeVisual;
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
-
-        public int parryTime;
-        public int parryTimeMax;
-        public int parryActive;
-        public bool IsParryActive { get { return parryTime >= parryActive && parryTime > 0; } }
 
         #region Utils
         public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
@@ -124,10 +118,6 @@ namespace WeaponOut
             itemSkillDelay = 0;
 
             localTempSpawn = new Vector2();
-            
-            parryTime = 0;
-            parryTimeMax = 0;
-            parryActive = 0;
 
             // Update visuals
             WeaponOut.NetUpdateWeaponVisual(mod, this);
@@ -179,13 +169,6 @@ namespace WeaponOut
                 applyBannerBuff();
             }
 
-            if (ModConf.enableFists)
-            {
-                if(ItemCheckParry())
-                {
-                    return false;
-                }
-            }
             /// <summary>Adds the weaponswitch network-synced buff</summary>
             if (ModConf.enableDualWeapons)
             {
@@ -224,56 +207,9 @@ namespace WeaponOut
                 }
             }
         }
-        private bool ItemCheckParry()
-        {
-            if(parryTime != 0)
-            {
-                if(parryTime == parryTimeMax)
-                {
-                    Main.PlaySound(2, player.Center, 32);
-                }
-
-                if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parrying: ", parryTime, "/", parryActive, "/", parryTimeMax));
-
-                if (parryTime > 0)
-                {
-                    player.itemAnimation = 1; // prevent switching
-                    parryTime--;
-
-                    if (parryTime == 0)
-                    {
-                        player.itemAnimation = 0; // release lock
-                        parryTime = 0;
-                        parryTimeMax = 0;
-                        parryActive = 0;
-                    }
-
-                    return true;
-                }
-
-                // Cooldown
-                if(parryTime < 0)
-                {
-                    parryTime++;
-
-                    if (parryTime == 0)
-                    {
-                        ItemFlashFX(player);
-                        parryTime = 0;
-                        parryTimeMax = 0;
-                        parryActive = 0;
-                    }
-
-                    return false;
-                }
-            }
-            return false;
-        }
 
         public override void PostUpdateRunSpeeds()
         {
-            CustomDashMovement();
-
             if(player.inventory[player.selectedItem].type == mod.ItemType<Items.Weapons.Raiden>())
             {
                 if (itemSkillDelay >= Items.Weapons.Raiden.focusTime)
@@ -285,237 +221,15 @@ namespace WeaponOut
             }
         }
 
-        #region Dash
-
-        public int weaponDash = 0;
-        private void CustomDashMovement()
-        {
-            // dash = player equipped dash type
-            // dashTime = timeWindow for double tap
-            // dashDelay = -1 during active, counts down to 0 after dash ends (30 for SoC, 20 for tabi)
-            // eocDash = SoC active frame time, 15 until dash ends, then count down (still active during deccel)
-            // eocHit = registers the hit NPC for 8 frames
-
-            // Reset here because reasons.
-            if (player.pulley || player.grapCount > 0) weaponDash = 0;
-            if(weaponDash > 0)
-            {
-                if (player.dashDelay == 0)
-                {
-                    #region Dash Stats
-                    /*
-                     * Normal: 3
-                     * Aglet/Anklet: 3.15, 3.3
-                     * Hermes: 6
-                     * Lightning: 6.75
-                     * Fishron Air: 8
-                     * Solar Wings: 9
-                     */
-                    float dashSpeed = 14.5f;
-                    switch (weaponDash)
-                    {
-                        case 1: // Fists of fury
-                            dashSpeed = 10f;
-                            break;
-                        case 2: // Caestus
-                            dashSpeed = 15f;
-                            break;
-                        case 3: // Boxing Gloves
-                            dashSpeed = 12f;
-                            Gore g;
-                            if (player.velocity.Y == 0f)
-                            {
-                                g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 4f), default(Vector2), Main.rand.Next(61, 64), 1f)];
-                            }
-                            else
-                            {
-                                g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 14f), default(Vector2), Main.rand.Next(61, 64), 1f)];
-                            }
-                            g.velocity.X = (float)Main.rand.Next(-50, 51) * 0.01f;
-                            g.velocity.Y = (float)Main.rand.Next(-50, 51) * 0.01f;
-                            g.velocity *= 0.4f;
-                            break;
-                        case 4: // Spiked Gauntlets
-                            dashSpeed = 13f;
-                            break;
-                        case 5: // Apocafist
-                            dashSpeed = 13f;
-                            break;
-                    }
-                    #endregion
-
-                    #region Set Dash speed
-
-                    // Set initial dash speed
-                    float direction = 0;
-                    /*
-                    if (player.controlLeft && !player.controlRight) direction = -1;
-                    if (player.controlRight && !player.controlLeft) direction = 1;
-                    if (direction == 0)
-                    {
-                        direction = player.direction;
-                    }
-                    */
-                    direction = player.direction;
-                    player.velocity.X = dashSpeed * direction;
-                    Point point3 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), player.gravDir * -(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                    Point point4 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                    if (WorldGen.SolidOrSlopedTile(point3.X, point3.Y) || WorldGen.SolidOrSlopedTile(point4.X, point4.Y))
-                    {
-                        player.velocity.X = player.velocity.X / 2f;
-                    }
-                    player.dashDelay = -1;
-
-                    WeaponOut.NetUpdateDash(mod, this);
-
-                    #endregion
-                }
-
-                // Apply movement during dash, delay is managed already in DashMovement()
-                float maxAccRunSpeed = Math.Max(player.accRunSpeed, player.maxRunSpeed);
-                if (player.dashDelay < 0)
-                {
-                    player.dash = 0; // Prevent vanilla dash movement
-
-                    #region Dash Stats
-                    float dashMaxSpeedThreshold = 12f;
-                    float dashMaxFriction = 0.992f;
-                    float dashMinFriction = 0.96f;
-                    int dashSetDelay = 30; // normally 20 but given that his ends sooner...
-                    switch (weaponDash)
-                    {
-                        case 1: // Normal short-ish dash
-                            dashMaxSpeedThreshold = 8f;
-                            dashMaxFriction = 0.98f;
-                            dashMinFriction = 0.94f;
-                            for (int i = 0; i < 3; i++)
-                            {
-                                Dust d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
-                                    DustID.Fire, 0, 0, 100, default(Color), 1.8f)];
-                                d.velocity = d.velocity * 0.5f + player.velocity * -0.4f;
-                                d.noGravity = true;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                            }
-                            break;
-                        case 2: // Super quick ~12 tile dash
-                            dashMaxSpeedThreshold = 6f;
-                            dashMaxFriction = 0.8f;
-                            dashMinFriction = 0.94f;
-                            dashSetDelay = 20;
-                            break;
-                        case 3: // Boxing Gloves ~ 4.5 tile step
-                            dashMaxSpeedThreshold = 3f;
-                            dashMaxFriction = 0.8f;
-                            for (int j = 0; j < 2; j++)
-                            {
-                                Dust d;
-                                if (player.velocity.Y == 0f)
-                                {
-                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f)];
-                                }
-                                else
-                                {
-                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 31, 0f, 0f, 100, default(Color), 1.4f)];
-                                }
-                                d.velocity *= 0.1f;
-                                d.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                            }
-                            break;
-                        case 4: // Spiked Gauntlets
-                            dashMaxSpeedThreshold = 10f;
-                            dashMaxFriction = 0.985f;
-                            dashMinFriction = 0.95f;
-                            for (int k = 0; k < 2; k++)
-                            {
-                                Dust d;
-                                if (player.velocity.Y == 0f)
-                                {
-                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 8f), player.width, 16, 39, player.velocity.X, 0f, 0, default(Color), 1.4f)];
-                                }
-                                else
-                                {
-                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 10f), player.width, 20, 40, player.velocity.X, 0f, 0, default(Color), 1.4f)];
-                                }
-                                d.velocity *= 0.1f;
-                                d.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                                d.noGravity = true;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                            }
-                            break;
-                        case 5: // Long range
-                            dashMaxSpeedThreshold = 7f;
-                            dashMaxFriction = 0.99f;
-                            dashMinFriction = 0.8f;
-                            for (int i = 0; i < 4; i++)
-                            {
-                                Dust d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
-                                    DustID.Fire, 0, 0, 100, default(Color), 2f)];
-                                d.velocity = d.velocity * 0.5f + player.velocity * -0.4f;
-                                d.noGravity = true;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                                d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
-                                    DustID.Smoke, 0, 0, 100, default(Color), 0.4f)];
-                                d.fadeIn = 0.7f;
-                                d.velocity = d.velocity * 0.1f + player.velocity * -0.2f;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                            }
-                            break;
-                    }
-                    #endregion
-
-                    #region Modify dash speeds
-
-                    player.vortexStealthActive = false;
-                    if (player.velocity.X > dashMaxSpeedThreshold || player.velocity.X < -dashMaxSpeedThreshold)
-                    {
-                        player.velocity.X = player.velocity.X * dashMaxFriction;
-                    }
-                    else if (player.velocity.X > maxAccRunSpeed || player.velocity.X < -maxAccRunSpeed)
-                    {
-                        player.velocity.X = player.velocity.X * dashMinFriction;
-                    }
-                    else
-                    {
-                        player.dashDelay = dashSetDelay;
-                        if (player.velocity.X < 0f)
-                        {
-                            player.velocity.X = -maxAccRunSpeed;
-                        }
-                        else if (player.velocity.X > 0f)
-                        {
-                            player.velocity.X = maxAccRunSpeed;
-                        }
-                    }
-
-                    #endregion
-                }
-            }
-            
-            if(player.dashDelay == 1)
-            {
-                weaponDash = 0;
-            }
-        }
-
-        #endregion
-
         public override void PostUpdate()
         {
             manageBodyFrame();
             tentScript();
-            setHandToFistWeapon();
         }
 
         private void manageBodyFrame()
         {
             if (Main.netMode == 2) return; // Oh yeah, server calls this so don't pls
-
-            if (ModConf.enableFists && parryTime > 0)
-            {
-                Items.Weapons.UseStyles.FistStyle.ParryBodyFrame(this);
-                return;
-            }
 
             //change idle pose for player using a heavy weapon
             //copypasting from drawPlayerItem
@@ -527,9 +241,9 @@ namespace WeaponOut
             float itemHeight = weaponTex.Height * heldItem.scale;
             if (heldItem.modItem != null)
             {
-                if (heldItem.modItem.GetAnimation() != null)
+                if (Main.itemAnimations[heldItem.type] != null)
                 {
-                    itemHeight /= heldItem.modItem.GetAnimation().FrameCount;
+                    itemHeight /= Main.itemAnimations[heldItem.type].FrameCount;
                 }
             }
             float larger = Math.Max(itemWidth, itemHeight);
@@ -610,8 +324,6 @@ namespace WeaponOut
         });
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            setHandToFistWeapon();
-
             HeldItem.visible = true; // For items held in hand
             HairBack.visible = true; // For items behind the player (sheathed)
             //MiscEffectsFront.visible = !player.dead;
@@ -694,12 +406,12 @@ namespace WeaponOut
             Rectangle? sourceRect = null;
             if (heldItem.modItem != null)
             {
-                if (heldItem.modItem.GetAnimation() != null) // in the case of modded weapons with animations...
+                if (Main.itemAnimations[heldItem.type] != null) // in the case of modded weapons with animations...
                 {
                     //get local player frame counting
                     PlayerFX p = drawPlayer.GetModPlayer<PlayerFX>(ModLoader.GetMod("WeaponOut"));
-                    int frameCount = heldItem.modItem.GetAnimation().FrameCount;
-                    int frameCounter = heldItem.modItem.GetAnimation().TicksPerFrame * 2;
+                    int frameCount = Main.itemAnimations[heldItem.type].FrameCount;
+                    int frameCounter = Main.itemAnimations[heldItem.type].TicksPerFrame * 2;
 
                     //add them up
                     if (Main.time % frameCounter == 0)
@@ -995,26 +707,6 @@ namespace WeaponOut
 
         }
 
-        private void setHandToFistWeapon()
-        {
-            if (ModConf.enableFists && weaponVisual)
-            {
-                if (player.HeldItem.useStyle == Items.Weapons.UseStyles.FistStyle.useStyle)
-                {
-                    if (player.HeldItem.handOnSlot > 0)
-                    {
-                        player.handon = player.HeldItem.handOnSlot;
-                        player.cHandOn = 0;
-                    }
-                    if (player.HeldItem.handOffSlot > 0)
-                    {
-                        player.handoff = player.HeldItem.handOffSlot;
-                        player.cHandOff = 0;
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Weak reference, must wrap in try catch exception becase won't catch FileNotFoundException
         /// </summary>
@@ -1028,8 +720,8 @@ namespace WeaponOut
                 Mod itemCustomizer = itemCustomizer = ModLoader.GetMod("ItemCustomizer");
                 if (itemCustomizer != null)
                 {
-                    CustomizerItemInfo cii = item.GetModInfo<CustomizerItemInfo>(itemCustomizer);
-                    shader = cii.shaderID;
+                    //CustomizerItemInfo cii = item.GetModInfo<CustomizerItemInfo>(itemCustomizer);
+                    //shader = cii.shaderID;
                 }
             }
         }
@@ -1039,76 +731,9 @@ namespace WeaponOut
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             ShieldPreHurt(damage, crit, hitDirection);
-
-            if (ModConf.enableFists)
-            {
-                if (ParryPreHurt(damageSource)) return false;
-            }
             return true;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="damageSource"></param>
-        /// <returns>True when attack is parried</returns>
-        private bool ParryPreHurt(PlayerDeathReason damageSource)
-        {
-            // Caused by normal damage?
-            if (damageSource.SourceNPCIndex >= 0 || damageSource.SourcePlayerIndex >= 0 || damageSource.SourceProjectileIndex >= 0)
-            {
-                // Stop this attack and parry with cooldown
-                if (IsParryActive)
-                {
-                    player.itemAnimation = 0; //release item lock
-
-                    int timeSet = parryActive;
-
-                    //set cooldown to prevent spam
-                    parryTime = timeSet * -3;
-                    parryActive = 0;
-                    parryTimeMax = 0;
-
-                    // Strike the NPC away slightly
-                    if(damageSource.SourceNPCIndex >= 0)
-                    {
-                        NPC npc = Main.npc[damageSource.SourceNPCIndex];
-                        int hitDirection = player.direction;
-                        float knockback = 4f;
-                        if (npc.knockBackResist > 0)
-                        {
-                            knockback /= npc.knockBackResist;
-                        }
-                        npc.StrikeNPC(npc.defense, knockback, player.direction, false, false, false);
-                        if (Main.netMode != 0)
-                        {
-                            NetMessage.SendData(28, -1, -1, "", npc.whoAmI, (float)npc.defense, (float)knockback, (float)hitDirection, 0, 0, 0);
-                        }
-                    }
-                    else
-                    {
-                        Main.PlaySound(SoundID.NPCHit3, player.position);
-                        if(damageSource.SourceProjectileIndex >= 0)
-                        {
-                            ProjFX.ReflectProjectilePlayer(
-                                Main.projectile[damageSource.SourceProjectileIndex],
-                                player,
-                                this,
-                                false);
-                        }
-                    }
-
-                    // Add 5 sec parry buff and short invincibility
-                    Items.Weapons.UseStyles.FistStyle.provideImmunity(player, 20);
-                    player.AddBuff(mod.BuffType<Buffs.ParryActive>(), 300, false);
-
-                    if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parried! : ", parryTime, "/", parryActive, "/", parryTimeMax));
-                    WeaponOut.NetUpdateParry(mod, this);
-                    return true;
-                }
-            }
-            return false;
-        }
 
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
@@ -1152,7 +777,7 @@ namespace WeaponOut
                 npc.StrikeNPC(hitDamage, (float)knockBack, hitDirection, false, false, false);
                 if (Main.netMode != 0)
                 {
-                    NetMessage.SendData(28, -1, -1, "", npc.whoAmI, (float)hitDamage, (float)knockBack, (float)hitDirection, 0, 0, 0);
+                    NetMessage.SendData(28, -1, -1, null, npc.whoAmI, (float)hitDamage, (float)knockBack, (float)hitDirection, 0, 0, 0);
                 }
             }
         }
