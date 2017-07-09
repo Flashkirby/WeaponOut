@@ -12,13 +12,14 @@ namespace WeaponOut.Buffs
 
         public override void SetDefaults()
         {
-            Main.buffName[Type] = "Parrying Moment";
-            Main.buffTip[Type] = "Provides a bonus effect to fist weapons with parry";
+            DisplayName.SetDefault("Parrying Moment");
+            Description.SetDefault("Your next parried punch is empowered!");
+            Main.buffNoSave[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-            Main.buffTip[Type] = "Provides a bonus effect to fist weapons with parry";
+            player.GetModPlayer<ModPlayerFists>().parryBuff = true;
         }
     }
 }

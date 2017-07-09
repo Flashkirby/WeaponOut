@@ -65,6 +65,17 @@ namespace WeaponOut
         {
             // Set internal timer
             try { modPlayer.reflectingProjectileDelay = Items.MirrorBadge.reflectDelay; } catch { }
+
+            ReflectProjectilePlayer(projectile, player, showEffect);
+            
+            if (showEffect)
+            {
+                // Shield visual
+                ShieldVisual(projectile, player);
+            }
+        }
+        internal static void ReflectProjectilePlayer(Projectile projectile, Player player)
+        {
             
             // Set ownership
             projectile.hostile = false;
@@ -92,12 +103,6 @@ namespace WeaponOut
 
             // Don't know if this will help but here it is
             projectile.netUpdate = true;
-
-            if (showEffect)
-            {
-                // Shield visual
-                ShieldVisual(projectile, player);
-            }
         }
 
         private static void ShieldVisual(Projectile projectile, Player player)

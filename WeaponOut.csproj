@@ -93,6 +93,7 @@
     <Compile Include="Items\Weapons\SteamPersuader.cs" />
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
+    <Compile Include="ModPlayerFists.cs" />
     <Compile Include="Projectiles\MeteorBreakshatter.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />
     <Compile Include="Projectiles\SpiritBlast.cs" />

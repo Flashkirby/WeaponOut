@@ -225,6 +225,7 @@ namespace WeaponOut
         {
             manageBodyFrame();
             tentScript();
+            setHandToFistWeapon();
         }
 
         private void manageBodyFrame()
@@ -337,6 +338,8 @@ namespace WeaponOut
             }
             catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
+
+            setHandToFistWeapon();
         }
         #endregion
         /// <summary>
@@ -705,6 +708,25 @@ namespace WeaponOut
 
             if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100, 200, 150);
 
+        }
+        private void setHandToFistWeapon()
+        {
+            if (ModConf.enableFists && weaponVisual)
+            {
+                if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
+                {
+                    if (player.HeldItem.handOnSlot > 0)
+                    {
+                        player.handon = player.HeldItem.handOnSlot;
+                        player.cHandOn = 0;
+                    }
+                    if (player.HeldItem.handOffSlot > 0)
+                    {
+                        player.handoff = player.HeldItem.handOffSlot;
+                        player.cHandOff = 0;
+                    }
+                }
+            }
         }
 
         /// <summary>

@@ -175,61 +175,14 @@ namespace WeaponOut
             #region Dash
             if (code == 1) // Set dash used
             {
-                int dash = reader.ReadInt32();
-                if (Main.netMode == 2)
-                {
-                    for (int i = 0; i < 255; i++)
-                    {
-						if (!Main.player[i].active) continue;
-                        if (i != sender)
-                        {
-                            ModPacket me = GetPacket();
-                            me.Write(code);
-                            me.Write(sender);
-                            me.Write(dash);
-                            me.Send();
-                        }
-                    }
-                    // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
-                }
-                else
-                {
-                    Main.player[sender].GetModPlayer<PlayerFX>(this).weaponDash = dash;
-                    // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
-                }
+                HandlePacketDash(reader, code, sender);
             }
             #endregion
 
             #region Parrying
             if (code == 2) // Set parry move
             {
-                int parryTime = reader.ReadInt32();
-                int parryActive = reader.ReadInt32();
-                if (Main.netMode == 2)
-                {
-                    for (int i = 0; i < 255; i++)
-                    {
-						if (!Main.player[i].active) continue;
-                        if (i != sender)
-                        {
-                            ModPacket me = GetPacket();
-                            me.Write(code);
-                            me.Write(sender);
-                            me.Write(parryTime);
-                            me.Write(parryActive);
-                            me.Send();
-                        }
-                    }
-                    // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
-                }
-                else
-                {
-                    PlayerFX pfx = Main.player[sender].GetModPlayer<PlayerFX>(this);
-                    pfx.parryTime = parryTime;
-                    pfx.parryTimeMax = parryTime;
-                    pfx.parryActive = parryActive;
-                    // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
-                }
+                HandlePacketParry(reader, code, sender);
             }
             #endregion
 
@@ -264,28 +217,92 @@ namespace WeaponOut
             #endregion
         }
 
-        public static void NetUpdateDash(Mod mod, PlayerFX pfx)
+        public static void NetUpdateDash(ModPlayerFists pfx)
         {
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
             {
-                ModPacket message = mod.GetPacket();
+                ModPacket message = pfx.mod.GetPacket();
                 message.Write(1);
                 message.Write(Main.myPlayer);
-                message.Write(pfx.weaponDash);
+                message.Write(pfx.dashSpeed);
+                message.Write(pfx.dashMaxSpeedThreshold);
+                message.Write(pfx.dashMaxFriction);
+                message.Write(pfx.dashMinFriction);
                 message.Send();
             }
         }
+        private void HandlePacketDash(BinaryReader reader, int code, int sender)
+        {
+            int dSpeed = reader.ReadInt32();
+            int dThreshold = reader.ReadInt32();
+            int dMax = reader.ReadInt32();
+            int dMin = reader.ReadInt32();
+            if (Main.netMode == 2)
+            {
+                for (int i = 0; i < 255; i++)
+                {
+                    if (!Main.player[i].active) continue;
+                    if (i != sender)
+                    {
+                        ModPacket me = GetPacket();
+                        me.Write(code);
+                        me.Write(sender);
+                        me.Write(dSpeed);
+                        me.Write(dThreshold);
+                        me.Write(dMax);
+                        me.Write(dMin);
+                        me.Send();
+                    }
+                }
+                // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+            }
+            else
+            {
+                ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>();
+                pfx.player.dashDelay = 0;
+                pfx.SetDash(dSpeed, dThreshold, dMax, dMin);
+                // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+            }
+        }
 
-        public static void NetUpdateParry(Mod mod, PlayerFX pfx)
+        public static void NetUpdateParry(ModPlayerFists pfx)
         {
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
             {
-                ModPacket message = mod.GetPacket();
+                ModPacket message = pfx.mod.GetPacket();
                 message.Write(2);
                 message.Write(Main.myPlayer);
                 message.Write(pfx.parryTimeMax);
-                message.Write(pfx.parryActive);
+                message.Write(pfx.parryWindow);
                 message.Send();
+            }
+        }
+        private void HandlePacketParry(BinaryReader reader, int code, int sender)
+        {
+            int parryTimeMax = reader.ReadInt32();
+            int parryWindow = reader.ReadInt32();
+            if (Main.netMode == 2)
+            {
+                for (int i = 0; i < 255; i++)
+                {
+                    if (!Main.player[i].active) continue;
+                    if (i != sender)
+                    {
+                        ModPacket me = GetPacket();
+                        me.Write(code);
+                        me.Write(sender);
+                        me.Write(parryTimeMax);
+                        me.Write(parryWindow);
+                        me.Send();
+                    }
+                }
+                // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+            }
+            else
+            {
+                ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
+                pfx.AltFunctionParryMax(Main.player[sender], parryWindow, parryTimeMax);
+                // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
             }
         }
 
