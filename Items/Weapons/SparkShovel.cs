@@ -7,17 +7,21 @@ namespace WeaponOut.Items.Weapons
 {
     public class SparkShovel : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableDualWeapons;
         }
 
         HelperDual dual;
         HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("IOU: Spark Shovel");
+            Tooltip.SetDefault(
+                "<right> to shoot a small spark");
+        }
         public override void SetDefaults()
         {
-            item.name = "Spark Shovel";
-            item.toolTip = "<right> to shoot a small spark";
             item.width = 32;
             item.height = 32;
 
@@ -81,6 +85,7 @@ namespace WeaponOut.Items.Weapons
                 recipe.AddRecipe();
             }
         }
+        /*
         public override void OnCraft(Recipe recipe)
         {
             HelperDual.OnCraft(this);
@@ -103,5 +108,6 @@ namespace WeaponOut.Items.Weapons
             Dual.HoldStyle(player);
             base.HoldStyle(player);
         }
+        */
     }
 }

@@ -10,6 +10,8 @@ namespace WeaponOut.Projectiles
 {
     public class MoltenChains : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
         public const float whipLength = 24f;
         public const bool whipSoftSound = false;
         public const int handleHeight = 24;
@@ -20,7 +22,6 @@ namespace WeaponOut.Projectiles
         public const bool ignoreLighting = true;
         public override void SetDefaults()
         {
-            projectile.name = "Molten Chains";
             projectile.width = 8;
             projectile.height = 8;
             projectile.scale = 1f;

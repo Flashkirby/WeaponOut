@@ -8,6 +8,7 @@ namespace WeaponOut
 {
     public class ProjFX : GlobalProjectile
     {
+
         public const float shieldDist = 40f;
 
         public override bool PreAI(Projectile projectile)
@@ -66,7 +67,7 @@ namespace WeaponOut
             // Set internal timer
             try { modPlayer.reflectingProjectileDelay = Items.MirrorBadge.reflectDelay; } catch { }
 
-            ReflectProjectilePlayer(projectile, player, showEffect);
+            ReflectProjectilePlayer(projectile, player);
             
             if (showEffect)
             {

@@ -12,12 +12,16 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class SpiritBlast : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[projectile.type] = 3;
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Spirit Blast";
             projectile.width = 24;
             projectile.height = 24;
-            Main.projFrames[projectile.type] = 3;
             
             projectile.penetrate = 1;
 

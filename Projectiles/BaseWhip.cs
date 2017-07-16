@@ -118,11 +118,11 @@ namespace WeaponOut.Projectiles
 
 
             // Main.NewText("========================");
-            // Main.NewText("ai0: " + projectile.ai[0]);// ==== 0 - 30
-            // Main.NewText("ai1: " + projectile.ai[1]);// ==== 0
-            // Main.NewText("lai0: " + projectile.localAI[0]);// ==== rotation 0 - 3.14
-            // Main.NewText("lai1: " + projectile.localAI[1]);// ==== swingtime
-            // Main.NewText("anim: " + player.itemAnimation);// ==== 2
+            // Main.NewText("ai0: \n" + projectile.ai[0]);// ==== 0 - 30
+            // Main.NewText("ai1: \n" + projectile.ai[1]);// ==== 0
+            // Main.NewText("lai0: \n" + projectile.localAI[0]);// ==== rotation 0 - 3.14
+            // Main.NewText("lai1: \n" + projectile.localAI[1]);// ==== swingtime
+            // Main.NewText("anim: \n" + player.itemAnimation);// ==== 2
         }
 
         public static bool IsCrit(Projectile projectile, bool easyCrit)
@@ -140,11 +140,11 @@ namespace WeaponOut.Projectiles
         }
         public static void ModifyHitAny(Projectile projectile, ref int damage, ref float knockback, ref bool crit, bool easyCrit = false)
         {
-            //Main.NewText("tip hit : " + (projectile.ai[0]) + " | " + (projectile.localAI[1] / 2));
+            //Main.NewText("tip hit : \n" + (projectile.ai[0]) + " | \n" + (projectile.localAI[1] / 2));
             if (IsCrit(projectile, easyCrit))
             {
                 Player p = Main.player[projectile.owner];
-                //Main.NewText("crit: " + p.inventory[p.selectedItem].crit + p.meleeCrit);
+                //Main.NewText("crit: \n" + p.inventory[p.selectedItem].crit + p.meleeCrit);
                 damage = (int)(damage * (1 + (p.inventory[p.selectedItem].crit + p.meleeCrit) * 0.01f));
                 knockback *= 2;
                 crit = true;

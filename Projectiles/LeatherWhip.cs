@@ -10,6 +10,7 @@ namespace WeaponOut.Projectiles
 {
     public class LeatherWhip : ModProjectile
     {
+
         public const float whipLength = 18f;
         public const bool whipSoftSound = true;
         public const int handleHeight = 24;
@@ -18,9 +19,12 @@ namespace WeaponOut.Projectiles
         public const int tipHeight = 12;
         public const bool doubleCritWindow = true;
         public const bool ignoreLighting = false;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Leather Whip");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Leather Whip";
             projectile.width = 8;
             projectile.height = 8;
             projectile.scale = 1f;

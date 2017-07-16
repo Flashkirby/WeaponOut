@@ -8,17 +8,22 @@ namespace WeaponOut.Items.Weapons
 {
     public class Capacitor : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableDualWeapons;
         }
 
         HelperDual dual;
         HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("IOU: Capacitor");
+            Tooltip.SetDefault(
+                "<right> to cast a frost bolt\n" + 
+                "Melee attacks grant 80% reduced mana cost");
+        }
         public override void SetDefaults()
         {
-            item.name = "Capacitor";
-            item.toolTip = "<right> to cast a frost bolt\nMelee attacks grant 80% reduced mana cost";
             item.width = 40;
             item.height = 40;
             item.scale = 1.15f;
@@ -69,6 +74,7 @@ namespace WeaponOut.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+        /*
         public override void OnCraft(Recipe recipe)
         {
             HelperDual.OnCraft(this);
@@ -110,6 +116,6 @@ namespace WeaponOut.Items.Weapons
                 Main.dust[d].noGravity = true;
             }
         }
-
+        */
     }
 }

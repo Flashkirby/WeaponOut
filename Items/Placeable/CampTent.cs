@@ -7,20 +7,20 @@ namespace WeaponOut.Items.Placeable
 {
     public class CampTent : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Camping Tent");
+            Tooltip.SetDefault(
+                "Acts as a temporary spawn point\n" +
+                "Unreliable in multiplayer");
+        }
         public override void SetDefaults()
         {
-            
-            item.name = "Camping Tent";
-            item.toolTip = "Acts as a temporary spawn point";
-			if (Main.netMode > 0)
-			{
-				item.toolTip2 = "Warning: Unreliable in multiplayer";
-			}
             item.width = 16;
             item.height = 16;
             item.maxStack = 99;
@@ -32,7 +32,6 @@ namespace WeaponOut.Items.Placeable
             item.useAnimation = 15;
             item.useTime = 10;
             item.createTile = mod.TileType("CampTent");
-            //item.UseSound = SoundID.Item32;
 
             item.useTurn = true;
             item.autoReuse = true;

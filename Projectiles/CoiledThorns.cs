@@ -10,6 +10,7 @@ namespace WeaponOut.Projectiles
 {
     public class CoiledThorns : ModProjectile
     {
+
         public const float whipLength = 38f;
         public const bool whipSoftSound = false;
         public const int handleHeight = 24;
@@ -18,9 +19,12 @@ namespace WeaponOut.Projectiles
         public const int tipHeight = 12;
         public const bool doubleCritWindow = true;
         public const bool ignoreLighting = false;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Coiled Thorns");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Coiled Thorns";
             projectile.width = 10;
             projectile.height = 10;
             projectile.scale = 1.1f;

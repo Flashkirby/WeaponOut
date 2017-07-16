@@ -14,15 +14,20 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class BoneZone : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Strongbone");
+            Tooltip.SetDefault(
+                "Shoots a powerful, high velocity bullet\n" +
+                "'Skele-tons of damage!'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Bonezone";
-            item.toolTip = "Shoots a powerful, high velocity bullet";
-            item.toolTip2 = "'Skele-tons of fun!'";
             item.width = 56;
             item.height = 30;
             item.scale = 0.9f;

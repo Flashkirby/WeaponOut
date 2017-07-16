@@ -10,19 +10,23 @@ namespace WeaponOut.Items.Weapons
 {
     public class ManaSword : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableDualWeapons && ModConf.enableBasicContent;
         }
 
         HelperDual dual;
         HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("IOU: Mana Sword");
+            Tooltip.SetDefault(
+                "Casts a mana restoring star\n" +
+                "<right> to cast a powerful mana bolt\n" +
+                "Mana bolt damage increases with mana");
+        }
         public override void SetDefaults()
         {
-            item.name = "Mana Sword";
-            item.toolTip = @"Casts a mana restoring star
-<right> to cast a powerful mana bolt
-Mana bolt damage increases with mana";
             item.width = 58;
             item.height = 28;
             item.scale = 0.9f;
@@ -109,7 +113,7 @@ Mana bolt damage increases with mana";
             if (player.altFunctionUse > 0)
             {
                 damage += player.statMana / 4; //up to 100 with max mana, though will be around 25
-                //Main.NewText("Bolt buffed by " + (player.statMana / 4) + " to " + damage);
+                //Main.NewText("Bolt buffed by \n" + (player.statMana / 4) + " to \n" + damage);
             }
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }

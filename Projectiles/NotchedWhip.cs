@@ -10,6 +10,8 @@ namespace WeaponOut.Projectiles
 {
     public class NotchedWhip : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
         public const float whipLength = 24f;
         public const bool whipSoftSound = true;
         public const int handleHeight = 24;
@@ -20,7 +22,6 @@ namespace WeaponOut.Projectiles
         public const bool ignoreLighting = false;
         public override void SetDefaults()
         {
-            projectile.name = "Notched Whip";
             projectile.width = 8;
             projectile.height = 8;
             projectile.scale = 0.9f;

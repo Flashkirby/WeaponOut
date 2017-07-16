@@ -12,17 +12,22 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class WAR : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
         public const int penetrateBonus = 4;
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Woods' Antimat Rifle");
+            Tooltip.SetDefault(
+                "Bullets ignore cover\n" +
+                "'See ya space cowboy'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Woods' Antimat Rifle";
-            item.toolTip = "Bullets ignore cover\n'See ya space cowboy'";
             item.width = 80;
             item.height = 26;
 
@@ -86,7 +91,7 @@ namespace WeaponOut.Items.Weapons
                     p.arrow ||
                     p.npcProj ||
                     p.owner != player.whoAmI) continue;
-                //if (Main.netMode == 1) Main.NewText("proj: " + p.name + " to be modded - " + p.penetrate + " | " + p.maxPenetrate);
+                //if (Main.netMode == 1) Main.NewText("proj: \n" + p.name + " to be modded - \n" + p.penetrate + " | \n" + p.maxPenetrate);
                 if (p.width == (int)(4 * p.scale) && p.height == (int)(4 * p.scale))//bullets are all this size
                 {
                     check.SetDefaults(p.type);

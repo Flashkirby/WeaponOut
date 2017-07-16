@@ -15,8 +15,8 @@ namespace WeaponOut.Buffs
 
         public override void SetDefaults()
         {
-            Main.buffName[Type] = "Rallied";
-            Main.buffTip[Type] = "Major improvements to all stats";
+            DisplayName.SetDefault("Rallied");
+            Description.SetDefault("Major improvements to all stats");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

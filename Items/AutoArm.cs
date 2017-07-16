@@ -12,16 +12,20 @@ namespace WeaponOut.Items
 {
     public class AutoArm : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Voodoo Arm");
+            Tooltip.SetDefault(
+                "Enables auto-swing when favorited in inventory\n" + 
+                "'It twitches occasionally'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Voodoo Arm";
-            item.toolTip = "Enables auto-swing for weapons while in inventory";
-            item.toolTip2 = "'It twitches occasionally'";
             item.width = 28;
             item.height = 28;
             item.rare = 1;
@@ -44,6 +48,7 @@ namespace WeaponOut.Items
         }
         public override void UpdateInventory(Player player)
         {
+            if (!item.favorited) return;
             if (!player.HeldItem.autoReuse && !player.HeldItem.channel)
             {
                 if (player.itemAnimation == 0)

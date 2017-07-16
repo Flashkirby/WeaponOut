@@ -12,10 +12,14 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class ManaBolt : ModProjectile
     {
+
         private const int BEAM_LENGTH = 10;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Mana Bolt");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Mana Bolt";
             Main.projFrames[projectile.type] = 2;
             projectile.width = 32;
             projectile.height = 32;
@@ -98,7 +102,7 @@ namespace WeaponOut.Projectiles
                 projectile.damage = 0;
 
                 //loop around until death
-                //Main.NewText(projectile.localAI[0] + " < " + (-reachEnd));
+                //Main.NewText(projectile.localAI[0] + " < \n" + (-reachEnd));
                 if (projectile.localAI[0] < -reachEnd)
                 {
                     projectile.localAI[0] = -1;
@@ -152,10 +156,11 @@ namespace WeaponOut.Projectiles
                 projectile.velocity.X * scale * 0.5f * timeLeftNormal);
         }
 
-        public override void TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
             width = 8;
             height = 8;
+            return true;
         }
 
         public Vector2 tileHit;

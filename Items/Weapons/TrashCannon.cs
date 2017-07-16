@@ -13,17 +13,21 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class TrashCannon : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
         public const int penetrateBonus = 4;
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Trash Cannon");
+            Tooltip.SetDefault(
+                "'You might not, but your trash can'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Trash Cannon";
-            item.toolTip = "'You might not, but your trash can'";
             item.width = 48;
             item.height = 36;
             item.scale = 0.9f;

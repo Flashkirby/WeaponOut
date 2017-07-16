@@ -12,15 +12,18 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class CoiledThorns : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableWhips;
         }
 
         private bool increaseDamage;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Coiled Thorns");
+        }
         public override void SetDefaults()
         {
-            item.name = "Coiled Thorns";
 			item.width = 34;
 			item.height = 34;
 

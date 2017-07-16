@@ -12,15 +12,18 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class BoneWhip : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableWhips;
         }
 
         private bool increaseDamage;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bone Whip");
+        }
         public override void SetDefaults()
         {
-            item.name = "Bone Whip";
 			item.width = 34;
 			item.height = 34;
 

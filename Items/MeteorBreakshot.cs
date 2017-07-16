@@ -11,15 +11,19 @@ namespace WeaponOut.Items
     /// </summary>
     public class MeteorBreakshot : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Meteoric Breakshot");
+            Tooltip.SetDefault(
+                "Creates several meteoric shards on impact");
+        }
         public override void SetDefaults()
         {
-            item.name = "Meteoric Breakshot";
-            item.toolTip = "Creates several meteoric shards on impact ";
             item.width = 14;
             item.height = 14;
             item.maxStack = 999;
@@ -27,7 +31,7 @@ namespace WeaponOut.Items
 
             item.ranged = true;
             item.ammo = AmmoID.Bullet;
-            item.shoot = mod.ProjectileType("MeteorBreakshot");
+            item.shoot = mod.ProjectileType<Projectiles.MeteorBreakshot>();
             item.shootSpeed = 2.5f;
             item.damage = 9;
             item.knockBack = 3f;

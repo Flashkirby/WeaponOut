@@ -13,14 +13,17 @@ namespace WeaponOut.Projectiles
 {
     public class Raiden : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[projectile.type] = 9;
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Raiden";
             projectile.width = 104;
             projectile.height = 94;
             projectile.aiStyle = -1;
-
-            Main.projFrames[projectile.type] = 9;
 
             projectile.friendly = true;
             projectile.melee = true;

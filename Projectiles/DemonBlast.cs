@@ -15,6 +15,7 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class DemonBlast : ModProjectile
     {
+
         private const int chargeTime = 200;
         private const float muzzleDist = 1f;
         private const int hitboxSize = 4;
@@ -22,11 +23,14 @@ namespace WeaponOut.Projectiles
 
         private Vector2 staPos; //visual laser start position
         private Vector2 endPos; //visual laser end position
-        
 
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Demon Blast");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Demon Blast";
             projectile.width = 32;
             projectile.height = 32;
 
@@ -42,7 +46,7 @@ namespace WeaponOut.Projectiles
 
         public override void AI()
         {
-            //Main.NewText("time: "+ projectile.timeLeft + "ai[0]: " + projectile.ai[0] + " | ai[1]: " + projectile.ai[1]);
+            //Main.NewText("time: "+ projectile.timeLeft + "ai[0]: \n" + projectile.ai[0] + " | ai[1]: \n" + projectile.ai[1]);
             if (projectile.ai[0] < chargeTime) //spindown
             {
                 AICharge();

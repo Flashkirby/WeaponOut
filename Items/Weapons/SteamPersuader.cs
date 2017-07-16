@@ -10,21 +10,25 @@ namespace WeaponOut.Items.Weapons
 {
     public class SteamPersuader : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableDualWeapons;
         }
 
         HelperDual dual;
         HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("IOU: Steam Persuader");
+            Tooltip.SetDefault(
+                "No knockback on normal shots\n" +
+                "Four round burst\n" +
+                "Only the first shot consumes ammo\n" +
+                "10% chance to not consume ammo\n" +
+                "<right> to fire a spread shot");
+        }
         public override void SetDefaults()
         {
-            item.name = "Steam Persuader";
-            item.toolTip = @"No knockback on normal shots
-Four round burst
-Only the first shot consumes ammo
-10% chance to not consume ammo
-<right> to fire a spread shot";
             item.width = 62;
             item.height = 20;
 
@@ -69,6 +73,7 @@ Only the first shot consumes ammo
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+        /*
         public override void OnCraft(Recipe recipe)
         {
             HelperDual.OnCraft(this);
@@ -102,7 +107,7 @@ Only the first shot consumes ammo
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            //Main.NewText(player.itemAnimation + " == " + (player.itemAnimationMax - 1));
+            //Main.NewText(player.itemAnimation + " == \n" + (player.itemAnimationMax - 1));
             if (player.altFunctionUse == 0)
             {
                 speedX += 0.5f * (Main.rand.NextFloat() - 0.5f);
@@ -124,5 +129,6 @@ Only the first shot consumes ammo
             }
             return false;
         }
+        */
     }
 }

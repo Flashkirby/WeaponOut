@@ -10,6 +10,7 @@ namespace WeaponOut.Projectiles
 {
     public class BoneWhip : ModProjectile
     {
+
         public const float whipLength = 20f;
         public const bool whipSoftSound = false;
         public const int handleHeight = 32;
@@ -18,9 +19,12 @@ namespace WeaponOut.Projectiles
         public const int tipHeight = 16;
         public const bool doubleCritWindow = false;
         public const bool ignoreLighting = false;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bone Whip");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Bone Whip";
             projectile.width = 14;
             projectile.height = 14;
             projectile.scale = 0.9f;

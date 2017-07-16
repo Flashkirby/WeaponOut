@@ -66,7 +66,7 @@ namespace WeaponOut
             if (ModConf.enableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
             if (ModConf.enableDualWeapons) BuffIDWeaponSwitch = GetBuff("WeaponSwitch").Type;
 
-            DustIDManaDust = GetDust("ManaDust").Type;
+            DustIDManaDust = GetDust<Dusts.ManaDust>().Type;
 
             if (ModConf.enableEmblems) Items.HeliosphereEmblem.SetUpGlobalDPS();
 

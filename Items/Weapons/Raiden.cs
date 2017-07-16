@@ -15,7 +15,7 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class Raiden : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
@@ -26,11 +26,15 @@ namespace WeaponOut.Items.Weapons
         public bool slashFlip = false;
         public bool focusSlash = false;
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Raiden");
+            Tooltip.SetDefault(
+                "Stand still to focus on nearby foes\n" +
+                "'Imbued with ancient arts'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Raiden";
-            item.toolTip = "Stand still to focus on nearby foes";
-            item.toolTip2 = "'Imbued with ancient arts'";
             item.width = 40;
             item.height = 40;
 
@@ -139,7 +143,7 @@ namespace WeaponOut.Items.Weapons
                     player.position.X,
                     player.position.Y,
                     0, 0,
-                    mod.ProjectileType(item.name), 
+                    mod.ProjectileType<Projectiles.Raiden>(), 
                     0, 0f,
                     player.whoAmI,
                     focusType);

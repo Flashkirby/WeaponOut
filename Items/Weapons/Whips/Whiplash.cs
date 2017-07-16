@@ -12,16 +12,20 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class Whiplash : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableWhips;
         }
 
         private bool increaseDamage;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Whiplash");
+            Tooltip.SetDefault(
+                "Whips deal critical damage at the tip");
+        }
         public override void SetDefaults()
         {
-            item.name = "Whiplash";
-            item.toolTip = "Whips deal critical damage at the tip";
 			item.width = 34;
 			item.height = 34;
 

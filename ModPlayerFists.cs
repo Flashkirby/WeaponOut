@@ -9,15 +9,20 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.World.Generation;
 
-using static WeaponOut.ProjFX;
+// using static WeaponOut.ProjFX;
 // uses ReflectProjectilePlayer(Projectile projectile, Player player)
-using static WeaponOut.WeaponOut;
+
+// using static WeaponOut.WeaponOut;
+// NetUpdateParry()
+// NetUpdateDash()
 
 namespace WeaponOut
 {
 
     public class ModPlayerFists : ModPlayer
     {
+        public override bool Autoload(ref string name) { return ModConf.enableFists; }
+
         private const bool DEBUG_PARRYFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
@@ -96,10 +101,23 @@ namespace WeaponOut
         public float dashMinFriction;
 
         #region overrides
-
         public override void Initialize()
         {
-            ResetVariables();
+            specialMove = 0;
+            comboCounter = 0;
+            comboCounterMax = 0;
+            comboTimer = -1;
+            comboTimerMax = ComboResetTime;
+
+            parryTime = 0;
+            parryTimeMax = 0;
+            parryWindow = 0;
+            parryBuff = false;
+
+            dashSpeed = 14.5f;
+            dashMaxSpeedThreshold = 12f;
+            dashMaxFriction = 0.992f;
+            dashMinFriction = 0.96f;
         }
         public override void ResetEffects()
         {
@@ -149,7 +167,6 @@ namespace WeaponOut
         {
             OnHitComboLogic(item);
         }
-
         #endregion
 
         public void ResetVariables()
@@ -792,7 +809,7 @@ namespace WeaponOut
                 Main.PlaySound(SoundID.NPCHit3, player.position);
                 if (damageSource.SourceProjectileIndex >= 0)
                 {
-                    ReflectProjectilePlayer(
+                    ProjFX.ReflectProjectilePlayer(
                         Main.projectile[damageSource.SourceProjectileIndex], player);
                 }
             }
@@ -831,7 +848,7 @@ namespace WeaponOut
                 this.parryWindow = parryWindow;
                 this.parryTimeMax = parryTimeMax;
 
-                NetUpdateParry(this);
+                WeaponOut.NetUpdateParry(this);
             }
             return false;
         }
@@ -918,11 +935,11 @@ namespace WeaponOut
                     */
                     #endregion
 
-                    float dashSpeed = this.dashSpeed;
+                    float dSpeed = this.dashSpeed;
                     float direction = 0;
 
                     direction = player.direction;
-                    player.velocity.X = dashSpeed * direction;
+                    player.velocity.X = dSpeed * direction;
 
                     Point point3 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), player.gravDir * -(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
                     Point point4 = (player.Center + new Vector2((float)(player.direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
@@ -933,7 +950,7 @@ namespace WeaponOut
 
                     // Set dash to active
                     player.dashDelay = -1;
-                    NetUpdateDash(this);
+                    WeaponOut.NetUpdateDash(this);
                 }
 
                 // Apply movement during the actual dash, 

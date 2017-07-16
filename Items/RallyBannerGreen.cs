@@ -12,16 +12,18 @@ namespace WeaponOut.Items
     /// </summary>
     public class RallyBannerGreen : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
-
-        public const int buffRadius = 1024;
+        
+        public override void SetStaticDefaults()
+        {
+            RallyBannerRed.SetStaticDefaults(this, "Green Rally Banner");
+        }
         public override void SetDefaults()
         {
             RallyBannerRed.SetDefaults(item);
-            item.name = "Green Rally Banner";
         }
         public override void AddRecipes()
         {

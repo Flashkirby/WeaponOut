@@ -9,12 +9,17 @@ namespace WeaponOut.Projectiles
 {
     public class PsyWave : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Psychic Wave");
+            Main.projFrames[projectile.type] = 4;
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Psychic Wave";
             projectile.width = 32;
             projectile.height = 32;
-            Main.projFrames[projectile.type] = 4;
 
             projectile.penetrate = -1;
             projectile.alpha = 50;
@@ -70,10 +75,11 @@ namespace WeaponOut.Projectiles
             }
         }
 
-        public override void TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
             width = projectile.width / 2;
             height = projectile.height / 2;
+            return true;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

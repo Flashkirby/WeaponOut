@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 
-using ItemCustomizer;
 using Terraria.ModLoader.IO;
 using System.IO;
 //using Terraria.Graphics.Shaders;
@@ -18,6 +20,7 @@ namespace WeaponOut
 {
     public class PlayerFX : ModPlayer
     {
+
         private const bool DEBUG_WEAPONHOLD = false;
         private const bool DEBUG_BOOMERANGS = false;
 
@@ -467,11 +470,15 @@ namespace WeaponOut
 
             // Item customiser integration
             // https://github.com/gamrguy/ItemCustomizer
-            try
+            Mod itemCustomizer = ModLoader.GetMod("ItemCustomizer");
+            if (itemCustomizer != null)
             {
-                ItemCustomizerIntegration(drawInfo, heldItem, ref data.shader);
+                try
+                {
+                    ItemCustomizerIntegration(itemCustomizer, drawInfo, heldItem, ref data.shader);
+                }
+                catch { }
             }
-            catch { } // Mod not found/loaded
 
             //work out what type of weapon it is!
             #region Weapon Algorithm
@@ -735,16 +742,17 @@ namespace WeaponOut
         /// <param name="drawInfo"></param>
         /// <param name="item"></param>
         /// <param name="shader"></param>
-        private static void ItemCustomizerIntegration(PlayerDrawInfo drawInfo, Item item, ref int shader)
+        private static void ItemCustomizerIntegration(Mod mod, PlayerDrawInfo drawInfo, Item item, ref int shader)
         {
             if (!Main.dedServ)
             {
-                Mod itemCustomizer = itemCustomizer = ModLoader.GetMod("ItemCustomizer");
-                if (itemCustomizer != null)
-                {
-                    //CustomizerItemInfo cii = item.GetModInfo<CustomizerItemInfo>(itemCustomizer);
-                    //shader = cii.shaderID;
-                }
+                    GlobalItem cii = item.GetGlobalItem(mod, "CustomizerItem");
+                    // The field we're looking for
+                    var shaderIDInfo = cii.GetType().GetField("shaderID", BindingFlags.Public);
+                    // Check this field on this class
+                    int shaderID = (int)shaderIDInfo.GetValue(cii);
+                    // we got this
+                    shader = shaderID;
             }
         }
 

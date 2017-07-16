@@ -16,16 +16,20 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class LeatherWhip : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableWhips;
         }
 
         private bool increaseDamage;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Leather Whip");
+            Tooltip.SetDefault(
+                "Whips deal critical damage at the tip");
+        }
         public override void SetDefaults()
         {
-            item.name = "Leather Whip";
-            item.toolTip = "Whips deal critical damage at the tip";
 			item.width = 34;
 			item.height = 34;
 

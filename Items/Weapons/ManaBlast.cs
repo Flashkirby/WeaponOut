@@ -8,15 +8,20 @@ namespace WeaponOut.Items.Weapons
 {
     public class ManaBlast : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Mana Wand");
+            Tooltip.SetDefault(
+                "Casts a mana restoring star");
+        }
         public override void SetDefaults()
         {
-            item.name = "Mana Wand";
-            item.toolTip = "Casts a mana restoring star";
             item.width = 38;
             item.height = 14;
             item.scale = 0.9f;
@@ -28,7 +33,7 @@ namespace WeaponOut.Items.Weapons
             item.autoReuse = true;
 
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("ManaBlast");
+            item.shoot = mod.ProjectileType<Projectiles.ManaBlast>();
             item.shootSpeed = 7;
 
             item.useStyle = 5;

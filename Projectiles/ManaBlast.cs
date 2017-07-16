@@ -14,9 +14,13 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class ManaBlast : ModProjectile
     {
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Mana Blast");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Mana Blast";
             projectile.width = 18;
             projectile.height = 18;
 

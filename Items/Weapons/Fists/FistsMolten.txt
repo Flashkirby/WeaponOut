@@ -14,7 +14,7 @@ namespace WeaponOut.Items.Weapons.Fists
 {
     public class FistsMolten : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             equips.Add(EquipType.HandsOn);
             return ModConf.enableFists;

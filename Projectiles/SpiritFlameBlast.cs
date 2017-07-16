@@ -12,11 +12,16 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class SpiritFlameBlast : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
         private const float bulletFadeTime = 10;
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Furious Flames");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Furious Flames";
             projectile.width = 8;
             projectile.height = 8;
             projectile.alpha = 255;

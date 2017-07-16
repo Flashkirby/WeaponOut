@@ -12,11 +12,12 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class SplinterShot : ModProjectile
     {
-        private const float bulletFadeTime = 10;
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
 
+        private const float bulletFadeTime = 10;
+        
         public override void SetDefaults()
         {
-            projectile.name = "Splinter Shot";
             projectile.width = 4;
             projectile.height = 4;
             projectile.alpha = 255;
@@ -33,7 +34,7 @@ namespace WeaponOut.Projectiles
 
         public override void AI()
         {
-            //Main.NewText("ai0: " + projectile.ai[0] + " | ai1: " + projectile.ai[1]);
+            //Main.NewText("ai0: \n" + projectile.ai[0] + " | ai1: \n" + projectile.ai[1]);
             Player player = Main.player[projectile.owner];
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
 

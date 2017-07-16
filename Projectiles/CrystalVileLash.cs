@@ -10,6 +10,7 @@ namespace WeaponOut.Projectiles
 {
     public class CrystalVileLash : ModProjectile
     {
+
         public const float whipLength = 40f; //Long enough for spazmatism
         public const bool whipSoftSound = false;
         public const int handleHeight = 24;
@@ -18,9 +19,12 @@ namespace WeaponOut.Projectiles
         public const int tipHeight = 16;
         public const bool doubleCritWindow = true;
         public const bool ignoreLighting = false;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Crystal Vilelash");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Crystal Vilelash";
             projectile.width = 18;
             projectile.height = 18;
             projectile.scale = 1.2f;

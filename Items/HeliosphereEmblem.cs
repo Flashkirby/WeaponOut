@@ -12,17 +12,21 @@ namespace WeaponOut.Items
 {
     public class HeliosphereEmblem : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableEmblems;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Heliosphere Emblem");
+            Tooltip.SetDefault(
+                "Supercharges melee weapons to their lunar potential\n" +
+                "12% increased melee speed\n" +
+                "'Rekindling old flames'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Heliosphere Emblem";
-            item.toolTip = @"Supercharges melee weapons to their lunar potential
-12% increased melee speed";
-            item.toolTip2 = "'Rekindling old flames'";
             item.width = 28;
             item.height = 28;
             item.rare = 10;
@@ -139,7 +143,7 @@ namespace WeaponOut.Items
         /// <param name="heldItem"></param>
         private static void ApplyAutoReuse(Player player, Item heldItem)
         {
-            //Main.NewText("auto is melee? " + heldItem.melee + " | reuse? " + heldItem.autoReuse);
+            //Main.NewText("auto is melee? \n" + heldItem.melee + " | reuse? \n" + heldItem.autoReuse);
             if (!heldItem.autoReuse && !heldItem.channel)
             {
                 if (player.itemAnimation == 0)
@@ -279,7 +283,7 @@ namespace WeaponOut.Items
         private static float SetBonusMelee(Item heldItem, Item defaultItem, float rawIncrease)
         {
             int damageSources = 1; //deadls damage from melee hits
-            //Main.NewText("myDPS = " + CalculateDPS(damageSources, item.damage, item.crit, item.useAnimation));
+            //Main.NewText("myDPS = \n" + CalculateDPS(damageSources, item.damage, item.crit, item.useAnimation));
             if (heldItem.shoot > 0)
             {
                 Projectile p = new Projectile();
@@ -351,7 +355,7 @@ namespace WeaponOut.Items
                     (!proj.melee && !proj.ranged && !proj.magic && !proj.thrown) ||
                     proj.npcProj ||
                     proj.owner != player.whoAmI) continue;
-                //if (Main.netMode == 1) Main.NewText("proj: " + p.name + " to be modded - " + p.penetrate + " | " + p.maxPenetrate);
+                //if (Main.netMode == 1) Main.NewText("proj: \n" + p.name + " to be modded - \n" + p.penetrate + " | \n" + p.maxPenetrate);
                 check.SetDefaults(proj.type);
                 if (proj.timeLeft == (check.timeLeft - (1 + check.extraUpdates))
                     && !isPenetrating(proj.penetrate))
@@ -362,12 +366,12 @@ namespace WeaponOut.Items
             }
             if (myProjs.Count > 1)
             {
-                //Main.NewText("Balancing " + myProjs[0].name + " damage");
+                //Main.NewText("Balancing \n" + myProjs[0].name + " damage");
                 foreach (Projectile proj in myProjs)
                 {
                     float semiBaseDmg = proj.damage - rawIncrease;
                     //Divide damage by count, because the emblem already buffs it
-                    //Main.NewText((proj.damage / myProjs.Count * 2) + " | " + semiBaseDmg);
+                    //Main.NewText((proj.damage / myProjs.Count * 2) + " | \n" + semiBaseDmg);
                     proj.damage /= myProjs.Count;
                     if (proj.damage * 1.5 < semiBaseDmg) proj.damage = (int)(semiBaseDmg + rawIncrease / myProjs.Count);
                 }
@@ -382,11 +386,11 @@ namespace WeaponOut.Items
             float trueAnimation = Math.Max(useAnimation + reuseDelay, 1);
             float hps = 60f / trueAnimation;
 
-            //Main.NewText("src " + damageSources + " | hits " + hits + " | dmg " + +pureDamage + " | hps " + hps);
+            //Main.NewText("src \n" + damageSources + " | hits \n" + hits + " | dmg \n" + +pureDamage + " | hps \n" + hps);
 
-            //Main.NewText("goalDPS = " + goalDPS + " | puredmg = " + pureDamage);
-            //Main.NewText("goalDPS / anim/hits/dmgsrc = " + (goalDPS / (60 / trueAnimation) / hits / damageSources));
-            //Main.NewText("all = " + (goalDPS / hps / hits / damageSources - pureDamage));
+            //Main.NewText("goalDPS = \n" + goalDPS + " | puredmg = \n" + pureDamage);
+            //Main.NewText("goalDPS / anim/hits/dmgsrc = \n" + (goalDPS / (60 / trueAnimation) / hits / damageSources));
+            //Main.NewText("all = \n" + (goalDPS / hps / hits / damageSources - pureDamage));
 
             float rawBonus = goalDPS / hps / hits / damageSources - pureDamage;
             return rawBonus;
@@ -449,11 +453,11 @@ namespace WeaponOut.Items
         public static float CalculateDPS(int damageSources, int damage, int crit, int useAnimation, int useTime, int reuseDelay)
         {
             int hits = CalculateNumOfHits(useAnimation, useTime);
-            //Main.NewText("hits = " + hits);
+            //Main.NewText("hits = \n" + hits);
             float trueDamage = CalculateDamageFromDefAndCrit(damage, crit);
             float trueAnimation = Math.Max(useAnimation + reuseDelay, 1);
 
-            //Main.NewText("calculating " + damageSources + trueDamage + " * " + hits + " * 60 / " + trueAnimation + " | crit " + crit);
+            //Main.NewText("calculating \n" + damageSources + trueDamage + " * \n" + hits + " * 60 / \n" + trueAnimation + " | crit \n" + crit);
             return damageSources * trueDamage * hits * 60 / trueAnimation;
         }
         private static float CalculateDamageFromDefAndCrit(int damage, int crit)

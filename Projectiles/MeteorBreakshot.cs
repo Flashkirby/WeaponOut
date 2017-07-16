@@ -12,11 +12,16 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class MeteorBreakshot : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
         private const float bulletFadeTime = 10;
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Meteoric Breakshot");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Meteoric Breakshot";
             projectile.width = 4;
             projectile.height = 4;
             projectile.alpha = 255;
@@ -128,7 +133,7 @@ namespace WeaponOut.Projectiles
                 direction = -oldVelocity;
                 direction.Normalize();
             }
-            //Main.NewText("<final> direction = " + direction.X + ":" + direction.Y);
+            //Main.NewText("<final> direction = \n" + direction.X + ":\n" + direction.Y);
             return direction;
         }
 

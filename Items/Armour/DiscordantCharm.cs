@@ -10,26 +10,26 @@ namespace WeaponOut.Items.Armour
     /// <summary>
     /// Intercepts hook controls for discord teleporting when free
     /// </summary>
+    [AutoloadEquip(EquipType.Head)]
     public class DiscordantCharm : ModItem
     {
         private bool skipFrameAcc = false;
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
-            if (ModConf.enableAccessories)
-            {
-                equips.Add(EquipType.Head);
-                return true;
-            }
-            return false;
+            return ModConf.enableAccessories;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Discordant Charm");
+            Tooltip.SetDefault(
+                "Prioritise teleporting over grappling\n" +
+                "Requires the Rod of Discord\n" +
+                "Functions in the Head Vanity Slot\n" +
+                "Can be equipped as an accessory");
+        }
         public override void SetDefaults()
         {
-            item.name = "Discordant Charm";
-            item.toolTip = @"Prioritise teleporting over grappling
-Requires the Rod of Discord
-Functions in the Head Vanity Slot
-Can be equipped as an accessory";
             item.width = 28;
             item.height = 28;
             item.rare = 7;
@@ -125,26 +125,21 @@ Can be equipped as an accessory";
                     if ((Main.tile[num246, num247].wall != 87 || (double)num247 <= Main.worldSurface || NPC.downedPlantBoss) && !Collision.SolidCollision(vector32, player.width, player.height))
                     {
                         player.Teleport(vector32, 1, 0);
-                        NetMessage.SendData(65, -1, -1, "", 0, (float)player.whoAmI, vector32.X, vector32.Y, 1, 0, 0);
+                        NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, vector32.X, vector32.Y, 1, 0, 0);
                         if (player.chaosState)
                         {
                             player.statLife -= player.statLifeMax2 / 7;
-                            if (Lang.lang <= 1)
+
+                            PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
+                            if (Main.rand.Next(2) == 0)
                             {
-                                PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
-                                if (Main.rand.Next(2) == 0)
-                                {
-                                    damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
-                                }
-                                if (player.statLife <= 0)
-                                {
-                                    player.KillMe(damageSource, 1.0, 0, false);
-                                }
+                                damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
                             }
-                            else if (player.statLife <= 0)
+                            if (player.statLife <= 0)
                             {
-                                player.KillMe(PlayerDeathReason.LegacyEmpty(), 1.0, 0, false);
+                                player.KillMe(damageSource, 1.0, 0, false);
                             }
+
                             player.lifeRegenCount = 0;
                             player.lifeRegenTime = 0;
                         }

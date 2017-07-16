@@ -11,15 +11,19 @@ namespace WeaponOut.Items
     /// </summary>
     public class ScatterShot : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Shattered Crystals");
+            Tooltip.SetDefault(
+                "Breaks apart after a short distance");
+        }
         public override void SetDefaults()
         {
-            item.name = "Shattered Crystals";
-            item.toolTip = "Breaks apart after a short distance";
             item.width = 14;
             item.height = 14;
             item.maxStack = 999;
@@ -27,7 +31,7 @@ namespace WeaponOut.Items
 
             item.ranged = true;
             item.ammo = AmmoID.Bullet;
-            item.shoot = mod.ProjectileType("ScatterShot");
+            item.shoot = mod.ProjectileType<Projectiles.ScatterShot>();
             item.shootSpeed = 4;
             item.damage = 7;
             item.knockBack = 1;

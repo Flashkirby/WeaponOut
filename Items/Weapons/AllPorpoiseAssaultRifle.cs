@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons
         /// <summary>
         /// Generate a completely legit glowmask ;)
         /// </summary>
-        public override bool Autoload(ref string name, ref string texture, System.Collections.Generic.IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             if (Main.netMode != 2 && ModConf.enableDualWeapons)
             {
@@ -52,13 +52,19 @@ namespace WeaponOut.Items.Weapons
             return false;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("IOU: All-Porpoise Assault Rifle");
+            Tooltip.SetDefault(
+                "<right> to fire a powerful underbarrel rocket\n" + 
+                "50% chance to not consume ammo\n" +
+                "'Perfect for target rich environments'");
+        }
+        /*
         HelperDual dual;
         HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
         public override void SetDefaults()
         {
-            item.name = "All-Porpoise Assault Rifle";
-            item.toolTip = "<right> to fire a powerful underbarrel rocket\n50% chance to not consume ammo";
-            item.toolTip2 = "'Perfect for target rich environments'";
             item.width = 60;
             item.height = 20;
             item.scale = 1.1f;
@@ -202,5 +208,6 @@ namespace WeaponOut.Items.Weapons
             }
             return true;
         }
+        */
     }
 }

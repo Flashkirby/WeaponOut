@@ -27,7 +27,7 @@ namespace WeaponOut.Items.Weapons
         /// <summary>
         /// Generate a completely legit glowmask ;)
         /// </summary>
-        public override bool Autoload(ref string name, ref string texture, System.Collections.Generic.IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             if (Main.netMode != 2 && ModConf.enableBasicContent)
             {
@@ -44,12 +44,16 @@ namespace WeaponOut.Items.Weapons
             }
             return false;
         }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Channeler Staff");
+            Tooltip.SetDefault(
+                "Greatly increases mana regen when held\n" +
+                "Cast a mana restoring ray to players on your team\n" +
+                "Ray also increases magic damage");
+        }
         public override void SetDefaults()
         {
-            item.name = "Channeler Staff";
-            item.toolTip = @"Greatly increases mana regen when held
-Cast a mana restoring ray to players on your team
-Ray also increases magic damage";
             item.width = 42;
             item.height = 42;
 
@@ -60,7 +64,7 @@ Ray also increases magic damage";
             item.knockBack = 0;
 
             item.mana = 8;
-            item.shoot = mod.ProjectileType("ManaRestoreBeam");
+            item.shoot = mod.ProjectileType<Projectiles.ManaRestoreBeam>();
             item.shootSpeed = 2;
 
             item.useStyle = 5; //aim

@@ -7,6 +7,7 @@ namespace WeaponOut.Dusts
 {
     public class ManaDust : ModDust
     {
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

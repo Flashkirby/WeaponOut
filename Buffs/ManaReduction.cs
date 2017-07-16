@@ -9,11 +9,11 @@ namespace WeaponOut.Buffs
         {
             return ModConf.enableDualWeapons;
         }
-
+        
         public override void SetDefaults()
         {
-            Main.buffName[Type] = "Mana Cost Reduced";
-            Main.buffTip[Type] = "Next magic attack has mana cost reduced by 80%";
+            DisplayName.SetDefault("Mana Cost Reduced");
+            Description.SetDefault("Next magic attack has mana cost reduced by 80%");
             Main.buffNoTimeDisplay[Type] = false;
         }
 

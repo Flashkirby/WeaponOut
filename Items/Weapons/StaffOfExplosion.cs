@@ -8,18 +8,22 @@ namespace WeaponOut.Items.Weapons
 {
     public class StaffOfExplosion : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
         public const int baseDamage = 40;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Staff of Explosion");
+            Tooltip.SetDefault(
+                "Create a powerful explosion at a location\n" +
+                "Increase channel speed by standing still\n" +
+                "Enemies are more likely to target you while casting");
+        }
         public override void SetDefaults()
         {
-            item.name = "Staff of Explosion";
-            item.toolTip = @"Create a powerful explosion at a location
-Increase channel speed by standing still
-Enemies are more likely to target you while casting";
             item.width = 52;
             item.height = 14;
             item.scale = 1f;

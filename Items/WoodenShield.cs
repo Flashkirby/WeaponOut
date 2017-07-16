@@ -5,24 +5,24 @@ using Terraria.ModLoader;
 
 namespace WeaponOut.Items
 {
-	public class WoodenShield : ModItem
+    [AutoloadEquip(EquipType.Shield)]
+    public class WoodenShield : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
-            if (ModConf.enableAccessories)
-            {
-                equips.Add(EquipType.Shield);
-                return true;
-            }
-            return false;
+            return ModConf.enableAccessories;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Round Shield");
+            Tooltip.SetDefault(
+                "Grants 10 damage knockback immunity");
+        }
         public override void SetDefaults()
         {
-            item.name = "Round Shield";
             item.width = 24;
             item.height = 28;
-            item.toolTip = "Grants 10 damage knockback immunity"; //see playerfx
             item.accessory = true;
             item.defense = 1;
             item.value = Item.sellPrice(0,0,15,0);

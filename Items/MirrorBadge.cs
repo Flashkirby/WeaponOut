@@ -11,17 +11,21 @@ namespace WeaponOut.Items
     {
         public const int reflectDelay = 90;
 
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableAccessories;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Mirror Badge");
+            Tooltip.SetDefault(
+                "Immunity to petrification\n" +
+                "Reflects most projectiles\n" +
+                "'A mark of courage, polished to perfection'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Mirror Badge";
-            item.toolTip = @"Immunity to petrification
-Reflects most projectiles";
-            item.toolTip2 = "'A mark of courage, if a bit unpolished'";
             item.width = 18;
             item.height = 20;
             item.rare = 8;

@@ -9,10 +9,15 @@ namespace WeaponOut.Projectiles
 {
     public class ScatterShot : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
         public const float framesPerBullet = 4f;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Shatter Shard");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Shatter Shard";
             projectile.width = 4;
             projectile.height = 4;
 

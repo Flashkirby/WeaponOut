@@ -11,17 +11,21 @@ namespace WeaponOut.Items
 {
     public class PerihelionEmblem : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableEmblems;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Perihelion Emblem");
+            Tooltip.SetDefault(
+                "Supercharges throwing weapons to their lunar potential\n" +
+                "30 % increased throwing velocity\n" +
+                "Swing back around");
+        }
         public override void SetDefaults()
         {
-            item.name = "Perihelion Emblem";
-            item.toolTip = @"Supercharges throwing weapons to their lunar potential
-30% increased throwing velocity";
-            item.toolTip2 = "'Swing back around'";
             item.width = 28;
             item.height = 28;
             item.rare = 10;

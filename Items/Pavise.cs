@@ -5,25 +5,25 @@ using Terraria.ModLoader;
 
 namespace WeaponOut.Items
 {
+    [AutoloadEquip(EquipType.Shield)]
     public class Pavise : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
-            if (ModConf.enableAccessories)
-            {
-                equips.Add(EquipType.Shield);
-                return true;
-            }
-            return false;
+            return ModConf.enableAccessories;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Fossil Shield"); //Ceratopsian Shield
+            Tooltip.SetDefault(
+                "10 defense when facing attacks\n" +
+                "Grants immunity to knockback when facing attacks");
+        }
         public override void SetDefaults()
         {
-            item.name = "Ceratopsian Shield";
             item.width = 24;
             item.height = 28;
-            item.toolTip = "10 defense when facing attacks"; //see playerfx
-            item.toolTip2 = "Grants immunity to knockback when facing attacks"; //see playerfx
             item.rare = 1;
             item.accessory = true;
             item.value = Item.sellPrice(0, 0, 20, 0);

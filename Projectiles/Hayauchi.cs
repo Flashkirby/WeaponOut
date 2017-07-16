@@ -7,15 +7,19 @@ namespace WeaponOut.Projectiles
 {
     public class Hayauchi : ModProjectile
     {
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Hayauchi");
+            Main.projFrames[projectile.type] = 9;
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Hayauchi";
             projectile.width = 228;
             projectile.height = 142;
             projectile.timeLeft = 16;
 
             projectile.alpha = 255;
-            Main.projFrames[projectile.type] = 9;
             
             projectile.friendly = true;
             projectile.melee = true;

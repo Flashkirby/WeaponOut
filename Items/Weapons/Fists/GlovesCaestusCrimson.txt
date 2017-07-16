@@ -9,9 +9,9 @@ using WeaponOut.Items.Weapons.UseStyles;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
-    public class GlovesCaestus : ModItem
+    public class GlovesCaestusCrimson : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             equips.Add(EquipType.HandsOn);
             equips.Add(EquipType.HandsOff);
@@ -25,27 +25,27 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 if (fist == null)
                 {
-                    fist = new FistStyle(item, 4);
+                    fist = new FistStyle(item, 3);
                 }
                 return fist;
             }
         }
         public override void SetDefaults()
         {
-            item.name = "Caestus";
+            item.name = "The Tenderizer";
             item.toolTip = "<right> to parry attacks for a temporary dash";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 15;//actually treated as -2
-            item.useTime = 15;
+            item.useAnimation = 22;
+            item.useTime = 22;
 
             item.width = 28;
             item.height = 28;
-            item.damage = 14;
-            item.knockBack = 3f;
+            item.damage = 24;
+            item.knockBack = 4f;
             item.UseSound = SoundID.Item7;
 
-            item.value = Item.sellPrice(0, 0, 0, 50);
+            item.value = Item.sellPrice(0, 0, 10, 0);
             item.rare = 1;
             item.noUseGraphic = true;
             item.melee = true;
@@ -57,8 +57,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Leather, 3);
-            recipe.AddIngredient(ItemID.WormTooth, 1);
+            recipe.AddIngredient(ItemID.CrimtaneBar, 4);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -66,7 +65,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void HoldItem(Player player)
         {
-            Fist.HoldItemOnParryFrame(player, mod, false, "30 bonus damage and dash for next landed punch");
+            Fist.HoldItemOnParryFrame(player, mod, false, "Heal 5 life and dash for next landed punch");
         }
 
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
@@ -79,13 +78,19 @@ namespace WeaponOut.Items.Weapons.Fists
             if (buffIndex >= 0)
             {
                 player.ClearBuff(player.buffType[buffIndex]);
-                damage += 30;
+                if (!player.moonLeech)
+                {
+                    player.HealEffect(5, false);
+                    player.statLife += 5;
+                    player.statLife = System.Math.Min(player.statLife, player.statLifeMax2);
+                    NetMessage.SendData(MessageID.SpiritHeal, -1, -1, "", player.whoAmI, 5f);
+                }
             }
         }
 
         public override bool AltFunctionUse(Player player)
         {
-            return Fist.AtlFunctionParry(player, mod, 10, 15);
+            return Fist.AtlFunctionParry(player, mod, 12, 28);
         }
 
         public override bool UseItemFrame(Player player)

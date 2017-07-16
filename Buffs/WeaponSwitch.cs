@@ -12,8 +12,8 @@ namespace WeaponOut.Buffs
 
         public override void SetDefaults()
         {
-            Main.buffName[Type] = "Switch Item";
-            Main.buffTip[Type] = "Items will use their alternate functions";
+            DisplayName.SetDefault("Switch Item");
+            Description.SetDefault("Items will use their alternate functions");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

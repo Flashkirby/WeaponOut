@@ -12,14 +12,18 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class Reverb : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
         public const float explosionSize = 3f;
         public const float explosionTime = 5f;
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[projectile.type] = 2;
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Reverb";
             projectile.width = 32;
             projectile.height = 32;
-            Main.projFrames[projectile.type] = 2;
             
             projectile.penetrate = -1;
 
@@ -112,10 +116,11 @@ namespace WeaponOut.Projectiles
             return false;
         }
 
-        public override void TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
             width /= 2;
             height /= 2;
+            return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

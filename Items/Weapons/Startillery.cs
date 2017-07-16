@@ -12,18 +12,21 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class Startillery : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
         public const int penetrateBonus = 4;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.CloneDefaults(ItemID.StarCannon);
-            item.name = "Startillery";
-            item.damage = 250;
+            DisplayName.SetDefault("Startillery Staff");
+        }
+        public override void SetDefaults()
+        {
+            item.damage = 230;
             item.useTime = 80;
             item.useAnimation = 81;
             item.UseSound = SoundID.DD2_BallistaTowerShot;

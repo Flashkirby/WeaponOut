@@ -10,16 +10,20 @@ namespace WeaponOut.Items.Weapons
 {
     public class ImmaterialBlade : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Immaterial Blade");
+            Tooltip.SetDefault(
+                "Bypasses thick armor\n" +
+                "'Light as a feather'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Immaterial Blade";
-            item.toolTip = "Bypasses thick armor";
-            item.toolTip2 = "'Light as a feather'";
             item.width = 40;
             item.height = 40;
             item.scale = 1.15f;

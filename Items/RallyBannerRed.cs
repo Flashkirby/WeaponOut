@@ -12,11 +12,15 @@ namespace WeaponOut.Items
     /// </summary>
     public class RallyBannerRed : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
-        
+
+        public override void SetStaticDefaults()
+        {
+            RallyBannerRed.SetStaticDefaults(this, "Red Rally Banner");
+        }
         public override void SetDefaults()
         {
             RallyBannerRed.SetDefaults(item);
@@ -33,15 +37,18 @@ namespace WeaponOut.Items
 
         #region Static Methods
 
+        public static void SetStaticDefaults(ModItem modItem, string name)
+        {
+            modItem.item.CloneDefaults(ItemID.Umbrella);
+            modItem.DisplayName.SetDefault(name);
+            modItem.Tooltip.SetDefault(
+                "Increases stats for your team whilst held\n" +
+                "Team is not affected by banner color");
+        }
         public static void SetDefaults(Item item)
         {
-            item.CloneDefaults(ItemID.Umbrella);
-            item.name = "Red Rally Banner";
             item.width = 28;
             item.height = 48;
-            item.toolTip = "Increases stats for your team whilst held";
-            item.toolTip2 = "Team is not affected by banner color";
-
             item.value = 3000;
         }
         public static void AddRecipe(ModItem modItem)

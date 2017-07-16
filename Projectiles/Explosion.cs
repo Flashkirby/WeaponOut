@@ -19,6 +19,7 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class Explosion : ModProjectile
     {
+
         public static Texture2D textureTargetS;
         public static Texture2D textureTargetM;
         public static Texture2D textureTargetL;
@@ -68,9 +69,12 @@ namespace WeaponOut.Projectiles
 
         private Vector2 zoomDiff = new Vector2();
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosion Charge");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Explosion"; //great explosion, mega explosion, extreme explosion, ultra explosion, grand explosion
             projectile.width = 100;
             projectile.height = 100;
 
@@ -129,7 +133,7 @@ namespace WeaponOut.Projectiles
                 projectile.damage = 0;
                 centreY = projectile.Center.Y;
 
-                //-//Main.NewText("Damage: " + Damage);
+                //-//Main.NewText("Damage: \n" + Damage);
             }
 
             Vector2 vectorDiff = player.Center - projectile.Center;
@@ -172,7 +176,7 @@ namespace WeaponOut.Projectiles
             bool littleCharge = ChargeLevel == 0 && ChargeTick < chargeTicksMax / 2;
 
             float distance = Vector2.Distance(player.Center, projectile.Center);
-            //Main.NewText("distance: " + distance + "/" + maxDistance);
+            //Main.NewText("distance: \n" + distance + "/\n" + maxDistance);
 
             //cancelled if no longer channelling or can't act, or simply too far
             if ((player.channel || littleCharge)
@@ -262,7 +266,7 @@ namespace WeaponOut.Projectiles
                         textureSizes[ChargeLevel - 1] = projectile.width;
 
                         player.CheckMana(manaCost, true);
-                        //-//Main.NewText("Increase... tier " + ChargeLevel + " | current manacost: " + manaCost + "| size: " + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
+                        //-//Main.NewText("Increase... tier \n" + ChargeLevel + " | current manacost: \n" + manaCost + "| size: \n" + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
 
                         chargeNext();
                     }
@@ -329,7 +333,7 @@ namespace WeaponOut.Projectiles
                 ) * player.direction;
 
                 /*
-                ////-//Main.NewText("casting... " + ((float)ChargeTick / castTicksTime));
+                ////-//Main.NewText("casting... \n" + ((float)ChargeTick / castTicksTime));
                 int d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2, 3),
                     0, 0, 130, 0, 0, 0, Color.White, 0.5f + (0.1f * ((float)ChargeTick / castTicksTime)));
                 Main.dust[d].noGravity = true;
@@ -365,7 +369,7 @@ namespace WeaponOut.Projectiles
                     int divDamage = Damage / (1 + (projectile.timeLeft / 10));
                     projectile.damage = divDamage;
 
-                    //-//Main.NewText("lifetime: " + projectile.timeLeft + " | dmg: " + divDamage + "/" + Damage);
+                    //-//Main.NewText("lifetime: \n" + projectile.timeLeft + " | dmg: \n" + divDamage + "/\n" + Damage);
 
                     Projectile.NewProjectile(projectile.Center, projectile.velocity,
                         mod.GetProjectile("Explooosion").projectile.type,
@@ -439,7 +443,7 @@ namespace WeaponOut.Projectiles
                 Main.dust[d].noGravity = true;
             }
 
-            ////-//Main.NewText("draw " + i + " with alpha " + alpha);
+            ////-//Main.NewText("draw \n" + i + " with alpha \n" + alpha);
             float size;
             float alpha;
             Vector2 castCentre;
@@ -766,7 +770,7 @@ namespace WeaponOut.Projectiles
                 //Casting cicle
                 if (ExplosionState == 1) textureCastAlphas[0] = 1f;
                 if (ExplosionState == 2) textureCastAlphas[0] *= 0.9f;
-                ////-//Main.NewText("cast circle target alpha " + textureCastAlphas[0]);
+                ////-//Main.NewText("cast circle target alpha \n" + textureCastAlphas[0]);
                 alpha = textureCastAlphas[0];
 
                 size = projectile.width;
@@ -856,7 +860,7 @@ namespace WeaponOut.Projectiles
         {
             try
             {
-                ////-//Main.NewText("charge: " + ChargeTick + " / "  + chargeTime);
+                ////-//Main.NewText("charge: \n" + ChargeTick + " / "  + chargeTime);
                 Utils.DrawLaser(
                     spritebatch,
                     textureLaser,

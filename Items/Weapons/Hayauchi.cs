@@ -16,7 +16,7 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class Hayauchi : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
@@ -25,11 +25,17 @@ namespace WeaponOut.Items.Weapons
         private const int extraSwingTime = 15; //additional special attack time
         
         private bool drawStrike;
-
+        
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Hayauchi");
+            Tooltip.SetDefault(
+                "'Focus, steel thyself'\n" +
+                "'Wait for the perfect moment'\n" +
+                "'A decisive blow'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Hayauchi";
-            item.toolTip = "'Focus, steel thyself'\n'Wait for the perfect moment'\n'A decisive blow'";
             item.width = 46;
             item.height = 46;
 
@@ -186,7 +192,7 @@ namespace WeaponOut.Items.Weapons
                     Projectile.NewProjectile(
                         player.position.X,
                         player.position.Y, 0, 0,
-                        mod.ProjectileType(item.name),
+                        mod.ProjectileType<Projectiles.Hayauchi>(),
                         player.direction, 0, player.whoAmI);
                 }
                 Main.PlaySound(2, player.position, 71); //SHWING!

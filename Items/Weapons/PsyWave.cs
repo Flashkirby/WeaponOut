@@ -8,17 +8,20 @@ namespace WeaponOut.Items.Weapons
 {
     public class PsyWave : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.CloneDefaults(ItemID.WaterBolt);
-            item.name = "Psy Wave";
-            item.toolTip = "Cast a psionic orb";
-            
+            DisplayName.SetDefault("Psy Wave");
+            Tooltip.SetDefault(
+                "Cast a psionic orb");
+        }
+        public override void SetDefaults()
+        {
             item.useAnimation = 15;
             item.useTime = 15;
             item.UseSound = SoundID.Item24;

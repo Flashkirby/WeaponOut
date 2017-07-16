@@ -175,7 +175,7 @@ namespace WeaponOut.Items.Weapons
                         && player.FindBuffIndex(altbuff) == -1
                         && player.itemAnimation <= 0 + (item.autoReuse ? 1 : 0)) //why is autoreuse so awkward :(
                     {
-                        //Main.NewText(player.altFunctionUse + " | " + player.itemAnimation + " <= " + (0 + (item.autoReuse ? 1 : 0)));
+                        //Main.NewText(player.altFunctionUse + " | \n" + player.itemAnimation + " <= \n" + (0 + (item.autoReuse ? 1 : 0)));
                         //add buff quietly
                         player.AddBuff(altbuff, 2, true);
                         item.modItem.CanUseItem(player);
@@ -232,7 +232,7 @@ namespace WeaponOut.Items.Weapons
                 {
                     setValues(false);
                 }
-                //Main.NewText("anim: " + player.itemAnimation + " | weapon damage is " + player.GetWeaponDamage(item));
+                //Main.NewText("anim: \n" + player.itemAnimation + " | weapon damage is \n" + player.GetWeaponDamage(item));
             }
         }
         /// <summary>
@@ -251,7 +251,7 @@ namespace WeaponOut.Items.Weapons
                 {
                     if (player.altFunctionUse == 0)
                     {
-                        //Main.NewText(item.name + " is net ALT, len " + Main.projectile.Length);
+                        //Main.NewText(item.name + " is net ALT, len \n" + Main.projectile.Length);
                         player.altFunctionUse = 2;
                         setValues(true);
 
@@ -261,7 +261,7 @@ namespace WeaponOut.Items.Weapons
                             foreach (Projectile p in Main.projectile)
                             {
                                 if (!p.active) continue;
-                                //Main.NewText("[" + p.whoAmI + "] " + p.name);
+                                //Main.NewText("[\n" + p.whoAmI + "] \n" + p.name);
                                 //is the projectile something we did
                                 if (p.type == item.shoot && p.owner == player.whoAmI)
                                 {
@@ -296,7 +296,7 @@ namespace WeaponOut.Items.Weapons
                                 }
                             }
                         }
-                        //Main.NewText(item.name + " is net ALT, point at " + player.itemRotation);
+                        //Main.NewText(item.name + " is net ALT, point at \n" + player.itemRotation);
                         player.DelBuff(buff);
                         //stop looping issue from never reaching 0?? what is thi comment
                     }
@@ -304,7 +304,7 @@ namespace WeaponOut.Items.Weapons
                 else    //no buff
                 {
                     //fix autoswing items doing silly things by resesting to defualt
-                    //Main.NewText(player.name + " animation is " + player.itemAnimation + "/" + player.itemAnimationMax);
+                    //Main.NewText(player.name + " animation is \n" + player.itemAnimation + "/\n" + player.itemAnimationMax);
                     if (item.autoReuse
                         && !player.noItems
                         && player.itemAnimation == 1
@@ -312,14 +312,14 @@ namespace WeaponOut.Items.Weapons
                         && player.altFunctionUse != 0)
                     {
                         setValues(false, true);
-                        //Main.NewText("buff is " + buff + ", altfunc = " + player.altFunctionUse);
+                        //Main.NewText("buff is \n" + buff + ", altfunc = \n" + player.altFunctionUse);
                     }
                 }/*
-                //Main.NewText(buff + " : " +
-                    item.autoReuse + " : " +
-                    !player.noItems + " : " +
-                    player.itemAnimation + " : " +
-                    player.controlUseItem + " : " +
+                //Main.NewText(buff + " : \n" +
+                    item.autoReuse + " : \n" +
+                    !player.noItems + " : \n" +
+                    player.itemAnimation + " : \n" +
+                    player.controlUseItem + " : \n" +
                     player.altFunctionUse);*/
             }
         }

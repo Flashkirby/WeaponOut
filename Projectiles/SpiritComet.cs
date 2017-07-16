@@ -12,9 +12,14 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class SpiritComet : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Spirit Meteor");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Spirit Meteor";
             projectile.width = 24;
             projectile.height = 24;
 

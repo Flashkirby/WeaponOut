@@ -9,14 +9,18 @@ namespace WeaponOut.Projectiles
 {
     public class Explooosion : ModProjectile
     {
+
         private int ChargeLevel { get { return (int)projectile.ai[0]; } set { projectile.ai[0] = value; } }
         private int ExplosionState { get { return (int)projectile.ai[1]; } set { projectile.ai[1] = value; } }
         private int ChargeTick { get { return (int)projectile.localAI[0]; } set { projectile.localAI[0] = value; } }
         private int Damage { get { return (int)projectile.localAI[1]; } set { projectile.localAI[1] = value; } }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosion");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Explosion"; //great explosion, mega explosion, extreme explosion, ultra explosion, grand explosion
             projectile.width = 100;
             projectile.height = 100;
 
@@ -47,11 +51,11 @@ namespace WeaponOut.Projectiles
 
                 nameExplosion();
 
-               //-// Main.NewText("newSize = " + projectile.width + " / charge = " + ChargeLevel);
+               //-// Main.NewText("newSize = \n" + projectile.width + " / charge = \n" + ChargeLevel);
                 for (int i = 0; i < ChargeLevel; i++)
                 {
                     projectile.scale *= Explosion.explosionScale;
-                    //-//Main.NewText("testw/h = " + (projectile.width * projectile.scale) + " | scale: " + projectile.scale);
+                    //-//Main.NewText("testw/h = \n" + (projectile.width * projectile.scale) + " | scale: \n" + projectile.scale);
                 }
                 projectile.position += new Vector2(projectile.width, projectile.height) / 2;
                 projectile.width = (int)(projectile.width * projectile.scale);
@@ -81,7 +85,7 @@ namespace WeaponOut.Projectiles
             if (ChargeLevel >= 12) prefix = "Extreme ";
             if (ChargeLevel >= 14) prefix = "Ultra Extreme ";
             if (ChargeLevel >= 15) prefix = "Super Mega Ultra Extreme ";
-            projectile.name = prefix + "Explo" + new String('o', ChargeLevel) + "sion";
+            projectile.Name = prefix + "Explo\n" + new String('o', ChargeLevel) + "sion";
             //Main.NewText(projectile.name);
         }
 
@@ -161,7 +165,7 @@ namespace WeaponOut.Projectiles
             {
                 float denominator = 1 + Vector2.DistanceSquared(Main.player[Main.myPlayer].Center, projectile.Center) / 500000;
                 WeaponOut.shakeIntensity = Math.Max(WeaponOut.shakeIntensity, (int)(2 * ChargeLevel / denominator));
-                //Main.NewText("shake = " + (int)(2 * ChargeLevel / denominator) + ": " + (2 * ChargeLevel) + "/" + denominator);
+                //Main.NewText("shake = \n" + (int)(2 * ChargeLevel / denominator) + ": \n" + (2 * ChargeLevel) + "/\n" + denominator);
             }
             catch
             { //-//Main.NewText("ERROR IN SHAKING"); 
@@ -214,7 +218,7 @@ namespace WeaponOut.Projectiles
                 Vector2 knockBack = (p.Center - projectile.Center);
                 knockBack.Normalize();
                 knockBack *= (projectile.width) / (projectile.width / 2 + dist * 2) * (6f + ChargeLevel * 0.3f);
-                ////-//Main.NewText("knockback: " + knockBack);
+                ////-//Main.NewText("knockback: \n" + knockBack);
                 if (p.noKnockback) knockBack /= 2;
                 p.velocity = (p.velocity + knockBack * 9) / 10;
             }
@@ -227,7 +231,7 @@ namespace WeaponOut.Projectiles
                 Vector2 knockBack = (n.Center - projectile.Center);
                 knockBack.Normalize();
                 knockBack *= (projectile.width) / (projectile.width / 2 + dist * 2) * (6f + ChargeLevel * 0.3f);
-                //Main.NewText("knockback: " + projectile.knockBack);
+                //Main.NewText("knockback: \n" + projectile.knockBack);
                 knockBack *= n.knockBackResist * (1 + projectile.knockBack / 3);
                 n.velocity = (n.velocity + knockBack * 9) / 10;
             }

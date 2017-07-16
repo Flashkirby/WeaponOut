@@ -8,9 +8,10 @@ namespace WeaponOut.Projectiles
 {
     public class OnsokuSlash : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
         public override void SetDefaults()
         {
-            projectile.name = "Onsoku Slash";
             projectile.melee = true;
             projectile.width = Player.defaultWidth;
             projectile.height = Player.defaultHeight;

@@ -10,18 +10,22 @@ namespace WeaponOut.Items.Weapons
 {
     public class DoubleLoader : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableDualWeapons;
         }
 
         HelperDual dual;
         HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("IOU: Double Loader");
+            Tooltip.SetDefault(
+                "20% chance to not consume ammo\n" +
+                "<right> to fire darts");
+        }
         public override void SetDefaults()
         {
-            item.name = "Double Loader";
-            item.toolTip = "20% chance to not consume ammo";
-            item.toolTip2 = "<right> to fire darts";
             item.width = 50;
             item.height = 20;
 
@@ -62,6 +66,7 @@ namespace WeaponOut.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+        /*
         public override void OnCraft(Recipe recipe)
         {
             HelperDual.OnCraft(this);
@@ -102,5 +107,6 @@ namespace WeaponOut.Items.Weapons
             }
             return true;
         }
+        */
     }
 }

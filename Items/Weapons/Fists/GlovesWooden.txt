@@ -11,7 +11,7 @@ namespace WeaponOut.Items.Weapons.Fists
 {
     public class GlovesWooden : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             equips.Add(EquipType.HandsOn);
             equips.Add(EquipType.HandsOff);

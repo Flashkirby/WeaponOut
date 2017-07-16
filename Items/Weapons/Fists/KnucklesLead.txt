@@ -9,9 +9,9 @@ using WeaponOut.Items.Weapons.UseStyles;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
-    public class KnucklesIron : ModItem
+    public class KnucklesLead : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             equips.Add(EquipType.HandsOn);
             equips.Add(EquipType.HandsOff);
@@ -32,23 +32,23 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         public override void SetDefaults()
         {
-            item.name = "Iron Knuckleduster";
+            item.name = "Lead Knuckleduster";
             item.toolTip = "<right> at full combo power to unleash spirit";
             item.useStyle = FistStyle.useStyle;
             item.useTurn = false;
-            item.useAnimation = 18;//actually treated as -2
+            item.useAnimation = 19;
             item.useTime = 19;
 
             item.width = 20;
             item.height = 20;
-            item.damage = 11;
-            item.knockBack = 3f;
+            item.damage = 12;
+            item.knockBack = 3.5f;
             item.UseSound = SoundID.Item7;
 
             item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
-            item.shootSpeed = 10f;
+            item.shootSpeed = 8f;
 
-            item.value = Item.sellPrice(0, 0, 90, 0);
+            item.value = Item.sellPrice(0, 1, 35, 0);
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -59,7 +59,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 2);
+            recipe.AddIngredient(ItemID.LeadBar, 2);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

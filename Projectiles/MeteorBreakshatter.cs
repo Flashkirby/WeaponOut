@@ -12,9 +12,14 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class MeteorBreakshatter : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Meteoric Breakshot");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Meteoric Breakshot";
             projectile.width = 4;
             projectile.height = 4;
 

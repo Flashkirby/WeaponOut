@@ -10,6 +10,11 @@ namespace WeaponOut.Projectiles
 {
     public class APARocketIV : ModProjectile
     {
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Roooocket"); //134, 137, 140, 143
+        }
         public override void SetDefaults()
         {
             APARocketI.setDefaults(projectile);

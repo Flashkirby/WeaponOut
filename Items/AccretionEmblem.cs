@@ -11,17 +11,21 @@ namespace WeaponOut.Items
 {
     public class AccretionEmblem : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableEmblems;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Accretion Emblem");
+            Tooltip.SetDefault(
+                "Supercharges magic weapons to their lunar potential\n" +
+                "Increases maximum mana by 20\n" +
+                "'Mind over matter'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Accretion Emblem";
-            item.toolTip = @"Supercharges magic weapons to their lunar potential
-Increases maximum mana by 20";
-            item.toolTip2 = "'Mind over matter'";
             item.width = 28;
             item.height = 28;
             item.rare = 10;

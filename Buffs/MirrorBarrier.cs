@@ -14,8 +14,8 @@ namespace WeaponOut.Buffs
 
         public override void SetDefaults()
         {
-            Main.buffName[Type] = "Magic Barrier";
-            Main.buffTip[Type] = "The next projectile may be reflected";
+            DisplayName.SetDefault("Magic Barrier");
+            Description.SetDefault("The next projectile may be reflected");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

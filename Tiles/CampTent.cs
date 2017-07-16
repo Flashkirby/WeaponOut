@@ -10,7 +10,7 @@ namespace WeaponOut.Tiles
 {
     public class CampTent : ModTile
     {
-		public override void SetDefaults()
+        public override void SetDefaults()
         {
             //extra info
             Main.tileFrameImportant[Type] = true;

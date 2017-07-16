@@ -11,17 +11,21 @@ namespace WeaponOut.Items
 {
     public class WormholeEmblem : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableEmblems;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Wormhole Emblem");
+            Tooltip.SetDefault(
+                "Supercharges ranged weapons to their lunar potential\n" +
+                "20% chance to not consume ammo\n" +
+                "'Blast with the past'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Wormhole Emblem";
-            item.toolTip = @"Supercharges ranged weapons to their lunar potential
-20% chance to not consume ammo";
-            item.toolTip2 = "'Blast with the past'";
             item.width = 28;
             item.height = 28;
             item.rare = 10;

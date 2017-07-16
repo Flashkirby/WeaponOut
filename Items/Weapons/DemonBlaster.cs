@@ -16,14 +16,18 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class DemonBlaster : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Demon Blaster");
+            Tooltip.SetDefault(
+                "Fires an unholy ray");
+        }
         public override void SetDefaults()
         {
-            item.name = "Demon Blaster";
-            item.toolTip = "Fires an unholy ray";
             item.width = 32;
             item.height = 18;
             item.scale = 0.9f;
@@ -35,7 +39,7 @@ namespace WeaponOut.Items.Weapons
             item.autoReuse = true;
 
             item.noMelee = true;
-            item.shoot = mod.ProjectileType("DemonBlast");
+            item.shoot = mod.ProjectileType<Projectiles.DemonBlast>();
             item.shootSpeed = 30;
 
             item.useStyle = 5;

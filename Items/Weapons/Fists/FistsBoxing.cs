@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
@@ -6,20 +7,18 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-using WeaponOut.Items.Weapons.UseStyles;
-using System.Collections.Generic;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
+    [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class FistsBoxing : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
-            equips.Add(EquipType.HandsOn);
-            equips.Add(EquipType.HandsOff);
-            return ModConf.enableFists;
+            return false; // ModConf.enableFists;
         }
 
+        /*
         private FistStyle fist;
         public FistStyle Fist
         {
@@ -32,12 +31,17 @@ namespace WeaponOut.Items.Weapons.Fists
                 return fist;
             }
         }
+        */
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("IOU: Boxing Glove");
+            Tooltip.SetDefault(
+                "<right> to dash\n" +
+                "Has a chance to confuse at the end of combos");
+        }
         public override void SetDefaults()
         {
-            item.name = "Boxing Glove";
-            item.toolTip = "<right> to dash";
-            item.toolTip2 = "Has a chance to confuse at the end of combos";
-            item.useStyle = FistStyle.useStyle;
+            item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
             item.useAnimation = 24; //Half speed whilst combo-ing
 
@@ -51,10 +55,6 @@ namespace WeaponOut.Items.Weapons.Fists
             item.noUseGraphic = true;
             item.melee = true;
         }
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            Fist.ModifyTooltips(tooltips, mod);
-        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -63,6 +63,7 @@ namespace WeaponOut.Items.Weapons.Fists
             recipe.AddRecipe();
         }
         
+        /*
         public override bool AltFunctionUse(Player player)
         {
             if (player.dashDelay == 0) player.GetModPlayer<PlayerFX>(mod).weaponDash = 3;
@@ -92,5 +93,6 @@ namespace WeaponOut.Items.Weapons.Fists
                 }
             }
         }
+        */
     }
 }

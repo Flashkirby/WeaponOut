@@ -13,17 +13,21 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class ScrapSalvo : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
         public const int penetrateBonus = 4;
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Scrap Salvo");
+            Tooltip.SetDefault(
+                "'Nothing subtle about this one'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Scrap Salvo";
-            item.toolTip = "'Nothing subtle about this one'";
             item.width = 60;
             item.height = 30;
             item.scale = 0.9f;

@@ -17,6 +17,11 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class APARocketI : ModProjectile
     {
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Rocket"); //134, 137, 140, 143
+        }
         public override void SetDefaults()
         {
             APARocketI.setDefaults(projectile);
@@ -145,7 +150,7 @@ namespace WeaponOut.Projectiles
                                     WorldGen.KillTile(num711, num712, false, false, false);
                                     if (!Main.tile[num711, num712].active() && Main.netMode != 0)
                                     {
-                                        NetMessage.SendData(17, -1, -1, "", 0, (float)num711, (float)num712, 0f, 0, 0, 0);
+                                        NetMessage.SendData(17, -1, -1, null, 0, (float)num711, (float)num712, 0f, 0, 0, 0);
                                     }
                                 }
                             }
@@ -160,7 +165,7 @@ namespace WeaponOut.Projectiles
                                             WorldGen.KillWall(num716, num717, false);
                                             if (Main.tile[num716, num717].wall == 0 && Main.netMode != 0)
                                             {
-                                                NetMessage.SendData(17, -1, -1, "", 2, (float)num716, (float)num717, 0f, 0, 0, 0);
+                                                NetMessage.SendData(17, -1, -1, null, 2, (float)num716, (float)num717, 0f, 0, 0, 0);
                                             }
                                         }
                                         num9 = num717;
@@ -414,7 +419,6 @@ namespace WeaponOut.Projectiles
 
         public static void setDefaults(Projectile projectile)
         {
-            projectile.name = "Rocket"; //134, 137, 140, 143
             projectile.width = 14;
             projectile.height = 14;
             projectile.aiStyle = -1;

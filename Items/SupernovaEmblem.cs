@@ -11,17 +11,21 @@ namespace WeaponOut.Items
 {
     public class SupernovaEmblem : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableEmblems;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Supernova Emblem");
+            Tooltip.SetDefault(
+                "Supercharges summon weapons to their lunar potential\n" +
+                "Increases your max number of minions\n" +
+                "'Call to arms'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Supernova Emblem";
-            item.toolTip = @"Supercharges summon weapons to their lunar potential
-Increases your max number of minions";
-            item.toolTip2 = "'Call to arms'";
             item.width = 28;
             item.height = 28;
             item.rare = 10;

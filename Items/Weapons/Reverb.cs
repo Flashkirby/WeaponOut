@@ -8,15 +8,19 @@ namespace WeaponOut.Items.Weapons
 {
     public class Reverb : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Reverb");
+            Tooltip.SetDefault(
+                "<right> to cast reverse bolt");
+        }
         public override void SetDefaults()
         {
-            item.name = "Reverb";
-            item.toolTip = "<right> to cast reverse bolt";
             item.width = 38;
             item.height = 14;
             item.scale = 0.9f;

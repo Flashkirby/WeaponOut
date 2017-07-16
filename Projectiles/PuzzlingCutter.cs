@@ -10,6 +10,8 @@ namespace WeaponOut.Projectiles
 {
     public class PuzzlingCutter : ModProjectile
     {
+        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
+
         public const float whipLength = 16f;
         public const bool whipSoftSound = false;
         public const int handleHeight = 20;
@@ -20,7 +22,6 @@ namespace WeaponOut.Projectiles
         public const bool ignoreLighting = false;
         public override void SetDefaults()
         {
-            projectile.name = "Puzzling Cutter";
             projectile.width = 18;
             projectile.height = 18;
             projectile.scale = 0.7f;

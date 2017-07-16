@@ -8,9 +8,13 @@ namespace WeaponOut.Projectiles
 {
     public class ManaRestoreBeam : ModProjectile
     {
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Mana Restoration Beam");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Mana Restoration Beam";
             projectile.width = 8;
             projectile.height = 8;
 

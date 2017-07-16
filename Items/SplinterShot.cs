@@ -11,15 +11,19 @@ namespace WeaponOut.Items
     /// </summary>
     public class SplinterShot : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Splinter Shot");
+            Tooltip.SetDefault(
+                "Seperates shortly after firing");
+        }
         public override void SetDefaults()
         {
-            item.name = "Splinter Shot";
-            item.toolTip = "Seperates shortly after firing";
             item.width = 14;
             item.height = 14;
             item.maxStack = 999;
@@ -27,7 +31,7 @@ namespace WeaponOut.Items
 
             item.ranged = true;
             item.ammo = AmmoID.Bullet;
-            item.shoot = mod.ProjectileType("SplinterShot");
+            item.shoot = mod.ProjectileType<Projectiles.SplinterShot>();
             item.shootSpeed = 2;
             item.damage = 4;
             item.knockBack = 1;

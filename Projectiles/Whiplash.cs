@@ -10,6 +10,7 @@ namespace WeaponOut.Projectiles
 {
     public class Whiplash : ModProjectile
     {
+
         public const float whipLength = 20f;
         public const bool whipSoftSound = false;
         public const int handleHeight = 24;
@@ -18,9 +19,12 @@ namespace WeaponOut.Projectiles
         public const int tipHeight = 8;
         public const bool doubleCritWindow = false;
         public const bool ignoreLighting = false;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Crimson Whiplash");
+        }
         public override void SetDefaults()
         {
-            projectile.name = "Crimson Whiplash";
             projectile.width = 8;
             projectile.height = 8;
             projectile.scale = 1f;

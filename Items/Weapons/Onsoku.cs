@@ -15,16 +15,20 @@ namespace WeaponOut.Items.Weapons
     /// </summary>
     public class Onsoku : ModItem
     {
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
             return ModConf.enableBasicContent;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Onsoku");
+            Tooltip.SetDefault(
+                "Dashes through enemies\n" +
+                "Dash cooldown reduced on the ground");
+        }
         public override void SetDefaults()
         {
-            item.name = "Onsoku";
-            item.toolTip = "Dashes through enemies";
-            item.toolTip2 = "Dash cooldown reduced on the ground";
             item.width = 40;
             item.height = 40;
 

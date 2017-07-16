@@ -10,27 +10,27 @@ namespace WeaponOut.Items.Armour
     /// <summary>
     /// Intercepts hook controls for discord teleporting when free
     /// </summary>
+    [AutoloadEquip(EquipType.Head)]
     public class DiscordantShades : ModItem
     {
         private bool skipFrameAcc = false;
-        public override bool Autoload(ref string name, ref string texture, IList<EquipType> equips)
+        public override bool Autoload(ref string name)
         {
-            if (ModConf.enableAccessories)
-            {
-                equips.Add(EquipType.Head);
-                return true;
-            }
-            return false;
+            return ModConf.enableAccessories;
         }
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Discordant Shades");
+            Tooltip.SetDefault(
+                "Prioritise teleporting over grappling\n" +
+                "Requires the Rod of Discord\n" +
+                "Functions in the Head Vanity Slot\n" +
+                "Can be equipped as an accessory\n" +
+                "'The future's so bright, I gotta wear shades'");
+        }
         public override void SetDefaults()
         {
-            item.name = "Discordant Shades";
-            item.toolTip = @"Prioritise teleporting over grappling
-Requires the Rod of Discord
-Functions in the Head Vanity Slot
-Can be equipped as an accessory";
-            item.toolTip2 = "'The future's so bright, I gotta wear shades'";
             item.width = 28;
             item.height = 12;
             item.rare = 7;
