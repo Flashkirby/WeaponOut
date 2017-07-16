@@ -114,10 +114,10 @@ namespace WeaponOut
             parryWindow = 0;
             parryBuff = false;
 
-            dashSpeed = 14.5f;
-            dashMaxSpeedThreshold = 12f;
-            dashMaxFriction = 0.992f;
-            dashMinFriction = 0.96f;
+            dashSpeed = 0f;
+            dashMaxSpeedThreshold = 0f;
+            dashMaxFriction = 0f;
+            dashMinFriction = 0f;
         }
         public override void ResetEffects()
         {
