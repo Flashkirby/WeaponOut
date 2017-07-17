@@ -23,6 +23,7 @@ namespace WeaponOut
 
         private const bool DEBUG_WEAPONHOLD = false;
         private const bool DEBUG_BOOMERANGS = false;
+        private static Mod itemCustomizer;
 
         public bool weaponVisual = true;
 
@@ -116,6 +117,8 @@ namespace WeaponOut
 
         public override void OnEnterWorld(Player player)
         {
+            itemCustomizer = ModLoader.GetMod("ItemCustomizer");
+
             lastSelectedItem = 0;
 
             itemSkillDelay = 0;
@@ -468,16 +471,12 @@ namespace WeaponOut
                     spriteEffects,
                     0);
 
+
             // Item customiser integration
             // https://github.com/gamrguy/ItemCustomizer
-            Mod itemCustomizer = ModLoader.GetMod("ItemCustomizer");
             if (itemCustomizer != null)
             {
-                try
-                {
-                    ItemCustomizerIntegration(itemCustomizer, drawInfo, heldItem, ref data.shader);
-                }
-                catch { }
+                data.shader = ItemCustomizerGetShader(itemCustomizer, heldItem);
             }
 
             //work out what type of weapon it is!
@@ -736,24 +735,26 @@ namespace WeaponOut
             }
         }
 
-        /// <summary>
-        /// Weak reference, must wrap in try catch exception becase won't catch FileNotFoundException
-        /// </summary>
-        /// <param name="drawInfo"></param>
-        /// <param name="item"></param>
-        /// <param name="shader"></param>
-        private static void ItemCustomizerIntegration(Mod mod, PlayerDrawInfo drawInfo, Item item, ref int shader)
+        private static int ItemCustomizerGetShader(Mod mod, Item item)
         {
             if (!Main.dedServ)
             {
+                try
+                {
                     GlobalItem cii = item.GetGlobalItem(mod, "CustomizerItem");
+
                     // The field we're looking for
-                    var shaderIDInfo = cii.GetType().GetField("shaderID", BindingFlags.Public);
+                    var shaderIDInfo = cii.GetType().GetField("shaderID");
+
                     // Check this field on this class
                     int shaderID = (int)shaderIDInfo.GetValue(cii);
-                    // we got this
-                    shader = shaderID;
+
+                    // We got this
+                    return shaderID;
+                }
+                catch { }
             }
+            return 0;
         }
 
         #region Hurt && Parry Methods
