@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,11 +13,9 @@ namespace WeaponOut.Items.Weapons
             return ModConf.enableDualWeapons;
         }
 
-        HelperDual dual;
-        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("IOU: Spark Shovel");
+            DisplayName.SetDefault("Spark Shovel");
             Tooltip.SetDefault(
                 "<right> to shoot a small spark");
         }
@@ -29,42 +28,23 @@ namespace WeaponOut.Items.Weapons
             item.pick = 35;
 
             item.UseSound = SoundID.Item1;
-            item.useStyle = 1; //swing
-            item.useTurn = true; //face player dir
-            item.useAnimation = 16;
+            item.useStyle = 5;
+            item.useTurn = false;
+            item.useAnimation = 28;
             item.useTime = 15;
 
             item.melee = true; //melee damage
             item.damage = 5;
             item.knockBack = 3f;
 
-            item.mana = 0; // These values are not reset 
-            item.shoot = 0; // when held in hand so they
-            item.shootSpeed = 0f; // must be done manually
+            item.mana = 2;
+            item.shoot = ProjectileID.Spark;
+            item.shootSpeed = 8f;
 
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
 
             item.rare = 1;
             item.value = 5400;
-
-            dual = new HelperDual(item, true);
-            dual.UseSound = SoundID.Item8;
-            dual.UseStyle = 5;
-            dual.UseTurn = false;
-            dual.UseAnimation = 28;
-            dual.UseTime = 28;
-
-            dual.Magic = true;
-            dual.NoMelee = true;
-            dual.Damage = 8;
-            dual.KnockBack = 1f;
-
-            dual.Mana = 2;
-            dual.Shoot = ProjectileID.Spark;
-            dual.ShootSpeed = 8f;
-
-            dual.FinishDefaults();
-            //end by setting default values
         }
         public override void AddRecipes()
         {
@@ -85,29 +65,51 @@ namespace WeaponOut.Items.Weapons
                 recipe.AddRecipe();
             }
         }
-        /*
-        public override void OnCraft(Recipe recipe)
-        {
-            HelperDual.OnCraft(this);
-            base.OnCraft(recipe);
-        }
 
         public override bool AltFunctionUse(Player player) { return true; }
-        public override void UseStyle(Player player)
-        {
-            Dual.UseStyleMultiplayer(player);
-            if (player.altFunctionUse > 0) PlayerFX.modifyPlayerItemLocation(player, -4, 0);
-        }
+        
+        // Light weight, less flexible, but much safer
         public override bool CanUseItem(Player player)
         {
-            Dual.CanUseItem(player);
-            return base.CanUseItem(player);
+            PlayerFX pfx = player.GetModPlayer<PlayerFX>();
+            Main.NewText("CanUseItem dualItemCanUse = " + pfx.dualItemCanUse);
+            pfx.dualItemCanUse = true;
+            if (player.altFunctionUse == 2)
+            {
+                item.useStyle = 5; // Doesn't set for other clients
+                item.UseSound = SoundID.Item8; // Doesn't play for other clients
+                item.useTurn = false;
+                item.magic = true;
+                item.melee = false;
+                item.noMelee = true;
+                player.itemTime = 0;
+                item.pick = 0;
+                item.shoot = ProjectileID.Spark;
+            }
+            else
+            {
+                // we can take advantage of the fact that CanUseItem never gets called by
+                // clients if it was an alt function
+                item.useStyle = 1;
+                item.UseSound = SoundID.Item1;
+                item.useTurn = true;
+                item.magic = false;
+                item.melee = true; 
+                item.noMelee = false;
+                player.manaCost = 0f;
+                pfx.dualItemAnimationMod *= 28f / 15f;
+                item.pick = 35;
+                item.shoot = 0;
+            }
+            return true;
         }
-        public override void HoldStyle(Player player)
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Dual.HoldStyle(player);
-            base.HoldStyle(player);
+            damage = (int)(damage * 8f / 5f);
+            knockBack /= 3f;
+            player.itemTime = player.itemAnimation;
+            return player.itemAnimation == player.itemAnimationMax - 1;
         }
-        */
     }
 }

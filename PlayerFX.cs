@@ -65,6 +65,10 @@ namespace WeaponOut
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
 
+        public float dualItemAnimationMod;
+        public float dualItemTimeMod;
+        public bool dualItemCanUse;
+
         #region Utils
         public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
         {
@@ -152,6 +156,12 @@ namespace WeaponOut
             // Handle reflecting timer
             reflectingProjectiles = false;
             if (reflectingProjectileDelay > 0) reflectingProjectileDelay = Math.Max(0, reflectingProjectileDelay - 1);
+
+            if (ModConf.enableDualWeapons)
+            {
+                if (player.itemAnimation <= 1) dualItemAnimationMod = 1f;
+                if (player.itemTime <= 1) dualItemTimeMod = 1f;
+            }
         }
 
         #region Save and Load
@@ -175,12 +185,18 @@ namespace WeaponOut
                 applyBannerBuff();
             }
 
-            /// <summary>Adds the weaponswitch network-synced buff</summary>
-            if (ModConf.enableDualWeapons)
+            if(ModConf.enableDualWeapons && 
+                player.itemAnimation == 1 &&
+                Main.netMode == 1 &&
+                Main.myPlayer != player.whoAmI)
             {
-                Items.Weapons.HelperDual.PreItemCheckDualItem(player);
+                // Reset item can use checker at end of swing
+                Main.NewText("reset pre altfunc = " + player.altFunctionUse);
+                player.altFunctionUse = 0;
+                dualItemCanUse = false;
+                Main.NewText("reset dualItemCanUse = " + dualItemCanUse);
             }
-            //createBareFistInInv();
+
             return true;
         }
         private void applyBannerBuff()
@@ -212,6 +228,50 @@ namespace WeaponOut
                     }
                 }
             }
+        }
+
+        public override void PostItemCheck()
+        {
+            if( ModConf.enableDualWeapons &&
+                player.itemAnimation > 1)
+            {
+                // Force attempt to make foreign clients use altfunc, if swinging an item without
+                // having called the CanUseItem function, so it runs the normally local only code
+                if (!dualItemCanUse &&
+                    player.altFunctionUse == 0 &&
+                    Main.netMode == 1 && 
+                    Main.myPlayer != player.whoAmI)
+                {
+                    Main.NewText("animation = " + player.itemAnimation + ", altfunc " + player.altFunctionUse);
+                    if (player.HeldItem.modItem != null &&
+                        player.HeldItem.modItem.mod == mod &&
+                        player.HeldItem.modItem.AltFunctionUse(player))
+                    {
+                        // I don't even know anymore
+                        if(player.itemAnimation == player.itemAnimationMax - 1)
+                        {
+                            player.altFunctionUse = 0;
+                        }
+                        else
+                        {
+                            player.altFunctionUse = 2;
+                        }
+                        // Apply the right click effect and play sound
+                        player.HeldItem.modItem.CanUseItem(player);
+                        Main.PlaySound(player.HeldItem.UseSound, player.position);
+                    }
+                    dualItemCanUse = true;
+                }
+            }
+        }
+
+        public override float MeleeSpeedMultiplier(Item item)
+        {
+            return dualItemAnimationMod;
+        }
+        public override float UseTimeMultiplier(Item item)
+        {
+            return dualItemTimeMod;
         }
 
         public override void PostUpdateRunSpeeds()
