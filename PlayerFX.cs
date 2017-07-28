@@ -65,8 +65,11 @@ namespace WeaponOut
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
 
+        /// <summary> Multiplier for the item use animation </summary>
         public float dualItemAnimationMod;
+        /// <summary> Multiplier for the item use time </summary>
         public float dualItemTimeMod;
+        /// <summary> Multiplayer sync variable for figuring out if a weapon is being alt-func used. </summary>
         public bool dualItemCanUse;
 
         #region Utils
@@ -185,20 +188,14 @@ namespace WeaponOut
                 applyBannerBuff();
             }
 
-            if(ModConf.enableDualWeapons && 
-                player.itemAnimation == 1 &&
-                Main.netMode == 1 &&
-                Main.myPlayer != player.whoAmI)
+            if (ModConf.enableDualWeapons)
             {
-                // Reset item can use checker at end of swing
-                Main.NewText("reset pre altfunc = " + player.altFunctionUse);
-                player.altFunctionUse = 0;
-                dualItemCanUse = false;
-                Main.NewText("reset dualItemCanUse = " + dualItemCanUse);
+                PreItemCheckDualSync();
             }
 
             return true;
         }
+
         private void applyBannerBuff()
         {
             foreach (Player bannerPlayer in Main.player)
@@ -232,23 +229,46 @@ namespace WeaponOut
 
         public override void PostItemCheck()
         {
-            if( ModConf.enableDualWeapons &&
-                player.itemAnimation > 1)
+            if( ModConf.enableDualWeapons)
+            {
+                PostItemDualSyncAltFunction();
+            }
+        }
+
+        #region Dual Item code
+
+        private void PreItemCheckDualSync()
+        {
+            if (player.itemAnimation == 1 &&
+                Main.netMode == 1 &&
+                Main.myPlayer != player.whoAmI)
+            {
+                // Reset item can use checker at end of swing
+                //Main.NewText("reset pre altfunc = " + player.altFunctionUse);
+                player.altFunctionUse = 0;
+                dualItemCanUse = false;
+                //Main.NewText("reset dualItemCanUse = " + dualItemCanUse);
+            }
+        }
+
+        private void PostItemDualSyncAltFunction()
+        {
+            if (player.itemAnimation > 1)
             {
                 // Force attempt to make foreign clients use altfunc, if swinging an item without
                 // having called the CanUseItem function, so it runs the normally local only code
                 if (!dualItemCanUse &&
                     player.altFunctionUse == 0 &&
-                    Main.netMode == 1 && 
+                    Main.netMode == 1 &&
                     Main.myPlayer != player.whoAmI)
                 {
-                    Main.NewText("animation = " + player.itemAnimation + ", altfunc " + player.altFunctionUse);
+                    // Only items from this mod with altfunction enabled
                     if (player.HeldItem.modItem != null &&
                         player.HeldItem.modItem.mod == mod &&
                         player.HeldItem.modItem.AltFunctionUse(player))
                     {
                         // I don't even know anymore
-                        if(player.itemAnimation == player.itemAnimationMax - 1)
+                        if (player.itemAnimation == player.itemAnimationMax - 1)
                         {
                             player.altFunctionUse = 0;
                         }
@@ -264,6 +284,36 @@ namespace WeaponOut
                 }
             }
         }
+
+        /// <summary>
+        /// Manages code related to right click multiplayer syncing, returning true if right click is being used. 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="item"></param>
+        /// <param name="mainAnimMult">Primary useAnimation modifier</param>
+        /// <param name="mainTimeMult">Primary useTime modifier</param>
+        /// <param name="altAnimMult">Alternate useAnimation modifier</param>
+        /// <param name="altTimeMult">Alternate useTime modifier</param>
+        /// <returns>True if alternate click function</returns>
+        public static bool DualItemCanUseItemAlt(Player player, ModItem item, float mainAnimMult = 1f, float mainTimeMult = 1f, float altAnimMult = 1f, float altTimeMult = 1f)
+        {
+            PlayerFX pfx = player.GetModPlayer<PlayerFX>();
+            pfx.dualItemCanUse = true;
+            if (player.altFunctionUse == 2)
+            {
+                pfx.dualItemAnimationMod = altAnimMult;
+                pfx.dualItemTimeMod = altTimeMult;
+                return true;
+            }
+            else
+            {
+                pfx.dualItemAnimationMod = mainAnimMult;
+                pfx.dualItemTimeMod = mainTimeMult;
+                return false;
+            }
+        }
+
+        #endregion
 
         public override float MeleeSpeedMultiplier(Item item)
         {

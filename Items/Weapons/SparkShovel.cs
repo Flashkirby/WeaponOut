@@ -71,13 +71,12 @@ namespace WeaponOut.Items.Weapons
         // Light weight, less flexible, but much safer
         public override bool CanUseItem(Player player)
         {
-            PlayerFX pfx = player.GetModPlayer<PlayerFX>();
-            Main.NewText("CanUseItem dualItemCanUse = " + pfx.dualItemCanUse);
-            pfx.dualItemCanUse = true;
-            if (player.altFunctionUse == 2)
+            if (PlayerFX.DualItemCanUseItemAlt(player, this,
+                28f / 15f, 1f,
+                1f, 1f))
             {
-                item.useStyle = 5; // Doesn't set for other clients
-                item.UseSound = SoundID.Item8; // Doesn't play for other clients
+                item.useStyle = 5; // Doesn't set for other clients normally
+                item.UseSound = SoundID.Item8; // Doesn't play for other clients normally
                 item.useTurn = false;
                 item.magic = true;
                 item.melee = false;
@@ -94,12 +93,11 @@ namespace WeaponOut.Items.Weapons
                 item.UseSound = SoundID.Item1;
                 item.useTurn = true;
                 item.magic = false;
-                item.melee = true; 
+                item.melee = true;
                 item.noMelee = false;
                 player.manaCost = 0f;
-                pfx.dualItemAnimationMod *= 28f / 15f;
                 item.pick = 35;
-                item.shoot = 0;
+                item.shoot = 0; // No projectile
             }
             return true;
         }
@@ -107,7 +105,7 @@ namespace WeaponOut.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             damage = (int)(damage * 8f / 5f);
-            knockBack /= 3f;
+            knockBack *= 1 / 3f;
             player.itemTime = player.itemAnimation;
             return player.itemAnimation == player.itemAnimationMax - 1;
         }
