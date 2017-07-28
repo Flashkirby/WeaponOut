@@ -160,7 +160,7 @@ namespace WeaponOut
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            return ParryPreHurt(damageSource);
+            return !ParryPreHurt(damageSource);
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
