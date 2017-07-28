@@ -65,7 +65,7 @@ namespace WeaponOut
         internal static void ReflectProjectilePlayer(Projectile projectile, Player player, PlayerFX modPlayer, bool showEffect)
         {
             // Set internal timer
-            try { modPlayer.reflectingProjectileDelay = Items.MirrorBadge.reflectDelay; } catch { }
+            try { modPlayer.reflectingProjectileDelay = Items.Accessories.MirrorBadge.reflectDelay; } catch { }
 
             ReflectProjectilePlayer(projectile, player);
             

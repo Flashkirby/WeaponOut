@@ -69,7 +69,7 @@ namespace WeaponOut.Projectiles
 
             if(FrameCheck == 0)
             {
-                allTargets = GetTargettableNPCs(player.Center, Items.Weapons.Raiden.focusRadius);
+                allTargets = GetTargettableNPCs(player.Center, Items.Weapons.Basic.Raiden.focusRadius);
 
                 if(allTargets.Count <= 0)
                 {

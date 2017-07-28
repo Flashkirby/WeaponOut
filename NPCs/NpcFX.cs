@@ -36,7 +36,7 @@ namespace WeaponOut.NPCs
                     //add scrap salvo after mech
                     if (Main.hardMode && NPC.downedPlantBoss)
                     {
-                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Weapons.ScrapSalvo>());
+                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Weapons.Basic.ScrapSalvo>());
                         nextSlot++;
                     }
                 }
