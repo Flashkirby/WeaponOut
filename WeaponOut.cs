@@ -36,7 +36,6 @@ namespace WeaponOut
 
         public static int BuffIDManaReduction;
         public static int BuffIDMirrorBarrier;
-        public static int BuffIDWeaponSwitch;
 
         public static int DustIDManaDust;
 
@@ -52,7 +51,6 @@ namespace WeaponOut
                 //AutoloadSounds = true
             };
             ModConf.Load();
-            Items.Weapons.HelperDual.ResetListOnLoad();
         }
 
         public override void Load()
@@ -64,7 +62,6 @@ namespace WeaponOut
         {
             if (ModConf.enableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             if (ModConf.enableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
-            if (ModConf.enableDualWeapons) BuffIDWeaponSwitch = GetBuff("WeaponSwitch").Type;
 
             DustIDManaDust = GetDust<Dusts.ManaDust>().Type;
 

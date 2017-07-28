@@ -65,12 +65,14 @@ namespace WeaponOut
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
 
+        #region Dual Weapon Values
         /// <summary> Multiplier for the item use animation </summary>
         public float dualItemAnimationMod;
         /// <summary> Multiplier for the item use time </summary>
         public float dualItemTimeMod;
         /// <summary> Multiplayer sync variable for figuring out if a weapon is being alt-func used. </summary>
         public bool dualItemCanUse;
+        #endregion
 
         #region Utils
         public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
