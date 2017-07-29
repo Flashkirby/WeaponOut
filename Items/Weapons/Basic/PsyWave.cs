@@ -15,13 +15,13 @@ namespace WeaponOut.Items.Weapons.Basic
 
         public override void SetStaticDefaults()
         {
-            item.CloneDefaults(ItemID.WaterBolt);
             DisplayName.SetDefault("Psy Wave");
             Tooltip.SetDefault(
                 "Cast a psionic orb");
         }
         public override void SetDefaults()
         {
+            item.CloneDefaults(ItemID.WaterBolt);
             item.useAnimation = 15;
             item.useTime = 15;
             item.UseSound = SoundID.Item24;

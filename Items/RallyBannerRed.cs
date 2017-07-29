@@ -39,7 +39,6 @@ namespace WeaponOut.Items
 
         public static void SetStaticDefaults(ModItem modItem, string name)
         {
-            modItem.item.CloneDefaults(ItemID.Umbrella);
             modItem.DisplayName.SetDefault(name);
             modItem.Tooltip.SetDefault(
                 "Increases stats for your team whilst held\n" +
@@ -47,6 +46,7 @@ namespace WeaponOut.Items
         }
         public static void SetDefaults(Item item)
         {
+            modItem.item.CloneDefaults(ItemID.Umbrella);
             item.width = 28;
             item.height = 48;
             item.value = 3000;

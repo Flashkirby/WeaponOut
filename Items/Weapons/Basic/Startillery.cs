@@ -21,11 +21,11 @@ namespace WeaponOut.Items.Weapons.Basic
 
         public override void SetStaticDefaults()
         {
-            item.CloneDefaults(ItemID.StarCannon);
-            DisplayName.SetDefault("Startillery Staff");
+            DisplayName.SetDefault("Startillery");
         }
         public override void SetDefaults()
         {
+            item.CloneDefaults(ItemID.StarCannon);
             item.damage = 230;
             item.useTime = 80;
             item.useAnimation = 81;
