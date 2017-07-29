@@ -46,7 +46,7 @@ namespace WeaponOut.Items
         }
         public static void SetDefaults(Item item)
         {
-            modItem.item.CloneDefaults(ItemID.Umbrella);
+            item.CloneDefaults(ItemID.Umbrella);
             item.width = 28;
             item.height = 48;
             item.value = 3000;
