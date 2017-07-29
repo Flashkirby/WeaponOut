@@ -17,7 +17,7 @@ namespace WeaponOut.Items.Weapons.Dual
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("IOU: Steam Persuader");
+            DisplayName.SetDefault("Steam Persuader");
             Tooltip.SetDefault(
                 "No knockback on normal shots\n" +
                 "Four round burst\n" +
@@ -48,21 +48,6 @@ namespace WeaponOut.Items.Weapons.Dual
 
             item.rare = 5;
             item.value = Item.sellPrice(0, 3, 0, 0);
-
-            /*
-            dual = new HelperDual(item, true);
-            dual.UseSound = SoundID.Item38;
-            dual.UseAnimation = 28;
-            dual.UseTime = 28;
-            dual.ReuseDelay = 0;
-
-            dual.KnockBack = 8f;
-
-            dual.ShootSpeed = 6f;
-
-            dual.FinishDefaults();
-            //end by setting default values
-            */
         }
         public override void AddRecipes()
         {
@@ -73,28 +58,31 @@ namespace WeaponOut.Items.Weapons.Dual
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        /*
-        public override void OnCraft(Recipe recipe)
-        {
-            HelperDual.OnCraft(this);
-            base.OnCraft(recipe);
-        }
-
+        
         public override bool AltFunctionUse(Player player) { return true; }
-        public override void UseStyle(Player player)
-        {
-            Dual.UseStyleMultiplayer(player);
-            PlayerFX.modifyPlayerItemLocation(player, -28, -2);
-        }
+
+        // Light weight, less flexible, but much safer
         public override bool CanUseItem(Player player)
         {
-            Dual.CanUseItem(player);
-            return base.CanUseItem(player);
-        }
-        public override void HoldStyle(Player player)
-        {
-            Dual.HoldStyle(player);
-            base.HoldStyle(player);
+            float altAnim = 32f;
+            float mainTime = 3f;
+            if (PlayerFX.DualItemCanUseItemAlt(player, this,
+                1f, 1f,
+                // 32 + 9(extra shots) / 12, 3f/32f -> ~27
+                (altAnim + 3f * mainTime) / (altAnim / mainTime), mainTime / altAnim))
+            {
+                item.UseSound = SoundID.Item38; // Doesn't play for other clients normally
+                item.reuseDelay = 0;
+                player.itemTime = 0; // gotta reset anytime we mess with item time divider
+            }
+            else
+            {
+                // we can take advantage of the fact that CanUseItem never gets called by
+                // clients if it was an alt function
+                item.UseSound = SoundID.Item31;
+                item.reuseDelay = 14;
+            }
+            return true;
         }
 
         // Act like clockwork gun
@@ -107,18 +95,22 @@ namespace WeaponOut.Items.Weapons.Dual
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            //Main.NewText(player.itemAnimation + " == \n" + (player.itemAnimationMax - 1));
-            if (player.altFunctionUse == 0)
+            //Main.NewText("time = " + player.itemTime);
+            //Main.NewText("anim = " + player.itemAnimation);
+            if (player.altFunctionUse == 0 || player.itemAnimation < player.itemAnimationMax - 1)
             {
                 speedX += 0.5f * (Main.rand.NextFloat() - 0.5f);
                 speedY += 0.5f * (Main.rand.NextFloat() - 0.5f);
                 knockBack = 0f;
                 return true;
             }
-            else if (player.itemAnimation == player.itemAnimationMax -1)
+            else if (player.itemAnimation == player.itemAnimationMax - 1)
             {
+                speedX *= 6 / 9f;
+                speedY *= 6 / 9f;
+
                 float veloX, veloY;
-                int numShots = 4 + Main.rand.Next(3);
+                int numShots = Main.rand.Next(4, 7); // 4-6 shots
                 for (int i = 0; i < numShots; i++)
                 {
                     veloX = speedX + 5f * (Main.rand.NextFloat() - 0.5f);
@@ -129,6 +121,10 @@ namespace WeaponOut.Items.Weapons.Dual
             }
             return false;
         }
-        */
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-22, 2);
+        }
     }
 }

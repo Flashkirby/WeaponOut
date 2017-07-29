@@ -292,25 +292,27 @@ namespace WeaponOut
         /// </summary>
         /// <param name="player"></param>
         /// <param name="item"></param>
-        /// <param name="mainAnimMult">Primary useAnimation modifier</param>
-        /// <param name="mainTimeMult">Primary useTime modifier</param>
-        /// <param name="altAnimMult">Alternate useAnimation modifier</param>
-        /// <param name="altTimeMult">Alternate useTime modifier</param>
+        /// <param name="mainAnimMult">Primary useAnimation * modifier</param>
+        /// <param name="mainTimeDiv">Primary useTime 1/modifier, also affects mainAnimMult</param>
+        /// <param name="altAnimMult">Alternate useAnimation * modifier</param>
+        /// <param name="altTimeDiv">Alternate useTime 1/modifier, also affects altAnimMult</param>
         /// <returns>True if alternate click function</returns>
-        public static bool DualItemCanUseItemAlt(Player player, ModItem item, float mainAnimMult = 1f, float mainTimeMult = 1f, float altAnimMult = 1f, float altTimeMult = 1f)
+        public static bool DualItemCanUseItemAlt(Player player, ModItem item, float mainAnimMult = 1f, float mainTimeDiv = 1f, float altAnimMult = 1f, float altTimeDiv = 1f)
         {
             PlayerFX pfx = player.GetModPlayer<PlayerFX>();
             pfx.dualItemCanUse = true;
             if (player.altFunctionUse == 2)
             {
                 pfx.dualItemAnimationMod = altAnimMult;
-                pfx.dualItemTimeMod = altTimeMult;
+                pfx.dualItemTimeMod = altTimeDiv;
+                player.itemTime = 0; // gotta reset anytime we mess with item time divider
                 return true;
             }
             else
             {
                 pfx.dualItemAnimationMod = mainAnimMult;
-                pfx.dualItemTimeMod = mainTimeMult;
+                pfx.dualItemTimeMod = mainTimeDiv;
+                player.itemTime = 0; // gotta reset anytime we mess with item time divider
                 return false;
             }
         }
