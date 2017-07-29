@@ -60,13 +60,14 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             foreach(Projectile p in Main.projectile)
             {
-                if(p.active && p.owner == player.whoAmI && p.type == ProjectileID.FallingStar && p.damage > 150 && p.damage < 1000)
+                Vector2 position = p.position + new Vector2(2, -4);
+                if (p.active && p.owner == player.whoAmI && p.type == ProjectileID.FallingStar && p.damage > 150 && p.damage < 1000)
                 {
-                    Gore g = Main.gore[Gore.NewGore(p.position, new Vector2(p.velocity.X * 0.05f, p.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f)];
+                    Gore g = Main.gore[Gore.NewGore(position, new Vector2(p.velocity.X * 0.05f, p.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f)];
                     g.velocity.Y += 2;
                     for (int i = 0; i < 2; i++)
                     {
-                        Dust d = Main.dust[Dust.NewDust(p.position, p.width, p.height, 57 + Main.rand.Next(2), p.velocity.X * 0.3f, p.velocity.Y * 0.3f, 150, default(Color), 1.2f)];
+                        Dust d = Main.dust[Dust.NewDust(position, p.width, p.height, 57 + Main.rand.Next(2), p.velocity.X * 0.3f, p.velocity.Y * 0.3f, 150, default(Color), 1.2f)];
                         d.velocity *= Main.rand.NextFloatDirection() * 0.5f;
                     }
                 }
