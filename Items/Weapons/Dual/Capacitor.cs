@@ -15,7 +15,7 @@ namespace WeaponOut.Items.Weapons.Dual
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("IOU: Capacitor");
+            DisplayName.SetDefault("Capacitor");
             Tooltip.SetDefault(
                 "<right> to cast a frost bolt\n" + 
                 "Melee attacks grant 80% reduced mana cost");
@@ -29,41 +29,22 @@ namespace WeaponOut.Items.Weapons.Dual
             item.autoReuse = true;
 
             item.UseSound = SoundID.Item1;
-            item.useStyle = 1; //swing
+            item.useStyle = 5;
             item.useAnimation = 16;
-            item.useTime = 15;
+            item.useTime = 16;
 
             item.melee = true; //melee damage
             item.damage = 17;
             item.knockBack = 4f;
 
-            item.mana = 0; // These values are not reset 
-            item.shoot = 0; // when held in hand so they
-            item.shootSpeed = 0f; // must be done manually
+            item.mana = 16;
+            item.shoot = ProjectileID.FrostBoltStaff;
+            item.shootSpeed = 14f;
 
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
 
             item.rare = 2;
-            item.value = 20000;
-
-            /*
-            dual = new HelperDual(item, true); //prioritise magic defaults
-            dual.UseSound = null;
-            dual.UseStyle = 5;
-            dual.UseAnimation = 21;
-            dual.UseTime = 21;
-
-            dual.Magic = true;
-            dual.NoMelee = true;
-            dual.Damage = 30;
-            dual.KnockBack = 0f;
-
-            dual.Mana = 16;
-            dual.Shoot = ProjectileID.FrostBoltStaff; //staff one is magic, sword one is melee
-            dual.ShootSpeed = 14f;
-
-            dual.FinishDefaults();
-            */
+            item.value = Item.buyPrice(0, 2);
         }
         public override void AddRecipes()
         {
@@ -74,33 +55,47 @@ namespace WeaponOut.Items.Weapons.Dual
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        /*
-        public override void OnCraft(Recipe recipe)
-        {
-            HelperDual.OnCraft(this);
-            base.OnCraft(recipe);
-        }
 
         public override bool AltFunctionUse(Player player) { return true; }
-        public override void UseStyle(Player player)
-        {
-            Dual.UseStyleMultiplayer(player);
-            if (player.altFunctionUse > 0) PlayerFX.modifyPlayerItemLocation(player, -6, 0);
-        }
+
         public override bool CanUseItem(Player player)
         {
-            Dual.CanUseItem(player);
-            return base.CanUseItem(player);
-        }
-        public override void HoldStyle(Player player)
-        {
-            Dual.HoldStyle(player);
-            base.HoldStyle(player);
+            if (PlayerFX.DualItemCanUseItemAlt(player, this,
+                1f, 1f,
+                1f, 16f / 21f))
+            {
+                item.useStyle = 5; // Doesn't set for other clients normally
+                item.UseSound = null; // Doesn't play for other clients normally
+                item.magic = true;
+                item.melee = false;
+                item.noMelee = true;
+                item.shoot = ProjectileID.FrostBoltStaff;
+            }
+            else
+            {
+                // we can take advantage of the fact that CanUseItem never gets called by
+                // clients if it was an alt function
+                item.useStyle = 1;
+                item.UseSound = SoundID.Item1;
+                item.magic = false;
+                item.melee = true;
+                item.noMelee = false;
+                player.manaCost = 0f;
+                item.shoot = 0; // No projectile
+            }
+            return true;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             player.AddBuff(WeaponOut.BuffIDManaReduction, 180);//3 second buff
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            damage = (int)(damage * 30f / 16f);
+            knockBack = 0f;
+            return true;
         }
 
         public override void MeleeEffects(Player player, Microsoft.Xna.Framework.Rectangle hitbox)
@@ -116,6 +111,5 @@ namespace WeaponOut.Items.Weapons.Dual
                 Main.dust[d].noGravity = true;
             }
         }
-        */
     }
 }
