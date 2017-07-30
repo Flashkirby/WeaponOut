@@ -215,13 +215,18 @@ namespace WeaponOut.Projectiles.Whips
             {
                 return false;
             }
+            SpriteEffects se = SpriteEffects.None;
+            if (projectile.spriteDirection < 0)
+            {
+                se = SpriteEffects.FlipHorizontally;
+            }
             float chainCount = projectile.velocity.Length() + 16f;
             bool halfSize = chainCount < partHeight * 4.5f;
             Vector2 value17 = Vector2.Normalize(projectile.velocity);
             Rectangle rectangle6 = handle;
             Vector2 value18 = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
             float rotation24 = projectile.rotation + 3.14159274f;
-            Main.spriteBatch.Draw(texture2D17, projectile.Center.Floor() - Main.screenPosition + value18, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, rectangle6.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2D17, projectile.Center.Floor() - Main.screenPosition + value18, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, rectangle6.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, se, 0f);
             chainCount -= 40f * projectile.scale;
             Vector2 vector39 = projectile.Center.Floor();
             vector39 += value17 * projectile.scale * handle.Height / 2;
@@ -238,7 +243,7 @@ namespace WeaponOut.Projectiles.Whips
                     }
                     vector40 = vector39 + value18;
                     if(!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
-                    Main.spriteBatch.Draw(texture2D17, vector40 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, new Vector2((float)(rectangle6.Width / 2), 0f), projectile.scale, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(texture2D17, vector40 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, new Vector2((float)(rectangle6.Width / 2), 0f), projectile.scale, se, 0f);
                     num198 += (float)rectangle6.Height * projectile.scale;
                     vector39 += value17 * (float)rectangle6.Height * projectile.scale;
                 }
@@ -269,7 +274,7 @@ namespace WeaponOut.Projectiles.Whips
                     }
                     vector40 = vector39 + value18;
                     if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
-                    Main.spriteBatch.Draw(texture2D17, vector40 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, new Vector2((float)(rectangle6.Width / 2), 0f), projectile.scale, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(texture2D17, vector40 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, new Vector2((float)(rectangle6.Width / 2), 0f), projectile.scale, se, 0f);
                     num201 += num204;
                     vector39 += value17 * num204;
                     num44 = num203;
@@ -285,12 +290,12 @@ namespace WeaponOut.Projectiles.Whips
                 Vector2 lastPosition2 = vector41 - lastDiff * 2;
                 Vector2 lastPosition = vector41 - lastDiff * 1;
 
-                Main.spriteBatch.Draw(texture2D17, lastPosition2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.4f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 2f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture2D17, lastPosition2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.4f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 2f, se, 0f);
 
-                Main.spriteBatch.Draw(texture2D17, lastPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.66f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 1.5f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture2D17, lastPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.66f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 1.5f, se, 0f);
             }
 
-            Main.spriteBatch.Draw(texture2D17, vector41 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2D17, vector41 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale, se, 0f);
 
             return false;
         }
