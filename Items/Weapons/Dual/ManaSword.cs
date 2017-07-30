@@ -96,6 +96,7 @@ namespace WeaponOut.Items.Weapons.Dual
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
+            if (target.immortal) return;
             player.statMana += 3;
             if(player.whoAmI == Main.myPlayer) player.ManaEffect(3); //other players will see this already
         }
