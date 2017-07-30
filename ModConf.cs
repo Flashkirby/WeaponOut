@@ -39,7 +39,7 @@ namespace WeaponOut
         public static bool enableEmblems = true;
         public const string enableEmblemsField = "enable_emblems";
 
-        static string ConfigPath = Path.Combine(Main.SavePath, "WeaponOut.json");
+        static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs/WeaponOut.json");
 
         static Preferences ModConfig = new Preferences(ConfigPath);
 
