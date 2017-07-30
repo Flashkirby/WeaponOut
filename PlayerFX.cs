@@ -631,8 +631,12 @@ namespace WeaponOut
                 //| ##  ####        
                 //| ####            
                 //Broadsword weapons are swing type weapons between 28 - 48
-                //They are worn on the waist, and react to falling!
-                else if (larger <= 48)
+                //They are worn on the waist, and react to falling! Except when disabled
+                //This also amusingly applies to ducks, axes and rockfish
+                //But shouldn't apply to pickaxes, except when they are also not pickaxes
+                else if (larger <= 48 && 
+                    (heldItem.pick <= 0 || 
+                    (heldItem.pick > 0 && heldItem.axe > 0)))
                 {
                     if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(waist): " + itemWidth + " x " + itemHeight);
                     if (!drawOnBack) return;
