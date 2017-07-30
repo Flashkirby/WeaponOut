@@ -85,7 +85,6 @@ namespace WeaponOut.Projectiles
             projectile.magic = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-
             projectile.netImportant = true;
         }
 
@@ -179,12 +178,12 @@ namespace WeaponOut.Projectiles
             //Main.NewText("distance: \n" + distance + "/\n" + maxDistance);
 
             //cancelled if no longer channelling or can't act, or simply too far
-            if ((player.channel || littleCharge)
-                && canChannel(player) && distance <= maxDistance)
+            // Also, in multiplayer player.channel might drop so ignore that for other clients
+            if ((player.channel || littleCharge || player.whoAmI != projectile.owner) &&
+                canChannel(player) && distance <= maxDistance)
             {
                 chargeTickLogic(player, ref staffTip, ref d, distance);
                 chargeLevelLogic(player);
-
             }
             else
             {
@@ -241,8 +240,8 @@ namespace WeaponOut.Projectiles
                 if (ChargeTick >= chargeTicksMax) //past level tick
                 {
                     ChargeTick = 0;//past, reset tick
-                    //use manaflower
-                    if (manaCost > player.statMana)
+                    //use manaflower, is only me
+                    if (manaCost > player.statMana && player.whoAmI == Main.myPlayer)
                     {
                         if (player.manaFlower)
                         {
@@ -253,10 +252,11 @@ namespace WeaponOut.Projectiles
                             changeToCast();
                         }
                     }
-                    //now has mana available?
-                    if (player.statMana >= manaCost)
+                    //now has mana available? only applies to caster if owner
+                    if (player.statMana >= manaCost || player.whoAmI != Main.myPlayer)
                     {
                         ChargeLevel++;
+                        projectile.netUpdate = true;
                         projectile.timeLeft += chargeTicksMax;
 
                         float recentre = projectile.width;
@@ -275,7 +275,7 @@ namespace WeaponOut.Projectiles
             else //already fully charged
             {
                 ChargeTick = 0;
-                if (manaMaintainCost > player.statMana)
+                if (manaMaintainCost > player.statMana || player.whoAmI != Main.myPlayer)
                 {
                     if (player.manaFlower)
                     {
@@ -287,7 +287,7 @@ namespace WeaponOut.Projectiles
                     }
                 }
                 //now has mana available?
-                if (player.statMana >= manaMaintainCost)
+                if (player.statMana >= manaMaintainCost || player.whoAmI != Main.myPlayer)
                 {
                     player.CheckMana(manaMaintainCost, true);
                 }
@@ -370,7 +370,7 @@ namespace WeaponOut.Projectiles
                     projectile.damage = divDamage;
 
                     //-//Main.NewText("lifetime: \n" + projectile.timeLeft + " | dmg: \n" + divDamage + "/\n" + Damage);
-
+                    
                     Projectile.NewProjectile(projectile.Center, projectile.velocity,
                         mod.GetProjectile("Explooosion").projectile.type,
                         Damage,
