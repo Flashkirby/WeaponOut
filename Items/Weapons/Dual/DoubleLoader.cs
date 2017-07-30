@@ -39,24 +39,11 @@ namespace WeaponOut.Items.Weapons.Dual
             item.knockBack = 4f;
 
             item.useAmmo = AmmoID.Bullet;
-            item.shoot = 10;
+            item.shoot = ProjectileID.Bullet;
             item.shootSpeed = 12f;
 
             item.rare = 8;
             item.value = Item.sellPrice(0, 5, 0, 0);
-
-            /*
-            dual = new HelperDual(item, true);
-            dual.Damage = 48;
-            dual.UseAnimation = 28;
-            dual.UseTime = 28;
-
-            dual.UseAmmo = AmmoID.Dart;
-            dual.ShootSpeed = 13f;
-
-            dual.FinishDefaults();
-            //end by setting default values
-            */
         }
         public override void AddRecipes()
         {
@@ -66,31 +53,25 @@ namespace WeaponOut.Items.Weapons.Dual
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        /*
-        public override void OnCraft(Recipe recipe)
-        {
-            HelperDual.OnCraft(this);
-            base.OnCraft(recipe);
-        }
 
         public override bool AltFunctionUse(Player player) { return true; }
-        public override void UseStyle(Player player)
-        {
-            Dual.UseStyleMultiplayer(player);
-            PlayerFX.modifyPlayerItemLocation(player, -14, 2);
-        }
         public override bool CanUseItem(Player player)
         {
-            Dual.CanUseItem(player);
-            return base.CanUseItem(player);
-        }
-        public override void HoldStyle(Player player)
-        {
-            Dual.HoldStyle(player);
-            base.HoldStyle(player);
+            if (PlayerFX.DualItemCanUseItemAlt(player, this,
+                1f, 1f,
+                1f, 11f / 28f))
+            {
+                item.useAmmo = AmmoID.Dart;
+                item.shoot = ProjectileID.RocketI;
+            }
+            else
+            {
+                item.useAmmo = AmmoID.Bullet;
+                item.shoot = ProjectileID.Bullet;
+            }
+            return true;
         }
 
-        // consume ammo chance
         public override bool ConsumeAmmo(Player player)
         {
             if (Main.rand.Next(5) == 0) { return false; } // if number is 0, don't use ammo also
@@ -99,14 +80,24 @@ namespace WeaponOut.Items.Weapons.Dual
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if(player.altFunctionUse == 0)
+            if (player.altFunctionUse == 0)
             {
                 // (float)r.NextDouble() * 2f - 1f
                 speedX += 0.3f * Main.rand.NextFloatDirection();
                 speedY += 0.3f * Main.rand.NextFloatDirection();
             }
+            else
+            {
+                damage = (int)(damage * 1.4f);
+                speedX *= 1.1f;
+                speedY *= 1.1f;
+            }
             return true;
         }
-        */
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-6, 0);
+        }
     }
 }
