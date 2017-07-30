@@ -17,7 +17,7 @@ namespace WeaponOut.Items.Weapons.Dual
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("IOU: Mana Sword");
+            DisplayName.SetDefault("Mana Sword");
             Tooltip.SetDefault(
                 "Casts a mana restoring star\n" +
                 "<right> to cast a powerful mana bolt\n" +
@@ -32,40 +32,22 @@ namespace WeaponOut.Items.Weapons.Dual
             item.autoReuse = true;
 
             item.UseSound = SoundID.Item28;
-            item.useStyle = 1; //swing
-            item.useAnimation = 16;
-            item.useTime = 15;
+            item.useStyle = 5;
+            item.useAnimation = 60;
+            item.useTime = 60;
 
             item.magic = true;
-            item.damage = 32;
+            item.damage = 30;
             item.knockBack = 5f;
 
             item.mana = 10;
-            item.shoot = mod.ProjectileType("ManaBlast");
+            item.shoot = mod.ProjectileType<Projectiles.ManaBlast>();
             item.shootSpeed = 11f;
 
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
 
             item.rare = 5;
             item.value = Item.sellPrice(0, 5, 0, 0);
-
-            /*
-            dual = new HelperDual(item, true); //prioritise magic defaults
-            dual.UseSound = SoundID.Item68;
-            dual.UseStyle = 5;
-            dual.UseAnimation = 40;
-            dual.UseTime = 40;
-
-            dual.NoMelee = true;
-            dual.Damage = 100;
-            dual.KnockBack = 10f;
-
-            dual.Mana = 30;
-            dual.Shoot = mod.ProjectileType("ManaBolt");
-            item.shootSpeed = 30f;
-
-            dual.FinishDefaults();
-            */
         }
         public override void AddRecipes()
         {
@@ -80,41 +62,69 @@ namespace WeaponOut.Items.Weapons.Dual
                 {
                     recipe.AddIngredient(ItemID.TitaniumSword, 1);
                 }
-                recipe.AddIngredient(mod.GetItem("ManaBlast").item.type, 1);
+                recipe.AddIngredient(mod.GetItem<Basic.ManaBlast>().item.type, 1);
                 recipe.AddTile(TileID.MythrilAnvil);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
             }
         }
-        /*
 
         public override bool AltFunctionUse(Player player) { return true; }
-        public override void UseStyle(Player player)
-        {
-            Dual.UseStyleMultiplayer(player);
-            if (player.altFunctionUse > 0) PlayerFX.modifyPlayerItemLocation(player, -6, 0);
-        }
+
+        // Light weight, less flexible, but much safer
         public override bool CanUseItem(Player player)
         {
-            Dual.CanUseItem(player);
-            return base.CanUseItem(player);
+            if (PlayerFX.DualItemCanUseItemAlt(player, this,
+                1f, 60f / 15f,
+                1f, 1f))
+            {
+                item.useStyle = 5;
+                item.UseSound = SoundID.Item68;
+                item.useTurn = false;
+                item.noMelee = true;
+                player.manaCost *= 4f;
+                item.shoot = mod.ProjectileType<Projectiles.ManaBolt>();
+            }
+            else
+            {
+                item.useStyle = 1;
+                item.UseSound = SoundID.Item28;
+                item.useTurn = true;
+                item.noMelee = false;
+                item.shoot = mod.ProjectileType<Projectiles.ManaBlast>();
+            }
+            return true;
         }
-        public override void HoldStyle(Player player)
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Dual.HoldStyle(player);
-            base.HoldStyle(player);
+            player.statMana += 3;
+            if(player.whoAmI == Main.myPlayer) player.ManaEffect(3); //other players will see this already
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse > 0)
+            if (player.altFunctionUse == 0)
+            { }
+            else
             {
-                damage += player.statMana / 4; //up to 100 with max mana, though will be around 25
-                //Main.NewText("Bolt buffed by \n" + (player.statMana / 4) + " to \n" + damage);
+                damage = (int)(damage * 3.125f);
+                knockBack *= 2f;
+                //speedX *= 2.7f;
+                //speedY *= 2.7f;
+
+                damage += player.statMana / 2; //up to 200 with max mana, 50 default
+                //Main.NewText("Bolt buffed by \n" + (player.statMana / 2) + " to \n" + damage);
             }
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
 
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-4f,0);
+        }
+
+        #region Melee Effects
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             Vector2 dustPosition;
@@ -148,6 +158,6 @@ namespace WeaponOut.Items.Weapons.Dual
                         (float)(cosRot * player.direction),
                         (float)(sinRot * player.direction));
         }
-        */
+        #endregion
     }
 }

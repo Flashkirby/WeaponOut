@@ -64,16 +64,22 @@ namespace WeaponOut.Projectiles
                 projectile.tileCollide = false;
                 projectile.ignoreWater = true;
 
+                float distance = Vector2.Distance(new Vector2(projectile.position.X + projectile.width / 2, projectile.position.Y + projectile.height / 2), new Vector2(playerCentre.X + player.width / 2, playerCentre.Y + player.height / 2));
+
+                float spd = 9f;
+                if (distance > 512) spd = 18f;
                 float rotToPlayer = (float)Math.Atan2(playerCentre.Y - projectile.position.Y, playerCentre.X - projectile.position.X);
-                projectile.velocity *= 9;
-                projectile.velocity += new Vector2(9 * (float)Math.Cos(rotToPlayer), 9 * (float)Math.Sin(rotToPlayer));
-                projectile.velocity /= 10;
-                if (Vector2.Distance(new Vector2(projectile.position.X + projectile.width / 2, projectile.position.Y + projectile.height / 2), new Vector2(playerCentre.X + player.width / 2, playerCentre.Y + player.height / 2)) < 20)
+                projectile.velocity *= spd;
+                projectile.velocity += new Vector2(spd * (float)Math.Cos(rotToPlayer), spd * (float)Math.Sin(rotToPlayer));
+                projectile.velocity /= spd + 1;
+
+                if (distance < 20)
                 {
                     player.statMana += 9;
                     if (projectile.owner == Main.myPlayer) player.ManaEffect(9); //other players will see this already
                     projectile.Kill();
                 }
+
             }
 
             //self explanatory WeaponOut.textureMANBal stuff

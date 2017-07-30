@@ -50,8 +50,8 @@ namespace WeaponOut.Projectiles
             }
             if (projectile.ai[1] == 1f)
             {
-                //damage scales between 100-200 average
-                projectile.ai[1] = 1f + 0.25f + projectile.damage * 0.0075f;
+                //damage scales between 100-300 average
+                projectile.ai[1] = 1f + 0.25f + projectile.damage * 0.005f;
             }
             //limit size to stonkingly big (instead of ゴジラ big)
             projectile.ai[1] = Math.Min(3f, projectile.ai[1]);
@@ -152,8 +152,8 @@ namespace WeaponOut.Projectiles
                 -projectile.velocity.X * scale * 0.3f * timeLeftNormal);
             d = Dust.NewDust(tileHit, projectile.width, projectile.height, WeaponOut.DustIDManaDust, 0f, 0f, 0, default(Color), projectile.scale * 2);
             Main.dust[d].velocity = new Vector2(
-                -projectile.velocity.Y * scale * 0.5f * timeLeftNormal,
-                projectile.velocity.X * scale * 0.5f * timeLeftNormal);
+                -projectile.velocity.Y * scale * 0.3f * timeLeftNormal,
+                projectile.velocity.X * scale * 0.3f * timeLeftNormal);
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -209,7 +209,7 @@ namespace WeaponOut.Projectiles
             Player player = Main.player[projectile.owner];//owner
             int halfWidth = WeaponOut.textureMANBO.Width / 2;
             int singleFrameHeight = WeaponOut.textureMANBO.Height / Main.projFrames[projectile.type];
-            Vector2 centre = new Vector2(halfWidth, singleFrameHeight - halfWidth);
+            Vector2 centre = new Vector2(halfWidth, singleFrameHeight - halfWidth * 0.5f);
 
             spriteBatch.Draw(WeaponOut.textureMANBO,
                 spawnPosCentre - Main.screenPosition,
