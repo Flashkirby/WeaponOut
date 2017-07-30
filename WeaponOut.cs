@@ -88,6 +88,29 @@ namespace WeaponOut
         }
 
         /// <summary>
+        /// Registers a glowmask texture to the game's array, and returns that value.
+        /// The file should be located under Glow/ItemName_Glow. Make sure to register
+        /// the returned value under item.glowMask in SetDefaults.
+        /// </summary>
+        /// <param name="modItem">The mod item to register. </param>
+        /// <returns></returns>
+        public static short SetStaticDefaultsGlowMask(ModItem modItem)
+        {
+            if (!Main.dedServ)
+            {
+                Texture2D[] glowMasks = new Texture2D[Main.glowMaskTexture.Length + 1];
+                for (int i = 0; i < Main.glowMaskTexture.Length; i++)
+                {
+                    glowMasks[i] = Main.glowMaskTexture[i];
+                }
+                glowMasks[glowMasks.Length - 1] = mod.GetTexture("Glow/" + modItem.GetType().Name + "_Glow");
+                Main.glowMaskTexture = glowMasks;
+                return (short)(glowMasks.Length - 1);
+            }
+            else return 0;
+        }
+
+        /// <summary>
         /// Handy dandy game method for implementating screen shake
         /// </summary>
         /// <param name="Transform"></param>

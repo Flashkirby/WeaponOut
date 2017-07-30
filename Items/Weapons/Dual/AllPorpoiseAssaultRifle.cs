@@ -37,19 +37,7 @@ namespace WeaponOut.Items.Weapons.Dual
         /// </summary>
         public override bool Autoload(ref string name)
         {
-            if (Main.netMode != 2 && ModConf.enableDualWeapons)
-            {
-                Texture2D[] glowMasks = new Texture2D[Main.glowMaskTexture.Length + 1];
-                for (int i = 0; i < Main.glowMaskTexture.Length; i++)
-                {
-                    glowMasks[i] = Main.glowMaskTexture[i];
-                }
-                glowMasks[glowMasks.Length - 1] = mod.GetTexture("Glow/" + this.GetType().Name + "_Glow");
-                customGlowMask = (short)(glowMasks.Length - 1);
-                Main.glowMaskTexture = glowMasks;
-                return true;
-            }
-            return false;
+            return ModConf.enableDualWeapons;
         }
 
         public override void SetStaticDefaults()
@@ -59,10 +47,12 @@ namespace WeaponOut.Items.Weapons.Dual
                 "<right> to fire a powerful underbarrel rocket\n" + 
                 "50% chance to not consume ammo\n" +
                 "'Perfect for target rich environments'");
+            proji = mod.GetProjectile("APARocketI").projectile.type;
+            projii = mod.GetProjectile("APARocketII").projectile.type;
+            projiii = mod.GetProjectile("APARocketIII").projectile.type;
+            projiv = mod.GetProjectile("APARocketIV").projectile.type;
+            customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
-        /*
-        HelperDual dual;
-        HelperDual Dual { get { if (dual == null) { HelperDual.OnCraft(this); } return dual; } }
         public override void SetDefaults()
         {
             item.width = 60;
@@ -81,33 +71,12 @@ namespace WeaponOut.Items.Weapons.Dual
             item.knockBack = 1f;
 
             item.useAmmo = AmmoID.Bullet;
-            item.shoot = 10;
+            item.shoot = ProjectileID.Bullet;
             item.shootSpeed = 10f;
 
             item.glowMask = customGlowMask;
             item.rare = 9;
             item.value = Item.sellPrice(0, 1, 0, 0);
-
-            dual = new HelperDual(item, true);
-            dual.UseAnimation = 16;
-            dual.UseTime = 16;
-
-            dual.Damage = 140; //+base 40
-            dual.KnockBack = 4f;
-
-            dual.UseAmmo = AmmoID.Rocket;
-            dual.Shoot = 134;
-            dual.ShootSpeed = 5.5f;
-
-            proji = mod.GetProjectile("APARocketI").projectile.type;
-            projii = mod.GetProjectile("APARocketII").projectile.type;
-            projiii = mod.GetProjectile("APARocketIII").projectile.type;
-            projiv = mod.GetProjectile("APARocketIV").projectile.type;
-
-            dual.FinishDefaults();
-            //end by setting default values
-
-            rocketCooldown = 0;
         }
         public override void AddRecipes()
         {
@@ -117,21 +86,26 @@ namespace WeaponOut.Items.Weapons.Dual
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void OnCraft(Recipe recipe) { HelperDual.OnCraft(this); }
 
         public override bool AltFunctionUse(Player player) { return rocketCooldown <= 0; }
-        public override void UseStyle(Player player)
-        {
-            Dual.UseStyleMultiplayer(player);
-            PlayerFX.modifyPlayerItemLocation(player, -22, 0);
-        }
         public override bool CanUseItem(Player player)
         {
-            Dual.CanUseItem(player);
-            return base.CanUseItem(player);
+            if (PlayerFX.DualItemCanUseItemAlt(player, this,
+                1f, 1f,
+                1f, 0.4f))
+            {
+                item.useAmmo = AmmoID.Rocket;
+                item.shoot = ProjectileID.RocketI;
+            }
+            else
+            {
+                item.useAmmo = AmmoID.Bullet;
+                item.shoot = ProjectileID.Bullet;
+            }
+            return true;
         }
-        public override void HoldStyle(Player player) { Dual.HoldStyle(player); }
 
+        // Handle accuracy and rocket cooldowns
         Vector2 vector2Mouse = Vector2.Zero;
         public override void HoldItem(Player player)
         {
@@ -142,21 +116,24 @@ namespace WeaponOut.Items.Weapons.Dual
             }
 
             //increase accuracy
-            if((player.itemAnimation == 0 || player.altFunctionUse != 0) && accuracyMod > minAccuracyMod)
+            if ((player.itemAnimation == 0 || player.altFunctionUse != 0) && accuracyMod > minAccuracyMod)
             {
                 accuracyMod -= decayAccuracyMod;
             }
 
-            if(player.whoAmI == Main.myPlayer)
+            if (player.whoAmI == Main.myPlayer)
             {
                 if (player.itemAnimation > 0)
                 {
-                    if(player.itemAnimation == player.itemAnimationMax - 1)
+                    if (player.itemAnimation == player.itemAnimationMax - 1)
                     {
+                        // Make cool noise effect to indiciate crit attacks
+                        if (accuracyMod <= 0 && player.altFunctionUse == 0) Main.PlaySound(SoundID.DD2_CrystalCartImpact);
+
                         //Update shoot direction
                         vector2Mouse = Main.MouseWorld - player.Center
-                            + new Vector2(Main.rand.NextFloat() - 0.5f, Main.rand.NextFloat() - 0.5f)
-                            * 75f * Accuracy;
+                        + new Vector2(Main.rand.NextFloat() - 0.5f, Main.rand.NextFloat() - 0.5f)
+                        * 75f * Accuracy;
                         vector2Mouse.Normalize();
                     }
                     int d = Dust.NewDust(player.Center + vector2Mouse * 45f - new Vector2(4, 4) - player.velocity,
@@ -169,10 +146,8 @@ namespace WeaponOut.Items.Weapons.Dual
 
         public override bool ConsumeAmmo(Player player)
         {
-            if (player.altFunctionUse == 0)
-            {
-                if (Main.rand.Next(2) == 0) return false;
-            }
+            if (player.altFunctionUse == 0 &&
+                Main.rand.Next(2) == 0) return false;
             return true;
         }
 
@@ -181,15 +156,21 @@ namespace WeaponOut.Items.Weapons.Dual
             if (player.altFunctionUse == 0)
             {
                 if (accuracyMod < maxAccuracyMod - addAccuracyMod) accuracyMod += addAccuracyMod;
-                if (accuracyMod <= 0) damage = (int)(damage * 1.33);
+                if (accuracyMod <= 0) damage = (int)(damage * 1.5);
                 speedX += Accuracy * (Main.rand.NextFloat() - 0.5f);
                 speedY += Accuracy * (Main.rand.NextFloat() - 0.5f);
             }
             else
             {
+                // Modify values to match alt function damage
+                damage = (int)(damage * 140f / 82f);
+                knockBack *= 4f;
+                speedX *= 5.5f / 10f;
+                speedY *= 5.5f / 10f;
+
                 if (rocketCooldown > 0) return false;
                 rocketCooldown = rocketCooldownMax;
-                damage *= 2; //douvle for direct hits, this halves on explosion in rocket code
+                damage *= 2; //double for direct hits, this halves on explosion in rocket code
                 switch (type)
                 {
                     case 134: //Rocket I
@@ -208,6 +189,10 @@ namespace WeaponOut.Items.Weapons.Dual
             }
             return true;
         }
-        */
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-14, 0);
+        }
     }
 }
