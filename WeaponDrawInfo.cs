@@ -108,11 +108,15 @@ namespace WeaponOut
         }
         internal static DrawData modDraw_WaistWeapon(DrawData data, Player p, float length)
         {
-            float maxFall = p.velocity.Y * p.gravDir;
-            if (p.velocity.Y == 0) maxFall = p.velocity.X * p.direction;
+            float maxFall = 2f;
+            if (!ModConf.toggleWaistRotation)
+            {
+                maxFall = p.velocity.Y * p.gravDir;
+                if (p.velocity.Y == 0) maxFall = p.velocity.X * p.direction;
+            }
             data.rotation = (float)(Math.PI * 1 + Math.PI * (0.1f + maxFall * 0.01f) * p.direction) * p.gravDir; //rotate just over 180 clockwise
             data.position.X -= (length * 0.5f - 20) * p.direction; //back
-            data.position.Y += (16 - maxFall / 2) * p.gravDir; //down
+            data.position.Y += (14 - maxFall / 2) * p.gravDir; //down
             return data;
         }
         internal static DrawData modDraw_BackWeapon(DrawData data, Player p, float length)
@@ -259,13 +263,13 @@ namespace WeaponOut
             }
             else if (playerBodyFrameNum == 5) //jumping
             {
-                data.rotation = (float)(Math.PI * -0.45d - (length * 0.002d)) * p.direction; //clockwise
+                data.rotation = (float)(Math.PI * -0.45d - (length * 0.002d)) * p.direction * p.gravDir; //clockwise
                 data.position.X -= (length * 0.1f + 16) * p.direction; //back
                 data.position.Y -= (length * 0.16f + 14) * p.gravDir; //up
             }
             else //walk cycle base
             {
-                data.rotation = (float)(Math.PI * -0.2d - (length * 0.002d)) * p.direction; //anticlockwise
+                data.rotation = (float)(Math.PI * -0.2d - (length * 0.002d)) * p.direction * p.gravDir; //anticlockwise
                 data.position.X -= 2 * p.direction; //back
                 data.position.Y -= (length * 0.4f - 12) * p.gravDir; //up
                 data = modDraw_WalkCycle(data, p);

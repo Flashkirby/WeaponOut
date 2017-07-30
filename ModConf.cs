@@ -11,12 +11,15 @@ namespace WeaponOut
     /// </summary>
     static class ModConf
     {
-        public const int configVersion = 1;
+        public const int configVersion = 2;
         public static bool showWeaponOut = true;
         public const string showWeaponOutField = "show_weaponOut_visuals";
 
         public static bool forceShowWeaponOut = false;
         public const string forceShowWeaponOutField = "forceshow_weaponOut_visuals";
+
+        public static bool toggleWaistRotation = false;
+        public const string toggleWaistRotationField = "toggle_weaponOut_waist_rotation";
 
         public static bool enableBasicContent = true;
         public const string enableBasicContentField = "enable_base_weapons_and_tiles";
@@ -62,20 +65,28 @@ namespace WeaponOut
                 ModConfig.Get("version", ref readVersion);
                 if (readVersion != configVersion)
                 {
-                    if (readVersion == 0 && configVersion >= 1)
+                    bool canUpdate = false;
+                    if (readVersion == 0)
                     {
-                        ModConfig.Put("version", configVersion);
+                        canUpdate = true;
+                        ModConfig.Put("version", 1);
                         ModConfig.Put(enableEmblemsField, enableEmblems);
                         ModConfig.Save();
                     }
-                    else
+                    if (readVersion == 1)
                     {
-                        return false;
+                        canUpdate = true;
+                        ModConfig.Put("version", 2);
+                        ModConfig.Put(toggleWaistRotationField, toggleWaistRotation);
+                        ModConfig.Save();
                     }
+
+                    if (!canUpdate) return false;
                 }
 
                 ModConfig.Get(showWeaponOutField, ref showWeaponOut);
                 ModConfig.Get(forceShowWeaponOutField, ref forceShowWeaponOut);
+                ModConfig.Get(toggleWaistRotationField, ref toggleWaistRotation);
                 ModConfig.Get(enableBasicContentField, ref enableBasicContent);
                 ModConfig.Get(enableWhipsField, ref enableWhips);
                 ModConfig.Get(enableFistsField, ref enableFists);
@@ -98,6 +109,7 @@ namespace WeaponOut
 
             ModConfig.Put(showWeaponOutField, showWeaponOut);
             ModConfig.Put(forceShowWeaponOutField, forceShowWeaponOut);
+            ModConfig.Put(toggleWaistRotationField, toggleWaistRotation);
             ModConfig.Put(enableBasicContentField, enableBasicContent);
             ModConfig.Put(enableWhipsField, enableWhips);
             ModConfig.Put(enableFistsField, enableFists);
