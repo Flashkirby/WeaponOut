@@ -33,8 +33,8 @@ namespace WeaponOut.Items.Weapons.Dual
 
             item.UseSound = SoundID.Item28;
             item.useStyle = 5;
-            item.useAnimation = 60;
-            item.useTime = 60;
+            item.useAnimation = 15;
+            item.useTime = 15;
 
             item.magic = true;
             item.damage = 30;
@@ -75,12 +75,11 @@ namespace WeaponOut.Items.Weapons.Dual
         public override bool CanUseItem(Player player)
         {
             if (PlayerFX.DualItemCanUseItemAlt(player, this,
-                1f, 60f / 15f,
-                1f, 1f))
+                1f, 1f,
+                1f, 0.25f))
             {
                 item.useStyle = 5;
                 item.UseSound = SoundID.Item68;
-                item.useTurn = false;
                 item.noMelee = true;
                 player.manaCost *= 4f;
                 item.shoot = mod.ProjectileType<Projectiles.ManaBolt>();
@@ -89,7 +88,6 @@ namespace WeaponOut.Items.Weapons.Dual
             {
                 item.useStyle = 1;
                 item.UseSound = SoundID.Item28;
-                item.useTurn = true;
                 item.noMelee = false;
                 item.shoot = mod.ProjectileType<Projectiles.ManaBlast>();
             }
