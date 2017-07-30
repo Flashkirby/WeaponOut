@@ -42,10 +42,10 @@ namespace WeaponOut.Items.Weapons.Dual
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("IOU: All-Porpoise Assault Rifle");
+            DisplayName.SetDefault("All-Porpoise Assault Rifle");
             Tooltip.SetDefault(
                 "<right> to fire a powerful underbarrel rocket\n" + 
-                "50% chance to not consume ammo\n" +
+                "50% chance to not consume primary ammo\n" +
                 "'Perfect for target rich environments'");
             proji = mod.GetProjectile("APARocketI").projectile.type;
             projii = mod.GetProjectile("APARocketII").projectile.type;

@@ -17,7 +17,7 @@ namespace WeaponOut.Items.Weapons.Dual
         
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("IOU: Double Loader");
+            DisplayName.SetDefault("Double Loader");
             Tooltip.SetDefault(
                 "20% chance to not consume ammo\n" +
                 "<right> to fire darts");
