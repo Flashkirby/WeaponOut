@@ -220,38 +220,38 @@ namespace WeaponOut.Projectiles.Whips
             {
                 se = SpriteEffects.FlipHorizontally;
             }
-            float chainCount = projectile.velocity.Length() + 16f;
+            float chainCount = projectile.velocity.Length() + 16f - tipHeight / 2;
             bool halfSize = chainCount < partHeight * 4.5f;
-            Vector2 value17 = Vector2.Normalize(projectile.velocity);
-            Rectangle rectangle6 = handle;
-            Vector2 value18 = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
+            Vector2 normalVel = Vector2.Normalize(projectile.velocity);
+            Rectangle currentRect = handle;
+            Vector2 gfxOffY = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
             float rotation24 = projectile.rotation + 3.14159274f;
-            Main.spriteBatch.Draw(texture2D17, projectile.Center.Floor() - Main.screenPosition + value18, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, rectangle6.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, se, 0f);
+            Main.spriteBatch.Draw(texture2D17, projectile.Center.Floor() - Main.screenPosition + gfxOffY, new Microsoft.Xna.Framework.Rectangle?(currentRect), alpha3, rotation24, currentRect.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, se, 0f);
             chainCount -= 40f * projectile.scale;
-            Vector2 vector39 = projectile.Center.Floor();
-            vector39 += value17 * projectile.scale * handle.Height / 2;
-            Vector2 vector40;
-            rectangle6 = chain;
+            Vector2 centre = projectile.Center.Floor();
+            centre += normalVel * projectile.scale * handle.Height / 2;
+            Vector2 centreOffY;
+            currentRect = chain;
             if (chainCount > 0f)
             {
-                float num198 = 0f;
-                while (num198 + 1f < chainCount)
+                float i = 0f;
+                while (i + 1f < chainCount)
                 {
-                    if (chainCount - num198 < (float)rectangle6.Height)
+                    if (chainCount - i < (float)currentRect.Height)
                     {
-                        rectangle6.Height = (int)(chainCount - num198);
+                        currentRect.Height = (int)(chainCount - i);
                     }
-                    vector40 = vector39 + value18;
-                    if(!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
-                    Main.spriteBatch.Draw(texture2D17, vector40 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, new Vector2((float)(rectangle6.Width / 2), 0f), projectile.scale, se, 0f);
-                    num198 += (float)rectangle6.Height * projectile.scale;
-                    vector39 += value17 * (float)rectangle6.Height * projectile.scale;
+                    centreOffY = centre + gfxOffY;
+                    if(!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)centreOffY.X / 16, (int)centreOffY.Y / 16));
+                    Main.spriteBatch.Draw(texture2D17, centreOffY - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(currentRect), alpha3, rotation24, new Vector2((float)(currentRect.Width / 2), 0f), projectile.scale, se, 0f);
+                    i += (float)currentRect.Height * projectile.scale;
+                    centre += normalVel * (float)currentRect.Height * projectile.scale;
                 }
             }
-            Vector2 value19 = vector39;
-            vector39 = projectile.Center.Floor();
-            vector39 += value17 * projectile.scale * chain.Height / 2;
-            rectangle6 = part;
+            Vector2 centre2 = centre;
+            centre = projectile.Center.Floor();
+            centre += normalVel * projectile.scale * chain.Height / 2;
+            currentRect = part;
             //int partCount = 18;
             if (halfSize)
             {
@@ -263,39 +263,44 @@ namespace WeaponOut.Projectiles.Whips
                 float num201 = 0f;
                 float num202 = num200 / (float)partCount;
                 num201 += num202 * 0.25f;
-                vector39 += value17 * num202 * 0.25f;
-                int num44;
-                for (int num203 = 0; num203 < partCount; num203 = num44 + 1)
+                centre += normalVel * num202 * 0.25f;
+                for (int i = 0; i < partCount; i++)
                 {
                     float num204 = num202;
-                    if (num203 == 0)
+                    if (i == 0)
                     {
                         num204 *= 0.75f;
                     }
-                    vector40 = vector39 + value18;
-                    if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector40.X / 16, (int)vector40.Y / 16));
-                    Main.spriteBatch.Draw(texture2D17, vector40 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, new Vector2((float)(rectangle6.Width / 2), 0f), projectile.scale, se, 0f);
+                    centreOffY = centre + gfxOffY;
+                    if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)centreOffY.X / 16, (int)centreOffY.Y / 16));
+                    Main.spriteBatch.Draw(texture2D17, centreOffY - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(currentRect), alpha3, rotation24, new Vector2((float)(currentRect.Width / 2), 0f), projectile.scale, se, 0f);
                     num201 += num204;
-                    vector39 += value17 * num204;
-                    num44 = num203;
+                    centre += normalVel * num204;
                 }
             }
-            rectangle6 = tip;
-            Vector2 vector41 = value19 + value18;
-            if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)vector41.X / 16, (int)vector41.Y / 16));
+            currentRect = tip;
+            Vector2 centreOffY2 = centre2 + gfxOffY;
+            if (!ignoreLight) alpha3 = projectile.GetAlpha(Lighting.GetColor((int)centreOffY2.X / 16, (int)centreOffY2.Y / 16));
             
+            // Apply crit visual
             if (IsCrit(projectile, easyCrit) && projectile.oldVelocity != Vector2.Zero)
             {
-                Vector2 lastDiff = (projectile.velocity - projectile.oldVelocity);
-                Vector2 lastPosition2 = vector41 - lastDiff * 2;
-                Vector2 lastPosition = vector41 - lastDiff * 1;
+                Vector2 pPosition = new Vector2(), pOldPos = new Vector2();
+                if (projectile.owner >= 0 && projectile.owner < Main.player.Length)
+                {
+                    pPosition = Main.player[projectile.owner].position;
+                    pOldPos = Main.player[projectile.owner].oldPosition;
+                }
+                Vector2 lastDiff = ((pPosition + projectile.velocity) - (pOldPos + projectile.oldVelocity));
+                Vector2 lastPosition2 = centreOffY2 - lastDiff * 2;
+                Vector2 lastPosition = centreOffY2 - lastDiff * 1;
 
-                Main.spriteBatch.Draw(texture2D17, lastPosition2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.4f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 2f, se, 0f);
+                Main.spriteBatch.Draw(texture2D17, lastPosition2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(currentRect), alpha3 * 0.4f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 2f, se, 0f);
 
-                Main.spriteBatch.Draw(texture2D17, lastPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3 * 0.66f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 1.5f, se, 0f);
+                Main.spriteBatch.Draw(texture2D17, lastPosition - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(currentRect), alpha3 * 0.66f, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale * 1.5f, se, 0f);
             }
 
-            Main.spriteBatch.Draw(texture2D17, vector41 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle6), alpha3, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale, se, 0f);
+            Main.spriteBatch.Draw(texture2D17, centreOffY2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(currentRect), alpha3, rotation24, texture2D17.Frame(1, 1, 0, 0).Top(), projectile.scale, se, 0f);
 
             return false;
         }
