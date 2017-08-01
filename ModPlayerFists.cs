@@ -195,8 +195,11 @@ namespace WeaponOut
                 // Show the total number of hits, and disable count until next hit
                 if(comboTimer == comboTimerMax)
                 {
-                    CombatText.NewText(player.getRect(),
-                        highColour, comboCounter + " hit", false, false);
+                    if (comboCounter > 1)
+                    {
+                        CombatText.NewText(player.getRect(),
+                            highColour, comboCounter + " hits", false, false);
+                    }
 
                     comboCounter = 0;
                     comboTimer = -1;
@@ -617,7 +620,7 @@ namespace WeaponOut
                 //disengage
                 int direction = 1;
                 if (player.Center.X < target.Center.X) direction = -1;
-                player.velocity = new Vector2(direction * 3f, player.gravDir * -2f);
+                player.velocity = new Vector2(direction * 4f, player.gravDir * -2.5f);
             }
 
             // Combo hits reset dash
