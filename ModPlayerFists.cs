@@ -142,10 +142,15 @@ namespace WeaponOut
 
         public override void PreUpdate()
         {
-            // Reset dash here when grappling
-            if (player.pulley || player.grapCount > 0)
+            if (ModConf.enableFists)
             {
-                ResetDashVars();
+                comboCounterMax = player.HeldItem.tileBoost;
+
+                // Reset dash here when grappling
+                if (player.pulley || player.grapCount > 0)
+                {
+                    ResetDashVars();
+                }
             }
         }
 
@@ -548,7 +553,6 @@ namespace WeaponOut
             // Manage player bump
             if (player.altFunctionUse == 0)
             {
-                Main.NewText("automove");
                 ManagePlayerComboMovement(target);
             }
             else

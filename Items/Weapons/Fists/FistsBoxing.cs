@@ -39,7 +39,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.knockBack = 6f;
             item.UseSound = SoundID.Item7;
 
-            item.tileBoost = 3; // For fists, we read this as the combo power
+            item.tileBoost = 6; // For fists, we read this as the combo power
 
             item.value = Item.sellPrice(0, 0, 10, 0);
             item.noUseGraphic = true;
@@ -52,6 +52,8 @@ namespace WeaponOut.Items.Weapons.Fists
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        { ModPlayerFists.ModifyTooltips(tooltips, item); }
 
         public override bool CanUseItem(Player player)
         {
