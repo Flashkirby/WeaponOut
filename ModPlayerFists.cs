@@ -23,6 +23,7 @@ namespace WeaponOut
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
+        private const bool DEBUG_FISTBOXES = true;
         private const bool DEBUG_PARRYFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
@@ -41,17 +42,6 @@ namespace WeaponOut
             }
         }
 
-        /// <summary> Dictionary to keep track of all items qualified as fists. Add your item type here from SetStaticDefaults, with their combo power. </summary>
-        public static Dictionary<int, uint> FistItem
-        {
-            get
-            {
-                if (fistItem == null) fistItem = new Dictionary<int, uint>();
-                return fistItem;
-            }
-        }
-        private static Dictionary<int, uint> fistItem;
-
         /// <summary>
         /// The type of fist attack initiated.
         /// 0 = Default (dash forward)
@@ -62,14 +52,16 @@ namespace WeaponOut
 
         /// <summary> Keep track of the number of hits from fists. </summary>
         protected int comboCounter;
-        /// <summary> The "minimum" required combo get the bonus effects. </summary>
+        /// <summary> The "minimum" required combo get the bonus effects. Must be at least 2. </summary>
         public int comboCounterMax;
-        /// <summary> Time since last combo hit </summary>
+        /// <summary> Time since last combo hit. </summary>
         protected int comboTimer;
-        /// <summary> Time until combo is reset </summary>
+        /// <summary> Time until combo is reset. </summary>
         public int comboTimerMax;
-        /// <summary> Active when combo counter reaches the combo max </summary>
-        public bool IsComboActive { get { return comboCounter >= comboCounterMax; } }
+        /// <summary> Active when combo counter reaches the combo max. </summary>
+        public bool IsComboActive { get { return comboCounter >= comboCounterMax && comboCounter > 1; } }
+        /// <summary> Active when combo counter reaches the combo max. Call this in the item because ItemLoader method is called before PlayerHooks. </summary>
+        public bool IsComboActiveItemOnHit { get { return comboCounter >= comboCounterMax - 1 && comboCounter > 0; } }
 
         /// <summary> Ticks of current parry. 
         /// Non zero positive whilst in effect (count down), negative whilst on cooldown. </summary>
@@ -99,6 +91,20 @@ namespace WeaponOut
         public float dashMaxFriction;
         /// <summary> Friction applied when below the maxSpeed threshold. </summary>
         public float dashMinFriction;
+        /// <summary> ID for dash effect. Register these with RegisterDashEffect. </summary>
+        public int dashEffect;
+
+        public delegate void ActionPlayer(Player player);
+        private static List<ActionPlayer> dashEffectsMethods;
+        /// <summary> Void method for dash effects. </summary>
+        protected static List<ActionPlayer> DashEffectsMethods
+        {
+            get
+            {
+                if (dashEffectsMethods == null) { dashEffectsMethods = new List<ActionPlayer>(); }
+                return dashEffectsMethods;
+            }
+        }
 
         #region overrides
         public override void Initialize()
@@ -114,10 +120,7 @@ namespace WeaponOut
             parryWindow = 0;
             parryBuff = false;
 
-            dashSpeed = 0f;
-            dashMaxSpeedThreshold = 0f;
-            dashMaxFriction = 0f;
-            dashMinFriction = 0f;
+            ResetDashVars();
         }
         public override void ResetEffects()
         {
@@ -135,6 +138,15 @@ namespace WeaponOut
                 }
             }
             return true;
+        }
+
+        public override void PreUpdate()
+        {
+            // Reset dash here when grappling
+            if (player.pulley || player.grapCount > 0)
+            {
+                ResetDashVars();
+            }
         }
 
         public override void PostUpdate()
@@ -165,12 +177,13 @@ namespace WeaponOut
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-            OnHitComboLogic(item);
+            OnHitComboLogic(item, target);
         }
         #endregion
 
         public void ResetVariables()
         {
+            // Count up, otherwise reset to -1
             if (comboTimer >= 0 && comboTimer < comboTimerMax) comboTimer++;
             else
             {
@@ -201,10 +214,16 @@ namespace WeaponOut
         public static void ModifyTooltips(List<TooltipLine> tooltips, Item item)
         {
             // Fist Items only
-            uint comboPower;
-            if (FistItem.TryGetValue(item.type, out comboPower))
+            if (item.useStyle == useStyle)
             {
-                tooltips.Add(new TooltipLine(item.modItem.mod, "FistComboPower", comboPower + " combo power"));
+                int index = 0;
+                foreach(TooltipLine tooltip in tooltips)
+                {
+                    if(tooltip.Name.Equals("TileBoost")) break;
+                    index++;
+                }
+                tooltips.RemoveAt(index);
+                tooltips.Insert(index, new TooltipLine(item.modItem.mod, "FistComboPower", item.tileBoost + " combo power"));
             }
         }
 
@@ -216,14 +235,17 @@ namespace WeaponOut
         /// <param name="fallSpeedX"></param>
         /// <param name="fallSpeedY">Set dive Y speed, fall speed is auto increased by 1.5 (velY = 15)</param>
         /// <returns></returns>
-        public bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed, float fallSpeedX = 8f, float fallSpeedY = 8f)
+        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed, float fallSpeedX = 8f, float fallSpeedY = 8f)
         {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (mpf == null) return false;
+
             // Special attack assign on Start frame
             if (player.itemAnimation == player.itemAnimationMax - 1)
             {
-                SetSpecialMove(player, jumpSpeed, fallSpeedX, fallSpeedY);
+                mpf.SetSpecialMove(player, jumpSpeed, fallSpeedX, fallSpeedY);
 
-                if (specialMove == 0)
+                if (mpf.specialMove == 0)
                 {
                     SetAttackRotation(player);
                 }
@@ -235,7 +257,7 @@ namespace WeaponOut
                 }
             }
 
-            return SetHitBox(player, out hitbox, distance);
+            return mpf.SetHitBox(player, out hitbox, distance);
         }
 
 
@@ -325,6 +347,8 @@ namespace WeaponOut
                     if (anim > 0.7f)
                     {
                         hitbox = player.getRect();
+                        hitbox.X += (int)player.velocity.X;
+                        hitbox.Y += (int)player.velocity.Y;
                     }
                     // Move to pointed direction
                     else
@@ -343,12 +367,12 @@ namespace WeaponOut
                             if (player.itemRotation * player.direction > 0)
                             {
                                 // Up high
-                                yDir *= -1f;
+                                yDir *= 1f;
                             }
                             else
                             {
                                 // Down low
-                                yDir *= 1f;
+                                yDir *= -1f;
                             }
                         }
                         else
@@ -361,15 +385,15 @@ namespace WeaponOut
                         hitbox.Height += (int)(Math.Abs(yDir) * distance);
 
                         hitbox.Location = (player.Center + new Vector2(
-                             hitbox.Width + xDir * distance,
-                             hitbox.Height + yDir * distance
+                             -hitbox.Width + xDir * distance,
+                             -hitbox.Height + yDir * distance
                             ) / 2).ToPoint();
                     }
                 }
                 else
                 {
                     // No hitbox during last third
-                    return true;
+                    return false;
                 }
                 #endregion
             }
@@ -399,17 +423,25 @@ namespace WeaponOut
                 else
                 {
                     // No hitbox during last bit
-                    return true;
+                    return false;
                 }
                 #endregion
             }
 
-            return false;
+            if (DEBUG_FISTBOXES)
+            {
+                Dust.NewDustPerfect(hitbox.TopLeft(), 213);
+                Dust.NewDustPerfect(hitbox.TopRight(), 213);
+                Dust.NewDustPerfect(hitbox.BottomLeft(), 213);
+                Dust.NewDustPerfect(hitbox.BottomRight(), 213);
+            }
+
+            return true;
         }
 
         const float maxShow = 0.8f;
         const float minShow = 0.4f;
-        /// <summary> Generates a fisticuffs rectangle </summary>
+        /// <summary> Generates a fisticuffs rectangle for use with dusts and such. </summary>
         /// <returns> True if no hitbox (so no dust) </returns>
         public static Rectangle UseItemGraphicbox(Player player, int boxSize, float distanceFactor = 1f)
         {
@@ -504,14 +536,26 @@ namespace WeaponOut
             }
         }
 
-        private void OnHitComboLogic(Item item)
+        private void OnHitComboLogic(Item item, NPC target)
         {
             // Fist Items only
-            if (!FistItem.ContainsKey(item.type)) return;
+            if (item.useStyle != useStyle) return;
 
             // Add up that combo, reset timer
             comboCounter++;
             comboTimer = 0;
+
+            // Manage player bump
+            if (player.altFunctionUse == 0)
+            {
+                Main.NewText("automove");
+                ManagePlayerComboMovement(target);
+            }
+            else
+            {
+                // Dash attacks provide a short immunity
+                provideImmunity(player, 20);
+            }
 
             // Display the combo counter, lower if not combo active
             Rectangle rect = player.getRect();
@@ -553,30 +597,38 @@ namespace WeaponOut
                 else
                 {
                     // Bounce off
-                    player.velocity += new Vector2(
-                        player.direction * -1.5f + target.velocity.X * -1f,
-                        player.gravDir * -2f + target.velocity.Y * 2);
+                    player.velocity = new Vector2(
+                        player.direction * -1f + target.velocity.X * 0.5f,
+                        player.gravDir * -1f + target.velocity.Y * 1.5f);
                 }
                 #endregion
             }
             else if (specialMove == 1)
             {
-                // Uppercut grants 2/3 immunity, without bounces etc.
-                provideImmunity(player, 2 * player.itemAnimationMax / 3);
+                // Uppercut grants 4/5 immunity, without bounces etc.
+                provideImmunity(player, 4 * player.itemAnimationMax / 5);
             }
             else if (specialMove == 2)
             {
                 //disengage
                 int direction = 1;
                 if (player.Center.X < target.Center.X) direction = -1;
-                player.velocity = new Vector2(direction * 3f, player.gravDir * -1f);
+                player.velocity = new Vector2(direction * 3f, player.gravDir * -2f);
             }
+
+            // Combo hits reset dash
+            ResetDashVars();
+            player.dashDelay = 0;
+            player.dash = 0;
         }
 
         public void FistBodyFrame()
         {
+            // Don't show when not attacking
+            if (player.itemAnimation == 0) return;
+
             // Don't apply to non fists
-            if (!FistItem.ContainsKey(player.HeldItem.type)) return;
+            if (player.HeldItem.useStyle != useStyle) return;
 
             // Animation normal
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
@@ -858,14 +910,40 @@ namespace WeaponOut
         #region Dashing
 
         /// <summary>
+        /// In SetStaticDefaults. Register the dust effect method: public static void DashEffects(Player player).
+        /// </summary>
+        /// <returns> The ID of the effects method. Save this and refer to it in SetDash. </returns>
+        public static int RegisterDashEffectID(ActionPlayer dashEffect)
+        {
+            DashEffectsMethods.Add(dashEffect);
+            return DashEffectsMethods.Count;
+        }
+
+        /// <summary>
         /// Set the dash for the player.
         /// </summary>
+        /// <param name="dashSpeed">The initial speed of a dash. 
+        ///<para /> * Normal: 3
+        ///<para /> * Aglet/Anklet: 3.15, 3.3
+        ///<para /> * Hermes: 6
+        ///<para /> * Lightning: 6.75
+        ///<para /> * Fishron Air: 8
+        ///<para /> * Solar Wings: 9</param>
+        /// <param name="dashMaxSpeedThreshold">The speed at which the dash will slow down towards. Basically, the threshold for maxFriction and minFriction. </param>
+        /// <param name="dashMaxFriction">Friction multiplier applied when above the maxSpeed threshold. </param>
+        /// <param name="dashMinFriction">Friction multiplier applied when below the maxSpeed threshold. </param>
+        /// <param name="forceDash">Reset dash delay to 0?</param>
+        /// <param name="dashEffect">Give this the number from RegisterDashEffectID </param>
         /// <returns> If set dash is possible (player.dashDelay) </returns>
-        public bool SetDash(float dashSpeed = 14.5f, float dashMaxSpeedThreshold = 12f, float dashMaxFriction = 0.992f, float dashMinFriction = 0.96f, bool forceDash = false)
+        public bool SetDash(float dashSpeed = 14.5f, float dashMaxSpeedThreshold = 12f, float dashMaxFriction = 0.992f, float dashMinFriction = 0.96f, bool forceDash = false, int dashEffect = 0)
         {
             if (forceDash)
             {
                 player.dashDelay = 0;
+            }
+            else
+            {
+                if (player.itemAnimation > 1) return false;
             }
 
             if (player.dashDelay == 0)
@@ -874,10 +952,11 @@ namespace WeaponOut
                 this.dashMaxSpeedThreshold = dashMaxSpeedThreshold;
                 this.dashMaxFriction = dashMaxFriction;
                 this.dashMinFriction = dashMinFriction;
+                this.dashEffect = dashEffect;
             }
             return player.dashDelay == 0;
         }
-
+        
         private void CustomDashMovement()
         {
             // dash = player equipped dash type
@@ -886,18 +965,15 @@ namespace WeaponOut
             // eocDash = EoC active frame time, 15 until dash ends, then count down (still active during deccel)
             // eocHit = registers the hit NPC for 8 frames
 
-            // Reset here because reasons.
-            if (player.pulley || player.grapCount > 0)
-            {
-                dashSpeed = 0;
-                dashMaxSpeedThreshold = 0;
-                dashMaxFriction = 0;
-                dashMinFriction = 0;
-            }
-
             // When dashing is set up
             if (dashSpeed != 0 || dashMaxSpeedThreshold != 0 || dashMaxFriction != 0 || dashMinFriction != 0)
             {
+                // Use the custom provided dash startup
+                if(dashEffect > 0 && player.dashDelay <= 0)
+                {
+                    DashEffectsMethods[dashEffect - 1](player);
+                }
+
                 if (player.dashDelay == 0)
                 {
                     #region Dash Stats
@@ -1084,11 +1160,19 @@ namespace WeaponOut
             // Reset dash values (disable) as it comes off cooldown
             if (player.dashDelay == 1)
             {
-                dashSpeed = 0;
-                dashMaxSpeedThreshold = 0;
-                dashMaxFriction = 0;
-                dashMinFriction = 0;
+                ResetDashVars();
             }
+        }
+
+        private void ResetDashVars()
+        {
+            dashSpeed = 0;
+            dashMaxSpeedThreshold = 0;
+            dashMaxFriction = 0;
+            dashMinFriction = 0;
+            dashEffect = 0;
+
+            player.dash = 0;
         }
 
         #endregion

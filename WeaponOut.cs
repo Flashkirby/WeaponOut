@@ -237,26 +237,28 @@ namespace WeaponOut
             #endregion
         }
 
-        public static void NetUpdateDash(ModPlayerFists pfx)
+        public static void NetUpdateDash(ModPlayerFists mpf)
         {
-            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
+            if (Main.netMode == 1 && mpf.player.whoAmI == Main.myPlayer)
             {
-                ModPacket message = pfx.mod.GetPacket();
+                ModPacket message = mpf.mod.GetPacket();
                 message.Write(1);
                 message.Write(Main.myPlayer);
-                message.Write(pfx.dashSpeed);
-                message.Write(pfx.dashMaxSpeedThreshold);
-                message.Write(pfx.dashMaxFriction);
-                message.Write(pfx.dashMinFriction);
+                message.Write(mpf.dashSpeed);
+                message.Write(mpf.dashMaxSpeedThreshold);
+                message.Write(mpf.dashMaxFriction);
+                message.Write(mpf.dashMinFriction);
+                message.Write(mpf.dashEffect);
                 message.Send();
             }
         }
         private void HandlePacketDash(BinaryReader reader, int code, int sender)
         {
-            int dSpeed = reader.ReadInt32();
-            int dThreshold = reader.ReadInt32();
-            int dMax = reader.ReadInt32();
-            int dMin = reader.ReadInt32();
+            float dSpeed = reader.ReadSingle();
+            float dThreshold = reader.ReadSingle();
+            float dMax = reader.ReadSingle();
+            float dMin = reader.ReadSingle();
+            int dEffect = reader.ReadInt32();
             if (Main.netMode == 2)
             {
                 for (int i = 0; i < 255; i++)
@@ -271,17 +273,18 @@ namespace WeaponOut
                         me.Write(dThreshold);
                         me.Write(dMax);
                         me.Write(dMin);
+                        me.Write(dEffect);
                         me.Send();
                     }
                 }
-                // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                 Console.WriteLine("Set player " + Main.player[sender].name + " dash to " + dSpeed + ":" + dEffect);
             }
             else
             {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>();
                 pfx.player.dashDelay = 0;
-                pfx.SetDash(dSpeed, dThreshold, dMax, dMin);
-                // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                pfx.SetDash(dSpeed, dThreshold, dMax, dMin, true, dEffect);
+                 Main.NewText("Set player " + Main.player[sender].name + " dash to " + dSpeed + ":" + dEffect);
             }
         }
 

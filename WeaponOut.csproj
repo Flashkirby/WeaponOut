@@ -64,6 +64,7 @@
     <Compile Include="Items\Weapons\Basic\Startillery.cs" />
     <Compile Include="Items\Weapons\Basic\ScrapSalvo.cs" />
     <Compile Include="Items\Weapons\Basic\TrashCannon.cs" />
+    <Compile Include="Items\Weapons\Whips\EelWhip.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
     <Compile Include="Items\Weapons\Basic\PsyWave.cs" />
     <Compile Include="Items\Weapons\Basic\Reverb.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Projectiles\SpiritComet.cs" />
     <Compile Include="Projectiles\Reverb.cs" />
     <Compile Include="Projectiles\OnsokuSlash.cs" />
+    <Compile Include="Projectiles\Whips\EelWhip.cs" />
     <Compile Include="Projectiles\Whips\CrystalVileLash.cs" />
     <Compile Include="Projectiles\Raiden.cs" />
     <Compile Include="Projectiles\ScatterShot.cs" />
