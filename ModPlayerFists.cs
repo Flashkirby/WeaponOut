@@ -707,15 +707,15 @@ namespace WeaponOut
                     }
                     else if (anim > 0.5)
                     {
-                        player.bodyFrame.Y = player.bodyFrame.Height * 2;
+                        player.bodyFrame.Y = player.bodyFrame.Height * 17;
                     }
-                    else if (anim > 0.2)
+                    else if (anim > 0.1)
                     {
                         player.bodyFrame.Y = player.bodyFrame.Height * 4;
                     }
                     else
                     {
-                        player.bodyFrame.Y = player.bodyFrame.Height * 17;
+                        player.bodyFrame.Y = player.bodyFrame.Height * 6;
                     }
                 }
                 #endregion
