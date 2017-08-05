@@ -58,7 +58,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 0) player.GetModPlayer<ModPlayerFists>().
-                     SetDash(3f, 12f, 0.992f, 0.96f, true, 0);
+                     SetDashOnMovement(3f, 12f, 0.992f, 0.96f, true, 0);
             return true;
         }
         public override bool AltFunctionUse(Player player)

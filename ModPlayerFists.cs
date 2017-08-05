@@ -71,7 +71,7 @@ namespace WeaponOut
         /// <summary> Number of active frames for the parry, also used for swing animation. </summary>
         public int parryWindow;
         /// <summary> Frame that parry is active until. </summary>
-        public int ParryActiveFrame {get { return Math.Max(parryTimeMax - parryWindow, 1); } }
+        public int ParryActiveFrame { get { return Math.Max(parryTimeMax - parryWindow, 1); } }
         /// <summary> Active while parry time greater/equal to parry time   </summary>
         public bool IsParryActive { get { return parryTime >= ParryActiveFrame && parryTime > 0; } }
         /// <summary> Provided by a buff, is the parry bonus active. </summary>
@@ -159,7 +159,7 @@ namespace WeaponOut
             // Set up parry frames
             if (ModConf.enableFists)
             {
-                if(specialMove == 2)
+                if (specialMove == 2)
                 {
                     // Increase speed whilst diving
                     player.maxFallSpeed *= 1.5f;
@@ -193,7 +193,7 @@ namespace WeaponOut
             else
             {
                 // Show the total number of hits, and disable count until next hit
-                if(comboTimer == comboTimerMax)
+                if (comboTimer == comboTimerMax)
                 {
                     if (comboCounter > 1)
                     {
@@ -209,7 +209,7 @@ namespace WeaponOut
             comboTimerMax = ComboResetTime; // 2 seconds count
 
             // Reset special move when set to 0
-            if(player.itemAnimation <= (player.HeldItem.autoReuse ? 1 : 0))
+            if (player.itemAnimation <= (player.HeldItem.autoReuse ? 1 : 0))
             {
                 specialMove = 0;
             }
@@ -218,16 +218,16 @@ namespace WeaponOut
         }
 
         #region FistStyle Item-calls
-        
+
         public static void ModifyTooltips(List<TooltipLine> tooltips, Item item)
         {
             // Fist Items only
             if (item.useStyle == useStyle)
             {
                 int index = 0;
-                foreach(TooltipLine tooltip in tooltips)
+                foreach (TooltipLine tooltip in tooltips)
                 {
-                    if(tooltip.Name.Equals("TileBoost")) break;
+                    if (tooltip.Name.Equals("TileBoost")) break;
                     index++;
                 }
                 tooltips.RemoveAt(index);
@@ -721,7 +721,7 @@ namespace WeaponOut
                 #endregion
             }
         }
-        
+
         #endregion
 
         #region Parry
@@ -741,7 +741,7 @@ namespace WeaponOut
                 Main.dust[d].velocity *= 0.5f;
             }
         }
-        
+
         /// <summary> Logic for managing parry timers </summary>
         /// <returns> True if the parry animation is active </returns>
         private bool ItemCheckParry()
@@ -821,13 +821,13 @@ namespace WeaponOut
         private bool ParryPreHurt(PlayerDeathReason damageSource)
         {
             // Cannot parry non-standard damage sources
-            if (damageSource.SourceNPCIndex == -1 && 
-                damageSource.SourcePlayerIndex == -1 && 
+            if (damageSource.SourceNPCIndex == -1 &&
+                damageSource.SourcePlayerIndex == -1 &&
                 damageSource.SourceProjectileIndex == -1)
             { return false; }
 
             // Cannot parry when not in the active window
-            if(!IsParryActive)
+            if (!IsParryActive)
             { return false; }
 
             // Parrying also counts as a combo
@@ -835,7 +835,7 @@ namespace WeaponOut
             comboTimer = 0;
 
             player.itemAnimation = 0; //release item lock
-            
+
             // Set cooldown before next parry is active, relative to parry non-active frames
             parryTime = ParryActiveFrame * -3;
             parryWindow = 0;
@@ -963,7 +963,32 @@ namespace WeaponOut
             }
             return player.dashDelay == 0;
         }
-        
+        /// <summary>
+        /// Set the dash for the player, but only when the player is using a directional movement key. 
+        /// </summary>
+        /// <param name="dashSpeed">The initial speed of a dash. 
+        ///<para /> * Normal: 3
+        ///<para /> * Aglet/Anklet: 3.15, 3.3
+        ///<para /> * Hermes: 6
+        ///<para /> * Lightning: 6.75
+        ///<para /> * Fishron Air: 8
+        ///<para /> * Solar Wings: 9</param>
+        /// <param name="dashMaxSpeedThreshold">The speed at which the dash will slow down towards. Basically, the threshold for maxFriction and minFriction. </param>
+        /// <param name="dashMaxFriction">Friction multiplier applied when above the maxSpeed threshold. </param>
+        /// <param name="dashMinFriction">Friction multiplier applied when below the maxSpeed threshold. </param>
+        /// <param name="forceDash">Reset dash delay to 0?</param>
+        /// <param name="dashEffect">Give this the number from RegisterDashEffectID </param>
+        /// <returns> If set dash is possible (player.dashDelay) </returns>
+        public bool SetDashOnMovement(float dashSpeed = 14.5f, float dashMaxSpeedThreshold = 12f, float dashMaxFriction = 0.992f, float dashMinFriction = 0.96f, bool forceDash = false, int dashEffect = 0)
+        {
+            if(player.controlLeft || player.controlRight)
+            {
+                SetDash(dashSpeed, dashMaxSpeedThreshold, dashMaxFriction, dashMinFriction, forceDash, dashEffect);
+            }
+            return false;
+        }
+
+
         private void CustomDashMovement()
         {
             // dash = player equipped dash type
