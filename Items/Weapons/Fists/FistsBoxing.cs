@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
-            item.useAnimation = 24; //Half speed whilst combo-ing
+            item.useAnimation = 24; // Combos can increase speed by 30-50% since it halves remaining attack time
 
             item.width = 20;
             item.height = 20;
@@ -57,14 +57,17 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 0) player.GetModPlayer<ModPlayerFists>().
-                     SetDashOnMovement(3f, 12f, 0.992f, 0.96f, true, 0);
+            if (player.altFunctionUse == 0)
+            {   // Short dash brings up to max default speed.
+                player.GetModPlayer<ModPlayerFists>().
+                SetDashOnMovement(3f, 12f, 0.992f, 0.96f, true, 0);
+            }
             return true;
         }
         public override bool AltFunctionUse(Player player)
         {
             if(player.dashDelay == 0)
-            {
+            {   // Burst of speed with major slow down
                 player.GetModPlayer<ModPlayerFists>().
                     SetDash(12f, 4f, 0.96f, 0.96f, false, dustEffect);
                 return true;
