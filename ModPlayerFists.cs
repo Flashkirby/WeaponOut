@@ -24,7 +24,7 @@ namespace WeaponOut
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         private const bool DEBUG_FISTBOXES = true;
-        private const bool DEBUG_PARRYFISTS = true;
+        private const bool DEBUG_PARRYFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
         public const int ComboResetTime = 2 * 60;
@@ -920,9 +920,14 @@ namespace WeaponOut
         {
             return player.FindBuffIndex(mod.BuffType<Buffs.ParryActive>());
         }
-        public void ClearParryBuff()
+        public bool ClearParryBuff()
         {
-            player.DelBuff(GetParryBuff());
+            int i = GetParryBuff();
+            if (i >= 0)
+            {
+                player.DelBuff(i); return true;
+            }
+            return false;
         }
 
         #endregion

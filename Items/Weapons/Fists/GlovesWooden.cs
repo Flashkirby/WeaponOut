@@ -36,7 +36,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
 
-            item.tileBoost = 6; // For fists, we read this as the combo power
+            item.tileBoost = 10; // For fists, we read this as the combo power
 
             item.value = Item.sellPrice(0, 0, 0, 50);
             item.noUseGraphic = true;
@@ -81,8 +81,8 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.parryBuff)
             {
+				if(mpf.GetParryBuff() >= 0) player.buffTime[mpf.GetParryBuff()] -= 5;
                 player.immuneTime++;
-                player.buffTime[mpf.GetParryBuff()] -= 4; // 5 sec buff -> 1 second
             }
         }
 
