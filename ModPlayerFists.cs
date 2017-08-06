@@ -122,6 +122,10 @@ namespace WeaponOut
 
             ResetDashVars();
         }
+        public override void UpdateDead()
+        {
+            this.Initialize();
+        }
         public override void ResetEffects()
         {
             ResetVariables();
