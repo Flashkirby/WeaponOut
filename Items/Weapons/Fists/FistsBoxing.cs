@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
@@ -17,14 +15,13 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             return ModConf.enableFists;
         }
-
         public static int dustEffect = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Glove");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
-                "Combo Ability: Confuse enemies");
+                "Combo confuses enemies");
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()
@@ -118,6 +115,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists.UseItemHitbox(player, ref hitbox, 22, 9f, 7f, 12f);
         }
 
+        // Combo
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();

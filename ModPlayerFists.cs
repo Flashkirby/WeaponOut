@@ -24,7 +24,7 @@ namespace WeaponOut
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         private const bool DEBUG_FISTBOXES = true;
-        private const bool DEBUG_PARRYFISTS = false;
+        private const bool DEBUG_PARRYFISTS = true;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
         public const int ComboResetTime = 2 * 60;
@@ -795,14 +795,14 @@ namespace WeaponOut
             if (parryTime <= 0) return;
 
             // count down to 1 -> 0 -> -x
-            float anim = (parryTime - ParryActiveFrame) / Math.Max(parryWindow, 1);
+            float anim = (parryTime - ParryActiveFrame) / Math.Max(parryWindow, 1f);
 
             // Start low, swing upwards in reverse
             if (anim > 0.6)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height * 4;
             }
-            else if (anim > 0.2)
+            else if (anim > 0.25)
             {
                 player.bodyFrame.Y = player.bodyFrame.Height * 3;
             }
@@ -860,6 +860,8 @@ namespace WeaponOut
                 }
                 knockback += 1f;
 
+                
+
                 // Already a client only method so no need to check for whoAmI
                 player.ApplyDamageToNPC(npc, damage, knockback, hitDirection, crit);
             }
@@ -896,7 +898,7 @@ namespace WeaponOut
         /// <summary> Sets the values etc. for parrying </summary>
         /// <param name="parryCooldown">Determines time between parries. Parry cooldown is tripled on successful parry. </param>
         /// <returns> True to allow parrying input (AltFunction) </returns>
-        public bool AtlFunctionParry(Player player, int parryWindow, int parryCooldown)
+        public bool AltFunctionParry(Player player, int parryWindow, int parryCooldown)
         {
             return AltFunctionParryMax(player, parryWindow, parryWindow + parryCooldown);
         }
@@ -906,10 +908,21 @@ namespace WeaponOut
             {
                 this.parryWindow = parryWindow;
                 this.parryTimeMax = parryTimeMax;
+                this.parryTime = this.parryTimeMax;
 
                 WeaponOut.NetUpdateParry(this);
+                return true;
             }
             return false;
+        }
+
+        public int GetParryBuff()
+        {
+            return player.FindBuffIndex(mod.BuffType<Buffs.ParryActive>());
+        }
+        public void ClearParryBuff()
+        {
+            player.DelBuff(GetParryBuff());
         }
 
         #endregion
