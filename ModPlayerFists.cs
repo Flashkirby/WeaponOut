@@ -24,7 +24,9 @@ namespace WeaponOut
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         private const bool DEBUG_FISTBOXES = true;
+        private const bool DEBUG_DASHFISTS = false;
         private const bool DEBUG_PARRYFISTS = false;
+        private const bool DEBUG_COMBOFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
         public const int ComboResetTime = 2 * 60;
@@ -91,20 +93,35 @@ namespace WeaponOut
         public float dashMaxFriction;
         /// <summary> Friction applied when below the maxSpeed threshold. </summary>
         public float dashMinFriction;
-        /// <summary> ID for dash effect. Register these with RegisterDashEffect. </summary>
+        /// <summary> ID for dash effect. Register these with RegisterDashEffect. Starts at 1 </summary>
         public int dashEffect;
-
-        public delegate void ActionPlayer(Player player);
-        private static List<ActionPlayer> dashEffectsMethods;
+        
+        private static List<Action<Player>> dashEffectsMethods;
         /// <summary> Void method for dash effects. </summary>
-        protected static List<ActionPlayer> DashEffectsMethods
+        protected static List<Action<Player>> DashEffectsMethods
         {
             get
             {
-                if (dashEffectsMethods == null) { dashEffectsMethods = new List<ActionPlayer>(); }
+                if (dashEffectsMethods == null) { dashEffectsMethods = new List<Action<Player>>(); }
                 return dashEffectsMethods;
             }
         }
+
+        /// <summary> ID for combo effect. Register these with RegisterComboEffect. Uses negative as post initialised. </summary>
+        private int comboEffect;
+        public int ComboEffectAbs { get { return Math.Abs(comboEffect); } }
+
+        private static List<Action<Player, bool>> comboEffectsMethods;
+        /// <summary> Void method for combo effects. </summary>
+        protected static List<Action<Player, bool>> ComboEffectsMethods
+        {
+            get
+            {
+                if (comboEffectsMethods == null) { comboEffectsMethods = new List<Action<Player, bool>>(); }
+                return comboEffectsMethods;
+            }
+        }
+        /// <summary> ID for combo effect. Register these with RegisterComboEffect. Starts at 1 </summary>
 
         #region overrides
         public override void Initialize()
@@ -119,6 +136,8 @@ namespace WeaponOut
             parryTimeMax = 0;
             parryWindow = 0;
             parryBuff = false;
+
+            comboEffect = 0;
 
             ResetDashVars();
         }
@@ -140,6 +159,9 @@ namespace WeaponOut
                 {
                     return false;
                 }
+
+                // Reset comboEffect at the end of animation
+                ManageComboMethodCall();
             }
             return true;
         }
@@ -346,6 +368,9 @@ namespace WeaponOut
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
 
             hitbox = new Rectangle();
+            // If set above the max, no hitbox yet (see combo attacks)
+            if (player.itemAnimation > player.itemAnimationMax) return false;
+
             if (specialMove == 0)
             {
                 // Calculate hitbox for normal punch
@@ -463,6 +488,25 @@ namespace WeaponOut
             //no show during winding
             if (anim > maxShow || anim <= minShow)
             {
+                // If set above the max, probably a combo special, give the hand box
+                if (player.itemAnimation > player.itemAnimationMax)
+                {
+                    Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
+                    if (player.direction != 1)
+                    {
+                        hand.X = (float)player.bodyFrame.Width - hand.X;
+                    }
+                    if (player.gravDir != 1f)
+                    {
+                        hand.Y = (float)player.bodyFrame.Height - hand.Y;
+                    }
+                    hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
+                    Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
+                    return new Rectangle(
+                        (int)dustPos.X - (boxSize / 2 + 2), 
+                        (int)dustPos.Y - (boxSize / 2 + 2), 
+                        boxSize, boxSize);
+                }
                 return new Rectangle();
             }
 
@@ -553,12 +597,19 @@ namespace WeaponOut
             // Fist Items only
             if (item.useStyle != useStyle) return;
 
-            // Add up that combo, reset timer
-            comboCounter++;
-            comboTimer = 0;
+            // Set time to match, to sync up projectiles
+            player.itemTime = player.itemAnimation;
+
+            // Combo specials don't trigger normal effects
+            if (comboEffect != 0) return;
+
+
+            // Add up that combo, reset timer, Display the combo counter, lower if not combo active
+            ModifyComboCounter(1, true);
 
             // Manage player bump
-            if (player.altFunctionUse == 0)
+            if (DEBUG_DASHFISTS) Main.NewText(string.Concat("COmbo dash: ", dashEffect, " - alt: ", player.altFunctionUse));
+            if (dashEffect == 0)
             {
                 ManagePlayerComboMovement(target);
             }
@@ -567,16 +618,23 @@ namespace WeaponOut
                 // Dash attacks provide a short immunity
                 provideImmunity(player, 20);
             }
+        }
 
-            // Display the combo counter, lower if not combo active
+        private void ModifyComboCounter(int amount, bool resetTimer = true)
+        {
+            comboCounter += amount;
+            if (comboCounter == comboCounterMax) ItemFlashFX();
+            if (resetTimer) comboTimer = 0;
+
+            // Don't bother showing spent combo
+            if (comboCounter <= 0) return;
+
             Rectangle rect = player.getRect();
             if (!IsComboActive) rect.Y += (int)(rect.Height * player.gravDir);
             CombatText.NewText(rect,
                 comboColour, string.Concat(comboCounter), IsComboActive);
-
-            // Set time to match, to sync up projectiles
-            player.itemTime = player.itemAnimation;
         }
+
         private void ManagePlayerComboMovement(NPC target)
         {
             if (specialMove == 0)
@@ -835,8 +893,7 @@ namespace WeaponOut
             { return false; }
 
             // Parrying also counts as a combo
-            comboCounter++;
-            comboTimer = 0;
+            ModifyComboCounter(1, true);
 
             player.itemAnimation = 0; //release item lock
 
@@ -886,15 +943,7 @@ namespace WeaponOut
             if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parried! : ", parryTime, "/", ParryActiveFrame, "/", parryTimeMax));
 
             // Send information
-            if (Main.netMode == 1 && player.whoAmI == Main.myPlayer)
-            {
-                ModPacket message = mod.GetPacket();
-                message.Write(2);
-                message.Write(Main.myPlayer);
-                message.Write(parryTimeMax);
-                message.Write(parryWindow);
-                message.Send();
-            }
+            WeaponOut.NetUpdateParry(this);
 
             return true;
         }
@@ -913,6 +962,9 @@ namespace WeaponOut
                 this.parryWindow = parryWindow;
                 this.parryTimeMax = parryTimeMax;
                 this.parryTime = this.parryTimeMax;
+
+                // because multiplayer
+                if(Main.netMode != 0 && player.whoAmI != Main.myPlayer) player.altFunctionUse = 2;
 
                 WeaponOut.NetUpdateParry(this);
                 return true;
@@ -942,7 +994,7 @@ namespace WeaponOut
         /// In SetStaticDefaults. Register the dust effect method: public static void DashEffects(Player player).
         /// </summary>
         /// <returns> The ID of the effects method. Save this and refer to it in SetDash. </returns>
-        public static int RegisterDashEffectID(ActionPlayer dashEffect)
+        public static int RegisterDashEffectID(Action<Player> dashEffect)
         {
             DashEffectsMethods.Add(dashEffect);
             return DashEffectsMethods.Count;
@@ -1197,6 +1249,7 @@ namespace WeaponOut
                     // Stop the active part of the dash after reaching the max normal run speed
                     else
                     {
+                        dashEffect = 0;
                         player.dashDelay = dashCooldownDelay;
                         if (player.velocity.X < 0f)
                         {
@@ -1227,6 +1280,56 @@ namespace WeaponOut
             dashEffect = 0;
 
             player.dash = 0;
+        }
+
+        #endregion
+
+        #region Combo Meter
+
+        /// <summary>
+        /// In SetStaticDefaults. Register the combo effect method: public static void ComboEffects(Player player).
+        /// </summary>
+        /// <returns> The ID of the effects method. Save this and refer to it in AltFunctionCombo. </returns>
+        public static int RegisterComboEffectID(Action<Player, bool> comboEffect)
+        {
+            ComboEffectsMethods.Add(comboEffect);
+            return ComboEffectsMethods.Count;
+        }
+
+        public bool AltFunctionCombo(Player player, int comboEffect)
+        {
+            if (player.itemAnimation == 0 && comboCounter >= comboCounterMax)
+            {
+                this.comboEffect = comboEffect;
+                ModifyComboCounter(-comboCounterMax, false);
+
+                // because multiplayer
+                if (Main.netMode != 0 && player.whoAmI != Main.myPlayer) player.altFunctionUse = 2;
+
+                WeaponOut.NetUpdateCombo(this);
+                return true;
+            }
+            return false;
+        }
+
+        // Call the combo management pre-item check
+        private void ManageComboMethodCall()
+        {
+            if (ComboEffectAbs > 0)
+            {
+                if (DEBUG_COMBOFISTS) Main.NewText(string.Concat("Calling: ", ComboEffectAbs, "/", comboEffect));
+                ComboEffectsMethods[ComboEffectAbs - 1](player, comboEffect > 0);
+
+                // First time it was set was positive, turn negative to indicate change.
+                if (comboEffect > 0) { comboEffect = -comboEffect; }
+                
+                // At the end, reset to 0
+                if (player.itemAnimation == 1)
+                {
+                    if (DEBUG_COMBOFISTS) Main.NewText(string.Concat("Resetting combo: ", comboEffect));
+                    comboEffect = 0;
+                }
+            }
         }
 
         #endregion

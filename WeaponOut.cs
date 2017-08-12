@@ -235,6 +235,13 @@ namespace WeaponOut
                 }
             }
             #endregion
+
+            #region Combo Special
+            if (code == 4) // Set combo altfunction
+            {
+                HandlePacketCombo(reader, code, sender);
+            }
+            #endregion
         }
 
         public static void NetUpdateDash(ModPlayerFists mpf)
@@ -325,6 +332,44 @@ namespace WeaponOut
             {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
                 pfx.AltFunctionParryMax(Main.player[sender], parryWindow, parryTimeMax);
+                // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+            }
+        }
+
+        public static void NetUpdateCombo(ModPlayerFists pfx)
+        {
+            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
+            {
+                ModPacket message = pfx.mod.GetPacket();
+                message.Write(4);
+                message.Write(Main.myPlayer);
+                message.Write(pfx.ComboEffectAbs);
+                message.Send();
+            }
+        }
+        private void HandlePacketCombo(BinaryReader reader, int code, int sender)
+        {
+            int comboEffect = reader.ReadInt32();
+            if (Main.netMode == 2)
+            {
+                for (int i = 0; i < 255; i++)
+                {
+                    if (!Main.player[i].active) continue;
+                    if (i != sender)
+                    {
+                        ModPacket me = GetPacket();
+                        me.Write(code);
+                        me.Write(sender);
+                        me.Write(comboEffect);
+                        me.Send();
+                    }
+                }
+                // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+            }
+            else
+            {
+                ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
+                pfx.AltFunctionCombo(Main.player[sender], comboEffect);
                 // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
             }
         }

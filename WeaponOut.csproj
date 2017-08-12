@@ -56,7 +56,7 @@
     <Content Include="Items\Weapons\Fists\GlovesCaestus.txt" />
     <Content Include="Items\Weapons\Fists\GlovesPalm.txt" />
     <Content Include="Items\Weapons\Fists\GlovesBee.txt" />
-    <Content Include="Items\Weapons\Fists\GlovesWooden.txt" />
+    <Compile Include="Items\Weapons\Fists\GlovesWooden.cs" />
     <Content Include="Items\Weapons\Fists\KnucklesFlintlock.txt" />
     <Content Include="Items\Weapons\Fists\KnucklesDungeon.txt" />
     <Content Include="Items\Weapons\Fists\KnucklesMeteor.txt" />
@@ -114,7 +114,7 @@
     <Compile Include="Items\Weapons\Whips\NotchedWhip.cs" />
     <Compile Include="Items\Weapons\Dual\SparkShovel.cs" />
     <Compile Include="Items\Weapons\Basic\WAR.cs" />
-    <Content Include="Items\Weapons\Fists\KnucklesIron.txt" />
+    <Compile Include="Items\Weapons\Fists\KnucklesIron.cs" />
     <Content Include="Items\Weapons\Fists\FistsOfFury.txt" />
     <Compile Include="Items\Placeable\CampTent.cs" />
     <Compile Include="Items\SplinterShot.cs" />
