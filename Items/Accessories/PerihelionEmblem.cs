@@ -21,8 +21,8 @@ namespace WeaponOut.Items.Accessories
             DisplayName.SetDefault("Perihelion Emblem");
             Tooltip.SetDefault(
                 "Supercharges throwing weapons to their lunar potential\n" +
-                "30 % increased throwing velocity\n" +
-                "Swing back around");
+                "30% increased throwing velocity\n" +
+                "'Swing back around'");
         }
         public override void SetDefaults()
         {
