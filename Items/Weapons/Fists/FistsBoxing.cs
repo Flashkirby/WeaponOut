@@ -15,14 +15,14 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             return ModConf.enableFists;
         }
-        public static int dustEffect = 0;
+        public static int dashEffect = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Glove");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Combo confuses enemies");
-            dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
+            dashEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()
         {
@@ -66,7 +66,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if(player.dashDelay == 0)
             {   // Burst of speed with major slow down
                 player.GetModPlayer<ModPlayerFists>().
-                    SetDash(12f, 4f, 0.96f, 0.96f, false, dustEffect);
+                    SetDash(12f, 4f, 0.96f, 0.96f, false, dashEffect);
                 return true;
             }
             return false;
