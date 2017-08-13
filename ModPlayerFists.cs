@@ -34,7 +34,7 @@ namespace WeaponOut
 
         private const bool DEBUG_FISTBOXES = true;
         private const bool DEBUG_DASHFISTS = false;
-        private const bool DEBUG_PARRYFISTS = true;
+        private const bool DEBUG_PARRYFISTS = false;
         private const bool DEBUG_COMBOFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
@@ -538,9 +538,10 @@ namespace WeaponOut
             if (comboCounter <= 0) return;
 
             Rectangle rect = player.getRect();
-            if (!IsComboActive) rect.Y += (int)(rect.Height * player.gravDir);
+            bool comboMatchMax = comboCounter % ComboCounterMaxReal == 0;
+            if (!comboMatchMax) rect.Y += (int)(rect.Height * player.gravDir * 1f);
             CombatText.NewText(rect,
-                comboColour, string.Concat(comboCounter), IsComboActive);
+                comboColour, comboCounter, comboMatchMax, !IsComboActive || !comboMatchMax);
         }
 
         private void ManagePlayerComboMovement(NPC target)
@@ -1352,6 +1353,10 @@ namespace WeaponOut
             {
                 this.comboEffect = comboEffect;
                 ModifyComboCounter(-ComboCounterMaxReal, false);
+
+                // Show combo consume
+                CombatText.NewText(player.getRect(),
+                    lowColour, -ComboCounterMaxReal + " combo", false, true);
 
                 // because multiplayer
                 if (forceClient) player.altFunctionUse = 2;
