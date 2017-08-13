@@ -28,17 +28,17 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
-            item.useAnimation = 24; // Combos can increase speed by 30-50% since it halves remaining attack time
+            item.useAnimation = 28; // Combos can increase speed by 30-50% since it halves remaining attack time
 
             item.width = 20;
             item.height = 20;
             item.damage = 10;
-            item.knockBack = 6f;
+            item.knockBack = 4f;
             item.UseSound = SoundID.Item7;
 
-            item.tileBoost = 6; // For fists, we read this as the combo power
+            item.tileBoost = 8; // For fists, we read this as the combo power
 
-            item.value = Item.sellPrice(0, 0, 10, 0);
+            item.value = Item.sellPrice(0, 0, 15, 0);
             item.noUseGraphic = true;
             item.melee = true;
         }

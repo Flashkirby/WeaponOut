@@ -27,17 +27,17 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
-            item.useAnimation = 18; // Combos can increase speed by 30-50% since it halves remaining attack time
+            item.useAnimation = 24; // Combos can increase speed by 30-50% since it halves remaining attack time
 
             item.width = 20;
             item.height = 20;
-            item.damage = 11;
-            item.knockBack = 3f;
+            item.damage = 9;
+            item.knockBack = 2.5f;
             item.UseSound = SoundID.Item7;
 
-            item.tileBoost = 8; // For fists, we read this as the combo power
+            item.tileBoost = 6; // For fists, we read this as the combo power
 
-            item.value = Item.sellPrice(0, 0, 90, 0);
+            item.value = Item.sellPrice(0, 0, 6, 0);
             item.noUseGraphic = true;
             item.melee = true;
         }
@@ -95,8 +95,8 @@ namespace WeaponOut.Items.Weapons.Fists
             else
             {
                 // Punch effect
-                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 31, 2, 2, 100, default(Color), 1f)];
-                d.velocity *= ModPlayerFists.GetFistVelocity(player);
+                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 31, 3, 3, 100, default(Color), 1f)];
+                d.velocity *= 0.6f * ModPlayerFists.GetFistVelocity(player);
             }
         }
 
@@ -128,9 +128,8 @@ namespace WeaponOut.Items.Weapons.Fists
             }
             if(mpf.ComboEffectAbs == comboEffect)
             {
-                damage *= 2;
-                knockBack *= 2;
-                crit = true;
+                damage *= 4;
+                knockBack *= 3;
             }
         }
     }
