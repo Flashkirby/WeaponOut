@@ -13,8 +13,14 @@ using Terraria.World.Generation;
 // uses ReflectProjectilePlayer(Projectile projectile, Player player)
 
 // using static WeaponOut.WeaponOut;
-// NetUpdateParry()
 // NetUpdateDash()
+// NetUpdateParry()
+// NetUpdateCombo()
+
+// Also requires in WeaponOut.WeaponOut:
+// HandlePacketDash
+// HandlePacketParry
+// HandlePacketCombo
 
 namespace WeaponOut
 {
@@ -24,7 +30,7 @@ namespace WeaponOut
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         private const bool DEBUG_FISTBOXES = true;
-        private const bool DEBUG_DASHFISTS = false;
+        private const bool DEBUG_DASHFISTS = true;
         private const bool DEBUG_PARRYFISTS = false;
         private const bool DEBUG_COMBOFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
@@ -191,6 +197,8 @@ namespace WeaponOut
                     player.maxFallSpeed *= 1.5f;
                 }
 
+                SetComboEffectLogic();
+
                 FistBodyFrame();
                 ParryBodyFrame();
             }
@@ -284,7 +292,7 @@ namespace WeaponOut
                     SetAttackRotation(player);
                 }
 
-                if (Main.myPlayer == player.whoAmI)
+                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI)
                 {
                     NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
                     NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
@@ -957,14 +965,16 @@ namespace WeaponOut
         }
         public bool AltFunctionParryMax(Player player, int parryWindow, int parryTimeMax)
         {
-            if (player.itemAnimation == 0 && parryTime == 0)
+            bool forceClient = (Main.netMode == 1 && player.whoAmI != Main.myPlayer);
+            if ((player.itemAnimation == 0 && parryTime == 0)
+                || forceClient)
             {
                 this.parryWindow = parryWindow;
                 this.parryTimeMax = parryTimeMax;
                 this.parryTime = this.parryTimeMax;
 
                 // because multiplayer
-                if(Main.netMode != 0 && player.whoAmI != Main.myPlayer) player.altFunctionUse = 2;
+                if(forceClient) player.altFunctionUse = 2;
 
                 WeaponOut.NetUpdateParry(this);
                 return true;
@@ -1018,7 +1028,7 @@ namespace WeaponOut
         /// <returns> If set dash is possible (player.dashDelay) </returns>
         public bool SetDash(float dashSpeed = 14.5f, float dashMaxSpeedThreshold = 12f, float dashMaxFriction = 0.992f, float dashMinFriction = 0.96f, bool forceDash = false, int dashEffect = 0)
         {
-            if (forceDash)
+            if (forceDash) // for small dashes... also because multiplayer 
             {
                 player.dashDelay = 0;
             }
@@ -1057,7 +1067,7 @@ namespace WeaponOut
         {
             if(player.controlLeft || player.controlRight)
             {
-                SetDash(dashSpeed, dashMaxSpeedThreshold, dashMaxFriction, dashMinFriction, forceDash, dashEffect);
+                return SetDash(dashSpeed, dashMaxSpeedThreshold, dashMaxFriction, dashMinFriction, forceDash, dashEffect);
             }
             return false;
         }
@@ -1132,6 +1142,8 @@ namespace WeaponOut
 
                     // Set dash to active
                     player.dashDelay = -1;
+
+                    // Send net update for start of dash
                     WeaponOut.NetUpdateDash(this);
                 }
 
@@ -1298,13 +1310,15 @@ namespace WeaponOut
 
         public bool AltFunctionCombo(Player player, int comboEffect)
         {
-            if (player.itemAnimation == 0 && comboCounter >= comboCounterMax)
+            bool forceClient = (Main.netMode == 1 && player.whoAmI != Main.myPlayer);
+            if ((player.itemAnimation == 0 && comboCounter >= comboCounterMax)
+                || forceClient)
             {
                 this.comboEffect = comboEffect;
                 ModifyComboCounter(-comboCounterMax, false);
 
                 // because multiplayer
-                if (Main.netMode != 0 && player.whoAmI != Main.myPlayer) player.altFunctionUse = 2;
+                if (forceClient) player.altFunctionUse = 2;
 
                 WeaponOut.NetUpdateCombo(this);
                 return true;
@@ -1318,17 +1332,28 @@ namespace WeaponOut
             if (ComboEffectAbs > 0)
             {
                 if (DEBUG_COMBOFISTS) Main.NewText(string.Concat("Calling: ", ComboEffectAbs, "/", comboEffect));
+                // initial is true when set as such. See SetComboEffectLogic from PostUpdate
                 ComboEffectsMethods[ComboEffectAbs - 1](player, comboEffect > 0);
+            }
+        }
 
-                // First time it was set was positive, turn negative to indicate change.
-                if (comboEffect > 0) { comboEffect = -comboEffect; }
-                
-                // At the end, reset to 0
-                if (player.itemAnimation == 1)
-                {
-                    if (DEBUG_COMBOFISTS) Main.NewText(string.Concat("Resetting combo: ", comboEffect));
-                    comboEffect = 0;
-                }
+        private void SetComboEffectLogic()
+        {
+            // Update other clients that the fist is being used. 
+            if (Main.netMode == 1 && Main.myPlayer == player.whoAmI)
+            {
+                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+            }
+
+            // First time it was set was positive, turn negative to indicate change.
+            if (comboEffect > 0) { comboEffect = -comboEffect; }
+
+            // At the end, reset to 0
+            if (player.itemAnimation == 1)
+            {
+                if (DEBUG_COMBOFISTS) Main.NewText(string.Concat("Resetting combo: ", comboEffect));
+                comboEffect = 0;
             }
         }
 

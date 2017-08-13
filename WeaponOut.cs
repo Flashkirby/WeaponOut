@@ -209,30 +209,7 @@ namespace WeaponOut
             #region Weapon Visual
             if (code == 3) // Set weapon
             {
-                bool weaponVis = reader.ReadBoolean();
-
-                if (Main.netMode == 2)
-                {
-                    for (int i = 0; i < 255; i++)
-                    {
-                        if (!Main.player[i].active) continue;
-                        if (i != sender)
-                        {
-                            ModPacket me = GetPacket();
-                            me.Write(code);
-                            me.Write(sender);
-                            me.Write(weaponVis);
-                            me.Send();
-                        }
-                    }
-                    // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
-                }
-                else
-                {
-                    PlayerFX pfx = Main.player[sender].GetModPlayer<PlayerFX>(this);
-                    pfx.weaponVisual = weaponVis;
-                    // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
-                }
+                HandlePacketWeaponVisual(reader, code, sender);
             }
             #endregion
 
@@ -248,6 +225,7 @@ namespace WeaponOut
         {
             if (Main.netMode == 1 && mpf.player.whoAmI == Main.myPlayer)
             {
+                Main.NewText("sent from " + Main.myPlayer);
                 ModPacket message = mpf.mod.GetPacket();
                 message.Write(1);
                 message.Write(Main.myPlayer);
@@ -268,30 +246,20 @@ namespace WeaponOut
             int dEffect = reader.ReadInt32();
             if (Main.netMode == 2)
             {
-                for (int i = 0; i < 255; i++)
-                {
-                    if (!Main.player[i].active) continue;
-                    if (i != sender)
-                    {
-                        ModPacket me = GetPacket();
-                        me.Write(code);
-                        me.Write(sender);
-                        me.Write(dSpeed);
-                        me.Write(dThreshold);
-                        me.Write(dMax);
-                        me.Write(dMin);
-                        me.Write(dEffect);
-                        me.Send();
-                    }
-                }
-                 Console.WriteLine("Set player " + Main.player[sender].name + " dash to " + dSpeed + ":" + dEffect);
+                ModPacket me = GetPacket();
+                me.Write(code);
+                me.Write(sender);
+                me.Write(dSpeed);
+                me.Write(dThreshold);
+                me.Write(dMax);
+                me.Write(dMin);
+                me.Write(dEffect);
+                me.Send(-1, sender);
             }
             else
             {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>();
-                pfx.player.dashDelay = 0;
                 pfx.SetDash(dSpeed, dThreshold, dMax, dMin, true, dEffect);
-                 Main.NewText("Set player " + Main.player[sender].name + " dash to " + dSpeed + ":" + dEffect);
             }
         }
 
@@ -313,26 +281,17 @@ namespace WeaponOut
             int parryWindow = reader.ReadInt32();
             if (Main.netMode == 2)
             {
-                for (int i = 0; i < 255; i++)
-                {
-                    if (!Main.player[i].active) continue;
-                    if (i != sender)
-                    {
-                        ModPacket me = GetPacket();
-                        me.Write(code);
-                        me.Write(sender);
-                        me.Write(parryTimeMax);
-                        me.Write(parryWindow);
-                        me.Send();
-                    }
-                }
-                // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                ModPacket me = GetPacket();
+                me.Write(code);
+                me.Write(sender);
+                me.Write(parryTimeMax);
+                me.Write(parryWindow);
+                me.Send(-1, sender);
             }
             else
             {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
                 pfx.AltFunctionParryMax(Main.player[sender], parryWindow, parryTimeMax);
-                // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
             }
         }
 
@@ -352,25 +311,17 @@ namespace WeaponOut
             int comboEffect = reader.ReadInt32();
             if (Main.netMode == 2)
             {
-                for (int i = 0; i < 255; i++)
-                {
-                    if (!Main.player[i].active) continue;
-                    if (i != sender)
-                    {
-                        ModPacket me = GetPacket();
-                        me.Write(code);
-                        me.Write(sender);
-                        me.Write(comboEffect);
-                        me.Send();
-                    }
-                }
-                // Console.WriteLine("Set player " + Main.player[sender].name + " weapon dash to " + dash);
+                ModPacket me = GetPacket();
+                me.Write(code);
+                me.Write(sender);
+                me.Write(comboEffect);
+                me.Send(-1, sender);
             }
             else
             {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
+                pfx.player.itemAnimation = 0;
                 pfx.AltFunctionCombo(Main.player[sender], comboEffect);
-                // Main.NewText("Set player " + Main.player[sender].name + " weapon dash to " + dash);
             }
         }
 
@@ -383,6 +334,23 @@ namespace WeaponOut
                 message.Write(Main.myPlayer);
                 message.Write(pfx.weaponVisual);
                 message.Send();
+            }
+        }
+        private void HandlePacketWeaponVisual(BinaryReader reader, int code, int sender)
+        {
+            bool weaponVis = reader.ReadBoolean();
+            if (Main.netMode == 2)
+            {
+                ModPacket me = GetPacket();
+                me.Write(code);
+                me.Write(sender);
+                me.Write(weaponVis);
+                me.Send(-1, sender);
+            }
+            else
+            {
+                PlayerFX pfx = Main.player[sender].GetModPlayer<PlayerFX>(this);
+                pfx.weaponVisual = weaponVis;
             }
         }
     }
