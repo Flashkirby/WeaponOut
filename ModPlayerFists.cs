@@ -34,7 +34,7 @@ namespace WeaponOut
 
         private const bool DEBUG_FISTBOXES = true;
         private const bool DEBUG_DASHFISTS = false;
-        private const bool DEBUG_PARRYFISTS = false;
+        private const bool DEBUG_PARRYFISTS = true;
         private const bool DEBUG_COMBOFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
@@ -93,10 +93,10 @@ namespace WeaponOut
         public int parryWindow;
         /// <summary> Flat bonus on parry window. </summary>
         public int parryWindowBonus;
-        public int ParryTimeMaxReal { get { return parryTime + parryWindowBonus; } }
+        public int ParryTimeMaxReal { get { return parryTimeMax + parryWindowBonus; } }
         public int ParryWindowReal { get { return parryWindow + parryWindowBonus; } }
         /// <summary> Frame that parry is active until. </summary>
-        public int ParryActiveFrame { get { return Math.Max(ParryTimeMaxReal - ParryWindowReal, 2); } }
+        public int ParryActiveFrame { get { return Math.Max(parryTimeMax - parryWindow, 2); } }
         /// <summary> Active while parry time greater/equal to parry time   </summary>
         public bool IsParryActive { get { return parryTime >= ParryActiveFrame && parryTime > 0; } }
         /// <summary> Provided by a buff, is the parry bonus active. </summary>
@@ -856,7 +856,7 @@ namespace WeaponOut
             // Parry noise
             if (parryTime == ParryTimeMaxReal) Main.PlaySound(2, player.Center, 32);
 
-            if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parrying: ", parryTime, "/", parryWindow, "/", parryTimeMax));
+            if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parrying: ", parryTime, "/", parryWindow, "/", ParryTimeMaxReal));
 
             // WHILE ACTIVE
             if (parryTime > 0)
@@ -982,7 +982,7 @@ namespace WeaponOut
             provideImmunity(player, 20);
             player.AddBuff(mod.BuffType<Buffs.ParryActive>(), 300, false);
 
-            if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parried! : ", parryTime, "/", ParryActiveFrame, "/", parryTimeMax));
+            if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parried! : ", parryTime, "/", ParryActiveFrame, "/", ParryTimeMaxReal));
 
             // Send information
             WeaponOut.NetUpdateParry(this);
@@ -1004,8 +1004,10 @@ namespace WeaponOut
                 || forceClient)
             {
                 this.parryWindow = parryWindow;
-                this.parryTimeMax = ParryTimeMaxReal;
-                this.parryTime = this.parryTimeMax;
+                this.parryTimeMax = parryTimeMax;
+                this.parryTime = ParryTimeMaxReal;
+
+                if (DEBUG_PARRYFISTS) Main.NewText("parry: " + parryWindow + "/" + parryTime);
 
                 // because multiplayer
                 if(forceClient) player.altFunctionUse = 2;
