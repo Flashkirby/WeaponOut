@@ -30,12 +30,15 @@ namespace WeaponOut
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         private const bool DEBUG_FISTBOXES = true;
-        private const bool DEBUG_DASHFISTS = true;
+        private const bool DEBUG_DASHFISTS = false;
         private const bool DEBUG_PARRYFISTS = false;
         private const bool DEBUG_COMBOFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
+        /// <summary> Default combo is held for 2 seconds. </summary>
         public const int ComboResetTime = 2 * 60;
+        /// <summary> Flat combo time modifier </summary>
+        public int comboResetTimeBonus;
 
         /// <summary> Colour for active combo counter </summary>
         private static Color highColour = Color.Cyan;
@@ -58,19 +61,26 @@ namespace WeaponOut
         /// </summary>
         public int specialMove;
 
+        #region Combo Counter Vars
         /// <summary> Keep track of the number of hits from fists. </summary>
         protected int comboCounter;
         /// <summary> The "minimum" required combo get the bonus effects. Must be at least 2. </summary>
         public int comboCounterMax;
+        /// <summary> Flat bonus to combo counter max. Typically negative. </summary>
+        public int comboCounterMaxBonus;
         /// <summary> Time since last combo hit. </summary>
         protected int comboTimer;
         /// <summary> Time until combo is reset. </summary>
         public int comboTimerMax;
+        /// <summary> The real combo counter max, including bonus. </summary>
+        public int ComboCounterMaxReal { get { return comboCounterMax + comboCounterMaxBonus; } }
         /// <summary> Active when combo counter reaches the combo max. </summary>
-        public bool IsComboActive { get { return comboCounter >= comboCounterMax && comboCounter > 1; } }
+        public bool IsComboActive { get { return comboCounter >= ComboCounterMaxReal && comboCounter > 1; } }
         /// <summary> Active when combo counter reaches the combo max. Call this in the item because ItemLoader method is called before PlayerHooks. </summary>
-        public bool IsComboActiveItemOnHit { get { return comboCounter >= comboCounterMax - 1 && comboCounter > 0; } }
+        public bool IsComboActiveItemOnHit { get { return comboCounter >= ComboCounterMaxReal - 1 && comboCounter > 0; } }
+        #endregion
 
+        #region Parry Vars
         /// <summary> Ticks of current parry. 
         /// Non zero positive whilst in effect (count down), negative whilst on cooldown. </summary>
         protected int parryTime;
@@ -78,13 +88,19 @@ namespace WeaponOut
         public int parryTimeMax;
         /// <summary> Number of active frames for the parry, also used for swing animation. </summary>
         public int parryWindow;
+        /// <summary> Flat bonus on parry window. </summary>
+        public int parryWindowBonus;
+        public int ParryTimeMaxReal { get { return parryTime + parryWindowBonus; } }
+        public int ParryWindowReal { get { return parryWindow + parryWindowBonus; } }
         /// <summary> Frame that parry is active until. </summary>
-        public int ParryActiveFrame { get { return Math.Max(parryTimeMax - parryWindow, 1); } }
+        public int ParryActiveFrame { get { return Math.Max(ParryTimeMaxReal - ParryWindowReal, 2); } }
         /// <summary> Active while parry time greater/equal to parry time   </summary>
         public bool IsParryActive { get { return parryTime >= ParryActiveFrame && parryTime > 0; } }
         /// <summary> Provided by a buff, is the parry bonus active. </summary>
         public bool parryBuff;
+        #endregion
 
+        #region Dash Vars
         /// <summary> The initial speed of a dash. 
         ///<para /> * Normal: 3
         ///<para /> * Aglet/Anklet: 3.15, 3.3
@@ -112,7 +128,9 @@ namespace WeaponOut
                 return dashEffectsMethods;
             }
         }
+        #endregion
 
+        #region Combo Special Vars
         /// <summary> ID for combo effect. Register these with RegisterComboEffect. Uses negative as post initialised. </summary>
         private int comboEffect;
         public int ComboEffectAbs { get { return Math.Abs(comboEffect); } }
@@ -128,19 +146,24 @@ namespace WeaponOut
             }
         }
         /// <summary> ID for combo effect. Register these with RegisterComboEffect. Starts at 1 </summary>
+        #endregion
+
 
         #region overrides
         public override void Initialize()
         {
             specialMove = 0;
+            comboResetTimeBonus = 0;
             comboCounter = 0;
             comboCounterMax = 0;
+            comboCounterMaxBonus = 0;
             comboTimer = -1;
-            comboTimerMax = ComboResetTime;
+            comboTimerMax = ComboResetTime + comboResetTimeBonus;
 
             parryTime = 0;
             parryTimeMax = 0;
             parryWindow = 0;
+            parryWindowBonus = 0;
             parryBuff = false;
 
             comboEffect = 0;
@@ -222,6 +245,8 @@ namespace WeaponOut
 
         public void ResetVariables()
         {
+            comboTimerMax = ComboResetTime + comboResetTimeBonus; // 2? seconds count
+
             // Count up, otherwise reset to -1
             if (comboTimer >= 0 && comboTimer < comboTimerMax) comboTimer++;
             else
@@ -240,8 +265,6 @@ namespace WeaponOut
                 }
             }
 
-            comboTimerMax = ComboResetTime; // 2 seconds count
-
             // Reset special move when set to 0
             if (player.itemAnimation <= (player.HeldItem.autoReuse ? 1 : 0))
             {
@@ -250,24 +273,8 @@ namespace WeaponOut
 
             parryBuff = false;
         }
-
-        #region FistStyle Item-calls
-
-        public static void ModifyTooltips(List<TooltipLine> tooltips, Item item)
-        {
-            // Fist Items only
-            if (item.useStyle == useStyle)
-            {
-                int index = 0;
-                foreach (TooltipLine tooltip in tooltips)
-                {
-                    if (tooltip.Name.Equals("TileBoost")) break;
-                    index++;
-                }
-                tooltips.RemoveAt(index);
-                tooltips.Insert(index, new TooltipLine(item.modItem.mod, "FistComboPower", item.tileBoost + " combo power"));
-            }
-        }
+        
+        #region Fist Hitboxes
 
         /// <summary>
         /// Assign special moves, attack rotation and hitboxes, called in the ModItem
@@ -484,121 +491,9 @@ namespace WeaponOut
             return true;
         }
 
-        const float maxShow = 0.8f;
-        const float minShow = 0.4f;
-        /// <summary> Generates a fisticuffs rectangle for use with dusts and such. </summary>
-        /// <returns> True if no hitbox (so no dust) </returns>
-        public static Rectangle UseItemGraphicbox(Player player, int boxSize, float distanceFactor = 1f)
-        {
-            Rectangle box = new Rectangle();
-            float anim = player.itemAnimation / (float)player.itemAnimationMax;
-
-            //no show during winding
-            if (anim > maxShow || anim <= minShow)
-            {
-                // If set above the max, probably a combo special, give the hand box
-                if (player.itemAnimation > player.itemAnimationMax)
-                {
-                    Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
-                    if (player.direction != 1)
-                    {
-                        hand.X = (float)player.bodyFrame.Width - hand.X;
-                    }
-                    if (player.gravDir != 1f)
-                    {
-                        hand.Y = (float)player.bodyFrame.Height - hand.Y;
-                    }
-                    hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
-                    Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
-                    return new Rectangle(
-                        (int)dustPos.X - (boxSize / 2 + 2), 
-                        (int)dustPos.Y - (boxSize / 2 + 2), 
-                        boxSize, boxSize);
-                }
-                return new Rectangle();
-            }
-
-            //set player direction/hitbox
-            Vector2 centre = new Vector2();
-            float swing = 1 - (anim - minShow) / (maxShow - minShow); //0.8 -> 0.4
-            if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
-            {
-                if (player.itemRotation * player.direction > 0)
-                {
-                    //Up high
-                    centre = new Vector2(
-                        player.Center.X - (player.width * 0.6f * player.direction) + player.width * 1.1f * distanceFactor * swing * player.direction,
-                        player.Center.Y + (player.height * 0.9f * distanceFactor * swing));
-                }
-                else
-                {
-                    //Down low
-                    centre = new Vector2(
-                        player.Center.X - (player.width * 0.6f * player.direction) + player.width * 1.1f * distanceFactor * swing * player.direction,
-                        player.Center.Y - (player.height * 0.9f * distanceFactor * swing));
-                }
-            }
-            else
-            {
-                //along the middle
-                centre = new Vector2(
-                    player.Center.X - (player.width * 0.5f * player.direction) + player.width * 1f * distanceFactor * swing * player.direction,
-                    player.Center.Y);
-            }
-            box.X = (int)centre.X - boxSize / 2;
-            box.Y = (int)centre.Y - boxSize / 2;
-            box.Width = boxSize;
-            box.Height = boxSize;
-
-            if (player.direction > 0)
-            {
-                box.X += player.width / 2;
-            }
-            else
-            {
-                box.X -= player.width / 2;
-            }
-
-            return box;
-        }
-
-        public static Vector2 GetFistVelocity(Player player)
-        {
-            if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
-            {
-                if (player.itemRotation * player.direction > 0)
-                {
-                    //Up high
-                    return new Vector2(player.direction * 0.7f, 0.7f);
-                }
-                else
-                {
-                    //down low
-                    return new Vector2(player.direction * 0.7f, -0.7f);
-                }
-            }
-            //along the middle
-            return new Vector2(player.direction, -0.1f);
-        }
-
         #endregion
 
-        #region FistStyle imported methods
-
-        public static void provideImmunity(Player player)
-        {
-            provideImmunity(player, 1);
-        }
-        public static void provideImmunity(Player player, int immune)
-        {
-            player.immune = true;
-            if (player.immuneTime <= immune)
-            {
-                player.immuneTime = immune;
-                player.immuneAlpha = 0;
-                player.immuneAlphaDirection = -1;
-            }
-        }
+        #region Fist Combo Logic
 
         private void OnHitComboLogic(Item item, NPC target)
         {
@@ -631,7 +526,7 @@ namespace WeaponOut
         private void ModifyComboCounter(int amount, bool resetTimer = true)
         {
             comboCounter += amount;
-            if (comboCounter == comboCounterMax) ItemFlashFX();
+            if (comboCounter == ComboCounterMaxReal) ItemFlashFX();
             if (resetTimer) comboTimer = 0;
 
             // Don't bother showing spent combo
@@ -699,7 +594,7 @@ namespace WeaponOut
             player.dash = 0;
         }
 
-        public void FistBodyFrame()
+        private void FistBodyFrame()
         {
             // Don't show when not attacking
             if (player.itemAnimation == 0) return;
@@ -794,6 +689,140 @@ namespace WeaponOut
 
         #endregion
 
+        #region Fist Item Methods
+
+        public static void ModifyTooltips(List<TooltipLine> tooltips, Item item)
+        {
+            // Fist Items only
+            if (item.useStyle == useStyle)
+            {
+                int index = 0;
+                foreach (TooltipLine tooltip in tooltips)
+                {
+                    if (tooltip.Name.Equals("TileBoost")) break;
+                    index++;
+                }
+                tooltips.RemoveAt(index);
+                tooltips.Insert(index, new TooltipLine(item.modItem.mod, "FistComboPower", item.tileBoost + " combo power"));
+            }
+        }
+
+        public static void provideImmunity(Player player)
+        {
+            provideImmunity(player, 1);
+        }
+        public static void provideImmunity(Player player, int immune)
+        {
+            player.immune = true;
+            if (player.immuneTime <= immune)
+            {
+                player.immuneTime = immune;
+                player.immuneAlpha = 0;
+                player.immuneAlphaDirection = -1;
+            }
+        }
+
+        const float maxShow = 0.8f;
+        const float minShow = 0.4f;
+        /// <summary> Generates a fisticuffs rectangle for use with dusts and such. </summary>
+        /// <returns> True if no hitbox (so no dust) </returns>
+        public static Rectangle UseItemGraphicbox(Player player, int boxSize, float distanceFactor = 1f)
+        {
+            Rectangle box = new Rectangle();
+            float anim = player.itemAnimation / (float)player.itemAnimationMax;
+
+            //no show during winding
+            if (anim > maxShow || anim <= minShow)
+            {
+                // If set above the max, probably a combo special, give the hand box
+                if (player.itemAnimation > player.itemAnimationMax)
+                {
+                    Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
+                    if (player.direction != 1)
+                    {
+                        hand.X = (float)player.bodyFrame.Width - hand.X;
+                    }
+                    if (player.gravDir != 1f)
+                    {
+                        hand.Y = (float)player.bodyFrame.Height - hand.Y;
+                    }
+                    hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
+                    Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
+                    return new Rectangle(
+                        (int)dustPos.X - (boxSize / 2 + 2),
+                        (int)dustPos.Y - (boxSize / 2 + 2),
+                        boxSize, boxSize);
+                }
+                return new Rectangle();
+            }
+
+            //set player direction/hitbox
+            Vector2 centre = new Vector2();
+            float swing = 1 - (anim - minShow) / (maxShow - minShow); //0.8 -> 0.4
+            if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
+            {
+                if (player.itemRotation * player.direction > 0)
+                {
+                    //Up high
+                    centre = new Vector2(
+                        player.Center.X - (player.width * 0.6f * player.direction) + player.width * 1.1f * distanceFactor * swing * player.direction,
+                        player.Center.Y + (player.height * 0.9f * distanceFactor * swing));
+                }
+                else
+                {
+                    //Down low
+                    centre = new Vector2(
+                        player.Center.X - (player.width * 0.6f * player.direction) + player.width * 1.1f * distanceFactor * swing * player.direction,
+                        player.Center.Y - (player.height * 0.9f * distanceFactor * swing));
+                }
+            }
+            else
+            {
+                //along the middle
+                centre = new Vector2(
+                    player.Center.X - (player.width * 0.5f * player.direction) + player.width * 1f * distanceFactor * swing * player.direction,
+                    player.Center.Y);
+            }
+            box.X = (int)centre.X - boxSize / 2;
+            box.Y = (int)centre.Y - boxSize / 2;
+            box.Width = boxSize;
+            box.Height = boxSize;
+
+            if (player.direction > 0)
+            {
+                box.X += player.width / 2;
+            }
+            else
+            {
+                box.X -= player.width / 2;
+            }
+
+            return box;
+        }
+
+        public static Vector2 GetFistVelocity(Player player)
+        {
+            if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
+            {
+                if (player.itemRotation * player.direction > 0)
+                {
+                    //Up high
+                    return new Vector2(player.direction * 0.7f, 0.7f);
+                }
+                else
+                {
+                    //down low
+                    return new Vector2(player.direction * 0.7f, -0.7f);
+                }
+            }
+            //along the middle
+            return new Vector2(player.direction, -0.1f);
+        }
+
+        #endregion
+
+
+
         #region Parry
 
         /// <summary> Create item flash and sound. Client only </summary>
@@ -820,7 +849,7 @@ namespace WeaponOut
             if (parryTime == 0) return false;
 
             // Parry noise
-            if (parryTime == parryTimeMax) Main.PlaySound(2, player.Center, 32);
+            if (parryTime == ParryTimeMaxReal) Main.PlaySound(2, player.Center, 32);
 
             if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parrying: ", parryTime, "/", parryWindow, "/", parryTimeMax));
 
@@ -865,7 +894,7 @@ namespace WeaponOut
             if (parryTime <= 0) return;
 
             // count down to 1 -> 0 -> -x
-            float anim = (parryTime - ParryActiveFrame) / Math.Max(parryWindow, 1f);
+            float anim = (parryTime - ParryActiveFrame) / Math.Max(ParryWindowReal, 1f);
 
             // Start low, swing upwards in reverse
             if (anim > 0.6)
@@ -970,7 +999,7 @@ namespace WeaponOut
                 || forceClient)
             {
                 this.parryWindow = parryWindow;
-                this.parryTimeMax = parryTimeMax;
+                this.parryTimeMax = ParryTimeMaxReal;
                 this.parryTime = this.parryTimeMax;
 
                 // because multiplayer
@@ -1311,11 +1340,11 @@ namespace WeaponOut
         public bool AltFunctionCombo(Player player, int comboEffect)
         {
             bool forceClient = (Main.netMode == 1 && player.whoAmI != Main.myPlayer);
-            if ((player.itemAnimation == 0 && comboCounter >= comboCounterMax)
+            if ((player.itemAnimation == 0 && comboCounter >= ComboCounterMaxReal)
                 || forceClient)
             {
                 this.comboEffect = comboEffect;
-                ModifyComboCounter(-comboCounterMax, false);
+                ModifyComboCounter(-ComboCounterMaxReal, false);
 
                 // because multiplayer
                 if (forceClient) player.altFunctionUse = 2;
