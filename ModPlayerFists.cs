@@ -24,7 +24,10 @@ using Terraria.World.Generation;
 
 namespace WeaponOut
 {
-
+    /// <summary>
+    /// Version 1.4 by Flashkirby99
+    /// This class provides almost all the methods required for fist type weapons.
+    /// </summary>
     public class ModPlayerFists : ModPlayer
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
@@ -503,23 +506,25 @@ namespace WeaponOut
             // Set time to match, to sync up projectiles
             player.itemTime = player.itemAnimation;
 
-            // Combo specials don't trigger normal effects
-            if (comboEffect != 0) return;
-
-
             // Add up that combo, reset timer, Display the combo counter, lower if not combo active
-            ModifyComboCounter(1, true);
-
+            // Combo specials don't grant more combo
+            if (comboEffect == 0) ModifyComboCounter(1, true);
+            
             // Manage player bump
             if (DEBUG_DASHFISTS) Main.NewText(string.Concat("COmbo dash: ", dashEffect, " - alt: ", player.altFunctionUse));
-            if (dashEffect == 0)
+            if (dashEffect == 0 && comboEffect == 0)
             {
                 ManagePlayerComboMovement(target);
             }
-            else
+            else if (dashEffect != 0)
             {
                 // Dash attacks provide a short immunity
                 provideImmunity(player, 20);
+            }
+            else
+            {
+                // Combo specials provide a minor immunity
+                provideImmunity(player, 10);
             }
         }
 

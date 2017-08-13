@@ -102,8 +102,16 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            int size = 20;
+            float jump = 9f;
+            if (mpf.ComboEffectAbs == comboEffect)
+            {
+                size = 50;
+                jump = 11f;
+            }
             // jump exactly 6 blocks high!
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 20, 9f, 8f, 8f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, size, jump, 8f, 8f);
         }
 
         //Combo
