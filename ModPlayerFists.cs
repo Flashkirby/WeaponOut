@@ -287,7 +287,7 @@ namespace WeaponOut
         /// <param name="fallSpeedX"></param>
         /// <param name="fallSpeedY">Set dive Y speed, fall speed is auto increased by 1.5 (velY = 15)</param>
         /// <returns></returns>
-        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed, float fallSpeedX = 8f, float fallSpeedY = 8f)
+        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed = 9f, float fallSpeedX = 2f, float fallSpeedY = 8f)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf == null) return false;
