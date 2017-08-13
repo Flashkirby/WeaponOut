@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-
 namespace WeaponOut.Items.Weapons.Fists
 {
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
@@ -28,15 +27,15 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
-            item.useAnimation = 25; // Combos can increase speed by 30-50% since it halves remaining attack time
+            item.useAnimation = 24; // Combos can increase speed by 30-50% since it halves remaining attack time
 
             item.width = 20;
             item.height = 20;
-            item.damage = 7;
+            item.damage = 5;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item7;
 
-            item.tileBoost = 10; // For fists, we read this as the combo power
+            item.tileBoost = 5; // For fists, we read this as the combo power
 
             item.value = Item.sellPrice(0, 0, 0, 50);
             item.noUseGraphic = true;
@@ -66,13 +65,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override bool AltFunctionUse(Player player)
         {
             return player.GetModPlayer<ModPlayerFists>().
-                AltFunctionParry(player, 15, 25); ;
+                AltFunctionParry(player, 25, 25); ;
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            // jump exactly 6 blocks high!
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 20, 9f, 8f, 8f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, 20, 9f, 1f);
         }
 
 		// Parry
