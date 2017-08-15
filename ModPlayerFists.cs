@@ -574,9 +574,9 @@ namespace WeaponOut
                 }
                 else
                 {
-                    // Bounce off
+                    // Bounce off if dashing
                     player.velocity = new Vector2(
-                        player.direction * -1f + target.velocity.X * 0.5f,
+                        -player.direction * Math.Max(2f, player.HeldItem.knockBack) + target.velocity.X,
                         player.gravDir * -1f + target.velocity.Y * 1.5f);
                 }
                 #endregion
