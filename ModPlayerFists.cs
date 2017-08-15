@@ -56,6 +56,8 @@ namespace WeaponOut
             }
         }
 
+        /// <summary> Reset every hit, allows 1 combo bounce and invincibility during each punch. </summary>
+        bool allowComboBounce = false;
         /// <summary>
         /// The type of fist attack initiated.
         /// 0 = Default (dash forward)
@@ -295,6 +297,7 @@ namespace WeaponOut
             // Special attack assign on Start frame
             if (player.itemAnimation == player.itemAnimationMax - 1)
             {
+                mpf.allowComboBounce = true;
                 mpf.SetSpecialMove(player, jumpSpeed, fallSpeedX, fallSpeedY);
 
                 if (mpf.specialMove == 0)
@@ -512,8 +515,9 @@ namespace WeaponOut
             
             // Manage player bump
             if (DEBUG_DASHFISTS) Main.NewText(string.Concat("COmbo dash: ", dashEffect, " - alt: ", player.altFunctionUse));
-            if (dashEffect == 0 && comboEffect == 0)
+            if (dashEffect == 0 && comboEffect == 0 && allowComboBounce)
             {
+                allowComboBounce = false;
                 ManagePlayerComboMovement(target);
             }
             else if (dashEffect != 0)
