@@ -37,7 +37,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
             item.tileBoost = 6; // For fists, we read this as the combo power
 
-            item.value = Item.sellPrice(0, 0, 6, 0);
+            item.value = Item.sellPrice(0, 0, 3, 0);
             item.noUseGraphic = true;
             item.melee = true;
         }
