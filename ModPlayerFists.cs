@@ -217,6 +217,12 @@ namespace WeaponOut
                 {
                     ResetDashVars();
                 }
+
+                if (specialMove == 2)
+                {
+                    // Increase speed whilst diving
+                    player.maxFallSpeed *= 1.5f;
+                }
             }
         }
 
@@ -225,12 +231,6 @@ namespace WeaponOut
             // Set up parry frames
             if (ModConf.enableFists)
             {
-                if (specialMove == 2)
-                {
-                    // Increase speed whilst diving
-                    player.maxFallSpeed *= 1.5f;
-                }
-
                 SetComboEffectLogic();
 
                 FistBodyFrame();
@@ -404,12 +404,12 @@ namespace WeaponOut
                 #region Standard Punch
                 if (anim > 0.15f)
                 {
-                    // Provide immunity for 2/3
-                    provideImmunity(player);
-
                     // Start as player hitbox
                     if (anim > 0.7f)
                     {
+                        // Provide immunity for 1/3
+                        provideImmunity(player);
+
                         hitbox = player.getRect();
                         hitbox.X += (int)player.velocity.X;
                         hitbox.Y += (int)player.velocity.Y;
@@ -523,16 +523,16 @@ namespace WeaponOut
             if (DEBUG_DASHFISTS) Main.NewText(string.Concat("COmbo dash: ", dashEffect, " - alt: ", player.altFunctionUse));
             if (dashEffect == 0 && comboEffect == 0 && allowComboBounce)
             {
-                allowComboBounce = false;
                 ManagePlayerComboMovement(target);
+                allowComboBounce = false;
             }
             else if (dashEffect != 0)
             {
                 // Dash attacks provide a short immunity
                 if (allowComboBounce)
                 {
-                    allowComboBounce = false;
                     provideImmunity(player, 20);
+                    allowComboBounce = false;
                 }
             }
             else
@@ -540,8 +540,8 @@ namespace WeaponOut
                 // Combo specials provide a minor immunity
                 if (allowComboBounce)
                 {
-                    allowComboBounce = false;
                     provideImmunity(player, 10);
+                    allowComboBounce = false;
                 }
             }
         }
@@ -569,7 +569,7 @@ namespace WeaponOut
                 #region Normal Punch
                 // Allow punches to be combo'd together quickly by reducing time between attacks
                 player.itemAnimation = 2 * player.itemAnimation / 3;
-                provideImmunity(player, player.itemAnimationMax / 2);
+                provideImmunity(player, player.itemAnimationMax / 3);
 
                 // Check if NPC is in air
                 bool aerial = target.noGravity;
@@ -986,10 +986,12 @@ namespace WeaponOut
 
                 // Already a client only method so no need to check for whoAmI
                 player.ApplyDamageToNPC(npc, damage, knockback, hitDirection, crit);
+                Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 0.5f, 0.5f);
             }
             else
             {
                 Main.PlaySound(SoundID.NPCHit3, player.position);
+                Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 0.5f, 0.5f);
                 if (damageSource.SourceProjectileIndex >= 0)
                 {
                     ProjFX.ReflectProjectilePlayer(
