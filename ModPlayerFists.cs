@@ -1345,7 +1345,7 @@ namespace WeaponOut
             return ComboEffectsMethods.Count;
         }
 
-        public bool AltFunctionCombo(Player player, int comboEffect)
+        public bool AltFunctionCombo(Player player, int comboEffect = 0)
         {
             bool forceClient = (Main.netMode == 1 && player.whoAmI != Main.myPlayer);
             if ((player.itemAnimation == 0 && comboCounter >= ComboCounterMaxReal)
@@ -1361,7 +1361,7 @@ namespace WeaponOut
                 // because multiplayer
                 if (forceClient) player.altFunctionUse = 2;
 
-                WeaponOut.NetUpdateCombo(this);
+                if(ComboEffectAbs > 0) WeaponOut.NetUpdateCombo(this);
                 return true;
             }
             return false;

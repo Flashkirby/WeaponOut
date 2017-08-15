@@ -57,10 +57,10 @@
     <Content Include="Items\Weapons\Fists\GlovesPalm.txt" />
     <Content Include="Items\Weapons\Fists\GlovesBee.txt" />
     <Compile Include="Items\Weapons\Fists\GlovesWooden.cs" />
-    <Content Include="Items\Weapons\Fists\KnucklesFlintlock.txt" />
+    <Compile Include="Items\Weapons\Fists\KnucklesFlintlock.cs" />
     <Content Include="Items\Weapons\Fists\KnucklesDungeon.txt" />
     <Content Include="Items\Weapons\Fists\KnucklesMeteor.txt" />
-    <Content Include="Items\Weapons\Fists\KnucklesLead.txt" />
+    <Compile Include="Items\Weapons\Fists\KnucklesLead.cs" />
     <Compile Include="Items\Weapons\Basic\Startillery.cs" />
     <Compile Include="Items\Weapons\Basic\ScrapSalvo.cs" />
     <Compile Include="Items\Weapons\Basic\TrashCannon.cs" />
