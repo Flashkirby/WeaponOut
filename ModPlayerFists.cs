@@ -196,6 +196,12 @@ namespace WeaponOut
 
                 // Reset comboEffect at the end of animation
                 ManageComboMethodCall();
+
+                // Make dashing effects hit everything it passes through
+                if(dashEffect != 0)
+                {
+                    player.attackCD = 0;
+                }
             }
             return true;
         }
@@ -523,12 +529,20 @@ namespace WeaponOut
             else if (dashEffect != 0)
             {
                 // Dash attacks provide a short immunity
-                provideImmunity(player, 20);
+                if (allowComboBounce)
+                {
+                    allowComboBounce = false;
+                    provideImmunity(player, 20);
+                }
             }
             else
             {
                 // Combo specials provide a minor immunity
-                provideImmunity(player, 10);
+                if (allowComboBounce)
+                {
+                    allowComboBounce = false;
+                    provideImmunity(player, 10);
+                }
             }
         }
 
