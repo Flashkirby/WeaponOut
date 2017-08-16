@@ -602,13 +602,15 @@ namespace WeaponOut
                     player.velocity = target.velocity;
                     player.velocity.X -= player.direction; // Some bounce off
                     player.velocity.Y -= player.gravDir * 4f; // Try to preserve Y velo
+                    player.fallStart = (int)(player.position.Y / 16f); // Reset fall
                 }
                 else
                 {
-                    // Bounce off if dashing
+                    // Bounce off
                     player.velocity = new Vector2(
                         -player.direction * Math.Max(2f, player.HeldItem.knockBack) + target.velocity.X,
                         player.gravDir * -1f + target.velocity.Y * 1.5f);
+                    player.fallStart = (int)(player.position.Y / 16f); // Reset fall
                 }
                 #endregion
             }
@@ -619,10 +621,14 @@ namespace WeaponOut
             }
             else if (specialMove == 2)
             {
-                //disengage
+                // Brief invulnerability
+                provideImmunity(player, player.itemAnimationMax / 3);
+
+                // Bounce off
                 int direction = 1;
                 if (player.Center.X < target.Center.X) direction = -1;
                 player.velocity = new Vector2(direction * 4f, player.gravDir * -2.5f);
+                player.fallStart = (int)(player.position.Y / 16f); // Reset fall
             }
 
             // Combo hits reset dash
