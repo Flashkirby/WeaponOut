@@ -65,12 +65,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override bool AltFunctionUse(Player player)
         {
             return player.GetModPlayer<ModPlayerFists>().
-                AltFunctionParry(player, 25, 25); ;
+                AltFunctionParry(player, 25, 25);
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 20, 9f, 1f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, 26, 9f, 1f);
         }
 
 		// Parry

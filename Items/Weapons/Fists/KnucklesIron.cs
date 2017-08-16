@@ -64,7 +64,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override bool AltFunctionUse(Player player)
         {
             return player.GetModPlayer<ModPlayerFists>().
-                AltFunctionCombo(player, comboEffect); ;
+                AltFunctionCombo(player, comboEffect);
         }
         /// <summary> The method called during a combo. Use for ongoing dust and gore effects. </summary>
         public static void ComboEffects(Player player, bool initial)
@@ -103,11 +103,11 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            int size = 20;
+            int size = 18;
             float jump = 9f;
             if (mpf.ComboEffectAbs == comboEffect)
             {
-                size = 50;
+                size = (int)(size * 2.5f);
                 jump = 11f;
             }
             // jump exactly 6 blocks high!

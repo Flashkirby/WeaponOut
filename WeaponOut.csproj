@@ -52,10 +52,10 @@
     <Content Include="Items\Weapons\Fists\FistsJungleClaws.txt" />
     <Content Include="Items\Weapons\Fists\FistsMolten.txt" />
     <Content Include="Items\Weapons\Fists\GlovesFossil.txt" />
-    <Content Include="Items\Weapons\Fists\GlovesCaestusCrimson.txt" />
-    <Content Include="Items\Weapons\Fists\GlovesCaestus.txt" />
     <Content Include="Items\Weapons\Fists\GlovesPalm.txt" />
     <Content Include="Items\Weapons\Fists\GlovesBee.txt" />
+    <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
+    <Compile Include="Items\Weapons\Fists\GlovesCaestusCrimson.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesWooden.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesFlintlock.cs" />
     <Content Include="Items\Weapons\Fists\KnucklesDungeon.txt" />
