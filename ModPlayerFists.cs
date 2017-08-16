@@ -327,21 +327,34 @@ namespace WeaponOut
             // Ground available counts includes the start of a jump
             bool canUseGrounded = (player.velocity.Y == 0 && player.oldVelocity.Y == 0) || (player.jump > 0);
 
-            // Set uppercut jump
+            // Choose special move
             if ((player.controlDown || player.controlUp)
                 && canUseGrounded
                 && jumpSpeed > 0)
+            { specialMove = 1; }
+            else if (player.controlDown
+                && fallSpeedX > 0)
+            { specialMove = 2; }
+
+
+            if (specialMove == 1 || specialMove == 2)
             {
-                specialMove = 1;
+                if (player.controlLeft && !player.controlRight)
+                { player.direction = -1; }
+                if (player.controlRight && !player.controlLeft)
+                { player.direction = 1; }
+            }
+
+            // Set uppercut jump
+            if (specialMove == 1)
+            {
                 player.itemRotation = -(float)(player.direction * Math.PI / 2);
                 player.velocity.Y = -jumpSpeed * player.gravDir;
                 player.jump = 0;
             }
             // Set dive trajectory
-            else if (player.controlDown
-                && fallSpeedX > 0)
+            else if (specialMove == 2)
             {
-                specialMove = 2;
                 player.itemRotation = (float)(player.direction * Math.PI / 2);
                 player.velocity.X = player.direction * ((player.velocity.X + fallSpeedX * 5) / 6);
                 if (player.gravDir > 0)
