@@ -19,7 +19,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Lead Knuckleduster");
             Tooltip.SetDefault(
-                "<right> consumes combo for a special attack!\n" +
+                "<right> consumes combo for an empowered strike\n" +
                 "Combo grants 2 bonus damage");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }

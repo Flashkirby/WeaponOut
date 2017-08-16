@@ -21,7 +21,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Boxing Glove");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
-                "Combo confuses enemies");
+                "Combo may confuse enemies");
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()
@@ -121,7 +121,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if(mpf.IsComboActiveItemOnHit)
             {
-                target.AddBuff(BuffID.Confused, 30 * Main.rand.Next(1, 4), false);
+                target.AddBuff(BuffID.Confused, 15 * Main.rand.Next(1, 5), false);
             }
         }
     }

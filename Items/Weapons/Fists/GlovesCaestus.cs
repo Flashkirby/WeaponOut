@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Caestus");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
-                "Parry grants 30 bonus damage\n" +
+                "Counterstrike grants 30 bonus damage\n" +
                 "Combo grants 50% increased knockback");
         }
         public override void SetDefaults()

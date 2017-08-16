@@ -19,7 +19,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Flintlock Duster");
             Tooltip.SetDefault(
-                "<right> consumes combo instead of ammo!\n" +
+                "<right> consumes combo instead of ammo\n" +
                 "Combo grants 50% increased bullet damage");
 
         }
