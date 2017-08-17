@@ -1391,7 +1391,7 @@ namespace WeaponOut
                 || forceClient)
             {
                 this.comboEffect = comboEffect;
-                ModifyComboCounter(-ComboCounterMaxReal, false);
+                ModifyComboCounter(-ComboCounterMaxReal, true);
 
                 // Show combo consume
                 CombatText.NewText(player.getRect(),
