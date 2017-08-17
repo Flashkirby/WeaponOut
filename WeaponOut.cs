@@ -353,5 +353,12 @@ namespace WeaponOut
                 pfx.weaponVisual = weaponVis;
             }
         }
+        
+        public static Vector2 CalculateNormalAngle(Vector2 start, Vector2 end)
+        {
+            Vector2 diff = end - start;
+            diff.Normalize();
+            return diff;
+        }
     }
 }

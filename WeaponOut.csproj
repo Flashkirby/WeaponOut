@@ -36,6 +36,7 @@
     <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\MeteorShield.cs" />
     <Compile Include="Buffs\RallyBanner.cs" />
     <Compile Include="Buffs\ParryActive.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Items\Weapons\Basic\Startillery.cs" />
     <Compile Include="Items\Weapons\Basic\ScrapSalvo.cs" />
     <Compile Include="Items\Weapons\Basic\TrashCannon.cs" />
+    <Compile Include="Items\Weapons\Fists\KnucklesMeteor.cs" />
     <Compile Include="Items\Weapons\Whips\EelWhip.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
     <Compile Include="Items\Weapons\Basic\PsyWave.cs" />

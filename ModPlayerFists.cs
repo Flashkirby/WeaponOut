@@ -769,7 +769,7 @@ namespace WeaponOut
         const float minShow = 0.4f;
         /// <summary> Generates a fisticuffs rectangle for use with dusts and such. </summary>
         /// <returns> True if no hitbox (so no dust) </returns>
-        public static Rectangle UseItemGraphicbox(Player player, int boxSize, float distanceFactor = 1f)
+        public static Rectangle UseItemGraphicbox(Player player, int boxSize, int distance)
         {
             Rectangle box = new Rectangle();
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
@@ -804,26 +804,26 @@ namespace WeaponOut
             float swing = 1 - (anim - minShow) / (maxShow - minShow); //0.8 -> 0.4
             if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
             {
+                float cX = (player.width * 0.5f + distance) * 0.5f * swing * player.direction
+                    - (player.width * 0.5f * player.direction);
+                float cY = (player.height + distance) * swing
+                    - (player.height * 0.5f);
                 if (player.itemRotation * player.direction > 0)
                 {
                     //Up high
-                    centre = new Vector2(
-                        player.Center.X - (player.width * 0.6f * player.direction) + player.width * 1.1f * distanceFactor * swing * player.direction,
-                        player.Center.Y + (player.height * 0.9f * distanceFactor * swing));
+                    centre = new Vector2(player.Center.X + cX, player.Center.Y + cY);
                 }
                 else
                 {
                     //Down low
-                    centre = new Vector2(
-                        player.Center.X - (player.width * 0.6f * player.direction) + player.width * 1.1f * distanceFactor * swing * player.direction,
-                        player.Center.Y - (player.height * 0.9f * distanceFactor * swing));
+                    centre = new Vector2(player.Center.X + cX, player.Center.Y - cY);
                 }
             }
             else
             {
                 //along the middle
                 centre = new Vector2(
-                    player.Center.X - (player.width * 0.5f * player.direction) + player.width * 1f * distanceFactor * swing * player.direction,
+                    player.Center.X - (player.width * 0.5f * player.direction) + (player.width * 0.5f + distance) * swing * player.direction,
                     player.Center.Y);
             }
             box.X = (int)centre.X - boxSize / 2;

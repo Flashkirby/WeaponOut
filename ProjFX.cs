@@ -117,13 +117,17 @@ namespace WeaponOut
 
                 //circle effect
                 float rotToTarget = Main.rand.Next((int)(-Math.PI * 10000), (int)(Math.PI * 10000)) / 10000f;
-                spawnPosition = player.position
-                    + new Vector2(player.width / 2 - 2, player.height / 2)
-                    + new Vector2((float)(shieldDist * Math.Cos(rotToTarget)), (float)(shieldDist * Math.Sin(rotToTarget)));
+                spawnPosition = CalculateCircleVector(player, rotToTarget, shieldDist);
                 d = Dust.NewDust(spawnPosition, 0, 0, 43, 2f * (float)Math.Cos(rotToTarget), 2f * (float)Math.Sin(rotToTarget), 0, Color.White, 0.4f);
                 Main.dust[d].fadeIn = 1f;
                 Main.dust[d].velocity *= 0.25f;
             }
+        }
+        public static Vector2 CalculateCircleVector(Player player, float angle, float radius = 40f)
+        {
+            return player.position
+                    + new Vector2(player.width / 2 - 2, player.height / 2)
+                    + new Vector2((float)(radius * Math.Cos(angle)), (float)(radius * Math.Sin(angle)));
         }
 
         private void LunarAccessoryVisuals(Projectile projectile)

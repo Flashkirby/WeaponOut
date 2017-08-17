@@ -75,7 +75,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, player.position);
             }
             // Charging
-            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 16);
+            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 16, 45);
             if (player.itemAnimation > player.itemAnimationMax)
             {
                 // Charge effect
