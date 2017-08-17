@@ -806,17 +806,16 @@ namespace WeaponOut
             {
                 float cX = (player.width * 0.5f + distance) * 0.5f * swing * player.direction
                     - (player.width * 0.5f * player.direction);
-                float cY = (player.height + distance) * swing
-                    - (player.height * 0.5f);
-                if (player.itemRotation * player.direction > 0)
+                float cY = (player.height * 0.5f + distance) * swing;
+                if (player.itemRotation * player.direction < 0)
                 {
                     //Up high
-                    centre = new Vector2(player.Center.X + cX, player.Center.Y + cY);
+                    centre = new Vector2(player.Center.X + cX, player.Center.Y - cY);
                 }
                 else
                 {
                     //Down low
-                    centre = new Vector2(player.Center.X + cX, player.Center.Y - cY);
+                    centre = new Vector2(player.Center.X + cX, player.Center.Y + cY);
                 }
             }
             else
