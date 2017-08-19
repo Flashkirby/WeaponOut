@@ -1038,18 +1038,13 @@ namespace WeaponOut
         }
         public bool AltFunctionParryMax(Player player, int parryWindow, int parryTimeMax)
         {
-            bool forceClient = (Main.netMode == 1 && player.whoAmI != Main.myPlayer);
-            if ((player.itemAnimation == 0 && parryTime == 0)
-                || forceClient)
+            if (player.itemAnimation == 0 && parryTime == 0)
             {
                 this.parryWindow = parryWindow;
                 this.parryTimeMax = parryTimeMax;
                 this.parryTime = ParryTimeMaxReal;
 
                 if (DEBUG_PARRYFISTS) Main.NewText("parry: " + parryWindow + "/" + parryTime);
-
-                // because multiplayer
-                if(forceClient) player.altFunctionUse = 2;
 
                 WeaponOut.NetUpdateParry(this);
                 return true;
@@ -1385,9 +1380,7 @@ namespace WeaponOut
 
         public bool AltFunctionCombo(Player player, int comboEffect = 0)
         {
-            bool forceClient = (Main.netMode == 1 && player.whoAmI != Main.myPlayer);
-            if ((player.itemAnimation == 0 && comboCounter >= ComboCounterMaxReal)
-                || forceClient)
+            if (player.itemAnimation == 0 && comboCounter >= ComboCounterMaxReal)
             {
                 this.comboEffect = comboEffect;
                 ModifyComboCounter(-ComboCounterMaxReal, true);
@@ -1395,9 +1388,6 @@ namespace WeaponOut
                 // Show combo consume
                 CombatText.NewText(player.getRect(),
                     lowColour, -ComboCounterMaxReal + " combo", false, true);
-
-                // because multiplayer
-                if (forceClient) player.altFunctionUse = 2;
 
                 if(ComboEffectAbs > 0) WeaponOut.NetUpdateCombo(this);
                 return true;
