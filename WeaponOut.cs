@@ -267,7 +267,7 @@ namespace WeaponOut
         {
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
             {
-                Main.NewText("sent parry from " + Main.myPlayer);
+                // Main.NewText("sent parry from " + Main.myPlayer);
                 ModPacket message = pfx.mod.GetPacket();
                 message.Write(2);
                 message.Write(Main.myPlayer);
@@ -293,7 +293,7 @@ namespace WeaponOut
             {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
                 pfx.AltFunctionParryMax(Main.player[sender], parryWindow, parryTimeMax);
-                Main.NewText("received parry from " + sender);
+                // Main.NewText("received parry from " + sender);
             }
         }
 
@@ -301,7 +301,7 @@ namespace WeaponOut
         {
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
             {
-                Main.NewText("sent combo from " + Main.myPlayer);
+                // Main.NewText("sent combo from " + Main.myPlayer);
                 ModPacket message = pfx.mod.GetPacket();
                 message.Write(4);
                 message.Write(Main.myPlayer);
@@ -325,7 +325,7 @@ namespace WeaponOut
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
                 pfx.player.itemAnimation = 0;
                 pfx.AltFunctionCombo(Main.player[sender], comboEffect);
-                Main.NewText("received combo from " + sender);
+                // Main.NewText("received combo from " + sender);
             }
         }
 
