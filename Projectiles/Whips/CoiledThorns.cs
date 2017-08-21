@@ -69,17 +69,17 @@ namespace WeaponOut.Projectiles.Whips
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             BaseWhip.OnHitAny(projectile, target, crit, whipSoftSound);
-            if (crit || Main.rand.Next(5) == 0) target.AddBuff(20, 240);
+            if (crit || Main.rand.Next(5) == 0) target.AddBuff(BuffID.Poisoned, 240);
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             BaseWhip.OnHitAny(projectile, crit, whipSoftSound);
-            if (crit || Main.rand.Next(5) == 0) target.AddBuff(20, 240);
+            if (crit || Main.rand.Next(5) == 0) target.AddBuff(BuffID.Poisoned, 240);
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             BaseWhip.OnHitAny(projectile, crit, whipSoftSound);
-            if (crit || Main.rand.Next(5) == 0) target.AddBuff(20, 240);
+            if (crit || Main.rand.Next(5) == 0) target.AddBuff(BuffID.Poisoned, 240);
         }
 
         #region BaseWhip Stuff

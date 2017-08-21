@@ -12,12 +12,7 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class NotchedWhip : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableWhips;
-        }
-
-        private bool increaseDamage;
+        public override bool Autoload(ref string name) { return ModConf.enableWhips; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vilelash");

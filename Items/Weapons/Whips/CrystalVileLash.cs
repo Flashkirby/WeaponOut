@@ -12,11 +12,7 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class CrystalVileLash : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableWhips;
-        }
-
+        public override bool Autoload(ref string name) { return ModConf.enableWhips; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Vilelash");

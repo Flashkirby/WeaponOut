@@ -11,17 +11,11 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class PuzzlingCutter : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableWhips;
-        }
-
-        private bool increaseDamage;
+        public override bool Autoload(ref string name) { return ModConf.enableWhips; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Puzzling Cutter");
-            Tooltip.SetDefault(
-                "'No one said it was a sword'");
+            Tooltip.SetDefault("'No one said it was a sword'");
         }
         public override void SetDefaults()
         {

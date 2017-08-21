@@ -13,17 +13,11 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class MoltenChains : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableWhips;
-        }
-
-        private bool increaseDamage;
+        public override bool Autoload(ref string name) { return ModConf.enableWhips; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Molten Chains");
-            Tooltip.SetDefault(
-                "Critical hits ignite enemies");
+            Tooltip.SetDefault("Critical hits ignite enemies");
         }
         public override void SetDefaults()
         {
