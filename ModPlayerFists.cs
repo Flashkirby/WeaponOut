@@ -582,7 +582,7 @@ namespace WeaponOut
                 #region Normal Punch
                 // Allow punches to be combo'd together quickly by reducing time between attacks
                 player.itemAnimation = 2 * player.itemAnimation / 3;
-                provideImmunity(player, player.itemAnimationMax / 3);
+                provideImmunity(player, player.itemAnimationMax / 2);
 
                 // Check if NPC is in air
                 bool aerial = target.noGravity;
