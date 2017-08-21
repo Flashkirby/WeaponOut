@@ -628,7 +628,18 @@ namespace WeaponOut
                 int direction = 1;
                 if (player.Center.X < target.Center.X) direction = -1;
                 player.velocity = new Vector2(direction * 4f, player.gravDir * -2.5f);
-                player.fallStart = (int)(player.position.Y / 16f); // Reset fall
+
+                // Reset fall and restore jumps
+                player.wingTime = (float)player.wingTimeMax;
+                player.rocketTime = Math.Max(player.rocketTime, player.rocketTimeMax);
+                player.rocketDelay = 0;
+                player.fallStart = (int)(player.position.Y / 16f);
+                player.jumpAgainCloud = player.doubleJumpCloud;
+                player.jumpAgainSandstorm = player.doubleJumpSandstorm;
+                player.jumpAgainBlizzard = player.doubleJumpBlizzard;
+                player.jumpAgainFart = player.jumpAgainBlizzard;
+                player.jumpAgainSail = player.doubleJumpSail;
+                player.jumpAgainUnicorn = player.doubleJumpUnicorn;
             }
 
             // Combo hits reset dash
