@@ -348,6 +348,7 @@ namespace WeaponOut
             setHandToFistWeapon();
         }
 
+        #region Tent
         private void manageBodyFrame()
         {
             if (Main.netMode == 2) return; // Oh yeah, server calls this so don't pls
@@ -417,6 +418,7 @@ namespace WeaponOut
                 Main.screenPosition.Y = player.position.Y + (float)(player.height / 2) - (float)(Main.screenHeight / 2);
             }
         }
+        #endregion
 
         #region Player Layers
         public static readonly PlayerLayer HeldItem = new PlayerLayer("WeaponOut", "HeldItem", PlayerLayer.HeldItem, delegate(PlayerDrawInfo drawInfo)
@@ -462,6 +464,7 @@ namespace WeaponOut
             setHandToFistWeapon();
         }
         #endregion
+        #region draw
         /// <summary>
         /// We gonna handle all the weapon identification and calls here
         /// </summary>
@@ -874,8 +877,9 @@ namespace WeaponOut
             }
             return 0;
         }
+        #endregion
 
-        #region Hurt && Parry Methods
+        #region Hurt Methods
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
@@ -932,5 +936,84 @@ namespace WeaponOut
         }
 
         #endregion
+        
+        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
+        {
+            if (junk) return; // Don't do stuff if the catch is a junk catch
+            bool common, uncommon, rare, veryrare, superrare, isCrate;
+            calculateCatchRates(power, out common, out uncommon, out rare, out veryrare, out superrare, out isCrate);
+
+            if (liquidType == 0) //Water
+            {
+                if (isCrate) // Crate catches
+                {
+                    return;
+                }
+
+                // Catch anywhere
+                if (superrare)
+                {
+                    if (superrare && Main.rand.Next(3) == 0)
+                    { caughtType = mod.ItemType<Items.RustedBadge>(); return; }
+                }
+
+                if (worldLayer <= 1) //Surface or below
+                {
+                    if (player.ZoneBeach && poolSize > 1000) // Ocean
+                    {
+                        if (rare && Main.rand.Next(2) == 0) // Same chance as swordfish
+                        { caughtType = mod.ItemType<Items.Weapons.Whips.EelWhip>(); return; }
+                    }
+                }
+            }
+            if (liquidType == 1 && ItemID.Sets.CanFishInLava[fishingRod.type])
+            {
+                if(isCrate) // Crate Catches
+                {
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calculate the base catch rates for different tiers of fish. Parameter chances are shown at 50% fishing power. Examples of fish at each tier, plus individual catch rates:
+        /// <para> Common: Neon Tetra, Crimson Tigerfish, Atlantic Cod, Red Snapper (1/2)</para>
+        /// <para> Uncommon: Damselfish, Frost Minnow, Ebonkoi</para>
+        /// <para> Rare: Honeyfin, Prismite, Purple Clubberfish</para>
+        /// <para> Very Rare: Sawtooth Shark, Flarefin Koi, Golden Crate</para>
+        /// <para> Extremely Rare: Obsidian Swordfish, Toxikarp (1/2),  Bladetongue (1/2), Balloon Pufferfish (1/5), Zephyr Fish (1/10)</para>
+        /// If all else fails, Terraria rewards the player with a Bass (or Trout in the ocean).
+        /// </summary>/
+        /// <param name="power">The fishing skill. </param>
+        /// <param name="common">33.3% = power:150 (capped 1:2). /</param>
+        /// <param name="uncommon">16.7% = power:300 (capped 1:3). </param>
+        /// <param name="rare">4.8% = power:1050 (capped 1:4). </param>
+        /// <param name="veryrare">2.2% = power:2250 (capped 1:5). </param>
+        /// <param name="superrare">1.1% = power:4500 (capped 1:6). </param>
+        /// <param name="isCrate">1:10, 1:5 with crate potion. </param>
+        public void calculateCatchRates(int power, out bool common, out bool uncommon, out bool rare, out bool veryrare, out bool superrare, out bool isCrate)
+        {
+            common = false;
+            uncommon = false;
+            rare = false;
+            veryrare = false;
+            superrare = false;
+            isCrate = false;
+
+            if (power <= 0) return;
+
+            if (Main.rand.Next(Math.Max(2, 150 * 1 / power)) == 0)
+            { common = true; }
+            if (Main.rand.Next(Math.Max(3, 150 * 2 / power)) == 0)
+            { uncommon = true; }
+            if (Main.rand.Next(Math.Max(4, 150 * 7 / power)) == 0)
+            { rare = true; }
+            if (Main.rand.Next(Math.Max(5, 150 * 15 / power)) == 0)
+            { veryrare = true; }
+            if (Main.rand.Next(Math.Max(6, 150 * 30 / power)) == 0)
+            { superrare = true; }
+            if (Main.rand.Next(100) < (10 + (player.cratePotion ? 10 : 0)))
+            { isCrate = true; }
+        }
     }
 }

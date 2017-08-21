@@ -20,6 +20,7 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eel Slapper");
+            Tooltip.SetDefault("'Banned from fish-slapping dance routines'");
         }
         public override void SetDefaults()
         {
@@ -42,14 +43,6 @@ namespace WeaponOut.Items.Weapons.Whips
 
             item.rare = 2;
             item.value = Item.sellPrice(0,0,50,0);
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-             recipe.AddIngredient(ItemID.Bone, 60);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
