@@ -46,10 +46,12 @@
     <Compile Include="Items\RallyBannerGreen.cs" />
     <Compile Include="Items\RallyBannerBlue.cs" />
     <Compile Include="Items\RallyBannerYellow.cs" />
+    <Compile Include="Items\RustedBadge.cs" />
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
+    <Content Include="Items\RustedBadge.png" />
     <Content Include="Items\Weapons\Fists\FistsJungleClaws.txt" />
     <Content Include="Items\Weapons\Fists\FistsMolten.txt" />
     <Content Include="Items\Weapons\Fists\GlovesFossil.txt" />

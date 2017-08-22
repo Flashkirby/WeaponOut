@@ -946,9 +946,7 @@ namespace WeaponOut
             if (liquidType == 0) //Water
             {
                 if (isCrate) // Crate catches
-                {
-                    return;
-                }
+                { return; }
 
                 // Catch anywhere
                 if (superrare)
@@ -960,18 +958,24 @@ namespace WeaponOut
                 if (worldLayer <= 1) //Surface or below
                 {
                     if (player.ZoneBeach && poolSize > 1000) // Ocean
-                    {
+                    {   // If fancier items would be caught, they would replace lower tiers anyway.
+                        if (superrare)
+                        { return; }
+                        if (veryrare && Main.rand.Next(2) == 0)
+                        { return; }
                         if (rare && Main.rand.Next(2) == 0) // Same chance as swordfish
                         { caughtType = mod.ItemType<Items.Weapons.Whips.EelWhip>(); return; }
+                        if (uncommon)
+                        { return; }
+                        if(common)
+                        { return; }
                     }
                 }
             }
             if (liquidType == 1 && ItemID.Sets.CanFishInLava[fishingRod.type])
             {
                 if(isCrate) // Crate Catches
-                {
-                    return;
-                }
+                { return; }
             }
         }
 
