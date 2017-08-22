@@ -830,6 +830,8 @@ namespace WeaponOut
                 { box.X += player.width; }
                 if (player.gravDir > 0)
                 { box.Y += player.height; }
+                box.X += player.direction * boxSize;
+                box.Y += (int)player.gravDir * boxSize;
                 #endregion
             }
             else
@@ -883,8 +885,8 @@ namespace WeaponOut
                 #endregion
             }
             // width/height and dust displacement
-            box.X -= boxSize / 2 + 2;
-            box.Y -= boxSize / 2 + 2;
+            box.X -= boxSize / 2 + 2 + (int)(player.velocity.X);
+            box.Y -= boxSize / 2 + 2 + (int)(player.velocity.Y);
             return box;
         }
 

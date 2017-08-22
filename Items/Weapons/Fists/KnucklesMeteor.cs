@@ -135,9 +135,14 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 4, 20);
             Vector2 velocity = ModPlayerFists.GetFistVelocity(player);
-            Dust d = Main.dust[Dust.NewDust(r.TopLeft(), r.Width, r.Height, 174, player.velocity.X, player.velocity.Y)];
-            d.noGravity = true;
-            d.velocity += velocity * -2f;
+            Vector2 pVelo = (player.position - player.oldPosition);
+            for (int i = 0; i < 2; i++)
+            {
+                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), r.Width, r.Height, 174, 
+                    velocity.X * -4f + pVelo.X, velocity.Y * -4f + pVelo.Y)];
+                d.noGravity = true;
+                d.velocity /= 2;
+            }
         }
     }
 }
