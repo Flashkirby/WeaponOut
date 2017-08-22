@@ -813,6 +813,9 @@ namespace WeaponOut
             if (special == 1)
             {
                 #region Uppercut
+                // Convert anim to move up only up to 0.6
+                anim = (anim - 0.4f) / 0.6f;
+                if (anim < 0) { return new Rectangle(); }
                 box.Location = player.Center.ToPoint();
                 // Value from 0->1->0
                 float xNormal = player.direction * (float)Math.Sin(anim * Math.PI) / 2;
@@ -838,11 +841,7 @@ namespace WeaponOut
             {
                 #region Standard Punch
                 //no show during winding
-                if (anim > maxShow || anim <= minShow)
-                {
-                    // Otherwise just nothing
-                    return new Rectangle();
-                }
+                if (anim > maxShow || anim <= minShow) { return new Rectangle(); }
 
                 //set player direction/hitbox
                 Vector2 centre = new Vector2();
