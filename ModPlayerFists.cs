@@ -783,73 +783,108 @@ namespace WeaponOut
         public static Rectangle UseItemGraphicbox(Player player, int boxSize, int distance)
         {
             Rectangle box = new Rectangle();
+            box.Width = boxSize;
+            box.Height = boxSize;
             float anim = player.itemAnimation / (float)player.itemAnimationMax;
 
-            //no show during winding
-            if (anim > maxShow || anim <= minShow)
+            #region Above animation range?
+            // If set above the max, probably a combo special, give the hand box
+            if (anim > 1)
             {
-                // If set above the max, probably a combo special, give the hand box
-                if (player.itemAnimation > player.itemAnimationMax)
+                Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
+                if (player.direction != 1)
                 {
-                    Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
-                    if (player.direction != 1)
-                    {
-                        hand.X = (float)player.bodyFrame.Width - hand.X;
-                    }
-                    if (player.gravDir != 1f)
-                    {
-                        hand.Y = (float)player.bodyFrame.Height - hand.Y;
-                    }
-                    hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
-                    Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
-                    return new Rectangle(
-                        (int)dustPos.X - (boxSize / 2 + 2),
-                        (int)dustPos.Y - (boxSize / 2 + 2),
-                        boxSize, boxSize);
+                    hand.X = (float)player.bodyFrame.Width - hand.X;
                 }
-                return new Rectangle();
-            }
-
-            //set player direction/hitbox
-            Vector2 centre = new Vector2();
-            float swing = 1 - (anim - minShow) / (maxShow - minShow); //0.8 -> 0.4
-            if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
-            {
-                float cX = (player.width * 0.5f + distance) * 0.5f * swing * player.direction
-                    - (player.width * 0.5f * player.direction);
-                float cY = (player.height * 0.5f + distance) * swing;
-                if (player.itemRotation * player.direction < 0)
+                if (player.gravDir != 1f)
                 {
-                    //Up high
-                    centre = new Vector2(player.Center.X + cX, player.Center.Y - cY);
+                    hand.Y = (float)player.bodyFrame.Height - hand.Y;
+                }
+                hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
+                Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
+                return new Rectangle(
+                    (int)dustPos.X - (boxSize / 2 + 2),
+                    (int)dustPos.Y - (boxSize / 2 + 2),
+                    box.Width, box.Height);
+            }
+            #endregion
+
+            int special = player.GetModPlayer<ModPlayerFists>().specialMove;
+            if (special == 1)
+            {
+                #region Uppercut
+                box.Location = player.Center.ToPoint();
+                // Value from 0->1->0
+                float xNormal = player.direction * (float)Math.Sin(anim * Math.PI) / 2;
+                float xDistance = player.width / 2 + distance;
+                float yDistance = player.height + distance;
+                box.X += (int)(xNormal * xDistance);
+                box.Y += (int)((yDistance * anim - yDistance / 2) * player.gravDir);
+                #endregion
+            }
+            else if (special == 2 && player.velocity.Y != 0)
+            {
+                #region Divekick
+                box.Location = player.TopLeft.ToPoint();
+                if (player.direction > 0)
+                { box.X += player.width; }
+                if (player.gravDir > 0)
+                { box.Y += player.height; }
+                #endregion
+            }
+            else
+            {
+                #region Standard Punch
+                //no show during winding
+                if (anim > maxShow || anim <= minShow)
+                {
+                    // Otherwise just nothing
+                    return new Rectangle();
+                }
+
+                //set player direction/hitbox
+                Vector2 centre = new Vector2();
+                float swing = 1 - (anim - minShow) / (maxShow - minShow); //0.8 -> 0.4
+                if (Math.Abs(player.itemRotation) > Math.PI / 4 && Math.Abs(player.itemRotation) < 3 * Math.PI / 4)
+                {
+                    float cX = (player.width * 0.5f + distance) * 0.5f * swing * player.direction
+                        - (player.width * 0.5f * player.direction);
+                    float cY = (player.height * 0.5f + distance) * swing;
+                    if (player.itemRotation * player.direction < 0)
+                    {
+                        //Up high
+                        centre = new Vector2(player.Center.X + cX, player.Center.Y - cY);
+                    }
+                    else
+                    {
+                        //Down low
+                        centre = new Vector2(player.Center.X + cX, player.Center.Y + cY);
+                    }
                 }
                 else
                 {
-                    //Down low
-                    centre = new Vector2(player.Center.X + cX, player.Center.Y + cY);
+                    //along the middle
+                    centre = new Vector2(
+                        player.Center.X - (player.width * 0.5f * player.direction) + (player.width * 0.5f + distance) * swing * player.direction,
+                        // Down a bit to match player hand
+                        player.Center.Y + 5 * player.gravDir);
                 }
-            }
-            else
-            {
-                //along the middle
-                centre = new Vector2(
-                    player.Center.X - (player.width * 0.5f * player.direction) + (player.width * 0.5f + distance) * swing * player.direction,
-                    player.Center.Y);
-            }
-            box.X = (int)centre.X - boxSize / 2;
-            box.Y = (int)centre.Y - boxSize / 2;
-            box.Width = boxSize;
-            box.Height = boxSize;
+                box.X = (int)centre.X;
+                box.Y = (int)centre.Y;
 
-            if (player.direction > 0)
-            {
-                box.X += player.width / 2;
+                if (player.direction > 0)
+                {
+                    box.X += player.width / 2;
+                }
+                else
+                {
+                    box.X -= player.width / 2;
+                }
+                #endregion
             }
-            else
-            {
-                box.X -= player.width / 2;
-            }
-
+            // width/height and dust displacement
+            box.X -= boxSize / 2 + 2;
+            box.Y -= boxSize / 2 + 2;
             return box;
         }
 
