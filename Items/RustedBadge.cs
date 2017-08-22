@@ -24,10 +24,11 @@ namespace WeaponOut.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<RustedBadge>(), 1);
-            recipe.AddIngredient(ItemID.HardenedSand, 10); // Rough polish
-            recipe.AddIngredient(ItemID.SandBlock, 5); // Fine polish
+            recipe.AddIngredient(ItemID.Obsidifish, 3); // Rough polish
+            recipe.AddIngredient(ItemID.ArmoredCavefish, 2); // Fine polish
             recipe.AddIngredient(ItemID.Silk, 1); // Buffing
             recipe.AddTile(TileID.Sawmill);
+            recipe.needWater = true;
             recipe.SetResult(mod.ItemType<Accessories.MirrorBadge>(), 1);
             recipe.AddRecipe();
         }
