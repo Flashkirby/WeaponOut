@@ -46,7 +46,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 6);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
