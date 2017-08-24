@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Bonefist");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
-                "Counterstrike increases armor penetration and knockback\n" +
+                "Counterstrike increases armor penetration by 20\n" +
                 "Combo deals bonus damage based on combo power");
         }
         public override void SetDefaults()
