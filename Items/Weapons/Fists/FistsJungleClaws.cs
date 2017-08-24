@@ -98,7 +98,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
             // jump exactly 10 blocks high
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 22, 11.7f, 0f, 9f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, 22, 11.7f, 0.5f, 9f);
         }
 
         // Dash
@@ -129,7 +129,7 @@ namespace WeaponOut.Items.Weapons.Fists
             Vector2 velocity = ModPlayerFists.GetFistVelocity(player);
             Vector2 pVelo = (player.position - player.oldPosition) * -2f + velocity * 0.5f;
             Dust d;
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
                 // Light spore
                 d = Main.dust[Dust.NewDust(r.TopLeft(), r.Width, r.Height, 44, velocity.X * 3, velocity.Y * 3, 0, default(Color), 0.6f)];
