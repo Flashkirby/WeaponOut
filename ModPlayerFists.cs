@@ -65,6 +65,8 @@ namespace WeaponOut
         /// 2 = Dive (falling stomp)
         /// </summary>
         public int specialMove;
+        /// <summary> Allows uppercuts without staying grounded (requires air hits) </summary>
+        protected bool jumpAgainUppercut = false;
 
         #region Combo Counter Vars
         /// <summary> Keep track of the number of hits from fists. </summary>
@@ -213,6 +215,16 @@ namespace WeaponOut
             {
                 comboCounterMax = player.HeldItem.tileBoost;
 
+                // Jump again uppercut cannot be used from ground, only after attack resets
+                if (player.velocity.Y == 0)
+                {
+                    // But upgraded fists can
+                    if (player.HeldItem.rare >= 4)
+                    { jumpAgainUppercut = true; }
+                    else
+                    { jumpAgainUppercut = false; }
+                }
+
                 // Reset dash here when grappling
                 if (player.pulley || player.grapCount > 0)
                 {
@@ -332,10 +344,19 @@ namespace WeaponOut
             if ((player.controlDown || player.controlUp)
                 && canUseGrounded
                 && jumpSpeed > 0)
-            { specialMove = 1; }
+            {   // Uppercut from ground or start of jump
+                specialMove = 1;
+            }
+            else if (player.controlUp && !canUseGrounded && jumpAgainUppercut)
+            {   // Uppercut from jumpagain
+                specialMove = 1;
+                jumpAgainUppercut = false;
+            }
             else if (player.controlDown
                 && fallSpeedX > 0)
-            { specialMove = 2; }
+            {   // Divekick
+                specialMove = 2;
+            }
 
 
             if (specialMove == 1 || specialMove == 2)
@@ -579,6 +600,12 @@ namespace WeaponOut
 
         private void ManagePlayerComboMovement(NPC target)
         {
+            if(specialMove != 1)
+            {
+                // Punches and stomps reset uppercut
+                jumpAgainUppercut = true;
+            }
+
             if (specialMove == 0)
             {
                 #region Normal Punch
