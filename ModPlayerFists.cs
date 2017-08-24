@@ -201,7 +201,7 @@ namespace WeaponOut
                 ManageComboMethodCall();
 
                 // Make dashing effects hit everything it passes through
-                if(dashEffect != 0)
+                if(dashEffect != 0 || specialMove == 1)
                 {
                     player.attackCD = 0;
                 }
@@ -259,6 +259,11 @@ namespace WeaponOut
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             return !ParryPreHurt(damageSource);
+        }
+
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (specialMove == 1) knockback *= 1.5f;
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
@@ -373,6 +378,7 @@ namespace WeaponOut
                 player.itemRotation = -(float)(player.direction * Math.PI / 2);
                 player.velocity.Y = -jumpSpeed * player.gravDir;
                 player.jump = 0;
+                player.fallStart = (int)(player.position.Y / 16f); // Reset fall
             }
             // Set dive trajectory
             else if (specialMove == 2)
@@ -650,6 +656,7 @@ namespace WeaponOut
             }
             else if (specialMove == 2)
             {
+                #region Divekick
                 // Brief invulnerability
                 provideImmunity(player, player.itemAnimationMax / 3);
 
@@ -669,6 +676,7 @@ namespace WeaponOut
                 player.jumpAgainFart = player.jumpAgainBlizzard;
                 player.jumpAgainSail = player.doubleJumpSail;
                 player.jumpAgainUnicorn = player.doubleJumpUnicorn;
+                #endregion
             }
 
             // Combo hits reset dash
