@@ -570,6 +570,7 @@ namespace WeaponOut
             if (comboCounter <= 0) return;
 
             Rectangle rect = player.getRect();
+            if (ComboCounterMaxReal == 0) return; // avoid div by 0
             bool comboMatchMax = comboCounter % ComboCounterMaxReal == 0;
             if (!comboMatchMax) rect.Y += (int)(rect.Height * player.gravDir * 1f);
             CombatText.NewText(rect,
@@ -777,7 +778,7 @@ namespace WeaponOut
             }
         }
 
-        const float maxShow = 0.8f;
+        const float maxShow = 1f;
         const float minShow = 0.4f;
         /// <summary> Generates a fisticuffs rectangle for use with dusts and such. </summary>
         /// <returns> True if no hitbox (so no dust) </returns>
