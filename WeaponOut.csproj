@@ -50,6 +50,7 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
     <Content Include="Items\RustedBadge.png" />
     <Content Include="Items\Weapons\Fists\FistsJungleClaws.txt" />
@@ -59,6 +60,7 @@
     <Content Include="Items\Weapons\Fists\GlovesBee.txt" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestusCrimson.cs" />
+    <Compile Include="Items\Weapons\Fists\GlovesPalm.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesWooden.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesFlintlock.cs" />
     <Content Include="Items\Weapons\Fists\KnucklesDungeon.txt" />

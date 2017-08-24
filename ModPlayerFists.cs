@@ -69,6 +69,7 @@ namespace WeaponOut
         #region Combo Counter Vars
         /// <summary> Keep track of the number of hits from fists. </summary>
         protected int comboCounter;
+        public int ComboCounter { get { return comboCounter; } }
         /// <summary> The "minimum" required combo get the bonus effects. Must be at least 2. </summary>
         public int comboCounterMax;
         /// <summary> Flat bonus to combo counter max. Typically negative. </summary>
