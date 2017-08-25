@@ -986,7 +986,8 @@ namespace WeaponOut
             if (parryTime == 0) return false;
 
             // Parry noise
-            if (parryTime == ParryTimeMaxReal) Main.PlaySound(2, player.Center, 32);
+            if (parryTime == ParryTimeMaxReal) Main.PlaySound(2, 
+                (int)player.Center.X, (int)player.Center.Y, 39, 1f, -0.8f);
 
             if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parrying: ", parryTime, "/", parryWindow, "/", ParryTimeMaxReal));
 
@@ -1099,12 +1100,12 @@ namespace WeaponOut
 
                 // Already a client only method so no need to check for whoAmI
                 player.ApplyDamageToNPC(npc, damage, knockback, hitDirection, crit);
-                Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 0.5f, 0.5f);
+                Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
             }
             else
             {
                 Main.PlaySound(SoundID.NPCHit3, player.position);
-                Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 0.5f, 0.5f);
+                Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
                 if (damageSource.SourceProjectileIndex >= 0)
                 {
                     ProjFX.ReflectProjectilePlayer(

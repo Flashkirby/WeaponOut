@@ -20,6 +20,7 @@ namespace WeaponOut.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.GetModPlayer<ModPlayerFists>().parryBuff = true;
+            player.meleeCrit += 50;
         }
     }
 }
