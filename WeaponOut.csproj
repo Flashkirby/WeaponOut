@@ -36,6 +36,8 @@
     <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\DemonFrenzy.cs" />
+    <Compile Include="Buffs\Flurry.cs" />
     <Compile Include="Buffs\MeteorShield.cs" />
     <Compile Include="Buffs\RallyBanner.cs" />
     <Compile Include="Buffs\ParryActive.cs" />
@@ -55,18 +57,18 @@
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
     <Content Include="Items\RustedBadge.png" />
     <Content Include="Items\Weapons\Fists\FistsMolten.txt" />
-    <Content Include="Items\Weapons\Fists\GlovesBee.txt" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
+    <Compile Include="Items\Weapons\Fists\GlovesBee.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesFossil.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestusCrimson.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesPalm.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesWooden.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesFlintlock.cs" />
-    <Content Include="Items\Weapons\Fists\KnucklesDungeon.txt" />
     <Compile Include="Items\Weapons\Fists\KnucklesLead.cs" />
     <Compile Include="Items\Weapons\Basic\Startillery.cs" />
     <Compile Include="Items\Weapons\Basic\ScrapSalvo.cs" />
     <Compile Include="Items\Weapons\Basic\TrashCannon.cs" />
+    <Compile Include="Items\Weapons\Fists\KnucklesDungeon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesMeteor.cs" />
     <Compile Include="Items\Weapons\Whips\EelWhip.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
