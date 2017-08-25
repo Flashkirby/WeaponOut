@@ -127,7 +127,7 @@ namespace WeaponOut.Items.Weapons.Fists
                     velocity.X + pVelo.X, velocity.Y + pVelo.Y)];
             d.noGravity = true;
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 3; i++)
             {
                 d = Main.dust[Dust.NewDust(r.TopLeft(), r.Width, r.Height, 174,
                     velocity.X * 1.2f + pVelo.X, velocity.Y * 1.2f + pVelo.Y)];
