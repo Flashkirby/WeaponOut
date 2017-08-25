@@ -88,11 +88,8 @@ namespace WeaponOut.Items.Weapons.Fists
             if (mpf.parryBuff)
             {
                 if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
-                if (!player.moonLeech)
-                {
-                    knockBack += 2f;
-                    player.armorPenetration += 20;
-                }
+                knockBack += 2f;
+                player.armorPenetration += 20;
             }
         }
 
