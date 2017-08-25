@@ -67,7 +67,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if(player.dashDelay == 0)
             {   
                 player.GetModPlayer<ModPlayerFists>().
-                    SetDash(10f, 6f, 0.8f, 0.94f, false, dustEffect);
+                    SetDash(10f, 8f, 0.98f, 0.94f, false, dustEffect);
                 return true;
             }
             return false;
