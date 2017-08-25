@@ -842,8 +842,8 @@ namespace WeaponOut
                 box.Location = player.Center.ToPoint();
                 // Value from 0->1->0
                 float xNormal = player.direction * (float)Math.Sin(anim * Math.PI);
-                float xDistance = player.width / 2 + distance;
-                float yDistance = player.height + distance;
+                float xDistance = player.width / 2 + distance * 0.75f;
+                float yDistance = player.height + distance * 2f;
                 box.X += (int)(xNormal * xDistance);
                 box.Y += (int)((yDistance * anim - yDistance / 2) * player.gravDir);
                 #endregion
@@ -1278,7 +1278,7 @@ namespace WeaponOut
                 if (player.dashDelay < 0)
                 {
                     // normally 20 but this dash seems to end sooner for some reason
-                    int dashCooldownDelay = 40; 
+                    int dashCooldownDelay = 35;
 
                     // Prevent vanilla dash movement
                     player.dash = 0; 
