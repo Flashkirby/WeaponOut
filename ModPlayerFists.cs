@@ -828,21 +828,7 @@ namespace WeaponOut
             // If set above the max, probably a combo special, give the hand box
             if (anim > 1)
             {
-                Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
-                if (player.direction != 1)
-                {
-                    hand.X = (float)player.bodyFrame.Width - hand.X;
-                }
-                if (player.gravDir != 1f)
-                {
-                    hand.Y = (float)player.bodyFrame.Height - hand.Y;
-                }
-                hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
-                Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
-                return new Rectangle(
-                    (int)dustPos.X - (boxSize / 2 + 2),
-                    (int)dustPos.Y - (boxSize / 2 + 2),
-                    box.Width, box.Height);
+                return GetPlayerOnHandRectangle(player, boxSize);
             }
             #endregion
 
@@ -855,7 +841,7 @@ namespace WeaponOut
                 if (anim < 0) { return new Rectangle(); }
                 box.Location = player.Center.ToPoint();
                 // Value from 0->1->0
-                float xNormal = player.direction * (float)Math.Sin(anim * Math.PI) / 2;
+                float xNormal = player.direction * (float)Math.Sin(anim * Math.PI);
                 float xDistance = player.width / 2 + distance;
                 float yDistance = player.height + distance;
                 box.X += (int)(xNormal * xDistance);
@@ -921,9 +907,28 @@ namespace WeaponOut
                 #endregion
             }
             // width/height and dust displacement
-            box.X -= boxSize / 2 + 2 + (int)(player.velocity.X);
-            box.Y -= boxSize / 2 + 2 + (int)(player.velocity.Y);
+            box.X -= 2 + boxSize / 2 + (int)(player.velocity.X);
+            box.Y -= 2 + boxSize / 2 + (int)(player.velocity.Y);
             return box;
+        }
+
+        public static Rectangle GetPlayerOnHandRectangle(Player player, int boxSize)
+        {
+            Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
+            if (player.direction != 1)
+            {
+                hand.X = (float)player.bodyFrame.Width - hand.X;
+            }
+            if (player.gravDir != 1f)
+            {
+                hand.Y = (float)player.bodyFrame.Height - hand.Y;
+            }
+            hand -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
+            Vector2 dustPos = player.RotatedRelativePoint(player.position + hand, true) - player.velocity;
+            return new Rectangle(
+                (int)dustPos.X - (boxSize / 2 + 2),
+                (int)dustPos.Y - (boxSize / 2 + 2),
+                boxSize, boxSize);
         }
 
         public static Vector2 GetFistVelocity(Player player)
@@ -1244,43 +1249,9 @@ namespace WeaponOut
                     DashEffectsMethods[dashEffect - 1](player);
                 }
 
+                // Initial
                 if (player.dashDelay == 0)
                 {
-                    #region Dash Stats
-                    /*
-                    switch (weaponDash)
-                    {
-                        case 1: // Fists of fury
-                            dashSpeed = 10f;
-                            break;
-                        case 2: // Caestus
-                            dashSpeed = 15f;
-                            break;
-                        case 3: // Boxing Gloves
-                            dashSpeed = 12f;
-                            Gore g;
-                            if (player.velocity.Y == 0f)
-                            {
-                                g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 4f), default(Vector2), Main.rand.Next(61, 64), 1f)];
-                            }
-                            else
-                            {
-                                g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 14f), default(Vector2), Main.rand.Next(61, 64), 1f)];
-                            }
-                            g.velocity.X = (float)Main.rand.Next(-50, 51) * 0.01f;
-                            g.velocity.Y = (float)Main.rand.Next(-50, 51) * 0.01f;
-                            g.velocity *= 0.4f;
-                            break;
-                        case 4: // Spiked Gauntlets
-                            dashSpeed = 13f;
-                            break;
-                        case 5: // Apocafist
-                            dashSpeed = 13f;
-                            break;
-                    }
-                    */
-                    #endregion
-
                     float dSpeed = this.dashSpeed;
                     float direction = 0;
 
@@ -1306,97 +1277,8 @@ namespace WeaponOut
                 float maxAccRunSpeed = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 if (player.dashDelay < 0)
                 {
-                    #region Dash Stats
-                    /*
-                    float dashMaxSpeedThreshold = 12f;
-                    float dashMaxFriction = 0.992f;
-                    float dashMinFriction = 0.96f;
-                    int dashSetDelay = 30; // normally 20 but given that his ends sooner...
-                    switch (weaponDash)
-                    {
-                        case 1: // Normal short-ish dash
-                            dashMaxSpeedThreshold = 8f;
-                            dashMaxFriction = 0.98f;
-                            dashMinFriction = 0.94f;
-                            for (int i = 0; i < 3; i++)
-                            {
-                                Dust d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
-                                    DustID.Fire, 0, 0, 100, default(Color), 1.8f)];
-                                d.velocity = d.velocity * 0.5f + player.velocity * -0.4f;
-                                d.noGravity = true;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                            }
-                            break;
-                        case 2: // Super quick ~12 tile dash
-                            dashMaxSpeedThreshold = 6f;
-                            dashMaxFriction = 0.8f;
-                            dashMinFriction = 0.94f;
-                            dashSetDelay = 20;
-                            break;
-                        case 3: // Boxing Gloves ~ 4.5 tile step
-                            dashMaxSpeedThreshold = 3f;
-                            dashMaxFriction = 0.8f;
-                            for (int j = 0; j < 2; j++)
-                            {
-                                Dust d;
-                                if (player.velocity.Y == 0f)
-                                {
-                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f)];
-                                }
-                                else
-                                {
-                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 31, 0f, 0f, 100, default(Color), 1.4f)];
-                                }
-                                d.velocity *= 0.1f;
-                                d.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                            }
-                            break;
-                        case 4: // Spiked Gauntlets
-                            dashMaxSpeedThreshold = 10f;
-                            dashMaxFriction = 0.985f;
-                            dashMinFriction = 0.95f;
-                            for (int k = 0; k < 2; k++)
-                            {
-                                Dust d;
-                                if (player.velocity.Y == 0f)
-                                {
-                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 8f), player.width, 16, 39, player.velocity.X, 0f, 0, default(Color), 1.4f)];
-                                }
-                                else
-                                {
-                                    d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 10f), player.width, 20, 40, player.velocity.X, 0f, 0, default(Color), 1.4f)];
-                                }
-                                d.velocity *= 0.1f;
-                                d.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                                d.noGravity = true;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                            }
-                            break;
-                        case 5: // Long range
-                            dashMaxSpeedThreshold = 7f;
-                            dashMaxFriction = 0.99f;
-                            dashMinFriction = 0.8f;
-                            for (int i = 0; i < 4; i++)
-                            {
-                                Dust d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
-                                    DustID.Fire, 0, 0, 100, default(Color), 2f)];
-                                d.velocity = d.velocity * 0.5f + player.velocity * -0.4f;
-                                d.noGravity = true;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                                d = Main.dust[Dust.NewDust(player.position, player.width, player.height,
-                                    DustID.Smoke, 0, 0, 100, default(Color), 0.4f)];
-                                d.fadeIn = 0.7f;
-                                d.velocity = d.velocity * 0.1f + player.velocity * -0.2f;
-                                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                            }
-                            break;
-                    }
-                    */
-                    #endregion
-
                     // normally 20 but this dash seems to end sooner for some reason
-                    int dashCooldownDelay = 30; 
+                    int dashCooldownDelay = 40; 
 
                     // Prevent vanilla dash movement
                     player.dash = 0; 
