@@ -86,6 +86,10 @@ namespace WeaponOut
         public bool IsComboActive { get { return comboCounter >= ComboCounterMaxReal && comboCounter > 1; } }
         /// <summary> Active when combo counter reaches the combo max. Call this in the item because ItemLoader method is called before PlayerHooks. </summary>
         public bool IsComboActiveItemOnHit { get { return comboCounter >= ComboCounterMaxReal - 1 && comboCounter > 0; } }
+
+        private int comboFinished;
+        /// <summary> Non-zero value on the frame the combo ends. You can read this for effects. </summary>
+        public int ComboFinishedFrame { get { return comboFinished; } }
         #endregion
 
         #region Parry Vars
@@ -274,6 +278,7 @@ namespace WeaponOut
 
         public void ResetVariables()
         {
+            comboFinished = 0;
             comboTimerMax = ComboResetTime + comboResetTimeBonus; // 2? seconds count
 
             // Count up, otherwise reset to -1
@@ -289,6 +294,7 @@ namespace WeaponOut
                             highColour, comboCounter + " hits", false, false);
                     }
 
+                    comboFinished = comboCounter;
                     comboCounter = 0;
                     comboTimer = -1;
                 }
