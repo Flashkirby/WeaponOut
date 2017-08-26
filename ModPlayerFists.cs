@@ -588,10 +588,10 @@ namespace WeaponOut
             }
             else
             {
-                // Combo specials provide a minor immunity
+                // Combo specials provide immunity over duration
                 if (allowComboBounce)
                 {
-                    provideImmunity(player, 10);
+                    provideImmunity(player, player.itemAnimation + 1);
                     allowComboBounce = false;
                 }
             }
