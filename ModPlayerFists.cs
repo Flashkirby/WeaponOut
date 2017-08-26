@@ -661,8 +661,8 @@ namespace WeaponOut
             }
             else if (specialMove == 1)
             {
-                // Uppercut grants 4/5 immunity, without bounces etc.
-                provideImmunity(player, 4 * player.itemAnimationMax / 5);
+                // Uppercut grants full immunity for rest of uppercut but no bounces etc.
+                provideImmunity(player, player.itemAnimationMax);
             }
             else if (specialMove == 2)
             {
@@ -673,7 +673,8 @@ namespace WeaponOut
                 // Bounce off
                 int direction = 1;
                 if (player.Center.X < target.Center.X) direction = -1;
-                player.velocity = new Vector2(direction * 4f, player.gravDir * -2.5f);
+                float bounceY = player.gravDir * -2f + target.velocity.Y * 1.5f;
+                player.velocity = new Vector2(direction * 4f, bounceY);
 
                 // Reset fall and restore jumps
                 player.wingTime = (float)player.wingTimeMax;
