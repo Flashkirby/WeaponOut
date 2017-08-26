@@ -77,7 +77,7 @@ namespace WeaponOut
         /// <summary> Flat bonus to combo counter max. Typically negative. </summary>
         public int comboCounterMaxBonus;
         /// <summary> Time since last combo hit. </summary>
-        protected int comboTimer;
+        public int comboTimer;
         /// <summary> Time until combo is reset. </summary>
         public int comboTimerMax;
         /// <summary> The real combo counter max, including bonus. </summary>
@@ -112,14 +112,17 @@ namespace WeaponOut
         public bool parryBuff;
         #endregion
 
-        #region Dash Vars
+        #region Dash Vars 
+        /// <summary> normally 20 but custom dash seems to end sooner for some reason </summary>
+        public const int dashCooldownDelay = 35;
+
         /// <summary> The initial speed of a dash. 
         ///<para /> * Normal: 3
         ///<para /> * Aglet/Anklet: 3.15, 3.3
         ///<para /> * Hermes: 6
         ///<para /> * Lightning: 6.75
         ///<para /> * Fishron Air: 8
-        ///<para /> * Solar Wings: 9</summary>
+        ///<para /> * Solar Wings: 9</summary>       
         public float dashSpeed;
         /// <summary> The speed at which the dash will slow down towards. </summary>
         public float dashMaxSpeedThreshold;
@@ -232,6 +235,7 @@ namespace WeaponOut
                 // Reset dash here when grappling
                 if (player.pulley || player.grapCount > 0)
                 {
+                    if (player.dashDelay == -1) player.dashDelay = dashCooldownDelay;
                     ResetDashVars();
                 }
 
@@ -1237,8 +1241,10 @@ namespace WeaponOut
             }
             return false;
         }
-
-
+        
+        /// <summary>
+        /// Doesn't get called while grappling
+        /// </summary>
         private void CustomDashMovement()
         {
             // dash = player equipped dash type
@@ -1284,9 +1290,6 @@ namespace WeaponOut
                 float maxAccRunSpeed = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 if (player.dashDelay < 0)
                 {
-                    // normally 20 but this dash seems to end sooner for some reason
-                    int dashCooldownDelay = 35;
-
                     // Prevent vanilla dash movement
                     player.dash = 0; 
                     // Unstealth
