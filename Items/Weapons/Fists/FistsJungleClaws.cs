@@ -28,7 +28,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetDefaults()
         {
             item.melee = true;
-            item.damage = 26;
+            item.damage = 39;
             item.useAnimation = 20; // Combos can increase speed by 30-50% since it halves remaining attack time
             item.knockBack = 1.5f;
             item.tileBoost = 7; // For fists, we read this as the combo power

@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
             item.width = 20;
             item.height = 20;
-            item.damage = 14;
+            item.damage = 22;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item7;
 

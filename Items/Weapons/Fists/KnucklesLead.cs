@@ -27,11 +27,11 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
-            item.useAnimation = 24; // Combos can increase speed by 30-50% since it halves remaining attack time
+            item.useAnimation = 23; // Combos can increase speed by 30-50% since it halves remaining attack time
 
             item.width = 20;
             item.height = 20;
-            item.damage = 10;
+            item.damage = 15;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item7;
 
@@ -129,7 +129,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (mpf.ComboEffectAbs == comboEffect)
             {
                 damage *= 4;
-                knockBack *= 3;
+                knockBack *= 2f;
             }
         }
     }

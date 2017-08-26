@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
             item.width = 20;
             item.height = 20;
-            item.damage = 9;
+            item.damage = 14;
             item.knockBack = 2.5f;
             item.UseSound = SoundID.Item7;
 
@@ -129,7 +129,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if(mpf.ComboEffectAbs == comboEffect)
             {
                 damage *= 4;
-                knockBack *= 3;
+                knockBack *= 2f;
             }
         }
     }

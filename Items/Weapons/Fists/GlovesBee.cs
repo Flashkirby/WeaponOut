@@ -20,14 +20,14 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Honeycomb Glove");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
-                "Counterstrike grants 30 bonus damage and releases a swarm of bees\n" +
+                "Counterstrike grants 60 bonus damage and releases a swarm of bees\n" +
                 "Combo increases the strength of friendly bees\n" +
                 "'Nice to BEEt you'");
         }
         public override void SetDefaults()
         {
             item.melee = true;
-            item.damage = 28;
+            item.damage = 42;
             item.useAnimation = 23; // Combos can increase speed by 30-50% since it halves remaining attack time
             item.knockBack = 4.5f;
             item.tileBoost = 10; // For fists, we read this as the combo power
@@ -99,7 +99,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (mpf.parryBuff)
             {
                 if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
-                damage += 30;
+                damage += 60;
 
                 // THE BEES NOT THE BEES
                 int numberOfBees = 2;
