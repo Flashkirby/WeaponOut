@@ -20,26 +20,25 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Lead Knuckleduster");
             Tooltip.SetDefault(
                 "<right> consumes combo for an empowered strike\n" +
-                "Combo grants 2 bonus damage");
+                "Combo grants 4 bonus damage");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()
         {
-            item.useStyle = ModPlayerFists.useStyle;
-            item.autoReuse = true;
-            item.useAnimation = 23; // Combos can increase speed by 30-50% since it halves remaining attack time
-
-            item.width = 20;
-            item.height = 20;
+            item.melee = true;
             item.damage = 15;
+            item.useAnimation = 23; // Combos can increase speed by 30-50% since it halves remaining attack time
             item.knockBack = 3f;
-            item.UseSound = SoundID.Item7;
-
             item.tileBoost = 6; // For fists, we read this as the combo power
 
             item.value = Item.sellPrice(0, 0, 4, 50);
+
+            item.UseSound = SoundID.Item7;
+            item.useStyle = ModPlayerFists.useStyle;
+            item.autoReuse = true;
             item.noUseGraphic = true;
-            item.melee = true;
+            item.width = 20;
+            item.height = 20;
         }
         public override void AddRecipes()
         {
@@ -124,7 +123,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActiveItemOnHit)
             {
-                damage += 2;
+                damage += 4;
             }
             if (mpf.ComboEffectAbs == comboEffect)
             {

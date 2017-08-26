@@ -25,22 +25,21 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         public override void SetDefaults()
         {
-            item.useStyle = ModPlayerFists.useStyle;
-            item.autoReuse = true;
-            item.useAnimation = 22; // Combos can increase speed by 30-50% since it halves remaining attack time
-
-            item.width = 20;
-            item.height = 20;
+            item.melee = true;
             item.damage = 22;
+            item.useAnimation = 22; // Combos can increase speed by 30-50% since it halves remaining attack time
             item.knockBack = 3f;
-            item.UseSound = SoundID.Item7;
-
             item.tileBoost = 7; // For fists, we read this as the combo power
 
             item.value = Item.sellPrice(0, 0, 1, 0); // actually twice material value
             item.rare = 1;
+
+            item.UseSound = SoundID.Item7;
+            item.useStyle = ModPlayerFists.useStyle;
+            item.autoReuse = true;
             item.noUseGraphic = true;
-            item.melee = true;
+            item.width = 24;
+            item.height = 24;
         }
         public override void AddRecipes()
         {
