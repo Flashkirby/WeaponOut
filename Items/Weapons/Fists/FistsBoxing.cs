@@ -45,6 +45,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 6);
+            recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -48,6 +48,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FeralClaws, 1);
             recipe.AddIngredient(ItemID.Stinger, 3);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -48,8 +48,9 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GoldenKey, 1);
-            recipe.AddIngredient(ItemID.Bone, 20);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ItemID.WaterCandle, 2);
+            recipe.AddIngredient(ItemID.Spike, 6);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
