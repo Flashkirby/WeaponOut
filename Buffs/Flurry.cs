@@ -15,7 +15,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Flurry");
-            Description.SetDefault("100% increased melee attack speed and always attacking");
+            Description.SetDefault("Forced autoswing with 100% increased melee attack speed");
             Main.buffNoTimeDisplay[Type] = true;
         }
 
