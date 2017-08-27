@@ -35,6 +35,12 @@ namespace WeaponOut
         private const bool DEBUG_FISTBOXES = true;
         private const bool DEBUG_DASHFISTS = false;
         private const bool DEBUG_PARRYFISTS = false;
+
+        public static ModPlayerFists Get(Player player)
+        {
+            return player.GetModPlayer<ModPlayerFists>();
+        }
+
         private const bool DEBUG_COMBOFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
 
@@ -67,6 +73,12 @@ namespace WeaponOut
         public int specialMove;
         /// <summary> Allows uppercuts without staying grounded (requires air hits) </summary>
         protected bool jumpAgainUppercut = false;
+
+        // Bonuses
+        public float uppercutDamage = 1f;
+        public float uppercutKnockback = 1.5f;
+        public float divekickDamage = 1f;
+        public float divekickKnockback = 1f;
 
         #region Combo Counter Vars
         /// <summary> Keep track of the number of hits from fists. </summary>
@@ -110,6 +122,10 @@ namespace WeaponOut
         public bool IsParryActive { get { return parryTime >= ParryActiveFrame && parryTime > 0; } }
         /// <summary> Provided by a buff, is the parry bonus active. </summary>
         public bool parryBuff;
+
+        // Bonuses
+        public float parryDamage = 1f;
+        public bool longParry = false;
         #endregion
 
         #region Dash Vars 
@@ -269,9 +285,30 @@ namespace WeaponOut
             return !ParryPreHurt(damageSource);
         }
 
+        // This gets called last in the hook stack, after Item, then NPC
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            if (specialMove == 1) knockback *= 1.5f;
+            if (specialMove == 1) // Uppercut
+            {
+                damage = (int)(damage * uppercutDamage);
+                knockback *= uppercutKnockback;
+            }
+            else if (specialMove == 2) // Divekick
+            {
+                damage = (int)(damage * divekickDamage);
+                knockback *= divekickKnockback;
+            }
+        }
+        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        {
+            if (specialMove == 1)
+            {
+                damage = (int)(damage * uppercutDamage);
+            }
+            else if (specialMove == 2)
+            {
+                damage = (int)(damage * divekickDamage);
+            }
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
@@ -282,6 +319,7 @@ namespace WeaponOut
 
         public void ResetVariables()
         {
+            comboCounterMaxBonus = 0;
             comboFinished = 0;
             comboTimerMax = ComboResetTime + comboResetTimeBonus; // 2? seconds count
 
@@ -311,6 +349,13 @@ namespace WeaponOut
             }
 
             parryBuff = false;
+
+            parryDamage = 1f;
+            longParry = false;
+            uppercutDamage = 1f;
+            uppercutKnockback = 1.5f;
+            divekickDamage = 1f;
+            divekickKnockback = 1f;
         }
         
         #region Fist Hitboxes
@@ -1088,7 +1133,7 @@ namespace WeaponOut
                 NPC npc = Main.npc[damageSource.SourceNPCIndex];
 
                 // Damage is based on the NPC's attack, plus player melee multiplier
-                int damage = (int)(npc.defense * player.meleeDamage);
+                int damage = (int)(npc.defense * player.meleeDamage * parryDamage);
                 // Knockback of weapon, with scaling
                 float knockback = player.GetWeaponKnockback(player.HeldItem, player.HeldItem.knockBack);
                 // Parried attacks have double crit
@@ -1144,6 +1189,12 @@ namespace WeaponOut
                 this.parryWindow = parryWindow;
                 this.parryTimeMax = parryTimeMax;
                 this.parryTime = ParryTimeMaxReal;
+
+                if (longParry)
+                {
+                    this.parryWindow += 15;
+                    this.parryTimeMax += 15;
+                }
 
                 if (DEBUG_PARRYFISTS) Main.NewText("parry: " + parryWindow + "/" + parryTime);
 
