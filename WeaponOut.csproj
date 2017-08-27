@@ -36,14 +36,20 @@
     <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\DamageUp.cs" />
     <Compile Include="Buffs\DemonFrenzy.cs" />
+    <Compile Include="Buffs\FightingSpirit.cs" />
     <Compile Include="Buffs\Flurry.cs" />
     <Compile Include="Buffs\MeteorShield.cs" />
     <Compile Include="Buffs\RallyBanner.cs" />
     <Compile Include="Buffs\ParryActive.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Items\Accessories\FightingSash.cs" />
     <Compile Include="Items\Armour\DiscordantShades.cs" />
+    <Compile Include="Items\Armour\FistMartialHead.cs" />
+    <Compile Include="Items\Armour\FistPowerLegs.cs" />
+    <Compile Include="Items\Armour\FistPowerBody.cs" />
     <Compile Include="Items\AutoArm.cs" />
     <Compile Include="Items\RallyBannerGreen.cs" />
     <Compile Include="Items\RallyBannerBlue.cs" />
@@ -53,10 +59,12 @@
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
     <Compile Include="Items\Weapons\Fists\FistsJungleClaws.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsMolten.cs" />
     <Compile Include="Items\Weapons\Fists\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
+    <Content Include="Items\Accessories\FightingSash.png" />
+    <Content Include="Items\Accessories\FightingSash_Waist.png" />
     <Content Include="Items\RustedBadge.png" />
-    <Content Include="Items\Weapons\Fists\FistsMolten.txt" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesBee.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesFossil.cs" />

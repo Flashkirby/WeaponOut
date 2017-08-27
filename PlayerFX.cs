@@ -74,6 +74,10 @@ namespace WeaponOut
         public bool dualItemCanUse;
         #endregion
 
+        #region Fist Bonus
+        public bool taekwonCounter;
+        #endregion
+
         #region Utils
         public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
         {
@@ -166,6 +170,11 @@ namespace WeaponOut
             {
                 if (player.itemAnimation <= 1) dualItemAnimationMod = 1f;
                 if (player.itemTime <= 1) dualItemTimeMod = 1f;
+            }
+
+            if (ModConf.enableFists)
+            {
+                taekwonCounter = false;
             }
         }
 
@@ -884,6 +893,14 @@ namespace WeaponOut
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             ShieldPreHurt(damage, crit, hitDirection);
+
+            if (ModConf.enableFists)
+            {
+                if (taekwonCounter)
+                {
+                    player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 120);
+                }
+            }
             return true;
         }
 
