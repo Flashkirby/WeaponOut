@@ -27,6 +27,13 @@ namespace WeaponOut.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
+            if (player.dead)
+            {
+                lifeStored = 0;
+                lastLife = 0;
+                startRecording = false;
+                return;
+            }
 
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>(mod);
             if (mpf.ComboCounter > 0)
