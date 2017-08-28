@@ -322,6 +322,7 @@ namespace WeaponOut
             comboCounterMaxBonus = 0;
             comboFinished = 0;
             comboTimerMax = ComboResetTime + comboResetTimeBonus; // 2? seconds count
+            comboResetTimeBonus = 0; // reset
 
             // Count up, otherwise reset to -1
             if (comboTimer >= 0 && comboTimer < comboTimerMax) comboTimer++;
