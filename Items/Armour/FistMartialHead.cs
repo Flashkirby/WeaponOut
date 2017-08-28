@@ -57,9 +57,15 @@ namespace WeaponOut.Items.Armour
                 armourSet = 1;
                 return true;
             }
+            else if (body.type == mod.ItemType<FistDefBody>() &&
+                legs.type == mod.ItemType<FistDefLegs>())
+            {
+                armourSet = 2;
+                return true;
+            }
             else if (body.type == ItemID.Gi)
             {
-                armourSet = 3;
+                armourSet = 4;
                 return true;
             }
             return false;
@@ -78,7 +84,7 @@ namespace WeaponOut.Items.Armour
                     player.setBonus = "Increases length of invincibility after taking damage";
                     player.longInvince = true;
                     break;
-                case 3:
+                case 4:
                     player.setBonus = "50% increased uppercut and divekick damage";
                     mpf.uppercutDamage += 0.5f;
                     mpf.divekickDamage += 0.5f;
