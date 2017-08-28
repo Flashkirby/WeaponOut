@@ -61,9 +61,9 @@ namespace WeaponOut.Items.Weapons.Fists
                 float dashSpeed = 4f;
                 if (mpf.parryBuff)
                 {
-                    dashSpeed = 8f;
+                    dashSpeed = 7f;
                 }
-                mpf.SetDashOnMovement(dashSpeed, 12f, 0.992f, 0.96f, true, 0);
+                mpf.SetDashOnMovement(dashSpeed, dashSpeed - 0.5f, 0.992f, 0.96f, true, 0);
             }
             return true;
         }

@@ -1262,6 +1262,9 @@ namespace WeaponOut
 
             if (player.dashDelay == 0)
             {
+                if (dashMaxSpeedThreshold < 4f)
+                    dashMaxSpeedThreshold = 4f; // Cannot be less than this otherwise wierd behaviour
+
                 this.dashSpeed = dashSpeed;
                 this.dashMaxSpeedThreshold = dashMaxSpeedThreshold;
                 this.dashMaxFriction = dashMaxFriction;
