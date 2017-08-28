@@ -7,6 +7,7 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Legs)]
     public class FistPowerLegs : ModItem
     {
+        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dobok Pants");
