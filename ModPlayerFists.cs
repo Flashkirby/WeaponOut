@@ -571,17 +571,19 @@ namespace WeaponOut
                     hitbox.Width = Player.defaultWidth + distance;
                     hitbox.Height = Player.defaultHeight + distance;
 
+                    Vector2 centreLeft = new Vector2(player.position.X, player.MountedCenter.Y);
+
                     // Work out which way to go
                     if (player.direction < 0)
                     {
-                        hitbox.Location = (player.Right - new Vector2(
-                            -Player.defaultWidth / 2,
+                        hitbox.Location = (centreLeft - new Vector2(
+                            Player.defaultWidth,
                             hitbox.Height / 2f)).ToPoint();
                     }
                     else
                     {
-                        hitbox.Location = (player.MountedCenter - new Vector2(
-                            Player.defaultWidth / 2,
+                        hitbox.Location = (centreLeft - new Vector2(
+                            0,
                             hitbox.Height / 2f)).ToPoint();
                     }
                 }

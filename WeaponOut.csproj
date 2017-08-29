@@ -47,6 +47,9 @@
     <Compile Include="Buffs\ManaReduction.cs" />
     <Compile Include="Items\Accessories\FightingSash.cs" />
     <Compile Include="Items\Armour\DiscordantShades.cs" />
+    <Compile Include="Items\Armour\FistBoxingHelmet.cs" />
+    <Compile Include="Items\Armour\FistSpeedBody.cs" />
+    <Compile Include="Items\Armour\FistSpeedLegs.cs" />
     <Compile Include="Items\Armour\FistMartialHead.cs" />
     <Compile Include="Items\Armour\FistDefBody.cs" />
     <Compile Include="Items\Armour\FistDefLegs.cs" />
