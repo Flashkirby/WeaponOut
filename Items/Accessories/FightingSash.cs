@@ -30,8 +30,8 @@ namespace WeaponOut.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 2);
-            recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddIngredient(ItemID.GoldCoin, 1);
+            recipe.AddIngredient(ItemID.JungleSpores, 4);
+            recipe.AddIngredient(ItemID.Amber, 1);
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
