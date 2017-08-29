@@ -58,6 +58,12 @@ namespace WeaponOut.Items.Armour
                 armourSet = 2;
                 return true;
             }
+            else if (body.type == mod.ItemType<FistSpeedBody>() &&
+                legs.type == mod.ItemType<FistSpeedLegs>())
+            {
+                armourSet = 3;
+                return true;
+            }
             else if (body.type == ItemID.Gi)
             {
                 armourSet = 4;
