@@ -86,8 +86,8 @@ namespace WeaponOut.Items.Armour
                     player.longInvince = true;
                     break;
                 case 3:
-                    player.setBonus = Language.GetTextValue("BuffDescription.Swiftness");
-                    player.moveSpeed += 0.25f;
+                    player.setBonus = "Increases running speed by 10 mph";
+                    player.accRunSpeed += 2f;
                     break;
                 case 4:
                     player.setBonus = "50% increased uppercut and divekick damage";
