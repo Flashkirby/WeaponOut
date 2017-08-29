@@ -40,9 +40,6 @@ namespace WeaponOut.Items.Armour
             mpf.uppercutKnockback += 1f;
         }
 
-        public override void DrawHands(ref bool drawHands, ref bool drawArms)
-        {
-            drawArms = true;
-        }
+        public override void DrawHands(ref bool drawHands, ref bool drawArms) { drawArms = true; drawHands = true; }
     }
 }
