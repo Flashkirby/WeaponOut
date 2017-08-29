@@ -10,7 +10,7 @@ namespace WeaponOut.Items.Armour
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Taiji Jacket");
+            DisplayName.SetDefault("Dynasty Jacket");
             Tooltip.SetDefault("5% increased melee critical strike chance\n" +
                 "Makes parrying with fists easier");
         }

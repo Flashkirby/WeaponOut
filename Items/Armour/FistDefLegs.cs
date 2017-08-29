@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace WeaponOut.Items.Armour
 {
@@ -23,7 +22,7 @@ namespace WeaponOut.Items.Armour
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Taiji Slippers");
+            DisplayName.SetDefault("Dynasty Slippers");
             Tooltip.SetDefault("5% increased melee critical strike chance\n" + 
                 "Increases length of combo by 1 second");
         }
