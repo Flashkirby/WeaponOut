@@ -11,7 +11,7 @@ namespace WeaponOut.Items.Armour
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Martial Headband");
+            DisplayName.SetDefault("Apprentice Headband");
             Tooltip.SetDefault("3% increased melee critical strike chance\n");
         }
         public override void SetDefaults()
