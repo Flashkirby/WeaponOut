@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Journeyman's Sash");
+            DisplayName.SetDefault("Journeyman Sash");
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
                 "Restores up to 25% of maximum life\n" + 
