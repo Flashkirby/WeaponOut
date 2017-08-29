@@ -1,13 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -78,12 +72,16 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Automatically after being struck";
+                    player.setBonus = "Increases melee capabilities after being struck";
                     player.GetModPlayer<PlayerFX>().taekwonCounter = true;
                     break;
                 case 2:
-                    player.setBonus = "Increases length of invincibility after taking damage";
+                    player.setBonus = Language.GetTextValue("ItemTooltip.CrossNecklace");
                     player.longInvince = true;
+                    break;
+                case 3:
+                    player.setBonus = Language.GetTextValue("BuffDescription.Swiftness");
+                    player.moveSpeed += 0.25f;
                     break;
                 case 4:
                     player.setBonus = "50% increased uppercut and divekick damage";
