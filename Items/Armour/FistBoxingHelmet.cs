@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Armour
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
-            drawHair = true;
+            drawAltHair = true;
         }
 
         private byte armourSet = 0;
@@ -55,7 +55,7 @@ namespace WeaponOut.Items.Armour
             else if (body.type == mod.ItemType<FistSpeedBody>() &&
                 legs.type == mod.ItemType<FistSpeedLegs>())
             {
-                armourSet = 2;
+                armourSet = 3;
                 return true;
             }
             else if (body.type == ItemID.Gi)
@@ -76,12 +76,12 @@ namespace WeaponOut.Items.Armour
                     player.statDefense += 2;
                     break;
                 case 2:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.MetalTier2");
-                    player.statDefense += 3;
-                    break;
-                case 3:
                     player.setBonus = Language.GetTextValue("ArmorSetBonus.Platinum");
                     player.statDefense += 4;
+                    break;
+                case 3:
+                    player.setBonus = Language.GetTextValue("ArmorSetBonus.MetalTier2");
+                    player.statDefense += 3;
                     break;
                 case 4:
                     player.setBonus = "Parrying with fists is easier";
