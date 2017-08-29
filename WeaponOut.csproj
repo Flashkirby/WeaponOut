@@ -48,6 +48,8 @@
     <Compile Include="Items\Accessories\FightingSash.cs" />
     <Compile Include="Items\Armour\DiscordantShades.cs" />
     <Compile Include="Items\Armour\FistMartialHead.cs" />
+    <Compile Include="Items\Armour\FistDefBody.cs" />
+    <Compile Include="Items\Armour\FistDefLegs.cs" />
     <Compile Include="Items\Armour\FistPowerLegs.cs" />
     <Compile Include="Items\Armour\FistPowerBody.cs" />
     <Compile Include="Items\AutoArm.cs" />
