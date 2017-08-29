@@ -545,7 +545,7 @@ namespace WeaponOut
                         hitbox.Width += (int)(Math.Abs(xDir) * distance);
                         hitbox.Height += (int)(Math.Abs(yDir) * distance);
 
-                        hitbox.Location = (player.Center + new Vector2(
+                        hitbox.Location = (player.MountedCenter + new Vector2(
                              -hitbox.Width + xDir * distance,
                              -hitbox.Height + yDir * distance
                             ) / 2).ToPoint();
@@ -574,11 +574,15 @@ namespace WeaponOut
                     // Work out which way to go
                     if (player.direction < 0)
                     {
-                        hitbox.Location = (player.Right - new Vector2(hitbox.Width, hitbox.Height / 2f)).ToPoint();
+                        hitbox.Location = (player.Right - new Vector2(
+                            -Player.defaultWidth / 2,
+                            hitbox.Height / 2f)).ToPoint();
                     }
                     else
                     {
-                        hitbox.Location = (player.Left - new Vector2(0, hitbox.Height / 2f)).ToPoint();
+                        hitbox.Location = (player.MountedCenter - new Vector2(
+                            Player.defaultWidth / 2,
+                            hitbox.Height / 2f)).ToPoint();
                     }
                 }
                 else
