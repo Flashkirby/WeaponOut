@@ -18,7 +18,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public static int dustEffect = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boxing Glove");
+            DisplayName.SetDefault("Boxing Gloves");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Combo may confuse enemies");
