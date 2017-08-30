@@ -48,7 +48,13 @@
     <Compile Include="Items\Accessories\FightingSash.cs" />
     <Compile Include="Items\Armour\DiscordantShades.cs" />
     <Compile Include="Items\Armour\FistBoxingHelmet.cs" />
+    <Compile Include="Items\Armour\HighDefBody.cs" />
+    <Compile Include="Items\Armour\HighDefLegs.cs" />
+    <Compile Include="Items\Armour\HighPowerBody.cs" />
+    <Compile Include="Items\Armour\HighPowerLegs.cs" />
+    <Compile Include="Items\Armour\HighSpeedBody.cs" />
     <Compile Include="Items\Armour\FistSpeedBody.cs" />
+    <Compile Include="Items\Armour\HighSpeedLegs.cs" />
     <Compile Include="Items\Armour\FistSpeedLegs.cs" />
     <Compile Include="Items\Armour\FistMartialHead.cs" />
     <Compile Include="Items\Armour\FistDefBody.cs" />
