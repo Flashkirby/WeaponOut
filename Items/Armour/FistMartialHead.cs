@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Apprentice Headband");
-            Tooltip.SetDefault("3% increased melee critical strike chance\n");
+            Tooltip.SetDefault("3% increased melee critical strike chance");
         }
         public override void SetDefaults()
         {
