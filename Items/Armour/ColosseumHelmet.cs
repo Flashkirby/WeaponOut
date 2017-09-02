@@ -19,7 +19,7 @@ namespace WeaponOut.Items.Armour
             {
                 ModRecipe recipe = new ModRecipe(mod);
                 recipe.AddIngredient(ItemID.GladiatorHelmet, 1);
-                recipe.AddIngredient(i == 0 ? ItemID.GoldHelmet : ItemID.PlatinumHelmet, 1);
+                recipe.AddIngredient(i == 0 ? ItemID.GoldBar : ItemID.PlatinumBar, 10);
                 recipe.AddTile(TileID.Anvils);
                 recipe.SetResult(this); recipe.AddRecipe();
             }
