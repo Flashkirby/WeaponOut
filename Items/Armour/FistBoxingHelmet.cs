@@ -25,7 +25,7 @@ namespace WeaponOut.Items.Armour
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 10);
-            recipe.AddIngredient(ItemID.Cactus, 5);
+            recipe.AddIngredient(ItemID.Gel, 30);
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -72,19 +72,19 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.MetalTier1");
-                    player.statDefense += 2;
-                    break;
-                case 2:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Platinum");
-                    player.statDefense += 4;
-                    break;
-                case 3:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.MetalTier2");
+                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "3");
                     player.statDefense += 3;
                     break;
+                case 2:
+                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "6");
+                    player.statDefense += 6;
+                    break;
+                case 3:
+                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "4");
+                    player.statDefense += 4;
+                    break;
                 case 4:
-                    player.setBonus = "Parrying with fists is easier";
+                    player.setBonus = "Makes fist parries easier";
                     mpf.longParry = true;
                     break;
             }

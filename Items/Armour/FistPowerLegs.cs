@@ -26,6 +26,7 @@ namespace WeaponOut.Items.Armour
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 12);
+            recipe.AddIngredient(ItemID.Cactus, 8);
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();

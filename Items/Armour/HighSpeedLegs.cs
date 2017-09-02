@@ -29,8 +29,8 @@ namespace WeaponOut.Items.Armour
         public override void SetDefaults()
         {
             item.defense = 0;
-            item.value = Item.sellPrice(0, 0, 6, 0);
-            item.rare = 6;
+            item.value = Item.sellPrice(0, 5, 0, 0);
+            item.rare = 5;
 
             item.width = 18;
             item.height = 18;
@@ -38,8 +38,9 @@ namespace WeaponOut.Items.Armour
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 12);
-            recipe.AddTile(TileID.Loom);
+            recipe.AddIngredient(mod.ItemType<FistSpeedLegs>(), 1);
+            recipe.AddIngredient(ItemID.SoulofSight, 10);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

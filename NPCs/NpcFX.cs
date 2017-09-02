@@ -42,5 +42,29 @@ namespace WeaponOut.NPCs
                 }
             }
         }
+
+        public override void SetupTravelShop(int[] shop, ref int nextSlot)
+        {
+            if (ModConf.enableFists)
+            {
+                int chance = 5;
+                if (NPC.downedSlimeKing) chance--;
+                if (NPC.downedBoss1) chance--;
+                int taekwonBody = mod.ItemType<Items.Armour.FistPowerBody>();
+                int boxingBody = mod.ItemType<Items.Armour.FistSpeedBody>();
+                foreach (Player p in Main.player)
+                {
+                    if (p.armor[1].type == taekwonBody || p.armor[1].type == boxingBody)
+                    {
+                        chance -= 2;
+                    }
+                }
+                if (Main.rand.Next(Math.Max(1,chance)) == 0)
+                {
+                    shop[nextSlot] = mod.ItemType<Items.Armour.FistDefBody>(); nextSlot++;
+                    shop[nextSlot] = mod.ItemType<Items.Armour.FistDefLegs>(); nextSlot++;
+                }
+            }
+        }
     }
 }

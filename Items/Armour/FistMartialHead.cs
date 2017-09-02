@@ -26,7 +26,7 @@ namespace WeaponOut.Items.Armour
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 10);
-            recipe.AddIngredient(ItemID.Cactus, 5);
+            recipe.AddIngredient(ItemID.GreenThread, 3);
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -78,8 +78,8 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Increases melee capabilities after being struck";
-                    player.GetModPlayer<PlayerFX>().taekwonCounter = true;
+                    player.setBonus = Language.GetTextValue("ItemTooltip.ShinyRedBalloon");
+                    player.jumpBoost = true;
                     break;
                 case 2:
                     player.setBonus = Language.GetTextValue("ItemTooltip.CrossNecklace");

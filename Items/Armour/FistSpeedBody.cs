@@ -25,8 +25,8 @@ namespace WeaponOut.Items.Armour
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Blinkroot, 3);
             recipe.AddIngredient(ItemID.Silk, 15);
-            recipe.AddIngredient(ItemID.Cactus, 10);
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -17,19 +17,10 @@ namespace WeaponOut.Items.Armour
         public override void SetDefaults()
         {
             item.defense = 1;
-            item.value = Item.sellPrice(0, 0, 8, 0);
+            item.value = Item.buyPrice(0, 0, 50, 0);
 
             item.width = 18;
             item.height = 18;
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 15);
-            recipe.AddIngredient(ItemID.Cactus, 10);
-            recipe.AddTile(TileID.Loom);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void UpdateEquip(Player player)

@@ -74,7 +74,7 @@ namespace WeaponOut
         public bool dualItemCanUse;
         #endregion
 
-        #region Fist Bonus
+        #region Armour Effects
         public bool taekwonCounter;
         #endregion
 
