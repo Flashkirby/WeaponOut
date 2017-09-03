@@ -74,7 +74,7 @@ namespace WeaponOut.Items.Armour
                     player.GetModPlayer<PlayerFX>().taekwonCounter = true;
                     break;
                 case 2:
-                    player.setBonus = "Heals life based on last hit taken while combo is active";
+                    player.setBonus = "Greatly increases life regeneration after being struck";
                     player.GetModPlayer<PlayerFX>().rapidRecovery = true;
                     break;
                 case 3:
