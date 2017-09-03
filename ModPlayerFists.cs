@@ -698,15 +698,15 @@ namespace WeaponOut
                 {
                     player.velocity = target.velocity;
                     player.velocity.X -= player.direction; // Some bounce off
-                    player.velocity.Y -= player.gravDir * 4f; // Try to preserve Y velo
+                    player.velocity.Y -= player.gravDir * 3.8f; // Try to preserve Y velo
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
                 }
                 else
                 {
                     // Bounce off
                     player.velocity = new Vector2(
-                        -player.direction * Math.Max(2f, player.HeldItem.knockBack) + target.velocity.X,
-                        player.gravDir * -1f + target.velocity.Y * 1.5f);
+                        -player.direction * (1.5f + player.HeldItem.knockBack * 0.5f) + target.velocity.X * 0.5f,
+                        target.velocity.Y * 1.5f * target.knockBackResist);
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
                 }
                 #endregion
