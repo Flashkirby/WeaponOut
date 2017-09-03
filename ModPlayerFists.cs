@@ -907,17 +907,18 @@ namespace WeaponOut
         public static Rectangle UseItemGraphicbox(Player player, int boxSize, int distance)
         {
             Rectangle box = new Rectangle();
-            box.Width = boxSize;
-            box.Height = boxSize;
-            float anim = player.itemAnimation / (float)player.itemAnimationMax;
 
             #region Above animation range?
-            // If set above the max, probably a combo special, give the hand box
-            if (anim > 1)
+            // If set above the max (for first frame), probably a combo special, give the hand box
+            if ( player.itemAnimation >= player.itemAnimationMax - 1)
             {
                 return GetPlayerOnHandRectangle(player, boxSize);
             }
             #endregion
+
+            box.Width = boxSize;
+            box.Height = boxSize;
+            float anim = player.itemAnimation / (float)player.itemAnimationMax;
 
             int special = player.GetModPlayer<ModPlayerFists>().specialMove;
             if (special == 1)
