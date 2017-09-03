@@ -1140,7 +1140,7 @@ namespace WeaponOut
                 NPC npc = Main.npc[damageSource.SourceNPCIndex];
 
                 // Damage is based on the NPC's attack, plus player melee multiplier
-                int damage = (int)(npc.defense * player.meleeDamage * parryDamage);
+                int damage = npc.defDefense + (int)(npc.damage * player.meleeDamage * parryDamage);
                 // Knockback of weapon, with scaling
                 float knockback = player.GetWeaponKnockback(player.HeldItem, player.HeldItem.knockBack);
                 // Parried attacks have double crit
