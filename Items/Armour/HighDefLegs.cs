@@ -23,8 +23,8 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaolin Trousers");
-            Tooltip.SetDefault("5% increased melee critical strike chance\n" + 
-                "Increases length of combo by 1 second");
+            Tooltip.SetDefault("14% increased melee critical strike chance\n" + 
+                "Increases length of combo by 2 seconds");
         }
         public override void SetDefaults()
         {
@@ -52,9 +52,9 @@ namespace WeaponOut.Items.Armour
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 5;
+            player.meleeCrit += 14;
             ModPlayerFists mpf = ModPlayerFists.Get(player);
-            mpf.comboResetTimeBonus += 60;
+            mpf.comboResetTimeBonus += 120;
         }
     }
 }

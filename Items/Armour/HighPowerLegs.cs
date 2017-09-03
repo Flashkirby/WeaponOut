@@ -11,8 +11,8 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sahyun Trousers");
-            Tooltip.SetDefault("5% increased melee damage\n" + 
-                "100% increased divekick damage and knockback");
+            Tooltip.SetDefault("10% increased melee critical strike chance\n" + 
+                "125% increased divekick damage and knockback");
         }
         public override void SetDefaults()
         {
@@ -35,10 +35,10 @@ namespace WeaponOut.Items.Armour
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.05f;
+            player.meleeCrit += 10;
             ModPlayerFists mpf = ModPlayerFists.Get(player);
-            mpf.divekickDamage += 1f;
-            mpf.divekickKnockback += 1f;
+            mpf.divekickDamage += 1.25f;
+            mpf.divekickKnockback += 1.25f;
         }
     }
 }

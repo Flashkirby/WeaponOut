@@ -11,8 +11,9 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaolin Robe");
-            Tooltip.SetDefault("5% increased melee critical strike chance\n" +
-                "Makes parrying with fists easier");
+            Tooltip.SetDefault("12% increased melee critical strike chance\n" +
+                "Makes parrying with fists easier\n" +
+                "Reduces combo power cost by 1");
         }
         public override void SetDefaults()
         {
@@ -35,9 +36,10 @@ namespace WeaponOut.Items.Armour
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 5;
+            player.meleeCrit += 12;
             ModPlayerFists mpf = ModPlayerFists.Get(player);
             mpf.longParry = true;
+            mpf.comboCounterMaxBonus -= 1;
         }
 
         public override void DrawHands(ref bool drawHands, ref bool drawArms) { drawArms = true; drawHands = true; }

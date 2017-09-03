@@ -23,13 +23,14 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Guards");
-            Tooltip.SetDefault("5% increased movement speed\n" +
-                "Reduces combo power cost by 1");
+            Tooltip.SetDefault("10% increased movement speed\n" +
+                "50% increased increased divekick damage\n" +
+                "Reduces combo power cost by 2");
         }
         public override void SetDefaults()
         {
             item.defense = 9;
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            item.value = Item.sellPrice(0, 4, 0, 0);
             item.rare = 5;
 
             item.width = 18;
@@ -52,9 +53,10 @@ namespace WeaponOut.Items.Armour
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.05f;
+            player.moveSpeed += 0.1f;
             ModPlayerFists mpf = ModPlayerFists.Get(player);
-            mpf.comboCounterMaxBonus -= 1;
+            mpf.divekickDamage += 0.5f;
+            mpf.comboCounterMaxBonus -= 2;
         }
     }
 }

@@ -11,8 +11,8 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sahyun Jacket");
-            Tooltip.SetDefault("5% increased melee damage\n" +
-                "50% increased parry damage");
+            Tooltip.SetDefault("15% increased melee damage\n" +
+                "75% increased parry damage");
         }
         public override void SetDefaults()
         {
@@ -35,8 +35,8 @@ namespace WeaponOut.Items.Armour
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.05f;
-            ModPlayerFists.Get(player).divekickDamage += 0.5f;
+            player.meleeDamage += 0.15f;
+            ModPlayerFists.Get(player).divekickDamage += 0.75f;
         }
 
         public override void DrawHands(ref bool drawHands, ref bool drawArms)
