@@ -432,7 +432,13 @@ namespace WeaponOut
                 if (sashLifeLost == 0)
                 { player.AddBuff(mod.BuffType<Buffs.FightingSpiritEmpty>(), 2); }
                 else if (sashLifeLost >= (int)(player.statLifeMax2 * sashMaxLifeRecoverMult))
-                { player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 2); }
+                {
+                    if (player.FindBuffIndex(mod.BuffType<Buffs.FightingSpiritMax>()) < 0)
+                    {
+                        Main.PlaySound(SoundID.Tink, player.position);
+                    }
+                    player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 2);
+                }
                 else
                 { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 2); }
             }

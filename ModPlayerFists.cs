@@ -285,6 +285,7 @@ namespace WeaponOut
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            if(player.HeldItem.useStyle == useStyle && damageSource.SourceProjectileIndex >= 0) { damage /= 2; }
             return !ParryPreHurt(damageSource);
         }
 
