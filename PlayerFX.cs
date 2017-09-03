@@ -77,6 +77,10 @@ namespace WeaponOut
         #region Armour Effects
         public bool taekwonCounter;
         public bool rapidRecovery;
+        public float diveKickHeal;
+
+        public float yomiEndurance;
+        public bool yomiFinishedAttack;
 
         public int sashLifeLost;
         public int sashLastLife;
@@ -188,6 +192,7 @@ namespace WeaponOut
             {
                 taekwonCounter = false;
                 rapidRecovery = false;
+                diveKickHeal = 0f;
 
                 if (!recordLifeLost)
                 {
@@ -237,19 +242,12 @@ namespace WeaponOut
         }
         #endregion
 
-        public override bool PreItemCheck()
+        public override void PostUpdateBuffs()
         {
-            if(ModConf.enableBasicContent)
+            if (ModConf.enableBasicContent)
             {
                 applyBannerBuff();
             }
-
-            if (ModConf.enableDualWeapons)
-            {
-                PreItemCheckDualSync();
-            }
-
-            return true;
         }
 
         private void applyBannerBuff()
@@ -265,7 +263,7 @@ namespace WeaponOut
                     itemType != mod.ItemType<Items.RallyBannerYellow>()
                     ) continue; //only use these banner items
 
-                foreach(Player otherPlayer in Main.player)
+                foreach (Player otherPlayer in Main.player)
                 {
                     if (SameTeam(otherPlayer, bannerPlayer))
                     {
@@ -281,6 +279,16 @@ namespace WeaponOut
                     }
                 }
             }
+        }
+
+        public override bool PreItemCheck()
+        {
+            if (ModConf.enableDualWeapons)
+            {
+                PreItemCheckDualSync();
+            }
+
+            return true;
         }
 
         public override void PostItemCheck()
@@ -399,7 +407,7 @@ namespace WeaponOut
         {
             manageBodyFrame();
             tentScript();
-            setHandToFistWeapon();
+            fistPostUpdate();
             sashRestoreLogic();
         }
 
@@ -553,7 +561,7 @@ namespace WeaponOut
             catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
 
-            setHandToFistWeapon();
+            fistPostUpdate();
         }
         #endregion
         #region draw
@@ -928,22 +936,43 @@ namespace WeaponOut
             if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100, 200, 150);
 
         }
-        private void setHandToFistWeapon()
+        private void fistPostUpdate()
         {
-            if (ModConf.enableFists && weaponVisual)
+            if (ModConf.enableFists)
             {
-                if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
+                if (yomiEndurance > 0f) 
                 {
-                    if (player.HeldItem.handOnSlot > 0)
+                    if (player.itemAnimation == 0)
                     {
-                        player.handon = player.HeldItem.handOnSlot;
-                        player.cHandOn = 0;
+                        if (yomiFinishedAttack)
+                        {
+                            // Buff manages setting/resetting
+                            player.AddBuff(mod.BuffType<Buffs.YomiEndure>(), 60 * 3);
+                            yomiFinishedAttack = false;
+                        }
                     }
-                    if (player.HeldItem.handOffSlot > 0)
+                    else
                     {
-                        player.handoff = player.HeldItem.handOffSlot;
-                        player.cHandOff = 0;
+                        yomiFinishedAttack = true;
                     }
+                }
+
+                if (weaponVisual)
+                {
+                    if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
+                    {
+                        if (player.HeldItem.handOnSlot > 0)
+                        {
+                            player.handon = player.HeldItem.handOnSlot;
+                            player.cHandOn = 0;
+                        }
+                        if (player.HeldItem.handOffSlot > 0)
+                        {
+                            player.handoff = player.HeldItem.handOffSlot;
+                            player.cHandOff = 0;
+                        }
+                    }
+
                 }
             }
         }
@@ -971,36 +1000,40 @@ namespace WeaponOut
         }
         #endregion
 
+        #region OnHit Methods
+
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            FistOnHitNPC(target, damage);
+        }
+
+        private void FistOnHitNPC(NPC target, int damage)
+        {
+            if (ModConf.enableFists)
+            {
+                if (target.immortal) return;
+                ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+                if (mpf.specialMove == 2 && diveKickHeal > 0f)
+                {
+                    int heal = (int)(damage * diveKickHeal);
+                    player.HealEffect(heal, false);
+                    player.statLife += heal;
+                    player.statLife = Math.Min(player.statLife, player.statLifeMax2);
+                    NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+                }
+            }
+        }
+
+        #endregion
+
         #region Hurt Methods
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             ShieldPreHurt(damage, crit, hitDirection);
-            if (ModConf.enableFists)
-            {
-                if (momentumActive)
-                {
-                    if (damageSource.SourceProjectileIndex >= 0)
-                    {
-                        momentum /= 2;
-                        ProjFX.ReflectProjectilePlayer(Main.projectile[damageSource.SourceProjectileIndex], player);
-                        Main.PlaySound(SoundID.Item10, player.position);
-                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
-                        return false;
-                    }
-                    else if (damageSource.SourceNPCIndex >= 0)
-                    {
-                        momentum = 0;
-                        player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
-                        Main.PlaySound(SoundID.Item10, player.position);
-                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
-                        return false;
-                    }
-                }
-            }
+            if (!FistPreHurt(damageSource)) return false;
             return true;
         }
-
 
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
@@ -1050,7 +1083,39 @@ namespace WeaponOut
         }
 
 
+        private bool FistPreHurt(PlayerDeathReason damageSource)
+        {
+            if (ModConf.enableFists)
+            {
+                if (momentumActive)
+                {
+                    if (damageSource.SourceProjectileIndex >= 0)
+                    {
+                        momentum /= 2;
+                        ProjFX.ReflectProjectilePlayer(Main.projectile[damageSource.SourceProjectileIndex], player);
+                        Main.PlaySound(SoundID.Item10, player.position);
+                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        return false;
+                    }
+                    else if (damageSource.SourceNPCIndex >= 0)
+                    {
+                        momentum = 0;
+                        player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
+                        Main.PlaySound(SoundID.Item10, player.position);
+                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        {
+            FistPostHurt(damage);
+        }
+
+        private void FistPostHurt(double damage)
         {
             if (ModConf.enableFists)
             {
