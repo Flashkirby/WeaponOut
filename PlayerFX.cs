@@ -1056,7 +1056,7 @@ namespace WeaponOut
             {
                 if (taekwonCounter)
                 {
-                    player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 120);
+                    player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 60 + Math.Abs(player.statLife - player.statLifeMax2) / 2);
                 }
                 if (rapidRecovery)
                 {
