@@ -77,6 +77,12 @@ namespace WeaponOut
         #region Armour Effects
         public bool taekwonCounter;
         public bool rapidRecovery;
+
+        public int sashLifeLost;
+        public int sashLastLife;
+        public float sashMaxLifeRecoverMult;
+        public bool recordLifeLost;
+
         public bool buildMomentum;
         protected float momentum;
         protected int momentumMax;
@@ -183,6 +189,14 @@ namespace WeaponOut
                 taekwonCounter = false;
                 rapidRecovery = false;
 
+                if (!recordLifeLost)
+                {
+                    sashLastLife = player.statLife;
+                    sashLifeLost = 0;
+                }
+                sashMaxLifeRecoverMult = 0;
+                recordLifeLost = false;
+
                 //at least 15mph
                 if (buildMomentum)
                 { momentum = Math.Max(0, momentum + Math.Abs(player.velocity.X) - 3f); }
@@ -200,6 +214,13 @@ namespace WeaponOut
                 buildMomentum = false;
                 momentumActive = false;
             }
+        }
+
+        public override void UpdateDead()
+        {
+            sashLifeLost = 0;
+            sashLastLife = 0;
+            recordLifeLost = false;
         }
 
         #region Save and Load
@@ -379,7 +400,45 @@ namespace WeaponOut
             manageBodyFrame();
             tentScript();
             setHandToFistWeapon();
+            sashRestoreLogic();
         }
+
+        private void sashRestoreLogic()
+        {
+            if (!ModConf.enableFists || 
+                sashMaxLifeRecoverMult <= 0f || 
+                player.whoAmI != Main.myPlayer ) return;
+
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (mpf.ComboCounter > 0)
+            {
+                recordLifeLost = true;
+
+                // Lost health? Records lost amount
+                if (player.statLife < sashLastLife)
+                { sashLifeLost += sashLastLife - player.statLife; }
+                sashLastLife = player.statLife;
+
+                sashLifeLost = lifeRestorable(player);
+
+                if (sashLifeLost == 0)
+                { player.AddBuff(mod.BuffType<Buffs.FightingSpiritEmpty>(), 2); }
+                else if (sashLifeLost >= (int)(player.statLifeMax2 * sashMaxLifeRecoverMult))
+                { player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 2); }
+                else
+                { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 2); }
+            }
+            else if (!player.moonLeech && sashLifeLost > 0)
+            {
+                Main.PlaySound(2, -1, -1, 4, 0.3f, 0.2f); // mini heal effect
+                player.HealEffect(sashLifeLost, false);
+                player.statLife += sashLifeLost;
+                player.statLife = Math.Min(player.statLife, player.statLifeMax2);
+                NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+            }
+        }
+        private int lifeRestorable(Player player)
+        { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
 
         #region Tent
         private void manageBodyFrame()

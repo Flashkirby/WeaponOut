@@ -39,17 +39,7 @@ namespace WeaponOut.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            PlayerFX modPlayer = player.GetModPlayer<PlayerFX>(mod);
-            modPlayer.DamageKnockbackThreshold += 20;
-
-            if (player.whoAmI == Main.myPlayer)
-            {
-                ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>(mod);
-                if (mpf.ComboCounter > 0)
-                {
-                    player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 2);
-                }
-            }
+            player.GetModPlayer<PlayerFX>().sashMaxLifeRecoverMult += 0.25f;
         }
     }
 }
