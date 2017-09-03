@@ -45,11 +45,19 @@ namespace WeaponOut.NPCs
             {
                 if (type == NPCID.Clothier)
                 {
-                    //add scrap salvo after mech
-                    if (Main.hardMode && NPC.downedPlantBoss)
+                    //add headbands after bossess
+                    if (Main.hardMode)
                     {
-                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistVeteranHead>());
-                        nextSlot++;
+                        if(NPC.downedBoss3)
+                        {
+                            shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistVeteranHead>());
+                            nextSlot++;
+                        }
+                        if (NPC.downedGolemBoss)
+                        {
+                            shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistMasterHead>());
+                            nextSlot++;
+                        }
                     }
                 }
             }
