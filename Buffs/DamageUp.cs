@@ -9,9 +9,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Retribution");
-            Description.SetDefault(
-                "50% increased melee damage and melee critical strike chance\n" +
-                "15% increased melee attack speed");
+            Description.SetDefault("Greatly increases melee capabilities");
         }
         public override void Update(Player player, ref int buffIndex)
         {

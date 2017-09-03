@@ -41,6 +41,18 @@ namespace WeaponOut.NPCs
                     }
                 }
             }
+            if (ModConf.enableFists)
+            {
+                if (type == NPCID.Clothier)
+                {
+                    //add scrap salvo after mech
+                    if (Main.hardMode && NPC.downedPlantBoss)
+                    {
+                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistVeteranHead>());
+                        nextSlot++;
+                    }
+                }
+            }
         }
 
         public override void SetupTravelShop(int[] shop, ref int nextSlot)

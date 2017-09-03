@@ -76,6 +76,12 @@ namespace WeaponOut
 
         #region Armour Effects
         public bool taekwonCounter;
+        public bool rapidRecovery;
+        public bool buildMomentum;
+        protected float momentum;
+        protected int momentumMax;
+        public bool momentumActive;
+
         #endregion
 
         #region Utils
@@ -175,6 +181,24 @@ namespace WeaponOut
             if (ModConf.enableFists)
             {
                 taekwonCounter = false;
+                rapidRecovery = false;
+
+                //at least 15mph
+                if (buildMomentum)
+                { momentum = Math.Max(0, momentum + Math.Abs(player.velocity.X) - 3f); }
+                else
+                { momentum = 0; }
+
+                int buffID = mod.BuffType<Buffs.Momentum>();
+                if (momentum >= momentumMax && buildMomentum)
+                {
+                    momentum = momentumMax;
+                    if (player.FindBuffIndex(buffID) < 0) player.AddBuff(buffID, 2, false);
+                }
+                else if (player.FindBuffIndex(buffID) >= 0) { player.AddBuff(buffID, 0, false); }
+                momentumMax = 120;
+                buildMomentum = false;
+                momentumActive = false;
             }
         }
 
@@ -893,12 +917,26 @@ namespace WeaponOut
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             ShieldPreHurt(damage, crit, hitDirection);
-
             if (ModConf.enableFists)
             {
-                if (taekwonCounter)
+                if (momentumActive)
                 {
-                    player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 120);
+                    if (damageSource.SourceProjectileIndex >= 0)
+                    {
+                        momentum /= 2;
+                        ProjFX.ReflectProjectilePlayer(Main.projectile[damageSource.SourceProjectileIndex], player);
+                        Main.PlaySound(SoundID.Item10, player.position);
+                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        return false;
+                    }
+                    else if (damageSource.SourceNPCIndex >= 0)
+                    {
+                        momentum = 0;
+                        player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statDefense, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
+                        Main.PlaySound(SoundID.Item10, player.position);
+                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        return false;
+                    }
                 }
             }
             return true;
@@ -952,8 +990,25 @@ namespace WeaponOut
             }
         }
 
+
+        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        {
+            if (ModConf.enableFists)
+            {
+                if (taekwonCounter)
+                {
+                    player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 120);
+                }
+                if (rapidRecovery)
+                {
+                    Buffs.RapidRecovery.HealDamage(player, mod, damage);
+                }
+            }
+        }
+
         #endregion
-        
+
+        // TODO: rebalance crate IDs
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {
             if (junk) return; // Don't do stuff if the catch is a junk catch

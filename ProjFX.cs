@@ -62,6 +62,9 @@ namespace WeaponOut
             LunarAccessoryVisuals(projectile);
         }
 
+        /// <summary>
+        /// Set the delay as projectile is reflected
+        /// </summary>
         internal static void ReflectProjectilePlayer(Projectile projectile, Player player, PlayerFX modPlayer, bool showEffect)
         {
             // Set internal timer
@@ -77,7 +80,8 @@ namespace WeaponOut
         }
         internal static void ReflectProjectilePlayer(Projectile projectile, Player player)
         {
-            
+            if (projectile.owner == player.whoAmI && !projectile.hostile) return; // no need
+
             // Set ownership
             projectile.hostile = false;
             projectile.friendly = true;
