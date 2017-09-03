@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Armour
         public override void UpdateEquip(Player player)
         {
             player.meleeDamage += 0.05f;
-            ModPlayerFists.Get(player).divekickDamage += 0.5f;
+            ModPlayerFists.Get(player).parryDamage += 0.5f;
         }
 
         public override void DrawHands(ref bool drawHands, ref bool drawArms)
