@@ -22,6 +22,7 @@ namespace WeaponOut.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.meleeSpeed += 1f;
+            player.immuneTime++;
 
             // From lunar emblems
             if (!player.HeldItem.autoReuse && !player.HeldItem.channel)
