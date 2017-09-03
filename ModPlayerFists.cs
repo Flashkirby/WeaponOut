@@ -72,7 +72,7 @@ namespace WeaponOut
         /// </summary>
         public int specialMove;
         /// <summary> Allows uppercuts without staying grounded (requires air hits) </summary>
-        protected bool jumpAgainUppercut = false;
+        public bool jumpAgainUppercut = false;
 
         // Bonuses
         public float uppercutDamage = 1f;
@@ -242,7 +242,8 @@ namespace WeaponOut
                 if (player.velocity.Y == 0)
                 {
                     // But upgraded fists can
-                    if (player.HeldItem.rare >= 4)
+                    Item i = new Item(); i.SetDefaults(player.HeldItem.type);
+                    if (i.rare >= 4)
                     { jumpAgainUppercut = true; }
                     else
                     { jumpAgainUppercut = false; }
@@ -1129,8 +1130,8 @@ namespace WeaponOut
 
             player.itemAnimation = 0; //release item lock
 
-            // Set cooldown before next parry is active, relative to parry non-active frames
-            parryTime = ParryActiveFrame * -3;
+            // Set cooldown before next parry is active, relative to parry non-active frames and invinc frames
+            parryTime = (int)(-1f * (ParryActiveFrame * 3f + 20 + player.itemAnimationMax));
             parryWindow = 0;
             parryTimeMax = 0;
 
