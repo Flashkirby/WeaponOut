@@ -35,25 +35,44 @@ namespace WeaponOut.Items.Armour
         }
 
         private byte armourSet = 0;
+        private bool hardMode = false;
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             armourSet = 0;
             if (body.type == mod.ItemType<FistPowerBody>() &&
                 legs.type == mod.ItemType<FistPowerLegs>())
             {
-                armourSet = 1;
+                armourSet = 1; hardMode = false;
+                return true;
+            }
+            else if (body.type == mod.ItemType<HighPowerBody>() &&
+                legs.type == mod.ItemType<HighPowerLegs>())
+            {
+                armourSet = 1; hardMode = true;
                 return true;
             }
             else if (body.type == mod.ItemType<FistDefBody>() &&
                 legs.type == mod.ItemType<FistDefLegs>())
             {
-                armourSet = 2;
+                armourSet = 2; hardMode = false;
+                return true;
+            }
+            else if (body.type == mod.ItemType<HighDefBody>() &&
+                legs.type == mod.ItemType<HighDefLegs>())
+            {
+                armourSet = 2; hardMode = true;
                 return true;
             }
             else if (body.type == mod.ItemType<FistSpeedBody>() &&
                 legs.type == mod.ItemType<FistSpeedLegs>())
             {
-                armourSet = 3;
+                armourSet = 3; hardMode = false;
+                return true;
+            }
+            else if (body.type == mod.ItemType<HighSpeedBody>() &&
+                legs.type == mod.ItemType<HighSpeedLegs>())
+            {
+                armourSet = 3; hardMode = true;
                 return true;
             }
             else if (body.type == ItemID.Gi)
@@ -70,16 +89,32 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Increases melee capabilities after being struck";
+                    if (!hardMode)
+                    {
+                        player.setBonus = "Increases melee capabilities after being struck";
+                    }
+                    else
+                    {
+                        player.setBonus = Language.GetTextValue("ItemTooltip.LuckyHorseshoe") + ", increases melee capabilities after being struck";
+                        player.noFallDmg = true;
+                    }
                     player.GetModPlayer<PlayerFX>().taekwonCounter = true;
                     break;
                 case 2:
-                    player.setBonus = "Greatly increases life regeneration after being struck";
+                    if (!hardMode)
+                    {
+                        player.setBonus = "Greatly increases life regeneration after being struck";
+                    }
+                    else
+                    {
+                        player.setBonus = Language.GetTextValue("ItemTooltip.CrossNecklace") + ", greatly increases life regeneration after being struck";
+                    }
                     player.GetModPlayer<PlayerFX>().rapidRecovery = true;
                     break;
                 case 3:
-                    player.setBonus = "Build up momentum to smash into enemies";
+                    player.setBonus = "Build up momentum to smash into enemies, increased movement speed";
                     player.accRunSpeed += 2f;
+                    if (hardMode) { player.accRunSpeed += 1f; player.moveSpeed += 0.15f; }
                     player.GetModPlayer<PlayerFX>().buildMomentum = true;
                     break;
                 case 4:

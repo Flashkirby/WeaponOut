@@ -38,25 +38,44 @@ namespace WeaponOut.Items.Armour
         }
 
         private byte armourSet = 0;
+        private bool hardMode = false;
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             armourSet = 0;
             if (body.type == mod.ItemType<FistPowerBody>() &&
                 legs.type == mod.ItemType<FistPowerLegs>())
             {
-                armourSet = 1;
+                armourSet = 1; hardMode = false;
+                return true;
+            }
+            else if (body.type == mod.ItemType<HighPowerBody>() &&
+                legs.type == mod.ItemType<HighPowerLegs>())
+            {
+                armourSet = 1; hardMode = true;
                 return true;
             }
             else if (body.type == mod.ItemType<FistDefBody>() &&
                 legs.type == mod.ItemType<FistDefLegs>())
             {
-                armourSet = 2;
+                armourSet = 2; hardMode = false;
+                return true;
+            }
+            else if (body.type == mod.ItemType<HighDefBody>() &&
+                legs.type == mod.ItemType<HighDefLegs>())
+            {
+                armourSet = 2; hardMode = true;
                 return true;
             }
             else if (body.type == mod.ItemType<FistSpeedBody>() &&
                 legs.type == mod.ItemType<FistSpeedLegs>())
             {
-                armourSet = 3;
+                armourSet = 3; hardMode = false;
+                return true;
+            }
+            else if (body.type == mod.ItemType<HighSpeedBody>() &&
+                legs.type == mod.ItemType<HighSpeedLegs>())
+            {
+                armourSet = 3; hardMode = true;
                 return true;
             }
             else if (body.type == ItemID.Gi)
@@ -74,17 +93,30 @@ namespace WeaponOut.Items.Armour
             {
                 case 1:
                     player.setBonus = "Divekicks will steal life";
-                    player.GetModPlayer<PlayerFX>().diveKickHeal += 0.04f;
+                    if (!hardMode)
+                    { player.GetModPlayer<PlayerFX>().diveKickHeal += 0.04f; }
+                    else
+                    { player.GetModPlayer<PlayerFX>().diveKickHeal += 0.06f; }
                     break;
                 case 2:
                     // Not so useful, but very good for not dying in expert (double damage lmao)
                     player.setBonus = "Temporarily reduces damage taken when not attacking";
-                    player.GetModPlayer<PlayerFX>().yomiEndurance += 0.6f;
+                    if (!hardMode)
+                    { player.GetModPlayer<PlayerFX>().yomiEndurance += 0.5f; }
+                    else
+                    { player.GetModPlayer<PlayerFX>().yomiEndurance += 0.65f; }
                     break;
                 case 3:
-                    // Decent armour for protecting against most attacks, (11 dmg reduction)
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "15");
-                    player.statDefense += 15;
+                    if (!hardMode)
+                    {// Decent armour for protecting against most attacks (11 dmg reduction)
+                        player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "15");
+                        player.statDefense += 15;
+                    }
+                    else
+                    {// Hardmode armour (18 dmg reduction)
+                        player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "30");
+                        player.statDefense += 30;
+                    }
                     break;
                 case 4:
                     player.setBonus = "Makes fist parries easier and reduces combo power cost by 1";

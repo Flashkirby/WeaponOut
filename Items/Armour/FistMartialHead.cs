@@ -78,8 +78,8 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = Language.GetTextValue("ItemTooltip.ShinyRedBalloon");
-                    player.jumpBoost = true;
+                    player.setBonus = Language.GetTextValue("ItemTooltip.LuckyHorseshoe");
+                    player.noFallDmg = true;
                     break;
                 case 2:
                     player.setBonus = Language.GetTextValue("ItemTooltip.CrossNecklace");
