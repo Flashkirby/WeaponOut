@@ -113,9 +113,9 @@ namespace WeaponOut.Items.Armour
                         player.statDefense += 15;
                     }
                     else
-                    {// Hardmode armour (18 dmg reduction)
-                        player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "30");
-                        player.statDefense += 30;
+                    {// Hardmode armour gets an extra 10 dmg reduction
+                        player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "20");
+                        player.statDefense += 20;
                     }
                     break;
                 case 4:

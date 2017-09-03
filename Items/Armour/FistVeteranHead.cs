@@ -108,6 +108,7 @@ namespace WeaponOut.Items.Armour
                     else
                     {
                         player.setBonus = Language.GetTextValue("ItemTooltip.CrossNecklace") + ", greatly increases life regeneration after being struck";
+                        player.longInvince = true;
                     }
                     player.GetModPlayer<PlayerFX>().rapidRecovery = true;
                     break;
