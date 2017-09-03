@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -14,6 +15,7 @@ namespace WeaponOut.Buffs
             Description.SetDefault(
                 "Life regeneration is greatly increased! Fist combos double life regeneration");
         }
+
         public override void Update(Player player, ref int buffIndex)
         {
             if (player.GetModPlayer<ModPlayerFists>().ComboCounter > 0)
@@ -26,6 +28,15 @@ namespace WeaponOut.Buffs
             }
         }
 
+        // Stacks with more damage
+        public override bool ReApply(Player player, int time, int buffIndex)
+        {
+            player.buffTime[buffIndex] = Math.Min(
+                player.buffTime[buffIndex] + time, 
+                (int)(player.statLifeMax2 * (120f / healthPer2Secs)));
+            return true;
+        }
+
         public static void HealDamage(Player player, Mod mod, double damage)
         {
             HealDamage(player, mod, (int)damage);
@@ -34,15 +45,7 @@ namespace WeaponOut.Buffs
         {
             int time = (int)(damage * (120f / healthPer2Secs));
             int id = mod.BuffType<RapidRecovery>();
-            int index = player.FindBuffIndex(id);
-            if (index >= 0)
-            {
-                player.buffTime[index] = time;
-            }
-            else
-            {
-                player.AddBuff(id, time, false);
-            }
+            player.AddBuff(id, time, false);
         }
     }
 }
