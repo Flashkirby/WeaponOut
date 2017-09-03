@@ -32,7 +32,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.damage = 31;
             item.useAnimation = 16; // Combos can increase speed by 30-50% since it halves remaining attack time
             item.knockBack = 3f;
-            item.tileBoost = 15; // For fists, we read this as the combo power
+            item.tileBoost = 10; // For fists, we read this as the combo power
 
             item.value = Item.sellPrice(0, 0, 15, 0);
             item.rare = 2;
@@ -61,8 +61,13 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (player.altFunctionUse == 0)
             {   // Short dash brings up to max default speed.
+                float dashSpeed = 5f;
+                if (player.FindBuffIndex(buffID) >= 0)
+                {
+                    dashSpeed = 8f;
+                }
                 player.GetModPlayer<ModPlayerFists>().
-                SetDashOnMovement(5f, 12f, 0.992f, 0.96f, true, 0);
+                SetDashOnMovement(dashSpeed, 12f, 0.992f, 0.96f, true, 0);
             }
             return true;
         }
@@ -80,6 +85,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 player.velocity.X = 0;
                 player.velocity.Y = player.velocity.Y == 0f ? 0f : -5.5f;
                 Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, player.position);
+                player.GetModPlayer<ModPlayerFists>().jumpAgainUppercut = true;
             }
             // Charging
             Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 16, 20);
@@ -105,7 +111,12 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 22, 11.7f, 3f, 12f);
+            float jump = 11.7f;
+            if (player.FindBuffIndex(buffID) >= 0)
+            {
+                jump = 14f;
+            }
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, 22, jump, 3f, 12f);
         }
 
         //Combo
