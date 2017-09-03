@@ -648,7 +648,7 @@ namespace WeaponOut
             
             // Manage player bump
             if (DEBUG_DASHFISTS) Main.NewText(string.Concat("COmbo dash: ", dashEffect, " - alt: ", player.altFunctionUse));
-            if (dashEffect == 0 && comboEffect == 0 && allowComboBounce)
+            if (dashEffect == 0 && comboEffect == 0 && (allowComboBounce || specialMove == 2))
             {
                 ManagePlayerComboMovement(target);
                 allowComboBounce = false;
@@ -749,7 +749,7 @@ namespace WeaponOut
                 // Bounce off
                 int direction = 1;
                 if (player.Center.X < target.Center.X) direction = -1;
-                float bounceY = player.gravDir * -2f + target.velocity.Y * 1.5f;
+                float bounceY = player.gravDir * -2f + Math.Min(0, target.velocity.Y * 1.5f);
                 player.velocity = new Vector2(direction * 4f, bounceY);
 
                 // Reset fall and restore jumps
