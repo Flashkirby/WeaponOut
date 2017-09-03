@@ -273,6 +273,8 @@ namespace WeaponOut
 
                 FistBodyFrame();
                 ParryBodyFrame();
+
+                ShowFistHandOn();
             }
         }
 
@@ -316,7 +318,28 @@ namespace WeaponOut
         {
             OnHitComboLogic(item, target);
         }
+        
         #endregion
+
+        private void ShowFistHandOn()
+        {
+            if (player.itemAnimation > 0)
+            {
+                if (player.HeldItem.useStyle == useStyle)
+                {
+                    if (player.HeldItem.handOnSlot > 0)
+                    {
+                        player.handon = player.HeldItem.handOnSlot;
+                        player.cHandOn = 0;
+                    }
+                    if (player.HeldItem.handOffSlot > 0)
+                    {
+                        player.handoff = player.HeldItem.handOffSlot;
+                        player.cHandOff = 0;
+                    }
+                }
+            }
+        }
 
         public void ResetVariables()
         {
