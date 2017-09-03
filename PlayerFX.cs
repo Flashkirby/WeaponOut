@@ -1103,6 +1103,7 @@ namespace WeaponOut
                         player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
                         Main.PlaySound(SoundID.Item10, player.position);
                         player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        player.immuneTime += 60;
                         return false;
                     }
                 }
