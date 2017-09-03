@@ -685,7 +685,7 @@ namespace WeaponOut
                 bool aerial = target.noGravity;
                 Point origin = target.Center.ToTileCoordinates();
                 Point point;
-                if (!WorldUtils.Find(origin, Searches.Chain(new Searches.Down(4), new GenCondition[]
+                if (!aerial && !WorldUtils.Find(origin, Searches.Chain(new Searches.Down(4), new GenCondition[]
                 {
                     new Conditions.IsSolid()
                 }), out point))
@@ -698,7 +698,7 @@ namespace WeaponOut
                 {
                     player.velocity = target.velocity;
                     player.velocity.X -= player.direction; // Some bounce off
-                    player.velocity.Y -= player.gravDir * 3.8f; // Try to preserve Y velo
+                    player.velocity.Y -= player.gravDir * 0.125f * player.itemAnimationMax; // Try to preserve Y velo, based on attack speed (claws do less, fists do more)
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
                 }
                 else
