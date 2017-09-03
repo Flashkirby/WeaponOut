@@ -932,7 +932,7 @@ namespace WeaponOut
                     else if (damageSource.SourceNPCIndex >= 0)
                     {
                         momentum = 0;
-                        player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statDefense, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
+                        player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
                         Main.PlaySound(SoundID.Item10, player.position);
                         player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
                         return false;
