@@ -11,7 +11,7 @@ namespace WeaponOut.Items.Armour
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prize Fighter Helmet");
+            DisplayName.SetDefault("Prizefighter Helmet");
         }
         public override void SetDefaults()
         {
