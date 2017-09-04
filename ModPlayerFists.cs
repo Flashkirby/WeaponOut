@@ -285,7 +285,12 @@ namespace WeaponOut
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            // All fists have a global damage reduction on projectiles, because they're all about closing
+            // in and doing big DPS. Due to the nature of the weapon, dodging projectiles is less important
+            // than positioning between the player and enemies. Therefore this defence buff is in place to
+            // reduce the pressure of projectiles on an already heavily stacked against usestyle.
             if(player.HeldItem.useStyle == useStyle && damageSource.SourceProjectileIndex >= 0) { damage /= 2; }
+
             return !ParryPreHurt(damageSource);
         }
 

@@ -8,6 +8,11 @@ namespace WeaponOut.Items.Armour
 {
     public class ColosseumHelmet : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Gladiator Colosseum Helmet");
+            Tooltip.SetDefault("5% increased melee damage\n'Let the games begin!'");
+        }
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.GladiatorHelmet);
