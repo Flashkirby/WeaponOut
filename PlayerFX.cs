@@ -83,7 +83,7 @@ namespace WeaponOut
 
         public float patienceDamage;
         private float patienceBonus;
-        private const float patiencePerFrame = 0.01f;
+        private const float patiencePerFrame = 0.0125f;
         private const float patienceCooldown = -patiencePerFrame * 120;
 
         public float yomiEndurance;
@@ -1111,19 +1111,33 @@ namespace WeaponOut
                     }
                 }
 
-                if (player.itemAnimation == 0)
+                bool nearBoss = false;
+                foreach (NPC npc in Main.npc)
                 {
-                    if (player.HeldItem.melee)
+                    if (npc.active && npc.life > 0 && npc.boss)
                     {
-                        patienceBonus += patiencePerFrame;
+                        nearBoss = true;
+                        break;
                     }
                 }
-                // using ranged/magic will reduce effect drastically
-                else if (player.HeldItem.ranged || player.HeldItem.magic) 
+                if (nearBoss)
                 {
-                    patienceBonus -= patiencePerFrame * 4f;
+                    if (player.itemAnimation == 0)
+                    {
+                        if (player.HeldItem.melee)
+                        {
+                            patienceBonus += patiencePerFrame;
+                        }
+                    }
+                    // using ranged/magic will reduce effect drastically
+                    else if (player.HeldItem.ranged || player.HeldItem.magic)
+                    {
+                        patienceBonus -= patiencePerFrame * 4f;
+                    }
+                    patienceBonus = Math.Min(patienceDamage, patienceBonus);
                 }
-                patienceBonus = Math.Min(patienceDamage, patienceBonus);
+                else
+                { patienceBonus = patienceCooldown; }
                 patienceDamage = 0f;
 
                 if (momentum >= momentumMax)

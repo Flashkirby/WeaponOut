@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Helmet");
-            Tooltip.SetDefault("Melee damage gradually increases when not attacking");
+            Tooltip.SetDefault("Melee damage gradually increases near bosses when not attacking");
         }
         public override void SetDefaults()
         {
