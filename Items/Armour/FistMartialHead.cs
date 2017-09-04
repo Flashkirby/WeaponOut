@@ -12,7 +12,8 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Apprentice Headband");
-            Tooltip.SetDefault("3% increased melee critical strike chance");
+            Tooltip.SetDefault("3% increased melee critical strike chance\n"
+                + "Melee damage gradually increases when not attacking");
         }
         public override void SetDefaults()
         {
@@ -35,6 +36,7 @@ namespace WeaponOut.Items.Armour
         public override void UpdateEquip(Player player)
         {
             player.meleeCrit += 3;
+            player.GetModPlayer<PlayerFX>().patienceDamage = 4f; // Can do up to 400%
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

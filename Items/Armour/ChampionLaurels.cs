@@ -12,7 +12,8 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Laurels");
-            Tooltip.SetDefault("5% increased melee damage");
+            Tooltip.SetDefault("5% increased melee damage\n" +
+                "Melee damage gradually increases when not attacking");
         }
         public override void SetDefaults()
         {
@@ -35,6 +36,7 @@ namespace WeaponOut.Items.Armour
         public override void UpdateEquip(Player player)
         {
             player.meleeDamage += 0.05f;
+            player.GetModPlayer<PlayerFX>().patienceDamage = 25f; // Can do up to 2500%
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
@@ -72,7 +74,7 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "20 defense per 100 missing life (NOT DONE)";
+                    player.setBonus = "20 defense per 100 missing life";
                     player.GetModPlayer<PlayerFX>().barbariousDefence = true;
                     break;
                 case 2:

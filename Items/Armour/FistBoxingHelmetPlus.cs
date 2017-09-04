@@ -12,6 +12,7 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prizefighter Helmet");
+            Tooltip.SetDefault("Melee damage gradually increases when not attacking");
         }
         public override void SetDefaults()
         {
@@ -30,6 +31,11 @@ namespace WeaponOut.Items.Armour
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.GetModPlayer<PlayerFX>().patienceDamage = 10f; // Can do up to 1000%
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

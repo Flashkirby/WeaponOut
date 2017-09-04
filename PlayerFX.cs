@@ -81,6 +81,11 @@ namespace WeaponOut
         public bool millstone;
         public bool barbariousDefence;
 
+        public float patienceDamage;
+        private float patienceBonus;
+        private const float patiencePerFrame = 0.01f;
+        private const float patienceCooldown = -patiencePerFrame * 120;
+
         public float yomiEndurance;
         public bool yomiFinishedAttack;
 
@@ -170,6 +175,10 @@ namespace WeaponOut
             WeaponOut.NetUpdateWeaponVisual(mod, this);
         }
 
+        public override void Initialize()
+        {
+            patienceBonus = patienceCooldown;
+        }
         public override void ResetEffects()
         {
             damageKnockbackThreshold = 0;
@@ -208,6 +217,8 @@ namespace WeaponOut
                 millstone = false;
                 momentumDash = false;
                 momentumDashTime = Math.Max(0, momentumDashTime - 1);
+
+                if (patienceBonus > 0) player.meleeDamage += patienceBonus;
 
                 if (barbariousDefence) { player.statDefense += player.statLife / 5; }
                 barbariousDefence = false;
@@ -700,7 +711,7 @@ namespace WeaponOut
             catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
 
-            fistPostUpdate();
+            //fistPostUpdate();
         }
         #endregion
         #region draw
@@ -1096,6 +1107,21 @@ namespace WeaponOut
                     }
                 }
 
+                if (player.itemAnimation == 0)
+                {
+                    if (player.HeldItem.melee)
+                    {
+                        patienceBonus += patiencePerFrame;
+                    }
+                }
+                // using ranged/magic will reduce effect drastically
+                else if (player.HeldItem.ranged || player.HeldItem.magic) 
+                {
+                    patienceBonus -= patiencePerFrame * 4f;
+                }
+                patienceBonus = Math.Min(patienceDamage, patienceBonus);
+                patienceDamage = 0f;
+
                 if (momentum >= momentumMax)
                 {
                     player.armorEffectDrawOutlinesForbidden = true;
@@ -1174,7 +1200,7 @@ namespace WeaponOut
 
         #endregion
 
-        #region Hurt Methods
+        #region Hurt & Hit Methods
 
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         { ModifyHit(item, player, target.life, target.lifeMax, ref damage, ref knockback, ref crit); }
@@ -1184,13 +1210,15 @@ namespace WeaponOut
         {
             if (ModConf.enableFists)
             {
-                if (millstone)
+                ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+                if (millstone && mpf.IsComboActive)
                 {
                     damage += (int)(life * 0.002f);
                 }
+
+                patienceBonus = patienceCooldown;
             }
         }
-
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
