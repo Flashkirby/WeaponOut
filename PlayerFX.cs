@@ -79,7 +79,6 @@ namespace WeaponOut
         public bool rapidRecovery;
         public float diveKickHeal;
         public bool millstone;
-        public bool momentumDash;
         public bool barbariousDefence;
 
         public float yomiEndurance;
@@ -91,9 +90,12 @@ namespace WeaponOut
         public bool recordLifeLost;
 
         public bool buildMomentum;
+        public const float momentumDashSpeed = 16f;
         protected float momentum;
         protected int momentumMax;
         public bool momentumActive;
+        public bool momentumDash;
+        public int momentumDashTime;
 
         public bool secondWind;
         public int secondWindLifeTax;
@@ -205,6 +207,7 @@ namespace WeaponOut
                 diveKickHeal = 0f;
                 millstone = false;
                 momentumDash = false;
+                momentumDashTime = Math.Max(0, momentumDashTime - 1);
 
                 if (barbariousDefence) { player.statDefense += player.statLife / 5; }
                 barbariousDefence = false;
@@ -225,7 +228,7 @@ namespace WeaponOut
                 //  ================ Momentum ================
                 //
                 if (buildMomentum) //at least 15mph
-                { momentum = Math.Max(0, momentum + Math.Abs(player.velocity.X) - 3f); }
+                { momentum = Math.Max(0, momentum + Math.Min(12, Math.Abs(player.velocity.X)) - 3f); }
                 else
                 { momentum = 0; }
 
@@ -437,6 +440,27 @@ namespace WeaponOut
                     player.accRunSpeed = player.maxRunSpeed;
                 }
             }
+
+            if (ModConf.enableFists)
+            {
+                if (momentumDashTime > 0)
+                {
+                    player.velocity = momentumDashSpeed * (Main.MouseWorld - player.Center).SafeNormalize(new Vector2(player.direction, 0));
+                    if (player.velocity.X > 0)
+                    { player.direction = 1; }
+                    else
+                    { player.direction = -1; }
+
+                    if (momentumDashTime == 1)
+                    {
+                        Main.PlaySound(SoundID.Run, player.position);
+                        if (Main.myPlayer == player.whoAmI && Main.netMode == 1)
+                        {
+                            NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                    }
+                }
+            }
         }
 
         public override void PostUpdate()
@@ -489,6 +513,71 @@ namespace WeaponOut
         }
         private int lifeRestorable(Player player)
         { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
+
+        public override void SetControls()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                bool JustPressed = false;
+                switch (i)
+                {
+                    case 0:
+                        JustPressed = (player.controlDown && player.releaseDown);
+                        break;
+                    case 1:
+                        JustPressed = (player.controlUp && player.releaseUp);
+                        break;
+                    case 2:
+                        JustPressed = (player.controlRight && player.releaseRight);
+                        break;
+                    case 3:
+                        JustPressed = (player.controlLeft && player.releaseLeft);
+                        break;
+                }
+                if (JustPressed && player.doubleTapCardinalTimer[i] > 0 && JustPressed && player.doubleTapCardinalTimer[i] < 15)
+                {
+                    KeyDoubleTap(i);
+                }
+            }
+        }
+        
+        public void KeyDoubleTap(int keyDir)
+        {
+            int inputKey = 0;
+            if (Main.ReversedUpDownArmorSetBonuses)
+            {
+                inputKey = 1;
+            }
+            if (keyDir == inputKey)
+            {
+                if (ModConf.enableFists)
+                {
+                    MomentumDashTorwardsMouse();
+                }
+            }
+        }
+
+        private void MomentumDashTorwardsMouse()
+        {
+            if (!momentumDash || momentum < momentumMax) return;
+            momentum = 0;
+            momentumDashTime = 6;
+
+            player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 90);
+            player.immune = true;
+            player.immuneTime = Math.Max(10, player.immuneTime);
+
+            Main.PlaySound(SoundID.Run, player.position);
+            for (int i = 0; i < 3; i++)
+            {
+                Gore g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 14f), default(Vector2), Main.rand.Next(61, 64), 1f)];
+            }
+
+            if (Main.myPlayer == player.whoAmI && Main.netMode == 1)
+            {
+                NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+            }
+        }
 
         #region Tent
         private void manageBodyFrame()
@@ -1063,6 +1152,9 @@ namespace WeaponOut
                     player.statLife = Math.Min(player.statLife, player.statLifeMax2);
                     NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
                 }
+
+                // Punches heal
+                if (secondWind) secondWindLifeTax -= Math.Min(5, mpf.ComboCounter / 4);
             }
         }
 
@@ -1199,15 +1291,8 @@ namespace WeaponOut
             {
                 if (secondWind && player.statLife <= 0)
                 {
-                    int overkill = (int)(damage) + 1 - player.statLife;
+                    int overkill = 1 - player.statLife;
 
-                    // Death by poison, fire, drowning, suffocation etc. use 10 damage. Tongue uses 1000
-                    // see PlayerDeathReason.ByOther
-                    if (damage < 1.0 || damageSource.SourceOtherIndex >= 0 && damage == 10.0)
-                    {
-                        overkill = 1;
-                    }
-                    
                     if (player.statLifeMax2 - overkill > 20) // would still have 1 heart left?
                     {
                         if (secondWindLifeTax == 0)

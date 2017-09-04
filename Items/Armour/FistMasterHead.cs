@@ -37,7 +37,8 @@ namespace WeaponOut.Items.Armour
         private byte armourSet = 0;
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            armourSet = 0;if (body.type == mod.ItemType<HighPowerBody>() &&
+            armourSet = 0;
+            if (body.type == mod.ItemType<HighPowerBody>() &&
                 legs.type == mod.ItemType<HighPowerLegs>())
             {
                 armourSet = 1;
@@ -64,7 +65,7 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Combo attacks deal additional damage based on current enemy health";
+                    player.setBonus = "Combo attacks deal additional damage based on enemy life";
                     player.GetModPlayer<PlayerFX>().millstone = true;
                     break;
                 case 2:
@@ -73,7 +74,7 @@ namespace WeaponOut.Items.Armour
                     break;
                 case 3:
                     string button = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
-                    player.setBonus = "Build up momentum and double tap " + button + " to leap towards a location (PARTIALLY DONE)";
+                    player.setBonus = "Build up momentum and double tap " + button + " to leap towards a location";
                     player.GetModPlayer<PlayerFX>().buildMomentum = true;
                     player.GetModPlayer<PlayerFX>().momentumDash = true;
                     break;

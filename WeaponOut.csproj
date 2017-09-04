@@ -36,6 +36,7 @@
     <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\SecondWind.cs" />
     <Compile Include="Buffs\YomiEndure.cs" />
     <Compile Include="Buffs\Momentum.cs" />
     <Compile Include="Buffs\RapidRecovery.cs" />
