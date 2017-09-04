@@ -79,6 +79,8 @@ namespace WeaponOut
         public bool rapidRecovery;
         public float diveKickHeal;
         public bool millstone;
+        public bool momentumDash;
+        public bool barbariousDefence;
 
         public float yomiEndurance;
         public bool yomiFinishedAttack;
@@ -92,6 +94,13 @@ namespace WeaponOut
         protected float momentum;
         protected int momentumMax;
         public bool momentumActive;
+
+        public bool secondWind;
+        public int secondWindLifeTax;
+
+        private int yin;
+        private int yang;
+        public bool yinyang;
 
         #endregion
 
@@ -195,7 +204,14 @@ namespace WeaponOut
                 rapidRecovery = false;
                 diveKickHeal = 0f;
                 millstone = false;
+                momentumDash = false;
 
+                if (barbariousDefence) { player.statDefense += player.statLife / 5; }
+                barbariousDefence = false;
+
+                // 
+                //  ================ Sash LIfe ================
+                //
                 if (!recordLifeLost)
                 {
                     sashLastLife = player.statLife;
@@ -204,8 +220,11 @@ namespace WeaponOut
                 sashMaxLifeRecoverMult = 0;
                 recordLifeLost = false;
 
-                //at least 15mph
-                if (buildMomentum)
+
+                // 
+                //  ================ Momentum ================
+                //
+                if (buildMomentum) //at least 15mph
                 { momentum = Math.Max(0, momentum + Math.Abs(player.velocity.X) - 3f); }
                 else
                 { momentum = 0; }
@@ -220,6 +239,19 @@ namespace WeaponOut
                 momentumMax = 120;
                 buildMomentum = false;
                 momentumActive = false;
+                
+                // 
+                //  ================ Second Wind ================
+                //
+                secondWind = false;
+                if (player.FindBuffIndex(mod.BuffType<Buffs.SecondWind>()) < 0)
+                { secondWindLifeTax = 0; }
+                secondWindLifeTax = Math.Max(0, secondWindLifeTax);
+
+                // 
+                //  ================ Yinyang ================
+                //
+                yinyang = false;
             }
         }
 
@@ -228,6 +260,8 @@ namespace WeaponOut
             sashLifeLost = 0;
             sashLastLife = 0;
             recordLifeLost = false;
+
+            secondWindLifeTax = 0;
         }
 
         #region Save and Load
@@ -1153,6 +1187,40 @@ namespace WeaponOut
                     Buffs.RapidRecovery.HealDamage(player, mod, damage);
                 }
             }
+        }
+
+        #endregion
+
+        #region Pre-Dead
+
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            if (ModConf.enableFists)
+            {
+                if (secondWind && player.statLife <= 0)
+                {
+                    int overkill = (int)(damage) + 1 - player.statLife;
+
+                    // Death by poison, fire, drowning, suffocation etc. use 10 damage. Tongue uses 1000
+                    // see PlayerDeathReason.ByOther
+                    if (damage < 1.0 || damageSource.SourceOtherIndex >= 0 && damage == 10.0)
+                    {
+                        overkill = 1;
+                    }
+                    
+                    if (player.statLifeMax2 - overkill > 20) // would still have 1 heart left?
+                    {
+                        if (secondWindLifeTax == 0)
+                        {
+                            player.AddBuff(mod.BuffType<Buffs.SecondWind>(), 3600 * 3); // 3 min
+                        }
+                        secondWindLifeTax += overkill;
+                        player.statLife = Math.Max(player.statLife, 1);
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         #endregion

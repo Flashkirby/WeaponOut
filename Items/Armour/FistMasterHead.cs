@@ -69,12 +69,13 @@ namespace WeaponOut.Items.Armour
                     break;
                 case 2:
                     player.setBonus = "Taking damage grants yin, dealing damage grants yang, effects occur at the end of a combo (NOT DONE)";
-                    //player.GetModPlayer<PlayerFX>().yinyang = true;
+                    player.GetModPlayer<PlayerFX>().yinyang = true;
                     break;
                 case 3:
-                    player.setBonus = "Build up momentum and double tap {0} to leap towards a location (NOT DONE)";
+                    string button = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
+                    player.setBonus = "Build up momentum and double tap " + button + " to leap towards a location (PARTIALLY DONE)";
                     player.GetModPlayer<PlayerFX>().buildMomentum = true;
-                    //player.GetModPlayer<PlayerFX>().momentumDash = true;
+                    player.GetModPlayer<PlayerFX>().momentumDash = true;
                     break;
             }
         }

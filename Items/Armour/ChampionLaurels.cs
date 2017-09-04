@@ -73,7 +73,7 @@ namespace WeaponOut.Items.Armour
             {
                 case 1:
                     player.setBonus = "20 defense per 100 missing life (NOT DONE)";
-                    //player.GetModPlayer<PlayerFX>().beserkDefence = true;
+                    player.GetModPlayer<PlayerFX>().barbariousDefence = true;
                     break;
                 case 2:
                     player.setBonus = "Damage taken is reduced by 10%, temporarily reduces damage taken when not attacking";
@@ -81,8 +81,8 @@ namespace WeaponOut.Items.Armour
                     player.GetModPlayer<PlayerFX>().yomiEndurance += 0.6f;
                     break;
                 case 3:
-                    player.setBonus = "Maximum life acts as a second wind, heal maximum life with combos (NOT DONE)";
-                    //player.GetModPlayer<PlayerFX>().secondWind = true;
+                    player.setBonus = "Maximum life acts as a second wind, heal maximum life with combos";
+                    player.GetModPlayer<PlayerFX>().secondWind = true;
                     break;
             }
         }
