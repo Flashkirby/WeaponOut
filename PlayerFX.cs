@@ -220,9 +220,6 @@ namespace WeaponOut
 
                 if (patienceBonus > 0) player.meleeDamage += patienceBonus;
 
-                if (barbariousDefence) { player.statDefense += player.statLife / 5; }
-                barbariousDefence = false;
-
                 // 
                 //  ================ Sash LIfe ================
                 //
@@ -479,6 +476,13 @@ namespace WeaponOut
                         }
                     }
                 }
+
+                // Done here because last playerhook before collision checks
+                if (barbariousDefence)
+                {
+                    player.statDefense += (player.statLifeMax2 - player.statLife) / 5;
+                }
+                barbariousDefence = false;
             }
         }
 
