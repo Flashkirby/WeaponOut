@@ -454,8 +454,8 @@ namespace WeaponOut
                     
                     for (int i = 0; i < 4; i++)
                     {
-                        Dust d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 31, player.velocity.X, player.velocity.Y, 150, default(Color), 1.6f)];
-                        d.velocity *= -0.4f;
+                        Dust d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 31, player.velocity.X, player.velocity.Y, 50, default(Color), 1.6f)];
+                        d.velocity *= 0.04f * i * momentumDashTime;
                         d.shader = GameShaders.Armor.GetSecondaryShader(player.cBody, player);
                     }
 
@@ -1079,7 +1079,7 @@ namespace WeaponOut
         {
             if (ModConf.enableFists)
             {
-                if (yomiEndurance > 0f) 
+                if (yomiEndurance > 0f)
                 {
                     if (player.itemAnimation == 0)
                     {
@@ -1094,6 +1094,11 @@ namespace WeaponOut
                     {
                         yomiFinishedAttack = true;
                     }
+                }
+
+                if (momentum >= momentumMax)
+                {
+                    player.armorEffectDrawOutlinesForbidden = true;
                 }
 
                 if (weaponVisual)

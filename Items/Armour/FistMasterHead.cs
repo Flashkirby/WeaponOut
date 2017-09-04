@@ -69,7 +69,7 @@ namespace WeaponOut.Items.Armour
                     player.GetModPlayer<PlayerFX>().millstone = true;
                     break;
                 case 2:
-                    player.setBonus = "Taking damage grants yin, dealing damage grants yang, effects occur at the end of a combo (NOT DONE)";
+                    player.setBonus = "Taking damage grants yin, dealing damage grants yang,\neffects occur at the end of a combo (NOT DONE)";
                     player.GetModPlayer<PlayerFX>().yinyang = true;
                     break;
                 case 3:
@@ -78,6 +78,18 @@ namespace WeaponOut.Items.Armour
                     player.GetModPlayer<PlayerFX>().buildMomentum = true;
                     player.GetModPlayer<PlayerFX>().momentumDash = true;
                     break;
+            }
+        }
+
+        public override void ArmorSetShadows(Player player)
+        {
+            if (armourSet == 1)
+            {
+                player.armorEffectDrawShadowSubtle = true;
+            }
+            if (armourSet == 3)
+            {
+                player.armorEffectDrawShadow = true;
             }
         }
     }

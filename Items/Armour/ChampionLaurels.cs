@@ -76,7 +76,7 @@ namespace WeaponOut.Items.Armour
                     player.GetModPlayer<PlayerFX>().barbariousDefence = true;
                     break;
                 case 2:
-                    player.setBonus = "Damage taken is reduced by 10%, temporarily reduces damage taken when not attacking";
+                    player.setBonus = "Damage taken is reduced by 10%,\ntemporarily reduces damage taken when not attacking";
                     player.endurance += 0.1f;
                     player.GetModPlayer<PlayerFX>().yomiEndurance += 0.6f;
                     break;
@@ -84,6 +84,18 @@ namespace WeaponOut.Items.Armour
                     player.setBonus = "Maximum life acts as a second wind, heal maximum life with combos";
                     player.GetModPlayer<PlayerFX>().secondWind = true;
                     break;
+            }
+        }
+
+        public override void ArmorSetShadows(Player player)
+        {
+            if (armourSet == 1)
+            {
+                player.armorEffectDrawShadowSubtle = true;
+            }
+            if (armourSet == 3)
+            {
+                player.armorEffectDrawShadow = true;
             }
         }
     }

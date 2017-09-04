@@ -26,10 +26,15 @@ namespace WeaponOut.Buffs
         {
             player.GetModPlayer<PlayerFX>().momentumActive = true;
             if (player.buffTime[buffIndex] == 1) player.buffTime[buffIndex]++;
-            
+
             float i = Main.rand.NextFloatDirection();
-            Dust d = Dust.NewDustPerfect(new Vector2(
+            Dust.NewDustPerfect(new Vector2(
                 player.Center.X + player.width * 0.6f * player.direction,
+                player.Center.Y + player.height * 0.6f * i),
+                31,
+                new Vector2(0, i * Math.Abs(player.velocity.X) * 0.4f), 50);
+            Dust.NewDustPerfect(new Vector2(
+                player.Center.X + player.width * 0.8f * player.direction,
                 player.Center.Y + player.height * 0.6f * i),
                 31,
                 new Vector2(0, i * Math.Abs(player.velocity.X) * 0.3f), 100);
