@@ -1373,40 +1373,7 @@ namespace WeaponOut
                     WeaponOut.NetUpdateDash(this);
 
                     // Air dashes to nearby targets
-                    if (player.wingTime > 0 && 
-                        player.velocity.Y != 0 && 
-                        player.whoAmI == Main.myPlayer && 
-                        specialMove == 0)
-                    {
-                        NPC target = null;
-                        Vector2 pC = player.Center;
-                        Vector2 mC = Main.MouseWorld;
-                        float maxDist = 128 + dashSpeed * 5;
-                        foreach (NPC npc in Main.npc)
-                        {
-                            if (!npc.active || npc.life <= 0 || npc.friendly) continue;
-                            Vector2 nC = npc.Center;
-                            if (player.direction > 0 && nC.X < pC.X) continue;
-                            if (player.direction < 0 && nC.X > pC.X) continue;
-                            float mouseDistance = Math.Abs(nC.X - mC.X) + Math.Abs(nC.Y - mC.Y);
-                            float playerDistance = Math.Abs(nC.X - pC.X) + Math.Abs(nC.Y - pC.Y);
-                            if (playerDistance <= dashSpeed * 32)
-                            {
-                                if (mouseDistance < maxDist)
-                                {
-                                    Main.NewText("md = " + maxDist);
-                                    maxDist = mouseDistance;
-                                    target = npc;
-                                }
-                            }
-                        }
-                        if(target != null)
-                        {
-                            Vector2 p2n = Vector2.Subtract(target.Center, pC);
-                            float boost = p2n.Y / (0.5f + Math.Abs(p2n.X / 16));
-                            player.velocity.Y += Math.Max(-dashSpeed, boost);
-                        }
-                    }
+                    AerialDashManeuvre();
                 }
 
                 // Apply movement during the actual dash, 
@@ -1450,6 +1417,50 @@ namespace WeaponOut
             if (player.dashDelay == 1)
             {
                 ResetDashVars();
+            }
+        }
+
+        /// <summary>
+        /// Auto-targets to nearby NPCs during a dash whilst wingtime is active, to give a small Y velo boost
+        /// </summary>
+        private void AerialDashManeuvre()
+        {
+            if (player.wingTime > 0 &&
+                                    player.velocity.Y != 0 &&
+                                    player.whoAmI == Main.myPlayer &&
+                                    specialMove == 0)
+            {
+                NPC target = null;
+                Vector2 pC = player.Center;
+                Vector2 mC = Main.MouseWorld;
+                float maxDist = 128 + dashSpeed * 5;
+                foreach (NPC npc in Main.npc)
+                {
+                    if (!npc.active || npc.life <= 0 || npc.friendly) continue;
+                    Vector2 nC = npc.Center;
+                    if (player.direction > 0 && nC.X < pC.X) continue;
+                    if (player.direction < 0 && nC.X > pC.X) continue;
+                    float mouseDistance = Math.Abs(nC.X - mC.X) + Math.Abs(nC.Y - mC.Y);
+                    float playerDistance = Math.Abs(nC.X - pC.X) + Math.Abs(nC.Y - pC.Y);
+                    if (playerDistance <= dashSpeed * 32)
+                    {
+                        if (mouseDistance < maxDist)
+                        {
+                            maxDist = mouseDistance;
+                            target = npc;
+                        }
+                    }
+                }
+                if (target != null)
+                {
+                    Vector2 p2n = Vector2.Subtract(target.Center, pC);
+                    float boost = p2n.Y / (0.5f + Math.Abs(p2n.X / 16));
+                    player.velocity.Y += Math.Max(-dashSpeed, boost);
+                    if (Main.netMode == 1)
+                    {
+                        NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    }
+                }
             }
         }
 
