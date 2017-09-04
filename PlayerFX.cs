@@ -573,7 +573,7 @@ namespace WeaponOut
 
             player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 90);
             player.immune = true;
-            player.immuneTime = Math.Max(20, player.immuneTime);
+            player.immuneTime = Math.Max(10, player.immuneTime);
 
             Main.PlaySound(SoundID.Run, player.position);
             for (int i = 0; i < 3; i++)
