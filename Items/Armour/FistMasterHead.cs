@@ -64,8 +64,8 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Combo attacks deal additional damage equal to 1% of current enemy health (NOT DONE)";
-                    //player.GetModPlayer<PlayerFX>().millstone = true;
+                    player.setBonus = "Combo attacks deal additional damage based on current enemy health";
+                    player.GetModPlayer<PlayerFX>().millstone = true;
                     break;
                 case 2:
                     player.setBonus = "Taking damage grants yin, dealing damage grants yang, effects occur at the end of a combo (NOT DONE)";

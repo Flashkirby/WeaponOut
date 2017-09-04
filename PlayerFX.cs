@@ -78,6 +78,7 @@ namespace WeaponOut
         public bool taekwonCounter;
         public bool rapidRecovery;
         public float diveKickHeal;
+        public bool millstone;
 
         public float yomiEndurance;
         public bool yomiFinishedAttack;
@@ -193,6 +194,7 @@ namespace WeaponOut
                 taekwonCounter = false;
                 rapidRecovery = false;
                 diveKickHeal = 0f;
+                millstone = false;
 
                 if (!recordLifeLost)
                 {
@@ -1033,6 +1035,22 @@ namespace WeaponOut
         #endregion
 
         #region Hurt Methods
+
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        { ModifyHit(item, player, target.life, target.lifeMax, ref damage, ref knockback, ref crit); }
+        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        { float knockBack = 5f; ModifyHit(item, player, target.statLife, target.statLifeMax2, ref damage, ref knockBack, ref crit); }
+        private void ModifyHit(Item item, Player player, int life, int lifeMax, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (ModConf.enableFists)
+            {
+                if (millstone)
+                {
+                    damage += (int)(life * 0.002f);
+                }
+            }
+        }
+
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
