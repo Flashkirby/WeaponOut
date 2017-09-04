@@ -228,7 +228,7 @@ namespace WeaponOut
                 //  ================ Momentum ================
                 //
                 if (buildMomentum) //at least 15mph
-                { momentum = Math.Max(0, momentum + Math.Min(12, Math.Abs(player.velocity.X)) - 3f); }
+                { momentum = Math.Max(0, momentum + Math.Min(9, Math.Abs(player.velocity.X)) - 3f); }
                 else
                 { momentum = 0; }
 
@@ -239,7 +239,7 @@ namespace WeaponOut
                     if (player.FindBuffIndex(buffID) < 0) player.AddBuff(buffID, 2, false);
                 }
                 else if (player.FindBuffIndex(buffID) >= 0) { player.AddBuff(buffID, 0, false); }
-                momentumMax = 120;
+                momentumMax = 180;
                 buildMomentum = false;
                 momentumActive = false;
                 
@@ -446,10 +446,18 @@ namespace WeaponOut
                 if (momentumDashTime > 0)
                 {
                     player.velocity = momentumDashSpeed * (Main.MouseWorld - player.Center).SafeNormalize(new Vector2(player.direction, 0));
-                    if (player.velocity.X > 0)
+
+                    if (player.velocity.X >= 0)
                     { player.direction = 1; }
                     else
                     { player.direction = -1; }
+                    
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Dust d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 31, player.velocity.X, player.velocity.Y, 150, default(Color), 1.6f)];
+                        d.velocity *= -0.4f;
+                        d.shader = GameShaders.Armor.GetSecondaryShader(player.cBody, player);
+                    }
 
                     if (momentumDashTime == 1)
                     {
@@ -508,7 +516,7 @@ namespace WeaponOut
                 player.HealEffect(sashLifeLost, false);
                 player.statLife += sashLifeLost;
                 player.statLife = Math.Min(player.statLife, player.statLifeMax2);
-                NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+                if(Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
             }
         }
         private int lifeRestorable(Player player)
@@ -565,7 +573,7 @@ namespace WeaponOut
 
             player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 90);
             player.immune = true;
-            player.immuneTime = Math.Max(10, player.immuneTime);
+            player.immuneTime = Math.Max(20, player.immuneTime);
 
             Main.PlaySound(SoundID.Run, player.position);
             for (int i = 0; i < 3; i++)
@@ -1150,7 +1158,8 @@ namespace WeaponOut
                     player.HealEffect(heal, false);
                     player.statLife += heal;
                     player.statLife = Math.Min(player.statLife, player.statLifeMax2);
-                    NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+
+                    if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
                 }
 
                 // Punches heal
