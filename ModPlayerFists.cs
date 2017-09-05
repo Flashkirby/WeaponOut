@@ -1183,6 +1183,9 @@ namespace WeaponOut
                     bool crit = Main.rand.Next(100) < player.meleeCrit * 2f;
                     int hitDirection = player.direction;
 
+                    // Damage cap based on weapon strength
+                    damage = Math.Min(damage, player.HeldItem.damage * 5);
+
                     if (npc.knockBackResist > 0)
                     {
                         knockback /= 0.5f + (npc.knockBackResist * 0.5f);
