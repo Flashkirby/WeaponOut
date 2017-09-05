@@ -1140,7 +1140,7 @@ namespace WeaponOut
                         {
                             patienceBonus -= patiencePerFrame * 4f;
                         }
-                        patienceBonus = Math.Min(patienceDamage, patienceBonus);
+                        patienceBonus = Math.Max(patienceCooldown, Math.Min(patienceDamage, patienceBonus));
                         patienceDustUpdate = Math.Max(0, patienceDustUpdate + (int)(patienceBonus * 100f));
 
                         while (patienceDustUpdate > 1500)// 1 dust per 100% damage every 15 frames

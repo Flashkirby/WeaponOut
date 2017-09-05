@@ -699,7 +699,11 @@ namespace WeaponOut
 
         private void ManagePlayerComboMovement(NPC target)
         {
-            if(specialMove != 1)
+            Vector2 cappedVelocity = new Vector2(
+                Math.Min(10f, Math.Max(-10f, target.velocity.X)),
+                Math.Min(10f, Math.Max(-10f, target.velocity.Y)));
+
+            if (specialMove != 1)
             {
                 // Punches and stomps reset uppercut
                 jumpAgainUppercut = true;
@@ -727,7 +731,7 @@ namespace WeaponOut
                 // Partially follow the target if it's in the air
                 if (aerial)
                 {
-                    player.velocity = target.velocity;
+                    player.velocity = cappedVelocity;
                     player.velocity.X -= player.direction; // Some bounce off
                     player.velocity.Y -= player.gravDir * 0.125f * player.itemAnimationMax; // Try to preserve Y velo, based on attack speed (claws do less, fists do more)
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
@@ -736,8 +740,8 @@ namespace WeaponOut
                 {
                     // Bounce off
                     player.velocity = new Vector2(
-                        -player.direction * (1.5f + player.HeldItem.knockBack * 0.5f) + target.velocity.X * 0.5f,
-                        target.velocity.Y * 1.5f * target.knockBackResist);
+                        -player.direction * (1.5f + player.HeldItem.knockBack * 0.5f) + cappedVelocity.X * 0.5f,
+                        cappedVelocity.Y * 1.5f * target.knockBackResist);
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
                 }
                 #endregion
@@ -756,7 +760,7 @@ namespace WeaponOut
                 // Bounce off
                 int direction = 1;
                 if (player.Center.X < target.Center.X) direction = -1;
-                float bounceY = player.gravDir * -2f + Math.Min(0, target.velocity.Y * 1.5f);
+                float bounceY = player.gravDir * -2f + Math.Min(0, cappedVelocity.Y * 1.5f);
                 player.velocity = new Vector2(direction * 4f, bounceY);
 
                 // Reset fall and restore jumps
