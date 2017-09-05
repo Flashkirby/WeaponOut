@@ -1169,27 +1169,28 @@ namespace WeaponOut
             // Strike the NPC away slightly
             if (damageSource.SourceNPCIndex >= 0)
             {
-                NPC npc = Main.npc[damageSource.SourceNPCIndex];
-
-                // Damage is based on the NPC's attack, plus player melee multiplier
-                int damage = npc.defDefense + (int)(npc.damage * player.meleeDamage * parryDamage);
-                // Knockback of weapon, with scaling
-                float knockback = player.GetWeaponKnockback(player.HeldItem, player.HeldItem.knockBack);
-                // Parried attacks have double crit
-                bool crit = Main.rand.Next(100) < player.meleeCrit * 2f;
-                int hitDirection = player.direction;
-
-                if (npc.knockBackResist > 0)
-                {
-                    knockback /= 0.5f + (npc.knockBackResist * 0.5f);
-                }
-                knockback += 1f;
-
-                
-
-                // Already a client only method so no need to check for whoAmI
-                player.ApplyDamageToNPC(npc, damage, knockback, hitDirection, crit);
                 Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
+
+                NPC npc = Main.npc[damageSource.SourceNPCIndex];
+                if (!npc.immortal && !npc.dontTakeDamage)
+                {
+                    // Damage is based on the NPC's attack, plus player melee multiplier
+                    int damage = npc.defDefense + (int)(npc.damage * player.meleeDamage * parryDamage);
+                    // Knockback of weapon, with scaling
+                    float knockback = player.GetWeaponKnockback(player.HeldItem, player.HeldItem.knockBack);
+                    // Parried attacks have double crit
+                    bool crit = Main.rand.Next(100) < player.meleeCrit * 2f;
+                    int hitDirection = player.direction;
+
+                    if (npc.knockBackResist > 0)
+                    {
+                        knockback /= 0.5f + (npc.knockBackResist * 0.5f);
+                    }
+                    knockback += 1f;
+                    
+                    // Already a client only method so no need to check for whoAmI
+                    player.ApplyDamageToNPC(npc, damage, knockback, hitDirection, crit);
+                }
             }
             else
             {
