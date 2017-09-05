@@ -1392,7 +1392,11 @@ namespace WeaponOut
             {
                 if (secondWind && player.statLife <= 0)
                 {
-                    int overkill = 1 - player.statLife;
+                    int overkill = 1;
+                    if (damageSource.SourceOtherIndex >= 0)
+                    { overkill = 1 - player.statLife; }
+                    else
+                    { overkill = (int)damage + 1 - player.statLife; }
 
                     if (player.statLifeMax2 - overkill > 20) // would still have 1 heart left?
                     {
