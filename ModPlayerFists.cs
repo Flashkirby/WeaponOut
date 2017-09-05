@@ -1163,7 +1163,7 @@ namespace WeaponOut
 
             // Set cooldown before next parry is active, relative to parry non-active frames and invinc frames
             parryTime = (int)(-1f * (ParryActiveFrame * 3f + 20 + player.itemAnimationMax));
-            if (longParry) parryTime += 30;
+            if (longParry) parryTime += 15;
             parryWindow = 0;
             parryTimeMax = 0;
 
@@ -1234,8 +1234,8 @@ namespace WeaponOut
                 this.parryTimeMax = parryTimeMax;
                 if (longParry)
                 {
-                    this.parryWindow += 30;
-                    this.parryTimeMax += 30;
+                    this.parryWindow += 20;
+                    this.parryTimeMax += 20;
                 }
                 this.parryTime = ParryTimeMaxReal;
 
