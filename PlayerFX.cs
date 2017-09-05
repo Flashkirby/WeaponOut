@@ -1090,6 +1090,8 @@ namespace WeaponOut
             if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "[]: " + itemWidth + " x " + itemHeight, 100, 200, 150);
 
         }
+
+        private int patienceDustUpdate = 0;
         private void fistPostUpdate()
         {
             if (ModConf.enableFists)
@@ -1111,34 +1113,54 @@ namespace WeaponOut
                     }
                 }
 
-                bool nearBoss = false;
-                foreach (NPC npc in Main.npc)
+                // ONLY DO THIS CLIENT SIDE
+                if (Main.myPlayer == player.whoAmI)
                 {
-                    if (npc.active && npc.life > 0 && npc.boss)
+                    bool nearBoss = false;
+                    foreach (NPC npc in Main.npc)
                     {
-                        nearBoss = true;
-                        break;
-                    }
-                }
-                if (nearBoss)
-                {
-                    if (player.itemAnimation == 0)
-                    {
-                        if (player.HeldItem.melee)
+                        if (npc.active && npc.life > 0 && npc.boss)
                         {
-                            patienceBonus += patiencePerFrame;
+                            nearBoss = true;
+                            break;
                         }
                     }
-                    // using ranged/magic will reduce effect drastically
-                    else if (player.HeldItem.ranged || player.HeldItem.magic)
+                    if (nearBoss)
                     {
-                        patienceBonus -= patiencePerFrame * 4f;
+                        if (player.itemAnimation == 0)
+                        {
+                            if (player.HeldItem.melee)
+                            {
+                                patienceBonus += patiencePerFrame;
+                            }
+                        }
+                        // using ranged/magic will reduce effect drastically
+                        else if (player.HeldItem.ranged || player.HeldItem.magic)
+                        {
+                            patienceBonus -= patiencePerFrame * 4f;
+                        }
+                        patienceBonus = Math.Min(patienceDamage, patienceBonus);
+                        patienceDustUpdate += (int)(patienceBonus * 100f);
+
+                        while (patienceDustUpdate > 1500)// 1 dust per 100% damage every 15 frames
+                        {
+                            patienceDustUpdate -= 1500;
+                            float yVel = player.velocity.Y - player.gravDir * 0.2f * patienceBonus;
+                            Dust d = Dust.NewDustPerfect(new Vector2(
+                                player.position.X + player.width * Main.rand.NextFloat(0f, 1f),
+                                player.Center.Y + player.height * player.gravDir / 2 - yVel),
+                                254, new Vector2(player.velocity.X, yVel),
+                                0, default(Color), 0.5f);
+                            d.noGravity = true;
+                        }
                     }
-                    patienceBonus = Math.Min(patienceDamage, patienceBonus);
+                    else
+                    {
+                        patienceBonus = patienceCooldown;
+                        patienceDustUpdate = 0;
+                    }
+                    patienceDamage = 0f;
                 }
-                else
-                { patienceBonus = patienceCooldown; }
-                patienceDamage = 0f;
 
                 if (momentum >= momentumMax)
                 {
