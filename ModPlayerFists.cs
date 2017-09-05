@@ -289,7 +289,8 @@ namespace WeaponOut
             // in and doing big DPS. Due to the nature of the weapon, dodging projectiles is less important
             // than positioning between the player and enemies. Therefore this defence buff is in place to
             // reduce the pressure of projectiles on an already heavily stacked against usestyle.
-            if(player.HeldItem.useStyle == useStyle && damageSource.SourceProjectileIndex >= 0) { damage /= 2; }
+            if(player.HeldItem.useStyle == useStyle && damageSource.SourceProjectileIndex >= 0)
+            { damage = (int)(damage * 0.75f); }
 
             return !ParryPreHurt(damageSource);
         }
