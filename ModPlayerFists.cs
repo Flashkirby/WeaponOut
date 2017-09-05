@@ -1232,8 +1232,8 @@ namespace WeaponOut
 
                 if (longParry)
                 {
-                    this.parryWindow += 15;
-                    this.parryTimeMax += 15;
+                    this.parryWindow += 30;
+                    this.parryTimeMax += 30;
                 }
 
                 if (DEBUG_PARRYFISTS) Main.NewText("parry: " + parryWindow + "/" + parryTime);
