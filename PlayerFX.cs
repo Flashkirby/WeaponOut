@@ -272,6 +272,7 @@ namespace WeaponOut
             sashLastLife = 0;
             recordLifeLost = false;
 
+            player.ClearBuff(mod.BuffType<Buffs.SecondWind>());
             secondWindLifeTax = 0;
         }
 
