@@ -1312,6 +1312,13 @@ namespace WeaponOut
                 if (dashMaxSpeedThreshold < 4f)
                     dashMaxSpeedThreshold = 4f; // Cannot be less than this otherwise wierd behaviour
 
+                float speed = Math.Abs(player.velocity.X);
+                if (speed > dashSpeed)
+                {
+                    dashSpeed = speed;
+                    dashMaxSpeedThreshold = speed - Math.Max(0, dashSpeed - dashMaxSpeedThreshold);
+                }
+
                 this.dashSpeed = dashSpeed;
                 this.dashMaxSpeedThreshold = dashMaxSpeedThreshold;
                 this.dashMaxFriction = dashMaxFriction;
