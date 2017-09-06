@@ -18,8 +18,6 @@ namespace WeaponOut.Items.Weapons.Basic
             return ModConf.enableBasicContent;
         }
 
-        public const int penetrateBonus = 4;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trash Cannon");
