@@ -76,6 +76,7 @@ namespace WeaponOut
 
         #region Armour Effects
         public bool taekwonCounter;
+        public bool doubleDamageUp;
         public bool rapidRecovery;
         public float diveKickHeal;
         public bool millstone;
@@ -212,6 +213,7 @@ namespace WeaponOut
             if (ModConf.enableFists)
             {
                 taekwonCounter = false;
+                doubleDamageUp = false;
                 rapidRecovery = false;
                 diveKickHeal = 0f;
                 millstone = false;

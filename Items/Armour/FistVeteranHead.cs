@@ -97,8 +97,8 @@ namespace WeaponOut.Items.Armour
                     }
                     else
                     {
-                        player.setBonus = Language.GetTextValue("ItemTooltip.LuckyHorseshoe") + ", increases melee capabilities after being struck";
-                        player.noFallDmg = true;
+                        player.setBonus = "Greatly increases melee capabilities after being struck";
+                        player.GetModPlayer<PlayerFX>().doubleDamageUp = true;
                     }
                     player.GetModPlayer<PlayerFX>().taekwonCounter = true;
                     break;

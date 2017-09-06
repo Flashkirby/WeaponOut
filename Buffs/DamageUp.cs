@@ -13,8 +13,16 @@ namespace WeaponOut.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.meleeDamage += 0.5f;
-            player.meleeCrit += 50;
+            if (player.GetModPlayer<PlayerFX>().doubleDamageUp)
+            {
+                player.meleeDamage += 1f;
+            }
+            else
+            {
+                player.meleeDamage += 0.5f;
+            }
+
+            player.meleeCrit += 10;
             player.meleeSpeed += 0.15f;
         }
     }
