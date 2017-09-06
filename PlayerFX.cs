@@ -1145,16 +1145,21 @@ namespace WeaponOut
                         patienceBonus = Math.Max(patienceCooldown, Math.Min(patienceDamage, patienceBonus));
                         patienceDustUpdate = Math.Max(0, patienceDustUpdate + (int)(patienceBonus * 100f));
 
+                        float size = 0.5f;
+                        if (patienceBonus >= patienceDamage) size = 1f;
                         while (patienceDustUpdate > 1500)// 1 dust per 100% damage every 15 frames
                         {
                             patienceDustUpdate -= 1500;
-                            float yVel = player.velocity.Y - player.gravDir * 0.2f * patienceBonus;
+                            float yVel = player.gravDir * 0.2f * patienceBonus;
                             Dust d = Dust.NewDustPerfect(new Vector2(
                                 player.position.X + player.width * Main.rand.NextFloat(0f, 1f),
-                                player.Center.Y + player.height * player.gravDir / 2 - yVel),
-                                254, new Vector2(player.velocity.X, yVel),
-                                0, default(Color), 0.5f);
+                                player.Center.Y + player.gfxOffY + player.height * player.gravDir / 2 + yVel),
+                                90, new Vector2(0, -yVel),
+                                0, default(Color), size);
+                            d.position -= player.velocity;
                             d.noGravity = true;
+                            d.customData = player;
+                            Main.playerDrawDust.Add(d.dustIndex);
                         }
                     }
                     else
