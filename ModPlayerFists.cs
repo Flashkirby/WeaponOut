@@ -79,6 +79,7 @@ namespace WeaponOut
         public float uppercutKnockback = 1.5f;
         public float divekickDamage = 1f;
         public float divekickKnockback = 1f;
+        public float parryLifesteal = 0f;
 
         #region Combo Counter Vars
         /// <summary> Keep track of the number of hits from fists. </summary>
@@ -388,6 +389,7 @@ namespace WeaponOut
             uppercutKnockback = 1.5f;
             divekickDamage = 1f;
             divekickKnockback = 1f;
+            parryLifesteal = 0f;
         }
         
         #region Fist Hitboxes
@@ -1171,6 +1173,7 @@ namespace WeaponOut
             parryWindow = 0;
             parryTimeMax = 0;
 
+            int stealLife = 0;
             // Strike the NPC away slightly
             if (damageSource.SourceNPCIndex >= 0)
             {
@@ -1198,6 +1201,11 @@ namespace WeaponOut
                     
                     // Already a client only method so no need to check for whoAmI
                     player.ApplyDamageToNPC(npc, damage, knockback, hitDirection, crit);
+
+                    if (!player.moonLeech && parryLifesteal > 0f)
+                    {
+                        stealLife = (int)(damage * parryLifesteal);
+                    }
                 }
             }
             else
@@ -1208,7 +1216,19 @@ namespace WeaponOut
                 {
                     ProjFX.ReflectProjectilePlayer(
                         Main.projectile[damageSource.SourceProjectileIndex], player);
+                    
+                    if (!player.moonLeech && parryLifesteal > 0f)
+                    {
+                        stealLife = (int)(Main.projectile[damageSource.SourceProjectileIndex].damage * parryLifesteal);
+                    }
                 }
+            }
+            if (stealLife > 0)
+            {
+                player.HealEffect(stealLife, true);
+                player.statLife += stealLife;
+                player.statLife = Math.Min(player.statLife, player.statLifeMax2);
+                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
             }
 
             // Add 5 sec parry buff and short invincibility
