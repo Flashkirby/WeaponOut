@@ -24,8 +24,7 @@ namespace WeaponOut
         private const bool DEBUG_WEAPONHOLD = false;
         private const bool DEBUG_BOOMERANGS = false;
         private static Mod itemCustomizer;
-
-        private bool wasDead; //used to check if player just revived
+        
         public Vector2 localTempSpawn;//spawn used by tent
 
         #region Weapon Holding
@@ -306,6 +305,11 @@ namespace WeaponOut
         }
         #endregion
 
+        public override void OnRespawn(Player player)
+        {
+            tentScript();
+        }
+
         public override void PostUpdateBuffs()
         {
             if (ModConf.enableBasicContent)
@@ -506,7 +510,6 @@ namespace WeaponOut
         public override void PostUpdate()
         {
             manageBodyFrame();
-            tentScript();
             fistPostUpdate();
             sashRestoreLogic();
         }
@@ -633,15 +636,7 @@ namespace WeaponOut
         }
         private void tentScript()
         {
-            if (wasDead && !player.dead)
-            {
-                if (localTempSpawn != default(Vector2)) checkTemporarySpawn();
-                wasDead = false;
-            }
-            if (player.dead)
-            {
-                wasDead = true;
-            }
+            if (localTempSpawn != default(Vector2)) checkTemporarySpawn();
         }
         private void checkTemporarySpawn()
         {
@@ -665,6 +660,11 @@ namespace WeaponOut
 
                 Main.screenPosition.X = player.position.X + (float)(player.width / 2) - (float)(Main.screenWidth / 2);
                 Main.screenPosition.Y = player.position.Y + (float)(player.height / 2) - (float)(Main.screenHeight / 2);
+
+                if (Main.netMode == 1)
+                {
+                    NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                }
             }
         }
         #endregion
