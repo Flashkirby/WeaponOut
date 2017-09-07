@@ -71,7 +71,7 @@ namespace WeaponOut.Items.Armour
                     player.GetModPlayer<PlayerFX>().millstone = true;
                     break;
                 case 2:
-                    player.setBonus = "Taking damage grants yin, dealing damage grants yang,\neffects occur at the end of a combo (NOT DONE)";
+                    player.setBonus = "Taking damage grants yin, dealing damage grants yang, \nat the end of a combo yin increases melee damage, \nyang restores a portion of missing life";
                     player.GetModPlayer<PlayerFX>().yinyang = true;
                     break;
                 case 3:
