@@ -1538,17 +1538,17 @@ namespace WeaponOut
                 sashLifeLost = lifeRestorable(player);
 
                 if (sashLifeLost == 0)
-                { player.AddBuff(mod.BuffType<Buffs.FightingSpiritEmpty>(), 2); }
+                { player.AddBuff(mod.BuffType<Buffs.FightingSpiritEmpty>(), 1); }
                 else if (sashLifeLost >= (int)(player.statLifeMax2 * sashMaxLifeRecoverMult))
                 {
                     if (player.FindBuffIndex(mod.BuffType<Buffs.FightingSpiritMax>()) < 0)
                     {
                         Main.PlaySound(SoundID.Tink, player.position);
                     }
-                    player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 2);
+                    player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 1);
                 }
                 else
-                { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 2); }
+                { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 1); }
             }
             else if (!player.moonLeech && sashLifeLost > 0)
             {
