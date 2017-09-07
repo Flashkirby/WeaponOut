@@ -78,9 +78,10 @@ namespace WeaponOut.Items.Armour
                     player.GetModPlayer<PlayerFX>().barbariousDefence = true;
                     break;
                 case 2:
-                    player.setBonus = "Damage taken is reduced by 10%,\ntemporarily reduces damage taken when not attacking";
-                    player.endurance += 0.1f;
-                    player.GetModPlayer<PlayerFX>().yomiEndurance += 0.6f;
+                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "23") + ", damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking";
+                    player.statDefense += 23;
+                    player.endurance += 0.05f;
+                    player.GetModPlayer<PlayerFX>().yomiEndurance += 0.45f;
                     break;
                 case 3:
                     player.setBonus = "Maximum life acts as a second wind, heal maximum life with combos";

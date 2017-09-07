@@ -108,9 +108,9 @@ namespace WeaponOut.Items.Armour
                     // Not so useful, but very good for not dying in expert (double damage lmao)
                     player.setBonus = "Temporarily reduces damage taken when not attacking";
                     if (!hardMode)
-                    { player.GetModPlayer<PlayerFX>().yomiEndurance += 0.5f; }
+                    { player.GetModPlayer<PlayerFX>().yomiEndurance += 0.3f; }
                     else
-                    { player.GetModPlayer<PlayerFX>().yomiEndurance += 0.65f; }
+                    { player.GetModPlayer<PlayerFX>().yomiEndurance += 0.45f; }
                     break;
                 case 3:
                     if (!hardMode)
