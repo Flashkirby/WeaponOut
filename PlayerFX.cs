@@ -111,7 +111,7 @@ namespace WeaponOut
         public bool yinyang;
         private int yin;
         private int yang;
-        private float yinMeleeBonus;
+        public float yinMeleeBonus;
         public float GetYinYangBalance()
         {
             if (yang + yin == 0) return 0f;
@@ -291,7 +291,6 @@ namespace WeaponOut
                 }
                 else
                 {
-                    player.meleeDamage += yinMeleeBonus;
                     yinMeleeBonus = Math.Max(0f, yinMeleeBonus - 0.02f / 60); // Lose 2% damage per second
 
                     if (yang == 0)
@@ -1123,6 +1122,7 @@ namespace WeaponOut
                     float balance = GetYinYangBalance();
                     bool isBalanced = balance <= yinyangBalanceThreshold && balance >= -yinyangBalanceThreshold;
 
+                    #region Dust Effect
                     Vector2 center = player.Center + new Vector2(0, player.gfxOffY) - player.velocity;
                     
                     float size = 0f;
@@ -1160,7 +1160,9 @@ namespace WeaponOut
                     { d.rotation = angle;  } // Rotate contray to motion
                     d.customData = player;
                     Main.playerDrawDust.Add(d.dustIndex);
+                    #endregion
 
+                    #region Actual Effect on Combo End
                     if (mpf.ComboFinishedFrame > 0)
                     {
                         float yangPower = CalculateYangPower(balance);
@@ -1188,11 +1190,36 @@ namespace WeaponOut
                             {
                                 yinMeleeBonus = Math.Max(yinMeleeBonus, yinPower);
                             }
+
+                            player.AddBuff(mod.BuffType<Buffs.YinDamage>(), 2);
                         }
 
                         yin = 0;
                         yang = 0;
                     }
+                    #endregion
+
+                    #region Apply YinYang Buff
+                    int bYiYa = mod.BuffType<Buffs.YinYang>();
+                    int bYang = mod.BuffType<Buffs.Yang>();
+                    int bYin = mod.BuffType<Buffs.Yin>();
+
+                    if (isBalanced)
+                    {
+                        player.AddBuff(bYiYa, 1);
+                    }
+                    else
+                    {
+                        if (balance > 0)
+                        {
+                            player.AddBuff(bYang, 1);
+                        }
+                        else
+                        {
+                            player.AddBuff(bYin, 1);
+                        }
+                    }
+                    #endregion
                 }
                 #endregion
 
@@ -1281,7 +1308,7 @@ namespace WeaponOut
             }
         }
 
-        private float CalculateYangPower(float balance)
+        public float CalculateYangPower(float balance)
         {
             float yangPower;
             if (balance > yinyangBalanceThreshold)
@@ -1301,7 +1328,7 @@ namespace WeaponOut
             return yangPower;
         }
 
-        private float CalculateYinPower(float balance)
+        public float CalculateYinPower(float balance)
         {
             float yinPower;
             if (balance > yinyangBalanceThreshold)
