@@ -106,13 +106,23 @@ namespace WeaponOut
         public bool secondWind;
         public int secondWindLifeTax;
 
+        public const float yinyangDistance = 40f;
+        public const float yinyangBalanceThreshold = 0.25f;
+        public bool yinyang;
         private int yin;
         private int yang;
-        public bool yinyang;
+        private float yinMeleeBonus;
         public float GetYinYangBalance()
         {
             if (yang + yin == 0) return 0f;
             return (yang - yin) / (1f * (yang + yin));
+        }
+        public float GetYinYangNormal(bool isYin)
+        {
+            float total = yang;
+            if (isYin) total = yin;
+            if (total == 0) return 0f;
+            return total / (yang + yin);
         }
 
         #endregion
@@ -188,6 +198,7 @@ namespace WeaponOut
         {
             patienceBonus = patienceCooldown;
         }
+
         public override void ResetEffects()
         {
             damageKnockbackThreshold = 0;
@@ -276,16 +287,30 @@ namespace WeaponOut
                 {
                     yin = 0;
                     yang = 0;
+                    yinMeleeBonus = 0f;
+                }
+                else
+                {
+                    player.meleeDamage += yinMeleeBonus;
+                    yinMeleeBonus = Math.Max(0f, yinMeleeBonus - 0.02f / 60); // Lose 2% damage per second
+
+                    if (yang == 0)
+                    {
+                        if (yin > 0) yin = Math.Max(0, yin - 1); // Lose 5 Damage (from yin) per second
+                    }
                 }
                 yinyang = false;
             }
         }
-
         public override void UpdateDead()
         {
             sashLifeLost = 0;
             sashLastLife = 0;
             recordLifeLost = false;
+
+            yin = 0;
+            yang = 0;
+            yinMeleeBonus = 0f;
 
             player.ClearBuff(mod.BuffType<Buffs.SecondWind>());
             secondWindLifeTax = 0;
@@ -510,52 +535,9 @@ namespace WeaponOut
         public override void PostUpdate()
         {
             manageBodyFrame();
-            fistPostUpdate();
+            FistPostUpdate();
             sashRestoreLogic();
         }
-
-        private void sashRestoreLogic()
-        {
-            if (!ModConf.enableFists || 
-                sashMaxLifeRecoverMult <= 0f || 
-                player.whoAmI != Main.myPlayer ) return;
-
-            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            if (mpf.ComboCounter > 0)
-            {
-                recordLifeLost = true;
-
-                // Lost health? Records lost amount
-                if (player.statLife < sashLastLife)
-                { sashLifeLost += sashLastLife - player.statLife; }
-                sashLastLife = player.statLife;
-
-                sashLifeLost = lifeRestorable(player);
-
-                if (sashLifeLost == 0)
-                { player.AddBuff(mod.BuffType<Buffs.FightingSpiritEmpty>(), 2); }
-                else if (sashLifeLost >= (int)(player.statLifeMax2 * sashMaxLifeRecoverMult))
-                {
-                    if (player.FindBuffIndex(mod.BuffType<Buffs.FightingSpiritMax>()) < 0)
-                    {
-                        Main.PlaySound(SoundID.Tink, player.position);
-                    }
-                    player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 2);
-                }
-                else
-                { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 2); }
-            }
-            else if (!player.moonLeech && sashLifeLost > 0)
-            {
-                Main.PlaySound(2, -1, -1, 4, 0.3f, 0.2f); // mini heal effect
-                player.HealEffect(sashLifeLost, false);
-                player.statLife += sashLifeLost;
-                player.statLife = Math.Min(player.statLife, player.statLifeMax2);
-                if(Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
-            }
-        }
-        private int lifeRestorable(Player player)
-        { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
 
         public override void SetControls()
         {
@@ -709,8 +691,6 @@ namespace WeaponOut
             }
             catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
-
-            //fistPostUpdate();
         }
         #endregion
         #region draw
@@ -1086,11 +1066,39 @@ namespace WeaponOut
 
         }
 
+
+        private static int ItemCustomizerGetShader(Mod mod, Item item)
+        {
+            if (!Main.dedServ)
+            {
+                try
+                {
+                    GlobalItem cii = item.GetGlobalItem(mod, "CustomizerItem");
+
+                    // The field we're looking for
+                    var shaderIDInfo = cii.GetType().GetField("shaderID");
+
+                    // Check this field on this class
+                    int shaderID = (int)shaderIDInfo.GetValue(cii);
+
+                    // We got this
+                    return shaderID;
+                }
+                catch { }
+            }
+            return 0;
+        }
+        #endregion
+
+        #region Fist Effects
         private int patienceDustUpdate = 0;
-        private void fistPostUpdate()
+        private void FistPostUpdate()
         {
             if (ModConf.enableFists)
             {
+                ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+
+                #region Yomu Buff Apply
                 if (yomiEndurance > 0f)
                 {
                     if (player.itemAnimation == 0)
@@ -1107,7 +1115,88 @@ namespace WeaponOut
                         yomiFinishedAttack = true;
                     }
                 }
+                #endregion
 
+                #region Yinyang Graphics Effect
+                if (yinyang && Main.myPlayer == player.whoAmI && (yang > 0 || yin > 0))
+                {
+                    float balance = GetYinYangBalance();
+                    bool isBalanced = balance <= yinyangBalanceThreshold && balance >= -yinyangBalanceThreshold;
+
+                    Vector2 center = player.Center + new Vector2(0, player.gfxOffY) - player.velocity;
+                    
+                    float size = 0f;
+                    float angle = (float)(Main.time * 0.02f);
+                    int shader = 97;
+                    if (isBalanced) angle *= 4f;
+                    Color colour = default(Color);
+
+                    if (Main.time % 2 == 0)
+                    {
+                        size = 1f + balance;
+                        colour = Color.White;
+                        shader = 109;
+                    }
+                    else
+                    {
+                        size = 1f - balance;
+                        angle += (float)Math.PI;
+                        colour = Color.DarkGray;
+                    }
+                    size = Math.Max(0f, Math.Min(1f, size));
+                    size *= Math.Max(1f, Math.Min(4f, 1f + (yang + yin) / 1000f));
+
+                    Dust d = Dust.NewDustPerfect(new Vector2(
+                        center.X + yinyangDistance * (float)Math.Sin(angle),
+                        center.Y + yinyangDistance * (float)Math.Cos(angle)),
+                        91, new Vector2(0, 0),
+                        (int)(45 * size), colour, size);
+                    d.noLight = true;
+                    d.noGravity = true;
+                    d.shader = GameShaders.Armor.GetSecondaryShader(shader, player);
+                    if (isBalanced)
+                    { d.rotation = -angle; } // Rotate in sync
+                    else
+                    { d.rotation = angle;  } // Rotate contray to motion
+                    d.customData = player;
+                    Main.playerDrawDust.Add(d.dustIndex);
+
+                    if (mpf.ComboFinishedFrame > 0)
+                    {
+                        float yangPower = CalculateYangPower(balance);
+                        float yinPower = CalculateYinPower(balance);
+
+                        // Main.NewText(String.Concat("Balance is ", yang, " < ", balance, " > ", yin));
+                        if (yangPower > 0f)
+                        {
+                            int healing = (int)((player.statLifeMax2 - player.statLife) * yangPower);
+                            if (healing > 0)
+                            {
+                                player.HealEffect(healing, true);
+                                player.statLife += healing;
+                                player.statLife = Math.Min(player.statLife, player.statLifeMax2);
+                                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+                            }
+                        }
+                        if (yinPower > 0f)
+                        {
+                            if (yangPower > 0)
+                            {
+                                yinMeleeBonus += yinPower;
+                            }
+                            else
+                            {
+                                yinMeleeBonus = Math.Max(yinMeleeBonus, yinPower);
+                            }
+                        }
+
+                        yin = 0;
+                        yang = 0;
+                    }
+                }
+                #endregion
+
+                #region Melee Power Buildup with Bosses
                 // ONLY DO THIS CLIENT SIDE
                 if (Main.myPlayer == player.whoAmI)
                 {
@@ -1161,12 +1250,16 @@ namespace WeaponOut
                     }
                     patienceDamage = 0f;
                 }
+                #endregion
 
+                #region Momentum Max Effect
                 if (momentum >= momentumMax)
                 {
                     player.armorEffectDrawOutlinesForbidden = true;
                 }
+                #endregion
 
+                #region Show fists with weapon visuals
                 if (weaponVisual)
                 {
                     if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
@@ -1184,33 +1277,49 @@ namespace WeaponOut
                     }
 
                 }
+                #endregion
             }
         }
 
-        private static int ItemCustomizerGetShader(Mod mod, Item item)
+        private float CalculateYangPower(float balance)
         {
-            if (!Main.dedServ)
+            float yangPower;
+            if (balance > yinyangBalanceThreshold)
             {
-                try
-                {
-                    GlobalItem cii = item.GetGlobalItem(mod, "CustomizerItem");
-
-                    // The field we're looking for
-                    var shaderIDInfo = cii.GetType().GetField("shaderID");
-
-                    // Check this field on this class
-                    int shaderID = (int)shaderIDInfo.GetValue(cii);
-
-                    // We got this
-                    return shaderID;
-                }
-                catch { }
+                yangPower = yang - yin;
+                yangPower = (float)Math.Log10((yangPower / 1000f) + 1);
             }
-            return 0;
-        }
-        #endregion
+            else if (balance < -yinyangBalanceThreshold)
+            {
+                yangPower = 0f;
+            }
+            else
+            {
+                yangPower = (float)Math.Log10((yang / 500f) + 1);
+            }
 
-        #region Fist Effects
+            return yangPower;
+        }
+
+        private float CalculateYinPower(float balance)
+        {
+            float yinPower;
+            if (balance > yinyangBalanceThreshold)
+            {
+                yinPower = 0f;
+            }
+            else if (balance < -yinyangBalanceThreshold)
+            {
+                yinPower = yin - yang;
+                yinPower = (float)Math.Log10((yinPower / 1000f) + 1);
+            }
+            else
+            {
+                yinPower = (float)Math.Log10((yin / 500f) + 1);
+            }
+
+            return yinPower;
+        }
 
         private void FistOnHitNPC(NPC target, int damage)
         {
@@ -1236,22 +1345,21 @@ namespace WeaponOut
                 #endregion
 
                 #region Yin Yang - Yang
-                if (yinyang)
+                if (mpf.ComboCounter > 0)
                 {
                     yang += damage;
                 }
                 #endregion
             }
         }
-        private void FistOnHitByNPC(NPC target, int damage)
+        private void FistOnHitByEntity(Entity e, int damage)
         {
             if (ModConf.enableFists)
             {
+                ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+
                 #region Yin Yang - Yin
-                if (yinyang)
-                {
-                    yin += damage * 20;
-                }
+                yin += damage * 15;
                 #endregion
             }
         }
@@ -1383,6 +1491,49 @@ namespace WeaponOut
                 NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
+
+        private void sashRestoreLogic()
+        {
+            if (!ModConf.enableFists ||
+                sashMaxLifeRecoverMult <= 0f ||
+                player.whoAmI != Main.myPlayer) return;
+
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (mpf.ComboCounter > 0)
+            {
+                recordLifeLost = true;
+
+                // Lost health? Records lost amount
+                if (player.statLife < sashLastLife)
+                { sashLifeLost += sashLastLife - player.statLife; }
+                sashLastLife = player.statLife;
+
+                sashLifeLost = lifeRestorable(player);
+
+                if (sashLifeLost == 0)
+                { player.AddBuff(mod.BuffType<Buffs.FightingSpiritEmpty>(), 2); }
+                else if (sashLifeLost >= (int)(player.statLifeMax2 * sashMaxLifeRecoverMult))
+                {
+                    if (player.FindBuffIndex(mod.BuffType<Buffs.FightingSpiritMax>()) < 0)
+                    {
+                        Main.PlaySound(SoundID.Tink, player.position);
+                    }
+                    player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 2);
+                }
+                else
+                { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 2); }
+            }
+            else if (!player.moonLeech && sashLifeLost > 0)
+            {
+                Main.PlaySound(2, -1, -1, 4, 0.3f, 0.2f); // mini heal effect
+                player.HealEffect(sashLifeLost, false);
+                player.statLife += sashLifeLost;
+                player.statLife = Math.Min(player.statLife, player.statLifeMax2);
+                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+            }
+        }
+        private int lifeRestorable(Player player)
+        { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
         #endregion
 
         #region OnHit Methods
@@ -1394,7 +1545,12 @@ namespace WeaponOut
         
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
-            FistOnHitByNPC(npc, damage);
+            FistOnHitByEntity(npc, damage);
+        }
+
+        public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
+        {
+            FistOnHitByEntity(proj, damage);
         }
 
         #endregion
