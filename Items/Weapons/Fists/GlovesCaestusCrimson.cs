@@ -100,10 +100,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
                 if (!player.moonLeech)
                 {
-                    player.HealEffect(5, false);
-                    player.statLife += 5;
-                    player.statLife = System.Math.Min(player.statLife, player.statLifeMax2);
-                    NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, player.whoAmI, 5f);
+                    PlayerFX.HealPlayer(player, 5);
                 }
             }
         }

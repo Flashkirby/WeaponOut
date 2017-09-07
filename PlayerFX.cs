@@ -1174,10 +1174,7 @@ namespace WeaponOut
                             int healing = (int)((player.statLifeMax2 - player.statLife) * yangPower);
                             if (healing > 0)
                             {
-                                player.HealEffect(healing, true);
-                                player.statLife += healing;
-                                player.statLife = Math.Min(player.statLife, player.statLifeMax2);
-                                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+                                PlayerFX.HealPlayer(player, healing);
                             }
                         }
                         if (yinPower > 0f)
@@ -1367,11 +1364,7 @@ namespace WeaponOut
                 if (mpf.specialMove == 2 && diveKickHeal > 0f)
                 {
                     int heal = (int)(damage * diveKickHeal);
-                    player.HealEffect(heal, false);
-                    player.statLife += heal;
-                    player.statLife = Math.Min(player.statLife, player.statLifeMax2);
-
-                    if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+                    PlayerFX.HealPlayer(player, heal);
                 }
                 #endregion
 
@@ -1562,10 +1555,7 @@ namespace WeaponOut
             else if (!player.moonLeech && sashLifeLost > 0)
             {
                 Main.PlaySound(2, -1, -1, 4, 0.3f, 0.2f); // mini heal effect
-                player.HealEffect(sashLifeLost, false);
-                player.statLife += sashLifeLost;
-                player.statLife = Math.Min(player.statLife, player.statLifeMax2);
-                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+                PlayerFX.HealPlayer(player, sashLifeLost);
             }
         }
         private int lifeRestorable(Player player)
@@ -1767,6 +1757,14 @@ namespace WeaponOut
             { superrare = true; }
             if (Main.rand.Next(100) < (10 + (player.cratePotion ? 10 : 0)))
             { isCrate = true; }
+        }
+
+        public static void HealPlayer(Player player, int amount)
+        {
+            player.HealEffect(amount, true);
+            player.statLife += amount;
+            player.statLife = Math.Min(player.statLife, player.statLifeMax2);
+            if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
         }
     }
 }

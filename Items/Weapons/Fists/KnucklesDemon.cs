@@ -125,10 +125,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (AltStats(player) && !target.immortal)
             {
                 int heal = Math.Min(target.lifeMax, damage) / 4;
-                player.HealEffect(heal, true);
-                player.statLife += heal;
-                player.statLife = Math.Min(player.statLife, player.statLifeMax2);
-                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+                PlayerFX.HealPlayer(player, heal);
             }
         }
 
