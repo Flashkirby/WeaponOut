@@ -25,13 +25,15 @@ namespace WeaponOut
         private const bool DEBUG_BOOMERANGS = false;
         private static Mod itemCustomizer;
 
-        public bool weaponVisual = true;
-
         private bool wasDead; //used to check if player just revived
         public Vector2 localTempSpawn;//spawn used by tent
 
+        #region Weapon Holding
+        public bool weaponVisual = true;
         public int weaponFrame;//frame of weapon...
+        #endregion
 
+        #region Knockback Threshold
         private int damageKnockbackThreshold;
         public int DamageKnockbackThreshold
         {
@@ -41,7 +43,8 @@ namespace WeaponOut
                 if (value > damageKnockbackThreshold) damageKnockbackThreshold = value;
             }
         }
-        
+        #endregion
+        #region Front Defence
         private int frontDefence;
         public int FrontDefence
         {
@@ -52,20 +55,19 @@ namespace WeaponOut
             }
         }
         public bool frontNoKnockback;
-
-        public int lastSelectedItem;
-        public int itemSkillDelay;
-
+        #endregion
+        #region Reflect Projectiles
         public bool reflectingProjectiles;
         public int reflectingProjectileDelay;
         public bool CanReflectProjectiles
         { get { return reflectingProjectiles && reflectingProjectileDelay <= 0; } }
-
+        #endregion
+        #region Lunar Emblems
         public bool lunarRangeVisual;
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
-
-        #region Dual Weapon Values
+        #endregion
+        #region Dual Weapon
         /// <summary> Multiplier for the item use animation </summary>
         public float dualItemAnimationMod;
         /// <summary> Multiplier for the item use time </summary>
@@ -73,8 +75,7 @@ namespace WeaponOut
         /// <summary> Multiplayer sync variable for figuring out if a weapon is being alt-func used. </summary>
         public bool dualItemCanUse;
         #endregion
-
-        #region Armour Effects
+        #region Fist Armour Effects
         public bool taekwonCounter;
         public bool doubleDamageUp;
         public bool rapidRecovery;
@@ -109,8 +110,16 @@ namespace WeaponOut
         private int yin;
         private int yang;
         public bool yinyang;
+        public float GetYinYangBalance()
+        {
+            if (yang + yin == 0) return 0f;
+            return (yang - yin) / (1f * (yang + yin));
+        }
 
         #endregion
+
+        public int lastSelectedItem;
+        public int itemSkillDelay;
 
         #region Utils
         public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
@@ -252,7 +261,7 @@ namespace WeaponOut
                 momentumMax = 180;
                 buildMomentum = false;
                 momentumActive = false;
-                
+
                 // 
                 //  ================ Second Wind ================
                 //
@@ -264,6 +273,11 @@ namespace WeaponOut
                 // 
                 //  ================ Yinyang ================
                 //
+                if (!yinyang)
+                {
+                    yin = 0;
+                    yang = 0;
+                }
                 yinyang = false;
             }
         }
@@ -583,28 +597,6 @@ namespace WeaponOut
             }
         }
 
-        private void MomentumDashTorwardsMouse()
-        {
-            if (!momentumDash || momentum < momentumMax) return;
-            momentum = 0;
-            momentumDashTime = 6;
-
-            player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 90);
-            player.immune = true;
-            player.immuneTime = Math.Max(10, player.immuneTime);
-
-            Main.PlaySound(SoundID.Run, player.position);
-            for (int i = 0; i < 3; i++)
-            {
-                Gore g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 14f), default(Vector2), Main.rand.Next(61, 64), 1f)];
-            }
-
-            if (Main.myPlayer == player.whoAmI && Main.netMode == 1)
-            {
-                NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-            }
-        }
-
         #region Tent
         private void manageBodyFrame()
         {
@@ -792,7 +784,7 @@ namespace WeaponOut
                 if (Main.itemAnimations[heldItem.type] != null) // in the case of modded weapons with animations...
                 {
                     //get local player frame counting
-                    PlayerFX p = drawPlayer.GetModPlayer<PlayerFX>(ModLoader.GetMod("WeaponOut"));
+                    PlayerFX p = drawPlayer.GetModPlayer<PlayerFX>();
                     int frameCount = Main.itemAnimations[heldItem.type].FrameCount;
                     int frameCounter = Main.itemAnimations[heldItem.type].TicksPerFrame * 2;
 
@@ -1218,17 +1210,13 @@ namespace WeaponOut
         }
         #endregion
 
-        #region OnHit Methods
-
-        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-        {
-            FistOnHitNPC(target, damage);
-        }
+        #region Fist Effects
 
         private void FistOnHitNPC(NPC target, int damage)
         {
             if (ModConf.enableFists)
             {
+                #region Divekicks heal
                 if (target.immortal) return;
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
                 if (mpf.specialMove == 2 && diveKickHeal > 0f)
@@ -1240,52 +1228,196 @@ namespace WeaponOut
 
                     if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
                 }
+                #endregion
 
+                #region Second Wind combo healing
                 // Punches heal
                 if (secondWind) secondWindLifeTax -= Math.Min(5, mpf.ComboCounter / 4);
+                #endregion
+
+                #region Yin Yang - Yang
+                if (yinyang)
+                {
+                    yang += damage;
+                }
+                #endregion
             }
         }
-
-        #endregion
-
-        #region Hurt & Hit Methods
-
-        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
-        { ModifyHit(item, player, target.life, target.lifeMax, ref damage, ref knockback, ref crit); }
-        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
-        { float knockBack = 5f; ModifyHit(item, player, target.statLife, target.statLifeMax2, ref damage, ref knockBack, ref crit); }
-        private void ModifyHit(Item item, Player player, int life, int lifeMax, ref int damage, ref float knockBack, ref bool crit)
+        private void FistOnHitByNPC(NPC target, int damage)
         {
             if (ModConf.enableFists)
             {
+                #region Yin Yang - Yin
+                if (yinyang)
+                {
+                    yin += damage * 20;
+                }
+                #endregion
+            }
+        }
+        
+        private void FistModifyHit(Item item, Player player, int life, int lifeMax, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (ModConf.enableFists)
+            {
+                #region Combo Health% Damage
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
                 if (millstone && mpf.IsComboActive)
                 {
                     damage += (int)(life * 0.002f);
                 }
+                #endregion
 
+                #region Reset Melee Buildup
                 patienceBonus = patienceCooldown;
+                #endregion
             }
         }
-
-        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            ModifyHitWithProj(proj, Main.player[proj.owner], target.life, target.lifeMax, ref damage, ref crit);
-        }
-        public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
-        {
-            ModifyHitWithProj(proj, Main.player[proj.owner], target.statLife, target.statLifeMax2, ref damage, ref crit);
-        }
-        private void ModifyHitWithProj(Projectile proj, Player player, int life, int lifeMax, ref int damage, ref bool crit)
+        private void FistModifyHitWithProj(Projectile proj, Player player, int life, int lifeMax, ref int damage, ref bool crit)
         {
             if (ModConf.enableFists)
             {
-                if(proj.melee) patienceBonus = patienceCooldown;
+                #region Reset Melee Buildup
+                if (proj.melee) patienceBonus = patienceCooldown;
+                #endregion
             }
         }
 
+        private bool FistPreHurt(PlayerDeathReason damageSource)
+        {
+            if (ModConf.enableFists)
+            {
+                #region Momentum Damage Prevention
+                if (momentumActive)
+                {
+                    if (damageSource.SourceProjectileIndex >= 0)
+                    {
+                        momentum /= 2;
+                        ProjFX.ReflectProjectilePlayer(Main.projectile[damageSource.SourceProjectileIndex], player);
+                        Main.PlaySound(SoundID.Item10, player.position);
+                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        return false;
+                    }
+                    else if (damageSource.SourceNPCIndex >= 0)
+                    {
+                        momentum = 0;
+                        player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
+                        Main.PlaySound(SoundID.Item10, player.position);
+                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        player.immuneTime += 60;
+                        return false;
+                    }
+                }
+                #endregion
+            }
+            return true;
+        }
 
+        private void FistPostHurt(double damage)
+        {
+            if (ModConf.enableFists)
+            {
+                #region Counter Damage Buff
+                if (taekwonCounter)
+                {
+                    player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 60 + Math.Abs(player.statLife - player.statLifeMax2) / 2);
+                }
+                #endregion
 
+                #region Rapid Recovery Buff
+                if (rapidRecovery)
+                {
+                    Buffs.RapidRecovery.HealDamage(player, mod, damage);
+                    #endregion
+                }
+            }
+        }
+
+        private bool FistPreKill(double damage, PlayerDeathReason damageSource)
+        {
+            if (ModConf.enableFists)
+            {
+                #region Second Wind Damage
+                if (secondWind && player.statLife <= 0)
+                {
+                    int overkill = 1;
+                    if (damageSource.SourceOtherIndex >= 0)
+                    { overkill = 1 - player.statLife; }
+                    else
+                    { overkill = (int)damage + 1 - player.statLife; }
+
+                    if (player.statLifeMax2 - overkill > 20) // would still have 1 heart left?
+                    {
+                        if (secondWindLifeTax == 0)
+                        {
+                            player.AddBuff(mod.BuffType<Buffs.SecondWind>(), 3600 * 3); // 3 min
+                        }
+                        secondWindLifeTax += overkill;
+                        player.statLife = Math.Max(player.statLife, 1);
+                        return false;
+                    }
+                }
+                #endregion
+            }
+            return true;
+        }
+
+        private void MomentumDashTorwardsMouse()
+        {
+            if (!momentumDash || momentum < momentumMax) return;
+            momentum = 0;
+            momentumDashTime = 6;
+
+            player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 90);
+            player.immune = true;
+            player.immuneTime = Math.Max(10, player.immuneTime);
+
+            Main.PlaySound(SoundID.Run, player.position);
+            for (int i = 0; i < 3; i++)
+            {
+                Gore g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 14f), default(Vector2), Main.rand.Next(61, 64), 1f)];
+            }
+
+            if (Main.myPlayer == player.whoAmI && Main.netMode == 1)
+            {
+                NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+            }
+        }
+        #endregion
+
+        #region OnHit Methods
+
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            FistOnHitNPC(target, damage);
+        }
+        
+        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        {
+            FistOnHitByNPC(npc, damage);
+        }
+
+        #endregion
+
+        #region ModifyHit
+
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        { FistModifyHit(item, player, target.life, target.lifeMax, ref damage, ref knockback, ref crit); }
+        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        { float knockBack = 5f; FistModifyHit(item, player, target.statLife, target.statLifeMax2, ref damage, ref knockBack, ref crit); }
+
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            FistModifyHitWithProj(proj, Main.player[proj.owner], target.life, target.lifeMax, ref damage, ref crit);
+        }
+        public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
+        {
+            FistModifyHitWithProj(proj, Main.player[proj.owner], target.statLife, target.statLifeMax2, ref damage, ref crit);
+        }
+
+        #endregion
+
+        #region PreHurt & ModifyHitBy
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
@@ -1341,53 +1473,13 @@ namespace WeaponOut
             }
         }
 
+        #endregion
 
-        private bool FistPreHurt(PlayerDeathReason damageSource)
-        {
-            if (ModConf.enableFists)
-            {
-                if (momentumActive)
-                {
-                    if (damageSource.SourceProjectileIndex >= 0)
-                    {
-                        momentum /= 2;
-                        ProjFX.ReflectProjectilePlayer(Main.projectile[damageSource.SourceProjectileIndex], player);
-                        Main.PlaySound(SoundID.Item10, player.position);
-                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
-                        return false;
-                    }
-                    else if (damageSource.SourceNPCIndex >= 0)
-                    {
-                        momentum = 0;
-                        player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
-                        Main.PlaySound(SoundID.Item10, player.position);
-                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
-                        player.immuneTime += 60;
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
+        #region Post Hurt
 
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             FistPostHurt(damage);
-        }
-
-        private void FistPostHurt(double damage)
-        {
-            if (ModConf.enableFists)
-            {
-                if (taekwonCounter)
-                {
-                    player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 60 + Math.Abs(player.statLife - player.statLifeMax2) / 2);
-                }
-                if (rapidRecovery)
-                {
-                    Buffs.RapidRecovery.HealDamage(player, mod, damage);
-                }
-            }
         }
 
         #endregion
@@ -1396,29 +1488,7 @@ namespace WeaponOut
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (ModConf.enableFists)
-            {
-                if (secondWind && player.statLife <= 0)
-                {
-                    int overkill = 1;
-                    if (damageSource.SourceOtherIndex >= 0)
-                    { overkill = 1 - player.statLife; }
-                    else
-                    { overkill = (int)damage + 1 - player.statLife; }
-
-                    if (player.statLifeMax2 - overkill > 20) // would still have 1 heart left?
-                    {
-                        if (secondWindLifeTax == 0)
-                        {
-                            player.AddBuff(mod.BuffType<Buffs.SecondWind>(), 3600 * 3); // 3 min
-                        }
-                        secondWindLifeTax += overkill;
-                        player.statLife = Math.Max(player.statLife, 1);
-                        return false;
-                    }
-                }
-            }
-            return true;
+            return FistPreKill(damage, damageSource);
         }
 
         #endregion
