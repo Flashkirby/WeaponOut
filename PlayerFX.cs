@@ -1124,7 +1124,7 @@ namespace WeaponOut
 
                     #region Dust Effect
                     Vector2 center = player.Center + new Vector2(0, player.gfxOffY) - player.velocity;
-                    
+
                     float size = 0f;
                     float angle = (float)(Main.time * 0.02f);
                     int shader = 97;
@@ -1157,14 +1157,14 @@ namespace WeaponOut
                     if (isBalanced)
                     { d.rotation = -angle; } // Rotate in sync
                     else
-                    { d.rotation = angle;  } // Rotate contray to motion
+                    { d.rotation = angle; } // Rotate contray to motion
                     d.customData = player;
                     Main.playerDrawDust.Add(d.dustIndex);
                     #endregion
 
-                    #region Actual Effect on Combo End
                     if (mpf.ComboFinishedFrame > 0)
                     {
+                        #region Actual Effect on Combo End
                         float yangPower = CalculateYangPower(balance);
                         float yinPower = CalculateYinPower(balance);
 
@@ -1196,30 +1196,39 @@ namespace WeaponOut
 
                         yin = 0;
                         yang = 0;
+                        #endregion
                     }
-                    #endregion
-
-                    #region Apply YinYang Buff
-                    int bYiYa = mod.BuffType<Buffs.YinYang>();
-                    int bYang = mod.BuffType<Buffs.Yang>();
-                    int bYin = mod.BuffType<Buffs.Yin>();
-
-                    if (isBalanced)
+                    else if (mpf.ComboCounter > 0)
                     {
-                        player.AddBuff(bYiYa, 1);
-                    }
-                    else
-                    {
-                        if (balance > 0)
+                        #region Apply YinYang Buff
+                        int bYiYa = mod.BuffType<Buffs.YinYang>();
+                        int bYang = mod.BuffType<Buffs.Yang>();
+                        int bYin = mod.BuffType<Buffs.Yin>();
+                        int time = mpf.comboTimerMax - mpf.comboTimer;
+
+                        if (isBalanced)
                         {
-                            player.AddBuff(bYang, 1);
+                            player.AddBuff(bYiYa, time);
+                            player.ClearBuff(bYang);
+                            player.ClearBuff(bYin); ;
                         }
                         else
                         {
-                            player.AddBuff(bYin, 1);
+                            if (balance > 0)
+                            {
+                                player.ClearBuff(bYiYa);
+                                player.AddBuff(bYang, time);
+                                player.ClearBuff(bYin); ;
+                            }
+                            else
+                            {
+                                player.ClearBuff(bYiYa);
+                                player.ClearBuff(bYang);
+                                player.AddBuff(bYin, time);
+                            }
                         }
+                        #endregion
                     }
-                    #endregion
                 }
                 #endregion
 
