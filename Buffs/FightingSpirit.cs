@@ -14,7 +14,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault(FightingSpirit.DefaultName);
-            Description.SetDefault("Heals $LIFE life at the end of a combo");
+            Description.SetDefault("Restores $LIFE life at the end of a combo");
         }
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
@@ -34,7 +34,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault(FightingSpirit.DefaultName);
-            Description.SetDefault("Heals life lost at the end of a combo ");
+            Description.SetDefault("Restores life lost at the end of a combo ");
         }
     }
     public class FightingSpiritMax : ModBuff
@@ -45,7 +45,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault(FightingSpirit.DefaultName);
-            Description.SetDefault("Heals $LIFE life at the end of a combo");
+            Description.SetDefault("Restores $LIFE life at the end of a combo");
         }
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {

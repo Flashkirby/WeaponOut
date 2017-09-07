@@ -84,7 +84,7 @@ namespace WeaponOut.Items.Armour
                     player.GetModPlayer<PlayerFX>().yomiEndurance += 0.45f;
                     break;
                 case 3:
-                    player.setBonus = "Maximum life acts as a second wind, heal maximum life with combos";
+                    player.setBonus = "Maximum life acts as a second wind, restore maximum life with combos";
                     player.GetModPlayer<PlayerFX>().secondWind = true;
                     break;
             }

@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("The Tenderizer");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
-                "Counterstrike heals 5 life\n" +
+                "Counterstrike restores 5 life\n" +
                 "Combo grants increased life regeneration");
         }
         public override void SetDefaults()
