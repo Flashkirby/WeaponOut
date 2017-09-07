@@ -1219,7 +1219,9 @@ namespace WeaponOut
                     
                     if (!player.moonLeech && parryLifesteal > 0f)
                     {
-                        stealLife = (int)(Main.projectile[damageSource.SourceProjectileIndex].damage * parryLifesteal);
+                        stealLife = Math.Min(player.HeldItem.damage * 5,
+                            (int)(Main.projectile[damageSource.SourceProjectileIndex].damage * 
+                            2 * player.meleeDamage * parryLifesteal));
                     }
                 }
             }
