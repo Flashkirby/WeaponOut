@@ -1554,7 +1554,7 @@ namespace WeaponOut
                     {
                         Main.PlaySound(SoundID.Tink, player.position);
                     }
-                    player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 1);
+                    player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 2);
                 }
                 else
                 { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 1); }
