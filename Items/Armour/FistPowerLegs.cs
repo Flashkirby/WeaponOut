@@ -16,7 +16,7 @@ namespace WeaponOut.Items.Armour
         }
         public override void SetDefaults()
         {
-            item.defense = 0;
+            item.defense = 1;
             item.value = Item.sellPrice(0, 0, 6, 0);
 
             item.width = 18;

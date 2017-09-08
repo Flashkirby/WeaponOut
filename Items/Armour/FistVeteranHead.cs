@@ -17,7 +17,7 @@ namespace WeaponOut.Items.Armour
         }
         public override void SetDefaults()
         {
-            item.defense = 2;
+            item.defense = 4;
             item.value = Item.buyPrice(0, 5, 0, 0);
             item.rare = 3;
 
