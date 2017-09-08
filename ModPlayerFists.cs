@@ -713,8 +713,6 @@ namespace WeaponOut
                 (cappedVelocity.X == 0 && cappedVelocity.Y == 0))
             {
                 cappedVelocity = target.position;
-
-                Main.NewText("X:" + cappedVelocity.X + " | Y:" + cappedVelocity.Y);
             }
             // Double knockback if target is moving towards player
             if ((player.direction < 0f && cappedVelocity.X > 0f) ||
