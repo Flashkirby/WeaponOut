@@ -36,7 +36,9 @@
     <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\YinYang.cs" />
     <Compile Include="Buffs\SecondWind.cs" />
+    <Compile Include="Buffs\YinDamage.cs" />
     <Compile Include="Buffs\YomiEndure.cs" />
     <Compile Include="Buffs\Momentum.cs" />
     <Compile Include="Buffs\RapidRecovery.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Items\Weapons\Fists\GlovesCaestusCrimson.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesPalm.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesWooden.cs" />
+    <Compile Include="Items\Weapons\Fists\KnucklesDemon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesFlintlock.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesLead.cs" />
     <Compile Include="Items\Weapons\Basic\Startillery.cs" />

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -13,16 +14,18 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
+        public static int customDashEffect = 0;
         public static int buffID = 0;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Hand");
             Tooltip.SetDefault(
-                "<right> consumes combo to slash through enemies and steal life\n" +
+                "<right> to dash, or consume combo to steal life from enemies\n" +
                 "Combo grants increased melee damage and damage recieved\n" + 
                 "'Might makes right'");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
+            customDashEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             buffID = mod.BuffType<Buffs.DemonFrenzy>();
         }
         public override void SetDefaults()
@@ -31,7 +34,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.damage = 45;
             item.useAnimation = 18; // 30%-50% reduction
             item.knockBack = 3.5f;
-            item.tileBoost = 8; // Combo Power
+            item.tileBoost = 13; // Combo Power
 
             item.value = Item.sellPrice(0, 0, 15, 0);
             item.rare = 3;
@@ -111,7 +114,7 @@ namespace WeaponOut.Items.Weapons.Fists
             else
             {
                 player.yoraiz0rEye = Math.Max(2, player.yoraiz0rEye);
-                if(player.attackCD > 2) player.attackCD -= 2; // Attack more things
+                if(player.attackCD > 2) player.attackCD = 2; // Attack more things
                 for (int i = 0; i < 5; i++)
                 {
                     int d = Dust.NewDust(r.TopLeft(), r.Width, r.Height, 27, player.velocity.X * -0.5f, player.velocity.Y * -0.5f, 180);
@@ -119,12 +122,23 @@ namespace WeaponOut.Items.Weapons.Fists
                 }
             }
         }
+        /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
+        public static void DashEffects(Player player)
+        {
+            if (player.dashDelay == 0) { }
+            for (int i = 0; i < 5; i++)
+            {
+                int d = Dust.NewDust(player.position, player.width, player.height, 27, player.velocity.X * -0.5f, player.velocity.Y * -0.5f, 180);
+                Main.dust[d].noGravity = true;
+                Main.dust[d].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+            }
+        }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             if (AltStats(player) && !target.immortal)
             {
-                int heal = Math.Min(target.lifeMax, damage) / 4;
+                int heal = Math.Min(target.lifeMax, damage) / 2;
                 PlayerFX.HealPlayer(player, heal);
             }
         }
@@ -168,8 +182,22 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         public override bool AltFunctionUse(Player player)
         {
-            return player.GetModPlayer<ModPlayerFists>().
-                AltFunctionCombo(player, altEffect);
+            if (player.GetModPlayer<ModPlayerFists>().
+                AltFunctionCombo(player, altEffect)
+                )
+            {
+                return true;
+            }
+            else
+            {
+                if (player.dashDelay == 0)
+                {
+                    player.GetModPlayer<ModPlayerFists>().
+                        SetDash(altDashSpeed, altDashThresh, 0.992f, 0.96f, false, customDashEffect);
+                    return true;
+                }
+            }
+            return false;
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
