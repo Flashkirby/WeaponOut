@@ -22,7 +22,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Demon Hand");
             Tooltip.SetDefault(
                 "<right> to dash, or consume combo to steal life from enemies\n" +
-                "Combo grants increased melee damage and damage recieved\n" + 
+                "Combo grants increased melee damage at the cost of defense\n" + 
                 "'Might makes right'");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             customDashEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
@@ -31,8 +31,8 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetDefaults()
         {
             item.melee = true;
-            item.damage = 45;
-            item.useAnimation = 18; // 30%-50% reduction
+            item.damage = 55;
+            item.useAnimation = 22; // 30%-50% reduction
             item.knockBack = 3.5f;
             item.tileBoost = 13; // Combo Power
 
@@ -49,12 +49,12 @@ namespace WeaponOut.Items.Weapons.Fists
         const int fistHitboxSize = 30;
         const float fistDashSpeed = 8f;
         const float fistDashThresh = 12f;
-        const float fistJumpVelo = 11.7f; // http://rextester.com/OIY60171
+        const float fistJumpVelo = 14.8f; // http://rextester.com/OIY60171
         public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().ComboEffectAbs == altEffect; }
         const int altHitboxSize = 64    ;
         const float altDashSpeed = 16f;
         const float altDashThresh = 12f;
-        const float altJumpVelo = 16.1f;
+        const float altJumpVelo = 16.85f;
         public override void AddRecipes()
         {
             for (int i = 0; i < 2; i++)
@@ -190,7 +190,9 @@ namespace WeaponOut.Items.Weapons.Fists
             }
             else
             {
-                if (player.dashDelay == 0)
+                // Since auto calls at 1, don't want this dash to happen before
+                // the combo attack, which only happens with itemAnimation == 0
+                if (player.dashDelay == 0 && player.itemAnimation == 0)
                 {
                     player.GetModPlayer<ModPlayerFists>().
                         SetDash(altDashSpeed, altDashThresh, 0.992f, 0.96f, false, customDashEffect);
@@ -203,11 +205,11 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (!AltStats(player))
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 3f, 12f);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 3f, 14f);
             }
             else
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 3f, 12f);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 3f, 14f);
             }
         }
     }

@@ -17,7 +17,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Demon Frenzy");
-            Description.SetDefault("Damage dealt and taken increased by POWERFACTOR%");
+            Description.SetDefault("Damage dealt increased by $POWERFACTOR%, damage received increased by $PAINFACTOR%");
             Main.buffNoTimeDisplay[Type] = true;
         }
 
@@ -25,7 +25,7 @@ namespace WeaponOut.Buffs
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             float power = POWERFACTOR * 0.01f * mpf.ComboCounter;
-            player.endurance -= power;
+            player.endurance -= power / 2;
             player.thrownDamage += power;
             player.meleeDamage += power;
             player.rangedDamage += power;
@@ -37,7 +37,8 @@ namespace WeaponOut.Buffs
         {
             ModPlayerFists mpf = Main.LocalPlayer.GetModPlayer<ModPlayerFists>();
             int power = POWERFACTOR * mpf.ComboCounter;
-            tip = tip.Replace("POWERFACTOR%", power + "%");
+            tip = tip.Replace("$POWERFACTOR", "" + power);
+            tip = tip.Replace("$PAINFACTOR", "" + (power / 2));
             if (power >= 100) rare = 4;
             else if (power >= 50) rare = 3;
             else if (power >= 25) rare = 2;
