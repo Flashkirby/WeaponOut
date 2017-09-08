@@ -701,15 +701,25 @@ namespace WeaponOut
 
         private void ManagePlayerComboMovement(NPC target)
         {
+            if (target.aiStyle == 28) // WOF eye follows head position
+            { target = Main.npc[Main.wof]; }
+
             Vector2 cappedVelocity = target.velocity;
-            bool veloIsUnusual = false;
-            if (target.knockBackResist == 0f || 
-                (cappedVelocity.X == 0 && cappedVelocity.Y == 0) ||
-                target.position == target.oldPosition)
+            if (target.aiStyle == 27)
             {
-                veloIsUnusual = true;
-                cappedVelocity = target.position - target.oldPosition;
+                // Keep normal "velocity" since WoF doesn't update old position for some reason. 
             }
+            else if (target.knockBackResist == 0f ||
+                (cappedVelocity.X == 0 && cappedVelocity.Y == 0))
+            {
+                cappedVelocity = target.position;
+
+                Main.NewText("X:" + cappedVelocity.X + " | Y:" + cappedVelocity.Y);
+            }
+            // Double knockback if target is moving towards player
+            if ((player.direction < 0f && cappedVelocity.X > 0f) ||
+                (player.direction > 0f && cappedVelocity.X < 0f))
+            { cappedVelocity.X *= 2f; }
             cappedVelocity = new Vector2(
                   Math.Min(10f, Math.Max(-10f, cappedVelocity.X)),
                   Math.Min(10f, Math.Max(-10f, cappedVelocity.Y)));
@@ -753,11 +763,6 @@ namespace WeaponOut
                     player.velocity.X -= player.direction * player.HeldItem.knockBack * 0.2f; // Some bounce off
                     player.velocity.Y -= player.gravDir * 0.125f * player.itemAnimationMax; // Try to preserve Y velo, based on attack speed (claws do less, fists do more)
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
-
-                    if (veloIsUnusual)
-                    {
-                        player.velocity += cappedVelocity;
-                    }
                 }
                 else
                 {
@@ -766,6 +771,12 @@ namespace WeaponOut
                         -player.direction * (2f + player.HeldItem.knockBack * 0.5f) + cappedVelocity.X * 0.5f,
                         cappedVelocity.Y * 1.5f * target.knockBackResist);
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
+                }
+
+                // Escape out of hitboxes
+                if (player.Center.Y > target.Top.Y && player.Center.Y < target.Bottom.Y)
+                {
+                    float xDistToMove = 0;
                 }
                 #endregion
             }
