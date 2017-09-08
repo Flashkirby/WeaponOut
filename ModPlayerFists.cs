@@ -701,9 +701,25 @@ namespace WeaponOut
 
         private void ManagePlayerComboMovement(NPC target)
         {
-            Vector2 cappedVelocity = new Vector2(
-                Math.Min(10f, Math.Max(-10f, target.velocity.X)),
-                Math.Min(10f, Math.Max(-10f, target.velocity.Y)));
+            Vector2 cappedVelocity = target.velocity;
+            bool veloIsUnusual = false;
+            if (target.knockBackResist == 0f || 
+                (cappedVelocity.X == 0 && cappedVelocity.Y == 0) ||
+                target.position == target.oldPosition)
+            {
+                veloIsUnusual = true;
+                cappedVelocity = target.position - target.oldPosition;
+            }
+            cappedVelocity = new Vector2(
+                  Math.Min(10f, Math.Max(-10f, cappedVelocity.X)),
+                  Math.Min(10f, Math.Max(-10f, cappedVelocity.Y)));
+
+            if (target.velocity.X == 0f && target.velocity.Y == 0f)
+            {
+                cappedVelocity = new Vector2(
+               Math.Min(10f, Math.Max(-10f, (target.oldPosition.X - target.position.X) * 1.5f)),
+               Math.Min(10f, Math.Max(-10f, target.oldPosition.Y - target.position.Y)));
+            }
 
             if (specialMove != 1)
             {
@@ -734,15 +750,20 @@ namespace WeaponOut
                 if (aerial)
                 {
                     player.velocity = cappedVelocity;
-                    player.velocity.X -= player.direction; // Some bounce off
+                    player.velocity.X -= player.direction * player.HeldItem.knockBack * 0.2f; // Some bounce off
                     player.velocity.Y -= player.gravDir * 0.125f * player.itemAnimationMax; // Try to preserve Y velo, based on attack speed (claws do less, fists do more)
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
+
+                    if (veloIsUnusual)
+                    {
+                        player.velocity += cappedVelocity;
+                    }
                 }
                 else
                 {
                     // Bounce off
                     player.velocity = new Vector2(
-                        -player.direction * (1.5f + player.HeldItem.knockBack * 0.5f) + cappedVelocity.X * 0.5f,
+                        -player.direction * (2f + player.HeldItem.knockBack * 0.5f) + cappedVelocity.X * 0.5f,
                         cappedVelocity.Y * 1.5f * target.knockBackResist);
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
                 }
