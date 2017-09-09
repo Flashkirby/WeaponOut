@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Master Headband");
             Tooltip.SetDefault("9% increased melee critical strike chance\n"
-                + "Melee damage gradually increases near bosses when not attacking");
+                + "Fighting bosses slowly empowers next melee attack, up to 2000%");
         }
         public override void SetDefaults()
         {

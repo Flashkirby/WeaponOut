@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Apprentice Headband");
             Tooltip.SetDefault("3% increased melee critical strike chance\n"
-                + "Melee damage gradually increases near bosses when not attacking");
+                + "Fighting bosses slowly empowers next melee attack, up to 400%");
         }
         public override void SetDefaults()
         {

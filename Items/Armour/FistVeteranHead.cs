@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Wanderer Headband");
             Tooltip.SetDefault("6% increased melee critical strike chance\n"
-                + "Melee damage gradually increases near bosses when not attacking");
+                + "Fighting bosses slowly empowers next melee attack, up to 800%");
         }
         public override void SetDefaults()
         {

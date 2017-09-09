@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Helmet");
-            Tooltip.SetDefault("Melee damage gradually increases near bosses when not attacking");
+            Tooltip.SetDefault("Fighting bosses slowly empowers next melee attack, up to 500%");
         }
         public override void SetDefaults()
         {

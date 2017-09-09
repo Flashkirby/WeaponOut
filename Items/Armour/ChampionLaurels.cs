@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Champion Laurels");
             Tooltip.SetDefault("5% increased melee damage\n" +
-                "Melee damage gradually increases near bosses when not attacking");
+                "Fighting bosses slowly empowers next melee attack, up to 2500%");
         }
         public override void SetDefaults()
         {
