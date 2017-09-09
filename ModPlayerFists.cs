@@ -1303,6 +1303,20 @@ namespace WeaponOut
             }
             return false;
         }
+        /// <summary>
+        /// Special parry upgrade which allows dashing.
+        /// </summary>
+        public bool AltFunctionParryDash(Player player, int parryWindow, int parryCooldown, float jumpSpeed = 14.3f, float dashDiveSpeed = 14.5f, float dashMaxSpeedThreshold = 12f, float dashMaxFriction = 0.992f, float dashMinFriction = 0.96f)
+        {
+            if (AltFunctionParryMax(player, parryWindow, parryWindow + parryCooldown))
+            {
+                SetDashOnMovement(dashDiveSpeed, dashMaxSpeedThreshold, dashMaxFriction, dashMinFriction, true, 0);
+                SetSpecialMove(player, jumpSpeed, 1f, dashDiveSpeed); // Get movement, but still normal
+                specialMove = 0;
+                return true;
+            }
+            return false;
+        }
 
         public int GetParryBuff()
         {
