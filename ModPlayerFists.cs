@@ -781,13 +781,13 @@ namespace WeaponOut
             else if (specialMove == 1)
             {
                 // Uppercut grants full immunity for rest of uppercut but no bounces etc.
-                provideImmunity(player, player.itemAnimationMax);
+                provideImmunity(player, player.itemAnimation + 1);
             }
             else if (specialMove == 2)
             {
                 #region Divekick
-                // Brief invulnerability
-                provideImmunity(player, player.itemAnimationMax / 3);
+                // Grant mostly invulnerable divekicks on hit
+                provideImmunity(player, player.itemAnimationMax / 4 + player.itemAnimationMax / 2);
 
                 // Bounce off
                 int direction = 1;
