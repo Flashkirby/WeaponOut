@@ -127,7 +127,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (AltStats(player))
             {
-                damage += player.statLife / 2;
+                damage += player.statLifeMax2 / 2 + player.statLife / 2;
             }
         }
 
