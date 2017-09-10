@@ -75,17 +75,17 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (initial)
             {
-                player.itemAnimation = player.itemAnimationMax + 20;
+                player.itemAnimation = player.itemAnimationMax + 18;
                 Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, player.position);
             }
 
-            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 8, altHitboxSize);
+            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 10, altHitboxSize);
             if (player.itemAnimation > player.itemAnimationMax)
             {
                 // Charging
-                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 127, 0, 0, 100, default(Color), 1.2f)];
-                d.position -= d.velocity * 10f;
-                d.velocity /= 2;
+                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 170, 0, 0, 100, default(Color), 1.2f)];
+                d.position -= d.velocity * 20f;
+                d.velocity *= 1.5f;
                 d.noGravity = true;
             }
             else if (player.itemAnimation == player.itemAnimationMax)
@@ -99,9 +99,13 @@ namespace WeaponOut.Items.Weapons.Fists
             else
             {
                 // Punch effect
-                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 170, 3, 3, 100, default(Color), 1f)];
-                d.velocity *= 0.6f * ModPlayerFists.GetFistVelocity(player);
-                d.noGravity = true;
+                Dust d;
+                for (int i = 0; i < 3; i++)
+                {
+                    d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 232, 3, 3, 100, default(Color), 1f)];
+                    d.velocity *= 0.6f * ModPlayerFists.GetFistVelocity(player);
+                    d.noGravity = true;
+                }
             }
         }
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
@@ -128,6 +132,18 @@ namespace WeaponOut.Items.Weapons.Fists
             if (AltStats(player))
             {
                 damage += player.statLifeMax2 / 2 + player.statLife / 2;
+            }
+        }
+
+        // Hit Impact Effect
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            // Impact
+            Dust d;
+            for (int i = 0; i < 1 + damage / 20; i++)
+            {
+                d = Main.dust[Dust.NewDust((player.Center + target.Center) / 2, 0, 0, 159, -target.velocity.X, target.velocity.Y, 100, default(Color), 0.5f)];
+                d.velocity = (3f * d.velocity) + (3f * ModPlayerFists.GetFistVelocity(player));
             }
         }
 
