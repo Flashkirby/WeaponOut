@@ -80,6 +80,7 @@ namespace WeaponOut.Items.Weapons.Fists
             }
 
             Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 10, altHitboxSize);
+            player.statDefense += player.itemAnimation; // Bonus defence during special
             if (player.itemAnimation > player.itemAnimationMax)
             {
                 // Charging
