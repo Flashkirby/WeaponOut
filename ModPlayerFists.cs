@@ -712,7 +712,7 @@ namespace WeaponOut
             else if (target.knockBackResist == 0f ||
                 (cappedVelocity.X == 0 && cappedVelocity.Y == 0))
             {
-                cappedVelocity = target.position;
+                cappedVelocity = target.position - target.oldPosition;
             }
             // Double knockback if target is moving towards player
             if ((player.direction < 0f && cappedVelocity.X > 0f) ||
