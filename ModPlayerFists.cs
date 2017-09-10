@@ -610,7 +610,7 @@ namespace WeaponOut
                     if (player.direction < 0)
                     {
                         hitbox.Location = (centreLeft - new Vector2(
-                            Player.defaultWidth,
+                            distance,
                             hitbox.Height / 2f)).ToPoint();
                     }
                     else
