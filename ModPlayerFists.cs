@@ -924,7 +924,9 @@ namespace WeaponOut
                     index++;
                 }
                 tooltips.RemoveAt(index);
-                tooltips.Insert(index, new TooltipLine(item.modItem.mod, "FistComboPower", item.tileBoost + " combo power"));
+                tooltips.Insert(index, new TooltipLine(item.modItem.mod, "FistComboPower", 
+                    Math.Max(2, item.tileBoost + Main.LocalPlayer.GetModPlayer<ModPlayerFists>().comboCounterMaxBonus) + 
+                    " combo power cost"));
             }
         }
 
