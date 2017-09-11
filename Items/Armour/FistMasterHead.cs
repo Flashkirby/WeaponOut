@@ -76,9 +76,11 @@ namespace WeaponOut.Items.Armour
                     break;
                 case 3:
                     string button = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
-                    player.setBonus = "Build up momentum and double tap " + button + " to leap towards a location";
+                    player.setBonus = "Build up momentum and double tap " + button + " to leap towards a location,\n"
+                        + "Increases running speed by 15 mph";
                     player.GetModPlayer<PlayerFX>().buildMomentum = true;
                     player.GetModPlayer<PlayerFX>().momentumDash = true;
+                    player.accRunSpeed += 3f;
                     break;
             }
         }
