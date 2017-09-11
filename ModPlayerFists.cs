@@ -719,8 +719,8 @@ namespace WeaponOut
                 (player.direction > 0f && cappedVelocity.X < 0f))
             { cappedVelocity.X *= 2f; }
             cappedVelocity = new Vector2(
-                  Math.Min(10f, Math.Max(-10f, cappedVelocity.X)),
-                  Math.Min(10f, Math.Max(-10f, cappedVelocity.Y)));
+                  Math.Min(8f + player.accRunSpeed, Math.Max(-8f - player.accRunSpeed, cappedVelocity.X)),
+                  Math.Min(8f + player.accRunSpeed, Math.Max(-8f - player.accRunSpeed, cappedVelocity.Y)));
 
             if (target.velocity.X == 0f && target.velocity.Y == 0f)
             {
