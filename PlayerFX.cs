@@ -1430,9 +1430,19 @@ namespace WeaponOut
                     if (damageSource.SourceProjectileIndex >= 0)
                     {
                         momentum /= 2;
-                        ProjFX.ReflectProjectilePlayer(Main.projectile[damageSource.SourceProjectileIndex], player);
-                        Main.PlaySound(SoundID.Item10, player.position);
                         player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        // Can't reflect damage that's too powerful!
+                        if (Main.projectile[damageSource.SourceProjectileIndex].damage > player.statLifeMax2 / 8)
+                        {
+                            player.immune = true;
+                            player.immuneTime = 20;
+                            if (player.longInvince) player.immuneTime += 20;
+                        }
+                        else
+                        {
+                            ProjFX.ReflectProjectilePlayer(Main.projectile[damageSource.SourceProjectileIndex], player);
+                            Main.PlaySound(SoundID.Item10, player.position);
+                        }
                         return false;
                     }
                     else if (damageSource.SourceNPCIndex >= 0)
