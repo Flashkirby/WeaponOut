@@ -103,7 +103,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override bool AltFunctionUse(Player player)
         {
             return player.GetModPlayer<ModPlayerFists>().
-                AltFunctionParryDash(player, parryActive, parryCooldown, fistJumpVelo, fistDashSpeed, fistDashThresh);
+                AltFunctionParryDash(player, parryActive, parryCooldown, fistJumpVelo - fistJumpVelo / 4, fistDashSpeed / 2f, fistDashThresh / 2);
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
