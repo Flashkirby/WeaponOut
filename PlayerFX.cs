@@ -74,13 +74,14 @@ namespace WeaponOut
         /// <summary> Multiplayer sync variable for figuring out if a weapon is being alt-func used. </summary>
         public bool dualItemCanUse;
         #endregion
-        #region Fist Armour Effects
+        #region Fist Armour/Accessory Effects
         public bool taekwonCounter;
         public bool doubleDamageUp;
         public bool rapidRecovery;
         public float diveKickHeal;
         public bool millstone;
         public bool barbariousDefence;
+        public bool heartDropper;
 
         public float patienceDamage;
         private float patienceBonus;
@@ -1377,6 +1378,24 @@ namespace WeaponOut
                 if (mpf.ComboCounter > 0)
                 {
                     yang += damage;
+                }
+                #endregion
+
+                if (target.realLife >= 0) target = Main.npc[target.realLife];
+
+                #region Heart DropperTHIS
+                if (target.life == target.lifeMax - damage) // Only from full health
+                {
+                    if (target.type != 16 && // These NPCs turn into other NPCs on death (Slimes)
+                        target.type != 81 &&
+                        target.type != 121 &&
+                        Main.rand.Next(12) == 0 && // Default 1/6 chance, as per standard terraria rules
+                        target.lifeMax > 1 && // Ignore "projectile" NPCs
+                        target.damage > 0) // Ignore critters, basically
+                    {
+                        int heart = ItemID.Heart;
+                        Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, heart, 1, false, 0, false, false);
+                    }
                 }
                 #endregion
             }

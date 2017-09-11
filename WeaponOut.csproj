@@ -94,6 +94,7 @@
     <Compile Include="Items\Weapons\Fists\GlovesPalm.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesWooden.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCobalt.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsCursed.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesPalladium.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesDemon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesFlintlock.cs" />
