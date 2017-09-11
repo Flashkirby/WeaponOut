@@ -53,6 +53,8 @@ namespace WeaponOut
         private static Color highColour = Color.Cyan;
         /// <summary> Colour for inactive combo counter </summary>
         private static Color lowColour = Color.DarkCyan;
+        /// <summary> Colour for combo tooltip </summary>
+        private static Color tooltipColour = Color.LightCyan;
         private Color comboColour
         {
             get
@@ -923,10 +925,13 @@ namespace WeaponOut
                     if (tooltip.Name.Equals("TileBoost")) break;
                     index++;
                 }
+                int comboBonus = Main.LocalPlayer.GetModPlayer<ModPlayerFists>().comboCounterMaxBonus;
                 tooltips.RemoveAt(index);
-                tooltips.Insert(index, new TooltipLine(item.modItem.mod, "FistComboPower", 
-                    Math.Max(2, item.tileBoost + Main.LocalPlayer.GetModPlayer<ModPlayerFists>().comboCounterMaxBonus) + 
-                    " combo power cost"));
+                TooltipLine tt = new TooltipLine(item.modItem.mod, "FistComboPower",
+                    Math.Max(2, item.tileBoost + comboBonus) +
+                    " combo power cost");
+                tt.overrideColor = tooltipColour;
+                tooltips.Insert(index, tt);
             }
         }
 
