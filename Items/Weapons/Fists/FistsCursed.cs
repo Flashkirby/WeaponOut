@@ -68,11 +68,11 @@ namespace WeaponOut.Items.Weapons.Fists
             if (player.dashDelay == 0) { }
             for (int i = 0; i < 5; i++)
             {
-                int d = Dust.NewDust(player.position, player.width, player.height, 75, player.velocity.X * -0.5f, player.velocity.Y * -0.5f, 100, default(Color), 2f);
-                Main.dust[d].noGravity = true;
-                Main.dust[d].velocity *= 0.7f;
-                Main.dust[d].velocity.Y -= 0.5f;
-                Main.dust[d].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                Dust d = Main.dust[Dust.NewDust(player.position, player.width, player.height, 75, -player.velocity.X, 0, 100, default(Color), 2 + i * 0.15f)];
+                d.noGravity = true;
+                d.velocity.Y = player.velocity.Y * -0.5f;
+                d.velocity *= 0.7f;
+                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
             }
         }
 
