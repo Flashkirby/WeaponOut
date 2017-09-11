@@ -40,6 +40,7 @@ namespace WeaponOut.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<PlayerFX>().sashMaxLifeRecoverMult += 0.25f;
+            player.GetModPlayer<PlayerFX>(mod).DamageKnockbackThreshold += 20;
         }
     }
 }
