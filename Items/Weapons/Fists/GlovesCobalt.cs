@@ -85,9 +85,7 @@ namespace WeaponOut.Items.Weapons.Fists
             }
         }
 
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        { ModPlayerFists.ModifyTooltips(tooltips, item); }
-
+        #region Hardmode Parry Base
         public override bool CanUseItem(Player player)
         {
             if (!AltStats(player))
@@ -118,5 +116,9 @@ namespace WeaponOut.Items.Weapons.Fists
                 ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 14f);
             }
         }
+        #endregion
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        { ModPlayerFists.ModifyTooltips(tooltips, item); }
     }
 }

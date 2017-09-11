@@ -167,10 +167,6 @@ namespace WeaponOut.Items.Weapons.Fists
         }
 
 
-
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        { ModPlayerFists.ModifyTooltips(tooltips, item); }
-
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 0)
@@ -212,5 +208,8 @@ namespace WeaponOut.Items.Weapons.Fists
                 ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 3f, 14f);
             }
         }
+        
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        { ModPlayerFists.ModifyTooltips(tooltips, item); }
     }
 }

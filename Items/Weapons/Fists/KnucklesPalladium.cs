@@ -147,11 +147,8 @@ namespace WeaponOut.Items.Weapons.Fists
                 d.velocity = (3f * d.velocity) + (3f * ModPlayerFists.GetFistVelocity(player));
             }
         }
-
-
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        { ModPlayerFists.ModifyTooltips(tooltips, item); }
-
+        
+        #region Hardmode Combo Base
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 0)
@@ -177,5 +174,9 @@ namespace WeaponOut.Items.Weapons.Fists
                 ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 3f, 14f);
             }
         }
+        #endregion
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        { ModPlayerFists.ModifyTooltips(tooltips, item); }
     }
 }
