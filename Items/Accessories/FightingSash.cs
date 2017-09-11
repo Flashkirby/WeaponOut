@@ -20,9 +20,9 @@ namespace WeaponOut.Items.Accessories
         }
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.rare = 1;
+            item.width = 22;
+            item.height = 22;
+            item.rare = 2;
             item.accessory = true;
             item.value = Item.buyPrice(0, 1, 0, 0);
         }
