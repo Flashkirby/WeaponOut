@@ -51,6 +51,9 @@
     <Compile Include="Buffs\ParryActive.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Items\Accessories\DriedEye.cs" />
+    <Compile Include="Items\Accessories\StainedTooth.cs" />
+    <Compile Include="Items\Accessories\RushCharm.cs" />
     <Compile Include="Items\Accessories\FightingSash.cs" />
     <Compile Include="Items\Armour\ColosseumHelmet.cs" />
     <Compile Include="Items\Armour\DiscordantShades.cs" />
@@ -84,6 +87,9 @@
     <Compile Include="Items\Weapons\Fists\FistsMolten.cs" />
     <Compile Include="Items\Weapons\Fists\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
+    <Content Include="Items\Accessories\DriedEye.png" />
+    <Content Include="Items\Accessories\StainedTooth.png" />
+    <Content Include="Items\Accessories\RushCharm.png" />
     <Content Include="Items\Accessories\FightingSash.png" />
     <Content Include="Items\Accessories\FightingSash_Waist.png" />
     <Content Include="Items\RustedBadge.png" />

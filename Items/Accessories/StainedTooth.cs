@@ -11,9 +11,10 @@ namespace WeaponOut.Items.Accessories
 
         public override void SetStaticDefaults() // Brain of Cthulu
         {
-            DisplayName.SetDefault("Stained Tooth");
+            DisplayName.SetDefault("Impaling Tooth");
             Tooltip.SetDefault(
-                "Melee strikes on full health enemies has a chance to spawn a heart");
+                "Melee strikes on full health enemies has a chance to spawn a heart\n" + 
+				"'What an eyesore'");
         }
         public override void SetDefaults()
         {
