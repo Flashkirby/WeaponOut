@@ -98,10 +98,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (mpf.parryBuff)
             {
                 if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
-                if (!player.moonLeech)
-                {
-                    PlayerFX.HealPlayer(player, 5);
-                }
+                PlayerFX.HealPlayer(player, 5, true);
             }
         }
     }

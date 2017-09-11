@@ -1543,8 +1543,8 @@ namespace WeaponOut
             {
                 recordLifeLost = true;
 
-                // Lost health? Records lost amount
-                if (player.statLife < sashLastLife)
+                // Lost health? Records lost amount, but not when leeched
+                if (player.statLife < sashLastLife && !player.moonLeech)
                 { sashLifeLost += sashLastLife - player.statLife; }
                 sashLastLife = player.statLife;
 
@@ -1563,7 +1563,7 @@ namespace WeaponOut
                 else
                 { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 1); }
             }
-            else if (!player.moonLeech && sashLifeLost > 0)
+            else if (sashLifeLost > 0)
             {
                 Main.PlaySound(2, -1, -1, 4, 0.3f, 0.2f); // mini heal effect
                 PlayerFX.HealPlayer(player, sashLifeLost);
@@ -1770,8 +1770,9 @@ namespace WeaponOut
             { isCrate = true; }
         }
 
-        public static void HealPlayer(Player player, int amount)
+        public static void HealPlayer(Player player, int amount, bool moonLeechable = false)
         {
+            if (moonLeechable && player.moonLeech) return;
             player.HealEffect(amount, true);
             player.statLife += amount;
             player.statLife = Math.Min(player.statLife, player.statLifeMax2);
