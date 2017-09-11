@@ -86,5 +86,42 @@ namespace WeaponOut.NPCs
                 }
             }
         }
+
+        public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+        {
+            if (Main.expertMode)
+            {
+                if (npc.life <= 0 && item.useStyle == ModPlayerFists.useStyle) // Killed by a fist weapon?
+                {
+                    if (npc.type == NPCID.EyeofCthulhu)
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
+                            mod.ItemType<Items.Accessories.RushCharm>(), 1, false, 0, false, false);
+                    }
+                    if (npc.type >= 13 && npc.type <= 15)
+                    {
+                        int wormCount = 0;
+                        foreach (NPC worm in Main.npc)
+                        {
+                            if (!worm.active) continue;
+                            if (worm.type >= 13 && worm.type <= 15)
+                            {
+                                wormCount++;
+                            }
+                        }
+                        if (wormCount < 2 || (wormCount == 2 && npc.type == NPCID.EaterofWorldsBody))
+                        {
+                            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
+                                mod.ItemType<Items.Accessories.DriedEye>(), 1, false, 0, false, false);
+                        }
+                    }
+                    if (npc.type == NPCID.BrainofCthulhu)
+                    {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
+                            mod.ItemType<Items.Accessories.StainedTooth>(), 1, false, 0, false, false);
+                    }
+                }
+            }
+        }
     }
 }
