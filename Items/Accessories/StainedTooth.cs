@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Impaling Tooth");
             Tooltip.SetDefault(
-                "Melee strikes on full health enemies has a chance to spawn a heart\n" + 
+                "Melee strikes on enemies has a chance to spawn a heart\n" + 
 				"'What an eyesore'");
         }
         public override void SetDefaults()
