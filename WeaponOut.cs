@@ -83,7 +83,7 @@ namespace WeaponOut
             }
             else
             {
-                Console.WriteLine("WeaponOut loaded with no errors:   visuals&fists#01");
+                Console.WriteLine("WeaponOut loaded:    fist&expert#01");
             }
         }
 

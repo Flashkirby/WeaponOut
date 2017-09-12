@@ -87,41 +87,76 @@ namespace WeaponOut.NPCs
             }
         }
 
-        public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+        public override void NPCLoot(NPC npc)
         {
-            if (Main.expertMode)
-            {
-                if (npc.life <= 0 && item.useStyle == ModPlayerFists.useStyle) // Killed by a fist weapon?
+            if (ModConf.enableFists) {
+                if (Main.expertMode && npc.boss)
                 {
+                    int itemType = -1;
                     if (npc.type == NPCID.EyeofCthulhu)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
-                            mod.ItemType<Items.Accessories.RushCharm>(), 1, false, 0, false, false);
+                        itemType = mod.ItemType<Items.Accessories.RushCharm>();
                     }
-                    if (npc.type >= 13 && npc.type <= 15)
+                    if (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail)
                     {
-                        int wormCount = 0;
-                        foreach (NPC worm in Main.npc)
-                        {
-                            if (!worm.active) continue;
-                            if (worm.type >= 13 && worm.type <= 15)
-                            {
-                                wormCount++;
-                            }
-                        }
-                        if (wormCount < 2 || (wormCount == 2 && npc.type == NPCID.EaterofWorldsBody))
-                        {
-                            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
-                                mod.ItemType<Items.Accessories.DriedEye>(), 1, false, 0, false, false);
-                        }
+                        itemType = mod.ItemType<Items.Accessories.DriedEye>();
                     }
                     if (npc.type == NPCID.BrainofCthulhu)
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
-                            mod.ItemType<Items.Accessories.StainedTooth>(), 1, false, 0, false, false);
+                        itemType = mod.ItemType<Items.Accessories.StainedTooth>();
+                    }
+
+                    // Modified from DropItemInstanced, only drop for people using fists
+                    if (itemType > 0)
+                    {
+                        if (Main.netMode == 2)
+                        {
+                            int itemWho = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
+                                itemType, 1, true, 0, false, false);
+                            Main.itemLockoutTime[itemWho] = 54000; // This slot cannot be used again for a while
+                            foreach (Player player in Main.player)
+                            {
+                                if (!player.active) continue;
+                                if (npc.playerInteraction[player.whoAmI])
+                                {// Player must've hit the NPC at least once
+                                    if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
+                                    {// Is equipped with fists, probably punching at time of death
+                                        NetMessage.SendData(90, player.whoAmI, -1, null, itemWho, 0f, 0f, 0f, 0, 0, 0);
+                                    }
+                                }
+                            }
+                            Main.item[itemWho].active = false;
+                        }
+                        else if (Main.netMode == 0)
+                        {
+                            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
+                                itemType, 1, false, 0, false, false);
+                        }
                     }
                 }
             }
         }
+
     }
 }
+/*
+ 
+				if (Main.netMode == 2)
+				{
+					int num = Item.NewItem((int)Position.X, (int)Position.Y, (int)HitboxSize.X, (int)HitboxSize.Y, itemType, itemStack, true, 0, false, false);
+					Main.itemLockoutTime[num] = 54000;
+					for (int i = 0; i < 255; i++)
+					{
+						if ((this.playerInteraction[i] || !interactionRequired) && Main.player[i].active)
+						{
+							NetMessage.SendData(90, i, -1, null, num, 0f, 0f, 0f, 0, 0, 0);
+						}
+					}
+					Main.item[num].active = false;
+				}
+				else if (Main.netMode == 0)
+				{
+					Item.NewItem((int)Position.X, (int)Position.Y, (int)HitboxSize.X, (int)HitboxSize.Y, itemType, itemStack, false, 0, false, false);
+				}
+
+     */
