@@ -40,9 +40,21 @@ namespace WeaponOut.Buffs
         public override void Update(NPC npc, ref int buffIndex)
         {
             float windSpeed = Main.windSpeed * 100f; // in mph
-            if (npc.HasValidTarget && Main.player[npc.target].FindBuffIndex(BuffID.WindPushed) >= 0)
+            // Look for nearby players in a sandstorm
+            foreach (Player player in Main.player)
             {
-                windSpeed = Math.Max(windSpeed, 40f);
+                if (!player.active || player.dead) continue;
+                if (player.position.X < npc.position.X + NPC.sWidth / 2 &&
+                    player.position.X > npc.position.X - NPC.sWidth / 2 &&
+                    player.position.Y < npc.position.Y + NPC.sHeight / 2 &&
+                    player.position.Y > npc.position.Y - NPC.sHeight / 2)
+                {
+                    if (player.ZoneSandstorm)
+                    {
+                        windSpeed = Math.Max(windSpeed, 40f);
+                        break;
+                    }
+                }
             }
             windSpeed = Math.Min(windSpeed, 160f); // Max -80 life per second
 
