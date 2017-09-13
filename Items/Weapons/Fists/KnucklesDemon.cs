@@ -139,7 +139,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (AltStats(player) && !target.immortal)
             {
                 int heal = Math.Min(target.lifeMax, damage) / 2;
-                PlayerFX.HealPlayer(player, heal);
+                PlayerFX.HealPlayer(player, heal, true);
             }
         }
 
