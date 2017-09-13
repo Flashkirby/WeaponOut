@@ -32,7 +32,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.knockBack = 6f;
             item.tileBoost = 9; // Combo Power
 
-            item.value = Item.sellPrice(0, 0, 15, 0);
+            item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 5;
 
             item.UseSound = SoundID.Item20;
