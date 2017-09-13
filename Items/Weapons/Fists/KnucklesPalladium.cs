@@ -87,6 +87,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 170, 0, 0, 100, default(Color), 1.2f)];
                 d.position -= d.velocity * 20f;
                 d.velocity *= 1.5f;
+                d.velocity += player.position - player.oldPosition;
                 d.noGravity = true;
             }
             else if (player.itemAnimation == player.itemAnimationMax)
