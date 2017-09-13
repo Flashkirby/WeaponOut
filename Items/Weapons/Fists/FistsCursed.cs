@@ -55,7 +55,7 @@ namespace WeaponOut.Items.Weapons.Fists
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(mod.ItemType<FistsCursed>(), 10);
+                recipe.AddIngredient(ItemID.CursedFlame, 10);
                 recipe.AddTile(TileID.MythrilAnvil);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
