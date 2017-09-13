@@ -203,6 +203,8 @@ namespace WeaponOut
             comboEffect = 0;
 
             ResetDashVars();
+            player.dashDelay = 0;
+            player.dash = 0;
         }
         public override void UpdateDead()
         {
