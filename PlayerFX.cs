@@ -679,6 +679,26 @@ namespace WeaponOut
         });
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
+            #region Show fists with weapon visuals
+            if (weaponVisual)
+            {
+                if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
+                {
+                    if (player.HeldItem.handOnSlot > 0)
+                    {
+                        player.handon = player.HeldItem.handOnSlot;
+                        player.cHandOn = 0;
+                    }
+                    if (player.HeldItem.handOffSlot > 0)
+                    {
+                        player.handoff = player.HeldItem.handOffSlot;
+                        player.cHandOff = 0;
+                    }
+                }
+
+            }
+            #endregion
+
             HeldItem.visible = true; // For items held in hand
             HairBack.visible = true; // For items behind the player (sheathed)
             //MiscEffectsFront.visible = !player.dead;
@@ -1291,26 +1311,6 @@ namespace WeaponOut
                 if (momentum >= momentumMax)
                 {
                     player.armorEffectDrawOutlinesForbidden = true;
-                }
-                #endregion
-
-                #region Show fists with weapon visuals
-                if (weaponVisual)
-                {
-                    if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
-                    {
-                        if (player.HeldItem.handOnSlot > 0)
-                        {
-                            player.handon = player.HeldItem.handOnSlot;
-                            player.cHandOn = 0;
-                        }
-                        if (player.HeldItem.handOffSlot > 0)
-                        {
-                            player.handoff = player.HeldItem.handOffSlot;
-                            player.cHandOff = 0;
-                        }
-                    }
-
                 }
                 #endregion
             }
