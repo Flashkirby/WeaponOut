@@ -31,7 +31,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.damage = 101;
             item.useAnimation = 30; // 30%-50% reduction
             item.knockBack = 6f;
-            item.tileBoost = 14; // Combo Power
+            item.tileBoost = 7; // Combo Power
 
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 5;
@@ -70,6 +70,11 @@ namespace WeaponOut.Items.Weapons.Fists
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
         public static void DashEffects(Player player)
         {
+            if (player.velocity.Y != 0)
+            {
+                player.velocity.Y -= (player.gravity * player.gravDir) / 2;
+            }
+
             if (player.dashDelay == 0)
             {
                 Main.PlaySound(SoundID.DD2_FlameburstTowerShot, player.position);
