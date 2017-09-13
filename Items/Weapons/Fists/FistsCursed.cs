@@ -56,6 +56,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 ModRecipe recipe = new ModRecipe(mod);
                 recipe.AddIngredient(ItemID.CursedFlame, 10);
+                recipe.AddIngredient(ItemID.RottenChunk, 5);
                 recipe.AddTile(TileID.MythrilAnvil);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
