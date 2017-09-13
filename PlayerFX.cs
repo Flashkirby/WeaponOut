@@ -1816,6 +1816,7 @@ namespace WeaponOut
 
         public static void HealPlayer(Player player, int amount, bool moonLeechable = false)
         {
+            if (amount <= 0) return;
             if (moonLeechable && player.moonLeech) return;
             player.HealEffect(amount, true);
             player.statLife += amount;
