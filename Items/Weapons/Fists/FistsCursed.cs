@@ -52,15 +52,12 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altJumpVelo = 16.85f;
         public override void AddRecipes()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.CursedFlame, 10);
-                recipe.AddIngredient(ItemID.RottenChunk, 5);
-                recipe.AddTile(TileID.MythrilAnvil);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.CursedFlame, 10);
+            recipe.AddIngredient(ItemID.RottenChunk, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
         
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
