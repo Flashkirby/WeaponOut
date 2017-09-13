@@ -1260,7 +1260,7 @@ namespace WeaponOut
                     {
                         stealLife = Math.Min(player.HeldItem.damage * 5,
                             (int)(Main.projectile[damageSource.SourceProjectileIndex].damage * 
-                            2 * player.meleeDamage * parryLifesteal));
+                            player.meleeDamage * parryLifesteal * 5));
                     }
                 }
             }
