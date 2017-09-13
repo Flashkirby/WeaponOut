@@ -1389,7 +1389,7 @@ namespace WeaponOut
                 {
                     // Only check at full health and half health
                     if ((target.life + damage == target.lifeMax) ||
-                        (target.life + damage >= target.lifeMax && target.life < target.lifeMax))
+                        (target.life + damage >= (target.lifeMax / 2) && target.life < (target.lifeMax / 2)))
                     {
                         int max = 1;
                         if (target.boss) // Bosses get more chances to roll for hearts
