@@ -43,7 +43,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.width = 20;
             item.height = 20;
         }
-        const int fistHitboxSize = 26;
+        const int fistHitboxSize = 20;
         const float fistDashSpeed = 10f;
         const float fistDashThresh = 12f;
         const float fistJumpVelo = 14.8f; // http://rextester.com/OIY60171
