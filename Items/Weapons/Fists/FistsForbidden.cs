@@ -19,7 +19,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Forbidden Gauntlet");
             Tooltip.SetDefault(
-                "<right> to storm through enemies\n" +
+                "<right> to transform into a raging sandstorm\n" +
                 "Dash grants invincibility and steals life\n" +
                 "Combo causes attacks to wear away at enemies\n" +
                 "'Forbidden techniques in the palm of your hand'");
