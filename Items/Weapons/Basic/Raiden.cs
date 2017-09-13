@@ -56,16 +56,13 @@ namespace WeaponOut.Items.Weapons.Basic
         }
         public override void AddRecipes()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(mod.ItemType<Hayauchi>(), 1);
-                recipe.AddIngredient(mod.ItemType<Onsoku>(), 1);
-                recipe.AddIngredient(ItemID.ChlorophyteBar, 8);
-                recipe.AddTile(TileID.AdamantiteForge);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType<Hayauchi>(), 1);
+            recipe.AddIngredient(mod.ItemType<Onsoku>(), 1);
+            recipe.AddIngredient(ItemID.ChlorophyteBar, 8);
+            recipe.AddTile(TileID.AdamantiteForge);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
         public int getFocus(Player player)
