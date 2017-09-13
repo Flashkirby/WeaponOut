@@ -96,7 +96,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 target.AddBuff(BuffID.CursedInferno, 420);
             }
-            if (mpf.IsComboActive)
+            if (mpf.IsComboActiveItemOnHit)
             {
                 target.AddBuff(BuffID.Oiled, 420);
             }

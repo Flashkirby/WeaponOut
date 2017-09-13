@@ -123,7 +123,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 PlayerFX.HealPlayer(player, heal, true);
             }
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            if (mpf.IsComboActive)
+            if (mpf.IsComboActiveItemOnHit)
             {
                 target.AddBuff(mod.BuffType<Buffs.ErodingWind>(), 600, false);
             }
