@@ -27,7 +27,7 @@ namespace WeaponOut.Projectiles
 
             projectile.friendly = true;
             projectile.melee = true;
-            projectile.ignoreWater = true;
+            projectile.ignoreWater = false;
         }
 
         public override void AI()
