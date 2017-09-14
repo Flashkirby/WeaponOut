@@ -46,7 +46,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.height = 20;
         }
         const int fistHitboxSize = 20;
-        const float fistDashSpeed = 13f;
+        const float fistDashSpeed = 12.5f;
         const float fistDashThresh = 11f;
         const float fistJumpVelo = 14.8f; // http://rextester.com/OIY60171
         public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().ComboEffectAbs == altEffect; }
