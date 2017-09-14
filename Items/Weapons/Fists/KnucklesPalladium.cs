@@ -14,7 +14,6 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
-        public static int buffID = 0;
 
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,6 @@ namespace WeaponOut.Items.Weapons.Fists
                 "<right> consumes combo for a life-empowered strike\n" +
                 "Combo grants increased life regeneration");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            buffID = mod.BuffType<Buffs.DemonFrenzy>();
         }
         public override void SetDefaults()
         {
