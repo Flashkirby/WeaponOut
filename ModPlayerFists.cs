@@ -762,7 +762,7 @@ namespace WeaponOut
                 if (aerial)
                 {
                     player.velocity = cappedVelocity;
-                    player.velocity.X -= player.direction * player.HeldItem.knockBack * 0.2f; // Some bounce off
+                    player.velocity.X -= player.direction * 3f + player.direction * player.HeldItem.knockBack * 0.1f; // Some bounce off
                     player.velocity.Y -= player.gravDir * 0.125f * player.itemAnimationMax; // Try to preserve Y velo, based on attack speed (claws do less, fists do more)
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
                 }
@@ -773,12 +773,6 @@ namespace WeaponOut
                         -player.direction * (2f + player.HeldItem.knockBack * 0.5f) + cappedVelocity.X * 0.5f,
                         cappedVelocity.Y * 1.5f * target.knockBackResist);
                     player.fallStart = (int)(player.position.Y / 16f); // Reset fall
-                }
-
-                // Escape out of hitboxes
-                if (player.Center.Y > target.Top.Y && player.Center.Y < target.Bottom.Y)
-                {
-                    float xDistToMove = 0;
                 }
                 #endregion
             }
