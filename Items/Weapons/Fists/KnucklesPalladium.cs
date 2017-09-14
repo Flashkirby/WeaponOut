@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Palladium Katar");
             Tooltip.SetDefault(
-                "<right> consumes combo for an life-empowered strike\n" +
+                "<right> consumes combo for a life-empowered strike\n" +
                 "Combo grants increased life regeneration");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             buffID = mod.BuffType<Buffs.DemonFrenzy>();
