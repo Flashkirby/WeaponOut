@@ -96,7 +96,9 @@ namespace WeaponOut.Items.Weapons.Fists
                     Dust d;
                     if (player.velocity.Y == 0f)
                     {
-                        d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f)];
+                        float height = player.height - 4f;
+                        if (player.gravDir < 0) height = 4f;
+                        d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + height), player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f)];
                     }
                     else
                     {

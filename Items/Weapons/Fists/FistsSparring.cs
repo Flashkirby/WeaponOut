@@ -64,22 +64,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (player.dashDelay == 0)
             {
-                for (int i = 0; i < 2; i++)
+                Gore g;
+                if (player.velocity.Y == 0f)
                 {
-                    Gore g;
-                    if (player.velocity.Y == 0f)
-                    {
-                        g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 4f), default(Vector2), Main.rand.Next(61, 64), 1f)];
-                    }
-                    else
-                    {
-                        g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 14f), default(Vector2), Main.rand.Next(61, 64), 1f)];
-                    }
-                    g.velocity.X = (float)Main.rand.Next(-50, 51) * 0.01f;
-                    g.velocity.Y = (float)Main.rand.Next(-50, 51) * 0.01f;
-                    if (i == 0) g.velocity += player.velocity;
-                    g.velocity *= 0.4f;
+                    g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 4f), default(Vector2), Main.rand.Next(61, 64), 1f)];
                 }
+                else
+                {
+                    g = Main.gore[Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 14f), default(Vector2), Main.rand.Next(61, 64), 1f)];
+                }
+                g.velocity.X = (float)Main.rand.Next(-50, 51) * 0.01f;
+                g.velocity.Y = (float)Main.rand.Next(-50, 51) * 0.01f;
+                g.velocity *= 0.4f;
             }
             else
             {
@@ -88,7 +84,9 @@ namespace WeaponOut.Items.Weapons.Fists
                     Dust d;
                     if (player.velocity.Y == 0f)
                     {
-                        d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f)];
+                        float height = player.height - 4f;
+                        if (player.gravDir < 0) height = 4f;
+                        d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + height), player.width, 8, 31, 0f, 0f, 100, default(Color), 1.4f)];
                     }
                     else
                     {
