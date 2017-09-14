@@ -110,17 +110,6 @@ namespace WeaponOut.Items.Weapons.Fists
                 }
             }
         }
-        /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
-        public static void DashEffects(Player player)
-        {
-            if (player.dashDelay == 0) { }
-            for (int i = 0; i < 5; i++)
-            {
-                int d = Dust.NewDust(player.position, player.width, player.height, 27, player.velocity.X * -0.5f, player.velocity.Y * -0.5f, 180);
-                Main.dust[d].noGravity = true;
-                Main.dust[d].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-            }
-        }
 
 
         //Combo
