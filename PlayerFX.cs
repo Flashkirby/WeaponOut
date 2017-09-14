@@ -295,7 +295,11 @@ namespace WeaponOut
                 }
                 else
                 {
-                    yinMeleeBonus = Math.Max(0f, yinMeleeBonus - 0.02f / 60); // Lose 2% damage per second
+                    float loss = 0.02f;
+                    if (yinMeleeBonus > 1f) loss += 0.01f;
+                    if (yinMeleeBonus > 2f) loss += 0.02f;
+                    if (yinMeleeBonus > 3f) loss += 0.05f;
+                    yinMeleeBonus = Math.Max(0f, yinMeleeBonus - loss / 60); // Lose 2% damage per second
 
                     if (yang == 0)
                     {
