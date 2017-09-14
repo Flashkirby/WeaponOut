@@ -71,21 +71,23 @@ namespace WeaponOut.Items.Armour
         public override void UpdateArmorSet(Player player)
         {
             ModPlayerFists mpf = ModPlayerFists.Get(player);
+            PlayerFX pfx = player.GetModPlayer<PlayerFX>();
             switch (armourSet)
             {
                 case 1:
                     player.setBonus = "20 defense per 100 missing life";
-                    player.GetModPlayer<PlayerFX>().barbariousDefence = true;
+                    pfx.barbariousDefence = true;
+                    pfx.patienceBuildUpModifier += 0.8f;
                     break;
                 case 2:
                     player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "23") + ", damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking";
                     player.statDefense += 23;
                     player.endurance += 0.05f;
-                    player.GetModPlayer<PlayerFX>().yomiEndurance += 0.45f;
+                    pfx.yomiEndurance += 0.45f;
                     break;
                 case 3:
                     player.setBonus = "Maximum life acts as a second wind, restore maximum life with combos";
-                    player.GetModPlayer<PlayerFX>().secondWind = true;
+                    pfx.secondWind = true;
                     break;
             }
         }

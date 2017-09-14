@@ -64,22 +64,24 @@ namespace WeaponOut.Items.Armour
         public override void UpdateArmorSet(Player player)
         {
             ModPlayerFists mpf = ModPlayerFists.Get(player);
+            PlayerFX pfx = player.GetModPlayer<PlayerFX>();
             switch (armourSet)
             {
                 case 1:
                     player.setBonus = "Combo attacks deal additional damage based on enemy life";
-                    player.GetModPlayer<PlayerFX>().millstone = true;
+                    pfx.millstone = true;
+                    pfx.patienceBuildUpModifier += 0.5f;
                     break;
                 case 2:
                     player.setBonus = "Taking damage grants yin, dealing damage grants yang, \nat the end of a combo yin increases melee damage, \nyang restores a portion of missing life";
-                    player.GetModPlayer<PlayerFX>().yinyang = true;
+                    pfx.yinyang = true;
                     break;
                 case 3:
                     string button = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
                     player.setBonus = "Build up momentum and double tap " + button + " to leap towards a location,\n"
                         + "Increases running speed by 15 mph";
-                    player.GetModPlayer<PlayerFX>().buildMomentum = true;
-                    player.GetModPlayer<PlayerFX>().momentumDash = true;
+                    pfx.buildMomentum = true;
+                    pfx.momentumDash = true;
                     player.accRunSpeed += 3f;
                     break;
             }

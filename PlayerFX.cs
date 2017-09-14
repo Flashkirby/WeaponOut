@@ -84,6 +84,7 @@ namespace WeaponOut
         public bool heartDropper;
 
         public float patienceDamage;
+        public float patienceBuildUpModifier;
         private float patienceBonus;
         private const float patiencePerFrame = 0.0125f;
         private const float patienceCooldown = -patiencePerFrame * 120;
@@ -241,6 +242,7 @@ namespace WeaponOut
                 momentumDashTime = Math.Max(0, momentumDashTime - 1);
                 heartDropper = false;
 
+                patienceBuildUpModifier = 1f;
                 if (patienceBonus > 0) player.meleeDamage += patienceBonus;
 
                 // 
@@ -1270,7 +1272,7 @@ namespace WeaponOut
                         {
                             if (player.HeldItem.melee)
                             {
-                                patienceBonus += patiencePerFrame;
+                                patienceBonus += patiencePerFrame * Math.Max(0, patienceBuildUpModifier);
                             }
                         }
                         // using ranged/magic will reduce effect drastically
