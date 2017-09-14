@@ -1591,16 +1591,30 @@ namespace WeaponOut
             if (player.itemAnimation == 0 && comboCounter >= ComboCounterMaxReal)
             {
                 this.comboEffect = comboEffect;
+
+                ConsumeCombo(player);
+
+                if (ComboEffectAbs > 0) WeaponOut.NetUpdateCombo(this);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary> Consume comboMax </summary>
+        /// <returns>equal to or more than 0 if able to and has consumed combo.</returns>
+        public int ConsumeCombo(Player player)
+        {
+            if (comboCounter >= ComboCounterMaxReal)
+            {
+                int oldCombo = comboCounter;
                 ModifyComboCounter(-ComboCounterMaxReal, true);
 
                 // Show combo consume
                 CombatText.NewText(player.getRect(),
                     lowColour, -ComboCounterMaxReal + " combo", false, true);
-
-                if(ComboEffectAbs > 0) WeaponOut.NetUpdateCombo(this);
-                return true;
+                return oldCombo;
             }
-            return false;
+            return -1;
         }
 
         // Call the combo management pre-item check
