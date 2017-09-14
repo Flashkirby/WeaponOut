@@ -36,6 +36,7 @@
     <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\ErodingWind.cs" />
     <Compile Include="Buffs\YinYang.cs" />
     <Compile Include="Buffs\SecondWind.cs" />
     <Compile Include="Buffs\YinDamage.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsSparring.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsForbidden.cs" />
     <Compile Include="Items\Weapons\Fists\FistsJungleClaws.cs" />
     <Compile Include="Items\Weapons\Fists\FistsMolten.cs" />
     <Compile Include="Items\Weapons\Fists\FistsOfFury.cs" />
@@ -95,6 +98,7 @@
     <Content Include="Items\RustedBadge.png" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesBee.cs" />
+    <Compile Include="Items\Weapons\Fists\GlovesHallow.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesFossil.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestusCrimson.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesPalm.cs" />

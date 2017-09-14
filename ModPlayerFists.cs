@@ -686,7 +686,7 @@ namespace WeaponOut
             }
         }
 
-        private void ModifyComboCounter(int amount, bool resetTimer = true)
+        public void ModifyComboCounter(int amount, bool resetTimer = true)
         {
             comboCounter += amount;
             if (comboCounter == ComboCounterMaxReal) ItemFlashFX();
