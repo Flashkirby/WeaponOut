@@ -88,7 +88,7 @@ namespace WeaponOut.Projectiles
                      DustID.Ice, -projectile.velocity.X, -projectile.velocity.Y, 100, default(Color), 1.2f)];
                 d.velocity *= 0.1f * i;
             }
-            Main.PlaySound(SoundID.Shatter, projectile.Center);
+            Main.PlaySound(SoundID.Item27, projectile.Center);
         }
     }
 }
