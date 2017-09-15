@@ -29,6 +29,7 @@ namespace WeaponOut.Items.Armour
         {
             player.meleeCrit += 6;
             player.GetModPlayer<PlayerFX>().patienceDamage = 20f; // Can do up to 2000%
+            player.GetModPlayer<PlayerFX>().patienceBuildUpModifier += 0.2f; // 75->90%
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
@@ -70,7 +71,7 @@ namespace WeaponOut.Items.Armour
                 case 1:
                     player.setBonus = "Combo attacks deal additional damage based on enemy life";
                     pfx.millstone = true;
-                    pfx.patienceBuildUpModifier += 0.3f;
+                    pfx.patienceBuildUpModifier += 0.1f;
                     break;
                 case 2:
                     player.setBonus = "Taking damage grants yin, dealing damage grants yang, \nat the end of a combo yin increases melee damage, \nyang restores a portion of missing life";

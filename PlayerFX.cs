@@ -86,8 +86,8 @@ namespace WeaponOut
         public float patienceDamage;
         public float patienceBuildUpModifier;
         private float patienceBonus;
-        private const float patiencePerFrame = 0.90f / 60; // 90% per second
-        private const float patienceCooldown = -patiencePerFrame * 120; // 2 second cooldown
+        private const float patiencePerFrame = 0.75f / 60; // 75% per second
+        private const float patienceCooldown = -patiencePerFrame * 90; // 1.5 second cooldown
 
         public float yomiEndurance;
         public bool yomiFinishedAttack;

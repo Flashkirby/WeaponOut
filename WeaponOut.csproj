@@ -36,6 +36,7 @@
     <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\BloodLust.cs" />
     <Compile Include="Buffs\ErodingWind.cs" />
     <Compile Include="Buffs\YinYang.cs" />
     <Compile Include="Buffs\SecondWind.cs" />
@@ -98,6 +99,7 @@
     <Content Include="Items\RustedBadge.png" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesBee.cs" />
+    <Compile Include="Items\Weapons\Fists\GlovesCrystal.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesHallow.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesFossil.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestusCrimson.cs" />
@@ -105,6 +107,8 @@
     <Compile Include="Items\Weapons\Fists\GlovesWooden.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCobalt.cs" />
     <Compile Include="Items\Weapons\Fists\FistsCursed.cs" />
+    <Compile Include="Items\Weapons\Fists\KnucklesFrost.cs" />
+    <Compile Include="Items\Weapons\Fists\KnucklesIchor.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesPalladium.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesDemon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesFlintlock.cs" />
@@ -145,6 +149,8 @@
     <Compile Include="ModPlayerFists.cs" />
     <Compile Include="Projectiles\MeteorBreakshatter.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />
+    <Compile Include="Projectiles\SpiritBeam.cs" />
+    <Compile Include="Projectiles\SpiritIcicle.cs" />
     <Compile Include="Projectiles\SpiritBlast.cs" />
     <Compile Include="Projectiles\SpiritComet.cs" />
     <Compile Include="Projectiles\Reverb.cs" />

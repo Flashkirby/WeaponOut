@@ -37,6 +37,7 @@ namespace WeaponOut.Items.Armour
         {
             player.meleeDamage += 0.05f;
             player.GetModPlayer<PlayerFX>().patienceDamage = 25f; // Can do up to 2500%
+            player.GetModPlayer<PlayerFX>().patienceBuildUpModifier += 0.2f; // 75->90%
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
@@ -77,7 +78,7 @@ namespace WeaponOut.Items.Armour
                 case 1:
                     player.setBonus = "20 defense per 100 missing life";
                     pfx.barbariousDefence = true;
-                    pfx.patienceBuildUpModifier += 0.5f;
+                    pfx.patienceBuildUpModifier += 0.2f;
                     break;
                 case 2:
                     player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "23") + ", damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking";
