@@ -98,7 +98,7 @@ namespace WeaponOut
         public bool recordLifeLost;
 
         public bool buildMomentum;
-        public const float momentumDashSpeed = 16f;
+        public const float momentumDashSpeed = 17f;
         protected float momentum;
         protected int momentumMax;
         public bool momentumActive;
@@ -527,6 +527,7 @@ namespace WeaponOut
                         {
                             NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
                         }
+                        player.GetModPlayer<ModPlayerFists>().jumpAgainUppercut = true;
                     }
                 }
 
