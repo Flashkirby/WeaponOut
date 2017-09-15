@@ -13,7 +13,8 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Champion Laurels");
             Tooltip.SetDefault("5% increased melee damage\n" +
-                "Fighting bosses slowly empowers next melee attack, up to 2500%");
+                "Fighting bosses slowly empowers next melee attack, up to 2500%\n" + 
+                "'It ain't about how hard you hit'");
         }
         public override void SetDefaults()
         {
