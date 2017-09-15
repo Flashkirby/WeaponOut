@@ -7,7 +7,7 @@ namespace WeaponOut.Buffs
 {
     public class BloodLust : ModBuff
     {
-        public static readonly int POWERFACTOR = 300;
+        public static readonly int POWERFACTOR = 200;
 
         public override bool Autoload(ref string name, ref string texture)
         {
@@ -17,7 +17,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Blood Lust");
-            Description.SetDefault("Damage dealt increased by $POWERFACTOR%");
+            Description.SetDefault("Damage dealt increased by $POWERFACTOR%, increases Blood Baghnakh effectiveness");
         }
 
         public override void Update(Player player, ref int buffIndex)

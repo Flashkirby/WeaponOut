@@ -122,6 +122,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 if (!target.immortal)
                 {
                     int divider = 60;
+                    if (player.FindBuffIndex(buffID) >= 0) { divider = 30; }
                     int heal = Math.Min(target.lifeMax, damage) / divider;
                     PlayerFX.HealPlayer(player, heal, true);
                 }
@@ -131,7 +132,7 @@ namespace WeaponOut.Items.Weapons.Fists
         // Melee Effect
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 2, 8);
+            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 1, 8);
             Vector2 velocity = ModPlayerFists.GetFistVelocity(player);
             Vector2 perpendicular = velocity.RotatedBy(Math.PI / 2);
             Vector2 pVelo = (player.position - player.oldPosition);
@@ -140,10 +141,8 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Dust d = Main.dust[Dust.NewDust(r.TopLeft() + perpendicular * y * 7, r.Width, r.Height, 170,
-                        0, 0, 0, default(Color), 0.6f)];
-                    d.velocity /= 4;
-                    d.velocity += new Vector2(velocity.X * -2, velocity.Y * -2);
+                    Dust d = Dust.NewDustPerfect(r.TopLeft() + perpendicular * y * 7, 170, null, 0, default(Color), 0.6f);
+                    d.velocity = new Vector2(velocity.X * -2, velocity.Y * -2);
                     d.position -= d.velocity * 8;
                     d.velocity += pVelo;
                     d.fadeIn = 0.7f;
