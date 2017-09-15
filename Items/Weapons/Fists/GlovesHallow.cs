@@ -71,7 +71,8 @@ namespace WeaponOut.Items.Weapons.Fists
             if (AltStats(player))
             {
                 if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
-                damage += damage * 4;
+                // Increase by item damage, not buffed total damage
+                damage += (int)(player.HeldItem.damage * 4f);
             }
         }
 
