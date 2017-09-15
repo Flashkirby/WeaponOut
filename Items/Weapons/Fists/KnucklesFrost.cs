@@ -98,7 +98,7 @@ namespace WeaponOut.Items.Weapons.Fists
                         Vector2 direction = player.HeldItem.shootSpeed *
                             new Vector2(player.direction, -player.gravDir);
                         Projectile.NewProjectile(position, direction, projID,
-                              (int)(player.HeldItem.damage * player.meleeDamage),
+                              (int)(2 * player.HeldItem.damage * player.meleeDamage),
                               20f * player.meleeSpeed, player.whoAmI, 10);
                     }
                 }
@@ -110,7 +110,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (initial)
             {
                 Main.PlaySound(SoundID.Item9, player.position);
-                player.itemAnimation = player.itemAnimationMax + 10;
+                player.itemAnimation = player.itemAnimationMax + 20;
             }
 
             Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 4, altHitboxSize);
@@ -124,7 +124,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 d.velocity += player.position - player.oldPosition;
                 d.noGravity = true;
             }
-            else if (player.itemAnimation == player.itemAnimationMax / 4 * 3)
+            else if (player.itemAnimation == player.itemAnimationMax)
             {
                 Main.PlaySound(SoundID.Shatter, player.position);
                 Dust d;
@@ -145,7 +145,7 @@ namespace WeaponOut.Items.Weapons.Fists
                     Vector2 direction = player.HeldItem.shootSpeed * new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle));
 
                     Projectile.NewProjectile(player.Center, direction, projID, 
-                        (int)(player.HeldItem.damage * player.meleeDamage), 
+                        (int)(2 * player.HeldItem.damage * player.meleeDamage), 
                         20f * player.meleeSpeed, player.whoAmI);
 
                     angle += (float)(Math.PI / 4);
@@ -157,7 +157,22 @@ namespace WeaponOut.Items.Weapons.Fists
                 // Punch effect
             }
         }
-        
+
+        //Combo
+        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        { float knockBack = 5f; ModifyHit(player, ref damage, ref knockBack, ref crit); }
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        { ModifyHit(player, ref damage, ref knockBack, ref crit); }
+        private void ModifyHit(Player player, ref int damage, ref float knockBack, ref bool crit)
+        {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (AltStats(player))
+            {
+                damage *= 2;
+                knockBack *= 5f;
+            }
+        }
+
         #region Hardmode Combo Base
         public override bool CanUseItem(Player player)
         {

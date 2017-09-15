@@ -77,7 +77,7 @@ namespace WeaponOut.Items.Armour
                 case 1:
                     player.setBonus = "20 defense per 100 missing life";
                     pfx.barbariousDefence = true;
-                    pfx.patienceBuildUpModifier += 0.8f;
+                    pfx.patienceBuildUpModifier += 0.5f;
                     break;
                 case 2:
                     player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "23") + ", damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking";

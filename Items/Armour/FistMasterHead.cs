@@ -70,7 +70,7 @@ namespace WeaponOut.Items.Armour
                 case 1:
                     player.setBonus = "Combo attacks deal additional damage based on enemy life";
                     pfx.millstone = true;
-                    pfx.patienceBuildUpModifier += 0.5f;
+                    pfx.patienceBuildUpModifier += 0.3f;
                     break;
                 case 2:
                     player.setBonus = "Taking damage grants yin, dealing damage grants yang, \nat the end of a combo yin increases melee damage, \nyang restores a portion of missing life";
