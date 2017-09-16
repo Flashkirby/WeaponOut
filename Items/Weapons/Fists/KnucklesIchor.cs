@@ -92,6 +92,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 {
                     PlayerDeathReason pdr = PlayerDeathReason.LegacyDefault();
                     pdr.SourceCustomReason = player.name + " tore themselves apart";
+                    player.immune = false;
                     player.Hurt(pdr, 100 + player.statDefense / 2, player.direction, false, false, false, -1);
                 }
 
