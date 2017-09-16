@@ -98,7 +98,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (mpf.parryBuff)
             {
                 if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
-                PlayerFX.HealPlayer(player, 5, true);
+                PlayerFX.LifeStealPlayer(player, 5, 5, 1f);
             }
         }
     }

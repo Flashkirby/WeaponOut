@@ -123,8 +123,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 {
                     int divider = 60;
                     if (player.FindBuffIndex(buffID) >= 0) { divider = 30; }
-                    int heal = Math.Min(target.lifeMax, damage) / divider;
-                    PlayerFX.HealPlayer(player, heal, true);
+                    PlayerFX.LifeStealPlayer(player, damage, target.lifeMax, 1f / divider);
                 }
             }
         }

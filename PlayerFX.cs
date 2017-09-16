@@ -1204,6 +1204,10 @@ namespace WeaponOut
                             if (healing > 0)
                             {
                                 PlayerFX.HealPlayer(player, healing);
+                                if (!isBalanced)
+                                {
+                                    player.lifeSteal -= healing / 2; // Reduce effectiveness of lifesteal right after
+                                }
                             }
                         }
                         if (yinPower > 0f)
@@ -1372,8 +1376,7 @@ namespace WeaponOut
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
                 if (mpf.specialMove == 2 && diveKickHeal > 0f)
                 {
-                    int heal = (int)(damage * diveKickHeal);
-                    PlayerFX.HealPlayer(player, heal);
+                    PlayerFX.LifeStealPlayer(player, damage, target.lifeMax, diveKickHeal);
                 }
                 #endregion
 
@@ -1823,12 +1826,20 @@ namespace WeaponOut
 
         public static void HealPlayer(Player player, int amount, bool moonLeechable = false)
         {
-            if (amount <= 0) return;
             if (moonLeechable && player.moonLeech) return;
+            if (amount <= 0) return;
             player.HealEffect(amount, true);
             player.statLife += amount;
             player.statLife = Math.Min(player.statLife, player.statLifeMax2);
             if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
+        }
+        public static void LifeStealPlayer(Player player, int amount, int maxAmount, float healFactor = 1f)
+        {
+            if (player.moonLeech) return;
+            amount = (int)(Math.Min(maxAmount, amount) * healFactor);
+            if (player.lifeSteal <= 0f) return;
+            player.lifeSteal -= amount; // lifeSteal caps at 30-36 per second (see Player.cs) 
+            PlayerFX.HealPlayer(player, amount, true);
         }
     }
 }

@@ -138,8 +138,8 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (AltStats(player) && !target.immortal)
             {
-                int heal = Math.Min(target.lifeMax, damage) / 2;
-                PlayerFX.HealPlayer(player, heal, true);
+                player.lifeSteal += Math.Min(target.lifeMax, damage) / 4f; // Each hit restores half lifesteal potential
+                PlayerFX.LifeStealPlayer(player, damage, target.lifeMax, 1f / 2f);
             }
         }
 
