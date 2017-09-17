@@ -1269,7 +1269,8 @@ namespace WeaponOut
                     bool nearBoss = false;
                     foreach (NPC npc in Main.npc)
                     {
-                        if (npc.active && npc.life > 0 && npc.boss)
+                        if (npc.active && npc.life > 0 && 
+                            (npc.boss || npc.lifeMax >= 2800f * Main.expertLife))
                         {
                             nearBoss = true;
                             break;
@@ -1688,7 +1689,7 @@ namespace WeaponOut
                 if(!Main.expertMode)
                 { if (damage <= DamageKnockbackThreshold) player.noKnockback = true; }
                 else
-                { if (damage <= DamageKnockbackThreshold * Main.expertNPCDamage) player.noKnockback = true; }
+                { if (damage <= DamageKnockbackThreshold * Main.expertDamage) player.noKnockback = true; }
                
             }
 
