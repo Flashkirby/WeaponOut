@@ -12,8 +12,9 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Master Headband");
-            Tooltip.SetDefault("9% increased melee critical strike chance\n"
-                + "Fighting bosses slowly empowers next melee attack, up to 2000%");
+            Tooltip.SetDefault("9% increased melee critical strike chance\n" +
+                "Fighting bosses slowly empowers next melee attack, up to 2000%\n" +
+                "'A true master never stops learning'");
         }
         public override void SetDefaults()
         {
