@@ -12,6 +12,7 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Sahyun Jacket");
             Tooltip.SetDefault("15% increased melee damage\n" +
+                "Taking damage whilst attacking builds combo\n" +
                 "75% increased parry damage");
         }
         public override void SetDefaults()
@@ -37,6 +38,7 @@ namespace WeaponOut.Items.Armour
         {
             player.meleeDamage += 0.15f;
             ModPlayerFists.Get(player).divekickDamage += 0.75f;
+            player.GetModPlayer<PlayerFX>().angryCombo = true;
         }
 
         public override void DrawHands(ref bool drawHands, ref bool drawArms)

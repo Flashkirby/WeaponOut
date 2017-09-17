@@ -15,8 +15,8 @@ namespace WeaponOut.Items.Accessories
             DisplayName.SetDefault("Hyper Sash");
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
-                "Restores up to 26% of maximum life\n" + 
-                "Taking damage whilst attacking builds combo\n" +
+                "Restores up to 26% of maximum life\n" +
+                "Bosses are slower to follow you\n" + 
                 "Grants immunity to knockback");
         }
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace WeaponOut.Items.Accessories
         {
             PlayerFX pfx = player.GetModPlayer<PlayerFX>();
             pfx.sashMaxLifeRecoverMult = Math.Max(0.26f, pfx.sashMaxLifeRecoverMult);
-            pfx.angryCombo = true;
+            pfx.ghostPosition = true;
             player.noKnockback = true;
         }
     }

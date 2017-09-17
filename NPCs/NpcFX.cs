@@ -156,6 +156,41 @@ namespace WeaponOut.NPCs
                 }
             }
         }
+
+        #region The last straw against player-snapping bosses :(
+        public override bool PreAI(NPC npc)
+        {
+            if (npc.lifeMax < 2000) return true; // we don't deal in small fry
+            if (npc.boss || npc.GetBossHeadTextureIndex() >= 0)
+            {
+                PlayerFX pfx;
+                foreach (Player p in Main.player)
+                {
+                    if (!p.active || p.dead) continue;
+                    pfx = p.GetModPlayer<PlayerFX>();
+                    if (pfx.ghostPosition && !pfx.FakePositionReal.Equals(default(Vector2))) 
+                        { p.position = pfx.FakePositionTemp; }
+                }
+            }
+            return true;
+        }
+        public override void PostAI(NPC npc)
+        {
+            if (npc.lifeMax < 2000) return; // stuff like eater of worlds
+            if (npc.boss || npc.GetBossHeadTextureIndex() >= 0)
+            {
+                PlayerFX pfx;
+                foreach (Player p in Main.player)
+                {
+                    if (!p.active || p.dead) continue;
+                    pfx = p.GetModPlayer<PlayerFX>();
+                    if (pfx.ghostPosition && !pfx.FakePositionReal.Equals(default(Vector2)))
+                    { p.position = pfx.FakePositionReal; }
+                }
+            }
+        }
+
+        #endregion
     }
 }
 /*

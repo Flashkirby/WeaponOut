@@ -131,6 +131,13 @@ namespace WeaponOut
 
         #endregion
 
+        #region Player False Position
+        public bool ghostPosition;
+        public Vector2 FakePositionReal;
+        public Vector2 FakePositionTemp;
+        private const float FakePositionLag = 120;
+        #endregion
+
         public int lastSelectedItem;
         public int itemSkillDelay;
 
@@ -196,6 +203,13 @@ namespace WeaponOut
 
             // Update visuals
             WeaponOut.NetUpdateWeaponVisual(mod, this);
+
+            // Set up position
+            if (ModConf.enableFists)
+            {
+                FakePositionReal = player.position;
+                FakePositionTemp = player.position;
+            }
         }
 
         public override void Initialize()
@@ -245,6 +259,7 @@ namespace WeaponOut
                 heartDropper = false;
                 hidden = false;
                 angryCombo = false;
+                ghostPosition = false;
 
                 patienceBuildUpModifier = 1f;
                 if (patienceBonus > 0) player.meleeDamage += patienceBonus;
@@ -325,6 +340,9 @@ namespace WeaponOut
 
             player.ClearBuff(mod.BuffType<Buffs.SecondWind>());
             secondWindLifeTax = 0;
+
+            FakePositionTemp = default(Vector2);
+            FakePositionReal = default(Vector2);
         }
 
         #region Save and Load
@@ -1343,6 +1361,26 @@ namespace WeaponOut
                 if (momentum >= momentumMax)
                 {
                     player.armorEffectDrawOutlinesForbidden = true;
+                }
+                #endregion
+
+                #region False Position Faker
+                FakePositionReal = player.position;
+                if (ghostPosition)
+                {
+                    if (Vector2.Distance(FakePositionReal, FakePositionTemp) > 1000f || player.velocity.Y == 0)
+                    {
+                        FakePositionTemp = FakePositionReal;
+                    }
+                    else
+                    {
+                        FakePositionTemp = (FakePositionTemp * (FakePositionLag - 1)
+                            + player.position) / FakePositionLag;
+                    }
+                }
+                else
+                {
+                    FakePositionTemp = player.position;
                 }
                 #endregion
             }
