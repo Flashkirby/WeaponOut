@@ -303,7 +303,7 @@ namespace WeaponOut
 
                     if (yang == 0)
                     {
-                        if (yin > 0) yin = Math.Max(0, yin - 1); // Lose 5 Damage (from yin) per second
+                        if (yin > 0) yin = Math.Max(0, yin - 4); // Lose 20 Damage (from yin) per second
                     }
                 }
                 yinyang = false;
@@ -1145,53 +1145,56 @@ namespace WeaponOut
                 }
                 #endregion
 
-                #region Yinyang Graphics Effect
+                #region Yin Yang - Main 
                 if (yinyang && Main.myPlayer == player.whoAmI && (yang > 0 || yin > 0))
                 {
                     float balance = GetYinYangBalance();
                     bool isBalanced = balance <= yinyangBalanceThreshold && balance >= -yinyangBalanceThreshold;
 
                     #region Dust Effect
-                    Vector2 center = player.Center + new Vector2(0, player.gfxOffY) - player.velocity;
-
-                    float size = 0f;
-                    float angle = (float)(Main.time * 0.02f);
-                    int shader = 97;
-                    if (isBalanced) angle *= 4f;
-                    Color colour = default(Color);
-
-                    if (Main.time % 2 == 0)
+                    if (!player.dead)
                     {
-                        size = 1f + balance;
-                        colour = Color.White;
-                        shader = 109;
-                    }
-                    else
-                    {
-                        size = 1f - balance;
-                        angle += (float)Math.PI;
-                        colour = Color.DarkGray;
-                    }
-                    size = Math.Max(0f, Math.Min(1f, size));
-                    size *= Math.Max(1f, Math.Min(4f, 1f + (yang + yin) / 1000f));
+                        Vector2 center = player.Center + new Vector2(0, player.gfxOffY) - player.velocity;
 
-                    Dust d = Dust.NewDustPerfect(new Vector2(
-                        center.X + yinyangDistance * (float)Math.Sin(angle),
-                        center.Y + yinyangDistance * (float)Math.Cos(angle)),
-                        91, new Vector2(0, 0),
-                        (int)(45 * size), colour, size);
-                    d.noLight = true;
-                    d.noGravity = true;
-                    d.shader = GameShaders.Armor.GetSecondaryShader(shader, player);
-                    if (isBalanced)
-                    { d.rotation = -angle; } // Rotate in sync
-                    else
-                    { d.rotation = angle; } // Rotate contray to motion
-                    d.customData = player;
-                    Main.playerDrawDust.Add(d.dustIndex);
+                        float size = 0f;
+                        float angle = (float)(Main.time * 0.02f);
+                        int shader = 97;
+                        if (isBalanced) angle *= 4f;
+                        Color colour = default(Color);
+
+                        if (Main.time % 2 == 0)
+                        {
+                            size = 1f + balance;
+                            colour = Color.White;
+                            shader = 109;
+                        }
+                        else
+                        {
+                            size = 1f - balance;
+                            angle += (float)Math.PI;
+                            colour = Color.DarkGray;
+                        }
+                        size = Math.Max(0f, Math.Min(1f, size));
+                        size *= Math.Max(1f, Math.Min(4f, 1f + (yang + yin) / 1000f));
+
+                        Dust d = Dust.NewDustPerfect(new Vector2(
+                            center.X + yinyangDistance * (float)Math.Sin(angle),
+                            center.Y + yinyangDistance * (float)Math.Cos(angle)),
+                            91, new Vector2(0, 0),
+                            (int)(45 * size), colour, size);
+                        d.noLight = true;
+                        d.noGravity = true;
+                        d.shader = GameShaders.Armor.GetSecondaryShader(shader, player);
+                        if (isBalanced)
+                        { d.rotation = -angle; } // Rotate in sync
+                        else
+                        { d.rotation = angle; } // Rotate contray to motion
+                        d.customData = player;
+                        Main.playerDrawDust.Add(d.dustIndex);
+                    }
                     #endregion
 
-                    if (mpf.ComboFinishedFrame > 0)
+                    if (mpf.ComboCounter == 0 && mpf.OldComboCounter != 0)
                     {
                         #region Actual Effect on Combo End
                         float yangPower = CalculateYangPower(balance);
@@ -1226,9 +1229,13 @@ namespace WeaponOut
 
                         yin = 0;
                         yang = 0;
+
+                        player.ClearBuff(mod.BuffType<Buffs.YinYang>());
+                        player.ClearBuff(mod.BuffType<Buffs.Yang>());
+                        player.ClearBuff(mod.BuffType<Buffs.Yin>());
                         #endregion
                     }
-                    else if (mpf.ComboCounter > 0)
+                    else
                     {
                         #region Apply YinYang Buff
                         int bYiYa = mod.BuffType<Buffs.YinYang>();
@@ -1270,7 +1277,7 @@ namespace WeaponOut
                     foreach (NPC npc in Main.npc)
                     {
                         if (npc.active && !npc.friendly && npc.life > 0 && 
-                            (npc.boss || NPC.TypeToHeadIndex(npc.type) >= 0))
+                            (npc.boss || npc.GetBossHeadTextureIndex() >= 0))
                         {
                             nearBoss = true;
                             break;

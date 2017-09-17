@@ -86,7 +86,9 @@ namespace WeaponOut
         #region Combo Counter Vars
         /// <summary> Keep track of the number of hits from fists. </summary>
         protected int comboCounter;
+        protected int oldComboCounter;
         public int ComboCounter { get { return comboCounter; } }
+        public int OldComboCounter { get { return oldComboCounter; } }
         /// <summary> The "minimum" required combo get the bonus effects. Must be at least 2. </summary>
         public int comboCounterMax;
         /// <summary> Flat bonus to combo counter max. Typically negative. </summary>
@@ -101,10 +103,6 @@ namespace WeaponOut
         public bool IsComboActive { get { return comboCounter >= ComboCounterMaxReal && comboCounter > 1; } }
         /// <summary> Active when combo counter reaches the combo max. Call this in the item because ItemLoader method is called before PlayerHooks. </summary>
         public bool IsComboActiveItemOnHit { get { return comboCounter >= ComboCounterMaxReal - 1 && comboCounter > 0; } }
-
-        private int comboFinished;
-        /// <summary> Non-zero value on the frame the combo ends. You can read this for effects. </summary>
-        public int ComboFinishedFrame { get { return comboFinished; } }
         #endregion
 
         #region Parry Vars
@@ -189,6 +187,7 @@ namespace WeaponOut
             specialMove = 0;
             comboResetTimeBonus = 0;
             comboCounter = 0;
+            oldComboCounter = 0;
             comboCounterMax = 0;
             comboCounterMaxBonus = 0;
             comboTimer = -1;
@@ -212,6 +211,7 @@ namespace WeaponOut
         }
         public override void ResetEffects()
         {
+            oldComboCounter = comboCounter;
             ResetVariables();
         }
 
@@ -356,7 +356,6 @@ namespace WeaponOut
         public void ResetVariables()
         {
             comboCounterMaxBonus = 0;
-            comboFinished = 0;
             comboTimerMax = ComboResetTime + comboResetTimeBonus; // 2? seconds count
             comboResetTimeBonus = 0; // reset
 
@@ -372,8 +371,7 @@ namespace WeaponOut
                         CombatText.NewText(player.getRect(),
                             highColour, comboCounter + " hits", false, false);
                     }
-
-                    comboFinished = comboCounter;
+                    
                     comboCounter = 0;
                     comboTimer = -1;
                 }
