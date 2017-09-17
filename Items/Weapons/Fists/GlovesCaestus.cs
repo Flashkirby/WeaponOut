@@ -58,7 +58,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (player.altFunctionUse == 0)
             {   // Short dash brings up to max default speed.
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-                float dashSpeed = 4f;
+                float dashSpeed = 5f;
                 if (mpf.parryBuff)
                 {
                     dashSpeed = 7f;

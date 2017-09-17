@@ -1395,7 +1395,7 @@ namespace WeaponOut
                 if (speed > dashSpeed)
                 {
                     dashSpeed = speed;
-                    dashMaxSpeedThreshold = speed - Math.Max(0, dashSpeed - dashMaxSpeedThreshold);
+                    dashMaxSpeedThreshold = Math.Max(player.accRunSpeed, speed - Math.Max(0, dashSpeed - dashMaxSpeedThreshold));
                 }
 
                 this.dashSpeed = dashSpeed;

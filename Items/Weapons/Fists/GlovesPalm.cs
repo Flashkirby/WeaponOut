@@ -53,7 +53,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (player.altFunctionUse == 0)
             {   // Short dash brings up to max default speed.
                 player.GetModPlayer<ModPlayerFists>().
-                SetDashOnMovement(3.5f, 3f, 0.992f, 0.96f, true, 0);
+                SetDashOnMovement(5f, 3f, 0.992f, 0.96f, true, 0);
             }
             return true;
         }
