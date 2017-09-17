@@ -127,7 +127,7 @@ namespace WeaponOut.Items.Weapons.Fists
             }
             if(mpf.ComboEffectAbs == comboEffect)
             {
-                damage *= 4;
+                damage += player.HeldItem.damage * 4;
                 knockBack *= 2f;
             }
         }
