@@ -111,6 +111,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 Main.PlaySound(SoundID.Item9, player.position);
                 player.itemAnimation = player.itemAnimationMax + 20;
+                player.GetModPlayer<ModPlayerFists>().jumpAgainUppercut = true;
             }
 
             Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 4, altHitboxSize);

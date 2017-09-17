@@ -1213,6 +1213,11 @@ namespace WeaponOut
                 NPC npc = Main.npc[damageSource.SourceNPCIndex];
                 if (!npc.immortal && !npc.dontTakeDamage)
                 {
+                    // Hardmode fists restore uppercut on parry
+                    Item i = new Item(); i.SetDefaults(player.HeldItem.type);
+                    if (i.rare >= 4)
+                    { jumpAgainUppercut = true; }
+
                     // Damage is based on the NPC's attack, plus player melee multiplier
                     int damage = npc.defDefense + (int)(npc.damage * player.meleeDamage * parryDamage);
                     // Knockback of weapon, with scaling
@@ -1245,19 +1250,26 @@ namespace WeaponOut
                 Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
                 if (damageSource.SourceProjectileIndex >= 0)
                 {
-                    ProjFX.ReflectProjectilePlayer(
-                        Main.projectile[damageSource.SourceProjectileIndex], player);
-                    
-                    if (!player.moonLeech && parryLifesteal > 0f)
+                    if(ProjFX.ReflectProjectilePlayer(
+                        Main.projectile[damageSource.SourceProjectileIndex], player))
                     {
-                        stealLife = Math.Min(player.HeldItem.damage * 5,
-                            (int)(Main.projectile[damageSource.SourceProjectileIndex].damage * 
-                            player.meleeDamage * parryLifesteal * 5));
+                        // Hardmode fists restore uppercut on parry
+                        Item i = new Item(); i.SetDefaults(player.HeldItem.type);
+                        if (i.rare >= 4)
+                        { jumpAgainUppercut = true; }
+
+                        if (!player.moonLeech && parryLifesteal > 0f)
+                        {
+                            stealLife = Math.Min(player.HeldItem.damage * 5,
+                                (int)(Main.projectile[damageSource.SourceProjectileIndex].damage *
+                                player.meleeDamage * parryLifesteal * 5));
+                        }
                     }
                 }
             }
-            if (stealLife > 0)
+            if (stealLife > 0 && player.lifeSteal > 0)
             {
+                player.lifeSteal -= stealLife;
                 player.HealEffect(stealLife, true);
                 player.statLife += stealLife;
                 player.statLife = Math.Min(player.statLife, player.statLifeMax2);

@@ -74,6 +74,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (initial)
             {
                 player.itemAnimation = player.itemAnimationMax + 18;
+                player.GetModPlayer<ModPlayerFists>().jumpAgainUppercut = true;
                 Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, player.position);
             }
 

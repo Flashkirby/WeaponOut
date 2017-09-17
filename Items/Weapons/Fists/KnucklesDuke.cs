@@ -74,6 +74,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 player.immuneTime += 2;
                 player.velocity /= 2;
                 player.itemAnimation = player.itemAnimationMax + 8;
+                player.GetModPlayer<ModPlayerFists>().jumpAgainUppercut = true;
                 Main.PlaySound(SoundID.Item21, player.position);
             }
 

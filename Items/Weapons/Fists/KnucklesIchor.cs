@@ -69,8 +69,9 @@ namespace WeaponOut.Items.Weapons.Fists
             if (initial)
             {
                 player.itemAnimation = player.itemAnimationMax + 18;
-                Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, player.position);
                 player.AddBuff(buffID, 60 * 6);
+                player.GetModPlayer<ModPlayerFists>().jumpAgainUppercut = true;
+                Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, player.position);
             }
 
             Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 10, altHitboxSize);
