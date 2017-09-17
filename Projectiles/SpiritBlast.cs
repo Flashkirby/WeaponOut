@@ -48,7 +48,7 @@ namespace WeaponOut.Projectiles
 
             Dust d = Main.dust[Dust.NewDust(projectile.Center - new Vector2(projectile.width / 4 + 2, projectile.height / 4 + 2), 
                 projectile.width / 2, projectile.height / 2,
-                 226, 0, 0, 100, default(Color), Main.rand.NextFloat() + 0.5f)];
+                 DustID.t_Martian, 0, 0, 100, default(Color), Main.rand.NextFloat() + 0.5f)];
             d.noGravity = true;
             d.noLight = true;
             d.velocity = projectile.velocity / 2;
@@ -58,12 +58,23 @@ namespace WeaponOut.Projectiles
             projectile.frameCounter++;
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (projectile.penetrate == projectile.maxPenetrate)
+            {
+                if (Main.player[projectile.owner].active)
+                {
+                    Main.player[projectile.owner].GetModPlayer<ModPlayerFists>().ModifyComboCounter(1);
+                }
+            }
+        }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
             {
                 Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height,
-                     226, 0, 0, 100, default(Color), Main.rand.NextFloat() + 1f)];
+                     DustID.t_Martian, 0, 0, 100, default(Color), Main.rand.NextFloat() + 1f)];
                 d.noGravity = true;
                 d.velocity *= 2;
             }
@@ -72,7 +83,7 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if(projectile.frameCounter > 10)
+            if(projectile.frameCounter > 6)
             {
                 projectile.frameCounter = 0;
                 projectile.frame++;

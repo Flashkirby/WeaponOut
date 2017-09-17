@@ -15,13 +15,15 @@ namespace WeaponOut.Items.Weapons.Fists
             return ModConf.enableFists;
         }
         public static int comboEffect = 0;
+        public static int projectileID = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lead Knuckleduster");
             Tooltip.SetDefault(
-                "<right> consumes combo for an empowered strike\n" +
+                "<right> consumes combo to unleash spirit energy\n" +
                 "Combo grants 4 bonus damage");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
+            projectileID = mod.ProjectileType<Projectiles.SpiritBlast>();
         }
         public override void SetDefaults()
         {
@@ -30,6 +32,8 @@ namespace WeaponOut.Items.Weapons.Fists
             item.useAnimation = 23; // Combos can increase speed by 30-50% since it halves remaining attack time
             item.knockBack = 3f;
             item.tileBoost = 6; // For fists, we read this as the combo power
+
+            item.shootSpeed = 10f;
 
             item.value = Item.sellPrice(0, 0, 4, 50);
 
@@ -78,24 +82,33 @@ namespace WeaponOut.Items.Weapons.Fists
             if (player.itemAnimation > player.itemAnimationMax)
             {
                 // Charge effect
-                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 31, 0, 0, 100, default(Color), 1.2f)];
+                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, DustID.t_Martian, 0, 0, 100, default(Color), 1.2f)];
                 d.position -= d.velocity * 10f;
                 d.velocity /= 2;
+                d.noGravity = true;
             }
             // Initial throw
             else if (player.itemAnimation == player.itemAnimationMax)
             {
                 // Higher pitch
                 Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
-                // Allow dash
-                player.GetModPlayer<ModPlayerFists>().
-                SetDashOnMovement(3f, 12f, 0.992f, 0.96f, true, 0);
+                // Spawn projectile
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    Vector2 velocity = WeaponOut.CalculateNormalAngle(player.Center, Main.MouseWorld);
+                    velocity *= player.HeldItem.shootSpeed;
+                    Projectile.NewProjectile(player.Center, velocity, projectileID,
+                        (int)(player.HeldItem.damage),
+                        player.GetWeaponKnockback(player.HeldItem, player.HeldItem.knockBack),
+                        player.whoAmI);
+                }
             }
             else
             {
                 // Punch effect
-                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 31, 3, 3, 100, default(Color), 1f)];
+                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, DustID.t_Martian, 3, 3, 100, default(Color), 1f)];
                 d.velocity *= 0.6f * ModPlayerFists.GetFistVelocity(player);
+                d.noGravity = true;
             }
         }
 
@@ -127,7 +140,7 @@ namespace WeaponOut.Items.Weapons.Fists
             }
             if (mpf.ComboEffectAbs == comboEffect)
             {
-                damage *= 4;
+                damage += player.HeldItem.damage;
                 knockBack *= 2f;
             }
         }

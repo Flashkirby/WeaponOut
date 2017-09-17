@@ -95,7 +95,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 // Higher pitch
                 Main.PlaySound(SoundID.Item88, (int)player.position.X, (int)player.position.Y);
                 // Spawn projectile
-                if (Main.netMode == 0 || (Main.netMode == 1 && player.whoAmI == Main.myPlayer))
+                if (player.whoAmI == Main.myPlayer)
                 {
                     Vector2 velocity = WeaponOut.CalculateNormalAngle(player.Center, Main.MouseWorld);
                     velocity *= player.HeldItem.shootSpeed;
