@@ -90,6 +90,11 @@ namespace WeaponOut.NPCs
         public override void NPCLoot(NPC npc)
         {
             if (ModConf.enableFists) {
+                if (npc.type == NPCID.BoneLee && Main.rand.Next(6) == 0)
+                {
+                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.GlovesLee>(), 1, false, -1, false, false);
+                }
+
                 if (npc.boss)
                 {
                     int itemType = -1;
@@ -127,7 +132,7 @@ namespace WeaponOut.NPCs
                         if (Main.netMode == 2)
                         {
                             int itemWho = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
-                                itemType, 1, true, 0, false, false);
+                                itemType, 1, true, -1, false, false);
                             Main.itemLockoutTime[itemWho] = 54000; // This slot cannot be used again for a while
                             foreach (Player player in Main.player)
                             {
@@ -145,13 +150,12 @@ namespace WeaponOut.NPCs
                         else if (Main.netMode == 0)
                         {
                             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
-                                itemType, 1, false, 0, false, false);
+                                itemType, 1, false, -1, false, false);
                         }
                     }
                 }
             }
         }
-
     }
 }
 /*
