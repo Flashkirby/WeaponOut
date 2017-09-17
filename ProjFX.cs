@@ -18,18 +18,6 @@ namespace WeaponOut
                 foreach (Player player in Main.player)
                 {
                     if (!player.active) continue;
-                    if (projectile.melee ||
-                        projectile.minion ||
-                        projectile.npcProj ||
-                        projectile.damage <= 0 ||
-                        projectile.aiStyle == 7 ||
-                        projectile.aiStyle == 13 ||
-                        projectile.aiStyle == 15 ||
-                        projectile.aiStyle == 19 ||
-                        projectile.aiStyle == 20 ||
-                        projectile.aiStyle == 26 ||
-                        projectile.aiStyle == 84 ||
-                        projectile.aiStyle == 85) continue;
 
                     PlayerFX pFX = player.GetModPlayer<PlayerFX>(mod);
                     if (!pFX.CanReflectProjectiles) continue;
@@ -65,22 +53,37 @@ namespace WeaponOut
         /// <summary>
         /// Set the delay as projectile is reflected
         /// </summary>
-        internal static void ReflectProjectilePlayer(Projectile projectile, Player player, PlayerFX modPlayer, bool showEffect)
+        internal static bool ReflectProjectilePlayer(Projectile projectile, Player player, PlayerFX modPlayer, bool showEffect)
         {
             // Set internal timer
             try { modPlayer.reflectingProjectileDelay = Items.Accessories.MirrorBadge.reflectDelay; } catch { }
 
-            ReflectProjectilePlayer(projectile, player);
-            
-            if (showEffect)
+            if (ReflectProjectilePlayer(projectile, player))
             {
-                // Shield visual
-                ShieldVisual(projectile, player);
+                if (showEffect)
+                {
+                    // Shield visual
+                    ShieldVisual(projectile, player);
+                }
+                return true;
             }
+            return false;
         }
-        internal static void ReflectProjectilePlayer(Projectile projectile, Player player)
+        internal static bool ReflectProjectilePlayer(Projectile projectile, Player player)
         {
-            if (projectile.owner == player.whoAmI && !projectile.hostile) return; // no need
+            if (projectile.owner == player.whoAmI && !projectile.hostile) return false; // no need
+            if (projectile.melee ||
+                projectile.minion ||
+                projectile.npcProj ||
+                projectile.damage <= 0 ||
+                projectile.aiStyle == 7 ||
+                projectile.aiStyle == 13 ||
+                projectile.aiStyle == 15 ||
+                projectile.aiStyle == 19 ||
+                projectile.aiStyle == 20 ||
+                projectile.aiStyle == 26 ||
+                projectile.aiStyle == 84 ||
+                projectile.aiStyle == 85) return false;
 
             // Set ownership
             projectile.hostile = false;
@@ -108,6 +111,8 @@ namespace WeaponOut
 
             // Don't know if this will help but here it is
             projectile.netUpdate = true;
+
+            return true;
         }
 
         private static void ShieldVisual(Projectile projectile, Player player)
