@@ -1341,7 +1341,7 @@ namespace WeaponOut
             if (balance > yinyangBalanceThreshold)
             {
                 yangPower = yang - yin;
-                yangPower = (float)Math.Log10((yangPower / 1000f) + 1);
+                yangPower = (float)Math.Log10((yangPower / 2000f) + 1);
             }
             else if (balance < -yinyangBalanceThreshold)
             {
@@ -1349,10 +1349,10 @@ namespace WeaponOut
             }
             else
             {
-                yangPower = (float)Math.Log10((yang / 500f) + 1);
+                yangPower = (float)Math.Log10((yang / 1000f) + 1);
             }
 
-            return yangPower;
+            return yangPower / 2;
         }
 
         public float CalculateYinPower(float balance)
@@ -1372,7 +1372,7 @@ namespace WeaponOut
                 yinPower = (float)Math.Log10((yin / 500f) + 1);
             }
 
-            return yinPower;
+            return yinPower / 2;
         }
 
         private void FistOnHitNPC(NPC target, int damage)
