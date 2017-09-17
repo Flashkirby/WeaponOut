@@ -6,32 +6,32 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Accessories
 {
     [AutoloadEquip(EquipType.Waist)]
-    public class FightingSash : ModItem
+    public class HyperSash : ModItem
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Journeyman Sash");
+            DisplayName.SetDefault("Hyper Sash");
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
-                "Restores up to 25% of maximum life\n" + 
-                "Grants 20 damage knockback immunity");
+                "Restores up to 26% of maximum life\n" + 
+                "Taking damage whilst attacking builds combo\n" +
+                "Grants immunity to knockback");
         }
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 22;
-            item.rare = 2;
+            item.rare = 7;
             item.accessory = true;
-            item.value = Item.buyPrice(0, 1, 0, 0);
+            item.value = Item.buyPrice(0, 3, 0, 0);
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 2);
-            recipe.AddIngredient(ItemID.JungleSpores, 4);
-            recipe.AddIngredient(ItemID.Amber, 1);
+            recipe.AddIngredient(mod.ItemType<FightingSash>(), 1);
+            recipe.AddIngredient(ItemID.ChlorophyteBar, 2);
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
@@ -40,8 +40,9 @@ namespace WeaponOut.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             PlayerFX pfx = player.GetModPlayer<PlayerFX>();
-            pfx.sashMaxLifeRecoverMult = Math.Max(0.25f, pfx.sashMaxLifeRecoverMult);
-            pfx.DamageKnockbackThreshold += 20;
+            pfx.sashMaxLifeRecoverMult = Math.Max(0.26f, pfx.sashMaxLifeRecoverMult);
+            pfx.angryCombo = true;
+            player.noKnockback = true;
         }
     }
 }

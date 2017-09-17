@@ -83,6 +83,7 @@ namespace WeaponOut
         public bool barbariousDefence;
         public bool heartDropper;
         public bool hidden;
+        public bool angryCombo;
 
         public float patienceDamage;
         public float patienceBuildUpModifier;
@@ -243,6 +244,7 @@ namespace WeaponOut
                 momentumDashTime = Math.Max(0, momentumDashTime - 1);
                 heartDropper = false;
                 hidden = false;
+                angryCombo = false;
 
                 patienceBuildUpModifier = 1f;
                 if (patienceBonus > 0) player.meleeDamage += patienceBonus;
@@ -1550,8 +1552,16 @@ namespace WeaponOut
                 if (rapidRecovery)
                 {
                     Buffs.RapidRecovery.HealDamage(player, mod, damage);
-                    #endregion
                 }
+                #endregion
+
+                #region Angry Combo
+                if (angryCombo)
+                {
+                    ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+                    mpf.ModifyComboCounter(1);
+                }
+                #endregion
             }
         }
 
