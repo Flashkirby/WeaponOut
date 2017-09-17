@@ -82,6 +82,7 @@ namespace WeaponOut
         public bool millstone;
         public bool barbariousDefence;
         public bool heartDropper;
+        public bool hidden;
 
         public float patienceDamage;
         public float patienceBuildUpModifier;
@@ -241,6 +242,7 @@ namespace WeaponOut
                 momentumDash = false;
                 momentumDashTime = Math.Max(0, momentumDashTime - 1);
                 heartDropper = false;
+                hidden = false;
 
                 patienceBuildUpModifier = 1f;
                 if (patienceBonus > 0) player.meleeDamage += patienceBonus;
@@ -686,6 +688,15 @@ namespace WeaponOut
         });
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
+            if (hidden)
+            {
+                foreach (PlayerLayer l in layers)
+                {
+                    l.visible = false;
+                }
+                return;
+            }
+
             #region Show fists with weapon visuals
             if (weaponVisual)
             {

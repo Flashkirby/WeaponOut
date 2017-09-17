@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Forbidden Gauntlet");
             Tooltip.SetDefault(
                 "<right> to transform into a raging sandstorm\n" +
-                "Dash grants invincibility and steals life\n" +
+                "Dash reduces damage, but steals life\n" +
                 "Combo causes attacks to wear away at enemies\n" +
                 "'Forbidden techniques in the palm of your hand'");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
@@ -74,13 +74,12 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 player.velocity.Y -= (player.gravity * player.gravDir) / 2;
             }
+            
+            player.GetModPlayer<PlayerFX>().hidden = true;
 
             if (player.dashDelay == 0)
             {
                 Main.PlaySound(SoundID.DD2_FlameburstTowerShot, player.position);
-                player.immune = true;
-                player.immuneTime = Math.Max(player.immuneTime, 1);
-                player.immuneAlpha = 255 + 50 * 20;
             }
             else
             {
@@ -114,9 +113,6 @@ namespace WeaponOut.Items.Weapons.Fists
                     }
                 }
             }
-            player.immuneTime++;
-            player.immuneNoBlink = false;
-
         }
 
         // Dash & Combo
@@ -124,7 +120,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (AltStats(player) && !target.immortal)
             {
-                PlayerFX.LifeStealPlayer(player, damage, target.lifeMax, 1f / 40f);
+                PlayerFX.LifeStealPlayer(player, damage, target.lifeMax, 1f / 30f);
             }
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActiveItemOnHit)
@@ -140,7 +136,20 @@ namespace WeaponOut.Items.Weapons.Fists
                 target.AddBuff(mod.BuffType<Buffs.ErodingWind>(), 600, false);
             }
         }
-        
+
+        //Dash reduced damage
+        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        { float knockBack = 5f; ModifyHit(player, ref damage, ref knockBack, ref crit); }
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        { ModifyHit(player, ref damage, ref knockBack, ref crit); }
+        private void ModifyHit(Player player, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (AltStats(player))
+            {
+                damage = (int)(damage * 0.75f);
+            }
+        }
+
         // Melee Effect
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
