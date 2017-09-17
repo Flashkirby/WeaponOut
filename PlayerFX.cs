@@ -1558,8 +1558,16 @@ namespace WeaponOut
                 #region Angry Combo
                 if (angryCombo)
                 {
-                    ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-                    mpf.ModifyComboCounter(1);
+                    if (player.itemAnimation > 0)
+                    {
+                        ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+                        int bonus = 1;
+                        if (damage > 50) bonus++;
+                        if (damage > 100) bonus++;
+                        if (damage > 175) bonus++;
+                        if (damage > 300) bonus++;
+                        mpf.ModifyComboCounter(bonus);
+                    }
                 }
                 #endregion
             }
