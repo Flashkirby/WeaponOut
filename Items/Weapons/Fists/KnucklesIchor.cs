@@ -150,15 +150,12 @@ namespace WeaponOut.Items.Weapons.Fists
             // Claw like effect
             for (int y = -1; y < 2; y++)
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    Dust d = Dust.NewDustPerfect(r.TopLeft() + perpendicular * y * 7, 170, null, 0, default(Color), 0.6f);
-                    d.velocity = new Vector2(velocity.X * -2, velocity.Y * -2);
-                    d.position -= d.velocity * 8;
-                    d.velocity += pVelo;
-                    d.fadeIn = 0.7f;
-                    d.noGravity = true;
-                }
+                Dust d = Dust.NewDustPerfect(r.TopLeft() + perpendicular * y * 7, 170, null, 0, default(Color), 0.6f);
+                d.velocity = new Vector2(velocity.X * -2, velocity.Y * -2);
+                d.position -= d.velocity * 8;
+                d.velocity += pVelo;
+                d.fadeIn = 0.7f;
+                d.noGravity = true;
             }
         }
 

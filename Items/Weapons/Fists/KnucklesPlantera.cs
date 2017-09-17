@@ -46,7 +46,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.width = 20;
             item.height = 20;
         }
-        const int fistHitboxSize = 28;
+        const int fistHitboxSize = 20;
         const float fistDashSpeed = 9.5f;
         const float fistDashThresh = 8f;
         const float fistJumpVelo = 16f; // http://rextester.com/OIY60171
@@ -126,7 +126,28 @@ namespace WeaponOut.Items.Weapons.Fists
                 // Punch effect
             }
         }
-        
+
+        // Melee Effect
+        public override void MeleeEffects(Player player, Rectangle hitbox)
+        {
+            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 1, 4);
+            Vector2 velocity = ModPlayerFists.GetFistVelocity(player);
+            Vector2 perpendicular = velocity.RotatedBy(Math.PI / 2);
+            Vector2 pVelo = (player.position - player.oldPosition);
+            // Claw like effect
+            for (int y = -1; y < 2; y++)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Dust d = Dust.NewDustPerfect(r.TopLeft() + perpendicular * y * 4, 75, null, 0, default(Color), 0.7f);
+                    d.velocity = new Vector2(velocity.X * -i, velocity.Y * -i);
+                    d.position += velocity * fistHitboxSize / 2;
+                    d.velocity += pVelo;
+                    d.noGravity = true;
+                }
+            }
+        }
+
         #region Hardmode Combo Base
         public override bool CanUseItem(Player player)
         {
