@@ -29,7 +29,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.damage = 325;
             item.useAnimation = 27; // 30%-50% reduction
             item.knockBack = 4f;
-            item.tileBoost = 12; // Combo Power
+            item.tileBoost = 7; // Combo Power
 
             item.value = Item.sellPrice(0, 5, 0, 0);
             item.rare = 8;
