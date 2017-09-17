@@ -36,6 +36,7 @@
     <Folder Include="Gores\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffs\ButterflyGrace.cs" />
     <Compile Include="Buffs\BloodLust.cs" />
     <Compile Include="Buffs\ErodingWind.cs" />
     <Compile Include="Buffs\YinYang.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesBee.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCrystal.cs" />
+    <Compile Include="Items\Weapons\Fists\GlovesButterfly.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesHallow.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesFossil.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestusCrimson.cs" />
