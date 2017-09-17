@@ -90,19 +90,13 @@ namespace WeaponOut.Items.Weapons.Fists
                 player.itemAnimation = player.itemAnimationMax + 10;
                 Main.PlaySound(SoundID.Item73);
                 player.GetModPlayer<ModPlayerFists>().jumpAgainUppercut = true;
-
-                for (int i = 0; i < 64; i++)
-                {
-                    double angle = Main.time + i / 10.0;
-                    Dust d = Dust.NewDustPerfect(player.Center, 21,
-                        new Vector2((float)(5.0 * Math.Sin(angle)), (float)(5.0 * Math.Cos(angle))));
-                }
             }
 
             Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 8, altHitboxSize);
             if (player.itemAnimation > player.itemAnimationMax)
             {
                 // Charging
+                Dust.NewDust(r.TopLeft(), r.Width, r.Height, 21, 0f, 0f, 0, default(Color), 0.5f);
             }
             else if (player.itemAnimation == player.itemAnimationMax)
             {
@@ -110,6 +104,13 @@ namespace WeaponOut.Items.Weapons.Fists
                 // Force dash
                 player.GetModPlayer<ModPlayerFists>().
                 SetDash(altDashSpeed, altDashThresh, 0.992f, 0.96f, true, 0);
+
+                for (int i = 0; i < 64; i++)
+                {
+                    double angle = Main.time + i / 10.0;
+                    Dust d = Dust.NewDustPerfect(player.Center, 21,
+                        new Vector2((float)(5.0 * Math.Sin(angle)), (float)(5.0 * Math.Cos(angle))));
+                }
             }
             else
             {
