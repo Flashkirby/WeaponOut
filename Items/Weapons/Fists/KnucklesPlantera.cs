@@ -91,7 +91,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, player.position);
             }
 
-            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 10, altHitboxSize);
+            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 16, altHitboxSize);
             player.statDefense += player.itemAnimation; // Bonus defence during special
             if (player.itemAnimation > player.itemAnimationMax)
             {

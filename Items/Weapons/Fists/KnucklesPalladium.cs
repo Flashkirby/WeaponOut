@@ -77,12 +77,12 @@ namespace WeaponOut.Items.Weapons.Fists
                 Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, player.position);
             }
 
-            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 10, altHitboxSize);
+            Rectangle r = ModPlayerFists.UseItemGraphicbox(player, 12, altHitboxSize);
             player.statDefense += player.itemAnimation; // Bonus defence during special
             if (player.itemAnimation > player.itemAnimationMax)
             {
                 // Charging
-                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 170, 0, 0, 100, default(Color), 1.2f)];
+                Dust d = Main.dust[Dust.NewDust(r.TopLeft(), 12, 12, 170, 0, 0, 100, default(Color), 1.2f)];
                 d.position -= d.velocity * 20f;
                 d.velocity *= 1.5f;
                 d.velocity += player.position - player.oldPosition;
@@ -102,7 +102,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 Dust d;
                 for (int i = 0; i < 3; i++)
                 {
-                    d = Main.dust[Dust.NewDust(r.TopLeft(), 16, 16, 232, 3, 3, 100, default(Color), 1f)];
+                    d = Main.dust[Dust.NewDust(r.TopLeft(), 12, 12, 232, 3, 3, 100, default(Color), 1f)];
                     d.velocity *= 0.6f * ModPlayerFists.GetFistVelocity(player);
                     d.noGravity = true;
                 }
