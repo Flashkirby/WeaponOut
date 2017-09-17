@@ -1269,8 +1269,8 @@ namespace WeaponOut
                     bool nearBoss = false;
                     foreach (NPC npc in Main.npc)
                     {
-                        if (npc.active && npc.life > 0 && 
-                            (npc.boss || npc.lifeMax >= 2800f * Main.expertLife))
+                        if (npc.active && !npc.friendly && npc.life > 0 && 
+                            (npc.boss || NPC.TypeToHeadIndex(npc.type) >= 0))
                         {
                             nearBoss = true;
                             break;
