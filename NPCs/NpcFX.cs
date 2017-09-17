@@ -108,9 +108,17 @@ namespace WeaponOut.NPCs
                             itemType = mod.ItemType<Items.Accessories.StainedTooth>();
                         }
                     }
-                    if (npc.type == NPCID.DukeFishron)
+                    bool chance = Main.rand.Next(3) == 0 || Main.expertMode;
+                    if (chance)
                     {
-                        itemType = mod.ItemType<Items.Weapons.Fists.KnucklesDuke>();
+                        if (npc.type == NPCID.Plantera)
+                        {
+                            itemType = mod.ItemType<Items.Weapons.Fists.KnucklesPlantera>();
+                        }
+                        if (npc.type == NPCID.DukeFishron)
+                        {
+                            itemType = mod.ItemType<Items.Weapons.Fists.KnucklesDuke>();
+                        }
                     }
 
                     // Modified from DropItemInstanced, only drop for people using fists

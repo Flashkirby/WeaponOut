@@ -55,14 +55,6 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 11.5f;
         const float altDashThresh = 10f;
         const float altJumpVelo = 17.5f;
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Seedler, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
 
         // Combo
         public override void HoldItem(Player player)
