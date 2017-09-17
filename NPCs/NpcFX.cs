@@ -90,20 +90,27 @@ namespace WeaponOut.NPCs
         public override void NPCLoot(NPC npc)
         {
             if (ModConf.enableFists) {
-                if (Main.expertMode && npc.boss)
+                if (npc.boss)
                 {
                     int itemType = -1;
-                    if (npc.type == NPCID.EyeofCthulhu)
+                    if (Main.expertMode)
                     {
-                        itemType = mod.ItemType<Items.Accessories.RushCharm>();
+                        if (npc.type == NPCID.EyeofCthulhu)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.RushCharm>();
+                        }
+                        if (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.DriedEye>();
+                        }
+                        if (npc.type == NPCID.BrainofCthulhu)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.StainedTooth>();
+                        }
                     }
-                    if (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail)
+                    if (npc.type == NPCID.DukeFishron)
                     {
-                        itemType = mod.ItemType<Items.Accessories.DriedEye>();
-                    }
-                    if (npc.type == NPCID.BrainofCthulhu)
-                    {
-                        itemType = mod.ItemType<Items.Accessories.StainedTooth>();
+                        itemType = mod.ItemType<Items.Weapons.Fists.KnucklesDuke>();
                     }
 
                     // Modified from DropItemInstanced, only drop for people using fists
