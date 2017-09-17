@@ -1450,7 +1450,7 @@ namespace WeaponOut
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
 
                 #region Yin Yang - Yin
-                yin += damage * 15;
+                yin += (int)(damage * 30 / Main.expertDamage); // Expert mode already hits like a truck
                 #endregion
             }
         }
