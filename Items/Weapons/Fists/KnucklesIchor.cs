@@ -91,7 +91,18 @@ namespace WeaponOut.Items.Weapons.Fists
                 if (player.whoAmI == Main.myPlayer)
                 {
                     PlayerDeathReason pdr = PlayerDeathReason.LegacyDefault();
-                    pdr.SourceCustomReason = player.name + " tore themselves apart";
+                    switch (Main.rand.Next(3))
+                    {
+                        case 1:
+                            pdr.SourceCustomReason = player.name + " ripped out their mortal coil.";
+                            break;
+                        case 2:
+                            pdr.SourceCustomReason = player.name + " was disemboweled by the Blood Baghnakh.";
+                            break;
+                        default:
+                            pdr.SourceCustomReason = player.name + " tore themself apart";
+                            break;
+                    }
                     player.immune = false;
                     player.Hurt(pdr, 100 + player.statDefense / 2, player.direction, false, false, false, -1);
                 }
