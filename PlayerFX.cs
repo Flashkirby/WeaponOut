@@ -1351,6 +1351,8 @@ namespace WeaponOut
             {
                 yangPower = (float)Math.Log10((yang / 1000f) + 1);
             }
+            
+            if (Main.expertMode) yangPower *= 0.875f; // Same factor as lifesteal variable
 
             return yangPower / 2;
         }
@@ -1372,7 +1374,7 @@ namespace WeaponOut
                 yinPower = (float)Math.Log10((yin / 500f) + 1);
             }
 
-            return yinPower / 2;
+            return yinPower;
         }
 
         private void FistOnHitNPC(NPC target, int damage)
