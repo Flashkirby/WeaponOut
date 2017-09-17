@@ -82,7 +82,7 @@ namespace WeaponOut.Projectiles
 
             }
 
-            //self explanatory WeaponOut.textureMANBal stuff
+            //self explanatory textureal stuff
 
             Lighting.AddLight(
                 (int)((projectile.position.X + (float)(projectile.width / 2)) / 16f),
@@ -123,6 +123,7 @@ namespace WeaponOut.Projectiles
         private float oldStar3rot = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            Texture2D texture = Main.projectileTexture[projectile.type];
             tick++;
             Player player = Main.player[projectile.owner];//owner
 
@@ -135,13 +136,13 @@ namespace WeaponOut.Projectiles
                     (int)((byte)((float)Main.teamColor[player.team].B * 0.007f)),
                     1);
             }
-            Vector2 centre = new Vector2(WeaponOut.textureMANB.Width / 2f, WeaponOut.textureMANB.Height / 2f);
+            Vector2 centre = new Vector2(texture.Width / 2f, texture.Height / 2f);
 
             //star3
             Color projColour = new Color(cmpvp.R * 0.6f, cmpvp.G * 0.6f, cmpvp.B * 0.6f, 0.8f);
-            spriteBatch.Draw(WeaponOut.textureMANB,
+            spriteBatch.Draw(texture,
                 oldStar3 - Main.screenPosition + centre,
-                new Rectangle?(new Rectangle(0, 0, WeaponOut.textureMANB.Width, WeaponOut.textureMANB.Height)),
+                new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
                 projColour,
                 oldStar3rot,
                 centre,
@@ -151,9 +152,9 @@ namespace WeaponOut.Projectiles
             );
             //star2
             projColour = new Color(cmpvp.R * 0.7f, cmpvp.G * 0.7f, cmpvp.B * 0.7f, 0.6f);
-            spriteBatch.Draw(WeaponOut.textureMANB,
+            spriteBatch.Draw(texture,
                 oldStar2 - Main.screenPosition + centre,
-                new Rectangle?(new Rectangle(0, 0, WeaponOut.textureMANB.Width, WeaponOut.textureMANB.Height)),
+                new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
                 projColour,
                 oldStar2rot,
                 centre,
@@ -163,9 +164,9 @@ namespace WeaponOut.Projectiles
             );
             //star1
             projColour = new Color(cmpvp.R * 0.85f, cmpvp.G * 0.85f, cmpvp.B * 0.85f, 0.4f);
-            spriteBatch.Draw(WeaponOut.textureMANB,
+            spriteBatch.Draw(texture,
                 oldStar1 - Main.screenPosition + centre,
-                new Rectangle?(new Rectangle(0, 0, WeaponOut.textureMANB.Width, WeaponOut.textureMANB.Height)),
+                new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
                 projColour,
                 oldStar1rot,
                 centre,
@@ -175,9 +176,9 @@ namespace WeaponOut.Projectiles
             );
             //this star
             projColour = new Color(cmpvp.R * 1f, cmpvp.G * 1f, cmpvp.B * 1f, 0.2f);
-            spriteBatch.Draw(WeaponOut.textureMANB,
+            spriteBatch.Draw(texture,
                 projectile.position - Main.screenPosition + centre,
-                new Rectangle?(new Rectangle(0, 0, WeaponOut.textureMANB.Width, WeaponOut.textureMANB.Height)),
+                new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
                 projColour,
                 projectile.rotation,
                 centre,

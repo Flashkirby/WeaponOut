@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -51,7 +52,7 @@ namespace WeaponOut.Projectiles
         }
 
         //Allows you to draw things behind this projectile. Returns false to stop the game from drawing extras textures related to the projectile (for example, the chains for grappling hooks), useful if you're manually drawing the extras. Returns true by default.
-        public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.timeLeft <= 16)
             {
@@ -62,7 +63,19 @@ namespace WeaponOut.Projectiles
 
                 projectile.alpha = 75;
                 projectile.frame = 16 - (projectile.timeLeft * 2);
-                return true;
+
+                int frameHeight = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+                spriteBatch.Draw(Main.projectileTexture[projectile.type],
+                    projectile.position - Main.screenPosition + new Vector2(projectile.width / 2f, projectile.height / 2f),
+                    new Rectangle?(new Rectangle(0, projectile.frame * frameHeight, Main.projectileTexture[projectile.type].Width, frameHeight)),
+                    lightColor,
+                    projectile.rotation,
+                    new Vector2(projectile.width / 2f, projectile.height / 2f),
+                    projectile.scale,
+                    projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                    0
+                );
+                return false;
             }
             return false;
         }

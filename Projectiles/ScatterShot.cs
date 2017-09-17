@@ -34,7 +34,7 @@ namespace WeaponOut.Projectiles
         {
             if(projectile.ai[0] >= framesPerBullet * 5)
             {
-                projectile.timeLeft = 0;
+                projectile.timeLeft = projectile.numUpdates;
             }
             if(projectile.ai[0] > framesPerBullet * 3)
             {
@@ -73,13 +73,14 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            Texture2D texture = Main.projectileTexture[projectile.type];
             Vector2 centre = new Vector2(
-                WeaponOut.textureSCSH.Width / 2f, 
-                WeaponOut.textureSCSH.Height / 2f);
+                texture.Width / 2f,
+                texture.Height / 2f);
 
-            spriteBatch.Draw(WeaponOut.textureSCSH,
-                projectile.position - Main.screenPosition + centre,
-                new Rectangle?(new Rectangle(0, 0, WeaponOut.textureSCSH.Width, WeaponOut.textureSCSH.Height)),
+            spriteBatch.Draw(texture,
+                projectile.Center - Main.screenPosition,
+                new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
                 Color.White,
                 projectile.rotation,
                 centre,
@@ -91,11 +92,11 @@ namespace WeaponOut.Projectiles
             //draw previous set
             for (int i = 1; i < projectile.MaxUpdates; i++)
             {
-                spriteBatch.Draw(WeaponOut.textureSCSH,
-                    projectile.position - Main.screenPosition + centre - projectile.velocity * i,
-                    new Rectangle?(new Rectangle(0, 0, WeaponOut.textureSCSH.Width, WeaponOut.textureSCSH.Height)),
+                spriteBatch.Draw(texture,
+                    projectile.Center - Main.screenPosition - projectile.velocity * i,
+                    new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
                     Color.White,
-                    Main.rand.NextFloatDirection() * (float)Math.PI,
+                    (projectile.velocity.X + projectile.velocity.Y) * i * MathHelper.Pi,
                     centre,
                     projectile.scale,
                     SpriteEffects.None,

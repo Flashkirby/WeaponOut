@@ -69,12 +69,6 @@ namespace WeaponOut
 
             if (Main.netMode != 2)
             {
-                textureDMNB = GetTexture("Projectiles/DemonBlast");
-                textureMANB = GetTexture("Projectiles/ManaBlast");
-                textureMANBO = GetTexture("Projectiles/ManaBolt");
-                textureSPSH = GetTexture("Projectiles/SplinterShot");
-                textureSCSH = GetTexture("Projectiles/ScatterShot");
-
                 Projectiles.Explosion.textureTargetS = GetTexture("Projectiles/Explosion_Targetsm");
                 Projectiles.Explosion.textureTargetM = GetTexture("Projectiles/Explosion_Targetmd");
                 Projectiles.Explosion.textureTargetL = GetTexture("Projectiles/Explosion_Targetlg");

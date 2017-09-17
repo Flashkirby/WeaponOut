@@ -86,15 +86,14 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 centre = new Vector2(projectile.width / 2f, projectile.height / 2f);
-            spriteBatch.Draw(WeaponOut.textureSPSH,
-                projectile.position - Main.screenPosition + centre,
-                new Rectangle?(new Rectangle(0, 0, WeaponOut.textureSPSH.Width, WeaponOut.textureSPSH.Height)),
+            spriteBatch.Draw(Main.projectileTexture[projectile.type],
+                projectile.position - Main.screenPosition + new Vector2(projectile.width / 2f, projectile.height / 2f),
+                new Rectangle?(new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height)),
                 Color.White * (projectile.ai[0] / bulletFadeTime),
                 projectile.rotation,
-                centre,
+                new Vector2(projectile.width / 2f, projectile.height / 2f),
                 projectile.scale,
-                SpriteEffects.None,
+                projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 0
             );
             return false;

@@ -165,13 +165,14 @@ namespace WeaponOut.Projectiles
         
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 centre = new Vector2(WeaponOut.textureDMNB.Width / 2f, WeaponOut.textureDMNB.Height / 2f);
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            Vector2 centre = new Vector2(texture.Width / 2f, texture.Height / 2f);
 
             drawLaser(spriteBatch, centre);
 
-            spriteBatch.Draw(WeaponOut.textureDMNB,
+            spriteBatch.Draw(texture,
                 projectile.position - Main.screenPosition + centre,
-                new Rectangle?(new Rectangle(0, 0, WeaponOut.textureDMNB.Width, WeaponOut.textureDMNB.Height)),
+                new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
                 Color.White,
                 projectile.rotation,
                 centre,

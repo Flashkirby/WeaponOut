@@ -180,6 +180,7 @@ namespace WeaponOut.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            Texture2D texture = Main.projectileTexture[projectile.type];
             int framePoint = (projectile.timeLeft / 5);
             projectile.frame = (projectile.timeLeft / 15) % 2 == 0 ? 1 : 0;
             projectile.alpha = 0;
@@ -207,13 +208,13 @@ namespace WeaponOut.Projectiles
             if (projectile.velocity.X < 0) se = SpriteEffects.FlipHorizontally;
 
             Player player = Main.player[projectile.owner];//owner
-            int halfWidth = WeaponOut.textureMANBO.Width / 2;
-            int singleFrameHeight = WeaponOut.textureMANBO.Height / Main.projFrames[projectile.type];
+            int halfWidth = texture.Width / 2;
+            int singleFrameHeight = texture.Height / Main.projFrames[projectile.type];
             Vector2 centre = new Vector2(halfWidth, singleFrameHeight - halfWidth * 0.5f);
 
-            spriteBatch.Draw(WeaponOut.textureMANBO,
+            spriteBatch.Draw(texture,
                 spawnPosCentre - Main.screenPosition,
-                new Rectangle?(new Rectangle(0, singleFrameHeight * projectile.frame, WeaponOut.textureMANBO.Width, WeaponOut.textureMANBO.Height / Main.projFrames[projectile.type])),
+                new Rectangle?(new Rectangle(0, singleFrameHeight * projectile.frame, texture.Width, texture.Height / Main.projFrames[projectile.type])),
                 new Color(projectile.Opacity, projectile.Opacity, projectile.Opacity, projectile.Opacity),
                 projectile.rotation + 1.57f,
                 centre,
