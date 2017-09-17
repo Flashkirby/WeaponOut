@@ -71,7 +71,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
                 foreach (NPC npc in Main.npc)
                 {
-                    if (!npc.active || npc.friendly || npc.whoAmI == target.whoAmI) continue;
+                    if (!npc.active || npc.friendly || npc.dontTakeDamage || npc.whoAmI == target.whoAmI) continue;
                     if (npc.Distance(player.Center) < 256)
                     {
                         if(player.CanHit(npc))
@@ -88,7 +88,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 NPC nextTarget = null;
                 foreach (NPC npc in Main.npc)
                 {
-                    if (!npc.active || npc.friendly || npc.whoAmI == target.whoAmI) continue;
+                    if (!npc.active || npc.friendly || npc.dontTakeDamage || npc.whoAmI == target.whoAmI) continue;
                     float ndist = npc.Distance(player.Center);
                     if (ndist < distance)
                     {
