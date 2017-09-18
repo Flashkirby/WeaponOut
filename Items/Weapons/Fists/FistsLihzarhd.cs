@@ -18,7 +18,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Power Fist");
+            DisplayName.SetDefault("Strongarm");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash for a projectile deflecting punch\n" +
