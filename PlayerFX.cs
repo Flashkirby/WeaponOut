@@ -1675,9 +1675,18 @@ namespace WeaponOut
             {
                 recordLifeLost = true;
 
-                // Lost health? Records lost amount, but not when leeched
-                if (player.statLife < sashLastLife && !player.moonLeech)
-                { sashLifeLost += sashLastLife - player.statLife; }
+                // Lost health? Records lost amount, but quite as much when leeched (because you're in his face)
+                if (player.statLife < sashLastLife)
+                {
+                    if (player.moonLeech)
+                    {
+                        sashLifeLost += ((sashLastLife - player.statLife) / 4 * 3);
+                    }
+                    else
+                    {
+                        sashLifeLost += sashLastLife - player.statLife;
+                    }
+                }
                 sashLastLife = player.statLife;
 
                 sashLifeLost = lifeRestorable(player);
