@@ -53,7 +53,7 @@ namespace WeaponOut.NPCs
                             shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistVeteranHead>());
                             nextSlot++;
                         }
-                        if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+                        if (NPC.downedGolemBoss)
                         {
                             shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistMasterHead>());
                             nextSlot++;
