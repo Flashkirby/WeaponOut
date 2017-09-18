@@ -1444,7 +1444,10 @@ namespace WeaponOut
 
                 #region Second Wind combo healing
                 // Punches heal
-                if (secondWind) secondWindLifeTax -= Math.Min(10, mpf.ComboCounter / 3);
+                if (secondWind) 
+                {
+                    secondWindLifeTax -= Math.Min(6, mpf.ComboCounter / 3);
+                }
                 #endregion
 
                 #region Yin Yang - Yang
