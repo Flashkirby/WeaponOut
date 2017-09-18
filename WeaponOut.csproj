@@ -55,6 +55,7 @@
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
     <Compile Include="Items\Accessories\DriedEye.cs" />
+    <Compile Include="Items\Accessories\HyperSash.cs" />
     <Compile Include="Items\Accessories\StainedTooth.cs" />
     <Compile Include="Items\Accessories\RushCharm.cs" />
     <Compile Include="Items\Accessories\FightingSash.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsBetsy.cs" />
     <Compile Include="Items\Weapons\Fists\FistsSparring.cs" />
     <Compile Include="Items\Weapons\Fists\FistsForbidden.cs" />
     <Compile Include="Items\Weapons\Fists\FistsJungleClaws.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="Items\Weapons\Fists\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
     <Content Include="Items\Accessories\DriedEye.png" />
+    <Content Include="Items\Accessories\HyperSashSash.png" />
+    <Content Include="Items\Accessories\HyperSash_Waist.png" />
     <Content Include="Items\Accessories\StainedTooth.png" />
     <Content Include="Items\Accessories\RushCharm.png" />
     <Content Include="Items\Accessories\FightingSash.png" />
@@ -100,6 +104,7 @@
     <Content Include="Items\RustedBadge.png" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesBee.cs" />
+    <Compile Include="Items\Weapons\Fists\GlovesLee.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCrystal.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesButterfly.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesHallow.cs" />
@@ -111,6 +116,7 @@
     <Compile Include="Items\Weapons\Fists\FistsCursed.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesFrost.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesIchor.cs" />
+    <Compile Include="Items\Weapons\Fists\KnucklesDuke.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesPalladium.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesDemon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesFlintlock.cs" />
@@ -120,6 +126,7 @@
     <Compile Include="Items\Weapons\Basic\TrashCannon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesDungeon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesMeteor.cs" />
+    <Content Include="Items\Weapons\Fists\KnucklesFist.txt" />
     <Compile Include="Items\Weapons\Fists\KnucklesPlantera.cs" />
     <Compile Include="Items\Weapons\Whips\EelWhip.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
