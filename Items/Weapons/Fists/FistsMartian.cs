@@ -30,13 +30,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetDefaults()
         {
             item.melee = true;
-            item.damage = 375;
+            item.damage = 300;
             item.useAnimation = 26; // 30%-50% reduction
             item.knockBack = 9.5f;
             item.tileBoost = 6; // Combo Power
 
             item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = 8;
+            item.rare = 5;
 
             item.UseSound = SoundID.Item92;
             item.useStyle = ModPlayerFists.useStyle;
