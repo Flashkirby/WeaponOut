@@ -34,7 +34,19 @@ namespace WeaponOut.Projectiles
         {
             Player player = Main.player[projectile.owner];
             if (player == null || player.dead || !player.active) { projectile.timeLeft = 0; return; }
-            projectile.timeLeft = player.itemAnimation - 2;
+
+            if (projectile.timeLeft > 10)
+            {
+                if (player.dashDelay <= 0)
+                {
+
+                    projectile.timeLeft = player.itemAnimation - 3;
+                }
+                else
+                {
+                    projectile.timeLeft = 10;
+                }
+            }
             if (projectile.timeLeft <= 0) return;
 
             player.heldProj = projectile.whoAmI; // draw over part of player
@@ -133,7 +145,7 @@ namespace WeaponOut.Projectiles
                         new Color(1f, 1f, 1f, 0.5f) * trailOpacity,
                         projectile.rotation,
                         origin,
-                        projectile.scale * (1f + 0.03f * i),
+                        projectile.scale * (1f + 0.05f * i),
                         effects,
                         0);
                 }
