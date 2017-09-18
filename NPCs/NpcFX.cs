@@ -160,7 +160,7 @@ namespace WeaponOut.NPCs
         #region The last straw against player-snapping bosses :(
         public override bool PreAI(NPC npc)
         {
-            if (npc.lifeMax < 2000) return true; // we don't deal in small fry
+            if (npc.lifeMax < 2000 || npc.damage == 0) return true; // we don't deal in small fry and clones
             if (npc.boss || npc.GetBossHeadTextureIndex() >= 0)
             {
                 PlayerFX pfx;
