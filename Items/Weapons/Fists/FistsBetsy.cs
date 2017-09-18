@@ -37,7 +37,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.rare = 8;
 
-            item.UseSound = SoundID.Item20;
+            item.UseSound = SoundID.DD2_PhantomPhoenixShot;
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
             item.noUseGraphic = true;
