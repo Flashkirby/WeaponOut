@@ -1,4 +1,3 @@
-LIGHTWEIGHT RELEASE: Fist weapons are currently unavailable.
 NOTE: WeaponOut.json has been moved into the (Mod Configs/) folder.
 
 A compilation of features built around weapons and accessories. A lot of these are basically gimmicky systems that do cool stuff.
@@ -7,6 +6,7 @@ Summary:
 * Hide/Show weapons being held with inventory icon (top left).
 * Temporary spawn point tents! Silk + Wood.
 * Whips! Deals crits when hitting at the tip.
+* Fists! Duck and weave, then deliver that killer combo.
 * Dual-use Weapons! Right-click for secondary weapon abilities.
 * More shields! Obtainable early, with situational uses.
 * Team-centric items for buffing, and restoring mana.
@@ -15,6 +15,7 @@ Summary:
 
 Content:
 * 9 Whip Weapons
+* 32 Fist Weapons
 * Quite a few other weapons
 * 15 Accessories (I think)
 * 1 Tile
@@ -27,3 +28,4 @@ Flashkirby99 - I am making this mod.
 kiedev666 - Playtesting and ideas.
 Eli10293 - Updated Sprites for: Mana Blast, Mana Sword, Molten Chains
 goldenapple - "Modder's Guide to Config Files"
+Folks on the discord server - Various conversations and support
