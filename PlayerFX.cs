@@ -57,9 +57,10 @@ namespace WeaponOut
         #endregion
         #region Reflect Projectiles
         public bool reflectingProjectiles;
+        public bool reflectingProjectilesForce;
         public int reflectingProjectileDelay;
         public bool CanReflectProjectiles
-        { get { return reflectingProjectiles && reflectingProjectileDelay <= 0; } }
+        { get { return reflectingProjectilesForce || (reflectingProjectiles && reflectingProjectileDelay <= 0); } }
         #endregion
         #region Lunar Emblems
         public bool lunarRangeVisual;
@@ -240,6 +241,7 @@ namespace WeaponOut
 
             // Handle reflecting timer
             reflectingProjectiles = false;
+            reflectingProjectilesForce = false;
             if (reflectingProjectileDelay > 0) reflectingProjectileDelay = Math.Max(0, reflectingProjectileDelay - 1);
 
             if (ModConf.enableDualWeapons)
