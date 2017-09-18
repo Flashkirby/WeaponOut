@@ -131,9 +131,9 @@ namespace WeaponOut.Items.Weapons.Fists
                     {
                         Vector2 displace = new Vector2(32, 32 * player.gravDir);
                         Vector2 velo = new Vector2(player.direction * player.HeldItem.shootSpeed, player.gravDir * -3f);
-                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, player.HeldItem.damage / 2, 8f, Main.myPlayer);
+                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(player.HeldItem.damage * player.meleeDamage / 2), 8f, Main.myPlayer);
                         velo.X *= -1;
-                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, player.HeldItem.damage / 2, 8f, Main.myPlayer);
+                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(player.HeldItem.damage * player.meleeDamage / 2), 8f, Main.myPlayer);
                     }
                 }
             }
