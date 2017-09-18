@@ -136,6 +136,7 @@ namespace WeaponOut
         public Vector2 FakePositionReal;
         public Vector2 FakePositionTemp;
         private const float FakePositionLag = 120;
+        private const float FakePositionDistance = 1000f;
         #endregion
 
         public int lastSelectedItem;
@@ -1368,7 +1369,7 @@ namespace WeaponOut
                 FakePositionReal = player.position;
                 if (ghostPosition)
                 {
-                    if (Vector2.Distance(FakePositionReal, FakePositionTemp) > 1000f || player.velocity.Y == 0)
+                    if (Vector2.Distance(FakePositionReal, FakePositionTemp) > FakePositionDistance || player.velocity.Y == 0)
                     {
                         FakePositionTemp = FakePositionReal;
                     }
