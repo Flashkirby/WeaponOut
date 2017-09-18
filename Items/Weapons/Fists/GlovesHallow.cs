@@ -80,7 +80,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void HoldItem(Player player)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            if (mpf.IsComboActiveItemOnHit)
+            if (mpf.IsComboActive)
             {
                 player.endurance += 0.04f;
                 player.statDefense += 7;
