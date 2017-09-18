@@ -70,14 +70,20 @@ namespace WeaponOut.Items.Weapons.Fists
                 if (player.whoAmI == Main.myPlayer)
                 {
                     int move = player.GetModPlayer<ModPlayerFists>().specialMove;
-                    Projectile.NewProjectile(player.Center, player.velocity, projectileID, 0, 0, Main.myPlayer, move);
+                    Projectile.NewProjectile(player.Center, player.velocity * 0.25f, projectileID, 0, 0, Main.myPlayer, move);
                 }
+            }
+
+            if (player.velocity.Y != 0)
+            {
+                player.velocity.Y -= (player.gravity * player.gravDir) / 2;
             }
 
             for (int i = 0; i < 12; i++)
             {
                 Dust d = Dust.NewDustDirect(player.position, player.width, player.height, 228);
                 d.noGravity = true;
+                d.velocity *= 4f;
                 if (i > 3)
                 {
                     d.scale /= 2;
@@ -85,7 +91,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 }
                 else
                 {
-                    d.velocity = player.velocity * -0.5f;
+                    d.velocity -= player.velocity * 2;
                 }
             }
         }

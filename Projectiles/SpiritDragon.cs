@@ -68,6 +68,47 @@ namespace WeaponOut.Projectiles
                 projectile.alpha += 24;
             }
 
+            Vector2 orient = new Vector2(projectile.spriteDirection, projectile.localAI[0]);
+            Dust d;
+            if (projectile.frame == 0)
+            {
+                Vector2 topWing = player.Center + new Vector2(-20, -32) * orient;
+                Vector2 botWing = player.Center + new Vector2(32, -12) * orient;
+
+                d = Dust.NewDustPerfect(topWing, 133);
+                d.velocity = player.velocity / 2;
+                d.noGravity = true;
+                d.position -= d.velocity;
+                d.alpha = projectile.alpha;
+                d.scale *= projectile.Opacity;
+
+                d = Dust.NewDustPerfect(botWing, 133);
+                d.velocity = player.velocity / 2;
+                d.noGravity = true;
+                d.position -= d.velocity;
+                d.alpha = projectile.alpha;
+                d.scale *= projectile.Opacity;
+            }
+            else if (projectile.frame == 1)
+            {
+                Vector2 tiger = player.Center + new Vector2(30, 42) * orient;
+
+                for (int i = 0; i < 2; i++)
+                {
+                    d = Dust.NewDustPerfect(tiger, 133);
+                    if (i == 0)
+                    {
+                        d.velocity.X += player.velocity.X;
+                    }
+                    else
+                    {
+                        d.velocity.Y += player.velocity.Y;
+                    }
+                    d.noGravity = true;
+                    d.scale *= projectile.Opacity;
+                }
+            }
+
             Lighting.AddLight(player.position + player.velocity, new Vector3(0.6f, 0.6f, 0.2f));
         }
         
