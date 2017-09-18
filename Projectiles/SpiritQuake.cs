@@ -44,15 +44,14 @@ namespace WeaponOut.Projectiles
                 Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
             }
             projectile.damage = projectile.damage * 5 / 6;
-            projectile.localAI[0]--;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.player[projectile.owner].active && projectile.localAI[0] <= 0)
+            if (Main.player[projectile.owner].active && projectile.localAI[0] == 0)
             {
                 Main.player[projectile.owner].GetModPlayer<ModPlayerFists>().ModifyComboCounter(1);
-                projectile.localAI[0] = 4;
+                projectile.localAI[0]++;
             }
         }
     }
