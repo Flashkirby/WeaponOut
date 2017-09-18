@@ -19,7 +19,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("The Underdog");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
-                "Counterstrike deals damage based on missing life\n" +
+                "Counterstrikes deals damage based on missing life\n" +
                 "Combo grants life stealing from parries");
         }
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.damage = 230;
             item.useAnimation = 22; // 30%-50% reduction
             item.knockBack = 3.5f;
-            item.tileBoost = 6; // Combo Power
+            item.tileBoost = 5; // Combo Power
 
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.rare = 8;
@@ -70,6 +70,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (AltStats(player))
             {
+                if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
                 float bonus = 0.5f - 0.5f * ((float)player.statLife / player.statLifeMax2);
                 damage = (int)((damage + player.HeldItem.damage * 10 * bonus) * bonus);
             }
@@ -79,7 +80,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void HoldItem(Player player)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            if (mpf.IsComboActiveItemOnHit)
+            if (mpf.IsComboActive)
             {
                 mpf.parryLifesteal += 0.2f;
             }
