@@ -16,7 +16,7 @@ namespace WeaponOut.Items.Accessories
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
                 "Restores up to 26% of maximum life\n" +
-                "Bosses are slower to follow you\n" + 
+                "Bosses are slower to follow you in the air\n" + 
                 "Grants immunity to knockback");
         }
         public override void SetDefaults()
