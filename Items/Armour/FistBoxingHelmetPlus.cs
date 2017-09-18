@@ -98,11 +98,16 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Divekicks will steal life";
                     if (!hardMode)
-                    { player.GetModPlayer<PlayerFX>().diveKickHeal += 0.04f; }
+                    {
+                        player.setBonus = "10 defense per 100 missing life";
+                        player.GetModPlayer<PlayerFX>().barbariousDefence = 10;
+                    }
                     else
-                    { player.GetModPlayer<PlayerFX>().diveKickHeal += 0.06f; }
+                    {
+                        player.setBonus = "16 defense per 100 missing life";
+                        player.GetModPlayer<PlayerFX>().barbariousDefence = 6;
+                    }
                     break;
                 case 2:
                     // Not so useful, but very good for not dying in expert (double damage lmao)

@@ -81,7 +81,7 @@ namespace WeaponOut
         public bool rapidRecovery;
         public float diveKickHeal;
         public bool millstone;
-        public bool barbariousDefence;
+        public int barbariousDefence;
         public bool heartDropper;
         public bool hidden;
         public bool angryCombo;
@@ -557,11 +557,11 @@ namespace WeaponOut
                 }
 
                 // Done here because last playerhook before collision checks
-                if (barbariousDefence)
+                if (barbariousDefence > 0)
                 {
-                    player.statDefense += (player.statLifeMax2 - player.statLife) / 5;
+                    player.statDefense += (player.statLifeMax2 - player.statLife) / barbariousDefence;
                 }
-                barbariousDefence = false;
+                barbariousDefence = 0;
             }
         }
 
@@ -1440,7 +1440,7 @@ namespace WeaponOut
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
                 if (mpf.specialMove == 2 && diveKickHeal > 0f)
                 {
-                    PlayerFX.LifeStealPlayer(player, damage, target.lifeMax, diveKickHeal);
+                    PlayerFX.LifeStealPlayer(player, damage, target.lifeMax / 4, diveKickHeal);
                 }
                 #endregion
 

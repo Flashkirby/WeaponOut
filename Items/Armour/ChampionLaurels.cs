@@ -77,8 +77,8 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "20 defense per 100 missing life";
-                    pfx.barbariousDefence = true;
+                    player.setBonus = "Divekicks will steal life";
+                    player.GetModPlayer<PlayerFX>().diveKickHeal += 0.05f;
                     pfx.patienceBuildUpModifier += 0.2f;
                     break;
                 case 2:
