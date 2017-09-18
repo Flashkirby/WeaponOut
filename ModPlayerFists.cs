@@ -32,7 +32,7 @@ namespace WeaponOut
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
-        private const bool DEBUG_FISTBOXES = true;
+        private const bool DEBUG_FISTBOXES = false;
         private const bool DEBUG_DASHFISTS = false;
         private const bool DEBUG_PARRYFISTS = false;
 
