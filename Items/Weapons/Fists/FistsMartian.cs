@@ -95,7 +95,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActiveItemOnHit)
             {
-                Vector2 launchVelo = new Vector2(8).RotatedByRandom(Math.PI * 2) + player.velocity;
+                Vector2 launchVelo = new Vector2(8).RotatedByRandom(Math.PI * 2) - player.velocity / 2f;
                 Projectile.NewProjectile(player.Center + launchVelo * 6, launchVelo, projectileID, 150, 1f, Main.myPlayer, target.whoAmI);
             }
         }
