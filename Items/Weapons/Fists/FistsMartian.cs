@@ -36,7 +36,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.tileBoost = 6; // Combo Power
 
             item.value = Item.sellPrice(0, 5, 0, 0);
-            item.rare = 5;
+            item.rare = 8;
 
             item.UseSound = SoundID.Item92;
             item.useStyle = ModPlayerFists.useStyle;
@@ -50,7 +50,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const float fistDashThresh = 8f;
         const float fistJumpVelo = 14.8f; // http://rextester.com/OIY60171
         public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().dashEffect == altEffect; }
-        const int altHitboxSize = 50;
+        const int altHitboxSize = 40;
         const float altDashSpeed = 20f;
         const float altDashThresh = 12f;
         const float altJumpVelo = 18f;
@@ -66,12 +66,29 @@ namespace WeaponOut.Items.Weapons.Fists
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
         public static void DashEffects(Player player)
         {
-            if (player.dashDelay == 0) { }
+            if (player.velocity.Y != 0 && !player.controlDown)
+            {
+                player.velocity.Y -= (player.gravity * player.gravDir) / 2;
+            }
 
             for (int i = 0; i < 3; i++)
             {
                 Dust d = Dust.NewDustDirect(player.position, player.width, player.height, 229,
                     player.velocity.X * -0.2f, player.velocity.Y * -0.2f);
+                d.noGravity = true;
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                Dust d = Dust.NewDustPerfect(player.Center, 229);
+                d.position += player.velocity * 3f;
+                d.velocity = 0.2f * player.velocity.RotatedBy(1f + 0.1f * i);
+                d.position += d.velocity * 2f;
+                d.noGravity = true;
+
+                d = Dust.NewDustPerfect(player.Center, 229);
+                d.position += player.velocity * 3f;
+                d.velocity = 0.2f * player.velocity.RotatedBy(-(1f + 0.1f * i));
+                d.position += d.velocity * 2f;
                 d.noGravity = true;
             }
         }
