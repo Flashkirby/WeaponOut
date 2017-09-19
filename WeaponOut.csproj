@@ -39,6 +39,7 @@
     <Compile Include="Buffs\ButterflyGrace.cs" />
     <Compile Include="Buffs\BloodLust.cs" />
     <Compile Include="Buffs\ErodingWind.cs" />
+    <Compile Include="Buffs\BetsyRing.cs" />
     <Compile Include="Buffs\YinYang.cs" />
     <Compile Include="Buffs\SecondWind.cs" />
     <Compile Include="Buffs\YinDamage.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsMartian.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsLihzarhd.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBetsy.cs" />
     <Compile Include="Items\Weapons\Fists\FistsSparring.cs" />
     <Compile Include="Items\Weapons\Fists\FistsForbidden.cs" />
@@ -95,7 +98,7 @@
     <Compile Include="Items\Weapons\Fists\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
     <Content Include="Items\Accessories\DriedEye.png" />
-    <Content Include="Items\Accessories\HyperSashSash.png" />
+    <Content Include="Items\Accessories\HyperSash.png" />
     <Content Include="Items\Accessories\HyperSash_Waist.png" />
     <Content Include="Items\Accessories\StainedTooth.png" />
     <Content Include="Items\Accessories\RushCharm.png" />
@@ -126,7 +129,6 @@
     <Compile Include="Items\Weapons\Basic\TrashCannon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesDungeon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesMeteor.cs" />
-    <Content Include="Items\Weapons\Fists\KnucklesFist.txt" />
     <Compile Include="Items\Weapons\Fists\KnucklesPlantera.cs" />
     <Compile Include="Items\Weapons\Whips\EelWhip.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
@@ -157,15 +159,18 @@
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="ModPlayerFists.cs" />
+    <Compile Include="Projectiles\SpiritDragon.cs" />
     <Compile Include="Projectiles\MeteorBreakshatter.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />
     <Compile Include="Projectiles\SpiritBeam.cs" />
+    <Compile Include="Projectiles\SpiritQuake.cs" />
     <Compile Include="Projectiles\SpiritIcicle.cs" />
     <Compile Include="Projectiles\SpiritBlast.cs" />
     <Compile Include="Projectiles\SpiritComet.cs" />
     <Compile Include="Projectiles\Reverb.cs" />
     <Compile Include="Projectiles\OnsokuSlash.cs" />
     <Compile Include="Projectiles\SpiritLeaf.cs" />
+    <Compile Include="Projectiles\SpiritMartianFist.cs" />
     <Compile Include="Projectiles\SpiritThornBall.cs" />
     <Compile Include="Projectiles\Whips\EelWhip.cs" />
     <Compile Include="Projectiles\Whips\CrystalVileLash.cs" />
