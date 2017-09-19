@@ -9,7 +9,7 @@ using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
-    [AutoloadEquip(EquipType.HandsOn)]
+    [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class FistsBetsy : ModItem
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
