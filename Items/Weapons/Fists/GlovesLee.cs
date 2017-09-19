@@ -51,14 +51,6 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altJumpVelo = 19f;
         const int parryActive = 22;
         const int parryCooldown = 8;
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CobaltBar, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
 
         // Parry
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
