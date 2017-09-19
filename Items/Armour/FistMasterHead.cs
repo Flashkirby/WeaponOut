@@ -28,7 +28,7 @@ namespace WeaponOut.Items.Armour
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 6;
+            player.meleeCrit += 9;
             player.GetModPlayer<PlayerFX>().patienceDamage = 20f; // Can do up to 2000%
             player.GetModPlayer<PlayerFX>().patienceBuildUpModifier += 0.2f; // 75->90%
         }
