@@ -88,6 +88,8 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsGranite.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsSlime.cs" />
     <Compile Include="Items\Weapons\Fists\FistsMartian.cs" />
     <Compile Include="Items\Weapons\Fists\FistsLihzarhd.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBetsy.cs" />
