@@ -111,7 +111,7 @@ namespace WeaponOut.NPCs
                             itemType = mod.ItemType<Items.Accessories.StainedTooth>();
                         }
                     }
-                    bool chance = Main.rand.Next(3) == 0 || Main.expertMode;
+                    bool chance = Main.rand.Next(5) == 0 || Main.expertMode;
                     if (chance)
                     {
                         if (npc.type == NPCID.Plantera)
