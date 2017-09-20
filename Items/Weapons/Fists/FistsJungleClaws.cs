@@ -51,6 +51,15 @@ namespace WeaponOut.Items.Weapons.Fists
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.BeeWax, 8);
+            recipe.AddIngredient(ItemID.JungleSpores, 8);
+            recipe.AddIngredient(ItemID.Vine, 2);
+            recipe.AddIngredient(ItemID.Stinger, 6);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         { ModPlayerFists.ModifyTooltips(tooltips, item); }
