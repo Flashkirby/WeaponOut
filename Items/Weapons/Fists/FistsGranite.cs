@@ -15,7 +15,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public static int altEffect = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Granite Smash");
+            DisplayName.SetDefault("Granite Smasher");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 10% increased melee damage\n" +
