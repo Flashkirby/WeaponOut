@@ -86,10 +86,17 @@ namespace WeaponOut.NPCs
 
         public override void NPCLoot(NPC npc)
         {
-            if (ModConf.enableFists) {
+            if (ModConf.enableFists)
+            {
+                if (npc.type == NPCID.GraniteGolem && Main.rand.Next(10) == 0)
+                {
+                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.FistsGranite>(), 1, false, -1, false, false);
+                    return;
+                }
                 if (npc.type == NPCID.BoneLee && Main.rand.Next(6) == 0)
                 {
                     Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.GlovesLee>(), 1, false, -1, false, false);
+                    return;
                 }
 
                 // Bosses drop per-player
