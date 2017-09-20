@@ -92,6 +92,7 @@ namespace WeaponOut.NPCs
                     Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.GlovesLee>(), 1, false, -1, false, false);
                 }
 
+                // Bosses drop per-player
                 if (npc.boss)
                 {
                     int itemType = -1;
@@ -116,6 +117,10 @@ namespace WeaponOut.NPCs
                         if (npc.type == NPCID.Plantera)
                         {
                             itemType = mod.ItemType<Items.Weapons.Fists.KnucklesPlantera>();
+                        }
+                        if (npc.type == NPCID.MartianSaucerCore)
+                        {
+                            itemType = mod.ItemType<Items.Weapons.Fists.FistsMartian>();
                         }
                         if (npc.type == NPCID.DukeFishron)
                         {
