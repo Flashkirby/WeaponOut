@@ -45,8 +45,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float fistDashThresh = 3f;
         const float fistJumpVelo = 10.5f; // http://rextester.com/OIY60171
         public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().dashEffect == altEffect; }
-        const float altDashSpeed = 8f;
-        const float altDashThresh = 6f;
+        const float altDashSpeed = 11f;
+        const float altDashThresh = 7.5f;
 
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
         public static void DashEffects(Player player)
@@ -56,14 +56,19 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 float height = player.height - 4f;
                 if (player.gravDir < 0) height = 4f;
-                d = Main.dust[Dust.NewDust(player.position, player.width, player.height, 111, 0f, 0f, 0, default(Color), 1f)];
+                d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + height), player.width, 8, 111, 0f, 0f, 0, default(Color), 1f)];
+                d.noGravity = true;
+                d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
             }
             else
             {
-                d = Main.dust[Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), 16, 16, 111, 0f, 0f, 0, default(Color), 0.8f)];
+                for (int i = 0; i < 2; i++)
+                {
+                    d = Main.dust[Dust.NewDust(player.position, player.width, player.height, 111, 0f, 0f, 0, default(Color), 0.8f)];
+                    d.noGravity = true;
+                    d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                }
             }
-            d.noGravity = true;
-            d.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
         }
 
         // Dash
