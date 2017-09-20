@@ -46,18 +46,15 @@ namespace WeaponOut.NPCs
                 if (type == NPCID.Clothier)
                 {
                     //add headbands after bossess
-                    if (Main.hardMode)
+                    if (NPC.downedBoss3)
                     {
-                        if(NPC.downedBoss3)
-                        {
-                            shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistVeteranHead>());
-                            nextSlot++;
-                        }
-                        if (NPC.downedGolemBoss)
-                        {
-                            shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistMasterHead>());
-                            nextSlot++;
-                        }
+                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistVeteranHead>());
+                        nextSlot++;
+                    }
+                    if (NPC.downedGolemBoss)
+                    {
+                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistMasterHead>());
+                        nextSlot++;
                     }
                 }
             }
