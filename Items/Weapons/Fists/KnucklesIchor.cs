@@ -57,7 +57,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Ichor, 10);
-            recipe.AddIngredient(ItemID.Vertebrae, 5);
+            recipe.AddIngredient(ItemID.SoulofNight, 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
