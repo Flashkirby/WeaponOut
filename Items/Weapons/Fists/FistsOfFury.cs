@@ -90,7 +90,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
             // jump exactly 6 blocks high!
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 24, 10.5f, 1f, 9f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, 24, 12.5f, 1f, 9f);
         }
 
         // Dash
