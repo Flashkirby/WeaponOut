@@ -126,6 +126,10 @@ namespace WeaponOut.NPCs
                     }
                     if (chance)
                     {
+                        if (npc.type == NPCID.KingSlime)
+                        {
+                            itemType = mod.ItemType<Items.Weapons.Fists.FistsSlime>();
+                        }
                         if (npc.type == NPCID.Plantera)
                         {
                             itemType = mod.ItemType<Items.Weapons.Fists.KnucklesPlantera>();
