@@ -27,7 +27,7 @@ namespace WeaponOut.Items.Armour
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<FistPowerBody>(), 1);
+            recipe.AddIngredient(ItemID.Silk, 15);
             recipe.AddIngredient(ItemID.SoulofFright, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
