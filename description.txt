@@ -15,7 +15,7 @@ Summary:
 
 Content:
 * 9 Whip Weapons
-* 32 Fist Weapons
+* 33 Fist Weapons
 * Quite a few other weapons
 * 15 Accessories (I think)
 * 1 Tile
