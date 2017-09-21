@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -10,8 +11,7 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hook of Discord");
-            Tooltip.SetDefault(
-                "Teleports to the position of the mouse");
+            Tooltip.SetDefault(Language.GetTextValue("ItemTooltip.RodofDiscord"));
         }
         public override void SetDefaults()
         {

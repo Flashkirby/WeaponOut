@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -11,8 +12,8 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Chaos Hook");
             Tooltip.SetDefault(
-                "Teleports to the position of the mouse\n" +
-                "Does not wait for Chaos State to finish\n" + 
+                Language.GetTextValue("ItemTooltip.RodofDiscord") +
+                "\nDoes not wait for Chaos State to finish\n" + 
                 "'Faster! Faster!'");
         }
         public override void SetDefaults()
