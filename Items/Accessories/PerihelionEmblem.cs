@@ -35,14 +35,29 @@ namespace WeaponOut.Items.Accessories
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShinyStone, 1);
-            recipe.AddIngredient(ItemID.AvengerEmblem, 1);
-            recipe.AddIngredient(ItemID.DayBreak, 1);
-            recipe.AddIngredient(ItemID.MagicDagger, 1);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            Mod thorium = ModLoader.GetMod("ThoriumMod");
+            if (thorium != null)
+            {
+                ModRecipe recipe = new ModRecipe(mod);
+                recipe.AddIngredient(ItemID.ShinyStone, 1);
+                recipe.AddIngredient(thorium.GetItem("NinjaEmblem"), 1);
+                recipe.AddIngredient(thorium.GetItem("WhiteDwarfKunai"), 450);
+                recipe.AddIngredient(thorium.GetItem("BlackDagger"), 1);
+                recipe.AddTile(TileID.LunarCraftingStation);
+                recipe.SetResult(this, 1);
+                recipe.AddRecipe();
+            }
+            else
+            {
+                ModRecipe recipe = new ModRecipe(mod);
+                recipe.AddIngredient(ItemID.ShinyStone, 1);
+                recipe.AddIngredient(ItemID.AvengerEmblem, 1);
+                recipe.AddIngredient(ItemID.DayBreak, 1);
+                recipe.AddIngredient(ItemID.MagicDagger, 1);
+                recipe.AddTile(TileID.LunarCraftingStation);
+                recipe.SetResult(this, 1);
+                recipe.AddRecipe();
+            }
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
