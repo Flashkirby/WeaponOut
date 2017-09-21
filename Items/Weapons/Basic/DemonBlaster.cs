@@ -53,9 +53,9 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpaceGun, 1);
-            recipe.AddIngredient(ItemID.DemonScythe, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 20);
+            recipe.AddIngredient(ItemID.SoulofNight, 10);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
