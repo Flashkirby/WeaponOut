@@ -615,6 +615,119 @@ namespace WeaponOut
             }
         }
 
+        #region OnHit Methods
+
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            FistOnHitNPC(target, damage);
+        }
+
+        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        {
+            FistOnHitByEntity(npc, damage);
+        }
+
+        public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
+        {
+            FistOnHitByEntity(proj, damage);
+        }
+
+        #endregion
+
+        #region ModifyHit
+
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        { FistModifyHit(item, player, target.life, target.lifeMax, ref damage, ref knockback, ref crit); }
+        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        { float knockBack = 5f; FistModifyHit(item, player, target.statLife, target.statLifeMax2, ref damage, ref knockBack, ref crit); }
+
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            FistModifyHitWithProj(proj, Main.player[proj.owner], target.life, target.lifeMax, ref damage, ref crit);
+        }
+        public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
+        {
+            FistModifyHitWithProj(proj, Main.player[proj.owner], target.statLife, target.statLifeMax2, ref damage, ref crit);
+        }
+
+        #endregion
+
+        #region PreHurt & ModifyHitBy
+
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            ShieldPreHurt(damage, crit, hitDirection);
+            if (!FistPreHurt(damageSource)) return false;
+            return true;
+        }
+
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        {
+            ShieldBounceNPC(npc);
+        }
+
+        private void ShieldPreHurt(int damage, bool crit, int hitDirection)
+        {
+            if (DamageKnockbackThreshold > 0)
+            {
+                if (crit) damage *= 2;
+                damage = (int)Main.CalculatePlayerDamage(damage, player.statDefense);
+                //Main.NewText("Took damage: " + damage + " vs " + DamageKnockbackThreshold);
+                if (!Main.expertMode)
+                { if (damage <= DamageKnockbackThreshold) player.noKnockback = true; }
+                else
+                { if (damage <= DamageKnockbackThreshold * Main.expertDamage) player.noKnockback = true; }
+
+            }
+
+            if (player.direction != hitDirection)
+            {
+                if (FrontDefence > 0) player.statDefense += FrontDefence;
+                //Main.NewText("DEF " + player.statDefense + " | " + FrontDefence);
+                if (frontNoKnockback) player.noKnockback = true;
+            }
+        }
+        private void ShieldBounceNPC(NPC npc)
+        {
+            //ignore if not facing
+            if (player.direction == 1 && npc.Center.X < player.Center.X) return;
+            if (player.direction == -1 && npc.Center.X > player.Center.X) return;
+
+            //bump if not attacking
+            if (player.whoAmI == Main.myPlayer && player.itemAnimation == 0
+                && !player.immune && frontNoKnockback && !npc.dontTakeDamage)
+            {
+                int hitDamage = 1;
+                float knockBack = (Math.Abs(player.velocity.X * 2) + 2f) / (0.2f + npc.knockBackResist); //sclaing knockback with kbr
+                int hitDirection = player.direction;
+                npc.StrikeNPC(hitDamage, (float)knockBack, hitDirection, false, false, false);
+                if (Main.netMode != 0)
+                {
+                    NetMessage.SendData(28, -1, -1, null, npc.whoAmI, (float)hitDamage, (float)knockBack, (float)hitDirection, 0, 0, 0);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Post Hurt
+
+        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        {
+            FistPostHurt(damage);
+        }
+
+        #endregion
+
+        #region Pre-Dead
+
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            return FistPreKill(damage, damageSource);
+        }
+
+        #endregion
+
         #region Tent
         private void manageBodyFrame()
         {
@@ -1717,119 +1830,6 @@ namespace WeaponOut
         }
         private int lifeRestorable(Player player)
         { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
-        #endregion
-
-        #region OnHit Methods
-
-        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-        {
-            FistOnHitNPC(target, damage);
-        }
-        
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
-        {
-            FistOnHitByEntity(npc, damage);
-        }
-
-        public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
-        {
-            FistOnHitByEntity(proj, damage);
-        }
-
-        #endregion
-
-        #region ModifyHit
-
-        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
-        { FistModifyHit(item, player, target.life, target.lifeMax, ref damage, ref knockback, ref crit); }
-        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
-        { float knockBack = 5f; FistModifyHit(item, player, target.statLife, target.statLifeMax2, ref damage, ref knockBack, ref crit); }
-
-        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            FistModifyHitWithProj(proj, Main.player[proj.owner], target.life, target.lifeMax, ref damage, ref crit);
-        }
-        public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
-        {
-            FistModifyHitWithProj(proj, Main.player[proj.owner], target.statLife, target.statLifeMax2, ref damage, ref crit);
-        }
-
-        #endregion
-
-        #region PreHurt & ModifyHitBy
-
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
-        {
-            ShieldPreHurt(damage, crit, hitDirection);
-            if (!FistPreHurt(damageSource)) return false;
-            return true;
-        }
-
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
-        {
-            ShieldBounceNPC(npc);
-        }
-
-        private void ShieldPreHurt(int damage, bool crit, int hitDirection)
-        {
-            if (DamageKnockbackThreshold > 0)
-            {
-                if (crit) damage *= 2;
-                damage = (int)Main.CalculatePlayerDamage(damage, player.statDefense);
-                //Main.NewText("Took damage: " + damage + " vs " + DamageKnockbackThreshold);
-                if(!Main.expertMode)
-                { if (damage <= DamageKnockbackThreshold) player.noKnockback = true; }
-                else
-                { if (damage <= DamageKnockbackThreshold * Main.expertDamage) player.noKnockback = true; }
-               
-            }
-
-            if (player.direction != hitDirection)
-            {
-                if (FrontDefence > 0) player.statDefense += FrontDefence;
-                //Main.NewText("DEF " + player.statDefense + " | " + FrontDefence);
-                if (frontNoKnockback) player.noKnockback = true;
-            }
-        }
-        private void ShieldBounceNPC(NPC npc)
-        {
-            //ignore if not facing
-            if (player.direction == 1 && npc.Center.X < player.Center.X) return;
-            if (player.direction == -1 && npc.Center.X > player.Center.X) return;
-
-            //bump if not attacking
-            if (player.whoAmI == Main.myPlayer && player.itemAnimation == 0
-                && !player.immune && frontNoKnockback && !npc.dontTakeDamage)
-            {
-                int hitDamage = 1;
-                float knockBack = (Math.Abs(player.velocity.X * 2) + 2f) / (0.2f + npc.knockBackResist); //sclaing knockback with kbr
-                int hitDirection = player.direction;
-                npc.StrikeNPC(hitDamage, (float)knockBack, hitDirection, false, false, false);
-                if (Main.netMode != 0)
-                {
-                    NetMessage.SendData(28, -1, -1, null, npc.whoAmI, (float)hitDamage, (float)knockBack, (float)hitDirection, 0, 0, 0);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Post Hurt
-
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
-        {
-            FistPostHurt(damage);
-        }
-
-        #endregion
-
-        #region Pre-Dead
-
-        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
-        {
-            return FistPreKill(damage, damageSource);
-        }
-
         #endregion
 
         // TODO: rebalance crate IDs
