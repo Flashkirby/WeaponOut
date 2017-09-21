@@ -50,9 +50,9 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Muramasa, 1);
-            recipe.AddIngredient(ItemID.SoulofLight, 15);
-            recipe.AddTile(TileID.AdamantiteForge);
+            recipe.AddIngredient(ItemID.UnicornHorn, 1);
+            recipe.AddIngredient(ItemID.SoulofLight, 25);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
