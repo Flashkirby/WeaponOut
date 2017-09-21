@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Basic
             item.scale = 0.9f;
 
             item.magic = true;
-            item.mana = 10;
+            item.mana = 8;
             item.damage = 38; //DPS 162
             item.knockBack = 0;
             item.autoReuse = true;

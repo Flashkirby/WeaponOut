@@ -124,7 +124,7 @@ namespace WeaponOut.Projectiles
                 projectile.ai[1] = 1.7f;
                 projectile.scale = 1.2f;
 
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
+                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33, 0.4f, 0.2f);
             }
             //damage fall off once per 2 frames
             if (projectile.damage > 1 && projectile.timeLeft % 2 == 0) projectile.damage -= 1;
@@ -236,7 +236,7 @@ namespace WeaponOut.Projectiles
 				origin = new Vector2((float)(frame.Width / 2), 1f);
 				return;
 			}
-			distCovered = 9999f;
+			distCovered = projectile.velocity.Length() * 90;
 			frame = Rectangle.Empty;
 			origin = Vector2.Zero;
 			color = Color.Transparent;
