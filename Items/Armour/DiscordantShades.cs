@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,19 +20,17 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Discordant Shades");
             Tooltip.SetDefault(
-                "Prioritise teleporting over grappling\n" +
-                "Requires the Rod of Discord\n" +
-                "Functions in the Head Vanity Slot\n" +
-                "Can be equipped as an accessory\n" +
+                "Equippable as an accessory\n" +
+                "$ROD\n" +
+                "Uses the Rod of Discord instead of grappling\n" +
                 "'The future's so bright, I gotta wear shades'");
         }
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 12;
-            item.rare = 7;
+            item.rare = 4;
             item.accessory = true;
-            item.vanity = false;
         }
         public override void AddRecipes()
         {
@@ -51,58 +46,9 @@ namespace WeaponOut.Items.Armour
             drawHair = true;
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            useDiscordHookOverride(player, false);
-        }
-        public override void UpdateEquip(Player player)
-        {
-            if (skipFrameAcc)
-            {
-                useDiscordHookOverride(player, false);
-            }
-            useDiscordHookOverride(player, true);
-        }
-
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            if (skipFrameAcc)
-            {
-                useDiscordHookOverride(player, false);
-            }
-            else
-            {
-                useDiscordHookOverride(player, true);
-                player.releaseHook = false;
-            }
-        }
-
-        private void useDiscordHookOverride(Player player, bool isAcc)
-        {
-            if (player.controlHook)
-            {
-                if (player.FindBuffIndex(BuffID.ChaosState) == -1)
-                {
-                    for (int i = 0; i < player.inventory.Length; i++)
-                    {
-                        if (player.inventory[i].type == ItemID.RodofDiscord)
-                        {
-                            //player has a rod
-                            if (isAcc)
-                            {
-                                skipFrameAcc = true;
-                                player.releaseHook = false;
-                            }
-                            else
-                            {
-                                skipFrameAcc = false;
-                                DiscordantCharm.rodOfDiscord(player);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
+            DiscordantCharm.CheckRODTooltip(tooltips);
         }
     }
 }

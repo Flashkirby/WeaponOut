@@ -563,10 +563,16 @@ namespace WeaponOut
                 }
                 barbariousDefence = 0;
             }
+
+            if (ModConf.enableAccessories)
+            {
+                hookPressed = player.controlHook && player.releaseHook;
+            }
         }
 
         public override void PostUpdate()
         {
+            discordItemsCheck();
             manageBodyFrame();
             FistPostUpdate();
             sashRestoreLogic();
@@ -1831,6 +1837,100 @@ namespace WeaponOut
         private int lifeRestorable(Player player)
         { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
         #endregion
+
+        private bool hookPressed = false;
+        private void discordItemsCheck()
+        {
+            if (hookPressed && player.whoAmI == Main.myPlayer)
+            {
+                bool canTeleHook = false;
+                bool checkChaosState = false;
+                // Misc equips take priority
+                if (player.miscEquips[4].type == mod.ItemType<Items.Accessories.ChaosHook>())
+                {
+                    canTeleHook = true;
+                    checkChaosState = false;
+                }
+                else if (player.miscEquips[4].type == mod.ItemType<Items.Accessories.DiscordHook>())
+                {
+                    canTeleHook = true;
+                    checkChaosState = true;
+                }
+                else
+                {
+                    foreach (Item item in player.armor)
+                    {
+                        if (item.type == mod.ItemType<Items.Armour.DiscordantCharm>() ||
+                            item.type == mod.ItemType<Items.Armour.DiscordantShades>())
+                        {
+                            foreach (Item i in player.inventory)
+                            {
+                                if (i.type == ItemID.RodofDiscord)
+                                {
+                                    canTeleHook = true;
+                                    checkChaosState = true;
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+
+                }
+
+                if (canTeleHook)
+                {
+                    DiscordTeleport(player, checkChaosState);
+                }
+            }
+        }
+        internal static void DiscordTeleport(Player player, bool checkChaosState = false)
+        {
+            if (Main.myPlayer == player.whoAmI)
+            {
+                if (checkChaosState && player.FindBuffIndex(BuffID.ChaosState) >= 0) return;
+
+                Vector2 vector32;
+                vector32.X = (float)Main.mouseX + Main.screenPosition.X;
+                if (player.gravDir == 1f)
+                {
+                    vector32.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
+                }
+                else
+                {
+                    vector32.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
+                }
+                vector32.X -= (float)(player.width / 2);
+                if (vector32.X > 50f && vector32.X < (float)(Main.maxTilesX * 16 - 50) && vector32.Y > 50f && vector32.Y < (float)(Main.maxTilesY * 16 - 50))
+                {
+                    int num246 = (int)(vector32.X / 16f);
+                    int num247 = (int)(vector32.Y / 16f);
+                    if ((Main.tile[num246, num247].wall != 87 || (double)num247 <= Main.worldSurface || NPC.downedPlantBoss) && !Collision.SolidCollision(vector32, player.width, player.height))
+                    {
+                        player.Teleport(vector32, 1, 0);
+                        NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, vector32.X, vector32.Y, 1, 0, 0);
+                        if (player.chaosState)
+                        {
+                            player.statLife -= player.statLifeMax2 / 7;
+
+                            PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
+                            if (Main.rand.Next(2) == 0)
+                            {
+                                damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
+                            }
+                            if (player.statLife <= 0)
+                            {
+                                player.KillMe(damageSource, 1.0, 0, false);
+                            }
+
+                            player.lifeRegenCount = 0;
+                            player.lifeRegenTime = 0;
+                        }
+                        player.AddBuff(88, 360, true);
+                    }
+                }
+            }
+        }
 
         // TODO: rebalance crate IDs
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
