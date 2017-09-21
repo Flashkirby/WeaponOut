@@ -16,7 +16,6 @@ namespace WeaponOut.Items.Accessories
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.IlluminantHook);
-            item.shootSpeed += 0.5f;
             item.rare = 7;
             item.value += Item.sellPrice(0, 5, 0, 0);
         }

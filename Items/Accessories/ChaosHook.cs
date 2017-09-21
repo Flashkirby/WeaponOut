@@ -10,7 +10,7 @@ namespace WeaponOut.Items.Accessories
         public override bool Autoload(ref string name) { return ModConf.enableAccessories; }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaos Hook");
+            DisplayName.SetDefault("Hook of Chaos");
             Tooltip.SetDefault(
                 Language.GetTextValue("ItemTooltip.RodofDiscord") +
                 "\nDoes not wait for Chaos State to finish\n" + 
@@ -26,17 +26,13 @@ namespace WeaponOut.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RodofDiscord, 1);
-            recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddIngredient(ItemID.Hook, 1);
-            recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.AddIngredient(mod.ItemType<DiscordHook>(), 1);
             recipe.SetResult(this);
             recipe.AddRecipe();
             //Conversion from
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(this, 1);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(ItemID.RodofDiscord);
+            recipe.SetResult(mod.ItemType<DiscordHook>());
             recipe.AddRecipe();
         }
     }
