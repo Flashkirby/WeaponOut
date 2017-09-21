@@ -55,7 +55,6 @@ namespace WeaponOut.Items.Weapons.Basic
             recipe.AddIngredient(ItemID.RubyStaff, 1);
             recipe.AddIngredient(ItemID.MeteorStaff, 1);
             recipe.AddIngredient(ItemID.InfernoFork, 1);
-            recipe.anyWood = true;
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this);
             recipe.AddRecipe();

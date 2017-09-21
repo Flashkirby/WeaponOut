@@ -52,8 +52,7 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SniperRifle, 1);
-            recipe.AddIngredient(ItemID.FragmentVortex, 16);
+            recipe.AddIngredient(ItemID.FragmentVortex, 18);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
