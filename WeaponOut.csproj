@@ -55,6 +55,8 @@
     <Compile Include="Buffs\ParryActive.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Items\Accessories\DiscordHook.cs" />
+    <Compile Include="Items\Accessories\ChaosHook.cs" />
     <Compile Include="Items\Accessories\DriedEye.cs" />
     <Compile Include="Items\Accessories\HyperSash.cs" />
     <Compile Include="Items\Accessories\StainedTooth.cs" />
@@ -99,6 +101,8 @@
     <Compile Include="Items\Weapons\Fists\FistsMolten.cs" />
     <Compile Include="Items\Weapons\Fists\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
+    <Content Include="Items\Accessories\DiscordHook.png" />
+    <Content Include="Items\Accessories\ChaosHook.png" />
     <Content Include="Items\Accessories\DriedEye.png" />
     <Content Include="Items\Accessories\HyperSash.png" />
     <Content Include="Items\Accessories\HyperSash_Waist.png" />
