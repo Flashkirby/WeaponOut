@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Rush Charm");
             Tooltip.SetDefault(
-                "Reduces time between dashes");
+                "Reduces cooldown between dashes");
         }
         public override void SetDefaults()
         {

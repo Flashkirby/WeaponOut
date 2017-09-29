@@ -19,7 +19,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("The Underdog");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
-                "Counterstrikes deals damage based on missing life\n" +
+                "Counterstrikes deal damage based on missing life\n" +
                 "Combo grants life stealing from parries");
         }
         public override void SetDefaults()
