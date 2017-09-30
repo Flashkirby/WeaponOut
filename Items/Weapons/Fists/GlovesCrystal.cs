@@ -32,6 +32,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
             item.value = Item.sellPrice(0, 1, 50, 0);
             item.rare = 4;
+            item.shootSpeed = 10 + item.rare / 2;
 
             item.UseSound = SoundID.Item18;
             item.useStyle = ModPlayerFists.useStyle;
