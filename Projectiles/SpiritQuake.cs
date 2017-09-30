@@ -34,6 +34,12 @@ namespace WeaponOut.Projectiles
 
         public override void AI()
         {
+            if (projectile.ai[0] == 0)
+            {
+                projectile.ai[0]++;
+                Main.PlaySound(SoundID.DD2_MonkStaffGroundMiss, projectile.position);
+            }
+
             if (projectile.timeLeft % 2 == 0)
             {
                 Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Smoke,

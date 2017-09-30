@@ -103,9 +103,9 @@ namespace WeaponOut.Items.Weapons.Fists
                 Vector2 rotVelo;
 
                 rotVelo = shockVelo.RotatedBy(0.4f);
-                Projectile.NewProjectile(target.Center + rotVelo, rotVelo, projectileID, damage / 2, knockBack, Main.myPlayer);
+                Projectile.NewProjectile(target.Center + rotVelo, rotVelo, projectileID, damage / 2, knockBack, Main.myPlayer, 0f);
                 rotVelo = shockVelo.RotatedBy(-0.4f);
-                Projectile.NewProjectile(target.Center + rotVelo, rotVelo, projectileID, damage / 2, knockBack, Main.myPlayer);
+                Projectile.NewProjectile(target.Center + rotVelo, rotVelo, projectileID, damage / 2, knockBack, Main.myPlayer, 1f); //No sound from this one
             }
             if (AltStats(player))
             {
@@ -131,9 +131,9 @@ namespace WeaponOut.Items.Weapons.Fists
                     {
                         Vector2 displace = new Vector2(32, 32 * player.gravDir);
                         Vector2 velo = new Vector2(player.direction * item.shootSpeed, player.gravDir * -3f);
-                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(item.damage * player.meleeDamage / 2), 8f, Main.myPlayer);
+                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(item.damage * player.meleeDamage / 2), 8f, Main.myPlayer, 1f);
                         velo.X *= -1;
-                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(item.damage * player.meleeDamage / 2), 8f, Main.myPlayer);
+                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(item.damage * player.meleeDamage / 2), 8f, Main.myPlayer, 1f);
                     }
                 }
             }
