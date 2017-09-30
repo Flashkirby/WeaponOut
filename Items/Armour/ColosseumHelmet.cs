@@ -6,12 +6,13 @@ using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
+    [AutoloadEquip(EquipType.Head)]
     public class ColosseumHelmet : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gladiator Colosseum Helmet");
-            Tooltip.SetDefault("5% increased melee damage\n'Let the games begin!'");
+            Tooltip.SetDefault("8% increased melee damage\n'Let the games begin!'");
         }
         public override void SetDefaults()
         {
