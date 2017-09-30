@@ -103,7 +103,7 @@ namespace WeaponOut.NPCs
                 if (npc.boss)
                 {
                     int itemType = -1;
-                    if (Main.expertMode)
+                    if (Main.expertMode && Main.LocalPlayer.HeldItem.useStyle == ModPlayerFists.useStyle)
                     {
                         if (npc.type == NPCID.EyeofCthulhu)
                         {
