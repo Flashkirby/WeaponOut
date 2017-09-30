@@ -73,7 +73,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 AltFunctionCombo(player, comboEffect);
         }
         /// <summary> The method called during a combo. Use for ongoing dust and gore effects. </summary>
-        public static void ComboEffects(Player player, bool initial)
+        public static void ComboEffects(Player player, Item item, bool initial)
         {
             if (initial)
             {
@@ -98,10 +98,10 @@ namespace WeaponOut.Items.Weapons.Fists
                 if (player.whoAmI == Main.myPlayer)
                 {
                     Vector2 velocity = WeaponOut.CalculateNormalAngle(player.Center, Main.MouseWorld);
-                    velocity *= player.HeldItem.shootSpeed;
+                    velocity *= item.shootSpeed;
                     Projectile.NewProjectile(player.Center, velocity, projectileID,
-                        (int)(player.HeldItem.damage * player.meleeDamage * 5f),
-                        player.GetWeaponKnockback(player.HeldItem, player.HeldItem.knockBack),
+                        (int)(item.damage * player.meleeDamage * 5f),
+                        player.GetWeaponKnockback(item, item.knockBack),
                         player.whoAmI);
                 }
             }

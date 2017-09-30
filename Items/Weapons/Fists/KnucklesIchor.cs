@@ -64,7 +64,7 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         
         /// <summary> The method called during a combo. Use for ongoing dust and gore effects. </summary>
-        public static void ComboEffects(Player player, bool initial)
+        public static void ComboEffects(Player player, Item item, bool initial)
         {
             if (initial)
             {

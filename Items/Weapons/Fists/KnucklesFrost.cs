@@ -95,17 +95,17 @@ namespace WeaponOut.Items.Weapons.Fists
                             player.Center.X + player.direction * player.width / 2,
                             player.Center.Y + player.gravDir * player.height / 2
                             );
-                        Vector2 direction = player.HeldItem.shootSpeed *
+                        Vector2 direction = item.shootSpeed *
                             new Vector2(player.direction, -player.gravDir);
                         Projectile.NewProjectile(position, direction, projID,
-                              (int)(2 * player.HeldItem.damage * player.meleeDamage),
+                              (int)(2 * item.damage * player.meleeDamage),
                               20f * player.meleeSpeed, player.whoAmI, 10);
                     }
                 }
             }
         }
         /// <summary> The method called during a combo. Use for ongoing dust and gore effects. </summary>
-        public static void ComboEffects(Player player, bool initial)
+        public static void ComboEffects(Player player, Item item, bool initial)
         {
             if (initial)
             {
@@ -143,10 +143,10 @@ namespace WeaponOut.Items.Weapons.Fists
                 float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
                 for (int i = 0; i < 8; i++)
                 {
-                    Vector2 direction = player.HeldItem.shootSpeed * new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle));
+                    Vector2 direction = item.shootSpeed * new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle));
 
                     Projectile.NewProjectile(player.Center, direction, projID, 
-                        (int)(2 * player.HeldItem.damage * player.meleeDamage), 
+                        (int)(2 * item.damage * player.meleeDamage), 
                         20f * player.meleeSpeed, player.whoAmI);
 
                     angle += (float)(Math.PI / 4);
@@ -169,7 +169,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (AltStats(player))
             {
-                damage *= 2;
+                damage += player.HeldItem.damage;
                 knockBack *= 5f;
             }
         }

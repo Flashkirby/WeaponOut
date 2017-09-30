@@ -49,7 +49,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashThresh = 6f;
 
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
-        public static void DashEffects(Player player)
+        public static void DashEffects(Player player, Item item)
         {
             player.drippingSlime = true;
             Dust d;

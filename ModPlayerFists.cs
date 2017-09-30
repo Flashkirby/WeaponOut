@@ -150,13 +150,13 @@ namespace WeaponOut
         /// <summary> ID for dash effect. Register these with RegisterDashEffect. Starts at 1 </summary>
         public int dashEffect;
         
-        private static List<Action<Player>> dashEffectsMethods;
+        private static List<Action<Player, Item>> dashEffectsMethods;
         /// <summary> Void method for dash effects. </summary>
-        protected static List<Action<Player>> DashEffectsMethods
+        protected static List<Action<Player, Item>> DashEffectsMethods
         {
             get
             {
-                if (dashEffectsMethods == null) { dashEffectsMethods = new List<Action<Player>>(); }
+                if (dashEffectsMethods == null) { dashEffectsMethods = new List<Action<Player, Item>>(); }
                 return dashEffectsMethods;
             }
         }
@@ -167,13 +167,13 @@ namespace WeaponOut
         private int comboEffect;
         public int ComboEffectAbs { get { return Math.Abs(comboEffect); } }
 
-        private static List<Action<Player, bool>> comboEffectsMethods;
+        private static List<Action<Player, Item, bool>> comboEffectsMethods;
         /// <summary> Void method for combo effects. </summary>
-        protected static List<Action<Player, bool>> ComboEffectsMethods
+        protected static List<Action<Player, Item, bool>> ComboEffectsMethods
         {
             get
             {
-                if (comboEffectsMethods == null) { comboEffectsMethods = new List<Action<Player, bool>>(); }
+                if (comboEffectsMethods == null) { comboEffectsMethods = new List<Action<Player, Item, bool>>(); }
                 return comboEffectsMethods;
             }
         }
@@ -1350,10 +1350,10 @@ namespace WeaponOut
         #region Dashing
 
         /// <summary>
-        /// In SetStaticDefaults. Register the dust effect method: public static void DashEffects(Player player).
+        /// In SetStaticDefaults. Register the dust effect method: public static void DashEffects(Player player, Item item).
         /// </summary>
         /// <returns> The ID of the effects method. Save this and refer to it in SetDash. </returns>
-        public static int RegisterDashEffectID(Action<Player> dashEffect)
+        public static int RegisterDashEffectID(Action<Player, Item> dashEffect)
         {
             DashEffectsMethods.Add(dashEffect);
             return DashEffectsMethods.Count;
@@ -1448,7 +1448,7 @@ namespace WeaponOut
                 // Use the custom provided dash startup
                 if(dashEffect > 0 && player.dashDelay <= 0)
                 {
-                    DashEffectsMethods[dashEffect - 1](player);
+                    DashEffectsMethods[dashEffect - 1](player, player.HeldItem);
                 }
 
                 // Initial
@@ -1584,7 +1584,7 @@ namespace WeaponOut
         /// In SetStaticDefaults. Register the combo effect method: public static void ComboEffects(Player player).
         /// </summary>
         /// <returns> The ID of the effects method. Save this and refer to it in AltFunctionCombo. </returns>
-        public static int RegisterComboEffectID(Action<Player, bool> comboEffect)
+        public static int RegisterComboEffectID(Action<Player, Item, bool> comboEffect)
         {
             ComboEffectsMethods.Add(comboEffect);
             return ComboEffectsMethods.Count;
@@ -1626,9 +1626,12 @@ namespace WeaponOut
         {
             if (ComboEffectAbs > 0)
             {
+                Item item = player.HeldItem;
+                // here's where I would put dual wielding mod support... IF I HAD ANY
+
                 if (DEBUG_COMBOFISTS) Main.NewText(string.Concat("Calling: ", ComboEffectAbs, "/", comboEffect));
                 // initial is true when set as such. See SetComboEffectLogic from PostUpdate
-                ComboEffectsMethods[ComboEffectAbs - 1](player, comboEffect > 0);
+                ComboEffectsMethods[ComboEffectAbs - 1](player, item, comboEffect > 0);
             }
         }
 

@@ -65,7 +65,7 @@ namespace WeaponOut.Items.Weapons.Fists
         }
 
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
-        public static void DashEffects(Player player)
+        public static void DashEffects(Player player, Item item)
         {
             if (player.dashDelay == 0) { }
 
@@ -99,7 +99,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActiveItemOnHit)
             {
-                Vector2 shockVelo = (target.Center - player.Center).SafeNormalize(default(Vector2)) * player.HeldItem.shootSpeed;
+                Vector2 shockVelo = (target.Center - player.Center).SafeNormalize(default(Vector2)) * item.shootSpeed;
                 Vector2 rotVelo;
 
                 rotVelo = shockVelo.RotatedBy(0.4f);
@@ -130,10 +130,10 @@ namespace WeaponOut.Items.Weapons.Fists
                     if (player.whoAmI == Main.myPlayer)
                     {
                         Vector2 displace = new Vector2(32, 32 * player.gravDir);
-                        Vector2 velo = new Vector2(player.direction * player.HeldItem.shootSpeed, player.gravDir * -3f);
-                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(player.HeldItem.damage * player.meleeDamage / 2), 8f, Main.myPlayer);
+                        Vector2 velo = new Vector2(player.direction * item.shootSpeed, player.gravDir * -3f);
+                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(item.damage * player.meleeDamage / 2), 8f, Main.myPlayer);
                         velo.X *= -1;
-                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(player.HeldItem.damage * player.meleeDamage / 2), 8f, Main.myPlayer);
+                        Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(item.damage * player.meleeDamage / 2), 8f, Main.myPlayer);
                     }
                 }
             }
