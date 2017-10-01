@@ -29,6 +29,7 @@ namespace WeaponOut
 
         #region Weapon Holding
         public bool weaponVisual = true;
+        public bool WeaponVisual { get { return weaponVisual || ModConf.forceShowWeaponOut; } }
         public int weaponFrame;//frame of weapon...
         #endregion
 
@@ -512,11 +513,13 @@ namespace WeaponOut
 
         public override float MeleeSpeedMultiplier(Item item)
         {
-            return dualItemAnimationMod;
+            if (ModConf.enableDualWeapons) return dualItemAnimationMod;
+            return base.MeleeSpeedMultiplier(item);
         }
         public override float UseTimeMultiplier(Item item)
         {
-            return dualItemTimeMod;
+            if (ModConf.enableDualWeapons) return dualItemTimeMod;
+            return base.UseTimeMultiplier(item);
         }
 
         public override void PostUpdateRunSpeeds()
@@ -764,9 +767,7 @@ namespace WeaponOut
                 && weaponTex.Width >= weaponTex.Height * 1.2f
                 && (!heldItem.noUseGraphic || !heldItem.melee)
                 && larger >= 45
-                && (
-                weaponVisual || ModConf.forceShowWeaponOut
-                ) //toggle with accessory1 visibility, or forceshow is on
+                && WeaponVisual //toggle with accessory1 visibility, or forceshow is on
             )
             {
                 if (playerBodyFrameNum == 0) player.bodyFrame.Y = 10 * player.bodyFrame.Height;
@@ -844,7 +845,7 @@ namespace WeaponOut
             }
 
             #region Show fists with weapon visuals
-            if (weaponVisual)
+            if (WeaponVisual)
             {
                 if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
                 {
@@ -897,8 +898,13 @@ namespace WeaponOut
 
             try
             {
-                if (drawPlayer.itemAnimation > 0 //do nothing if player is doing something
-                    || !(drawPlayer.GetModPlayer<PlayerFX>(WeaponOut.mod).weaponVisual && !ModConf.forceShowWeaponOut)) return; //also hide if accessory 1 is hidden
+                if (//do nothing if player is doing something
+                    drawPlayer.itemAnimation > 0 ||
+                    //also hide if visual is disabled
+                    (!ModConf.forceShowWeaponOut && !drawPlayer.GetModPlayer<PlayerFX>().weaponVisual)) 
+                {
+                    return;
+                }
             }
             catch { }
 

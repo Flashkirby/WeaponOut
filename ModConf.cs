@@ -13,31 +13,31 @@ namespace WeaponOut
     {
         public const int configVersion = 2;
         public static bool showWeaponOut = true;
-        public const string showWeaponOutField = "show_weaponOut_visuals";
+        private const string showWeaponOutField = "show_weaponOut_visuals";
 
         public static bool forceShowWeaponOut = false;
-        public const string forceShowWeaponOutField = "forceshow_weaponOut_visuals";
+        private const string forceShowWeaponOutField = "forceshow_weaponOut_visuals";
 
         public static bool toggleWaistRotation = false;
-        public const string toggleWaistRotationField = "toggle_weaponOut_waist_rotation";
+        private const string toggleWaistRotationField = "toggle_weaponOut_waist_rotation";
 
         public static bool enableBasicContent = true;
-        public const string enableBasicContentField = "enable_base_weapons_and_tiles";
+        private const string enableBasicContentField = "enable_base_weapons_and_tiles";
 
         public static bool enableWhips = true;
-        public const string enableWhipsField = "enable_whips";
+        private const string enableWhipsField = "enable_whips";
 
         public static bool enableFists = true;
-        public const string enableFistsField = "enable_fists";
+        private const string enableFistsField = "enable_fists";
 
         public static bool enableDualWeapons = true;
-        public const string enableDualWeaponsField = "enable_dual_weapons";
+        private const string enableDualWeaponsField = "enable_dual_weapons";
 
         public static bool enableAccessories = true;
-        public const string enableAccessoriesField = "enable_accessories";
+        private const string enableAccessoriesField = "enable_accessories";
 
         public static bool enableEmblems = true;
-        public const string enableEmblemsField = "enable_emblems";
+        private const string enableEmblemsField = "enable_emblems";
 
         static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs/WeaponOut.json");
 
@@ -52,10 +52,7 @@ namespace WeaponOut
                 CreateConfig();
             }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
+        
         /// <returns> true is loaded successfully </returns>
         static bool ReadConfig()
         {
@@ -117,7 +114,7 @@ namespace WeaponOut
             ModConfig.Put(enableAccessoriesField, enableAccessories);
             ModConfig.Put(enableEmblemsField, enableEmblems);
 
-            ModConfig.Put("readme", "First off, make sure to reload before the configs will take any effect.                   Most of the fields do exactly as they say, they will allow the mod to load, or choose not to, sets of content from the mod. The only field that does not do this is forceshow_weaponOut_visuals, which simply forces the weapon to always show regardless of the visibility of the first accessory slot as this is an oft requested feature.            WARNING: Clients will desync if their local config is different to the server - this cannot be fixed without forcing the clients to download the server's mods and forcing the mods to reload. So don't mess with this too much outside of singleplayer unless you know what you're doing. And no I'm too lazy to find out how to even fix this behaviour, though a simple server mismatch warning might be a good idea. Feel free to delete this.");
+            ModConfig.Put("readme", "First off, make sure to reload before the configs will take any effect. Most of the fields do exactly as they say, they will allow the mod to load, or choose not to, sets of content from the mod. The only field that does not do this is forceshow_weaponOut_visuals, which simply forces the weapon to always show regardless of the visibility of the first accessory slot as this is an oft requested feature. WARNING: Clients will desync if their local config is different to the server - this cannot be fixed without forcing the clients to download the server's mods and forcing the mods to reload. So don't mess with this too much outside of singleplayer unless you know what you're doing. And no I'm too lazy to find out how to even fix this behaviour, though a simple server mismatch warning might be a good idea. Feel free to delete this.");
 
             ModConfig.Save();
         }
