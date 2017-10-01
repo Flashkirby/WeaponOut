@@ -1608,9 +1608,27 @@ namespace WeaponOut
                     { healBeeType = mod.ProjectileType<Projectiles.HoneyBeeBig>(); }
                     else
                     { healBeeType = mod.ProjectileType<Projectiles.HoneyBee>(); }
-
-                    // TODO: get player with most required healing
+                    
                     int targetPlayer = player.whoAmI;
+                    if (Main.LocalPlayer.team != 0)
+                    {
+                        // Prefer players low on health and defence, and are melee
+                        int weight = 0;
+                        foreach (Player player in Main.player)
+                        {
+                            // No dead/inactive or non-team players
+                            if (!player.active || player.dead || player.team != Main.LocalPlayer.team) continue;
+
+                            int myWeight = player.statLifeMax2 - player.statLife;
+                            myWeight -= player.statDefense;
+                            if (player.HeldItem.melee) myWeight += player.statLifeMax2 / 2;
+                            if (myWeight > weight)
+                            {
+                                targetPlayer = player.whoAmI;
+                                weight = myWeight;
+                            }
+                        }
+                    }
 
                     float speedX = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float speedY = (float)Main.rand.Next(-35, 36) * 0.02f;
