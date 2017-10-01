@@ -28,11 +28,7 @@ namespace WeaponOut
     {
         internal static Mod mod;
 
-        public static Texture2D textureSPSH;
-        public static Texture2D textureDMNB;
-        public static Texture2D textureMANB;
-        public static Texture2D textureMANBO;
-        public static Texture2D textureSCSH;
+        public static Texture2D dHeart;
 
         public static int BuffIDManaReduction;
         public static int BuffIDMirrorBarrier;
@@ -56,6 +52,7 @@ namespace WeaponOut
         public override void Load()
         {
             mod = this;
+            dHeart = mod.GetTexture("Gores/DemonHearts");
         }
 
         public override void PostSetupContent()
@@ -113,18 +110,18 @@ namespace WeaponOut
         {
             if (!Main.gameMenu)
             {
-				if(!Main.gamePaused)
-				{
-					shakeTick++;
-					if (shakeIntensity >= 0 && shakeTick >= 4) shakeIntensity--;
-					if (shakeIntensity > 10) shakeIntensity = 10;//cap it
-					if (shakeIntensity < 0) shakeIntensity = 0;
-					return Transform
-						* Microsoft.Xna.Framework.Matrix.CreateTranslation(
-						Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
-						Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
-						0f);
-				}
+                if (!Main.gamePaused)
+                {
+                    shakeTick++;
+                    if (shakeIntensity >= 0 && shakeTick >= 4) shakeIntensity--;
+                    if (shakeIntensity > 10) shakeIntensity = 10;//cap it
+                    if (shakeIntensity < 0) shakeIntensity = 0;
+                    return Transform
+                        * Microsoft.Xna.Framework.Matrix.CreateTranslation(
+                        Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
+                        Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
+                        0f);
+                }
             }
             else
             {
@@ -136,50 +133,125 @@ namespace WeaponOut
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
-            // Janky quick inventory visibilty
-            if (Main.playerInventory && ModConf.showWeaponOut && !ModConf.forceShowWeaponOut)
+            DrawInterfaceDemonBloodHeart(spriteBatch);
+            DrawInterfaceWeaponOutToggleEye(spriteBatch);
+        }
+
+        private void DrawInterfaceDemonBloodHeart(SpriteBatch spriteBatch)
+        {
+            if (!ModConf.enableFists) return;
+            Player p = Main.LocalPlayer;
+            PlayerFX pfx = p.GetModPlayer<PlayerFX>();
+            if (pfx.demonBloodRally <= 0) return;
+
+            float lifePerHeart = Math.Max(20f, p.statLifeMax2 / 20f);
+            // 2 rows of 10
+            int numOfHearts = (int)Math.Min(20f, p.statLifeMax2 / lifePerHeart);
+            float rally = p.statLife + pfx.demonBloodRally;
+
+            bool firstHeart = !p.dead;
+            float currentHeartLife = 0;
+            int frame = 1;
+            int frameHeight = dHeart.Height / 2;
+            int heartOffsetHeight = Main.heartTexture.Height + (frameHeight - Main.heartTexture.Height) / 2;
+            int ScreenAnchorX = Main.screenWidth - 800;
+            Vector2 basePos = new Vector2(ScreenAnchorX + 500, 32);
+            // Two rows of 10 columns
+            for (int y = 0; y < 2; y++)
             {
-                //Get vars
-                PlayerFX pfx = Main.LocalPlayer.GetModPlayer<PlayerFX>(this);
-                Texture2D eye = Main.inventoryTickOnTexture;
-                string hoverText = "Weapon " + Lang.inter[59]; // Visible
-                Vector2 position = new Vector2(20, 10);
-
-                // Show hidden instead
-                if (!pfx.weaponVisual)
+                for (int x = 0; x < 10; x++)
                 {
-                    eye = Main.inventoryTickOffTexture;
-                    hoverText = "Weapon " + Lang.inter[60]; // Hidden
-                }
+                    if (numOfHearts <= 0) { break; } // Don't go over heart limit
+                    numOfHearts--;
+                    currentHeartLife = 1 + lifePerHeart * (x + 1) + lifePerHeart * 10 * y;
 
-                // Get rectangle for eye
-                Rectangle eyeRect = new Rectangle(
-                    (int)position.X, (int)position.Y - (eye.Height / 2),
-                    eye.Width, eye.Height);
-                if (eyeRect.Contains(Main.mouseX, Main.mouseY))
-                {
-                    // Prevent item use and show text
-                    Main.hoverItemName = hoverText;
-                    Main.blockMouse = true;
+                    float hpNormal = 1f;
 
-                    // On click
-                    if (Main.mouseLeft && Main.mouseLeftRelease)
+                    if (currentHeartLife <= p.statLife) continue; // Not at rally amonut yet
+                    else if (currentHeartLife > rally + lifePerHeart) continue; // higher than rally amount
+                    else if (currentHeartLife >= rally)
                     {
-                        Main.PlaySound(SoundID.MenuTick);
-                        pfx.weaponVisual = !pfx.weaponVisual;
-
-                        NetUpdateWeaponVisual(this, pfx);
+                        hpNormal = (rally + lifePerHeart - currentHeartLife) / lifePerHeart;
                     }
-                }
+                    else if (currentHeartLife <= rally + lifePerHeart)
+                    {
+                        hpNormal = (rally - p.statLife) / lifePerHeart;
+                    }
 
-                // Draw this!
-                spriteBatch.Draw(
-                    eye,
-                    new Vector2(20, 4),
-                    null,
-                    Color.White
-                    );
+                    if (hpNormal <= 0f) continue;
+                    if (hpNormal > 1f) hpNormal = 1f;
+
+                    float alpha = hpNormal;
+                    float size = 0.75f;
+
+                    frame = 1;
+                    if (firstHeart)
+                    {
+                        alpha = 0.25f + alpha * 0.75f;
+                        float heartNormInverse = ((p.statLife - currentHeartLife) / -lifePerHeart);
+                        size = Main.cursorScale - 0.25f * heartNormInverse;
+                        frame = 0;
+                    }
+
+                    Main.spriteBatch.Draw(dHeart,
+                        basePos + new Vector2(
+                            26 * x + Main.heartTexture.Width / 2,
+                            26 * y + Main.heartTexture.Height
+                            ),
+                        new Rectangle(0, frame * frameHeight, dHeart.Width, frameHeight - 1),
+                        new Color(hpNormal, hpNormal, hpNormal, hpNormal),
+                        0f,
+                        new Vector2(dHeart.Width / 2, heartOffsetHeight),
+                        size, SpriteEffects.None, 0);
+                    firstHeart = false;
+                }
             }
+        }
+
+        private void DrawInterfaceWeaponOutToggleEye(SpriteBatch spriteBatch)
+        {
+            // Janky quick inventory visibilty
+            if (!Main.playerInventory || !ModConf.showWeaponOut || ModConf.forceShowWeaponOut) return;
+            //Get vars
+            PlayerFX pfx = Main.LocalPlayer.GetModPlayer<PlayerFX>(this);
+            Texture2D eye = Main.inventoryTickOnTexture;
+            string hoverText = "Weapon " + Lang.inter[59]; // Visible
+            Vector2 position = new Vector2(20, 10);
+
+            // Show hidden instead
+            if (!pfx.weaponVisual)
+            {
+                eye = Main.inventoryTickOffTexture;
+                hoverText = "Weapon " + Lang.inter[60]; // Hidden
+            }
+
+            // Get rectangle for eye
+            Rectangle eyeRect = new Rectangle(
+                (int)position.X, (int)position.Y - (eye.Height / 2),
+                eye.Width, eye.Height);
+            if (eyeRect.Contains(Main.mouseX, Main.mouseY))
+            {
+                // Prevent item use and show text
+                Main.hoverItemName = hoverText;
+                Main.blockMouse = true;
+
+                // On click
+                if (Main.mouseLeft && Main.mouseLeftRelease)
+                {
+                    Main.PlaySound(SoundID.MenuTick);
+                    pfx.weaponVisual = !pfx.weaponVisual;
+
+                    NetUpdateWeaponVisual(this, pfx);
+                }
+            }
+
+            // Draw this!
+            spriteBatch.Draw(
+                eye,
+                new Vector2(20, 4),
+                null,
+                Color.White
+                );
         }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)

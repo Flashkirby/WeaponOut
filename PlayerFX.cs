@@ -20,7 +20,6 @@ namespace WeaponOut
 {
     public class PlayerFX : ModPlayer
     {
-
         private const bool DEBUG_WEAPONHOLD = false;
         private const bool DEBUG_BOOMERANGS = false;
         private static Mod itemCustomizer;
@@ -133,6 +132,11 @@ namespace WeaponOut
             return total / (yang + yin);
         }
 
+        public bool demonBlood;
+        public int demonBloodRally;
+        public int demonBloodRallyDelay;
+        private const int demonBloodReallyDelayMax = 60 * 4;
+
         #endregion
 
         #region Player False Position
@@ -195,6 +199,7 @@ namespace WeaponOut
             }
         }
         #endregion
+        
 
         public override void OnEnterWorld(Player player)
         {
@@ -273,7 +278,7 @@ namespace WeaponOut
                 if (patienceBonus > 0) player.meleeDamage += patienceBonus;
 
                 // 
-                //  ================ Sash LIfe ================
+                //  ================ Sash Life ================
                 //
                 if (!recordLifeLost)
                 {
@@ -283,6 +288,19 @@ namespace WeaponOut
                 sashMaxLifeRecoverMult = 0;
                 recordLifeLost = false;
 
+                if (demonBlood && Main.expertMode)
+                {
+                    if (demonBloodRallyDelay <= 0 && demonBloodRally > 0)
+                    {
+                        demonBloodRallyDelay = 0;
+                        demonBloodRally = Math.Max(0, demonBloodRally -
+                            Math.Max(1, player.statLifeMax2 / 120));
+                    }
+                    else
+                    {
+                        demonBloodRallyDelay--;
+                    }
+                }
 
                 // 
                 //  ================ Momentum ================
@@ -358,18 +376,21 @@ namespace WeaponOut
         {
             return new TagCompound
             {
-                { "weaponVisual", weaponVisual }
+                { "weaponVisual", weaponVisual },
+                { "demonBlood", demonBlood }
             };
         }
         public override void Load(TagCompound tag)
         {
             weaponVisual = tag.GetBool("weaponVisual");
+            demonBlood = tag.GetBool("demonBlood");
         }
         #endregion
 
         public override void OnRespawn(Player player)
         {
             tentScript();
+            demonBloodRally = 0;
         }
 
         public override void PostUpdateBuffs()
@@ -670,7 +691,7 @@ namespace WeaponOut
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             ShieldPreHurt(damage, crit, hitDirection);
-            if (!FistPreHurt(damageSource)) return false;
+            if (!FistPreHurt(damage, damageSource)) return false;
             return true;
         }
 
@@ -1614,17 +1635,17 @@ namespace WeaponOut
                     {
                         // Prefer players low on health and defence, and are melee
                         int weight = 0;
-                        foreach (Player player in Main.player)
+                        foreach (Player ally in Main.player)
                         {
                             // No dead/inactive or non-team players
-                            if (!player.active || player.dead || player.team != Main.LocalPlayer.team) continue;
+                            if (!ally.active || ally.dead || ally.team != Main.LocalPlayer.team) continue;
 
-                            int myWeight = player.statLifeMax2 - player.statLife;
-                            myWeight -= player.statDefense;
-                            if (player.HeldItem.melee) myWeight += player.statLifeMax2 / 2;
+                            int myWeight = ally.statLifeMax2 - ally.statLife;
+                            myWeight -= ally.statDefense;
+                            if (ally.HeldItem.melee) myWeight += ally.statLifeMax2 / 2;
                             if (myWeight > weight)
                             {
-                                targetPlayer = player.whoAmI;
+                                targetPlayer = ally.whoAmI;
                                 weight = myWeight;
                             }
                         }
@@ -1677,6 +1698,18 @@ namespace WeaponOut
                     }
                 }
                 #endregion
+
+                #region Demon Blood
+                if (demonBlood && Main.expertMode)
+                {
+                    // At 30 use time, restores about 5% per hit
+                    int heal = (int)(player.statLifeMax / 10f * player.itemAnimationMax / 60f);
+                    if (heal > demonBloodRally) heal = demonBloodRally;
+                    PlayerFX.HealPlayer(player, heal, false);
+                    if (player.lifeSteal > 0) player.lifeSteal -= heal;
+                    demonBloodRally -= heal;
+                }
+                #endregion
             }
         }
         private void FistOnHitByEntity(Entity e, int damage)
@@ -1718,11 +1751,11 @@ namespace WeaponOut
             }
         }
 
-        private bool FistPreHurt(PlayerDeathReason damageSource)
+        private bool FistPreHurt(int damage, PlayerDeathReason damageSource)
         {
             if (ModConf.enableFists)
             {
-                #region Momentum Damage Prevention
+                #region Momentum Damage Prevention (return false)
                 if (momentumActive)
                 {
                     if (damageSource.SourceProjectileIndex >= 0)
@@ -1789,6 +1822,14 @@ namespace WeaponOut
                         if (damage > 300) bonus++;
                         mpf.ModifyComboCounter(bonus);
                     }
+                }
+                #endregion
+                
+                #region Demon Blood
+                if (demonBlood && Main.expertMode)
+                {
+                    demonBloodRally = (int)damage;
+                    demonBloodRallyDelay = demonBloodReallyDelayMax;
                 }
                 #endregion
             }
@@ -2074,6 +2115,9 @@ namespace WeaponOut
             { isCrate = true; }
         }
 
+        /// <summary>
+        /// Handles healing and multiplayer syncing
+        /// </summary>
         public static void HealPlayer(Player player, int amount, bool moonLeechable = false)
         {
             if (moonLeechable && player.moonLeech) return;
