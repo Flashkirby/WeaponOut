@@ -220,7 +220,6 @@
     <Compile Include="Projectiles\ManaBolt.cs" />
     <Compile Include="Projectiles\Whips\Whiplash.cs" />
     <Compile Include="Projectiles\Whips\LeatherWhip.cs" />
-    <Compile Include="Projectiles\SpiritFlameBlast.cs" />
     <Compile Include="Projectiles\ManaRestoreBeam.cs" />
     <Compile Include="Projectiles\Whips\NotchedWhip.cs" />
     <Compile Include="Projectiles\SplinterShot.cs" />
