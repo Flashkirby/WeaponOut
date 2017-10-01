@@ -154,7 +154,7 @@ namespace WeaponOut.Projectiles
                     int bi = player.FindBuffIndex(BuffID.Honey);
                     if (bi >= 0)
                     {
-                        player.AddBuff(BuffID.Honey, player.buffTime[bi] + 60 * healAmount, false);
+                        player.AddBuff(BuffID.Honey, Math.Min(60 * 30, player.buffTime[bi] + 60 * healAmount), false);
                     }
                     else
                     {
