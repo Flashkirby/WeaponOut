@@ -59,6 +59,8 @@
     <Compile Include="Items\Accessories\ChaosHook.cs" />
     <Compile Include="Items\Accessories\DriedEye.cs" />
     <Compile Include="Items\Accessories\HyperSash.cs" />
+    <Compile Include="Items\Accessories\QueenComb.cs" />
+    <Compile Include="Items\Accessories\RoyalHealGel.cs" />
     <Compile Include="Items\Accessories\StainedTooth.cs" />
     <Compile Include="Items\Accessories\RushCharm.cs" />
     <Compile Include="Items\Accessories\FightingSash.cs" />
@@ -106,6 +108,8 @@
     <Content Include="Items\Accessories\DriedEye.png" />
     <Content Include="Items\Accessories\HyperSash.png" />
     <Content Include="Items\Accessories\HyperSash_Waist.png" />
+    <Content Include="Items\Accessories\QueenComb.png" />
+    <Content Include="Items\Accessories\RoyalHealGel.png" />
     <Content Include="Items\Accessories\StainedTooth.png" />
     <Content Include="Items\Accessories\RushCharm.png" />
     <Content Include="Items\Accessories\FightingSash.png" />
@@ -165,6 +169,8 @@
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="ModPlayerFists.cs" />
+    <Compile Include="Projectiles\HoneyBeeBig.cs" />
+    <Compile Include="Projectiles\HoneyBee.cs" />
     <Compile Include="Projectiles\SpiritDragon.cs" />
     <Compile Include="Projectiles\MeteorBreakshatter.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />

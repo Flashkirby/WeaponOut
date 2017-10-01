@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Accessories
             DisplayName.SetDefault("Hook of Chaos");
             Tooltip.SetDefault(
                 Language.GetTextValue("ItemTooltip.RodofDiscord") +
-                "\nDoes not wait for Chaos State to finish\n" + 
+                "\nCan teleport whilst suffering from Chaos State\n" + 
                 "'Faster! Faster!'");
         }
         public override void SetDefaults()
