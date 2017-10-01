@@ -85,6 +85,8 @@ namespace WeaponOut
         public bool heartDropper;
         public bool hidden;
         public bool angryCombo;
+        public bool potionHitRecover;
+        public bool beeHealing;
 
         public float patienceDamage;
         public float patienceBuildUpModifier;
@@ -263,6 +265,8 @@ namespace WeaponOut
                 hidden = false;
                 angryCombo = false;
                 ghostPosition = false;
+                potionHitRecover = false;
+                beeHealing = false;
 
                 patienceBuildUpModifier = 1f;
                 if (patienceBonus > 0) player.meleeDamage += patienceBonus;
@@ -1554,8 +1558,8 @@ namespace WeaponOut
         {
             if (ModConf.enableFists)
             {
-                #region Divekicks heal
                 if (target.immortal) return;
+                #region Divekicks heal
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
                 if (mpf.specialMove == 2 && diveKickHeal > 0f)
                 {
@@ -1575,6 +1579,36 @@ namespace WeaponOut
                 if (mpf.ComboCounter > 0)
                 {
                     yang += damage;
+                }
+                #endregion
+
+                #region Potion Recovery
+                if (potionHitRecover)
+                {
+                    int buffIndex = player.FindBuffIndex(BuffID.PotionSickness);
+                    if (buffIndex >= 0)
+                    {
+                        player.buffTime[buffIndex] = Math.Max(30,
+                            player.buffTime[buffIndex] - player.itemAnimationMax);
+                    }
+                }
+                #endregion
+
+                #region Bee Healing
+                if (beeHealing)
+                {
+                    int healBeeType = ProjectileID.BeeArrow;
+                    if (player.strongBees && Main.rand.Next(2) == 0)
+                    { healBeeType = mod.ProjectileType<Projectiles.HoneyBeeBig>(); }
+                    else
+                    { healBeeType = mod.ProjectileType<Projectiles.HoneyBee>(); }
+
+                    // TODO: get player with most required healing
+                    int targetPlayer = player.whoAmI;
+
+                    float speedX = (float)Main.rand.Next(-35, 36) * 0.02f;
+                    float speedY = (float)Main.rand.Next(-35, 36) * 0.02f;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, speedX, speedY, healBeeType, 0, 0f, Main.myPlayer, targetPlayer);
                 }
                 #endregion
 
