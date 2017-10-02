@@ -19,7 +19,7 @@ namespace WeaponOut.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.statDefense -= 4;
-            player.GetModPlayer<PlayerFX>().demonBloodHealMod += 2f;
+            player.GetModPlayer<PlayerFX>().demonBloodHealMod += 1f;
         }
     }
 }

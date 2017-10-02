@@ -308,7 +308,7 @@ namespace WeaponOut
                     demonBloodRallyDelay = 0;
                 }
                 demonBloodHealMod = 0;
-                if (demonBlood && Main.expertMode) demonBloodHealMod = 5f;
+                if (demonBlood && Main.expertMode) demonBloodHealMod = 3f;
 
                 // 
                 //  ================ Momentum ================
@@ -1714,7 +1714,7 @@ namespace WeaponOut
                 #region Demon Blood
                 if (demonBloodHealMod > 0f)
                 {
-                    // At 30 use time, restores about 5% per hit
+                    // restores about mod% per second of hitting
                     int heal = CalculateDemonHealing(demonBloodHealMod);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
@@ -1734,7 +1734,7 @@ namespace WeaponOut
                 #region Demon Blood
                 if (demonBloodHealMod > 0f)
                 {
-                    // Restores 3% of max life every full second of attacking
+                    // restores about mod% every 3 seconds of hitting
                     int heal = CalculateDemonHealing(demonBloodHealMod / 3f);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
