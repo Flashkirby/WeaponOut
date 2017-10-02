@@ -40,6 +40,7 @@
     <Compile Include="Buffs\BloodLust.cs" />
     <Compile Include="Buffs\ErodingWind.cs" />
     <Compile Include="Buffs\BetsyRing.cs" />
+    <Compile Include="Buffs\TipsyMead.cs" />
     <Compile Include="Buffs\YinYang.cs" />
     <Compile Include="Buffs\SecondWind.cs" />
     <Compile Include="Buffs\YinDamage.cs" />
@@ -84,6 +85,8 @@
     <Compile Include="Items\Armour\FistDefLegs.cs" />
     <Compile Include="Items\Armour\FistPowerLegs.cs" />
     <Compile Include="Items\Armour\FistPowerBody.cs" />
+    <Compile Include="Items\MonsterMead.cs" />
+    <Compile Include="Items\DemonBloodCure.cs" />
     <Compile Include="Items\DemonBlood.cs" />
     <Compile Include="Items\AutoArm.cs" />
     <Compile Include="Items\RallyBannerGreen.cs" />
@@ -115,6 +118,7 @@
     <Content Include="Items\Accessories\RushCharm.png" />
     <Content Include="Items\Accessories\FightingSash.png" />
     <Content Include="Items\Accessories\FightingSash_Waist.png" />
+    <Content Include="Items\DemonBloodCure.png" />
     <Content Include="Items\DemonBlood.png" />
     <Content Include="Items\RustedBadge.png" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
