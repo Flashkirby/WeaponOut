@@ -656,6 +656,11 @@ namespace WeaponOut
             FistOnHitNPC(target, damage);
         }
 
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        {
+            FistOnHitNPCWithProj(proj, target, damage);
+        }
+
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
             FistOnHitByEntity(npc, damage);
@@ -1703,7 +1708,7 @@ namespace WeaponOut
                 if (demonBlood && Main.expertMode)
                 {
                     // At 30 use time, restores about 5% per hit
-                    int heal = (int)(player.statLifeMax / 10f * player.itemAnimationMax / 60f);
+                    int heal = CalculateDemonHealing(5f);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
                     if (player.lifeSteal > 0) player.lifeSteal -= heal;
@@ -1712,6 +1717,33 @@ namespace WeaponOut
                 #endregion
             }
         }
+        private void FistOnHitNPCWithProj(Projectile proj, NPC target, int damage)
+        {
+            if (ModConf.enableFists)
+            {
+                if (!proj.melee) return;
+                if (player.heldProj != proj.whoAmI) return;
+
+                #region Demon Blood
+                if (demonBlood && Main.expertMode)
+                {
+                    // Restores 4% of max life every second of attacking
+                    int heal = CalculateDemonHealing(2f);
+                    if (heal > demonBloodRally) heal = demonBloodRally;
+                    PlayerFX.HealPlayer(player, heal, false);
+                    if (player.lifeSteal > 0) player.lifeSteal -= heal;
+                    demonBloodRally -= heal;
+                }
+                #endregion
+            }
+        }
+
+        private int CalculateDemonHealing(float percentPerSecond)
+        {
+            if (demonBloodRally <= 0) return 0;
+            return Math.Max(1, (int)(player.statLifeMax / percentPerSecond * player.itemAnimationMax / 120f));
+        }
+
         private void FistOnHitByEntity(Entity e, int damage)
         {
             if (ModConf.enableFists)
