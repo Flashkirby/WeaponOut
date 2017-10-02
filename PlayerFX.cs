@@ -133,6 +133,7 @@ namespace WeaponOut
         }
 
         public bool demonBlood;
+        public float demonBloodHealMod;
         public int demonBloodRally;
         public int demonBloodRallyDelay;
         private const int demonBloodReallyDelayMax = 60 * 4;
@@ -288,7 +289,8 @@ namespace WeaponOut
                 sashMaxLifeRecoverMult = 0;
                 recordLifeLost = false;
 
-                if (demonBlood && Main.expertMode)
+                if (demonBlood) demonBloodHealMod = 5f;
+                if (demonBloodHealMod > 0f && Main.expertMode)
                 {
                     if (demonBloodRallyDelay <= 0 && demonBloodRally > 0)
                     {
@@ -301,6 +303,8 @@ namespace WeaponOut
                         demonBloodRallyDelay--;
                     }
                 }
+                else
+                { demonBloodHealMod = 0; }
 
                 // 
                 //  ================ Momentum ================
@@ -1708,7 +1712,7 @@ namespace WeaponOut
                 if (demonBlood && Main.expertMode)
                 {
                     // At 30 use time, restores about 5% per hit
-                    int heal = CalculateDemonHealing(5f);
+                    int heal = CalculateDemonHealing(demonBloodHealMod);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
                     if (player.lifeSteal > 0) player.lifeSteal -= heal;
@@ -1725,10 +1729,10 @@ namespace WeaponOut
                 if (player.heldProj != proj.whoAmI) return;
 
                 #region Demon Blood
-                if (demonBlood && Main.expertMode)
+                if (demonBloodHealMod > 0f && Main.expertMode)
                 {
-                    // Restores 4% of max life every second of attacking
-                    int heal = CalculateDemonHealing(2f);
+                    // Restores 2% of max life every second of attacking
+                    int heal = CalculateDemonHealing(demonBloodHealMod / 3f);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
                     if (player.lifeSteal > 0) player.lifeSteal -= heal;
@@ -1858,7 +1862,7 @@ namespace WeaponOut
                 #endregion
                 
                 #region Demon Blood
-                if (demonBlood && Main.expertMode)
+                if (demonBloodHealMod > 0f && Main.expertMode)
                 {
                     demonBloodRally = (int)damage;
                     demonBloodRallyDelay = demonBloodReallyDelayMax;

@@ -16,9 +16,9 @@ namespace WeaponOut.Items
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Demon Blood Pact");
+            DisplayName.SetDefault("Frenzy Heart");
             Tooltip.SetDefault(
-                "Permanently grants a new form of healing");
+                "Permanently grants a new melee healing ability");
         }
         public override void SetDefaults()
         {
@@ -32,7 +32,7 @@ namespace WeaponOut.Items
             item.useAnimation = 30;
             item.rare = 4;
             item.expert = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = Item.sellPrice(0, 2, 0, 0);
         }
 
         public override bool CanUseItem(Player player)
