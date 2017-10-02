@@ -308,7 +308,7 @@ namespace WeaponOut
                     demonBloodRallyDelay = 0;
                 }
                 demonBloodHealMod = 0;
-                if (demonBlood && Main.expertMode) demonBloodHealMod = 5f;
+                if (demonBlood && Main.expertMode) demonBloodHealMod = 3f;
 
                 // 
                 //  ================ Momentum ================
@@ -1717,7 +1717,7 @@ namespace WeaponOut
                 if (demonBloodHealMod > 0f)
                 {
                     // restores about mod% per second of hitting
-                    int heal = CalculateDemonHealing(demonBloodHealMod);
+                    int heal = CalculateDemonHealing(demonBloodHealMod, target.life <= 0);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
                     if (player.lifeSteal > 0) player.lifeSteal -= heal;
@@ -1738,7 +1738,7 @@ namespace WeaponOut
                 if (demonBloodHealMod > 0f)
                 {
                     // restores about mod% every 3 seconds of hitting
-                    int heal = CalculateDemonHealing(demonBloodHealMod / 3f);
+                    int heal = CalculateDemonHealing(demonBloodHealMod / 3f, target.life <= 0);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
                     if (player.lifeSteal > 0) player.lifeSteal -= heal;
@@ -1749,10 +1749,12 @@ namespace WeaponOut
             }
         }
 
-        private int CalculateDemonHealing(float percentPerSecond)
+        private int CalculateDemonHealing(float percentPerSecond, bool targetDied)
         {
             if (demonBloodRally <= 0) return 0;
-            return Math.Max(1, (int)(player.statLifeMax * 0.02f * percentPerSecond * player.itemAnimationMax / 60f));
+            return Math.Max(1, 
+                (int)(player.statLifeMax * (targetDied ? 0.08f : 0.02f) * 
+                percentPerSecond * player.itemAnimationMax / 60f));
         }
 
         private void FistOnHitByEntity(Entity e, int damage)
