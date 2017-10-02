@@ -308,7 +308,7 @@ namespace WeaponOut
                     demonBloodRallyDelay = 0;
                 }
                 demonBloodHealMod = 0;
-                if (demonBlood && Main.expertMode) demonBloodHealMod = 3f;
+                if (demonBlood && Main.expertMode) demonBloodHealMod = 5f;
 
                 // 
                 //  ================ Momentum ================
