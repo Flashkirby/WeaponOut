@@ -31,6 +31,9 @@ namespace WeaponOut.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
 
+            // So it doesn't conflict with fist NPC cooldown
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 6;
         }
         public override bool? CanCutTiles() { return false; }
 
