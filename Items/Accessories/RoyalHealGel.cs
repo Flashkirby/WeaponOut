@@ -11,9 +11,9 @@ namespace WeaponOut.Items.Accessories
 
         public override void SetStaticDefaults() // Eye of Cthulu
         {
-            DisplayName.SetDefault("Royal Catalyst");
+            DisplayName.SetDefault("Band of Panacea");
             Tooltip.SetDefault(
-                "Melee strikes reduce the duration of Potion Sickness");
+                "Melee strikes reduce the duration of debuffs");
         }
         public override void SetDefaults()
         {
@@ -27,7 +27,7 @@ namespace WeaponOut.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<PlayerFX>().potionHitRecover = true;
+            player.GetModPlayer<PlayerFX>().debuffRecover = true;
         }
     }
 }
