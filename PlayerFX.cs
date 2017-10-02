@@ -1720,6 +1720,7 @@ namespace WeaponOut
                     PlayerFX.HealPlayer(player, heal, false);
                     if (player.lifeSteal > 0) player.lifeSteal -= heal;
                     demonBloodRally -= heal;
+                    sashLifeLost = Math.Max(0, sashLifeLost - heal);
                 }
                 #endregion
             }
@@ -1740,6 +1741,7 @@ namespace WeaponOut
                     PlayerFX.HealPlayer(player, heal, false);
                     if (player.lifeSteal > 0) player.lifeSteal -= heal;
                     demonBloodRally -= heal;
+                    sashLifeLost = Math.Max(0, sashLifeLost - heal);
                 }
                 #endregion
             }
