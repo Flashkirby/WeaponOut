@@ -85,7 +85,7 @@ namespace WeaponOut
         public bool heartDropper;
         public bool hidden;
         public bool angryCombo;
-        public bool potionHitRecover;
+        public bool debuffRecover;
         public bool beeHealing;
 
         public float patienceDamage;
@@ -272,7 +272,7 @@ namespace WeaponOut
                 hidden = false;
                 angryCombo = false;
                 ghostPosition = false;
-                potionHitRecover = false;
+                debuffRecover = false;
                 beeHealing = false;
 
                 patienceBuildUpModifier = 1f;
@@ -289,8 +289,7 @@ namespace WeaponOut
                 sashMaxLifeRecoverMult = 0;
                 recordLifeLost = false;
 
-                if (demonBlood) demonBloodHealMod = 5f;
-                if (demonBloodHealMod > 0f && Main.expertMode)
+                if (demonBloodHealMod > 0f)
                 {
                     if (demonBloodRallyDelay <= 0 && demonBloodRally > 0)
                     {
@@ -304,7 +303,12 @@ namespace WeaponOut
                     }
                 }
                 else
-                { demonBloodHealMod = 0; }
+                {
+                    demonBloodRally = 0;
+                    demonBloodRallyDelay = 0;
+                }
+                demonBloodHealMod = 0;
+                if (demonBlood && Main.expertMode) demonBloodHealMod = 5f;
 
                 // 
                 //  ================ Momentum ================
@@ -1619,13 +1623,12 @@ namespace WeaponOut
                 #endregion
 
                 #region Potion Recovery
-                if (potionHitRecover)
+                if (debuffRecover)
                 {
-                    int buffIndex = player.FindBuffIndex(BuffID.PotionSickness);
-                    if (buffIndex >= 0)
+                    for(int i = 0; i < player.buffTime.Length; i++)
                     {
-                        player.buffTime[buffIndex] = Math.Max(30,
-                            player.buffTime[buffIndex] - player.itemAnimationMax);
+                        if (!Main.debuff[player.buffType[i]]) continue;
+                        player.buffTime[i] = Math.Max(30, player.buffTime[i] - player.itemAnimationMax);
                     }
                 }
                 #endregion
@@ -1709,7 +1712,7 @@ namespace WeaponOut
                 #endregion
 
                 #region Demon Blood
-                if (demonBlood && Main.expertMode)
+                if (demonBloodHealMod > 0f)
                 {
                     // At 30 use time, restores about 5% per hit
                     int heal = CalculateDemonHealing(demonBloodHealMod);
@@ -1729,7 +1732,7 @@ namespace WeaponOut
                 if (player.heldProj != proj.whoAmI) return;
 
                 #region Demon Blood
-                if (demonBloodHealMod > 0f && Main.expertMode)
+                if (demonBloodHealMod > 0f)
                 {
                     // Restores 2% of max life every second of attacking
                     int heal = CalculateDemonHealing(demonBloodHealMod / 3f);
@@ -1745,6 +1748,7 @@ namespace WeaponOut
         private int CalculateDemonHealing(float percentPerSecond)
         {
             if (demonBloodRally <= 0) return 0;
+            Main.NewText("mod:" + demonBloodHealMod + " | " + (player.statLifeMax / percentPerSecond * player.itemAnimationMax / 120f));
             return Math.Max(1, (int)(player.statLifeMax / percentPerSecond * player.itemAnimationMax / 120f));
         }
 
@@ -1862,7 +1866,7 @@ namespace WeaponOut
                 #endregion
                 
                 #region Demon Blood
-                if (demonBloodHealMod > 0f && Main.expertMode)
+                if (demonBloodHealMod > 0f)
                 {
                     demonBloodRally = (int)damage;
                     demonBloodRallyDelay = demonBloodReallyDelayMax;
