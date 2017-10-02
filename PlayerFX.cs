@@ -1734,7 +1734,7 @@ namespace WeaponOut
                 #region Demon Blood
                 if (demonBloodHealMod > 0f)
                 {
-                    // Restores 2% of max life every second of attacking
+                    // Restores 3% of max life every full second of attacking
                     int heal = CalculateDemonHealing(demonBloodHealMod / 3f);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
@@ -1748,8 +1748,7 @@ namespace WeaponOut
         private int CalculateDemonHealing(float percentPerSecond)
         {
             if (demonBloodRally <= 0) return 0;
-            Main.NewText("mod:" + demonBloodHealMod + " | " + (player.statLifeMax / percentPerSecond * player.itemAnimationMax / 120f));
-            return Math.Max(1, (int)(player.statLifeMax / percentPerSecond * player.itemAnimationMax / 120f));
+            return Math.Max(1, (int)(player.statLifeMax * 0.02f * percentPerSecond * player.itemAnimationMax / 60f));
         }
 
         private void FistOnHitByEntity(Entity e, int damage)
