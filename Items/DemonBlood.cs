@@ -18,8 +18,7 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Demon Blood Pact");
             Tooltip.SetDefault(
-                "Enables auto-swing when favorited in inventory\n" + 
-                "'It twitches occasionally'");
+                "Permanently grants a new form of healing");
         }
         public override void SetDefaults()
         {
