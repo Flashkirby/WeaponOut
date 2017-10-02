@@ -867,6 +867,7 @@ namespace WeaponOut
             }
             catch { }
         });
+
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (hidden)
@@ -912,6 +913,7 @@ namespace WeaponOut
             catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
         }
+
         #endregion
         #region draw
         /// <summary>
