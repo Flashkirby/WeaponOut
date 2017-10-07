@@ -1738,7 +1738,7 @@ namespace WeaponOut
                 if (demonBloodHealMod > 0f)
                 {
                     // restores about mod% every 3 seconds of hitting
-                    int heal = CalculateDemonHealing(demonBloodHealMod / 3f, target.life <= 0);
+                    int heal = CalculateDemonHealing(demonBloodHealMod, target.life <= 0, 6);
                     if (heal > demonBloodRally) heal = demonBloodRally;
                     PlayerFX.HealPlayer(player, heal, false);
                     if (player.lifeSteal > 0) player.lifeSteal -= heal;
@@ -1749,9 +1749,10 @@ namespace WeaponOut
             }
         }
 
-        private int CalculateDemonHealing(float percentPerSecond, bool targetDied)
+        private int CalculateDemonHealing(float percentPerSecond, bool targetDied, int useTime = 0)
         {
             if (demonBloodRally <= 0) return 0;
+            if (useTime < 1) useTime = player.itemAnimationMax;
             return Math.Max(1, 
                 (int)(player.statLifeMax * (targetDied ? 0.08f : 0.02f) * 
                 percentPerSecond * player.itemAnimationMax / 60f));
