@@ -25,15 +25,16 @@ namespace WeaponOut.Items.Accessories
             item.expert = true;
         }
 
+        private int localCounter = 0;
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            int diff = mpf.OldComboCounter - mpf.ComboCounter;
-            if (diff > 0)
+            int diff = localCounter - mpf.ComboCounter;
+            if (diff > 0 && mpf.comboTimer > 0)
             {
-                Main.NewText("diff" + diff + ", time: " + mpf.comboTimer + "/" + mpf.comboTimerMax);
-                PlayerFX.HealPlayer(player, 2 * diff, true);
+                PlayerFX.HealPlayer(player, 1 * diff, true);
             }
+            localCounter = mpf.ComboCounter;
         }
     }
 }
