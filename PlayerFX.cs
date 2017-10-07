@@ -1611,7 +1611,7 @@ namespace WeaponOut
 
                 #region Second Wind combo healing
                 // Punches heal
-                if (secondWind) 
+                if (secondWind)
                 {
                     secondWindLifeTax -= Math.Min(6, mpf.ComboCounter / 3);
                 }
@@ -1627,7 +1627,7 @@ namespace WeaponOut
                 #region Potion Recovery
                 if (debuffRecover)
                 {
-                    for(int i = 0; i < player.buffTime.Length; i++)
+                    for (int i = 0; i < player.buffTime.Length; i++)
                     {
                         if (!Main.debuff[player.buffType[i]]) continue;
                         player.buffTime[i] = Math.Max(30, player.buffTime[i] - player.itemAnimationMax);
@@ -1643,7 +1643,7 @@ namespace WeaponOut
                     { healBeeType = mod.ProjectileType<Projectiles.HoneyBeeBig>(); }
                     else
                     { healBeeType = mod.ProjectileType<Projectiles.HoneyBee>(); }
-                    
+
                     int targetPlayer = player.whoAmI;
                     if (Main.LocalPlayer.team != 0)
                     {
@@ -1673,60 +1673,12 @@ namespace WeaponOut
 
                 if (target.realLife >= 0) target = Main.npc[target.realLife];
 
-                #region Heart Dropper
-                if (heartDropper)
-                {
-                    // Only check at full health and half health
-                    if ((target.life + damage == target.lifeMax) ||
-                        (target.life + damage >= (target.lifeMax / 2) && target.life < (target.lifeMax / 2)))
-                    {
-                        int max = 1;
-                        if (target.boss) // Bosses get more chances to roll for hearts
-                        { max += 4; }
-                        else
-                        {   // Other non-bosses get a slight increase with health
-                            if (target.lifeMax >= 1000)
-                            { max += 2; }
-                            else if (target.lifeMax >= 500)
-                            { max += 1; }
-                        }
+                HeartDropperCheck(target, damage, false);
 
-                        if (target.type != 16 && // These NPCs turn into other NPCs on death (Slimes)
-                        target.type != 81 &&
-                        target.type != 121 &&
-                        target.lifeMax > 1 && // Ignore "projectile" NPCs
-                        target.damage > 0) // Ignore critters, basically
-                        {
-                            for (int i = 0; i < max; i++)
-                            {
-                                if (Main.rand.Next(12) == 0) //Default 1/6/2 chance, as per standard terraria rules, 
-                                {
-                                    int itemWho = Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.Heart, 1, false, 0, false, false);
-                                    if (Main.netMode == 1)
-                                    {
-                                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemWho, 1f, 0f, 0f, 0, 0, 0);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                #endregion
-
-                #region Demon Blood
-                if (demonBloodHealMod > 0f)
-                {
-                    // restores about mod% per second of hitting
-                    int heal = CalculateDemonHealing(demonBloodHealMod, target.life <= 0);
-                    if (heal > demonBloodRally) heal = demonBloodRally;
-                    PlayerFX.HealPlayer(player, heal, false);
-                    if (player.lifeSteal > 0) player.lifeSteal -= heal;
-                    demonBloodRally -= heal;
-                    sashLifeLost = Math.Max(0, sashLifeLost - heal);
-                }
-                #endregion
+                DemonBloodHealing(target, false);
             }
         }
+
         private void FistOnHitNPCWithProj(Projectile proj, NPC target, int damage)
         {
             if (ModConf.enableFists)
@@ -1734,18 +1686,71 @@ namespace WeaponOut
                 if (!proj.melee) return;
                 if (player.heldProj != proj.whoAmI) return;
 
-                #region Demon Blood
-                if (demonBloodHealMod > 0f)
+                if (target.realLife >= 0) target = Main.npc[target.realLife];
+
+                HeartDropperCheck(target, damage, false);
+
+                DemonBloodHealing(target, true);
+            }
+        }
+
+        private void HeartDropperCheck(NPC target, int damage, bool projectile)
+        {
+            if (heartDropper)
+            {
+                // Only check at full health and half health
+                if ((target.life + damage == target.lifeMax) ||
+                    (target.life + damage >= (target.lifeMax / 2) && target.life < (target.lifeMax / 2)))
                 {
-                    // restores about mod% every 3 seconds of hitting
-                    int heal = CalculateDemonHealing(demonBloodHealMod, target.life <= 0, 6);
-                    if (heal > demonBloodRally) heal = demonBloodRally;
-                    PlayerFX.HealPlayer(player, heal, false);
-                    if (player.lifeSteal > 0) player.lifeSteal -= heal;
-                    demonBloodRally -= heal;
-                    sashLifeLost = Math.Max(0, sashLifeLost - heal);
+                    int max = 1;
+                    if (target.boss) // Bosses get more chances to roll for hearts
+                    { max += 4; }
+                    else
+                    {   // Other non-bosses get a slight increase with health
+                        if (target.lifeMax >= 1000)
+                        { max += 2; }
+                        else if (target.lifeMax >= 500)
+                        { max += 1; }
+                    }
+
+                    if (target.type != 16 && // These NPCs turn into other NPCs on death (Slimes)
+                    target.type != 81 &&
+                    target.type != 121 &&
+                    target.lifeMax > 1 && // Ignore "projectile" NPCs
+                    target.damage > 0) // Ignore critters, basically
+                    {
+                        for (int i = 0; i < max; i++)
+                        {
+                            if (Main.rand.Next(12) == 0) //Default 1/6/2 chance, as per standard terraria rules, 
+                            {
+                                int itemWho = Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.Heart, 1, false, 0, false, false);
+                                if (Main.netMode == 1)
+                                {
+                                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemWho, 1f, 0f, 0f, 0, 0, 0);
+                                }
+                            }
+                        }
+                    }
                 }
-                #endregion
+            }
+        }
+
+        private void DemonBloodHealing(NPC target, bool projectile)
+        {
+            if (demonBloodHealMod > 0f)
+            {
+                // restores about mod% every second of hitting
+                int heal = 0;
+                if (projectile)
+                { heal = CalculateDemonHealing(demonBloodHealMod, target.life <= 0, 6); }
+                else
+                { heal = CalculateDemonHealing(demonBloodHealMod, target.life <= 0); }
+                
+                if (heal > demonBloodRally) heal = demonBloodRally;
+                PlayerFX.HealPlayer(player, heal, false);
+                if (player.lifeSteal > 0) player.lifeSteal -= heal;
+                demonBloodRally -= heal;
+                sashLifeLost = Math.Max(0, sashLifeLost - heal);
             }
         }
 
