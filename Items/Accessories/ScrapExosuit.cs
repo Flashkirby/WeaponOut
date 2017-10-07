@@ -25,7 +25,7 @@ namespace WeaponOut.Items.Accessories
             item.width = 22;
             item.height = 22;
             item.defense = 8;
-            item.rare = 1;
+            item.rare = 6;
             item.accessory = true;
             item.value = Item.sellPrice(0, 5, 0, 0);
             item.expert = true;

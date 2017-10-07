@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Accessories
         {
             item.width = 22;
             item.height = 22;
-            item.rare = 1;
+            item.rare = 5;
             item.accessory = true;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.expert = true;

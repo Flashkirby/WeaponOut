@@ -62,6 +62,10 @@
     <Compile Include="Items\Accessories\HyperSash.cs" />
     <Compile Include="Items\Accessories\QueenComb.cs" />
     <Compile Include="Items\Accessories\RoyalHealGel.cs" />
+    <Compile Include="Items\Accessories\ScrapExosuit.cs" />
+    <Compile Include="Items\Accessories\ScrapActuator.cs" />
+    <Compile Include="Items\Accessories\ScrapTransformer.cs" />
+    <Compile Include="Items\Accessories\ScrapFrame.cs" />
     <Compile Include="Items\Accessories\StainedTooth.cs" />
     <Compile Include="Items\Accessories\RushCharm.cs" />
     <Compile Include="Items\Accessories\FightingSash.cs" />
