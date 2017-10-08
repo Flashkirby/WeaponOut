@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lucklace");
+            DisplayName.SetDefault("Heart Frame Necklace");
             Tooltip.SetDefault(
                 "Drop stars that restore life and mana after being struck");
         }
@@ -23,6 +23,15 @@ namespace WeaponOut.Items.Accessories
             item.rare = 1;
             item.accessory = true;
             item.value = Item.sellPrice(0, 0, 50, 0);
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.LifeCrystal, 1);
+            recipe.AddIngredient(ItemID.SunplateBlock, 25);
+            recipe.AddTile(TileID.SkyMill);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

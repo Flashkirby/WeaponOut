@@ -86,14 +86,6 @@ namespace WeaponOut.NPCs
 
         public override void NPCLoot(NPC npc)
         {
-            if(ModConf.enableAccessories)
-            {
-                if (npc.type == NPCID.GoldMouse || (npc.type == NPCID.Mouse && Main.rand.Next(2) == 0))
-                {
-                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Accessories.HeartNecklace>(), 1, false, -1, false, false);
-                    return;
-                }
-            }
             if (ModConf.enableFists)
             {
                 if (npc.type == NPCID.GraniteGolem && Main.rand.Next(10) == 0)
