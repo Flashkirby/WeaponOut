@@ -15,7 +15,7 @@ namespace WeaponOut.Items.Accessories
             DisplayName.SetDefault("Solar Spark");
             Tooltip.SetDefault(
                 "Reduces combo power cost by 2\n" +
-                "Reduces combo power cost by 3 when below 25% life to heal");
+                "Reduces combo power cost by 3 when below 50% life to heal");
         }
         public override void SetDefaults()
         {
@@ -30,7 +30,7 @@ namespace WeaponOut.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             ModPlayerFists.Get(player).comboCounterMaxBonus -= 2;
-            if(player.statLife < player.statLifeMax2 / 4)
+            if(player.statLife < player.statLifeMax2 / 2)
             {
                 ModPlayerFists.Get(player).comboCounterMaxBonus -= 3;
             }
