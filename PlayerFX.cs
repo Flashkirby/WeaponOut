@@ -1696,7 +1696,7 @@ namespace WeaponOut
 
                 if (target.realLife >= 0) target = Main.npc[target.realLife];
 
-                HeartDropperCheck(target, damage, false);
+                HeartDropperCheck(target, damage, true);
 
                 DemonBloodHealing(target, true);
             }
@@ -1719,8 +1719,7 @@ namespace WeaponOut
                 if (heartBuff) chance -= 4;
                 if(!target.boss) chance *= 10; // Don't drop quite so often except bosses
                 if (projectile) chance *= 3;
-
-                Main.NewText("chance" + chance);
+                
                 if (Main.rand.Next(chance) == 0) 
                 {
                     int itemWho = Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.Heart, 1, false, 0, false, false);
