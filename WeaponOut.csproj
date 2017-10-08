@@ -60,6 +60,8 @@
     <Compile Include="Items\Accessories\ChaosHook.cs" />
     <Compile Include="Items\Accessories\DriedEye.cs" />
     <Compile Include="Items\Accessories\HyperSash.cs" />
+    <Compile Include="Items\Accessories\GolemHeart.cs" />
+    <Compile Include="Items\Accessories\LifeRoot.cs" />
     <Compile Include="Items\Accessories\QueenComb.cs" />
     <Compile Include="Items\Accessories\RoyalHealGel.cs" />
     <Compile Include="Items\Accessories\ScrapExosuit.cs" />
