@@ -678,13 +678,13 @@ namespace WeaponOut
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
             FistOnHitByEntity(npc, damage);
-            LuckyHeartHit(damage);
+            CriticalHeartHit(damage);
         }
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
             FistOnHitByEntity(proj, damage);
-            LuckyHeartHit(damage);
+            CriticalHeartHit(damage);
         }
 
         #endregion
@@ -2004,9 +2004,11 @@ namespace WeaponOut
         { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
         #endregion
 
-        private void LuckyHeartHit(int damage)
+        private void CriticalHeartHit(int damage)
         {
+            if (!criticalHealStar) return;
             if (player.dead) return;
+
             if (damage > 100) damage = 100;
             int amount = damage / 10;
             if (!player.HeldItem.melee) amount = damage / 20;
