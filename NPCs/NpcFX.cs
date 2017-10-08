@@ -105,6 +105,10 @@ namespace WeaponOut.NPCs
                     int itemType = -1;
                     if (Main.expertMode && Main.LocalPlayer.HeldItem.useStyle == ModPlayerFists.useStyle)
                     {
+                        if (npc.type == NPCID.KingSlime)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.RoyalHealGel>();
+                        }
                         if (npc.type == NPCID.EyeofCthulhu)
                         {
                             itemType = mod.ItemType<Items.Accessories.RushCharm>();
@@ -116,6 +120,45 @@ namespace WeaponOut.NPCs
                         if (npc.type == NPCID.BrainofCthulhu)
                         {
                             itemType = mod.ItemType<Items.Accessories.StainedTooth>();
+                        }
+                        if (npc.type == NPCID.QueenBee)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.QueenComb>();
+                        }
+                        if (npc.type == NPCID.SkeletronHead)
+                        {
+                            // TODO: the actual skeletron dash item
+                            itemType = mod.ItemType<Items.Weapons.Fists.FistsJungleClaws>();
+                        }
+                        if (npc.type == NPCID.WallofFlesh)
+                        {
+                            itemType = mod.ItemType<Items.DemonBlood>();
+                        }
+                        if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
+                        {
+                            int partner = NPCID.Spazmatism;
+                            if (npc.type == NPCID.Spazmatism) partner = NPCID.Retinazer;
+                            // Last eye standing
+                            if (!NPC.AnyNPCs(partner))
+                            {
+                                itemType = mod.ItemType<Items.Accessories.ScrapActuator>();
+                            }
+                        }
+                        if (npc.type == NPCID.TheDestroyer)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.ScrapFrame>();
+                        }
+                        if (npc.type == NPCID.SkeletronPrime)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.ScrapTransformer>();
+                        }
+                        if (npc.type == NPCID.Plantera)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.LifeRoot>();
+                        }
+                        if (npc.type == NPCID.Golem)
+                        {
+                            itemType = mod.ItemType<Items.Accessories.GolemHeart>();
                         }
                     }
                     bool chance = Main.rand.Next(5) == 0;
