@@ -183,9 +183,11 @@ namespace WeaponOut.NPCs
         }
 
         #region The last straw against player-snapping bosses :(
-        public override bool CheckActive(NPC npc)
+        public override bool PreAI(NPC npc)
         {
-            if (!npc.active || npc.lifeMax < 2000 || !npc.chaseable || npc.npcSlots <= 0f) return true; // we don't deal in small fry and clones
+            if (!npc.active || npc.life <= 0 || npc.lifeMax < 2000 || !npc.chaseable || npc.npcSlots <= 0f ||
+                !npc.HasPlayerTarget) return true; // we don't deal in small fry and clones
+
             if (npc.boss || npc.GetBossHeadTextureIndex() >= 0)
             {
                 PlayerFX pfx;
@@ -197,11 +199,12 @@ namespace WeaponOut.NPCs
                     { p.position = pfx.FakePositionTemp; }
                 }
             }
-            return true;
+            return base.PreAI(npc);
         }
+
         public override void PostAI(NPC npc)
         {
-            if (npc.lifeMax < 2000 || !npc.chaseable || npc.npcSlots <= 0f) return;  // stuff like eater of worlds
+            if (npc.lifeMax < 2000 || npc.npcSlots <= 0f) return; // like eater of worlds
             if (npc.boss || npc.GetBossHeadTextureIndex() >= 0)
             {
                 PlayerFX pfx;
