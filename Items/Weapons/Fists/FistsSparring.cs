@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Sparring Mitt");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
-                "Consumes combo to increase melee damage by 100%");
+                "Auto-consumes combo to increase melee damage by 100%");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()
