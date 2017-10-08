@@ -85,6 +85,7 @@ namespace WeaponOut
         public bool millstone;
         public int barbariousDefence;
         public bool heartDropper;
+        public bool heartBuff;
         public bool hidden;
         public bool angryCombo;
         public bool debuffRecover;
@@ -273,6 +274,7 @@ namespace WeaponOut
                 momentumDash = false;
                 momentumDashTime = Math.Max(0, momentumDashTime - 1);
                 heartDropper = false;
+                heartBuff = false;
                 hidden = false;
                 angryCombo = false;
                 ghostPosition = false;
@@ -1702,43 +1704,51 @@ namespace WeaponOut
 
         private void HeartDropperCheck(NPC target, int damage, bool projectile)
         {
-            if (heartDropper)
-            {
-                // Only check at full health and half health
-                if ((target.life + damage == target.lifeMax) ||
-                    (target.life + damage >= (target.lifeMax / 2) && target.life < (target.lifeMax / 2)))
-                {
-                    int max = 1;
-                    if (target.boss) // Bosses get more chances to roll for hearts
-                    { max += 4; }
-                    else
-                    {   // Other non-bosses get a slight increase with health
-                        if (target.lifeMax >= 1000)
-                        { max += 2; }
-                        else if (target.lifeMax >= 500)
-                        { max += 1; }
-                    }
+            if (!heartDropper) return;
+            if (target.type == 16 || // These NPCs turn into other NPCs on death (Slimes)
+                target.type == 81 ||
+                target.type == 121 ||
+                target.lifeMax <= 1 || // Ignore "projectile" NPCs
+                target.damage <= 0) return;// Ignore critters, basically
 
-                    if (target.type != 16 && // These NPCs turn into other NPCs on death (Slimes)
-                    target.type != 81 &&
-                    target.type != 121 &&
-                    target.lifeMax > 1 && // Ignore "projectile" NPCs
-                    target.damage > 0) // Ignore critters, basically
+            // Only check at full health and half health
+            int divider = target.defense;
+            if (PastThreshold(target.life + damage, target.life, target.lifeMax, divider))
+            {
+                int chance = 12; // Default 8.3% heart drop chance
+                if (heartBuff) chance -= 4;
+                if(!target.boss) chance *= 10; // Don't drop quite so often except bosses
+                if (projectile) chance *= 3;
+
+                Main.NewText("chance" + chance);
+                if (Main.rand.Next(chance) == 0) 
+                {
+                    int itemWho = Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.Heart, 1, false, 0, false, false);
+                    if (Main.netMode == 1)
                     {
-                        for (int i = 0; i < max; i++)
-                        {
-                            if (Main.rand.Next(12) == 0) //Default 1/6/2 chance, as per standard terraria rules, 
-                            {
-                                int itemWho = Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.Heart, 1, false, 0, false, false);
-                                if (Main.netMode == 1)
-                                {
-                                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemWho, 1f, 0f, 0f, 0, 0, 0);
-                                }
-                            }
-                        }
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemWho, 1f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }
+        }
+        public static bool PastThreshold(int oldLife, int currentLife, int maxLife, float divider)
+        {
+            if (maxLife <= divider) return true;
+            if (oldLife <= currentLife) return false;
+            float threshold = 0f;
+            int escapeCount = 0;
+            bool same = false;
+            for (int i = 0; i < divider; i++)
+            {
+                if (threshold < oldLife)
+                {
+                    same = (threshold >= currentLife);
+                }
+                if (same) return true;
+                threshold += maxLife / divider;
+                escapeCount++;
+            }
+            return false;
         }
 
         private void DemonBloodHealing(NPC target, bool projectile)

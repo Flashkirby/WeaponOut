@@ -28,7 +28,7 @@ namespace WeaponOut.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<PlayerFX>().heartDropper = true;
-            //player.GetModPlayer<PlayerFX>().heartBuff = true;
+            player.GetModPlayer<PlayerFX>().heartBuff = true;
         }
     }
 }
