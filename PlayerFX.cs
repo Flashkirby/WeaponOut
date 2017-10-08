@@ -62,10 +62,12 @@ namespace WeaponOut
         public bool CanReflectProjectiles
         { get { return reflectingProjectilesForce || (reflectingProjectiles && reflectingProjectileDelay <= 0); } }
         #endregion
-        #region Lunar Emblems
+        #region Accessories
         public bool lunarRangeVisual;
         public bool lunarMagicVisual;
         public bool lunarThrowVisual;
+
+        public bool criticalHealStar;
         #endregion
         #region Dual Weapon
         /// <summary> Multiplier for the item use animation </summary>
@@ -247,6 +249,8 @@ namespace WeaponOut
             lunarRangeVisual = false;
             lunarMagicVisual = false;
             lunarThrowVisual = false;
+
+            criticalHealStar = false;
 
             // Handle reflecting timer
             reflectingProjectiles = false;
@@ -672,11 +676,13 @@ namespace WeaponOut
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
             FistOnHitByEntity(npc, damage);
+            LuckyHeartHit(damage);
         }
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
             FistOnHitByEntity(proj, damage);
+            LuckyHeartHit(damage);
         }
 
         #endregion
@@ -1987,6 +1993,23 @@ namespace WeaponOut
         private int lifeRestorable(Player player)
         { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
         #endregion
+
+        private void LuckyHeartHit(int damage)
+        {
+            if (player.dead) return;
+            if (damage > 100) damage = 100;
+            int amount = damage / 10;
+            if (!player.HeldItem.melee) amount = damage / 20;
+
+            for (int i = 0; i < amount; i++)
+            {
+                Item item = Main.item[Item.NewItem(player.Hitbox, mod.ItemType<Items.SparkleStar>(), 1)];
+                item.noGrabDelay = 60;
+                item.velocity.X *= 1f + (0.05f * damage);
+                item.velocity.Y -= Math.Abs(item.velocity.X) / 10;
+                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+            }
+        }
 
         private bool hookPressed = false;
         private void discordItemsCheck()

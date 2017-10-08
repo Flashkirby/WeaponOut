@@ -20,10 +20,10 @@ namespace WeaponOut.Items
         {
             item.width = 18;
             item.height = 18;
-            item.healLife = 3;
-            item.healMana = 3;
+            item.healLife = 10;
+            item.healMana = 5;
         }
-
+        
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             if (Main.rand.Next(20) == 0)
@@ -33,20 +33,36 @@ namespace WeaponOut.Items
                 d.velocity *= 2f;
             }
 
-            gravity /= 2f; // 0.1f
+            gravity /= 3f; // 0.1f
             maxFallSpeed *= 1.5f;
 
             // Bouncy
             if (item.velocity.Y == 0)
             {
                 Main.PlaySound(2, (int)item.position.X, (int)item.position.Y, 25, 0.1f, 0.4f); // sparkly bounce effect
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < (item.newAndShiny ? 4 : 10); i++)
                 {
                     Dust d = Dust.NewDustDirect(item.position, item.width, item.headSlot, 57 + Main.rand.Next(2), 0f, 0f, 200);
                     d.noGravity = true;
                     d.velocity.X *= 2f;
                 }
-                item.velocity.Y = -2f;
+
+                if (item.newAndShiny)
+                {
+                    item.velocity.Y = -2f;
+                    item.newAndShiny = false;
+                }
+                else
+                {
+                    item.active = false;
+                    item.type = 0;
+                    item.stack = 0;
+                }
+
+                if (Main.netMode == 2)
+                {
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                }
             }
         }
         public override bool CanPickup(Player player) { return true; }
@@ -66,7 +82,7 @@ namespace WeaponOut.Items
 
         public override void GrabRange(Player player, ref int grabRange)
         {
-            grabRange = Player.defaultItemGrabRange * 2;
+            grabRange = 0;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
