@@ -99,6 +99,7 @@
     <Compile Include="Items\RallyBannerBlue.cs" />
     <Compile Include="Items\RallyBannerYellow.cs" />
     <Compile Include="Items\RustedBadge.cs" />
+    <Compile Include="Items\SparkleStar.cs" />
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
