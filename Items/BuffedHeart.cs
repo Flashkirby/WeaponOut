@@ -16,22 +16,26 @@ namespace WeaponOut.Items
 
         public override bool OnPickup(Item item, Player player)
         {
-            if (item.type == ItemID.Heart ||
-                item.type == ItemID.CandyApple ||
-                item.type == ItemID.SugarPlum
-                )
+            if (player.GetModPlayer<PlayerFX>().heartBuff)
             {
-                Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f);
-                player.statLife += 25;
-                if (Main.myPlayer == player.whoAmI)
+                if (item.type == ItemID.Heart ||
+                    item.type == ItemID.CandyApple ||
+                    item.type == ItemID.SugarPlum
+                    )
                 {
-                    player.HealEffect(25, true);
+                    Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f);
+                    player.statLife += 25;
+                    if (Main.myPlayer == player.whoAmI)
+                    {
+                        player.HealEffect(25, true);
+                    }
+                    if (player.statLife > player.statLifeMax2)
+                    {
+                        player.statLife = player.statLifeMax2;
+                    }
+                    return false;
                 }
-                if (player.statLife > player.statLifeMax2)
-                {
-                    player.statLife = player.statLifeMax2;
-                }
-                return false;
+
             }
             return base.OnPickup(item, player);
         }
