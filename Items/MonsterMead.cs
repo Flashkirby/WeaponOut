@@ -35,5 +35,11 @@ namespace WeaponOut.Items
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
+
+        public override void HoldStyle(Player player)
+        {
+            player.itemLocation.X -= player.direction * 3;
+            player.itemLocation.Y += player.gravDir * 8;
+        }
     }
 }

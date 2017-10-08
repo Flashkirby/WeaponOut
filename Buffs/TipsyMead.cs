@@ -11,7 +11,7 @@ namespace WeaponOut.Buffs
         public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Tipsy Monster Mead");
+            DisplayName.SetDefault("Monster Mead");
             Description.SetDefault("Heal from melee strikes after getting hit, lowered defense");
             Main.debuff[Type] = true;
         }
