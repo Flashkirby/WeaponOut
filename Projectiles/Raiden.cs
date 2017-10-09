@@ -51,6 +51,7 @@ namespace WeaponOut.Projectiles
             {
                 FocusAttack(player);
             }
+
             if (!FocusSlash)
             {
                 NormalSlash(player);
@@ -67,11 +68,11 @@ namespace WeaponOut.Projectiles
             // Centre the projectile on player
             projectile.Center = player.Center;
 
-            if(FrameCheck == 0)
+            if (FrameCheck == 0)
             {
                 allTargets = GetTargettableNPCs(player.Center, Items.Weapons.Basic.Raiden.focusRadius);
 
-                if(allTargets.Count <= 0)
+                if (allTargets.Count <= 0)
                 {
                     projectile.ai[0] = 1f;
                     return;
@@ -83,6 +84,12 @@ namespace WeaponOut.Projectiles
             else
             {
                 int currentTarget = (int)((FrameCheck - 1) / dashTime);
+                if (currentTarget >= allTargets.Count)
+                {
+                    projectile.Kill();
+                    return;
+                }
+
                 player.immuneNoBlink = false;
 
                 bool skip = false;
