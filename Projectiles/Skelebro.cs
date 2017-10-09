@@ -37,7 +37,7 @@ namespace WeaponOut.Projectiles
 
             // So it doesn't conflict with fist NPC cooldown
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 12;
         }
         public override bool? CanCutTiles() { return false; }
 
