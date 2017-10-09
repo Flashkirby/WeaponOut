@@ -191,5 +191,16 @@ namespace WeaponOut.Projectiles
         {
             if(projectile.owner == Main.myPlayer) damage = (int)(damage * Main.player[projectile.owner].minionDamage);
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (projectile.penetrate == -1)
+            {
+                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].active)
+                {
+                    Main.player[projectile.owner].GetModPlayer<ModPlayerFists>().ModifyComboCounter(1);
+                }
+            }
+        }
     }
 }
