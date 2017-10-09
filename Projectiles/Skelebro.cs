@@ -97,7 +97,8 @@ namespace WeaponOut.Projectiles
             if (owner.itemAnimation > 1)
             {
                 playerAttack.Enqueue((byte)(1 + 250f * Math.Min(1f,
-                    (float)owner.itemAnimation / owner.itemAnimationMax)));
+                    (owner.itemAnimation - 1f) / (owner.itemAnimationMax - 2f)
+                    )));
             }
             else
             { playerAttack.Enqueue(0); }
@@ -131,7 +132,7 @@ namespace WeaponOut.Projectiles
 
             if (attackFrame > 0)
             {
-                attackFrame -= 64; //251 - 1;
+                attackFrame -= 125; //251 - 1;
                 float reach = Math.Abs(125 - attackFrame) * 0.008f;
 
                 if (projectile.ai[1] == 0f)
@@ -154,9 +155,12 @@ namespace WeaponOut.Projectiles
                     }
                 }
 
-                projectile.Center = new Vector2(
-                    MathHelper.Lerp(projectile.Center.X, projectile.localAI[0], reach),
-                    MathHelper.Lerp(projectile.Center.Y, projectile.localAI[1], reach));
+                if (projectile.ai[1] == 1f && reach > 0f)
+                {
+                    projectile.Center = new Vector2(
+                        MathHelper.Lerp(projectile.Center.X, projectile.localAI[0], reach),
+                        MathHelper.Lerp(projectile.Center.Y, projectile.localAI[1], reach));
+                }
             }
             else
             {
