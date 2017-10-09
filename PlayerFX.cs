@@ -138,6 +138,7 @@ namespace WeaponOut
         public bool demonBlood;
         public float demonBloodHealMod;
         public int demonBloodRally;
+        public int demonBloodRallyCurrentLife; // keep track of healing
         public int demonBloodRallyDelay;
         private const int demonBloodReallyDelayMax = 60 * 4;
 
@@ -1540,6 +1541,17 @@ namespace WeaponOut
                 }
                 #endregion
 
+                #region Demon Blood Healing, heal removal
+                if (demonBloodHealMod > 0f)
+                {
+                    if (demonBloodRally > 0)
+                    {
+                        demonBloodRally -= Math.Max(0, player.statLife - demonBloodRallyCurrentLife);
+                    }
+                    demonBloodRallyCurrentLife = player.statLife;
+                }
+                #endregion
+
                 #region False Position Faker
                 FakePositionReal = player.position;
                 if (ghostPosition)
@@ -1764,7 +1776,6 @@ namespace WeaponOut
                 if (heal > demonBloodRally) heal = demonBloodRally;
                 PlayerFX.HealPlayer(player, heal, false);
                 if (player.lifeSteal > 0) player.lifeSteal -= heal;
-                demonBloodRally -= heal;
                 sashLifeLost = Math.Max(0, sashLifeLost - heal);
             }
         }
