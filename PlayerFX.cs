@@ -2014,12 +2014,13 @@ namespace WeaponOut
         { return Math.Min((int)(player.statLifeMax2 * sashMaxLifeRecoverMult), sashLifeLost); }
         #endregion
 
+        private const int criticalHealMax = 60;
         private void CriticalHeartHit(int damage)
         {
             if (!criticalHealStar) return;
             if (player.dead) return;
 
-            if (damage > 100) damage = 100;
+            if (damage > criticalHealMax) damage = criticalHealMax;
             int amount = damage / 10;
             if (!player.HeldItem.melee) amount = damage / 20;
 
