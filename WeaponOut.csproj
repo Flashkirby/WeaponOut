@@ -59,6 +59,7 @@
     <Compile Include="Items\Accessories\DiscordHook.cs" />
     <Compile Include="Items\Accessories\ChaosHook.cs" />
     <Compile Include="Items\Accessories\DriedEye.cs" />
+    <Compile Include="Items\Accessories\HeartNecklace.cs" />
     <Compile Include="Items\Accessories\HyperSash.cs" />
     <Compile Include="Items\Accessories\GolemHeart.cs" />
     <Compile Include="Items\Accessories\LifeRoot.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Items\Armour\FistDefLegs.cs" />
     <Compile Include="Items\Armour\FistPowerLegs.cs" />
     <Compile Include="Items\Armour\FistPowerBody.cs" />
+    <Compile Include="Items\BuffedHeart.cs" />
     <Compile Include="Items\MonsterMead.cs" />
     <Compile Include="Items\DemonBloodCure.cs" />
     <Compile Include="Items\DemonBlood.cs" />
@@ -120,6 +122,8 @@
     <Content Include="Items\Accessories\DriedEye.png" />
     <Content Include="Items\Accessories\GolemHeart.png" />
     <Content Include="Items\Accessories\GolemHeart_Neck.png" />
+    <Content Include="Items\Accessories\HeartNecklace.png" />
+    <Content Include="Items\Accessories\HeartNecklace_Neck.png" />
     <Content Include="Items\Accessories\HyperSash.png" />
     <Content Include="Items\Accessories\HyperSash_Waist.png" />
     <Content Include="Items\Accessories\LifeRoot.png" />

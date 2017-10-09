@@ -3,6 +3,7 @@ using System.IO;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 using Terraria;
 using Terraria.ID;
@@ -44,7 +45,7 @@ namespace WeaponOut
             {
                 Autoload = true,
                 AutoloadGores = true,
-                //AutoloadSounds = true
+                AutoloadSounds = true
             };
             ModConf.Load();
         }
@@ -52,11 +53,14 @@ namespace WeaponOut
         public override void Load()
         {
             mod = this;
-            dHeart = mod.GetTexture("Gores/DemonHearts");
+
+            //item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SummonHorn");
         }
 
         public override void PostSetupContent()
         {
+            dHeart = mod.GetTexture("Gores/DemonHearts");
+
             if (ModConf.enableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             if (ModConf.enableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
 
