@@ -106,6 +106,8 @@ namespace WeaponOut.Projectiles
 
             #endregion
 
+            #region Spawn Escape Code
+
             if (playerFrame.Count < 60)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 26, 0f, 0f, 150, default(Color), 1f);
@@ -117,6 +119,8 @@ namespace WeaponOut.Projectiles
                 projectile.alpha = 0;
             }
 
+            #endregion
+
             #region Dequeue
 
             projectile.Center = new Vector2(followX.Dequeue(), followY.Dequeue());
@@ -126,9 +130,10 @@ namespace WeaponOut.Projectiles
             projectile.friendly = attackFrame > 0;
 
             projectile.direction = playerDirection.Dequeue() ? 1 : -1;
-            projectile.spriteDirection = projectile.direction;
 
             #endregion
+
+            #region Snap to Enemies
 
             if (attackFrame > 0)
             {
@@ -160,6 +165,8 @@ namespace WeaponOut.Projectiles
                     projectile.Center = new Vector2(
                         MathHelper.Lerp(projectile.Center.X, projectile.localAI[0], reach),
                         MathHelper.Lerp(projectile.Center.Y, projectile.localAI[1], reach));
+                    if (projectile.Center.X < projectile.localAI[0]) projectile.direction = 1;
+                    else projectile.direction = -1;
                 }
             }
             else
@@ -169,6 +176,9 @@ namespace WeaponOut.Projectiles
                 projectile.localAI[1] = projectile.Center.Y;
             }
 
+            #endregion
+
+            projectile.spriteDirection = projectile.direction;
             if (projectile.penetrate >= 0) projectile.friendly = true;
         }
 
