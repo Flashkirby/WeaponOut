@@ -13,13 +13,16 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
+        public static int skeleBroID = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phalanx");
             Tooltip.SetDefault(
-                "<right> to dash, or consume combo to unleash bones\n" +
-                "Dash grants 30% increased melee damage");
+                "<right> to dash through enemies\n" +
+                "Dash grants 30% increased melee damage\n" + 
+                "Combo grants a backup skeleton");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
+            skeleBroID = mod.ProjectileType<Projectiles.Skelebro>();
         }
         public override void SetDefaults()
         {
@@ -29,8 +32,9 @@ namespace WeaponOut.Items.Weapons.Fists
             item.knockBack = 4f;
             item.tileBoost = 12; // Combo Power
 
-            item.value = Item.sellPrice(0, 0, 15, 0);
-            item.rare = 1;
+            item.value = Item.sellPrice(0, 0, 60, 0);
+            item.rare = 2;
+            item.expert = true;
             item.shootSpeed = 10 + item.rare / 2;
 
             item.UseSound = SoundID.Item7;
@@ -98,6 +102,25 @@ namespace WeaponOut.Items.Weapons.Fists
             if (AltStats(player))
             {
                 damage = (int)(damage * 1.3f);
+            }
+        }
+
+        // Combo
+        public override void HoldItem(Player player)
+        {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (mpf.IsComboActive)
+            {
+                bool noBro = player.whoAmI == Main.myPlayer;
+                foreach (Projectile p in Main.projectile)
+                {
+                    if (p.active && p.owner == Main.myPlayer && p.type == skeleBroID)
+                    { noBro = false; break; }
+                }
+                if (noBro)
+                {
+                    Projectile.NewProjectile(player.Center, new Vector2(), skeleBroID, item.damage, item.knockBack, Main.myPlayer);
+                }
             }
         }
 
