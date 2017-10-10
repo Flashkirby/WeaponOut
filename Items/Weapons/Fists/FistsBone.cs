@@ -20,7 +20,8 @@ namespace WeaponOut.Items.Weapons.Fists
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 30% increased melee damage\n" + 
-                "Combo summons a backup skeleton");
+                "Combo summons a backup skeleton\n" +
+				"'Need a hand?'");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             skeleBroID = mod.ProjectileType<Projectiles.Skelebro>();
         }
