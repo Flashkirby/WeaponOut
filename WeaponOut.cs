@@ -57,7 +57,6 @@ namespace WeaponOut
 
         public override void PostSetupContent()
         {
-            dHeart = mod.GetTexture("Gores/DemonHearts");
 
             if (ModConf.enableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             if (ModConf.enableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
@@ -68,6 +67,7 @@ namespace WeaponOut
 
             if (Main.netMode != 2)
             {
+				dHeart = mod.GetTexture("Gores/DemonHearts");
                 Projectiles.Explosion.textureTargetS = GetTexture("Projectiles/Explosion_Targetsm");
                 Projectiles.Explosion.textureTargetM = GetTexture("Projectiles/Explosion_Targetmd");
                 Projectiles.Explosion.textureTargetL = GetTexture("Projectiles/Explosion_Targetlg");
@@ -76,7 +76,7 @@ namespace WeaponOut
             }
             else
             {
-                Console.WriteLine("WeaponOut loaded:    fist&expert#01");
+                Console.WriteLine("WeaponOut loaded:    horns&skelebros#01");
             }
         }
 
