@@ -53,8 +53,6 @@ namespace WeaponOut
         public override void Load()
         {
             mod = this;
-
-            //item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SummonHorn");
         }
 
         public override void PostSetupContent()

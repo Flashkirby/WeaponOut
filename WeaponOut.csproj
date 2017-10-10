@@ -93,6 +93,7 @@
     <Compile Include="Items\Armour\FistPowerLegs.cs" />
     <Compile Include="Items\Armour\FistPowerBody.cs" />
     <Compile Include="Items\BuffedHeart.cs" />
+    <Compile Include="Items\BuddyHorn.cs" />
     <Compile Include="Items\MonsterMead.cs" />
     <Compile Include="Items\DemonBloodCure.cs" />
     <Compile Include="Items\DemonBlood.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsBone.cs" />
     <Compile Include="Items\Weapons\Fists\FistsGranite.cs" />
     <Compile Include="Items\Weapons\Fists\FistsSlime.cs" />
     <Compile Include="Items\Weapons\Fists\FistsMartian.cs" />
@@ -139,6 +141,7 @@
     <Content Include="Items\Accessories\RushCharm.png" />
     <Content Include="Items\Accessories\FightingSash.png" />
     <Content Include="Items\Accessories\FightingSash_Waist.png" />
+    <Content Include="Items\BuddyHorn.png" />
     <Content Include="Items\DemonBloodCure.png" />
     <Content Include="Items\DemonBlood.png" />
     <Content Include="Items\MonsterMead.png" />
@@ -197,6 +200,8 @@
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="ModPlayerFists.cs" />
+    <Compile Include="Projectiles\BuddyPortalExit.cs" />
+    <Compile Include="Projectiles\BuddyPortalEntrance.cs" />
     <Compile Include="Projectiles\HoneyBeeBig.cs" />
     <Compile Include="Projectiles\HoneyBee.cs" />
     <Compile Include="Projectiles\SpiritDragon.cs" />
@@ -211,6 +216,7 @@
     <Compile Include="Projectiles\OnsokuSlash.cs" />
     <Compile Include="Projectiles\SpiritLeaf.cs" />
     <Compile Include="Projectiles\SpiritMartianFist.cs" />
+    <Compile Include="Projectiles\Skelebro.cs" />
     <Compile Include="Projectiles\SpiritThornBall.cs" />
     <Compile Include="Projectiles\Whips\EelWhip.cs" />
     <Compile Include="Projectiles\Whips\CrystalVileLash.cs" />
@@ -260,6 +266,7 @@
     <Compile Include="ProjFX.cs" />
     <Compile Include="Tiles\CampTent.cs" />
     <Compile Include="WeaponOut.cs" />
+    <Content Include="Sounds\Item\SummonHorn.wav" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ItemCustomizer">
