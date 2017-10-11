@@ -43,6 +43,7 @@ namespace WeaponOut
 
         private const bool DEBUG_COMBOFISTS = false;
         public const int useStyle = 102115116; //http://www.unit-conversion.info/texttools/ascii/ with fst to ASCII numbers
+        public const int parryBuffTime = 300;
 
         /// <summary> Default combo is held for 2 seconds. </summary>
         public const int ComboResetTime = 2 * 60;
@@ -1198,9 +1199,13 @@ namespace WeaponOut
 
             player.itemAnimation = 0; //release item lock
 
-            // Set cooldown before next parry is active, relative to parry non-active frames and invinc frames
-            parryTime = (int)(-1f * (ParryActiveFrame * 3f + 20 + player.itemAnimationMax));
-            if (longParry) parryTime += 15;
+            // Add 5 sec parry buff and short invincibility
+            int immunityParryTime = 20 + player.itemAnimationMax;
+            provideImmunity(player, immunityParryTime);
+            player.AddBuff(mod.BuffType<Buffs.ParryActive>(), parryBuffTime, false);
+
+            // Set flat cooldown
+            parryTime = -immunityParryTime - 6;
             parryWindow = 0;
             parryTimeMax = 0;
 
@@ -1276,10 +1281,6 @@ namespace WeaponOut
                 if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) NetMessage.SendData(MessageID.PlayerHealth, -1, -1, null, player.whoAmI);
             }
 
-            // Add 5 sec parry buff and short invincibility
-            provideImmunity(player, 20 + player.itemAnimationMax);
-            player.AddBuff(mod.BuffType<Buffs.ParryActive>(), 300, false);
-
             if (DEBUG_PARRYFISTS) Main.NewText(string.Concat("Parried! : ", parryTime, "/", ParryActiveFrame, "/", ParryTimeMaxReal));
 
             // Send information
@@ -1289,7 +1290,7 @@ namespace WeaponOut
         }
 
         /// <summary> Sets the values etc. for parrying </summary>
-        /// <param name="parryCooldown">Determines time between parries. Parry cooldown is tripled on successful parry. </param>
+        /// <param name="parryCooldown">Determines time between parries. </param>
         /// <returns> True to allow parrying input (AltFunction) </returns>
         public bool AltFunctionParry(Player player, int parryWindow, int parryCooldown)
         {

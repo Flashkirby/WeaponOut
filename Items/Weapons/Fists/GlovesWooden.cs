@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Wooden Tekko");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
-                "Parry grants temporary invulnerability\n" +
+                "Parry grants temporary invincibility\n" +
                 "Combo grants 3 bonus damage");
         }
         public override void SetDefaults()
@@ -79,8 +79,8 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.parryBuff)
             {
-				if(mpf.GetParryBuff() >= 0) player.buffTime[mpf.GetParryBuff()] -= 5;
-                player.immuneTime++;
+                if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
+                player.immuneTime += 60;
             }
         }
 
