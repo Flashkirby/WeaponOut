@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.melee = true;
             item.damage = 55;
             item.useAnimation = 22; // 30%-50% reduction
-            item.knockBack = 3.5f;
+            item.knockBack = 4f;
             item.tileBoost = 13; // Combo Power
 
             item.value = Item.sellPrice(0, 0, 15, 0);

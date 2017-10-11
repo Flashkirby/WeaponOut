@@ -29,7 +29,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.melee = true;
             item.damage = 15;
             item.useAnimation = 28; // Combos can increase speed by 30-50% since it halves remaining attack time
-            item.knockBack = 4f;
+            item.knockBack = 4.5f;
             item.tileBoost = 8; // For fists, we read this as the combo power
 
             item.value = Item.sellPrice(0, 0, 15, 0);
