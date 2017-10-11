@@ -17,16 +17,16 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Platinum Knuckleduster");
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash spirit energy\n" +
-                "Combo grants 8 bonus damage");
+                "Combo grants 7 bonus damage");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()
         {
             item.melee = true;
-            item.damage = 21;
+            item.damage = 22;
             item.useAnimation = 24; // Combos can increase speed by 30-50% since it halves remaining attack time
             item.knockBack = 4.5f;
-            item.tileBoost = 4; // For fists, we read this as the combo power
+            item.tileBoost = 5; // For fists, we read this as the combo power
 
             item.shootSpeed = 12f;
 
@@ -130,11 +130,11 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActiveItemOnHit)
             {
-                damage += 8;
+                damage += 7;
             }
             if(mpf.ComboEffectAbs == comboEffect)
             {
-                damage += player.HeldItem.damage * 4;
+                damage += player.HeldItem.damage;
                 knockBack *= 2f;
             }
         }
