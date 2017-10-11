@@ -22,7 +22,7 @@ namespace WeaponOut.Items.Weapons.Fists
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 50% increased melee damage and knockback\n" +
-                "Combo grants 10 defense");
+                "Combo grants bonus damage against burning enemies");
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()
@@ -100,12 +100,16 @@ namespace WeaponOut.Items.Weapons.Fists
 
         // Dash
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
-        { float knockBack = 5f; ModifyHit(player, ref damage, ref knockBack, ref crit); }
+        { float knockBack = 5f; ModifyHit(player, ref damage, ref knockBack, ref crit, target.FindBuffIndex(BuffID.Burning) >= 0); }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-        { ModifyHit(player, ref damage, ref knockBack, ref crit); }
-        private void ModifyHit(Player player, ref int damage, ref float knockBack, ref bool crit)
+        { ModifyHit(player, ref damage, ref knockBack, ref crit, target.FindBuffIndex(BuffID.Burning) >= 0); }
+        private void ModifyHit(Player player, ref int damage, ref float knockBack, ref bool crit, bool burning)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (mpf.IsComboActiveItemOnHit && burning)
+            {
+                damage += 5;
+            }
             if (mpf.dashEffect == dustEffect)
             {
                 damage = (int)(damage * 1.5);
@@ -113,17 +117,9 @@ namespace WeaponOut.Items.Weapons.Fists
             }
         }
         
-        // Combo
+        // Hold Fire effect
         public override void HoldItem(Player player)
         {
-            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            if (mpf.IsComboActive)
-            {
-                player.statDefense += 10;
-            }
-
-            #region Hold Fire effect
-
             // Dust effect when Idle
             if (Main.time % 3 == 0)
             {
@@ -139,14 +135,13 @@ namespace WeaponOut.Items.Weapons.Fists
                 d.fadeIn = 0.7f;
                 d.shader = GameShaders.Armor.GetSecondaryShader(player.cHandOn, player);
             }
-            #endregion
         }
 
-        // Hit Effect
+        // Combo Hit Effect
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            if(Main.rand.Next(3) == 0)
+            if (Main.rand.Next(4) == 0)
             {
                 target.AddBuff(BuffID.OnFire, 180);
             }
