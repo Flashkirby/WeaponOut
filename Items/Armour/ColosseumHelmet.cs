@@ -16,8 +16,10 @@ namespace WeaponOut.Items.Armour
         }
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.GladiatorHelmet);
+			item.width = 18;
+			item.height = 18;
             item.defense = 5;
+			item.value = 20000;
         }
         public override void AddRecipes()
         {

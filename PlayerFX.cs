@@ -877,6 +877,9 @@ namespace WeaponOut
             catch { }
         });
 
+        #endregion
+        #region draw
+
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (hidden)
@@ -922,9 +925,16 @@ namespace WeaponOut
             catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
         }
+        public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
+        {
+            if (ModConf.enableBasicContent)
+            {
+                // Offset helmet by 2 pixels upwards to move it to the right position
+                if (player.head == mod.GetEquipSlot("ColosseumHelmet", EquipType.Head))
+                { player.headPosition += new Vector2(0, -2); }
+            }
+        }
 
-        #endregion
-        #region draw
         /// <summary>
         /// We gonna handle all the weapon identification and calls here
         /// </summary>
