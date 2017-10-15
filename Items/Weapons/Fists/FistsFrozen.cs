@@ -79,7 +79,7 @@ namespace WeaponOut.Items.Weapons.Fists
                     dashCounter = 4;
                     if (mpf.IsComboActive)
                     {
-                        Projectile.NewProjectile(player.position - player.velocity * 2, player.velocity * 0.2f, projectileID, 20, 5f, player.whoAmI);
+                        Projectile.NewProjectile(player.Center - player.velocity * 2, player.velocity * 0.2f, projectileID, 20, 5f, player.whoAmI);
                     }
                 }
                 dashCounter--;
