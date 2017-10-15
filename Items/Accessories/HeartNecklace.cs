@@ -15,7 +15,7 @@ namespace WeaponOut.Items.Accessories
             DisplayName.SetDefault("Heart Frame Necklace");
             Tooltip.SetDefault(
                 "Drop star shards after being struck\n" + 
-                "Pick falling star shards up to restore life and mana");
+                "Catch falling star shards to restore life and mana");
         }
         public override void SetDefaults()
         {
