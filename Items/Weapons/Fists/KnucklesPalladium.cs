@@ -26,7 +26,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetDefaults()
         {
             item.melee = true;
-            item.damage = 63;
+            item.damage = 63; //135dps v 20def
             item.useAnimation = 24; // 30%-50% reduction
             item.knockBack = 4f;
             item.tileBoost = 6; // Combo Power
@@ -43,8 +43,8 @@ namespace WeaponOut.Items.Weapons.Fists
             item.height = 20;
         }
         const int fistHitboxSize = 28;
-        const float fistDashSpeed = 8f;
-        const float fistDashThresh = 12f;
+        const float fistDashSpeed = 7.5f;
+        const float fistDashThresh = 7f;
         const float fistJumpVelo = 14.8f; // http://rextester.com/OIY60171
         public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().ComboEffectAbs == altEffect; }
         const int altHitboxSize = (int)(fistHitboxSize * 2.5f);
