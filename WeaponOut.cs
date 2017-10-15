@@ -138,13 +138,15 @@ namespace WeaponOut
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
-            DrawInterfacePumpkinMark(spriteBatch);
+            //DrawInterfacePumpkinMark(spriteBatch);
             DrawInterfaceDemonBloodHeart(spriteBatch);
             DrawInterfaceWeaponOutToggleEye(spriteBatch);
         }
 
         private void DrawInterfacePumpkinMark(SpriteBatch spriteBatch)
         {
+            if (!ModConf.enableFists) return;
+
             int buffID = BuffType<Buffs.PumpkinMark>();
             List<Vector2> drawPositions = new List<Vector2>();
             foreach(NPC i in Main.npc)
@@ -161,7 +163,7 @@ namespace WeaponOut
                     drawPositions.Add(i.Center);
                 }
             }
-
+            
             if (drawPositions.Count > 0)
             {
                 int frameHeight = 34;
@@ -233,7 +235,7 @@ namespace WeaponOut
                         frame = 0;
                     }
 
-                    Main.spriteBatch.Draw(dHeart,
+                    spriteBatch.Draw(dHeart,
                         basePos + new Vector2(
                             26 * x + Main.heartTexture.Width / 2,
                             26 * y + Main.heartTexture.Height
