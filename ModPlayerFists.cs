@@ -1591,9 +1591,9 @@ namespace WeaponOut
             return ComboEffectsMethods.Count;
         }
 
-        public bool AltFunctionCombo(Player player, int comboEffect = 0)
+        public bool AltFunctionCombo(Player player, int comboEffect = 0, bool netForce = false)
         {
-            if (player.itemAnimation == 0 && comboCounter >= ComboCounterMaxReal)
+            if ((player.itemAnimation == 0 && comboCounter >= ComboCounterMaxReal) || netForce)
             {
                 this.comboEffect = comboEffect;
 

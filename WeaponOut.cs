@@ -76,7 +76,7 @@ namespace WeaponOut
             }
             else
             {
-                Console.WriteLine("WeaponOut loaded:    horns&skelebros#01");
+                Console.WriteLine("WeaponOut loaded:    fistsupdate2#01");
             }
         }
 
@@ -293,7 +293,7 @@ namespace WeaponOut
         {
             if (Main.netMode == 1 && mpf.player.whoAmI == Main.myPlayer)
             {
-                // Main.NewText("sent from " + Main.myPlayer);
+                //-/ Main.NewText("sent " + mpf.dashSpeed + "dash " + mpf.dashEffect + " from " + Main.myPlayer);
                 ModPacket message = mpf.mod.GetPacket();
                 message.Write(1);
                 message.Write(Main.myPlayer);
@@ -323,6 +323,7 @@ namespace WeaponOut
                 me.Write(dMin);
                 me.Write(dEffect);
                 me.Send(-1, sender);
+                //-/ Console.WriteLine("echo " + dSpeed + " dash " + dEffect + " from " + sender);
             }
             else
             {
@@ -335,7 +336,7 @@ namespace WeaponOut
         {
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
             {
-                // Main.NewText("sent parry from " + Main.myPlayer);
+                //-/ Main.NewText("sent parry from " + Main.myPlayer);
                 ModPacket message = pfx.mod.GetPacket();
                 message.Write(2);
                 message.Write(Main.myPlayer);
@@ -356,12 +357,13 @@ namespace WeaponOut
                 me.Write(parryTimeMax);
                 me.Write(parryWindow);
                 me.Send(-1, sender);
+                //-/ Console.WriteLine("received parry from " + sender);
             }
             else
             {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
                 pfx.AltFunctionParryMax(Main.player[sender], parryWindow, parryTimeMax);
-                // Main.NewText("received parry from " + sender);
+                //-/ Main.NewText("received parry from " + sender);
             }
         }
 
@@ -369,7 +371,7 @@ namespace WeaponOut
         {
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
             {
-                // Main.NewText("sent combo from " + Main.myPlayer);
+                //-/ Main.NewText("sent combo " + pfx.ComboEffectAbs + " from " + Main.myPlayer);
                 ModPacket message = pfx.mod.GetPacket();
                 message.Write(4);
                 message.Write(Main.myPlayer);
@@ -387,13 +389,14 @@ namespace WeaponOut
                 me.Write(sender);
                 me.Write(comboEffect);
                 me.Send(-1, sender);
+                //-/ Console.WriteLine("echo combo " + comboEffect + " from " + sender);
             }
             else
             {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
                 pfx.player.itemAnimation = 0;
-                pfx.AltFunctionCombo(Main.player[sender], comboEffect);
-                // Main.NewText("received combo from " + sender);
+                pfx.AltFunctionCombo(Main.player[sender], comboEffect, true);
+                //-/ Main.NewText("received combo " + comboEffect + " from " + sender);
             }
         }
 
@@ -425,7 +428,7 @@ namespace WeaponOut
                 pfx.weaponVisual = weaponVis;
             }
         }
-        
+
         public static Vector2 CalculateNormalAngle(Vector2 start, Vector2 end)
         {
             Vector2 diff = end - start;
