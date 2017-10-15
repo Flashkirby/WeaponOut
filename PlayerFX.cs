@@ -140,6 +140,7 @@ namespace WeaponOut
         public int demonBloodRally;
         public int demonBloodRallyCurrentLife; // keep track of healing
         public int demonBloodRallyDelay;
+        public int demonBloodCooldown; // can't spam attacks on say, destroyer
         private const int demonBloodReallyDelayMax = 60 * 4;
 
         #endregion
@@ -315,6 +316,7 @@ namespace WeaponOut
                     demonBloodRallyDelay = 0;
                 }
                 demonBloodHealMod = 0;
+                if (demonBloodCooldown > 0) demonBloodCooldown--;
                 if (demonBlood && Main.expertMode) demonBloodHealMod = 4f;
 
                 // 
@@ -1782,7 +1784,10 @@ namespace WeaponOut
                 { heal = CalculateDemonHealing(demonBloodHealMod, target.life <= 0, 6); }
                 else
                 { heal = CalculateDemonHealing(demonBloodHealMod, target.life <= 0); }
-                
+
+                heal -= demonBloodCooldown;
+                if(heal > 0) demonBloodCooldown += heal;
+
                 if (heal > demonBloodRally) heal = demonBloodRally;
                 PlayerFX.HealPlayer(player, heal, false);
                 if (player.lifeSteal > 0) player.lifeSteal -= heal;
