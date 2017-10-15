@@ -43,6 +43,8 @@ namespace WeaponOut.Items
 
         public override bool UseItem(Player player)
         {
+            // Only let the player using it spawn projectiles
+            // On other clients, a conflict will occur due to spawn positions and entrance despawns
             if (player.whoAmI == Main.myPlayer)
             {
                 int offsetY = (int)(-11 * player.gravDir);
