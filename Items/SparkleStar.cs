@@ -23,8 +23,7 @@ namespace WeaponOut.Items
             item.healLife = 10;
             item.healMana = 5;
         }
-
-        private bool bounced = false;
+        
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             if (Main.rand.Next(20) == 0)
@@ -38,6 +37,7 @@ namespace WeaponOut.Items
             maxFallSpeed *= 1.5f;
 
             // Bouncy
+            Console.WriteLine(item.whoAmI + "|" + item.newAndShiny);
             if (item.velocity.Y == 0)
             {
                 Main.PlaySound(2, (int)item.position.X, (int)item.position.Y, 25, 0.1f, 0.4f); // sparkly bounce effect
@@ -48,10 +48,11 @@ namespace WeaponOut.Items
                     d.velocity.X *= 2f;
                 }
 
-                if (!bounced)
+                if (item.newAndShiny)
                 {
                     item.velocity.Y = -2f;
-                    bounced = true;
+                    item.newAndShiny = false;
+                    Console.WriteLine(item.whoAmI + " Bounced     !  !  !");
                 }
                 else
                 {
@@ -62,7 +63,7 @@ namespace WeaponOut.Items
 
                 if (Main.netMode == 2)
                 {
-                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.netID, 0f, 0f, 0f, 0, 0, 0);
                 }
             }
         }
@@ -94,9 +95,9 @@ namespace WeaponOut.Items
             Texture2D texture = Main.itemTexture[item.type];
             float colMod = 1f;
             if (item.velocity.Y <= -2f)
-            { colMod = 0.33f; }
+            { colMod = 0.2f; }
             else if (item.velocity.Y <= -1.5f)
-            { colMod = 0.66f; }
+            { colMod = 0.4f; }
 
             spriteBatch.Draw(texture,
                 item.Center - Main.screenPosition,
