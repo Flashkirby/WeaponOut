@@ -67,6 +67,8 @@ namespace WeaponOut.Items
                     }
                 }
 
+                //MP NOTE: Won't spawn more than 630ft away
+
                 // Entrance
                 Projectile.NewProjectile(new Vector2(
                     spawnX, spawnY).ToWorldCoordinates() - new Vector2(0, 40),

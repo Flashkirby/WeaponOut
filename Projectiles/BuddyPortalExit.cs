@@ -23,6 +23,7 @@ namespace WeaponOut.Projectiles
             projectile.height = 68;
             projectile.tileCollide = false;
             projectile.timeLeft = 1230;
+            projectile.netImportant = true;
         }
         private bool instanced = false;
         public override void AI()
