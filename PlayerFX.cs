@@ -2041,11 +2041,14 @@ namespace WeaponOut
 
             for (int i = 0; i < amount; i++)
             {
-                Item item = Main.item[Item.NewItem(player.Hitbox, mod.ItemType<Items.SparkleStar>(), 1)];
-                item.noGrabDelay = 60;
+                int itemAmI = Item.NewItem(player.Hitbox, mod.ItemType<Items.SparkleStar>(), 1);
+                Item item = Main.item[itemAmI];
                 item.velocity.X *= 1f + (0.05f * damage);
                 item.velocity.Y -= Math.Abs(item.velocity.X) / 10;
-                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+                if (Main.netMode == 1)
+                {
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemAmI, 1f, 0f, 0f, 0, 0, 0);
+                }
             }
         }
 

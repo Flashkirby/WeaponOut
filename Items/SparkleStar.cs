@@ -23,7 +23,8 @@ namespace WeaponOut.Items
             item.healLife = 10;
             item.healMana = 5;
         }
-        
+
+        private bool bounced = false;
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             if (Main.rand.Next(20) == 0)
@@ -47,10 +48,10 @@ namespace WeaponOut.Items
                     d.velocity.X *= 2f;
                 }
 
-                if (item.newAndShiny)
+                if (!bounced)
                 {
                     item.velocity.Y = -2f;
-                    item.newAndShiny = false;
+                    bounced = true;
                 }
                 else
                 {
@@ -65,7 +66,10 @@ namespace WeaponOut.Items
                 }
             }
         }
-        public override bool CanPickup(Player player) { return true; }
+        public override bool CanPickup(Player player)
+        {
+            return item.velocity.Y > -1f;
+        }
         public override bool OnPickup(Player player)
         {
             player.statLife += item.healLife;
@@ -79,7 +83,7 @@ namespace WeaponOut.Items
             Main.PlaySound(2, -1, -1, 4, 0.3f, 0.2f); // mini heal effect
             return false;
         }
-
+        
         public override void GrabRange(Player player, ref int grabRange)
         {
             grabRange = 0;
@@ -88,11 +92,16 @@ namespace WeaponOut.Items
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             Texture2D texture = Main.itemTexture[item.type];
-            
+            float colMod = 1f;
+            if (item.velocity.Y <= -2f)
+            { colMod = 0.33f; }
+            else if (item.velocity.Y <= -1.5f)
+            { colMod = 0.66f; }
+
             spriteBatch.Draw(texture,
                 item.Center - Main.screenPosition,
                 Main.itemAnimations[item.type].GetFrame(texture),
-                new Color(1f, 1f, 1f, 0.5f),
+                new Color(colMod, colMod, colMod, colMod * 0.5f),
                 rotation, item.Center - item.position,
                 Main.cursorScale,
                 SpriteEffects.None, 0f);
