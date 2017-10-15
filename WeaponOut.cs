@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,6 +31,7 @@ namespace WeaponOut
         internal static Mod mod;
 
         public static Texture2D dHeart;
+        public static Texture2D pumpkinMark;
 
         public static int BuffIDManaReduction;
         public static int BuffIDMirrorBarrier;
@@ -68,6 +70,7 @@ namespace WeaponOut
             if (Main.netMode != 2)
             {
 				dHeart = mod.GetTexture("Gores/DemonHearts");
+                pumpkinMark = mod.GetTexture("Gores/PumpkinMark");
                 Projectiles.Explosion.textureTargetS = GetTexture("Projectiles/Explosion_Targetsm");
                 Projectiles.Explosion.textureTargetM = GetTexture("Projectiles/Explosion_Targetmd");
                 Projectiles.Explosion.textureTargetL = GetTexture("Projectiles/Explosion_Targetlg");
@@ -135,8 +138,43 @@ namespace WeaponOut
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
+            DrawInterfacePumpkinMark(spriteBatch);
             DrawInterfaceDemonBloodHeart(spriteBatch);
             DrawInterfaceWeaponOutToggleEye(spriteBatch);
+        }
+
+        private void DrawInterfacePumpkinMark(SpriteBatch spriteBatch)
+        {
+            int buffID = BuffType<Buffs.PumpkinMark>();
+            List<Vector2> drawPositions = new List<Vector2>();
+            foreach(NPC i in Main.npc)
+            {
+                if(i.active && i.FindBuffIndex(buffID)  >= 0)
+                {
+                    drawPositions.Add(i.Center);
+                }
+            }
+            foreach (Player i in Main.player)
+            {
+                if (i.active && i.FindBuffIndex(buffID) >= 0)
+                {
+                    drawPositions.Add(i.Center);
+                }
+            }
+
+            if (drawPositions.Count > 0)
+            {
+                int frameHeight = 34;
+                int frameY = 0;
+                if (ModPlayerFists.Get(Main.LocalPlayer).GetParryBuff() >= 0) frameY = frameHeight;
+                foreach (Vector2 center in drawPositions)
+                {
+                    spriteBatch.Draw(pumpkinMark, center - Main.screenPosition,
+                        new Rectangle(0, frameY, pumpkinMark.Width, frameHeight),
+                        new Color(0.8f, 0.8f, 0.8f, 0.5f), 0f, new Vector2(pumpkinMark.Width / 2, frameHeight / 2),
+                        1f, SpriteEffects.None, 0f);
+                }
+            }
         }
 
         private void DrawInterfaceDemonBloodHeart(SpriteBatch spriteBatch)
