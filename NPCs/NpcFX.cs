@@ -192,6 +192,10 @@ namespace WeaponOut.NPCs
                         {
                             itemType = mod.ItemType<Items.Weapons.Fists.KnucklesDuke>();
                         }
+                        if (npc.type == NPCID.DD2Betsy)
+                        {
+                            itemType = mod.ItemType<Items.Weapons.Fists.FistsBetsy>();
+                        }
                     }
 
                     // Modified from DropItemInstanced, only drop for people using fists

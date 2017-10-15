@@ -54,14 +54,6 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 18f;
         const float altDashThresh = 16f;
         const float altJumpVelo = 18f;
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DD2SquireBetsySword, 1);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
 
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
         public static void DashEffects(Player player, Item item)
