@@ -13,7 +13,7 @@ namespace WeaponOut.Items
         public override bool Autoload(ref string name) { return ModConf.enableAccessories; }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Small Star");
+            DisplayName.SetDefault("Star Shard");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
         }
         public override void SetDefaults()
