@@ -216,6 +216,7 @@
     <Compile Include="Projectiles\MeteorBreakshatter.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />
     <Compile Include="Projectiles\SpiritBeam.cs" />
+    <Compile Include="Projectiles\SpiritExplosion.cs" />
     <Compile Include="Projectiles\SpiritShadow.cs" />
     <Compile Include="Projectiles\SpiritQuake.cs" />
     <Compile Include="Projectiles\SpiritIcicle.cs" />
