@@ -7,9 +7,6 @@ using System;
 
 namespace WeaponOut.Projectiles
 {
-    /// <summary>
-    /// Goes in either direction based on ai[1]
-    /// </summary>
     public class SpiritBlast : ModProjectile
     {
         public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
@@ -53,7 +50,21 @@ namespace WeaponOut.Projectiles
             d.noLight = true;
             d.velocity = projectile.velocity / 2;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            // Cosine-wave movement
+            if (projectile.ai[1] != 0f)
+            {
+                Vector2 parallelDirection = projectile.velocity.RotatedBy(MathHelper.PiOver2);
+
+                projectile.localAI[0] = parallelDirection.X * (float)Math.Cos(projectile.ai[0] * 0.2f)
+                    * projectile.ai[1] * 0.25f;
+                projectile.localAI[1] = parallelDirection.Y * (float)Math.Cos(projectile.ai[0] * 0.2f)
+                    * projectile.ai[1] * 0.25f;
+
+                projectile.position += new Vector2(projectile.localAI[0], projectile.localAI[1]);
+            }
+
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y + projectile.localAI[1], (double)projectile.velocity.X + projectile.localAI[0]) + 1.57f;
+
             projectile.ai[0]++;
             projectile.frameCounter++;
         }
