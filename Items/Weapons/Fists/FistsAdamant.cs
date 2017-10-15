@@ -84,6 +84,12 @@ namespace WeaponOut.Items.Weapons.Fists
         { ModifyHit(player, ref damage, ref knockBack, ref crit); }
         private void ModifyHit(Player player, ref int damage, ref float knockBack, ref bool crit)
         {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (mpf.IsComboActiveItemOnHit)
+            {
+                damage += 12;
+                knockBack += 2f;
+            }
             if (AltStats(player))
             {
                 damage = (int)(damage * 1.5);
