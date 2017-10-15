@@ -18,7 +18,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mithril Knuckleduster");
+            DisplayName.SetDefault("Mythril Knuckleduster");
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash spirit energy\n" +
                 "Combo grant 50% increased melee damage");
