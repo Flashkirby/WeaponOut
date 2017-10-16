@@ -21,9 +21,9 @@ namespace WeaponOut.Items.Weapons.Fists
             DisplayName.SetDefault("Patchy Pounder");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
-                "Strike enemies to mark them\n" +
-                "Counterstrike to detonate a marked enemies\n" + 
-                "Combo increases the strength of detonations");
+                "Strike through enemies to mark them\n" +
+                "Counterstrike to detonate marked enemies\n" + 
+                "Combo grants increased explosive potential");
             buffID = mod.BuffType<Buffs.PumpkinMark>();
             projID = mod.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
         }
@@ -47,7 +47,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.height = 20;
         }
         const int fistHitboxSize = 26;
-        const float fistDashSpeed = 10f;
+        const float fistDashSpeed = 12f;
         const float fistDashThresh = 7f;
         const float fistJumpVelo = 14.8f; // http://rextester.com/OIY60171
         public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().parryBuff; }
@@ -185,11 +185,11 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (AltStats(player))
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 15f, true);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 15f);
             }
             else
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.1f, 14f);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.1f, 14f, true);
             }
         }
         #endregion
