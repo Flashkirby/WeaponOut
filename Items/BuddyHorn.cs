@@ -12,6 +12,7 @@ namespace WeaponOut.Items
 {
     public class BuddyHorn : ModItem
     {
+        public static short customGlowMask = 0;
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         public override void SetStaticDefaults()
@@ -20,6 +21,7 @@ namespace WeaponOut.Items
             Tooltip.SetDefault(
                 "Summons a one way portal from your spawn to the current position\n" + 
                 "Only for players on your team");
+            customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
         public override void SetDefaults()
         {
@@ -29,6 +31,8 @@ namespace WeaponOut.Items
             item.useTime = 100;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/SummonHorn");
             item.useAnimation = 100;
+
+            item.glowMask = customGlowMask;
             item.rare = 2;
             item.value = Item.sellPrice(0, 0, 25, 0);
         }

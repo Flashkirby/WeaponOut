@@ -83,26 +83,19 @@ namespace WeaponOut.NPCs
                 }
             }
         }
-
-        // Plz... why's ID is being read 1 down???
-        private int GetItemTypeHack(string itemType)
-        {
-            if (Main.netMode == 2)
-            { return mod.ItemType(itemType) + 1; }
-            return mod.ItemType(itemType);
-        }
+        
         public override void NPCLoot(NPC npc)
         {
             if (ModConf.enableFists)
             {
                 if (npc.type == NPCID.GraniteGolem && Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem(npc.position, npc.Size, GetItemTypeHack("FistsGranite"), 1, false, -1, false, false);
+                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.FistsGranite>(), 1, false, -1, false, false);
                     return;
                 }
                 if (npc.type == NPCID.BoneLee && Main.rand.Next(6) == 0)
                 {
-                    Item.NewItem(npc.position, npc.Size, GetItemTypeHack("GlovesLee"), 1, false, -1, false, false);
+                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.GlovesLee>(), 1, false, -1, false, false);
                     return;
                 }
 
@@ -115,25 +108,25 @@ namespace WeaponOut.NPCs
                     if (Main.expertMode)
                     {
                         if (npc.type == NPCID.KingSlime)
-                        { itemType = mod.ItemType("RoyalHealGel"); }
+                        { itemType = mod.ItemType<Items.Accessories.RoyalHealGel>(); }
 
                         if (npc.type == NPCID.EyeofCthulhu)
-                        { itemType = mod.ItemType("RushCharm"); }
+                        { itemType = mod.ItemType<Items.Accessories.RushCharm>(); }
 
                         if (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail)
-                        { itemType = mod.ItemType("DriedEye"); }
+                        { itemType = mod.ItemType<Items.Accessories.DriedEye>(); }
 
                         if (npc.type == NPCID.BrainofCthulhu)
-                        { itemType = mod.ItemType("StainedTooth"); }
+                        { itemType = mod.ItemType<Items.Accessories.StainedTooth>(); }
 
                         if (npc.type == NPCID.QueenBee)
-                        { itemType = mod.ItemType("QueenComb"); }
+                        { itemType = mod.ItemType<Items.Accessories.QueenComb>(); }
 
                         if (npc.type == NPCID.SkeletronHead)
-                        { itemType = mod.ItemType("FistsBone"); }
+                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsBone>(); }
 
                         if (npc.type == NPCID.WallofFlesh)
-                        { itemType = mod.ItemType("DemonBlood"); }
+                        { itemType = mod.ItemType<Items.DemonBlood>(); }
 
                         if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
                         {
@@ -142,21 +135,21 @@ namespace WeaponOut.NPCs
                             // Last eye standing
                             if (!NPC.AnyNPCs(partner))
                             {
-                                itemType = mod.ItemType("ScrapActuator");
+                                itemType = mod.ItemType<Items.Accessories.ScrapActuator>();
                             }
                         }
 
                         if (npc.type == NPCID.TheDestroyer)
-                        { itemType = mod.ItemType("ScrapFrame"); }
+                        { itemType = mod.ItemType<Items.Accessories.ScrapFrame>(); }
 
                         if (npc.type == NPCID.SkeletronPrime)
-                        { itemType = mod.ItemType("ScrapTransformer"); }
+                        { itemType = mod.ItemType<Items.Accessories.ScrapTransformer>(); }
 
                         if (npc.type == NPCID.Plantera)
-                        { itemType = mod.ItemType("LifeRoot"); }
+                        { itemType = mod.ItemType<Items.Accessories.LifeRoot>(); }
 
                         if (npc.type == NPCID.Golem)
-                        { itemType = mod.ItemType("GolemHeart"); }
+                        { itemType = mod.ItemType<Items.Accessories.GolemHeart>(); }
 
                     }
                     // Modified from DropItemInstanced, only drop for people using fists
@@ -183,19 +176,19 @@ namespace WeaponOut.NPCs
                     if (chance)
                     {
                         if (npc.type == NPCID.KingSlime)
-                        { itemType = mod.ItemType("FistsSlime"); }
+                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsSlime>(); }
 
                         if (npc.type == NPCID.Plantera)
-                        { itemType = mod.ItemType("KnucklesPlantera"); }
+                        { itemType = mod.ItemType<Items.Weapons.Fists.KnucklesPlantera>(); }
 
                         if (npc.type == NPCID.MartianSaucerCore)
-                        { itemType = mod.ItemType("FistsMartian"); }
+                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsMartian>(); }
 
                         if (npc.type == NPCID.DukeFishron)
-                        { itemType = mod.ItemType("KnucklesDuke"); }
+                        { itemType = mod.ItemType<Items.Weapons.Fists.KnucklesDuke>(); }
 
                         if (npc.type == NPCID.DD2Betsy)
-                        { itemType = mod.ItemType("FistsBetsy"); }
+                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsBetsy>(); }
                         /*
                         if (npc.type == NPCID.IceQueen) //TODO: set this up, also npc.boss
                         { itemType = mod.ItemType<Items.Weapons.Fists.FistsFrozen>(); }*/

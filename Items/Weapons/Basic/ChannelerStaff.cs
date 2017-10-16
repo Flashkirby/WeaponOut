@@ -29,20 +29,7 @@ namespace WeaponOut.Items.Weapons.Basic
         /// </summary>
         public override bool Autoload(ref string name)
         {
-            if (Main.netMode != 2 && ModConf.enableBasicContent)
-            {
-                Texture2D[] glowMasks = new Texture2D[Main.glowMaskTexture.Length + 1];
-                for (int i = 0; i < Main.glowMaskTexture.Length; i++)
-                {
-                    glowMasks[i] = Main.glowMaskTexture[i];
-                }
-                glowMasks[glowMasks.Length - 1] = mod.GetTexture("Glow/" + this.GetType().Name + "_Glow");
-                customGlowMask = (short)(glowMasks.Length - 1);
-                Main.glowMaskTexture = glowMasks;
-
-                return true;
-            }
-            return false;
+            return ModConf.enableBasicContent;
         }
         public override void SetStaticDefaults()
         {
@@ -51,6 +38,7 @@ namespace WeaponOut.Items.Weapons.Basic
                 "Greatly increases mana regen when held\n" +
                 "Cast a mana restoring ray to players on your team\n" +
                 "Ray also increases magic damage");
+            customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
         public override void SetDefaults()
         {
