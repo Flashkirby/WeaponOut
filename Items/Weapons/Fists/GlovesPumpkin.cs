@@ -125,6 +125,10 @@ namespace WeaponOut.Items.Weapons.Fists
                 int dmg = 200;
                 if (mpf.IsComboActiveItemOnHit)
                 {
+                    // Combo detonate causes delayed triple explosion
+                    // This means if you can keep the target still enough you can mark the target
+                    // BEFORE the last explosion triggers on it.
+                    // For massive damage!!! chain reactions ftw
                     for (int i = 1; i < 3; i++)
                     {
                         Vector2 pos = new Vector2(
