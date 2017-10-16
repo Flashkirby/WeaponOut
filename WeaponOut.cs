@@ -138,7 +138,7 @@ namespace WeaponOut
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
-            //DrawInterfacePumpkinMark(spriteBatch);
+            try { DrawInterfacePumpkinMark(spriteBatch); } catch { }
             DrawInterfaceDemonBloodHeart(spriteBatch);
             DrawInterfaceWeaponOutToggleEye(spriteBatch);
         }
@@ -146,24 +146,25 @@ namespace WeaponOut
         private void DrawInterfacePumpkinMark(SpriteBatch spriteBatch)
         {
             if (!ModConf.enableFists) return;
+            if (Main.gameMenu) return;
 
             int buffID = BuffType<Buffs.PumpkinMark>();
             List<Vector2> drawPositions = new List<Vector2>();
-            foreach(NPC i in Main.npc)
+            foreach (NPC i in Main.npc)
             {
-                if(i.active && i.FindBuffIndex(buffID)  >= 0)
-                {
+                if (i.active && i.life > 0 && i.FindBuffIndex(buffID) >= 0)
+                {   // Can crash here because of findIndex
                     drawPositions.Add(i.Center);
                 }
             }
             foreach (Player i in Main.player)
             {
-                if (i.active && i.FindBuffIndex(buffID) >= 0)
+                if (i.active && !i.dead && i.FindBuffIndex(buffID) >= 0)
                 {
                     drawPositions.Add(i.Center);
                 }
             }
-            
+
             if (drawPositions.Count > 0)
             {
                 int frameHeight = 34;
@@ -171,10 +172,11 @@ namespace WeaponOut
                 if (ModPlayerFists.Get(Main.LocalPlayer).GetParryBuff() >= 0) frameY = frameHeight;
                 foreach (Vector2 center in drawPositions)
                 {
-                    spriteBatch.Draw(pumpkinMark, center - Main.screenPosition,
+                    spriteBatch.Draw(pumpkinMark, (center - Main.screenPosition),
                         new Rectangle(0, frameY, pumpkinMark.Width, frameHeight),
                         new Color(0.8f, 0.8f, 0.8f, 0.5f), 0f, new Vector2(pumpkinMark.Width / 2, frameHeight / 2),
                         1f, SpriteEffects.None, 0f);
+
                 }
             }
         }
