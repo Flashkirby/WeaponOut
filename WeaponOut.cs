@@ -154,14 +154,14 @@ namespace WeaponOut
             {
                 if (i.active && i.life > 0 && i.FindBuffIndex(buffID) >= 0)
                 {   // Can crash here because of findIndex
-                    drawPositions.Add(i.Center);
+                    drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY));
                 }
             }
             foreach (Player i in Main.player)
             {
                 if (i.active && !i.dead && i.FindBuffIndex(buffID) >= 0)
                 {
-                    drawPositions.Add(i.Center);
+                    drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY));
                 }
             }
 
