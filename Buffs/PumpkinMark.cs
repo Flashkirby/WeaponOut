@@ -12,7 +12,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Pumpkin Mark");
-            Description.SetDefault("Don't get detonated");
+            Description.SetDefault("You will explode if struck by a counter attack");
             Main.debuff[Type] = true;
         }
     }
