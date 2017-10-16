@@ -88,6 +88,7 @@ namespace WeaponOut.NPCs
         {
             if (ModConf.enableFists)
             {
+                int itemType = -1;
                 if (npc.type == NPCID.GraniteGolem && Main.rand.Next(10) == 0)
                 {
                     Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.FistsGranite>(), 1, false, -1, false, false);
@@ -99,12 +100,11 @@ namespace WeaponOut.NPCs
                     return;
                 }
 
+                #region Expert Accessory Drops
                 // Bosses drop per-player
-                // REGEX: mod.ItemType<Items.Accessories.([\w]*)>\(\)
-                //      : GetItemTypeHack("$1")
                 if (npc.boss)
                 {
-                    int itemType = -1;
+                    itemType = -1;
                     if (Main.expertMode)
                     {
                         if (npc.type == NPCID.KingSlime)
@@ -158,8 +158,13 @@ namespace WeaponOut.NPCs
                         if (Main.netMode == 2) itemType++;
                         DropInstancedFistItem(npc, itemType);
                     }
-                    itemType = -1;
+                }
+                #endregion
 
+                #region Bonus Boss Fist Drops
+                itemType = -1;
+                if (npc.boss)
+                {
                     bool chance = Main.rand.Next(5) == 0;
                     if (!chance)
                     {
@@ -189,18 +194,34 @@ namespace WeaponOut.NPCs
 
                         if (npc.type == NPCID.DD2Betsy)
                         { itemType = mod.ItemType<Items.Weapons.Fists.FistsBetsy>(); }
-                        /*
-                        if (npc.type == NPCID.IceQueen) //TODO: set this up, also npc.boss
-                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsFrozen>(); }*/
-                    }
-
-                    // Modified from DropItemInstanced, only drop for people using fists
-                    if (itemType > 0)
-                    {
-                        if (Main.netMode == 2) itemType++; 
-                        DropInstancedFistItem(npc, itemType);
                     }
                 }
+
+                if (Main.snowMoon || Main.pumpkinMoon)
+                {
+                    int waveChance = (int)(30 - 
+                        (Main.expertMode ? NPC.waveNumber + 7 : NPC.waveNumber) 
+                        / 5); // double chance
+                    if (Main.expertMode) waveChance -= 2;
+                    if (Main.pumpkinMoon) waveChance /= 2;
+                    if (waveChance < 1) waveChance = 1;
+
+                    if (Main.rand.Next(waveChance) == 0)
+                    {
+                        if (npc.type == NPCID.Pumpking)
+                        { itemType = mod.ItemType<Items.Weapons.Fists.GlovesPumpkin>(); }
+                        if (npc.type == NPCID.IceQueen)
+                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsFrozen>(); }
+                    }
+                }
+
+                // Modified from DropItemInstanced, only drop for people using fists
+                if (itemType > 0)
+                {
+                    if (Main.netMode == 2) itemType++; 
+                    DropInstancedFistItem(npc, itemType);
+                }
+                #endregion
             }
         }
 
