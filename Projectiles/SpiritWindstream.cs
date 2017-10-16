@@ -45,6 +45,13 @@ namespace WeaponOut.Projectiles
         }
 
         public override bool? CanCutTiles() { return false; }
+        
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        { crit = false; }
+        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        { crit = false; }
+
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

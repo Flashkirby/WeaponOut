@@ -71,7 +71,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (AltStats(player))
             {
-                damage += 252;
+                damage += 84 * 3;
             }
         }
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
