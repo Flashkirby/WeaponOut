@@ -37,7 +37,6 @@ namespace WeaponOut.Items
             maxFallSpeed *= 1.5f;
 
             // Bouncy
-            Console.WriteLine(item.whoAmI + "|" + item.newAndShiny);
             if (item.velocity.Y == 0)
             {
                 Main.PlaySound(2, (int)item.position.X, (int)item.position.Y, 25, 0.1f, 0.4f); // sparkly bounce effect
