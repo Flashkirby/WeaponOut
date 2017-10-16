@@ -138,12 +138,12 @@ namespace WeaponOut
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
-            try { DrawInterfacePumpkinMark(spriteBatch); } catch { }
+            try { DrawPumpkinMark(spriteBatch); } catch { }
             DrawInterfaceDemonBloodHeart(spriteBatch);
             DrawInterfaceWeaponOutToggleEye(spriteBatch);
         }
 
-        private void DrawInterfacePumpkinMark(SpriteBatch spriteBatch)
+        private void DrawPumpkinMark(SpriteBatch spriteBatch)
         {
             if (!ModConf.enableFists) return;
             if (Main.gameMenu) return;
@@ -176,6 +176,10 @@ namespace WeaponOut
                     else
                     { frameY = frameHeight * 2; }
                 }
+                spriteBatch.End();
+
+                //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, null, null, null, Main.GameViewMatrix.ZoomMatrix);
                 foreach (Vector2 center in drawPositions)
                 {
                     spriteBatch.Draw(pumpkinMark, (center - Main.screenPosition),
@@ -184,6 +188,8 @@ namespace WeaponOut
                         1f, SpriteEffects.None, 0f);
 
                 }
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Matrix.CreateScale(Main.UIScale, Main.UIScale, 1f));
             }
         }
 
