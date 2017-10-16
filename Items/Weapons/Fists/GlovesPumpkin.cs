@@ -1,0 +1,177 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.Graphics.Shaders;
+
+namespace WeaponOut.Items.Weapons.Fists
+{
+    [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
+    public class GlovesPumpkin : ModItem
+    {
+        public override bool Autoload(ref string name) { return ModConf.enableFists; }
+        public static int buffID = 0;
+        public static int projID = 0;
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Patchy Pounder");
+            Tooltip.SetDefault(
+                "<right> to parry incoming damage\n" +
+                "Strike enemies to mark them\n" +
+                "Counterstrike to detonate a marked enemy\n" + 
+                "Combo increases the strength of detonations");
+            buffID = mod.BuffType<Buffs.PumpkinMark>();
+            projID = mod.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
+        }
+        public override void SetDefaults()
+        {
+            item.melee = true;
+            item.damage = 357; //650dps vs 20def
+            item.useAnimation = 32; // 30%-50% reduction
+            item.knockBack = 4f;
+            item.tileBoost = 14; // Combo Power
+
+            item.value = Item.sellPrice(0, 2, 0, 0);
+            item.rare = 8;
+            item.shootSpeed = 10 + item.rare / 2;
+
+            item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
+            item.useStyle = ModPlayerFists.useStyle;
+            item.autoReuse = true;
+            item.noUseGraphic = true;
+            item.width = 20;
+            item.height = 20;
+        }
+        const int fistHitboxSize = 26;
+        const float fistDashSpeed = 10f;
+        const float fistDashThresh = 7f;
+        const float fistJumpVelo = 14.8f; // http://rextester.com/OIY60171
+        public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().parryBuff; }
+        const int altHitboxSize = 32;
+        const float altDashSpeed = 19f;
+        const float altDashThresh = 14f;
+        const float altJumpVelo = 17.6f;
+        const int parryActive = 18;
+        const int parryCooldown = 12;
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.TheHorsemansBlade, 1);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
+        // Parry
+        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        { float knockBack = 5f; ModifyHit(player, ref damage, ref knockBack, ref crit); }
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        { ModifyHit(player, ref damage, ref knockBack, ref crit); }
+        private void ModifyHit(Player player, ref int damage, ref float knockBack, ref bool crit)
+        {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (AltStats(player))
+            {
+                damage += 357;
+            }
+        }
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            int buffIndex = target.FindBuffIndex(buffID);
+            if (AltStats(player))
+            {
+                OnHit(player, target, damage, 5f, crit, buffIndex >= 0);
+                if (buffIndex >= 0)
+                {
+                    target.DelBuff(buffIndex);
+                }
+            }
+            else
+            {
+                target.buffImmune[buffID] = false;
+                target.AddBuff(buffID, 600, false);
+            }
+        }
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            int buffIndex = target.FindBuffIndex(buffID);
+            if (AltStats(player))
+            {
+                OnHit(player, target, damage, 5f, crit, buffIndex >= 0);
+                if (buffIndex >= 0)
+                {
+                    target.DelBuff(buffIndex);
+                }
+            }
+            else
+            {
+                target.buffImmune[buffID] = false;
+                target.AddBuff(buffID, 600, false);
+            }
+        }
+        private void OnHit(Player player, Entity target, int damage, float knockBack, bool crit, bool detonate)
+        {
+            ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+            if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
+
+            if (detonate)
+            {
+                int dmg = 200;
+                if (mpf.IsComboActiveItemOnHit)
+                {
+                    for (int i = 1; i < 3; i++)
+                    {
+                        Vector2 pos = new Vector2(
+                            64 * Main.rand.NextFloatDirection(),
+                             64 * Main.rand.NextFloatDirection()
+                            );
+                        Projectile.NewProjectile(target.Center + pos, new Vector2(), projID, dmg, 12f, player.whoAmI, -15f * i);
+                    }
+                }
+                Projectile.NewProjectile(target.Center, new Vector2(), projID, dmg, 12f, player.whoAmI, 0f);
+            }
+        }
+
+        #region Hardmode Parry Base
+        public override bool CanUseItem(Player player)
+        {
+            if (AltStats(player) || player.FindBuffIndex(buffID) >= 0)
+            {
+                player.GetModPlayer<ModPlayerFists>().
+                SetDashOnMovement(altDashSpeed, altDashThresh, 0.992f, 0.96f, true, 0);
+            }
+            else
+            {
+                player.GetModPlayer<ModPlayerFists>().
+                SetDashOnMovement(fistDashSpeed, fistDashThresh, 0.992f, 0.96f, true, 0);
+            }
+            return true;
+        }
+        public override bool AltFunctionUse(Player player)
+        {
+            return player.GetModPlayer<ModPlayerFists>().
+                AltFunctionParryDash(player, parryActive, parryCooldown, fistJumpVelo - fistJumpVelo / 4, fistDashSpeed / 2f, fistDashThresh / 2);
+        }
+        public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
+        {
+            if (AltStats(player) || player.FindBuffIndex(buffID) >= 0)
+            {
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 15f);
+            }
+            else
+            {
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.1f, 14f);
+            }
+        }
+        #endregion
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        { ModPlayerFists.ModifyTooltips(tooltips, item); }
+    }
+}
