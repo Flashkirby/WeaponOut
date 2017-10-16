@@ -161,7 +161,7 @@ namespace WeaponOut.Items.Weapons.Fists
             }
         }
 
-        #region Hardmode Parry Base
+        #region Hardmode Parrydash Base
         public override bool CanUseItem(Player player)
         {
             if (AltStats(player) || player.FindBuffIndex(buffID) >= 0)
@@ -183,14 +183,14 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            if (AltStats(player))
-            {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 15f);
-            }
-            else
+            if (!AltStats(player))
             {
                 ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.1f, 14f,
                     ModPlayerFists.MovingInDash());
+            }
+            else
+            {
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 15f);
             }
         }
         #endregion

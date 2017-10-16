@@ -79,7 +79,7 @@ namespace WeaponOut.Items.Weapons.Fists
             }
         }
 
-        #region Hardmode Parry Base
+        #region Hardmode Parrydash Base
         public override bool CanUseItem(Player player)
         {
             if (!AltStats(player))
@@ -103,7 +103,8 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (!AltStats(player))
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 4f, 14f);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 2f, 14f,
+                    ModPlayerFists.MovingInDash());
             }
             else
             {
