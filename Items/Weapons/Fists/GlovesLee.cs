@@ -20,7 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrikes deal damage based on missing life\n" +
-                "Combo grants life stealing from parries");
+                "Combo grants life stealing parries");
         }
         public override void SetDefaults()
         {
