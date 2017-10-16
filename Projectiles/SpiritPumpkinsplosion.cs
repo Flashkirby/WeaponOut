@@ -66,7 +66,7 @@ namespace WeaponOut.Projectiles
                     {
                         for (int x = -1; x < 2; x += 2)
                         {
-                            g = Gore.NewGoreDirect(projectile.Center, default(Vector2), Main.rand.Next(61, 64), 1f);
+                            g = Gore.NewGoreDirect(projectile.Center - new Vector2(16, 16), default(Vector2), Main.rand.Next(61, 64), 1f);
                             g.velocity *= 0.33f * i;
                             g.velocity += new Vector2(x, y);
                         }

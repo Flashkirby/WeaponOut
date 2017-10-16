@@ -39,7 +39,7 @@ namespace WeaponOut.Projectiles
                 for (int i = 0; i < 8; i++)
                 {
                     d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default(Color), 2f);
-                    d.velocity *= 3f;
+                    d.velocity *= 1f;
                     if (Main.rand.Next(2) == 0)
                     {
                         d.scale = 0.5f;
@@ -49,7 +49,7 @@ namespace WeaponOut.Projectiles
                 for (int i = 0; i < 14; i++)
                 {
                     d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default(Color), 2f);
-                    d.velocity *= 5f;
+                    d.velocity *= 3f;
                     d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 2f);
                     d.velocity *= 2f;
                 }
@@ -60,7 +60,7 @@ namespace WeaponOut.Projectiles
                     {
                         for (int x = -1; x < 2; x += 2)
                         {
-                            g = Gore.NewGoreDirect(projectile.Center, default(Vector2), Main.rand.Next(61, 64), 1f);
+                            g = Gore.NewGoreDirect(projectile.Center - new Vector2(16, 16), default(Vector2), Main.rand.Next(61, 64), 1f);
                             g.velocity *= 0.33f * i;
                             g.velocity += new Vector2(x, y);
                         }
