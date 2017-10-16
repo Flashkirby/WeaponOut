@@ -84,56 +84,57 @@ namespace WeaponOut.NPCs
             }
         }
 
+        // Plz... why's ID is being read 1 down???
+        private int GetItemTypeHack(string itemType)
+        {
+            if (Main.netMode == 2)
+            { return mod.ItemType(itemType) + 1; }
+            return mod.ItemType(itemType);
+        }
         public override void NPCLoot(NPC npc)
         {
             if (ModConf.enableFists)
             {
                 if (npc.type == NPCID.GraniteGolem && Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.FistsGranite>(), 1, false, -1, false, false);
+                    Item.NewItem(npc.position, npc.Size, GetItemTypeHack("FistsGranite"), 1, false, -1, false, false);
                     return;
                 }
                 if (npc.type == NPCID.BoneLee && Main.rand.Next(6) == 0)
                 {
-                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.GlovesLee>(), 1, false, -1, false, false);
+                    Item.NewItem(npc.position, npc.Size, GetItemTypeHack("GlovesLee"), 1, false, -1, false, false);
                     return;
                 }
 
                 // Bosses drop per-player
+                // REGEX: mod.ItemType<Items.Accessories.([\w]*)>\(\)
+                //      : GetItemTypeHack("$1")
                 if (npc.boss)
                 {
                     int itemType = -1;
-                    if (Main.expertMode && Main.LocalPlayer.HeldItem.useStyle == ModPlayerFists.useStyle)
+                    if (Main.expertMode)
                     {
                         if (npc.type == NPCID.KingSlime)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.RoyalHealGel>();
-                        }
+                        { itemType = mod.ItemType("RoyalHealGel"); }
+
                         if (npc.type == NPCID.EyeofCthulhu)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.RushCharm>();
-                        }
+                        { itemType = mod.ItemType("RushCharm"); }
+
                         if (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.DriedEye>();
-                        }
+                        { itemType = mod.ItemType("DriedEye"); }
+
                         if (npc.type == NPCID.BrainofCthulhu)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.StainedTooth>();
-                        }
+                        { itemType = mod.ItemType("StainedTooth"); }
+
                         if (npc.type == NPCID.QueenBee)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.QueenComb>();
-                        }
+                        { itemType = mod.ItemType("QueenComb"); }
+
                         if (npc.type == NPCID.SkeletronHead)
-                        {
-                            // TODO: the actual skeletron dash item
-                            itemType = mod.ItemType<Items.Weapons.Fists.FistsJungleClaws>();
-                        }
+                        { itemType = mod.ItemType("FistsBone"); }
+
                         if (npc.type == NPCID.WallofFlesh)
-                        {
-                            itemType = mod.ItemType<Items.DemonBlood>();
-                        }
+                        { itemType = mod.ItemType("DemonBlood"); }
+
                         if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
                         {
                             int partner = NPCID.Spazmatism;
@@ -141,26 +142,31 @@ namespace WeaponOut.NPCs
                             // Last eye standing
                             if (!NPC.AnyNPCs(partner))
                             {
-                                itemType = mod.ItemType<Items.Accessories.ScrapActuator>();
+                                itemType = mod.ItemType("ScrapActuator");
                             }
                         }
+
                         if (npc.type == NPCID.TheDestroyer)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.ScrapFrame>();
-                        }
+                        { itemType = mod.ItemType("ScrapFrame"); }
+
                         if (npc.type == NPCID.SkeletronPrime)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.ScrapTransformer>();
-                        }
+                        { itemType = mod.ItemType("ScrapTransformer"); }
+
                         if (npc.type == NPCID.Plantera)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.LifeRoot>();
-                        }
+                        { itemType = mod.ItemType("LifeRoot"); }
+
                         if (npc.type == NPCID.Golem)
-                        {
-                            itemType = mod.ItemType<Items.Accessories.GolemHeart>();
-                        }
+                        { itemType = mod.ItemType("GolemHeart"); }
+
                     }
+                    // Modified from DropItemInstanced, only drop for people using fists
+                    if (itemType > 0)
+                    {
+                        if (Main.netMode == 2) itemType++;
+                        DropInstancedFistItem(npc, itemType);
+                    }
+                    itemType = -1;
+
                     bool chance = Main.rand.Next(5) == 0;
                     if (!chance)
                     {
@@ -177,55 +183,59 @@ namespace WeaponOut.NPCs
                     if (chance)
                     {
                         if (npc.type == NPCID.KingSlime)
-                        {
-                            itemType = mod.ItemType<Items.Weapons.Fists.FistsSlime>();
-                        }
+                        { itemType = mod.ItemType("FistsSlime"); }
+
                         if (npc.type == NPCID.Plantera)
-                        {
-                            itemType = mod.ItemType<Items.Weapons.Fists.KnucklesPlantera>();
-                        }
+                        { itemType = mod.ItemType("KnucklesPlantera"); }
+
                         if (npc.type == NPCID.MartianSaucerCore)
-                        {
-                            itemType = mod.ItemType<Items.Weapons.Fists.FistsMartian>();
-                        }
+                        { itemType = mod.ItemType("FistsMartian"); }
+
                         if (npc.type == NPCID.DukeFishron)
-                        {
-                            itemType = mod.ItemType<Items.Weapons.Fists.KnucklesDuke>();
-                        }
+                        { itemType = mod.ItemType("KnucklesDuke"); }
+
                         if (npc.type == NPCID.DD2Betsy)
-                        {
-                            itemType = mod.ItemType<Items.Weapons.Fists.FistsBetsy>();
-                        }
+                        { itemType = mod.ItemType("FistsBetsy"); }
+                        /*
+                        if (npc.type == NPCID.IceQueen) //TODO: set this up, also npc.boss
+                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsFrozen>(); }*/
                     }
 
                     // Modified from DropItemInstanced, only drop for people using fists
                     if (itemType > 0)
                     {
-                        if (Main.netMode == 2)
-                        {
-                            int itemWho = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
-                                itemType, 1, true, -1, false, false);
-                            Main.itemLockoutTime[itemWho] = 54000; // This slot cannot be used again for a while
-                            foreach (Player player in Main.player)
-                            {
-                                if (!player.active) continue;
-                                if (npc.playerInteraction[player.whoAmI])
-                                {// Player must've hit the NPC at least once
-                                    if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
-                                    {// Is equipped with fists, probably punching at time of death
-                                        NetMessage.SendData(90, player.whoAmI, -1, null, itemWho, 0f, 0f, 0f, 0, 0, 0);
-                                    }
-                                }
-                            }
-                            Main.item[itemWho].active = false;
-                        }
-                        else if (Main.netMode == 0)
-                        {
-                            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
-                                itemType, 1, false, -1, false, false);
+                        if (Main.netMode == 2) itemType++; 
+                        DropInstancedFistItem(npc, itemType);
+                    }
+                }
+            }
+        }
+
+        private static void DropInstancedFistItem(NPC npc, int itemType)
+        {
+            if (Main.netMode == 2)
+            {
+                int itemWho = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
+                    itemType, 1, true, -1, false, false);
+                Main.itemLockoutTime[itemWho] = 54000; // This slot cannot be used again for a while
+                foreach (Player player in Main.player)
+                {
+                    if (!player.active) continue;
+                    if (npc.playerInteraction[player.whoAmI])
+                    {// Player must've hit the NPC at least once
+                        if (player.HeldItem.useStyle == ModPlayerFists.useStyle)
+                        {// Is equipped with fists, probably punching at time of death
+                            NetMessage.SendData(MessageID.InstancedItem, player.whoAmI, -1, null, itemWho, 0f, 0f, 0f, 0, 0, 0);
+                            
                         }
                     }
                 }
+                Main.item[itemWho].active = false;
+            }
+            else if (Main.netMode == 0 && Main.LocalPlayer.HeldItem.useStyle == ModPlayerFists.useStyle)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height,
+                    itemType, 1, false, -1, false, false);
             }
         }
 
