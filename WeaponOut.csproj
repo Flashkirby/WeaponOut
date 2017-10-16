@@ -38,6 +38,8 @@
   <ItemGroup>
     <Compile Include="Buffs\ButterflyGrace.cs" />
     <Compile Include="Buffs\BloodLust.cs" />
+    <Compile Include="Buffs\PumpkinMark.cs" />
+    <Compile Include="Buffs\Frostbite.cs" />
     <Compile Include="Buffs\ErodingWind.cs" />
     <Compile Include="Buffs\BetsyRing.cs" />
     <Compile Include="Buffs\PetalShield.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsFrozen.cs" />
     <Compile Include="Items\Weapons\Fists\FistsTitanium.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBone.cs" />
     <Compile Include="Items\Weapons\Fists\FistsAdamant.cs" />
@@ -149,6 +152,7 @@
     <Content Include="Items\DemonBlood.png" />
     <Content Include="Items\MonsterMead.png" />
     <Content Include="Items\RustedBadge.png" />
+    <Compile Include="Items\Weapons\Fists\GlovesPumpkin.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesCaestus.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesBee.cs" />
     <Compile Include="Items\Weapons\Fists\GlovesObsidian.cs" />
@@ -216,7 +220,9 @@
     <Compile Include="Projectiles\MeteorBreakshatter.cs" />
     <Compile Include="Projectiles\PsyWave.cs" />
     <Compile Include="Projectiles\SpiritBeam.cs" />
+    <Compile Include="Projectiles\SpiritPumpkinsplosion.cs" />
     <Compile Include="Projectiles\SpiritExplosion.cs" />
+    <Compile Include="Projectiles\SpiritWindstream.cs" />
     <Compile Include="Projectiles\SpiritShadow.cs" />
     <Compile Include="Projectiles\SpiritQuake.cs" />
     <Compile Include="Projectiles\SpiritIcicle.cs" />

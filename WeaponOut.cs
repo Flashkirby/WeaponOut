@@ -167,9 +167,15 @@ namespace WeaponOut
 
             if (drawPositions.Count > 0)
             {
-                int frameHeight = 34;
+                int frameHeight = pumpkinMark.Height / 3;
                 int frameY = 0;
-                if (ModPlayerFists.Get(Main.LocalPlayer).GetParryBuff() >= 0) frameY = frameHeight;
+                if (ModPlayerFists.Get(Main.LocalPlayer).GetParryBuff() >= 0)
+                {
+                    if ((int)(Main.time / 6) % 2 == 0)
+                    { frameY = frameHeight; }
+                    else
+                    { frameY = frameHeight * 2; }
+                }
                 foreach (Vector2 center in drawPositions)
                 {
                     spriteBatch.Draw(pumpkinMark, (center - Main.screenPosition),
