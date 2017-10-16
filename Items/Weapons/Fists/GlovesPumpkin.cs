@@ -132,7 +132,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (detonate)
             {
                 if (parryIndex >= 0) mpf.ClearParryBuff();
-                int dmg = 200;
+                int dmg = 400;
                 if (mpf.IsComboActiveItemOnHit)
                 {
                     // Combo detonate causes delayed triple explosion
@@ -189,7 +189,8 @@ namespace WeaponOut.Items.Weapons.Fists
             }
             else
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.1f, 14f, true);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.1f, 14f,
+                    ModPlayerFists.MovingInDash());
             }
         }
         #endregion

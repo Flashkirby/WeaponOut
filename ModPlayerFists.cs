@@ -709,7 +709,11 @@ namespace WeaponOut
 
         private void ManagePlayerComboMovement(NPC target)
         {
-            if (noBounce) { return; }
+            if (noBounce)
+            {
+                provideImmunity(player, 20);
+                return;
+            }
 
             if (target.aiStyle == 28) // WOF eye follows head position
             { target = Main.npc[Main.wof]; }
@@ -935,6 +939,17 @@ namespace WeaponOut
                 tt.overrideColor = tooltipColour;
                 tooltips.Insert(index, tt);
             }
+        }
+
+        /// <summary> Check if the localPlayer is aiming in the same direction as movement key </summary>
+        public static bool MovingInDash()
+        {
+            if (Main.LocalPlayer.controlLeft && Main.mouseX < Main.screenWidth / 2 ||
+                Main.LocalPlayer.controlRight && Main.mouseX > Main.screenWidth / 2)
+            {
+                return true;
+            }
+            return false;
         }
 
         public static void provideImmunity(Player player)
