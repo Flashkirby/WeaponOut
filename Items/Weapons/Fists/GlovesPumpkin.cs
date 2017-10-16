@@ -22,7 +22,7 @@ namespace WeaponOut.Items.Weapons.Fists
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Strike enemies to mark them\n" +
-                "Counterstrike to detonate a marked enemy\n" + 
+                "Counterstrike to detonate a marked enemies\n" + 
                 "Combo increases the strength of detonations");
             buffID = mod.BuffType<Buffs.PumpkinMark>();
             projID = mod.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
@@ -90,11 +90,16 @@ namespace WeaponOut.Items.Weapons.Fists
                 {
                     target.DelBuff(buffIndex);
                 }
+                else
+                {
+                    target.buffImmune[buffID] = false;
+                    target.AddBuff(buffID, 900, false);
+                }
             }
             else
             {
                 target.buffImmune[buffID] = false;
-                target.AddBuff(buffID, 600, false);
+                target.AddBuff(buffID, 900, false);
             }
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
@@ -108,20 +113,25 @@ namespace WeaponOut.Items.Weapons.Fists
                 {
                     target.DelBuff(buffIndex);
                 }
+                else
+                {
+                    target.buffImmune[buffID] = false;
+                    target.AddBuff(buffID, 900, false);
+                }
             }
             else
             {
                 target.buffImmune[buffID] = false;
-                target.AddBuff(buffID, 600, false);
+                target.AddBuff(buffID, 900, false);
             }
         }
         private void OnHit(Player player, Entity target, int damage, float knockBack, bool crit, bool detonate)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            if (mpf.GetParryBuff() >= 0) mpf.ClearParryBuff();
-
+            int parryIndex = mpf.GetParryBuff();
             if (detonate)
             {
+                if (parryIndex >= 0) mpf.ClearParryBuff();
                 int dmg = 200;
                 if (mpf.IsComboActiveItemOnHit)
                 {
@@ -139,6 +149,15 @@ namespace WeaponOut.Items.Weapons.Fists
                     }
                 }
                 Projectile.NewProjectile(target.Center, new Vector2(), projID, dmg, 12f, player.whoAmI, 0f);
+            }
+            else
+            {
+                //quickly degrade parry buff
+                if (parryIndex >= 0)
+                {
+                    player.buffTime[parryIndex] -= 120;
+                    if (player.buffTime[parryIndex] < 1) player.buffTime[parryIndex] = 1;
+                }
             }
         }
 
@@ -164,9 +183,9 @@ namespace WeaponOut.Items.Weapons.Fists
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            if (AltStats(player) || player.FindBuffIndex(buffID) >= 0)
+            if (AltStats(player))
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 15f);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 15f, true);
             }
             else
             {

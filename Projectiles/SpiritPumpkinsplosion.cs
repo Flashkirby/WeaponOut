@@ -27,8 +27,6 @@ namespace WeaponOut.Projectiles
             projectile.tileCollide = false;
 
             projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
             projectile.melee = true;
         }
 
@@ -39,6 +37,11 @@ namespace WeaponOut.Projectiles
                 projectile.friendly = true;
                 projectile.timeLeft = 3;
                 Main.PlaySound(SoundID.Item14, projectile.position);
+                if (projectile.ai[1] == 1)
+                {
+                    projectile.ai[1]++;
+                    Main.PlaySound(SoundID.Item42, projectile.Center);// chain react explosion sfx
+                }
 
                 #region Explosion Dust FX
                 Dust d;
@@ -104,14 +107,15 @@ namespace WeaponOut.Projectiles
 
         private void SpawnExplosions(Entity target)
         {
-            int dmg = 535;
-            Projectile.NewProjectile(target.Center, new Vector2(), projectile.type, dmg, 12f, projectile.owner, -5f);
+            int damage = (int)(projectile.damage * 0.8f);
+
+            Projectile.NewProjectile(target.Center, new Vector2(), projectile.type, damage, 12f, projectile.owner, -8f, 1);
 
             Vector2 pos = new Vector2(
-                64 * Main.rand.NextFloatDirection(),
-                 64 * Main.rand.NextFloatDirection()
+                target.width * Main.rand.NextFloatDirection(),
+                 target.height * Main.rand.NextFloatDirection()
                 );
-            Projectile.NewProjectile(target.Center + target.velocity * 15 + pos, new Vector2(), projectile.type, dmg, 12f, projectile.owner, -20f);
+            Projectile.NewProjectile(target.Center + target.velocity * 15 + pos, new Vector2(), projectile.type, damage, 12f, projectile.owner, -23f);
         }
     }
 }

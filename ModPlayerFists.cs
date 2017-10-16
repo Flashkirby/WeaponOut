@@ -76,6 +76,8 @@ namespace WeaponOut
         public int specialMove;
         /// <summary> Allows uppercuts without staying grounded (requires air hits) </summary>
         public bool jumpAgainUppercut = false;
+        /// <summary> Should normal punches bounce as usual? </summary>
+        private bool noBounce = false;
 
         // Bonuses
         public float uppercutDamage = 1f;
@@ -220,6 +222,7 @@ namespace WeaponOut
         {
             if (ModConf.enableFists)
             {
+                // Main.NewText("cd = " + player.attackCD + " : " + noBounce);
                 // Don't use the item whilst a parry is in progress
                 if (ItemCheckParry())
                 {
@@ -230,7 +233,7 @@ namespace WeaponOut
                 ManageComboMethodCall();
 
                 // Make dashing effects hit everything it passes through
-                if(dashEffect != 0 || specialMove == 1)
+                if(dashEffect != 0 || specialMove == 1 || noBounce)
                 {
                     player.attackCD = 0;
                 }
@@ -405,7 +408,7 @@ namespace WeaponOut
         /// <param name="fallSpeedX"></param>
         /// <param name="fallSpeedY">Set dive Y speed, fall speed is auto increased by 1.5 (velY = 15)</param>
         /// <returns></returns>
-        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed = 9f, float fallSpeedX = 2f, float fallSpeedY = 8f)
+        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed = 9f, float fallSpeedX = 2f, float fallSpeedY = 8f, bool disableBounce = false)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf == null) return false;
@@ -428,6 +431,10 @@ namespace WeaponOut
                 }
             }
 
+            if (player.dashDelay >= 0)
+            {
+                mpf.noBounce = disableBounce;
+            }
             return mpf.SetHitBox(player, out hitbox, distance);
         }
 
@@ -663,7 +670,6 @@ namespace WeaponOut
             if (dashEffect == 0 && comboEffect == 0 && (allowComboBounce || specialMove == 2))
             {
                 ManagePlayerComboMovement(target);
-                allowComboBounce = false;
             }
             else if (dashEffect != 0)
             {
@@ -671,7 +677,6 @@ namespace WeaponOut
                 if (allowComboBounce)
                 {
                     provideImmunity(player, 20);
-                    allowComboBounce = false;
                 }
             }
             else
@@ -680,9 +685,9 @@ namespace WeaponOut
                 if (allowComboBounce)
                 {
                     provideImmunity(player, player.itemAnimation + 1);
-                    allowComboBounce = false;
                 }
             }
+            allowComboBounce = false;
         }
 
         public void ModifyComboCounter(int amount, bool resetTimer = true)
@@ -704,6 +709,8 @@ namespace WeaponOut
 
         private void ManagePlayerComboMovement(NPC target)
         {
+            if (noBounce) { return; }
+
             if (target.aiStyle == 28) // WOF eye follows head position
             { target = Main.npc[Main.wof]; }
 
