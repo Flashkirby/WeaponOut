@@ -92,8 +92,7 @@ namespace WeaponOut.Projectiles
         private bool Casting { get { return ChargeTicks < 0; } }
         public override void AI()
         {
-            Main.NewText("Level: " + ChargeLevel + " | " + ChargeTicks + " (" + Casting + ")");
-
+            //\/Main.NewText("Level: " + ChargeLevel + " | " + ChargeTicks + " (" + Casting + ")");
             Player player = Main.player[projectile.owner];
             projectile.velocity = Vector2.Zero;
 
@@ -163,7 +162,6 @@ namespace WeaponOut.Projectiles
                 {
                     if (i == ChargeLevel)
                     {
-                        Main.NewText("cl = " + ChargeLevel + " a " + (ChargeTicks / (chargeTicksMax - 1f)));
                         if (textureAlphas[i] < 1f) { textureAlphas[i] = ChargeTicks / (chargeTicksMax - 1f); }
                         if (textureAlphas[i] > 1f) { textureAlphas[i] = 1f; }
                     }
@@ -313,7 +311,7 @@ namespace WeaponOut.Projectiles
 
             //play noises
             projectile.frameCounter++;
-            if (projectile.frameCounter > (8 + maxCharge - ChargeLevel / 2))
+            if (projectile.frameCounter > (12 + maxCharge - ChargeLevel / 2))
             {
                 projectile.frameCounter = 0;
                 Main.PlaySound(SoundID.Item34.WithVolume(0.4f + 0.05f * ChargeLevel), player.Center);
