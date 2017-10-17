@@ -157,8 +157,10 @@ namespace WeaponOut
         public int itemSkillDelay;
 
         #region Utils
-        public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame)
+        public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame = -1)
         {
+            if (frame < 0) frame = (int)Main.time % 48 / 12;
+
             Texture2D textureCasting = Main.extraTexture[51];
             Vector2 origin = player.Bottom + new Vector2(0f, player.gfxOffY + 4f);
             if (player.gravDir < 0) origin.Y -= player.height + 8f;

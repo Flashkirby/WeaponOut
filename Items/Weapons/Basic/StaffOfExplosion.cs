@@ -8,10 +8,7 @@ namespace WeaponOut.Items.Weapons.Basic
 {
     public class StaffOfExplosion : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
+        public override bool Autoload(ref string name) { return ModConf.enableBasicContent; }
 
         public const int baseDamage = 40;
         public override void SetStaticDefaults()
@@ -32,12 +29,12 @@ namespace WeaponOut.Items.Weapons.Basic
             item.channel = true;
             item.mana = 10;
             item.damage = baseDamage; //damage * (charge ^ 2) *1(0) - *25(8) - *160(11) - *1000(15)
-            item.knockBack = 3; //up to x2.18
+            item.knockBack = 3f; //up to x2.18
             item.autoReuse = true;
 
             item.noMelee = true;
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
-            item.shoot = mod.ProjectileType("Explosion");
+            item.shoot = mod.ProjectileType<Projectiles.Explosion>();
             item.shootSpeed = 1;
 
             item.useStyle = 5;
@@ -51,10 +48,10 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WandofSparking, 1);
-            recipe.AddIngredient(ItemID.RubyStaff, 1);
-            recipe.AddIngredient(ItemID.MeteorStaff, 1);
-            recipe.AddIngredient(ItemID.InfernoFork, 1);
+            recipe.AddIngredient(ItemID.WandofSparking, 1); // Surface chest
+            recipe.AddIngredient(ItemID.RubyStaff, 1); // Extractinator, or Gold ore world
+            recipe.AddIngredient(ItemID.MeteorStaff, 1); // Meteorite
+            recipe.AddIngredient(ItemID.InfernoFork, 1); // Inferno caster
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this);
             recipe.AddRecipe();

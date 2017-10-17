@@ -71,11 +71,6 @@ namespace WeaponOut
             {
 				dHeart = mod.GetTexture("Gores/DemonHearts");
                 pumpkinMark = mod.GetTexture("Gores/PumpkinMark");
-                Projectiles.Explosion.textureTargetS = GetTexture("Projectiles/Explosion_Targetsm");
-                Projectiles.Explosion.textureTargetM = GetTexture("Projectiles/Explosion_Targetmd");
-                Projectiles.Explosion.textureTargetL = GetTexture("Projectiles/Explosion_Targetlg");
-                Projectiles.Explosion.textureTargetXL = GetTexture("Projectiles/Explosion_Targetxl");
-                Projectiles.Explosion.textureLaser = GetTexture("Projectiles/Explosion_Laser");
             }
             else
             {

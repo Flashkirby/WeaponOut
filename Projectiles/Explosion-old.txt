@@ -17,23 +17,14 @@ namespace WeaponOut.Projectiles
     /// 
     /// Possibly increase size by projectile velocity
     /// </summary>
-    public class Explosion : ModProjectile
+    public class Explosiona : ModProjectile
     {
-        public override bool Autoload(ref string name) { return true; }
-        #region Textures
+        public override bool Autoload(ref string name) { return false; }
         public static Texture2D textureTargetS;
         public static Texture2D textureTargetM;
         public static Texture2D textureTargetL;
         public static Texture2D textureTargetXL;
         public static Texture2D textureLaser;
-        
-        public float[] textureAlphas = new float[maxCharge];
-        #endregion
-
-        public const int maxCharge = 15;
-
-        #region Tweaking Values
-        public const int explosionSize = 100;
 
         public const int chargeTicksIdle = 3; //bonus ticks for standing still
         public const int chargeTicksMax = 48 * (1 + chargeTicksIdle); //3 ticks per update
@@ -41,12 +32,31 @@ namespace WeaponOut.Projectiles
         public const int castTicksTime = 5; //time per charge spent casting
         public const int fireTicksTime = 3; //time per charge spent exploding (penetrating projs gives npcs 10tick immune)
         public const float manaIncrease = 0.5f;//additive mana multiplier per increase
-        public const int manaMaintainCost = 2;//cost per tick to maintain full charge
+        public const int manaMaintainCost = 3;//cost per tick to maintain full charge
         public const float explosionScale = 1.15f; //width * this^15
         public const float farDistance = 2000;
         public const float maxDistance = 2500;
         //10, 15, 20, 25 etc.
 
+        public float[] textureSizes = new float[maxCharge];
+        public float[] textureAlphas = new float[maxCharge];
+        public float[] textureCastAlphas = new float[2];
+        public float centreY;
+        public Vector2 GraphicCentre
+        {
+            get
+            {
+                return new Vector2(projectile.Center.X, centreY);
+            }
+        }
+
+        private int ChargeLevel { get { return (int)projectile.ai[0]; } set { projectile.ai[0] = value; } }
+        private int ExplosionState { get { return (int)projectile.ai[1]; } set { projectile.ai[1] = value; } }
+        private int ChargeTick { get { return (int)projectile.localAI[0]; } set { projectile.localAI[0] = value; } }
+        private int Damage { get { return (int)projectile.localAI[1]; } set { projectile.localAI[1] = value; } }
+        private int manaCost { get { return (int)(Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].mana * (1f + (ChargeLevel + 1) / 2f)); } }
+
+        public const int maxCharge = 15;
         //Titanium/Hallowed Headgear, Diamond Robe, 
         //Crystal Ball Buff, Arcane Band of Starpower, Arcane Mana Regeneration Band, 
         //Arcane Magic Cuffs, three Arcane Accessories (one extra with Demon Heart)
@@ -57,25 +67,18 @@ namespace WeaponOut.Projectiles
         //NOTE: it seems 400 is maximum mana allowed, Must consume a mana pot at tier 6 to cast full power
         //
 
-        #endregion
+        private Vector2 zoomDiff = new Vector2();
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vermillion Runes");
-            if(!Main.dedServ)
-            {
-                textureTargetS = mod.GetTexture("Projectiles/Explosion_Targetsm");
-                textureTargetM = mod.GetTexture("Projectiles/Explosion_Targetmd");
-                textureTargetL = mod.GetTexture("Projectiles/Explosion_Targetlg");
-                textureTargetXL = mod.GetTexture("Projectiles/Explosion_Targetxl");
-                textureLaser = mod.GetTexture("Projectiles/Explosion_Laser");
-            }
+            DisplayName.SetDefault("Explosion Charge");
         }
         public override void SetDefaults()
         {
-            projectile.width = explosionSize;
-            projectile.height = explosionSize;
+            projectile.width = 100;
+            projectile.height = 100;
 
+            projectile.timeLeft = 3600;
             projectile.penetrate = -1;
 
             //projectile.friendly = true;
@@ -84,212 +87,53 @@ namespace WeaponOut.Projectiles
             projectile.ignoreWater = true;
             projectile.netImportant = true;
         }
-        public override bool? CanCutTiles() { return false; }
 
-        private int ChargeLevel { get { return (int)projectile.ai[0]; } set { projectile.ai[0] = value; } }
-        private int ChargeTicks { get { return (int)projectile.ai[1]; } set { projectile.ai[1] = value; } }
-        private int Damage { get { return (int)projectile.localAI[1]; } set { projectile.localAI[1] = value; } }
-        private bool Casting { get { return ChargeTicks < 0; } }
         public override void AI()
         {
-            Main.NewText("Level: " + ChargeLevel + " | " + ChargeTicks + " (" + Casting + ")");
-
             Player player = Main.player[projectile.owner];
+            player.heldProj = projectile.whoAmI; //set to this
+
             projectile.velocity = Vector2.Zero;
-
-            // Delete if owner is kill
-            if (player.dead || !player.active)
+            centreY = (centreY * chargeTickGameMax + projectile.Center.Y) / (chargeTickGameMax + 1);
+            if (ExplosionState == 0f)
             {
-                projectile.timeLeft = 0;
-                projectile.netUpdate = true;
-                SpawnExplosionAndFade(true);
+                chargeState(player);
             }
-            else { projectile.timeLeft++; }
-
-            // Draw this over the player
-            player.heldProj = projectile.whoAmI;
-
-            // Reset damage
-            if (projectile.damage > 0) //first time
+            else if (ExplosionState == 1f)
             {
-                // Midly affected by staff and magic byffs
-                Damage = (projectile.damage + Items.Weapons.Basic.StaffOfExplosion.baseDamage * 9) / 10;
+                castState(player);
+            }
+            else if (ExplosionState == 2f)
+            {
+                fireState(player);
+            }
+        }
+
+        public override bool? CanCutTiles()
+        {
+            return false;
+        }
+
+        #region Behaviours
+
+        private static bool canChannel(Player player)
+        {
+            return !player.dead && !player.frozen && !player.stoned && !player.webbed && !player.tongued;
+        }
+        /// <summary>
+        /// Does all the "is holding and facing this projectile" things
+        /// </summary>
+        /// <param name="player"></param>
+        private void playerFaceProjectileChannel(Player player)
+        {
+            if (projectile.damage != 0) //first tiome
+            {
+                Damage = (projectile.damage + Items.Weapons.Basic.StaffOfExplosion.baseDamage * 5) / 6;
                 projectile.damage = 0;
+                centreY = projectile.Center.Y;
+
+                //-//Main.NewText("Damage: \n" + Damage);
             }
-
-            // Manage clientside for channelling
-            if (Main.myPlayer == projectile.owner)
-            {
-                if (!player.channel && !Casting)
-                {
-                    // Set to casting
-                    ChangeToCastState();
-                }
-            }
-
-            if (!Casting)
-            {
-                // Charging
-                if (ChargeLevel < maxCharge)
-                {
-                    // Charge ticks whilst not "stunned"
-                    if (PlayerCanChannel(player))
-                    {
-                        float rise = 4.5f;
-                        ChargeTicks++; // Increase charge, more if close and standing still
-                        if (PlayerStandingStillChannel(player))
-                        {
-                            ChargeTicks += chargeTicksIdle;
-                            rise += rise * chargeTicksIdle;
-                        }
-                        projectile.position.Y -= (float)projectile.height / (chargeTickGameMax * 25f);
-                    }
-
-                    // Upgrade charge
-                    if (ChargeTicks >= chargeTicksMax)
-                    {
-                        ChargeTicks = 0; // Reset charge ticks
-                        LevelUpCharge(player); // level or go to cast
-                    }
-                }
-                else
-                {
-                    // Maintenance cost, or go to cast
-                    ConsumeMana(player, manaMaintainCost);
-                }
-
-                // Update alphas for graphics
-                for (int i = 0; i < Math.Min(textureAlphas.Length, ChargeLevel + 1); i++)
-                {
-                    if (i == ChargeLevel)
-                    {
-                        Main.NewText("cl = " + ChargeLevel + " a " + (ChargeTicks / (chargeTicksMax - 1f)));
-                        if (textureAlphas[i] < 1f) { textureAlphas[i] = ChargeTicks / (chargeTicksMax - 1f); }
-                        if (textureAlphas[i] > 1f) { textureAlphas[i] = 1f; }
-                    }
-                    else
-                    {
-                        textureAlphas[i] = 1f;
-                    }
-                }
-                PlayerCharging(player);
-            }
-            else
-            {
-                // Casting
-                if (-ChargeTicks < (2 + ChargeLevel) * castTicksTime)
-                {
-                    ChargeTicks--;
-                    PlayerCasting(player);
-                }
-                else
-                {
-                    SpawnExplosionAndFade(false);
-                }
-            }
-        }
-
-        private void SpawnExplosionAndFade(bool weaken)
-        {
-            // Spawn explosion, fade out and disappear
-            if (projectile.alpha == 0)
-            {
-                if (projectile.owner == Main.myPlayer)
-                {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity,
-                        mod.ProjectileType<Explooosion>(),
-                        CalculateDamage(weaken),
-                        projectile.knockBack,
-                        projectile.owner,
-                        ChargeLevel,
-                        projectile.width);
-                }
-            }
-            projectile.alpha += 25;
-            projectile.scale *= 0.95f;
-            if (projectile.alpha > 255)
-            {
-                projectile.timeLeft = 0;
-                projectile.netUpdate = true;
-            }
-        }
-
-        private bool PlayerStandingStillChannel(Player player)
-        {
-            return player.velocity.X == 0 && player.velocity.Y == 0 &&
-                              Vector2.Distance(player.Center, projectile.Center) <= farDistance;
-        }
-        private bool PlayerCanChannel(Player player) { return !player.dead && !player.frozen && !player.stoned && !player.webbed && !player.tongued && !player.silence; }
-        private void LevelUpCharge(Player player)
-        {
-            if (!ConsumeMana(player, CalculateManaCost())) return;
-
-            // Upgrade charge
-            ChargeLevel++;
-
-            // Resize projectile and recentre
-            Vector2 centre = new Vector2(projectile.Center.X, projectile.Center.Y);
-            projectile.Size = new Vector2(explosionSize, explosionSize); // Default width/height
-            for (int i = 0; i < ChargeLevel; i++)
-            {
-                projectile.Size *= explosionScale;
-            }
-            projectile.Center = centre;
-
-            // Ping noise
-            if (Main.myPlayer == projectile.owner)
-            {
-                Main.PlaySound(25, player.position);
-            }
-
-            projectile.netUpdate = true;
-        }
-        private void ChangeToCastState()
-        {
-            ChargeTicks = -1;
-            projectile.netUpdate = true;
-        }
-
-        private int CalculateManaCost()
-        {
-            return (int)(Main.player[projectile.owner].HeldItem.mana * (1f + (ChargeLevel + 1) / 2f));
-        }
-        private bool ConsumeMana(Player player, int manaCost)
-        {
-            if (player.whoAmI != Main.myPlayer) return true;
-
-            // Chug a potion
-            if (player.statMana < manaCost && player.manaFlower)
-            { player.QuickMana(); }
-
-            // Can't channel? Force cast now them
-            if (player.statMana < manaCost)
-            { ChangeToCastState(); return false; }
-
-            player.statMana -= manaCost;
-            return true;
-        }
-
-        private int CalculateDamage(bool weaken)
-        {
-            int level = ChargeLevel;
-            if (weaken) { level /= 3; }
-            if (level > 0)
-            {
-                //goes up to x1000 damage
-                Damage = Damage + (int)(Damage * Math.Pow(2, level * 10f / Explosion.maxCharge));
-                projectile.knockBack *= 1 + (int)Math.Log10(level * 10);
-            }
-
-            //damage is reduced over a period of time due to fire time
-            //in this case, since it hits every 10 ticks
-            return Damage / (1 + (Explosion.fireTicksTime * (1 + ChargeLevel) / 10));
-        }
-
-        private void PlayerCharging(Player player)
-        {
-            // Grant beetle armour level aggro
-            player.aggro += 900;
 
             Vector2 vectorDiff = player.Center - projectile.Center;
             if (vectorDiff.X < 0f)
@@ -310,42 +154,263 @@ namespace WeaponOut.Projectiles
             //point at projectile
             player.itemRotation = (vectorDiff * -1f * (float)projectile.direction).ToRotation();
             projectile.spriteDirection = ((vectorDiff.X > 0f) ? -1 : 1);
+        }
 
-            //play noises
-            projectile.frameCounter++;
-            if (projectile.frameCounter > (8 + maxCharge - ChargeLevel / 2))
-            {
-                projectile.frameCounter = 0;
-                Main.PlaySound(SoundID.Item34.WithVolume(0.4f + 0.05f * ChargeLevel), player.Center);
-            }
 
-            // Draw fancy pantsy staff dusts
+
+        private void chargeState(Player player)
+        {
             Vector2 staffTip = player.MountedCenter + new Vector2(
                 player.inventory[player.selectedItem].width * 1.1f * (float)Math.Cos(player.itemRotation),
                 player.inventory[player.selectedItem].width * 1.1f * (float)Math.Sin(player.itemRotation)
             ) * player.direction;
-            Dust d = Dust.NewDustDirect(staffTip - new Vector2(3 - player.direction * 2 + ChargeLevel * 0.05f, 3 + ChargeLevel * 0.05f),
+            int d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2 + ChargeLevel * 0.05f, 3 + ChargeLevel * 0.05f),
                 0, 0, 174, 0, 0, 0, Color.White, 0.3f + (0.1f * ChargeLevel));
-            d.noGravity = true;
-            d.velocity *= 0.3f;
-        }
-        private bool playerStartCast = false;
-        private void PlayerCasting(Player player)
-        {
-            if(!playerStartCast)
+            Main.dust[d].noGravity = true;
+            Main.dust[d].velocity *= 0.3f;
+
+            player.aggro += 900;//same as beetle armour
+
+            //can't instantly use
+            bool littleCharge = ChargeLevel == 0 && ChargeTick < chargeTicksMax / 2;
+
+            float distance = Vector2.Distance(player.Center, projectile.Center);
+            //Main.NewText("distance: \n" + distance + "/\n" + maxDistance);
+
+            //cancelled if no longer channelling or can't act, or simply too far
+            // Also, in multiplayer player.channel might drop so ignore that for other clients
+            if ((player.channel || littleCharge || player.whoAmI != projectile.owner) &&
+                canChannel(player) && distance <= maxDistance)
             {
-                Main.PlaySound(2, player.position, 72);
-                playerStartCast = true;
+                chargeTickLogic(player, ref staffTip, ref d, distance);
+                chargeLevelLogic(player);
             }
-            if (!PlayerCanChannel(player)) return;
-
-            player.itemRotation = -1.5708f * player.direction;
-            player.itemAnimation = player.itemAnimationMax / 2;
-            player.itemTime = player.itemAnimationMax / 2;
-            player.noKnockback = true;
-            player.velocity /= 2f;
+            else
+            {
+                changeToCast();
+            }
         }
 
+        private void changeToCast()
+        {
+            ExplosionState = 1;
+            projectile.netUpdate = true;
+            //-//Main.NewText("Changing to CastState");
+        }
+        private void chargeTickLogic(Player player, ref Vector2 staffTip, ref int d, float distance)
+        {
+            //hold player usage
+            playerFaceProjectileChannel(player);
+            ChargeTick += 1; //increase charge a bit
+            if (player.velocity.X == 0 && player.velocity.Y == 0 && distance <= farDistance)
+            {
+                ChargeTick += chargeTicksIdle; //increase charge
+
+                //extra dust to indicate charging faster
+                d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2 + ChargeLevel * 0.05f, 3 + ChargeLevel * 0.05f),
+                    0, 0, 174, 0, 0, 0, Color.White, 0.5f + (0.1f * ChargeLevel));
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= 0.7f;
+
+                //dust fly into staff
+                Vector2 circleVector;
+                float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
+                circleVector = new Vector2(
+                    ChargeLevel * 8 * (float)Math.Cos(randAng),
+                    ChargeLevel * 8 * (float)Math.Sin(randAng)
+                    );
+                //dust spawn at cricle and move in
+                d = Dust.NewDust(staffTip + circleVector, 0, 0,
+                    106, circleVector.X, circleVector.Y, 0, Color.White, 0.1f);
+                Main.dust[d].fadeIn = 0.8f;
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity *= -0.1f;
+
+                chargeFX(true);
+            }
+            else
+            {
+                chargeFX(false);
+            }
+        }
+        private void chargeLevelLogic(Player player)
+        {
+            if (ChargeLevel < maxCharge) //under full charge
+            {
+                if (ChargeTick >= chargeTicksMax) //past level tick
+                {
+                    ChargeTick = 0;//past, reset tick
+                    //use manaflower, is only me
+                    if (manaCost > player.statMana && player.whoAmI == Main.myPlayer)
+                    {
+                        if (player.manaFlower)
+                        {
+                            player.QuickMana();
+                        }
+                        else
+                        {
+                            changeToCast();
+                        }
+                    }
+                    //now has mana available? only applies to caster if owner
+                    if (player.statMana >= manaCost || player.whoAmI != Main.myPlayer)
+                    {
+                        ChargeLevel++;
+                        projectile.netUpdate = true;
+                        projectile.timeLeft += chargeTicksMax;
+
+                        float recentre = projectile.width;
+                        projectile.Size *= explosionScale;
+                        recentre = (projectile.width - recentre) / 2f;
+                        projectile.Center -= new Vector2(recentre, recentre * 1.75f);
+                        textureSizes[ChargeLevel - 1] = projectile.width;
+
+                        player.CheckMana(manaCost, true);
+                        //-//Main.NewText("Increase... tier \n" + ChargeLevel + " | current manacost: \n" + manaCost + "| size: \n" + textureSizes[Math.Min(maxCharge - 1, ChargeLevel)]);
+
+                        chargeNext();
+                    }
+                }
+            }
+            else //already fully charged
+            {
+                ChargeTick = 0;
+                if (manaMaintainCost > player.statMana || player.whoAmI != Main.myPlayer)
+                {
+                    if (player.manaFlower)
+                    {
+                        player.QuickMana();
+                    }
+                    else
+                    {
+                        changeToCast();
+                    }
+                }
+                //now has mana available?
+                if (player.statMana >= manaMaintainCost || player.whoAmI != Main.myPlayer)
+                {
+                    player.CheckMana(manaMaintainCost, true);
+                }
+            }
+        }
+
+        
+        private bool start = true;
+        private int chargeTime;
+        private void castState(Player player)
+        {
+            chargeTime = (2 + ChargeLevel) * castTicksTime;
+            if (start) { ChargeTick = chargeTime; castStart(); start = false; }
+
+            //release at lower power if can't act
+            if (canChannel(player))
+            {
+                player.itemRotation = -1.5708f * player.direction;
+            }
+            else
+            {
+                //-//Main.NewText("Changing to weak FireState");
+                ChargeLevel /= 2;
+                ExplosionState = 2;
+                projectile.netUpdate = true;
+            }
+
+            if (ChargeTick > 0)
+            {
+                ChargeTick--;
+
+                //player stays still to cast
+                player.itemAnimation = player.itemAnimationMax / 2;
+                player.itemTime = player.itemAnimationMax / 2;
+                player.noKnockback = true;
+                player.velocity /= 2f;
+
+                // -- casting code --
+                
+                Vector2 staffTip = player.MountedCenter + new Vector2(
+                    player.inventory[player.selectedItem].width * 1.1f * (float)Math.Cos(player.itemRotation),
+                    player.inventory[player.selectedItem].width * 1.1f * (float)Math.Sin(player.itemRotation)
+                ) * player.direction;
+
+                /*
+                ////-//Main.NewText("casting... \n" + ((float)ChargeTick / castTicksTime));
+                int d = Dust.NewDust(staffTip - new Vector2(3 - player.direction * 2, 3),
+                    0, 0, 130, 0, 0, 0, Color.White, 0.5f + (0.1f * ((float)ChargeTick / castTicksTime)));
+                Main.dust[d].noGravity = true;
+                Main.dust[d].velocity = new Vector2(Main.dust[d].velocity.X * 0.1f, -5f + Main.dust[d].velocity.Y - ChargeLevel * 0.1f);
+                 */
+            }
+            else
+            {
+                //-//Main.NewText("Changing to FireState");
+                ExplosionState = 2;
+                projectile.netUpdate = true;
+            }
+        }
+        
+        private void fireState(Player player)
+        {
+            if (ChargeTick >= 0)
+            {
+                ChargeTick = -1;
+                projectile.timeLeft = Explosion.fireTicksTime * (1 + ChargeLevel);
+
+                if (projectile.owner == Main.myPlayer)
+                {
+                    if (ChargeLevel > 0)
+                    {
+                        //goes up to x1000 damage
+                        Damage = Damage + (int)(Damage * Math.Pow(2, ChargeLevel * 10f / Explosion.maxCharge));
+                        projectile.knockBack *= 1 + (int)Math.Log10(ChargeLevel * 10);
+                    }
+
+                    //damage is reduced over a period of time due to fire time
+                    //in this case, since it hits every 10 ticks
+                    int divDamage = Damage / (1 + (projectile.timeLeft / 10));
+                    projectile.damage = divDamage;
+
+                    //-//Main.NewText("lifetime: \n" + projectile.timeLeft + " | dmg: \n" + divDamage + "/\n" + Damage);
+                    
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity,
+                        mod.GetProjectile("Explooosion").projectile.type,
+                        Damage,
+                        projectile.knockBack,
+                        projectile.owner,
+                        projectile.ai[0],
+                        projectile.ai[1]);
+                }
+            }
+
+            projectile.scale += (Explosion.explosionScale - 1) / Explosion.fireTicksTime;
+            projectile.alpha += 10;
+        }
+
+        #endregion
+
+        #region Visuaudio
+        public void chargeFX(bool notMoving)
+        {
+            projectile.frameCounter++;
+            if (projectile.frameCounter > (8 + maxCharge - ChargeLevel))
+            {
+                projectile.frameCounter = 0;
+                Main.PlaySound(2, projectile.Center, 34);
+            }
+        }
+        public void chargeNext()
+        {
+            Player player = Main.player[projectile.owner];
+            if (Main.myPlayer == projectile.owner)
+            {
+                Main.PlaySound(25, player.position);
+            }
+        }
+
+        public void castStart()
+        {
+            Player player = Main.player[projectile.owner];
+            Main.PlaySound(2, player.position, 72);
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -353,22 +418,9 @@ namespace WeaponOut.Projectiles
 
             drawCastingCircles(spriteBatch);
 
-            Player player = Main.player[projectile.owner];
-            if (!Casting)
-            {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.SomethingRed);
-
-                if(PlayerStandingStillChannel(player))
-                { PlayerFX.drawMagicCast(player, spriteBatch, Color.OrangeRed); }
-            }
-            else
-            {
-                if (projectile.alpha == 0)
-                { PlayerFX.drawMagicCast(player, spriteBatch, Color.OrangeRed); }
-            }
             return false;
         }
-
+        
         private void drawChargeCircles(SpriteBatch spriteBatch)
         {
             Vector2 circleVector;
@@ -382,12 +434,12 @@ namespace WeaponOut.Projectiles
                     50 * (float)Math.Sin(randAng) - 4
                     );
                 //still dust
-                int d = Dust.NewDust(projectile.Center + circleVector, 0, 0, 174, 0, 0, 0, Color.White, 0.1f);
+                int d = Dust.NewDust(GraphicCentre + circleVector, 0, 0, 174, 0, 0, 0, Color.White, 0.1f);
                 Main.dust[d].fadeIn = 0.4f;
                 Main.dust[d].noGravity = true;
                 Main.dust[d].velocity *= 0.25f;
                 //dust moving out
-                d = Dust.NewDust(projectile.Center, 0, 0, 183, circleVector.X / 30, circleVector.Y / 30, 0, Color.White, 0.1f);
+                d = Dust.NewDust(GraphicCentre, 0, 0, 183, circleVector.X / 30, circleVector.Y / 30, 0, Color.White, 0.1f);
                 Main.dust[d].fadeIn = 0.8f;
                 Main.dust[d].noGravity = true;
             }
@@ -399,14 +451,23 @@ namespace WeaponOut.Projectiles
             float sizeCircle;
             float sizeOffset;
             float angle;
-            for (int i = 0; i < Math.Min(textureAlphas.Length, ChargeLevel + 1); i++)
+            for (int i = 0; i < Math.Min(textureSizes.Length, ChargeLevel); i++)
             {
-                size = (float)(Explosion.explosionSize * Math.Pow(explosionScale, i));
-                alpha = textureAlphas[i] * projectile.Opacity;
+                size = textureSizes[i];
+                alpha = textureAlphas[i];
+                if (ExplosionState < 2)
+                {
+                    if (alpha < 1f) { alpha += 0.02f; } else { alpha = 1f; }
+                }
+                else
+                {
+                    if (alpha > 0f) { alpha -= 0.03f; } else { alpha = 0; }
+                }
                 switch (i)
                 {
                     case 0: ///////////////////////////////////////////////////////////////////// initial circle
-                        castCentre = projectile.Center - Main.screenPosition;
+                        castCentre = GraphicCentre - Main.screenPosition;
+
                         spriteBatch.Draw(textureTargetM,
                             castCentre,
                             null,
@@ -418,7 +479,7 @@ namespace WeaponOut.Projectiles
                             0f);
                         break;
                     case 1: ///////////////////////////////////////////////////////////////////// flat centre
-                        castCentre = projectile.Center - Main.screenPosition;
+                        castCentre = GraphicCentre - Main.screenPosition;
 
                         spriteBatch.Draw(textureTargetS,
                             castCentre,
@@ -431,7 +492,7 @@ namespace WeaponOut.Projectiles
                             0f);
                         break;
                     case 2: ///////////////////////////////////////////////////////////////////// initial circle inner
-                        castCentre = projectile.Center - Main.screenPosition;
+                        castCentre = GraphicCentre - Main.screenPosition;
 
                         spriteBatch.Draw(textureTargetS,
                             castCentre,
@@ -439,12 +500,12 @@ namespace WeaponOut.Projectiles
                             new Color(1f * alpha, 1f * alpha, 1f * alpha, alpha),
                             (float)(Main.time * 0.05f),
                             textureTargetS.Bounds.Center.ToVector2(),
-                            size * projectile.scale / textureTargetS.Width,
+                            textureSizes[0] * projectile.scale / textureTargetS.Width,
                             SpriteEffects.None,
                             0f);
                         break;
                     case 3: ///////////////////////////////////////////////////////////////////// backspin circle
-                        castCentre = projectile.Center - Main.screenPosition;
+                        castCentre = GraphicCentre - Main.screenPosition;
 
                         spriteBatch.Draw(textureTargetS,
                             castCentre,
@@ -460,7 +521,7 @@ namespace WeaponOut.Projectiles
                         sizeCircle = size * (2 / 5f);
                         sizeOffset = size * (3 / 5f);
                         angle = (float)(Main.time % 62831) * -0.02f;
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             sizeOffset * 0.5f * (float)Math.Cos(angle),
                             sizeOffset * 0.5f * (float)Math.Sin(angle)
@@ -480,7 +541,7 @@ namespace WeaponOut.Projectiles
                         sizeCircle = size * (2 / 5f);
                         sizeOffset = size * (3 / 5f);
                         angle = (float)((Main.time + 20943) % 62831) * -0.02f;
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             sizeOffset * 0.5f * (float)Math.Cos(angle),
                             sizeOffset * 0.5f * (float)Math.Sin(angle)
@@ -500,7 +561,7 @@ namespace WeaponOut.Projectiles
                         sizeCircle = size * (2 / 5f);
                         sizeOffset = size * (3 / 5f);
                         angle = (float)((Main.time - 20943) % 62831) * -0.02f;
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             sizeOffset * 0.5f * (float)Math.Cos(angle),
                             sizeOffset * 0.5f * (float)Math.Sin(angle)
@@ -519,7 +580,7 @@ namespace WeaponOut.Projectiles
 
                     case 7: ///////////////////////////////////////////////////////////////////// larger circle
                         if (alpha > 0.3f) { alpha = 0.3f; }
-                        castCentre = projectile.Center - Main.screenPosition;
+                        castCentre = GraphicCentre - Main.screenPosition;
 
                         spriteBatch.Draw(textureTargetL,
                             castCentre,
@@ -531,27 +592,27 @@ namespace WeaponOut.Projectiles
                             SpriteEffects.None,
                             0f);
 
-                        //second dust circle
-                        for (int j = 0; j < 2; j++)
-                        {
-                            float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
-                            circleVector = new Vector2(
-                                textureTargetL.Width * 0.25f * (float)Math.Cos(randAng) - 20,
-                                textureTargetL.Height * 0.25f * (float)Math.Sin(randAng) - 24
-                                );
-                            //still dust
-                            int d = Dust.NewDust(projectile.Center + circleVector,
-                                32, 32, 174, 0, 0, 0, Color.White, 0.1f);
-                            Main.dust[d].fadeIn = 0.6f;
-                            Main.dust[d].noGravity = true;
-                            Main.dust[d].velocity *= 0.25f;
-                        }
+                            //second dust circle
+                            for (int j = 0; j < 2; j++)
+                            {
+                                float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
+                                circleVector = new Vector2(
+                                    textureTargetL.Width * 0.25f * (float)Math.Cos(randAng) - 20,
+                                    textureTargetL.Height * 0.25f * (float)Math.Sin(randAng) - 24
+                                    );
+                                //still dust
+                                int d = Dust.NewDust(GraphicCentre + circleVector,
+                                    32, 32, 174, 0, 0, 0, Color.White, 0.1f);
+                                Main.dust[d].fadeIn = 0.6f;
+                                Main.dust[d].noGravity = true;
+                                Main.dust[d].velocity *= 0.25f;
+                            }
                         break;
                     case 8: ///////////////////////////////////////////////////////////////////// top circle
                         if (alpha > 0.5f) { alpha = 0.5f; }
                         sizeCircle = size * (1 / 7f);
                         sizeOffset = size * (6 / 7f);
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             0,
                             -sizeOffset * 0.5f
@@ -571,7 +632,7 @@ namespace WeaponOut.Projectiles
                         if (alpha > 0.5f) { alpha = 0.5f; }
                         sizeCircle = size * (1 / 6f);
                         sizeOffset = size * (5 / 6f);
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             0,
                             sizeOffset * 0.5f
@@ -590,7 +651,7 @@ namespace WeaponOut.Projectiles
                     case 10: ///////////////////////////////////////////////////////////////////// mid circle
                         if (alpha > 0.5f) { alpha = 0.5f; }
                         sizeCircle = size * (1 / 7f);
-                        castCentre = projectile.Center - Main.screenPosition;
+                        castCentre = GraphicCentre - Main.screenPosition;
 
                         spriteBatch.Draw(textureTargetL,
                             castCentre,
@@ -606,7 +667,7 @@ namespace WeaponOut.Projectiles
                         if (alpha > 0.5f) { alpha = 0.5f; }
                         sizeCircle = size * (1 / 9f);
                         sizeOffset = size * (8 / 9f);
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             0,
                             -sizeOffset * 0.5f
@@ -626,7 +687,7 @@ namespace WeaponOut.Projectiles
                         if (alpha > 0.5f) { alpha = 0.5f; }
                         sizeCircle = size * (1 / 9f);
                         sizeOffset = size * (8 / 9f);
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             0,
                             -sizeOffset * 0.5f
@@ -646,7 +707,7 @@ namespace WeaponOut.Projectiles
                         if (alpha > 0.5f) { alpha = 0.5f; }
                         sizeCircle = size * (1 / 9f);
                         sizeOffset = size * (8 / 9f);
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             0,
                             -sizeOffset * 0.5f
@@ -666,7 +727,7 @@ namespace WeaponOut.Projectiles
                         if (alpha > 0.5f) { alpha = 0.5f; }
                         sizeCircle = size * (1 / 9f);
                         sizeOffset = size * (8 / 9f);
-                        castCentre = projectile.Center - Main.screenPosition
+                        castCentre = GraphicCentre - Main.screenPosition
                             + new Vector2(
                             0,
                             -sizeOffset * 0.5f
@@ -683,28 +744,39 @@ namespace WeaponOut.Projectiles
                             0f);
                         break;
                 }
+                textureAlphas[i] = alpha;
             }
         }
         private void drawCastingCircles(SpriteBatch spriteBatch)
         {
             Player player = Main.player[projectile.owner];
-            
+
+            //when casting or standing still
+            if (ExplosionState == 1
+                || (ExplosionState == 0 && player.velocity.X == 0 && player.velocity.Y == 0))
+            {
+                //casting circle
+                PlayerFX.drawMagicCast(player, spriteBatch, Color.OrangeRed, (int)projectile.timeLeft % 48 / 12);
+            }
             float size;
             float alpha;
             Vector2 castCentre;
             float sizeCircle;
-            if (Casting)
+            if (ExplosionState != 0)
             {
                 //set up casting from player
                 int distance = 120 + ChargeLevel * 3;
 
 
-                //Casting circle
-                alpha = projectile.Opacity;
+                //Casting cicle
+                if (ExplosionState == 1) textureCastAlphas[0] = 1f;
+                if (ExplosionState == 2) textureCastAlphas[0] *= 0.9f;
+                ////-//Main.NewText("cast circle target alpha \n" + textureCastAlphas[0]);
+                alpha = textureCastAlphas[0];
 
                 size = projectile.width;
                 sizeCircle = size * (1 / 9f);
-                castCentre = projectile.Center
+                castCentre = GraphicCentre
                     + new Vector2(
                     0,
                     -size * 0.75f
@@ -720,39 +792,37 @@ namespace WeaponOut.Projectiles
                     SpriteEffects.None,
                     0f);
 
-                //EXPLOSION LASER
-                //burst FX
-                int d = Dust.NewDust(castCentre - new Vector2(2 + ChargeLevel * 0.2f, 0), 8, 0, 162,
-                    0, 2, 0, Color.White, 1 + ChargeLevel * 0.4f);
-                Main.dust[d].noGravity = true; //loses velocity very fast
-                Main.dust[d].velocity.X *= ChargeLevel;
-
-                // Only while not exploding
-                if (projectile.alpha == 0)
+                //EPXLOSION LASER
+                if (ExplosionState == 1)
                 {
+                    //burst FX
+                    int d = Dust.NewDust(castCentre - new Vector2(2 + ChargeLevel * 0.2f, 0), 8, 0, 162,
+                        0, 2, 0, Color.White, 1 + ChargeLevel * 0.4f);
+                    Main.dust[d].noGravity = true; //loses velocity very fast
+                    Main.dust[d].velocity.X *= ChargeLevel;
+
                     //from staff
                     drawLaser(spriteBatch, player.Top + new Vector2(0, -34), player.Top + new Vector2(0, -distance));
 
                     //to explosion
-                    drawLaser(spriteBatch, castCentre, projectile.Center);
+                    drawLaser(spriteBatch, castCentre, GraphicCentre);
+
+
+
+                    //dust fly into top circle
+                    Vector2 circleVector;
+                    float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
+                    circleVector = new Vector2(
+                        58 * (float)Math.Cos(randAng),
+                        10 * (float)Math.Sin(randAng)
+                        );
+                    //dust spawn at cricle and move in
+                    d = Dust.NewDust(player.Top + new Vector2(-4, -distance - 4) + circleVector, 0, 0,
+                        170, circleVector.X, circleVector.Y, 0, Color.White, 0.1f);
+                    Main.dust[d].fadeIn = 1f;
+                    Main.dust[d].noGravity = true;
+                    Main.dust[d].velocity *= -0.07f;
                 }
-
-                
-
-                //dust fly into top circle
-                Vector2 circleVector;
-                float randAng = Main.rand.Next(-31416, 31417) * 0.0001f;
-                circleVector = new Vector2(
-                    58 * (float)Math.Cos(randAng),
-                    10 * (float)Math.Sin(randAng)
-                    );
-                //dust spawn at cricle and move in
-                d = Dust.NewDust(player.Top + new Vector2(-4, -distance - 4) + circleVector, 0, 0,
-                    170, circleVector.X, circleVector.Y, 0, Color.White, 0.1f);
-                Main.dust[d].fadeIn = 1f;
-                Main.dust[d].noGravity = true;
-                Main.dust[d].velocity *= -0.07f;
-
 
                 //Player top circles
                 spriteBatch.Draw(textureTargetS,
@@ -792,13 +862,12 @@ namespace WeaponOut.Projectiles
             try
             {
                 ////-//Main.NewText("charge: \n" + ChargeTick + " / "  + chargeTime);
-                float size = 5f;
                 Utils.DrawLaser(
                     spritebatch,
                     textureLaser,
                     start - Main.screenPosition,
                     end - Main.screenPosition,
-                    new Vector2(Math.Max(0.1f, size / (4f + Math.Abs( + ChargeTicks)))),
+                    new Vector2(Math.Max(0.1f, 4f / (3f + chargeTime - ChargeTick))),
                     new Utils.LaserLineFraming(ExplosionLaser)); //uses delegate (see method below)
             }
             catch { }
@@ -833,5 +902,6 @@ namespace WeaponOut.Projectiles
             origin = Vector2.Zero;
             color = Color.Transparent;
         }
+        #endregion
     }
 }

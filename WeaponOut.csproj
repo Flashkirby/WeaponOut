@@ -214,6 +214,7 @@
     <Compile Include="ModPlayerFists.cs" />
     <Compile Include="Projectiles\BuddyPortalExit.cs" />
     <Compile Include="Projectiles\BuddyPortalEntrance.cs" />
+    <Compile Include="Projectiles\Explosion.cs" />
     <Compile Include="Projectiles\HoneyBeeBig.cs" />
     <Compile Include="Projectiles\HoneyBee.cs" />
     <Compile Include="Projectiles\SpiritDragon.cs" />
@@ -266,7 +267,7 @@
     <Compile Include="Projectiles\Whips\PuzzlingCutter.cs" />
     <Compile Include="Projectiles\Whips\MoltenChains.cs" />
     <Compile Include="Projectiles\Explooosion.cs" />
-    <Compile Include="Projectiles\Explosion.cs" />
+    <Content Include="Projectiles\Explosion-old.txt" />
     <Compile Include="Projectiles\ManaBolt.cs" />
     <Compile Include="Projectiles\Whips\Whiplash.cs" />
     <Compile Include="Projectiles\Whips\LeatherWhip.cs" />
