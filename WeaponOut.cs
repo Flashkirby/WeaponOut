@@ -136,6 +136,11 @@ namespace WeaponOut
             try { DrawPumpkinMark(spriteBatch); } catch { }
             DrawInterfaceDemonBloodHeart(spriteBatch);
             DrawInterfaceWeaponOutToggleEye(spriteBatch);
+
+            if(ModConf.enableFists)
+            {
+                Main.LocalPlayer.meleeDamage += Main.LocalPlayer.GetModPlayer<PlayerFX>().PatienceBonus - 1f;
+            }
         }
 
         private void DrawPumpkinMark(SpriteBatch spriteBatch)

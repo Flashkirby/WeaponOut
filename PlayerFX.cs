@@ -96,6 +96,8 @@ namespace WeaponOut
         private float patienceBonus;
         private const float patiencePerFrame = 0.75f / 60; // 75% per second
         private const float patienceCooldown = -patiencePerFrame * 90; // 1.5 second cooldown
+        public float PatienceBonus
+        { get { if (patienceBonus < 1f) { return 1f; } return patienceBonus; } }
 
         public float yomiEndurance;
         public bool yomiFinishedAttack;
@@ -286,7 +288,6 @@ namespace WeaponOut
                 beeHealing = false;
 
                 patienceBuildUpModifier = 1f;
-                if (patienceBonus > 0) player.meleeDamage += patienceBonus;
 
                 // 
                 //  ================ Sash Life ================
@@ -1831,18 +1832,32 @@ namespace WeaponOut
                 #endregion
 
                 #region Reset Melee Buildup
-                patienceBonus = patienceCooldown;
+                if(player.HeldItem.melee)
+                {
+                    ApplyPatienceBonus(player, ref damage);
+                }
                 #endregion
             }
         }
+
         private void FistModifyHitWithProj(Projectile proj, Player player, int life, int lifeMax, ref int damage, ref bool crit)
         {
             if (ModConf.enableFists)
             {
                 #region Reset Melee Buildup
-                if (proj.melee) patienceBonus = patienceCooldown;
+                if (proj.melee)
+                {
+                    ApplyPatienceBonus(player, ref damage);
+                }
                 #endregion
             }
+        }
+
+        private int ApplyPatienceBonus(Player player, ref int damage)
+        {
+            damage = (int)(damage + player.HeldItem.damage * player.meleeDamage * PatienceBonus);
+            patienceBonus = patienceCooldown;
+            return damage;
         }
 
         private bool FistPreHurt(int damage, PlayerDeathReason damageSource)
