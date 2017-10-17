@@ -117,7 +117,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 jump = 14f;
             }
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 22, jump, 3f, 12f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, 22, jump, 0.5f, 12f);
         }
 
         //Combo

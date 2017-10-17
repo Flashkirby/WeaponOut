@@ -76,7 +76,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 24, 11.7f, 3f, 8f); //10 blocks
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, 24, 11.7f, 0.5f, 8f); //10 blocks
         }
 
         // Parry

@@ -123,7 +123,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 jump = 11f;
             }
             // jump exactly 6 blocks high!
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, size, jump, 8f, 8f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, size, jump, 0.5f, 8f);
         }
 
         //Combo

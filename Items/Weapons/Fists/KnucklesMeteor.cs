@@ -116,7 +116,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, 20, 10f, 3f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, 20, 10f, 0.5f);
         }
 
         //Combo

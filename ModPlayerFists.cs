@@ -405,10 +405,10 @@ namespace WeaponOut
         /// </summary>
         /// <param name="distance">Pixels extended outwards</param>
         /// <param name="jumpSpeed">Jump provided from uppercut. Default jump roughly 9-10</param>
-        /// <param name="fallSpeedX"></param>
+        /// <param name="fallSpeedXmod"></param>
         /// <param name="fallSpeedY">Set dive Y speed, fall speed is auto increased by 1.5 (velY = 15)</param>
         /// <returns></returns>
-        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed = 9f, float fallSpeedX = 2f, float fallSpeedY = 8f, bool disableBounce = false)
+        public static bool UseItemHitbox(Player player, ref Rectangle hitbox, int distance, float jumpSpeed = 9f, float fallSpeedXmod = 0.5f, float fallSpeedY = 8f, bool disableBounce = false)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf == null) return false;
@@ -417,7 +417,7 @@ namespace WeaponOut
             if (player.itemAnimation == player.itemAnimationMax - 1)
             {
                 mpf.allowComboBounce = true;
-                mpf.SetSpecialMove(player, jumpSpeed, fallSpeedX, fallSpeedY);
+                mpf.SetSpecialMove(player, jumpSpeed, fallSpeedXmod, fallSpeedY);
 
                 if (mpf.specialMove == 0)
                 {
@@ -439,7 +439,7 @@ namespace WeaponOut
         }
 
 
-        private void SetSpecialMove(Player player, float jumpSpeed, float fallSpeedX, float fallSpeedY)
+        private void SetSpecialMove(Player player, float jumpSpeed, float fallSpeedXmod, float fallSpeedY)
         {
             // Ground available counts includes the start of a jump
             bool canUseGrounded = (player.velocity.Y == 0 && player.oldVelocity.Y == 0) || (player.jump > 0);
@@ -457,7 +457,7 @@ namespace WeaponOut
                 jumpAgainUppercut = false;
             }
             else if (player.controlDown
-                && fallSpeedX > 0)
+                && fallSpeedXmod >= 0f)
             {   // Divekick
                 specialMove = 2;
             }
@@ -483,7 +483,7 @@ namespace WeaponOut
             else if (specialMove == 2)
             {
                 player.itemRotation = (float)(player.direction * Math.PI / 2);
-                player.velocity.X = player.direction * ((player.velocity.X + fallSpeedX * 5) / 6);
+                player.velocity.X *= fallSpeedXmod;
                 if (player.gravDir > 0)
                 {
                     if (player.velocity.Y < fallSpeedY) player.velocity.Y = fallSpeedY;

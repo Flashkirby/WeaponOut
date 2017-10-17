@@ -107,7 +107,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 size = (int)(size * 2.5f);
                 jump = 11f;
             }
-            ModPlayerFists.UseItemHitbox(player, ref hitbox, size, jump, 10f, 8f);
+            ModPlayerFists.UseItemHitbox(player, ref hitbox, size, jump, 0.5f, 8f);
         }
 
         //Combo

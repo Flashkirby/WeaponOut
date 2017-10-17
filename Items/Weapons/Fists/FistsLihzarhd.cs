@@ -163,11 +163,11 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (!AltStats(player))
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 1f, 16f);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.5f, 16f);
             }
             else
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 1f, altDashSpeed);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 0.5f, altDashSpeed);
             }
         }
         #endregion

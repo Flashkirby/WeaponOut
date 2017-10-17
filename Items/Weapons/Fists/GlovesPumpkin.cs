@@ -23,7 +23,8 @@ namespace WeaponOut.Items.Weapons.Fists
                 "<right> to parry incoming damage\n" +
                 "Strike through enemies to mark them\n" +
                 "Counterstrike to detonate marked enemies\n" + 
-                "Combo grants increased explosive potential");
+                "Combo grants increased explosive potential\n" +
+                "'Its explosive might makes the heavens tremble'");
             buffID = mod.BuffType<Buffs.PumpkinMark>();
             projID = mod.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
         }
@@ -177,12 +178,12 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             if (!AltStats(player))
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.1f, 14f,
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, fistHitboxSize, fistJumpVelo, 0.5f, 14f,
                     ModPlayerFists.MovingInDash());
             }
             else
             {
-                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 4f, 15f);
+                ModPlayerFists.UseItemHitbox(player, ref hitbox, altHitboxSize, altJumpVelo, 0.5f, 15f);
             }
         }
         #endregion
