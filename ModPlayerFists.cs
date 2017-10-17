@@ -1275,21 +1275,32 @@ namespace WeaponOut
             {
                 Main.PlaySound(SoundID.NPCHit3, player.position);
                 Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
+
+                // Hardmode fists restore uppercut on parry
+                Item i = new Item(); i.SetDefaults(player.HeldItem.type);
+                if (i.rare >= 4)
+                { jumpAgainUppercut = true; }
+
                 if (damageSource.SourceProjectileIndex >= 0)
                 {
+                    // If the projectile was reflected, you can heal more from it
                     if(ProjFX.ReflectProjectilePlayer(
                         Main.projectile[damageSource.SourceProjectileIndex], player))
                     {
-                        // Hardmode fists restore uppercut on parry
-                        Item i = new Item(); i.SetDefaults(player.HeldItem.type);
-                        if (i.rare >= 4)
-                        { jumpAgainUppercut = true; }
-
                         if (!player.moonLeech && parryLifesteal > 0f)
                         {
                             stealLife = Math.Min(player.HeldItem.damage * 5,
                                 (int)(Main.projectile[damageSource.SourceProjectileIndex].damage *
-                                player.meleeDamage * parryLifesteal * 5));
+                                player.meleeDamage * parryLifesteal * 5f));
+                        }
+                    }
+                    else
+                    {
+                        if (!player.moonLeech && parryLifesteal > 0f)
+                        {
+                            stealLife = Math.Min(player.HeldItem.damage * 5,
+                                (int)(Main.projectile[damageSource.SourceProjectileIndex].damage *
+                                player.meleeDamage * parryLifesteal * 2.5f));
                         }
                     }
                 }
