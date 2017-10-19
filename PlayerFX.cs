@@ -1499,10 +1499,12 @@ namespace WeaponOut
                     bool nearBoss = false;
                     foreach (NPC npc in Main.npc)
                     {
-                        if (npc.active && !npc.friendly && npc.life > 0 && 
-                            (npc.boss || npc.GetBossHeadTextureIndex() >= 0))
+                        if (npc.active && !npc.friendly && npc.life > 0 && npc.damage > 0 &&
+                            (npc.boss || npc.GetBossHeadTextureIndex() >= 0)) 
                         {
-                            nearBoss = true;
+                            Vector2 distance = npc.position - player.position;
+                            if(Math.Abs(distance.X) < 10000 || Math.Abs(distance.Y) < 10000) // 625ft, after which projectiles stop spawning
+                            { nearBoss = true; }
                             break;
                         }
                     }
