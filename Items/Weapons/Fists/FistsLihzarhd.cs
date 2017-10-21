@@ -116,16 +116,15 @@ namespace WeaponOut.Items.Weapons.Fists
         }
 
         // Combo
+        bool hitGround;
         public override void HoldItem(Player player)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
                 // On landing with divekicks
-                if (mpf.specialMove == 2 && player.velocity.Y == 0 && player.itemTime == 0)
+                if (mpf.specialMove == 2 && player.velocity.Y == 0 && !hitGround)
                 {
-                    player.itemTime = player.itemAnimation + 1;
-
                     Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, player.position);
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -136,6 +135,7 @@ namespace WeaponOut.Items.Weapons.Fists
                         Projectile.NewProjectile(player.Center + displace, velo, projectileID, (int)(item.damage * player.meleeDamage / 2), 8f, Main.myPlayer, 1f);
                     }
                 }
+                hitGround = player.velocity.Y == 0;
             }
         }
 

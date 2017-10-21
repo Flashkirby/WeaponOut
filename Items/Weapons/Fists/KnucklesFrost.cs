@@ -69,6 +69,7 @@ namespace WeaponOut.Items.Weapons.Fists
         }
 
         // Combo
+        bool hitGround;
         public override void HoldItem(Player player)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
@@ -84,9 +85,8 @@ namespace WeaponOut.Items.Weapons.Fists
                 }
 
                 // On landing with divekicks
-                if (mpf.specialMove == 2 && player.velocity.Y == 0 && player.itemTime < item.useTime)
+                if (mpf.specialMove == 2 && player.velocity.Y == 0 && !hitGround)
                 {
-                    player.itemTime = item.useTime + player.itemAnimation;
                     Main.PlaySound(SoundID.Item27, player.position);
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -101,6 +101,7 @@ namespace WeaponOut.Items.Weapons.Fists
                               20f * player.meleeSpeed, player.whoAmI, 10);
                     }
                 }
+                hitGround = player.velocity.Y == 0;
             }
         }
         /// <summary> The method called during a combo. Use for ongoing dust and gore effects. </summary>
