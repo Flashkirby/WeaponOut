@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.tileBoost = 5; // Combo Power
 
             item.value = Item.sellPrice(0, 1, 50, 0);
-            item.rare = 5;
+            item.rare = 7;
             item.shootSpeed = 10 + item.rare / 2;
 
             item.UseSound = SoundID.Item18;
@@ -59,7 +59,9 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ButterflyDust, 1);
-            recipe.AddIngredient(ItemID.JungleSpores, 6);
+            recipe.AddIngredient(ItemID.SoulofFright, 10);
+            recipe.AddIngredient(ItemID.SoulofMight, 5);
+            recipe.AddIngredient(ItemID.SoulofSight, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
