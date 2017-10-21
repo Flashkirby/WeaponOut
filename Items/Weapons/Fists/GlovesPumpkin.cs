@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.damage = 292; //650dps vs 20def
             item.useAnimation = 26; // 30%-50% reduction
             item.knockBack = 4f;
-            item.tileBoost = 14; // Combo Power
+            item.tileBoost = 11; // Combo Power
 
             item.value = Item.sellPrice(0, 2, 0, 0);
             item.rare = 8;
