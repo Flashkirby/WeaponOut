@@ -149,19 +149,23 @@ namespace WeaponOut
             if (Main.gameMenu) return;
 
             int buffID = BuffType<Buffs.PumpkinMark>();
-            List<Vector2> drawPositions = new List<Vector2>();
+            Dictionary<Vector2, bool> drawPositions = new Dictionary<Vector2, bool>();
             foreach (NPC i in Main.npc)
             {
-                if (i.active && i.life > 0 && i.FindBuffIndex(buffID) >= 0)
+                if (i.active && i.life > 0)
                 {   // Can crash here because of findIndex
-                    drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY));
+                    int buffIndex = i.FindBuffIndex(buffID);
+                    if (buffIndex >= 0)
+                    {
+                        drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY), i.buffTime[buffIndex] < 120);
+                    }
                 }
             }
             foreach (Player i in Main.player)
             {
                 if (i.active && !i.dead && i.FindBuffIndex(buffID) >= 0)
                 {
-                    drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY));
+                    drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY), false);
                 }
             }
 
@@ -169,21 +173,23 @@ namespace WeaponOut
             {
                 int frameHeight = pumpkinMark.Height / 3;
                 int frameY = 0;
+                int explodeFrameY = frameY;
+                if ((int)(Main.time / 6) % 2 == 0)
+                { explodeFrameY = frameHeight; }
+                else
+                { explodeFrameY = frameHeight * 2; }
                 if (ModPlayerFists.Get(Main.LocalPlayer).GetParryBuff() >= 0)
                 {
-                    if ((int)(Main.time / 6) % 2 == 0)
-                    { frameY = frameHeight; }
-                    else
-                    { frameY = frameHeight * 2; }
+                    frameY = explodeFrameY;
                 }
                 spriteBatch.End();
 
                 //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-                foreach (Vector2 center in drawPositions)
+                foreach (KeyValuePair<Vector2, bool> kvp in drawPositions)
                 {
-                    spriteBatch.Draw(pumpkinMark, (center - Main.screenPosition),
-                        new Rectangle(0, frameY, pumpkinMark.Width, frameHeight),
+                    spriteBatch.Draw(pumpkinMark, (kvp.Key - Main.screenPosition),
+                        new Rectangle(0, kvp.Value ? explodeFrameY : frameY, pumpkinMark.Width, frameHeight),
                         new Color(0.8f, 0.8f, 0.8f, 0.5f), 0f, new Vector2(pumpkinMark.Width / 2, frameHeight / 2),
                         1f, SpriteEffects.None, 0f);
 

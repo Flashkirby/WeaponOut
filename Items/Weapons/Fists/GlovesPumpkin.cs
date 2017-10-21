@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int buffID = 0;
         public static int projID = 0;
+        const int buffTime = 60 * 6;
 
         public override void SetStaticDefaults()
         {
@@ -86,13 +87,13 @@ namespace WeaponOut.Items.Weapons.Fists
                 else
                 {
                     target.buffImmune[buffID] = false;
-                    target.AddBuff(buffID, 900, false);
+                    target.AddBuff(buffID, buffTime, false);
                 }
             }
             else
             {
                 target.buffImmune[buffID] = false;
-                target.AddBuff(buffID, 900, false);
+                target.AddBuff(buffID, buffTime, false);
             }
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
@@ -109,13 +110,13 @@ namespace WeaponOut.Items.Weapons.Fists
                 else
                 {
                     target.buffImmune[buffID] = false;
-                    target.AddBuff(buffID, 900, false);
+                    target.AddBuff(buffID, buffTime, false);
                 }
             }
             else
             {
                 target.buffImmune[buffID] = false;
-                target.AddBuff(buffID, 900, false);
+                target.AddBuff(buffID, buffTime, false);
             }
         }
         private void OnHit(Player player, Entity target, int damage, float knockBack, bool crit, bool detonate)
