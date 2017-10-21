@@ -354,8 +354,6 @@ namespace WeaponOut.Projectiles
             Player player = Main.player[projectile.owner];
             if (!Casting)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.SomethingRed);
-
                 if(PlayerStandingStillChannel(player))
                 { PlayerFX.drawMagicCast(player, spriteBatch, Color.OrangeRed); }
             }
