@@ -28,6 +28,8 @@ namespace WeaponOut.Items.Weapons.Fists
             item.knockBack = 4.5f;
             item.tileBoost = 5; // For fists, we read this as the combo power
 
+            item.useTime = item.useAnimation * 2;
+            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
             item.shootSpeed = 12f;
 
             item.value = Item.sellPrice(0, 0, 18, 0); // One bar
@@ -87,16 +89,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 // Higher pitch
                 Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
-                // Spawn projectile
-                if (player.whoAmI == Main.myPlayer)
-                {
-                    Vector2 velocity = WeaponOut.CalculateNormalAngle(player.Center, Main.MouseWorld);
-                    velocity *= item.shootSpeed;
-                    Projectile.NewProjectile(player.Center, velocity, KnucklesLead.projectileID,
-                        (int)(item.damage),
-                        player.GetWeaponKnockback(item, item.knockBack),
-                        player.whoAmI);
-                }
+                player.itemTime = 0;
             }
             else
             {
@@ -105,6 +98,15 @@ namespace WeaponOut.Items.Weapons.Fists
                 d.velocity *= 0.6f * ModPlayerFists.GetFistVelocity(player);
                 d.noGravity = true;
             }
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.GetModPlayer<ModPlayerFists>().ComboEffectAbs == comboEffect &&
+                player.itemAnimation < player.itemAnimationMax)
+            {
+                return true;
+            }
+            return false;
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)

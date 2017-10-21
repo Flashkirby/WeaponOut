@@ -14,7 +14,6 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
-        public static int projID = 0;
 
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,6 @@ namespace WeaponOut.Items.Weapons.Fists
                 "<right> consumes combo to release a burst of icicles\n" +
                 "Combo grants increased armor penetration and icy kicks");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            projID = mod.ProjectileType<Projectiles.SpiritIcicle>();
         }
         public override void SetDefaults()
         {
@@ -33,7 +31,9 @@ namespace WeaponOut.Items.Weapons.Fists
             item.knockBack = 1.5f;
             item.tileBoost = 9; // Combo Power
 
-            item.shootSpeed = 12f;
+            item.useTime = item.useAnimation * 2;
+            item.shoot = mod.ProjectileType<Projectiles.SpiritIcicle>();
+            item.shootSpeed = 10f;
 
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 5;
@@ -84,10 +84,9 @@ namespace WeaponOut.Items.Weapons.Fists
                 }
 
                 // On landing with divekicks
-                if (mpf.specialMove == 2 && player.velocity.Y == 0 && player.itemTime == 0)
+                if (mpf.specialMove == 2 && player.velocity.Y == 0 && player.itemTime < item.useTime)
                 {
-                    player.itemTime = player.itemAnimation + 1;
-
+                    player.itemTime = item.useTime + player.itemAnimation;
                     Main.PlaySound(SoundID.Item27, player.position);
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -97,7 +96,7 @@ namespace WeaponOut.Items.Weapons.Fists
                             );
                         Vector2 direction = item.shootSpeed *
                             new Vector2(player.direction, -player.gravDir);
-                        Projectile.NewProjectile(position, direction, projID,
+                        Projectile.NewProjectile(position, direction, item.shoot,
                               (int)(2 * item.damage * player.meleeDamage),
                               20f * player.meleeSpeed, player.whoAmI, 10);
                     }
@@ -140,23 +139,32 @@ namespace WeaponOut.Items.Weapons.Fists
                     d.fadeIn = 1f;
                     d.noGravity = true;
                 }
-                float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
-                for (int i = 0; i < 8; i++)
-                {
-                    Vector2 direction = item.shootSpeed * new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle));
 
-                    Projectile.NewProjectile(player.Center, direction, projID, 
-                        (int)(2 * item.damage * player.meleeDamage), 
-                        20f * player.meleeSpeed, player.whoAmI);
-
-                    angle += (float)(Math.PI / 4);
-                }
-                
+                player.itemTime = 0;
             }
             else
             {
                 // Punch effect
             }
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.GetModPlayer<ModPlayerFists>().ComboEffectAbs == altEffect &&
+                player.itemAnimation < player.itemAnimationMax)
+            {
+                float angle = Main.rand.NextFloat(-MathHelper.Pi, MathHelper.Pi);
+                for (int i = 0; i < 8; i++)
+                {
+                    Vector2 direction = item.shootSpeed * new Vector2((float)Math.Sin(angle), (float)Math.Cos(angle));
+
+                    Projectile.NewProjectile(player.Center, direction, item.shoot,
+                        (int)(2 * item.damage * player.meleeDamage),
+                        20f * player.meleeSpeed, player.whoAmI);
+
+                    angle += (float)(Math.PI / 4);
+                }
+            }
+            return false;
         }
 
         //Combo

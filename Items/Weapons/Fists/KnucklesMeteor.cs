@@ -16,7 +16,6 @@ namespace WeaponOut.Items.Weapons.Fists
             return ModConf.enableFists;
         }
         public static int comboEffect = 0;
-        public static int projectileID = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet Fu");
@@ -25,7 +24,6 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Combo grants a protective barrier\n" +
                 "'Space CQC is explicitly stated to be whatever you claim it to be'"); //これは宇宙CQC! sorry MPT no kanas are supported
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            projectileID = mod.ProjectileType<Projectiles.SpiritComet>();
         }
         public override void SetDefaults()
         {
@@ -35,6 +33,8 @@ namespace WeaponOut.Items.Weapons.Fists
             item.knockBack = 2.5f;
             item.tileBoost = 5; // For fists, this is the combo power
 
+            item.useTime = item.useAnimation * 2;
+            item.shoot = mod.ProjectileType<Projectiles.SpiritComet>();
             item.shootSpeed = 6f;
 
             item.value = Item.sellPrice(0, 0, 24, 0);
@@ -94,16 +94,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 // Higher pitch
                 Main.PlaySound(SoundID.Item88, (int)player.position.X, (int)player.position.Y);
-                // Spawn projectile
-                if (player.whoAmI == Main.myPlayer)
-                {
-                    Vector2 velocity = WeaponOut.CalculateNormalAngle(player.Center, Main.MouseWorld);
-                    velocity *= item.shootSpeed;
-                    Projectile.NewProjectile(player.Center, velocity, projectileID,
-                        (int)(item.damage * player.meleeDamage * 5f),
-                        player.GetWeaponKnockback(item, item.knockBack),
-                        player.whoAmI);
-                }
+                player.itemTime = 0;
             }
             else
             {
@@ -112,6 +103,16 @@ namespace WeaponOut.Items.Weapons.Fists
                 d.velocity = 1.4f * ModPlayerFists.GetFistVelocity(player);
                 d.noGravity = true;
             }
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.GetModPlayer<ModPlayerFists>().ComboEffectAbs == comboEffect &&
+                player.itemAnimation < player.itemAnimationMax)
+            {
+                damage *= 5;
+                return true;
+            }
+            return false;
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)

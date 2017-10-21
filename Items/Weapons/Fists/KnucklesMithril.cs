@@ -14,7 +14,6 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
-        public static int projID = 0;
 
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,6 @@ namespace WeaponOut.Items.Weapons.Fists
                 "<right> consumes combo to unleash spirit energy\n" +
                 "Combo grant 50% increased melee damage");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            projID = mod.ProjectileType<Projectiles.SpiritBlast>();
         }
         public override void SetDefaults()
         {
@@ -35,6 +33,8 @@ namespace WeaponOut.Items.Weapons.Fists
 
             item.value = Item.sellPrice(0, 1, 3, 50); // half sword cost
             item.rare = 4;
+            item.useTime = item.useAnimation * 2;
+            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
             item.shootSpeed = 10 + item.rare / 2;
 
             item.UseSound = SoundID.Item19;
@@ -90,24 +90,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 // Higher pitch
                 Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
-                // Spawn projectile
-                if (player.whoAmI == Main.myPlayer)
-                {
-                    Vector2 velocity = WeaponOut.CalculateNormalAngle(player.Center, Main.MouseWorld);
-                    velocity *= item.shootSpeed;
-                    Projectile.NewProjectile(player.Center, velocity * 1.1f, projID,
-                        (int)(item.damage * 2),
-                        player.GetWeaponKnockback(item, item.knockBack),
-                        player.whoAmI, 0f, 0f);
-                    Projectile.NewProjectile(player.Center, velocity, projID,
-                        (int)(item.damage * 2),
-                        player.GetWeaponKnockback(item, item.knockBack),
-                        player.whoAmI, 0f, 1f);
-                    Projectile.NewProjectile(player.Center, velocity, projID,
-                        (int)(item.damage * 2),
-                        player.GetWeaponKnockback(item, item.knockBack),
-                        player.whoAmI, 0f, -1f);
-                }
+                player.itemTime = 0;
             }
             else
             {
@@ -117,7 +100,19 @@ namespace WeaponOut.Items.Weapons.Fists
                 d.noGravity = true;
             }
         }
-
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.GetModPlayer<ModPlayerFists>().ComboEffectAbs == altEffect &&
+                player.itemAnimation < player.itemAnimationMax)
+            {
+                Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY) * 0.95f,
+                    type, damage * 2, knockBack, player.whoAmI, 0f, 1f);
+                Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY) * 0.95f,
+                    type, damage * 2, knockBack, player.whoAmI, 0f, -1f);
+                return true;
+            }
+            return false;
+        }
 
         //Combo
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
