@@ -74,7 +74,7 @@ namespace WeaponOut.NPCs
                 for (int i = 0; i < 5; i++)
                 {
                     Vector2 veloRand = Main.rand.NextVector2Square(-3f, 3f);
-                    Projectile.NewProjectile(npc.Center + player.velocity * 2, player.velocity + veloRand, ProjectileID.FlaironBubble, 30, 5f, npc.target, -10f, 0);
+                    Projectile.NewProjectile(npc.Center + player.velocity * 2, player.velocity + veloRand, ProjectileID.FlaironBubble, player.HeldItem.damage / 5, 5f, npc.target, -10f, 0);
                 }
 
                 // Actual hit effect
