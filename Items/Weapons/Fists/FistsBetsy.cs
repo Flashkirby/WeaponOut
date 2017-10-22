@@ -22,7 +22,7 @@ namespace WeaponOut.Items.Weapons.Fists
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 100% increased melee damage and knockback\n" +
-                "Combo causes nearby enemies to suffer reduced defense");
+                "Combo causes damage to echo to nearby enemies");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritDragon>();
         }
@@ -32,7 +32,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.damage = 375;
             item.useAnimation = 32; // 30%-50% reduction
             item.knockBack = 11f;
-            item.tileBoost = 6; // Combo Power
+            item.tileBoost = 12; // Combo Power
 
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.rare = 8;
@@ -52,7 +52,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().dashEffect == altEffect; }
         const int altHitboxSize = 50;
         const float altDashSpeed = 18f;
-        const float altDashThresh = 16f;
+        const float altDashThresh = 14f;
         const float altJumpVelo = 18f;
 
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
@@ -110,6 +110,23 @@ namespace WeaponOut.Items.Weapons.Fists
             if (Main.rand.Next(2) == 0)
             {
                 target.AddBuff(BuffID.OnFire, 600);
+            }
+            if(mpf.IsComboActiveItemOnHit)
+            {
+                foreach (NPC npc in Main.npc)
+                {
+                    if (!npc.active || npc.whoAmI == target.whoAmI || 
+                        npc.friendly || npc.FindBuffIndex(BuffID.BetsysCurse) < 0) continue;
+                    if (
+                        npc.Center.X <= player.Center.X + Buffs.BetsyRing.debuffDist &&
+                        npc.Center.X >= player.Center.X - Buffs.BetsyRing.debuffDist &&
+                        npc.Center.Y <= player.Center.Y + Buffs.BetsyRing.debuffDist &&
+                        npc.Center.Y >= player.Center.Y - Buffs.BetsyRing.debuffDist)
+                    {
+                        // Echo damage
+                        npc.StrikeNPC(damage / 4, knockBack / 2, player.direction, false);
+                    }
+                }
             }
         }
 

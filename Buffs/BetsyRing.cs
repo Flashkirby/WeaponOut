@@ -12,11 +12,11 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Betsy's Protection");
-            Description.SetDefault("Nearby enemies are ignited and suffer reduced defense");
+            Description.SetDefault("Nearby enemies suffer reduced defense and share damage");
             Main.buffNoTimeDisplay[Type] = true;
         }
 
-        private const int debuffDist = 16 * 12;
+        public const int debuffDist = 16 * 12;
         public override void Update(Player player, ref int buffIndex)
         {
             player.inferno = true;
@@ -31,7 +31,6 @@ namespace WeaponOut.Buffs
                 {
                     // Only update buff net-side once in a while
                     npc.AddBuff(BuffID.OnFire, 120, Main.time % 60 != 0);
-                    npc.AddBuff(BuffID.ShadowFlame, 60, Main.time % 30 != 0);
                     npc.AddBuff(BuffID.BetsysCurse, 300, Main.time % 60 != 0);
                 }
             }
