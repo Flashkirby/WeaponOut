@@ -139,7 +139,7 @@ namespace WeaponOut
 
             if(ModConf.enableFists)
             {
-                Main.LocalPlayer.meleeDamage += Main.LocalPlayer.GetModPlayer<PlayerFX>().PatienceBonus - 1f;
+                Main.LocalPlayer.meleeDamage += Main.LocalPlayer.GetModPlayer<PlayerFX>().PatienceBonus;
             }
         }
 

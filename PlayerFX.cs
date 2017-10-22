@@ -97,7 +97,7 @@ namespace WeaponOut
         private const float patiencePerFrame = 0.75f / 60; // 75% per second
         private const float patienceCooldown = -patiencePerFrame * 90; // 1.5 second cooldown
         public float PatienceBonus
-        { get { if (patienceBonus < 1f) { return 1f; } return patienceBonus; } }
+        { get { if (patienceBonus < 0f) { return 0f; } return patienceBonus; } }
 
         public float yomiEndurance;
         public bool yomiFinishedAttack;
