@@ -28,7 +28,6 @@ namespace WeaponOut.Projectiles.Whips
             projectile.width = 14;
             projectile.height = 14;
             projectile.scale = 0.9f;
-            projectile.alpha = 255;
             projectile.aiStyle = 75;
             projectile.penetrate = -1;
 

@@ -18,7 +18,7 @@ namespace WeaponOut.Projectiles.Whips
         public const int partHeight = 14;
         public const int tipHeight = 16;
         public const bool doubleCritWindow = true;
-        public const bool ignoreLighting = false;
+        public const bool ignoreLighting = true;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Vilelash");
@@ -28,11 +28,10 @@ namespace WeaponOut.Projectiles.Whips
             projectile.width = 18;
             projectile.height = 18;
             projectile.scale = 1.2f;
-            projectile.alpha = 255;
             projectile.aiStyle = 75;
             projectile.penetrate = -1;
 
-            projectile.alpha = 0;
+            projectile.alpha = 50;
             projectile.hide = true;
             projectile.extraUpdates = 3;
             projectile.light = 0.3f;
