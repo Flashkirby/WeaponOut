@@ -103,7 +103,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 else if (player.controlRight && player.direction < 0) player.direction = 1;
                 player.GetModPlayer<ModPlayerFists>().
                 SetDashOnMovement(altDashSpeed, altDashThresh, 0.992f, 0.96f, true, 0);
-
+                
                 if (player.whoAmI == Main.myPlayer)
                 {
                     if (Main.myPlayer == player.whoAmI)
@@ -143,6 +143,10 @@ namespace WeaponOut.Items.Weapons.Fists
                             }
                         }
                     }
+                }
+                if(ModPlayerFists.Get(player).specialMove == 0)
+                {
+                    player.velocity.Y = -player.gravDir;
                 }
             }
             else
