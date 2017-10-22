@@ -68,6 +68,16 @@ namespace WeaponOut.NPCs
             Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 3, 1f, 0f);
             if (npc.life <= 0)
             {
+                // Do this here because in multiplayer client (which spawns these) doesn't run NPCLoot)
+                Player player = Main.player[npc.target];
+                ModPlayerFists.Get(player).ModifyComboCounter(1);
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 veloRand = Main.rand.NextVector2Square(-3f, 3f);
+                    Projectile.NewProjectile(npc.Center + player.velocity * 2, player.velocity + veloRand, ProjectileID.FlaironBubble, 30, 5f, npc.target, -10f, 0);
+                }
+
+                // Actual hit effect
                 for (int i = 0; i < 60; i++)
                 {
                     int num209 = 25;
@@ -90,17 +100,6 @@ namespace WeaponOut.NPCs
                     dust48.scale = 0.7f;
                 }
             }
-        }
-        public override bool PreNPCLoot()
-        {
-            Player player = Main.player[npc.target];
-            ModPlayerFists.Get(player).ModifyComboCounter(1);
-            for (int i = 0; i < 5; i++)
-            {
-                Vector2 veloRand = Main.rand.NextVector2Square(-3f, 3f);
-                Projectile.NewProjectile(npc.Center + player.velocity * 2, player.velocity + veloRand, ProjectileID.FlaironBubble, 30, 5f, npc.target, -10f, 0);
-            }
-            return false;
         }
     }
 }
