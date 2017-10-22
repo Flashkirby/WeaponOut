@@ -6,7 +6,7 @@ Summary:
 * Hide/Show weapons being held with inventory icon (top left).
 * Temporary spawn point tents! Silk + Wood.
 * Whips! Deals crits when hitting at the tip.
-* Fists! Duck and weave, then deliver that killer combo.
+* Fists! Dash at enemies to deliver devastating combos.
 * Dual-use Weapons! Right-click for secondary weapon abilities.
 * More shields! Obtainable early, with situational uses.
 * Team-centric items for buffing, and restoring mana.
@@ -15,9 +15,9 @@ Summary:
 
 Content:
 * 9 Whip Weapons
-* 33 Fist Weapons
+* 44 Fist Weapons
 * Quite a few other weapons
-* 15 Accessories (I think)
+* 25 Accessories (I think)
 * 1 Tile
 * 3 Bullets
 
@@ -28,4 +28,4 @@ Flashkirby99 - I am making this mod.
 kiedev666 - Playtesting and ideas.
 Eli10293 - Updated Sprites for: Mana Blast, Mana Sword, Molten Chains
 goldenapple - "Modder's Guide to Config Files"
-Folks on the discord server - Various conversations and support
+Folks on the discord server - Suggestions, bug testing and all-round support. You guys rock.
