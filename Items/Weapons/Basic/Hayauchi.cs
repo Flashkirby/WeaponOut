@@ -61,7 +61,14 @@ namespace WeaponOut.Items.Weapons.Basic
             {
                 ModRecipe recipe = new ModRecipe(mod);
                 recipe.AddIngredient(ItemID.Katana, 1);
-                recipe.AddIngredient(ItemID.HallowedBar, 6);
+                if (i == 0)
+                {
+                    recipe.AddIngredient(ItemID.CobaltBar, 6);
+                }
+                else
+                {
+                    recipe.AddIngredient(ItemID.PalladiumBar, 6);
+                }
                 recipe.AddTile(TileID.MythrilAnvil);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
