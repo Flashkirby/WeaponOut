@@ -52,8 +52,11 @@ namespace WeaponOut.Items.Weapons.Whips
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 
-                Main.rand.Next(-100, 100) * 0.001f * player.gravDir); //whip swinging
+            for (int i = -1; i < 2; i++)
+            {
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0,
+                    Main.rand.Next(-100, 100) * 0.001f * player.gravDir + i * 0.3f); //whip swinging
+            }
             return false;
         }
     }
