@@ -1626,6 +1626,7 @@ namespace WeaponOut
 
         public bool AltFunctionCombo(Player player, int comboEffect = 0, bool netForce = false)
         {
+            if (ComboCounterMaxReal <= 0) return false; // Stop weapon switch exploit
             if ((player.itemAnimation == 0 && comboCounter >= ComboCounterMaxReal) || netForce)
             {
                 this.comboEffect = comboEffect;
