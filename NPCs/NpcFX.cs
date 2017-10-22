@@ -158,7 +158,6 @@ namespace WeaponOut.NPCs
                     // Modified from DropItemInstanced, only drop for people using fists
                     if (itemType > 0)
                     {
-                        if (Main.netMode == 2) itemType++;
                         DropInstancedFistItem(npc, itemType);
                     }
                 }
@@ -221,7 +220,6 @@ namespace WeaponOut.NPCs
                 // Modified from DropItemInstanced, only drop for people using fists
                 if (itemType > 0)
                 {
-                    if (Main.netMode == 2) itemType++; 
                     DropInstancedFistItem(npc, itemType);
                 }
                 #endregion
