@@ -151,6 +151,9 @@ namespace WeaponOut.NPCs
                         if (npc.type == NPCID.Golem)
                         { itemType = mod.ItemType<Items.Accessories.GolemHeart>(); }
 
+                        if (npc.type == NPCID.DukeFishron)
+                        { itemType = mod.ItemType<Items.Accessories.SoapButNotReallySoap>(); }
+
                     }
                     // Modified from DropItemInstanced, only drop for people using fists
                     if (itemType > 0)
