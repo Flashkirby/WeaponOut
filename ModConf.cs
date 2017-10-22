@@ -9,41 +9,51 @@ namespace WeaponOut
     /// <summary>
     /// Tutorial by goldenapple: https://forums.terraria.org/index.php?threads/modders-guide-to-config-files-and-optional-features.48581/
     /// </summary>
-    static class ModConf
+    public static class ModConf
     {
         public const int configVersion = 2;
-        public static bool showWeaponOut = true;
+
+        internal static bool showWeaponOut = true;
+        public static bool ShowWeaponOut { get { return showWeaponOut; } }
         private const string showWeaponOutField = "show_weaponOut_visuals";
 
-        public static bool forceShowWeaponOut = false;
+        internal static bool forceShowWeaponOut = false;
+        public static bool ForceShowWeaponOut { get { return forceShowWeaponOut; } }
         private const string forceShowWeaponOutField = "forceshow_weaponOut_visuals";
 
-        public static bool toggleWaistRotation = false;
+        internal static bool toggleWaistRotation = false;
+        public static bool ToggleWaistRotation { get { return toggleWaistRotation; } }
         private const string toggleWaistRotationField = "toggle_weaponOut_waist_rotation";
 
-        public static bool enableBasicContent = true;
+        internal static bool enableBasicContent = true;
+        public static bool EnableBasicContent { get { return enableBasicContent; } }
         private const string enableBasicContentField = "enable_base_weapons_and_tiles";
 
-        public static bool enableWhips = true;
+        internal static bool enableWhips = true;
+        public static bool EnableWhips { get { return enableWhips; } }
         private const string enableWhipsField = "enable_whips";
 
-        public static bool enableFists = true;
+        internal static bool enableFists = true;
+        public static bool EnableFists { get { return enableFists; } }
         private const string enableFistsField = "enable_fists";
 
-        public static bool enableDualWeapons = true;
+        internal static bool enableDualWeapons = true;
+        public static bool EnableDualWeapons { get { return enableDualWeapons; } }
         private const string enableDualWeaponsField = "enable_dual_weapons";
 
-        public static bool enableAccessories = true;
+        internal static bool enableAccessories = true;
+        public static bool EnableAccessories { get { return enableAccessories; } }
         private const string enableAccessoriesField = "enable_accessories";
 
-        public static bool enableEmblems = true;
+        internal static bool enableEmblems = true;
+        public static bool EnableEmblems { get { return enableEmblems; } }
         private const string enableEmblemsField = "enable_emblems";
 
         static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs/WeaponOut.json");
 
         static Preferences ModConfig = new Preferences(ConfigPath);
 
-        public static void Load()
+        internal static void Load()
         {
             bool success = ReadConfig();
             if (!success)
@@ -54,7 +64,7 @@ namespace WeaponOut
         }
         
         /// <returns> true is loaded successfully </returns>
-        static bool ReadConfig()
+        internal static bool ReadConfig()
         {
             if (ModConfig.Load())
             {
@@ -99,7 +109,7 @@ namespace WeaponOut
         /// <summary>
         /// Create a new config file for the player to edit. 
         /// </summary>
-        static void CreateConfig()
+        internal static void CreateConfig()
         {
             ModConfig.Clear();
             ModConfig.Put("version", configVersion);
