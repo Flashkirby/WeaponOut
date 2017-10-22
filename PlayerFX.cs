@@ -145,6 +145,11 @@ namespace WeaponOut
         public int demonBloodCooldown; // can't spam attacks on say, destroyer
         private const int demonBloodReallyDelayMax = 60 * 4;
 
+        public bool summonSoap;
+        public int soapCooldown;
+        public const int soapCooldownMax = 90;
+        private const int maxSoapBubbles = 3;
+
         #endregion
 
         #region Player False Position
@@ -372,6 +377,29 @@ namespace WeaponOut
                     }
                 }
                 yinyang = false;
+
+                if (summonSoap && Main.netMode != 1)
+                {
+                    if (soapCooldown < soapCooldownMax)
+                    { soapCooldown++; }
+                    else
+                    {
+                        int bubbleID = mod.NPCType<NPCs.ComboBubble>();
+                        if (NPC.CountNPCS(bubbleID) < maxSoapBubbles)
+                        {
+                            Point spawnPos = player.Center.ToPoint();
+                            spawnPos.X += Main.rand.Next(-100, 101);
+                            spawnPos.Y += Main.rand.Next(-100, 101);
+                            NPC.NewNPC(spawnPos.X, spawnPos.Y, mod.NPCType<NPCs.ComboBubble>(),
+                                0, 0f, 0f, 0f, 0f, player.whoAmI);
+
+                            soapCooldown = 0;
+                        }
+                    }
+                }
+                else
+                { soapCooldown = 0; }
+                summonSoap = false;
             }
         }
         public override void UpdateDead()
