@@ -30,6 +30,16 @@ namespace WeaponOut.Items.Accessories
             item.value = Item.sellPrice(0, 5, 0, 0);
             item.expert = true;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType<ScrapActuator>(), 1);
+            recipe.AddIngredient(mod.ItemType<ScrapFrame>(), 1);
+            recipe.AddIngredient(mod.ItemType<ScrapTransformer>(), 1);
+            recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
+        }
 
         private int localCounter = 0;
         public override void UpdateAccessory(Player player, bool hideVisual)
