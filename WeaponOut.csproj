@@ -72,6 +72,7 @@
     <Compile Include="Items\Accessories\ScrapActuator.cs" />
     <Compile Include="Items\Accessories\ScrapTransformer.cs" />
     <Compile Include="Items\Accessories\ScrapFrame.cs" />
+    <Compile Include="Items\Accessories\SoapButNotReallySoap.cs" />
     <Compile Include="Items\Accessories\StainedTooth.cs" />
     <Compile Include="Items\Accessories\RushCharm.cs" />
     <Compile Include="Items\Accessories\FightingSash.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="ModPlayerFists.cs" />
+    <Compile Include="NPCs\ComboBubble.cs" />
     <Compile Include="Projectiles\BuddyPortalExit.cs" />
     <Compile Include="Projectiles\BuddyPortalEntrance.cs" />
     <Compile Include="Projectiles\Explosion.cs" />
@@ -267,6 +269,8 @@
     <Compile Include="Projectiles\Whips\PuzzlingCutter.cs" />
     <Compile Include="Projectiles\Whips\MoltenChains.cs" />
     <Compile Include="Projectiles\Explooosion.cs" />
+    <Content Include="Items\SparkleStar.png" />
+    <Content Include="NPCs\ComboBubble.png" />
     <Content Include="Projectiles\Explosion-old.txt" />
     <Compile Include="Projectiles\ManaBolt.cs" />
     <Compile Include="Projectiles\Whips\Whiplash.cs" />

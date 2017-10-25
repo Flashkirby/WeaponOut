@@ -100,9 +100,9 @@ namespace WeaponOut.Items.Weapons.Fists
 
         // Dash
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
-        { float knockBack = 5f; ModifyHit(player, ref damage, ref knockBack, ref crit, target.FindBuffIndex(BuffID.Burning) >= 0); }
+        { float knockBack = 5f; ModifyHit(player, ref damage, ref knockBack, ref crit, target.onFire); }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-        { ModifyHit(player, ref damage, ref knockBack, ref crit, target.FindBuffIndex(BuffID.Burning) >= 0); }
+        { ModifyHit(player, ref damage, ref knockBack, ref crit, target.onFire); }
         private void ModifyHit(Player player, ref int damage, ref float knockBack, ref bool crit, bool burning)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
