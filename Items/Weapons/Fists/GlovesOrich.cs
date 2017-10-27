@@ -55,7 +55,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CobaltBar, 5);
+            recipe.AddIngredient(ItemID.OrichalcumBar, 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
