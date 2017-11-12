@@ -29,3 +29,18 @@ kiedev666 - Playtesting and ideas.
 Eli10293 - Updated Sprites for: Mana Blast, Mana Sword, Molten Chains
 goldenapple - "Modder's Guide to Config Files"
 Folks on the discord server - Suggestions, bug testing and all-round support. You guys rock.
+
+TODO:
+Fists weapons only get universal reforge modifiers
+Fist weapon with holditem effects (trigger too late)
+Iced Punch balance
+patchy pounder's drop is low? MP only?
+WeaponOut Lite
+	WeaponOut is a quality of life and content mods that introduces items that use interesting game mechanics balanced for vanilla Terraria, but are capable of holding up to modded playthroughs. It adds fist, whips, multi-function and team support items as well as ease-of-use functions such as toggleable autoswing, teleporting hooks and temporary spawn points.
+	
+	WeaponOut Lite is based on the original function of WeaponOut, that is, showing your currently equipped weapon on your person when not attacking. This version of the mod is just for that vanity effect without any content provided in the main mod.
+Fixed Serverside item loading
+weaponout hotkey
+WeaponOut Drawing using holdstyle offset
+fists on minecarts
+weaponout mod calls?

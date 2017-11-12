@@ -81,6 +81,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void HoldItem(Player player)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
+			// TODO: change to somewhere else because holditem is too late in the procedure to effect damage
             if (mpf.IsComboActive)
             {
                 player.endurance += 0.04f;
