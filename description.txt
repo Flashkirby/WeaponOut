@@ -44,3 +44,4 @@ weaponout hotkey
 WeaponOut Drawing using holdstyle offset
 fists on minecarts
 weaponout mod calls?
+So, Hiddedn Dragon is unobtainiable
