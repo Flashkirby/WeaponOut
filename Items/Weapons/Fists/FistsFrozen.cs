@@ -41,7 +41,6 @@ namespace WeaponOut.Items.Weapons.Fists
             item.UseSound = SoundID.DD2_PhantomPhoenixShot.WithPitchVariance(1.3f);
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
-            item.noUseGraphic = true;
             item.width = 20;
             item.height = 20;
         }

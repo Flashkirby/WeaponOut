@@ -44,7 +44,6 @@ namespace WeaponOut.Items.Weapons.Fists
             item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
-            item.noUseGraphic = true;
             item.width = 20;
             item.height = 20;
         }

@@ -34,7 +34,6 @@ namespace WeaponOut.Items.Weapons.Fists
             item.UseSound = SoundID.Item7;
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
-            item.noUseGraphic = true;
             item.width = 26;
             item.height = 26;
         }
