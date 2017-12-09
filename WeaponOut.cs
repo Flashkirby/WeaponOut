@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics;
 
 /*
  RARITY:
@@ -106,7 +107,7 @@ namespace WeaponOut
         /// </summary>
         /// <param name="Transform"></param>
         /// <returns></returns>
-        public override Microsoft.Xna.Framework.Matrix ModifyTransformMatrix(Microsoft.Xna.Framework.Matrix Transform)
+        public Matrix ModifyTransformMatrix(Matrix Transform)
         {
             if (!Main.gameMenu)
             {
@@ -129,6 +130,12 @@ namespace WeaponOut
                 shakeTick = 0;
             }
             return Transform;
+        }
+        public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform) {
+            Transform.SetViewportOverride(new Viewport(
+                (int)Main.ViewPosition.X, (int)Main.ViewPosition.Y,
+                (int)Main.ViewSize.X, (int)Main.ViewSize.Y
+                ));
         }
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
@@ -275,7 +282,7 @@ namespace WeaponOut
             // Janky quick inventory visibilty
             if (!Main.playerInventory || !ModConf.showWeaponOut || ModConf.forceShowWeaponOut) return;
             //Get vars
-            PlayerFX pfx = Main.LocalPlayer.GetModPlayer<PlayerFX>(this);
+            PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>(this);
             Texture2D eye = Main.inventoryTickOnTexture;
             string hoverText = "Weapon " + Lang.inter[59]; // Visible
             Vector2 position = new Vector2(20, 10);
@@ -301,9 +308,7 @@ namespace WeaponOut
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
                     Main.PlaySound(SoundID.MenuTick);
-                    pfx.weaponVisual = !pfx.weaponVisual;
-
-                    NetUpdateWeaponVisual(this, pfx);
+                    ToggleWeaponVisual(pfx, !pfx.weaponVisual);
                 }
             }
 
@@ -315,7 +320,12 @@ namespace WeaponOut
                 Color.White
                 );
         }
+        private void ToggleWeaponVisual(PlayerWOFX pfx, bool state) {
+            pfx.weaponVisual = state;
+            NetUpdateWeaponVisual(this, pfx);
+        }
 
+        #region Netcode
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             int code = reader.ReadInt32();
@@ -460,14 +470,14 @@ namespace WeaponOut
             }
         }
 
-        public static void NetUpdateWeaponVisual(Mod mod, PlayerFX pfx)
+        public static void NetUpdateWeaponVisual(Mod mod, PlayerWOFX pfx)
         {
             if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
             {
                 ModPacket message = mod.GetPacket();
                 message.Write(3);
                 message.Write(Main.myPlayer);
-                message.Write(pfx.weaponVisual);
+                message.Write(pfx.WeaponVisual);
                 message.Send();
             }
         }
@@ -484,10 +494,31 @@ namespace WeaponOut
             }
             else
             {
-                PlayerFX pfx = Main.player[sender].GetModPlayer<PlayerFX>(this);
+                PlayerWOFX pfx = Main.player[sender].GetModPlayer<PlayerWOFX>(this);
                 pfx.weaponVisual = weaponVis;
             }
         }
+        #endregion
+        
+        #region Mod Calls
+        public override object Call(params object[] args) {
+            if (args.Length < 1) return null;
+            if (args[1].GetType() != typeof(string)) return null;
+            string method = (string)args[0];
+            try {
+                switch (method) {
+                    case "SetPlayerWeaponVisual":
+                        CallShowWeapon((Player)args[1], (bool)args[2]);
+                        break;
+                }
+            }
+            catch { }
+            return null;
+        }
+        private void CallShowWeapon(Player p, bool show) {
+            ToggleWeaponVisual(p.GetModPlayer<PlayerWOFX>(this), show);
+        }
+        #endregion
 
         public static Vector2 CalculateNormalAngle(Vector2 start, Vector2 end)
         {

@@ -7,6 +7,7 @@ namespace WeaponOut
 {
     static class WeaponDrawInfo
     {
+        /// <summary> Position offset based on hand position </summary>
         internal static DrawData modDraw_WalkCycle(DrawData data, Player p)
         {
             if ((p.bodyFrame.Y / p.bodyFrame.Height >= 7 && p.bodyFrame.Y / p.bodyFrame.Height <= 9)
@@ -27,6 +28,7 @@ namespace WeaponOut
             }
             return data;
         }
+        /// <summary> Rotation offset based on hand position </summary>
         internal static float rotationWalkCycle(int FrameNum)
         {
             //6 - 19
@@ -53,9 +55,9 @@ namespace WeaponOut
 
             return rot;
         }
+        /// <summary> Draw glow effect over items. May or may not support animations? </summary>
         internal static void drawGlowLayer(DrawData data, Player drawPlayer, Item heldItem)
         {
-            //items that GLOOOW
             if (heldItem.glowMask != -1)
             {
                 Color glowLighting = new Microsoft.Xna.Framework.Color(250, 250, 250, heldItem.alpha);
