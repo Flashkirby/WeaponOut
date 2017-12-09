@@ -25,7 +25,7 @@ using Terraria.World.Generation;
 namespace WeaponOut
 {
     /// <summary>
-    /// Version 1.4 by Flashkirby99
+    /// Version 1.5 by Flashkirby99
     /// This class provides almost all the methods required for fist type weapons.
     /// </summary>
     public class ModPlayerFists : ModPlayer
@@ -96,12 +96,14 @@ namespace WeaponOut
         public int comboCounterMax;
         /// <summary> Flat bonus to combo counter max. Typically negative. </summary>
         public int comboCounterMaxBonus;
+        /// <summary> Flat bonus to combo counter max. Typically negative. </summary>
+        internal float comboCounterMaxScaleMod;
         /// <summary> Time since last combo hit. </summary>
         public int comboTimer;
         /// <summary> Time until combo is reset. </summary>
         public int comboTimerMax;
         /// <summary> The real combo counter max, including bonus. </summary>
-        public int ComboCounterMaxReal { get { return comboCounterMax + comboCounterMaxBonus; } }
+        public int ComboCounterMaxReal { get { return (int)((comboCounterMax + comboCounterMaxBonus) * comboCounterMaxScaleMod); } }
         /// <summary> Active when combo counter reaches the combo max. </summary>
         public bool IsComboActive { get { return comboCounter >= ComboCounterMaxReal && comboCounter > 1; } }
         /// <summary> Active when combo counter reaches the combo max. Call this in the item because ItemLoader method is called before PlayerHooks. </summary>
@@ -193,6 +195,7 @@ namespace WeaponOut
             oldComboCounter = 0;
             comboCounterMax = 0;
             comboCounterMaxBonus = 0;
+            comboCounterMaxScaleMod = 1f;
             comboTimer = -1;
             comboTimerMax = ComboResetTime + comboResetTimeBonus;
 
@@ -246,6 +249,7 @@ namespace WeaponOut
             if (ModConf.enableFists)
             {
                 comboCounterMax = player.HeldItem.tileBoost;
+                comboCounterMaxScaleMod = Math.Max(0, 2 - player.HeldItem.scale);
 
                 // Jump again uppercut cannot be used from ground, only after attack resets
                 if (player.velocity.Y == 0)
@@ -931,13 +935,32 @@ namespace WeaponOut
                     if (tooltip.Name.Equals("TileBoost")) break;
                     index++;
                 }
+                int comboPower = item.tileBoost;
                 int comboBonus = Main.LocalPlayer.GetModPlayer<ModPlayerFists>().comboCounterMaxBonus;
+                float comboMod = Math.Max(0, 2 - item.scale);
+                int comboTotal = (int)((comboPower + comboBonus) * comboMod);
                 tooltips.RemoveAt(index);
                 TooltipLine tt = new TooltipLine(item.modItem.mod, "FistComboPower",
-                    Math.Max(2, item.tileBoost + comboBonus) +
+                    Math.Max(2, comboTotal) +
                     " combo power cost");
                 tt.overrideColor = tooltipColour;
                 tooltips.Insert(index, tt);
+
+                if(item.scale != 1f) {
+                    TooltipLine PrefixSize;
+                    foreach (TooltipLine tooltip in tooltips) {
+                        if (tooltip.Name.Equals("PrefixSize")) {
+                            PrefixSize = tooltip;
+
+                            // Swap +/-
+                            if (item.scale > 1f) { PrefixSize.text = PrefixSize.text.Replace("+", "-"); }
+                            else { PrefixSize.text = PrefixSize.text.Replace("-", "+"); }
+                            // replace 'size' with 'combo cost'
+                            PrefixSize.text = PrefixSize.text.Replace(Lang.tip[43].Value, "% combo cost");
+                            break;
+                        }
+                    }
+                }
             }
         }
 
