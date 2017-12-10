@@ -511,6 +511,7 @@ namespace WeaponOut//Lite
                 case HoldType.SmallGun: data = WeaponDrawInfo.modDraw_AimedWeapon(data, drawPlayer, larger); break;
                 case HoldType.LargeGun: data = WeaponDrawInfo.modDraw_HeavyWeapon(data, drawPlayer, lesser); break;
                 case HoldType.Staff: data = WeaponDrawInfo.modDraw_MagicWeapon(data, drawPlayer, larger); break;
+                default: return;
             }
 
             //Add the weapon to the draw layers

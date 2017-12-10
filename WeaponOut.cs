@@ -145,7 +145,7 @@ namespace WeaponOut
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
-            try { DrawPumpkinMark(spriteBatch); } catch { }
+            //try { DrawPumpkinMark(spriteBatch); } catch { }
             DrawInterfaceDemonBloodHeart(spriteBatch);
             if(ModConf.EnableFists)
             {
