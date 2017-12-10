@@ -101,7 +101,7 @@ namespace WeaponOut.Items.Weapons.Fists
                             pdr.SourceCustomReason = player.name + " was disemboweled by the Blood Baghnakh.";
                             break;
                         default:
-                            pdr.SourceCustomReason = player.name + " tore themself apart";
+                            pdr.SourceCustomReason = player.name + " tore themself apart.";
                             break;
                     }
                     player.immune = false;
