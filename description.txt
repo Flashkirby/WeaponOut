@@ -33,7 +33,6 @@ Folks on the discord server - Suggestions, bug testing and all-round support. Yo
 TODO:
 
 Fist
-	- Iced Punch too powerful? Check the numbers
 	- Patchy Pounder drop rate busted? Maybe MP issue
 	- Hidden Dragon not dropping?
 	- Combined lunar accessory.

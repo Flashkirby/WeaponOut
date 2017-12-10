@@ -291,9 +291,9 @@ namespace WeaponOut//Lite
         }
 
         public enum HoldType
-        { Hand, Waist, Back, Spear, PowerTool, Bow, SmallGun, LargeGun, Staff }
+        { None, Hand, Waist, Back, Spear, PowerTool, Bow, SmallGun, LargeGun, Staff }
         private static void PickItemDrawType(bool drawOnBack, Player drawPlayer, Item heldItem, bool isYoyo, int gWidth, int gHeight, ref DrawData data, float itemWidth, float itemHeight, float larger, float lesser) {
-            HoldType holdType = HoldType.Hand;
+            HoldType holdType = HoldType.None;
 
             #region AutoPicker
             if (heldItem.useStyle == 1 || //swing

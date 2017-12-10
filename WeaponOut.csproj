@@ -76,6 +76,7 @@
     <Compile Include="Items\Accessories\StainedTooth.cs" />
     <Compile Include="Items\Accessories\RushCharm.cs" />
     <Compile Include="Items\Accessories\FightingSash.cs" />
+    <Compile Include="Items\Accessories\LunarEmblem.cs" />
     <Compile Include="Items\Armour\ColosseumHelmet.cs" />
     <Compile Include="Items\Armour\DiscordantShades.cs" />
     <Compile Include="Items\Armour\FistBoxingHelmetPlus.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
-    <Compile Include="Items\Weapons\Fists\AllFists.cs" />
     <Compile Include="Items\Weapons\Fists\FistsFrozen.cs" />
     <Compile Include="Items\Weapons\Fists\FistsTitanium.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBone.cs" />
@@ -137,6 +137,7 @@
     <Content Include="Items\Accessories\HyperSash.png" />
     <Content Include="Items\Accessories\HyperSash_Waist.png" />
     <Content Include="Items\Accessories\LifeRoot.png" />
+    <Content Include="Items\Accessories\LunarEmblem.png" />
     <Content Include="Items\Accessories\QueenComb.png" />
     <Content Include="Items\Accessories\RoyalHealGel.png" />
     <Content Include="Items\Accessories\ScrapActuator.png" />
@@ -215,6 +216,7 @@
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="ModPlayerFists.cs" />
     <Compile Include="NPCs\ComboBubble.cs" />
+    <Compile Include="PlayerWOFX.cs" />
     <Compile Include="Projectiles\BuddyPortalExit.cs" />
     <Compile Include="Projectiles\BuddyPortalEntrance.cs" />
     <Compile Include="Projectiles\Explosion.cs" />
