@@ -74,6 +74,7 @@ namespace WeaponOut.Items.Weapons.Fists
             }
 
             player.GetModPlayer<PlayerFX>().reflectingProjectilesForce = true;
+            player.GetModPlayer<PlayerFX>().reflectingProjectilesParryStyle = true;
         }
 
         // Dash

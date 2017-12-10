@@ -49,6 +49,7 @@ namespace WeaponOut
         #region Reflect Projectiles
         public bool reflectingProjectiles;
         public bool reflectingProjectilesForce;
+        public bool reflectingProjectilesParryStyle;
         public int reflectingProjectileDelay;
         public bool CanReflectProjectiles
         { get { return reflectingProjectilesForce || (reflectingProjectiles && reflectingProjectileDelay <= 0); } }
@@ -253,6 +254,7 @@ namespace WeaponOut
             // Handle reflecting timer
             reflectingProjectiles = false;
             reflectingProjectilesForce = false;
+            reflectingProjectilesParryStyle = false;
             if (reflectingProjectileDelay > 0) reflectingProjectileDelay = Math.Max(0, reflectingProjectileDelay - 1);
 
             if (ModConf.EnableDualWeapons)

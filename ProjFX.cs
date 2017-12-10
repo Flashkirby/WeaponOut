@@ -60,10 +60,15 @@ namespace WeaponOut
 
             if (ReflectProjectilePlayer(projectile, player))
             {
-                if (showEffect)
-                {
-                    // Shield visual
-                    ShieldVisual(projectile, player);
+                if (showEffect) {
+                    if (modPlayer.reflectingProjectilesParryStyle) {
+                        // Shield visual
+                        ParryVisual(projectile, player);
+                    }
+                    else {
+                        // Shield visual
+                        ShieldVisual(projectile, player);
+                    }
                 }
                 return true;
             }
@@ -115,6 +120,17 @@ namespace WeaponOut
             return true;
         }
 
+        private static void ParryVisual(Projectile projectile, Player player) {
+            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3, 0.8f, -0.5f);
+            for (int j = 0; j < 10; j++) {
+                Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Smoke, projectile.velocity.X * 0.1f * j, projectile.velocity.Y * 0.1f * j, 50);
+                d.position -= d.velocity;
+                d.fadeIn = 1.2f;
+
+                d = Dust.NewDustDirect(projectile.position - projectile.velocity, projectile.width, projectile.height, DustID.Smoke, projectile.velocity.X * -0.02f * j, projectile.velocity.Y * -0.02f * j, 50);
+                d.fadeIn = 1.6f;
+            }
+        }
         private static void ShieldVisual(Projectile projectile, Player player)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 28);
