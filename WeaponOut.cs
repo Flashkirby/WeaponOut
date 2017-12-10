@@ -41,6 +41,9 @@ namespace WeaponOut
 
         public static int shakeIntensity = 0;
         private static int shakeTick = 0;
+        
+        // WeaponOut Hotkey
+        ModHotKey ControlToggleVisual = null;
 
         public WeaponOut()
         {
@@ -56,6 +59,8 @@ namespace WeaponOut
         public override void Load()
         {
             mod = this;
+
+            ControlToggleVisual = RegisterHotKey("Toggle WeaponOut", "#");
         }
 
         public override void PostSetupContent()
@@ -142,12 +147,12 @@ namespace WeaponOut
         {
             try { DrawPumpkinMark(spriteBatch); } catch { }
             DrawInterfaceDemonBloodHeart(spriteBatch);
-            DrawInterfaceWeaponOutToggleEye(spriteBatch);
-
             if(ModConf.enableFists)
             {
                 Main.LocalPlayer.meleeDamage += Main.LocalPlayer.GetModPlayer<PlayerFX>().PatienceBonus;
             }
+
+            DrawInterfaceWeaponOutToggleEye(spriteBatch);
         }
 
         private void DrawPumpkinMark(SpriteBatch spriteBatch)
@@ -279,6 +284,8 @@ namespace WeaponOut
 
         private void DrawInterfaceWeaponOutToggleEye(SpriteBatch spriteBatch)
         {
+            //if (Disabled) return;
+
             // Janky quick inventory visibilty
             if (!Main.playerInventory || !ModConf.showWeaponOut || ModConf.forceShowWeaponOut) return;
             //Get vars
@@ -307,7 +314,6 @@ namespace WeaponOut
                 // On click
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    Main.PlaySound(SoundID.MenuTick);
                     ToggleWeaponVisual(pfx, !pfx.weaponVisual);
                 }
             }
@@ -321,6 +327,7 @@ namespace WeaponOut
                 );
         }
         private void ToggleWeaponVisual(PlayerWOFX pfx, bool state) {
+            Main.PlaySound(SoundID.MenuTick);
             pfx.weaponVisual = state;
             NetUpdateWeaponVisual(this, pfx);
         }
@@ -519,6 +526,14 @@ namespace WeaponOut
             ToggleWeaponVisual(p.GetModPlayer<PlayerWOFX>(this), show);
         }
         #endregion
+
+        public override void PostUpdateInput() {
+            if (Main.gameMenu || ControlToggleVisual == null || ModConf.ForceShowWeaponOut) return;
+            if (ControlToggleVisual.JustPressed) {
+                PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>(this);
+                ToggleWeaponVisual(pfx, !pfx.weaponVisual);
+            }
+        }
 
         public static Vector2 CalculateNormalAngle(Vector2 start, Vector2 end)
         {
