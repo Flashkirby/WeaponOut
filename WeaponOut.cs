@@ -145,7 +145,7 @@ namespace WeaponOut
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
-            //try { DrawPumpkinMark(spriteBatch); } catch { }
+            try { DrawPumpkinMark(spriteBatch); } catch { }
             DrawInterfaceDemonBloodHeart(spriteBatch);
             if(ModConf.EnableFists)
             {
@@ -164,13 +164,13 @@ namespace WeaponOut
             Dictionary<Vector2, bool> drawPositions = new Dictionary<Vector2, bool>();
             foreach (NPC i in Main.npc)
             {
-                if (i.active && i.life > 0)
-                {   // Can crash here because of findIndex
-                    int buffIndex = i.FindBuffIndex(buffID);
-                    if (buffIndex >= 0)
-                    {
-                        drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY), i.buffTime[buffIndex] < 120);
-                    }
+                if (!i.active || i.life <= 0) continue;
+                if (i.buffImmune.Length < buffID) continue;
+
+                int buffIndex = i.FindBuffIndex(buffID);
+
+                if (buffIndex >= 0) {
+                    drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY), i.buffTime[buffIndex] < 120);
                 }
             }
             foreach (Player i in Main.player)
