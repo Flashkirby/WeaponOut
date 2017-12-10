@@ -27,6 +27,7 @@ namespace WeaponOut.Items.Weapons.Dual
         private const float minAccuracyMod = -0.6f;
         private const float addAccuracyMod = 0.2f;
         private const float decayAccuracyMod = 0.07f;
+        private const float accuracyDamageMod = 2;
         private float accuracyMod = minAccuracyMod;
         private float Accuracy { get { return Math.Max(0, accuracyMod); } }
 
@@ -58,7 +59,7 @@ namespace WeaponOut.Items.Weapons.Dual
 
             item.ranged = true;
             item.noMelee = true;
-            item.damage = 82;
+            item.damage = 60;
             item.knockBack = 1f;
 
             item.useAmmo = AmmoID.Bullet;
@@ -147,7 +148,7 @@ namespace WeaponOut.Items.Weapons.Dual
             if (player.altFunctionUse == 0)
             {
                 if (accuracyMod < maxAccuracyMod - addAccuracyMod) accuracyMod += addAccuracyMod;
-                if (accuracyMod <= 0) damage = (int)(damage * 1.5);
+                if (accuracyMod <= 0) damage = (int)(damage * accuracyDamageMod);
                 speedX += Accuracy * (Main.rand.NextFloat() - 0.5f);
                 speedY += Accuracy * (Main.rand.NextFloat() - 0.5f);
             }
