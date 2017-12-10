@@ -57,6 +57,12 @@ namespace WeaponOut.Items.Weapons.Fists
         /// <summary> The method called during a dash. Use for ongoing dust and gore effects. </summary>
         public static void DashEffects(Player player, Item item)
         {
+            float speed = Math.Abs(player.velocity.X);
+            if(speed < altDashSpeed - 3 && speed > altDashThresh + 2) {
+                // Preserve punch
+                player.itemAnimation++;
+            }
+
             if (player.velocity.Y != 0 && !player.controlDown)
             {
                 player.velocity.Y -= (player.gravity * player.gravDir) / 2;
