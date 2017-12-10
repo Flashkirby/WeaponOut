@@ -16,10 +16,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class DemonBlaster : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Blaster");
@@ -50,8 +46,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 4;
             item.value = 18000;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 20);
             recipe.AddIngredient(ItemID.SoulofNight, 10);

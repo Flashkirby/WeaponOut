@@ -13,7 +13,7 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name)
         {
-            return ModConf.enableFists;
+            return ModConf.EnableFists;
         }
         public static int comboEffect = 0;
         public static int buffID = 0;
@@ -44,8 +44,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.width = 20;
             item.height = 20;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GoldenKey, 1);
             recipe.AddIngredient(ItemID.WaterCandle, 2);

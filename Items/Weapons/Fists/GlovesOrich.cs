@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class GlovesOrich : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         public override void SetStaticDefaults()
         {
@@ -51,8 +50,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altJumpVelo = 17f;
         const int parryActive = 25;
         const int parryCooldown = 20;
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.OrichalcumBar, 5);
             recipe.AddTile(TileID.Anvils);

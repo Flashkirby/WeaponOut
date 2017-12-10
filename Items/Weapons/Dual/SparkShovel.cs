@@ -8,11 +8,6 @@ namespace WeaponOut.Items.Weapons.Dual
 {
     public class SparkShovel : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableDualWeapons;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spark Shovel");
@@ -46,8 +41,8 @@ namespace WeaponOut.Items.Weapons.Dual
             item.rare = 1;
             item.value = 5400;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableDualWeapons) return;
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);

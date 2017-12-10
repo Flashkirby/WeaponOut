@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class NotchedWhip : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableWhips; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vilelash");
@@ -39,8 +38,8 @@ namespace WeaponOut.Items.Weapons.Whips
             item.rare = 1;
             item.value = Item.sellPrice(0,0,25,0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableWhips) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Vilethorn, 1);
             recipe.AddIngredient(ItemID.DemoniteBar, 5);

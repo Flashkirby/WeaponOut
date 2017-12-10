@@ -8,12 +8,7 @@ namespace WeaponOut.Buffs
     public class DemonFrenzy : ModBuff
     {
         public static readonly int POWERFACTOR = 1;
-
-        public override bool Autoload(ref string name, ref string texture)
-        {
-            return ModConf.enableFists;
-        }
-
+        
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Demon Frenzy");

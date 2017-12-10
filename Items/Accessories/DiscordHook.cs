@@ -7,7 +7,6 @@ namespace WeaponOut.Items.Accessories
 {
     public class DiscordHook : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableAccessories; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hook of Discord");
@@ -19,8 +18,8 @@ namespace WeaponOut.Items.Accessories
             item.rare = 7;
             item.value += Item.sellPrice(0, 5, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RodofDiscord, 1);
             recipe.AddIngredient(ItemID.SoulofLight, 15);

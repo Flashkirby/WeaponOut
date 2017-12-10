@@ -7,8 +7,6 @@ namespace WeaponOut.Items.Accessories
 {
     public class RushCharm : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults() // Eye of Cthulu
         {
             DisplayName.SetDefault("Rush Charm");

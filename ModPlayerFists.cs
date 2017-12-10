@@ -30,7 +30,7 @@ namespace WeaponOut
     /// </summary>
     public class ModPlayerFists : ModPlayer
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
+        public override bool Autoload(ref string name) { return ModConf.EnableFists; }
 
         private const bool DEBUG_FISTBOXES = false;
         private const bool DEBUG_DASHFISTS = false;
@@ -223,7 +223,7 @@ namespace WeaponOut
 
         public override bool PreItemCheck()
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 // Main.NewText("cd = " + player.attackCD + " : " + noBounce);
                 // Don't use the item whilst a parry is in progress
@@ -246,7 +246,7 @@ namespace WeaponOut
 
         public override void PreUpdate()
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 comboCounterMax = player.HeldItem.tileBoost;
                 comboCounterMaxScaleMod = Math.Max(0, 2 - player.HeldItem.scale);
@@ -280,7 +280,7 @@ namespace WeaponOut
         public override void PostUpdate()
         {
             // Set up parry frames
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 SetComboEffectLogic();
 

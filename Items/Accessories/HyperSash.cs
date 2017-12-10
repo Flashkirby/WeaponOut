@@ -8,7 +8,7 @@ namespace WeaponOut.Items.Accessories
     [AutoloadEquip(EquipType.Waist)]
     public class HyperSash : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
+        public override bool Autoload(ref string name) { return ModConf.EnableFists; }
 
         public override void SetStaticDefaults()
         {
@@ -27,8 +27,8 @@ namespace WeaponOut.Items.Accessories
             item.accessory = true;
             item.value = Item.buyPrice(0, 3, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<FightingSash>(), 1);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 2);

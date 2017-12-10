@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,12 +11,6 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Head)]
     public class DiscordantShades : ModItem
     {
-        private bool skipFrameAcc = false;
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableAccessories;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Discordant Shades");
@@ -32,8 +27,8 @@ namespace WeaponOut.Items.Armour
             item.rare = 4;
             item.accessory = true;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofLight, 15);
             recipe.AddTile(TileID.MythrilAnvil);

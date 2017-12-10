@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Whips
     /// </summary>
     public class BoneWhip : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableWhips; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bone Whip");
@@ -40,8 +39,8 @@ namespace WeaponOut.Items.Weapons.Whips
             item.rare = 2;
             item.value = Item.sellPrice(0,0,50,0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableWhips) return;
             ModRecipe recipe = new ModRecipe(mod);
              recipe.AddIngredient(ItemID.Bone, 60);
             recipe.AddTile(TileID.WorkBenches);

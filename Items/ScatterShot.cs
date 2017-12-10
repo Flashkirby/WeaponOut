@@ -11,11 +11,6 @@ namespace WeaponOut.Items
     /// </summary>
     public class ScatterShot : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shattered Crystals");
@@ -43,6 +38,7 @@ namespace WeaponOut.Items
 
         public override void AddRecipes()
         {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalBullet, 10);
             recipe.SetResult(this, 33);

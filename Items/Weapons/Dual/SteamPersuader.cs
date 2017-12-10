@@ -10,11 +10,6 @@ namespace WeaponOut.Items.Weapons.Dual
 {
     public class SteamPersuader : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableDualWeapons;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Steam Persuader");
@@ -49,8 +44,8 @@ namespace WeaponOut.Items.Weapons.Dual
             item.rare = 5;
             item.value = Item.sellPrice(0, 3, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableDualWeapons) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ClockworkAssaultRifle, 1);
             recipe.AddIngredient(ItemID.Cog, 7);

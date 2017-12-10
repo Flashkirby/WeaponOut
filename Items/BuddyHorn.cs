@@ -13,7 +13,6 @@ namespace WeaponOut.Items
     public class BuddyHorn : ModItem
     {
         public static short customGlowMask = 0;
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         public override void SetStaticDefaults()
         {
@@ -38,6 +37,7 @@ namespace WeaponOut.Items
         }
         public override void AddRecipes()
         {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SunplateBlock, 50);
             recipe.AddTile(TileID.SkyMill);

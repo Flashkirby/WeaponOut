@@ -7,7 +7,6 @@ namespace WeaponOut.Buffs
 {
     public class YinYang : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Balance");
@@ -25,7 +24,7 @@ namespace WeaponOut.Buffs
 
     public class Yin : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
+        public override bool Autoload(ref string name, ref string texture) { return ModConf.EnableFists; }
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Imbalance: Yin");
@@ -40,7 +39,7 @@ namespace WeaponOut.Buffs
     }
     public class Yang : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
+        public override bool Autoload(ref string name, ref string texture) { return ModConf.EnableFists; }
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Imbalance: Yang");

@@ -13,7 +13,7 @@ namespace WeaponOut
 
         public override bool PreAI(Projectile projectile)
         {
-            if (ModConf.enableAccessories)
+            if (ModConf.EnableAccessories)
             {
                 foreach (Player player in Main.player)
                 {

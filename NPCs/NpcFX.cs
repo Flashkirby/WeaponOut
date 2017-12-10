@@ -10,11 +10,6 @@ namespace WeaponOut.NPCs
 {
     public class NpcFX : GlobalNPC
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.EnableWhips || ModConf.EnableBasicContent || ModConf.EnableFists;
-        }
-
         public override void SetupShop(int type, Chest shop, ref int nextSlot)
         {
             if (ModConf.EnableWhips)

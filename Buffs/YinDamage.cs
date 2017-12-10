@@ -5,7 +5,6 @@ namespace WeaponOut.Buffs
 {
     public class YinDamage : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
         public int variable;
         public override void SetDefaults()
         {

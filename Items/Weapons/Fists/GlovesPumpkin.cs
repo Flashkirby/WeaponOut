@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class GlovesPumpkin : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int buffID = 0;
         public static int projID = 0;
         const int buffTime = 60 * 6;

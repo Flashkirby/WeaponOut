@@ -12,11 +12,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class Startillery : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Startillery");
@@ -30,8 +25,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.UseSound = SoundID.DD2_BallistaTowerShot;
             item.shootSpeed += 10f;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             //Conversion to, should be expensive enough to dissuade replacement as reforging
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StarCannon, 1);

@@ -11,11 +11,6 @@ namespace WeaponOut.Items
     /// </summary>
     public class SplinterShot : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Splinter Shot");
@@ -43,7 +38,7 @@ namespace WeaponOut.Items
 
         public override void AddRecipes()
         {
-
+            if (!ModConf.EnableBasicContent) return;
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);

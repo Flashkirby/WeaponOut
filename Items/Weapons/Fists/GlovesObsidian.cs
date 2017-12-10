@@ -10,7 +10,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class GlovesObsidian : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Obsidian Vambrace");
@@ -37,8 +36,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.width = 26;
             item.height = 26;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Obsidian, 20);
             recipe.AddTile(TileID.Furnaces);

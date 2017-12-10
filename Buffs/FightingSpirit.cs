@@ -7,8 +7,6 @@ namespace WeaponOut.Buffs
 {
     public class FightingSpirit : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
-
         public const string DefaultName = "Puglist's Resolve";
         public int life2heal;
         public override void SetDefaults()
@@ -28,7 +26,7 @@ namespace WeaponOut.Buffs
 
     public class FightingSpiritEmpty : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
+        public override bool Autoload(ref string name, ref string texture) { return ModConf.EnableFists; }
 
         public int life2heal;
         public override void SetDefaults()
@@ -39,7 +37,7 @@ namespace WeaponOut.Buffs
     }
     public class FightingSpiritMax : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
+        public override bool Autoload(ref string name, ref string texture) { return ModConf.EnableFists; }
 
         public int life2heal;
         public override void SetDefaults()

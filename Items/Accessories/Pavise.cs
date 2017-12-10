@@ -8,11 +8,6 @@ namespace WeaponOut.Items.Accessories
     [AutoloadEquip(EquipType.Shield)]
     public class Pavise : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableAccessories;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fossil Shield"); //Ceratopsian Shield
@@ -28,8 +23,8 @@ namespace WeaponOut.Items.Accessories
             item.accessory = true;
             item.value = Item.sellPrice(0, 0, 20, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FossilOre, 25);
             recipe.AddTile(TileID.Anvils);

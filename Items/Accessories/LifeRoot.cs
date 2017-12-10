@@ -7,7 +7,7 @@ namespace WeaponOut.Items.Accessories
 {
     public class LifeRoot : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
+        public override bool Autoload(ref string name) { return ModConf.EnableFists; }
 
         public override void SetStaticDefaults()
         {

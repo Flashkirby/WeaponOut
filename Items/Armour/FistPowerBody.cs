@@ -7,7 +7,6 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Body)]
     public class FistPowerBody : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dobok Jacket");
@@ -22,8 +21,8 @@ namespace WeaponOut.Items.Armour
             item.width = 18;
             item.height = 18;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 15);
             recipe.AddIngredient(ItemID.Cactus, 10);

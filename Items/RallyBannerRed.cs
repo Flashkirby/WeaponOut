@@ -12,11 +12,6 @@ namespace WeaponOut.Items
     /// </summary>
     public class RallyBannerRed : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             RallyBannerRed.SetStaticDefaults(this, "Red Rally Banner");
@@ -53,6 +48,7 @@ namespace WeaponOut.Items
         }
         public static void AddRecipe(ModItem modItem)
         {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(modItem.mod);
             recipe.AddIngredient(ItemID.Silk, 5);
             recipe.AddIngredient(ItemID.Wood, 5);

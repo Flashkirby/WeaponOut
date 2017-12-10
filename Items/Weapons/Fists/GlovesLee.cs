@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class GlovesLee : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         public override void SetStaticDefaults()
         {

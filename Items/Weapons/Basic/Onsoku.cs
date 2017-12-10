@@ -15,11 +15,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class Onsoku : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Onsoku");
@@ -47,8 +42,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 4;
             item.value = Item.sellPrice(0, 0, 50, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.UnicornHorn, 1);
             recipe.AddIngredient(ItemID.SoulofLight, 25);

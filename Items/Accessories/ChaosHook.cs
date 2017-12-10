@@ -7,7 +7,6 @@ namespace WeaponOut.Items.Accessories
 {
     public class ChaosHook : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableAccessories; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hook of Chaos");
@@ -25,6 +24,7 @@ namespace WeaponOut.Items.Accessories
         }
         public override void AddRecipes()
         {
+            if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<DiscordHook>(), 1);
             recipe.SetResult(this);

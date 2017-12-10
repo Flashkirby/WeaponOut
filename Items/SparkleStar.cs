@@ -10,7 +10,6 @@ namespace WeaponOut.Items
 {
     public class SparkleStar : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableAccessories; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star Shard");

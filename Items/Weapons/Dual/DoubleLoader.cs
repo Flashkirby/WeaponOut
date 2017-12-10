@@ -10,11 +10,6 @@ namespace WeaponOut.Items.Weapons.Dual
 {
     public class DoubleLoader : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableDualWeapons;
-        }
-        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Double Loader");
@@ -45,8 +40,8 @@ namespace WeaponOut.Items.Weapons.Dual
             item.rare = 8;
             item.value = Item.sellPrice(0, 5, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableDualWeapons) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ShroomiteBar, 18);
             recipe.AddTile(TileID.MythrilAnvil);

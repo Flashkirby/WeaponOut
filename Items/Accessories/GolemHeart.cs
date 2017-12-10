@@ -8,8 +8,6 @@ namespace WeaponOut.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class GolemHeart : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar Spark");

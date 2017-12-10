@@ -15,11 +15,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class Raiden : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public const int focusTime = 60;
         public const int focusRadius = 256;
 
@@ -54,8 +49,8 @@ namespace WeaponOut.Items.Weapons.Basic
             slashFlip = false;
             focusSlash = false;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<Hayauchi>(), 1);
             recipe.AddIngredient(mod.ItemType<Onsoku>(), 1);

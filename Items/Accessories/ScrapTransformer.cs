@@ -7,8 +7,6 @@ namespace WeaponOut.Items.Accessories
 {
     public class ScrapTransformer : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Transformer");

@@ -11,11 +11,6 @@ namespace WeaponOut.Items
     /// </summary>
     public class MeteorBreakshot : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meteoric Breakshot");
@@ -43,6 +38,7 @@ namespace WeaponOut.Items
 
         public override void AddRecipes()
         {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteorShot, 50);
             recipe.AddIngredient(ItemID.Hellstone);

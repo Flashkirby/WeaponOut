@@ -8,8 +8,6 @@ namespace WeaponOut.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class ScrapExosuit : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Exosuit");
@@ -30,8 +28,8 @@ namespace WeaponOut.Items.Accessories
             item.value = Item.sellPrice(0, 5, 0, 0);
             item.expert = true;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<ScrapActuator>(), 1);
             recipe.AddIngredient(mod.ItemType<ScrapFrame>(), 1);

@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class GlovesCobalt : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
 
         public override void SetStaticDefaults()
         {
@@ -51,8 +50,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altJumpVelo = 17.6f;
         const int parryActive = 32;
         const int parryCooldown = 18;
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CobaltBar, 5);
             recipe.AddTile(TileID.Anvils);

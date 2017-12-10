@@ -7,19 +7,6 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Legs)]
     public class HighDefLegs : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            if (ModConf.enableFists)
-            {
-                if (!Main.dedServ)
-                {
-                    // Add the female leg variant
-                    mod.AddEquipTexture(null, EquipType.Legs, "HighDefLegs_Female", "WeaponOut/Items/Armour/HighDefLegs_FemaleLegs");
-                }
-                return true;
-            }
-            return false;
-        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaolin Trousers");
@@ -35,8 +22,8 @@ namespace WeaponOut.Items.Armour
             item.width = 18;
             item.height = 18;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 12);
             recipe.AddIngredient(ItemID.SoulofMight, 10);

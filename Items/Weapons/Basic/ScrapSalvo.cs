@@ -13,11 +13,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class ScrapSalvo : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Salvo");

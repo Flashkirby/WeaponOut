@@ -7,8 +7,6 @@ namespace WeaponOut.Items.Accessories
 {
     public class QueenComb : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults() // Eye of Cthulu
         {
             DisplayName.SetDefault("Honey Pack");

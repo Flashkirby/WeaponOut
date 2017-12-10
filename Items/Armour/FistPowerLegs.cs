@@ -7,7 +7,6 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Legs)]
     public class FistPowerLegs : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dobok Pants");
@@ -22,8 +21,8 @@ namespace WeaponOut.Items.Armour
             item.width = 18;
             item.height = 18;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 12);
             recipe.AddIngredient(ItemID.Cactus, 8);

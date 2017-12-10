@@ -8,11 +8,6 @@ namespace WeaponOut.Items.Weapons.Dual
 {
     public class Capacitor : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableDualWeapons;
-        }
-        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Capacitor");
@@ -46,8 +41,8 @@ namespace WeaponOut.Items.Weapons.Dual
             item.rare = 2;
             item.value = Item.buyPrice(0, 2);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableDualWeapons) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.IceBlade, 1);
             recipe.AddIngredient(ItemID.FallenStar, 5);

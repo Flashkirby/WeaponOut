@@ -8,7 +8,6 @@ namespace WeaponOut.Buffs
     public class RapidRecovery : ModBuff
     {
         public const int healthPer2Secs = 9; // Rapid Healing is 6
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Rapid Recovery");

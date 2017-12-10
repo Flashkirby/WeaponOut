@@ -7,11 +7,6 @@ namespace WeaponOut.Buffs
 {
     public class MirrorBarrier : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture)
-        {
-            return ModConf.enableAccessories;
-        }
-
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Magic Barrier");

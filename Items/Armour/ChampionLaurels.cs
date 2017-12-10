@@ -8,7 +8,6 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Head)]
     public class ChampionLaurels : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Laurels");
@@ -25,8 +24,8 @@ namespace WeaponOut.Items.Armour
             item.width = 18;
             item.height = 18;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PlanteraMask);
             recipe.AddTile(TileID.MythrilAnvil);

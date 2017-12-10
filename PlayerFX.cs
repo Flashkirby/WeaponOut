@@ -216,7 +216,7 @@ namespace WeaponOut
             localTempSpawn = new Vector2();
 
             // Set up position
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 FakePositionReal = player.position;
                 FakePositionTemp = player.position;
@@ -255,13 +255,13 @@ namespace WeaponOut
             reflectingProjectilesForce = false;
             if (reflectingProjectileDelay > 0) reflectingProjectileDelay = Math.Max(0, reflectingProjectileDelay - 1);
 
-            if (ModConf.enableDualWeapons)
+            if (ModConf.EnableDualWeapons)
             {
                 if (player.itemAnimation <= 1) dualItemAnimationMod = 1f;
                 if (player.itemTime <= 1) dualItemTimeMod = 1f;
             }
 
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 taekwonCounter = false;
                 doubleDamageUp = false;
@@ -427,7 +427,7 @@ namespace WeaponOut
 
         public override void PostUpdateBuffs()
         {
-            if (ModConf.enableBasicContent)
+            if (ModConf.EnableBasicContent)
             {
                 applyBannerBuff();
             }
@@ -466,7 +466,7 @@ namespace WeaponOut
 
         public override bool PreItemCheck()
         {
-            if (ModConf.enableDualWeapons)
+            if (ModConf.EnableDualWeapons)
             {
                 PreItemCheckDualSync();
             }
@@ -566,12 +566,12 @@ namespace WeaponOut
 
         public override float MeleeSpeedMultiplier(Item item)
         {
-            if (ModConf.enableDualWeapons) return dualItemAnimationMod;
+            if (ModConf.EnableDualWeapons) return dualItemAnimationMod;
             return base.MeleeSpeedMultiplier(item);
         }
         public override float UseTimeMultiplier(Item item)
         {
-            if (ModConf.enableDualWeapons) return dualItemTimeMod;
+            if (ModConf.EnableDualWeapons) return dualItemTimeMod;
             return base.UseTimeMultiplier(item);
         }
 
@@ -587,7 +587,7 @@ namespace WeaponOut
                 }
             }
 
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 if (momentumDashTime > 0)
                 {
@@ -624,7 +624,7 @@ namespace WeaponOut
                 barbariousDefence = 0;
             }
 
-            if (ModConf.enableAccessories)
+            if (ModConf.EnableAccessories)
             {
                 hookPressed = player.controlHook && player.releaseHook;
             }
@@ -673,7 +673,7 @@ namespace WeaponOut
             }
             if (keyDir == inputKey)
             {
-                if (ModConf.enableFists)
+                if (ModConf.EnableFists)
                 {
                     MomentumDashTorwardsMouse();
                 }
@@ -851,7 +851,7 @@ namespace WeaponOut
         }
         public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
         {
-            if (ModConf.enableBasicContent)
+            if (ModConf.EnableBasicContent)
             {
                 // Offset helmet by 2 pixels upwards to move it to the right position
                 if (player.head == mod.GetEquipSlot("ColosseumHelmet", EquipType.Head))
@@ -864,7 +864,7 @@ namespace WeaponOut
         private int patienceDustUpdate = 0;
         private void FistPostUpdate()
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
 
@@ -1154,7 +1154,7 @@ namespace WeaponOut
 
         private void FistOnHitNPC(NPC target, int damage)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 if (target.immortal) return;
                 #region Divekicks heal
@@ -1237,7 +1237,7 @@ namespace WeaponOut
 
         private void FistOnHitNPCWithProj(Projectile proj, NPC target, int damage)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 if (!proj.melee) return;
                 if (player.heldProj != proj.whoAmI) return;
@@ -1330,7 +1330,7 @@ namespace WeaponOut
 
         private void FistOnHitByEntity(Entity e, int damage)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
 
@@ -1342,7 +1342,7 @@ namespace WeaponOut
         
         private void FistModifyHit(Item item, Player player, int life, int lifeMax, ref int damage, ref float knockBack, ref bool crit)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 #region Combo Health% Damage
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
@@ -1363,7 +1363,7 @@ namespace WeaponOut
 
         private void FistModifyHitWithProj(Projectile proj, Player player, int life, int lifeMax, ref int damage, ref bool crit)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 #region Reset Melee Buildup
                 if (proj.melee)
@@ -1383,7 +1383,7 @@ namespace WeaponOut
 
         private bool FistPreHurt(int damage, PlayerDeathReason damageSource)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 #region Momentum Damage Prevention (return false)
                 if (momentumActive)
@@ -1423,7 +1423,7 @@ namespace WeaponOut
 
         private void FistPostHurt(double damage)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 #region Counter Damage Buff
                 if (taekwonCounter)
@@ -1467,7 +1467,7 @@ namespace WeaponOut
 
         private bool FistPreKill(double damage, PlayerDeathReason damageSource)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 #region Second Wind Damage
                 if (secondWind && player.statLife <= 0)

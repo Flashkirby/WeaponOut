@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Weapons.Fists
     {
         public override bool Autoload(ref string name)
         {
-            return ModConf.enableFists;
+            return ModConf.EnableFists;
         }
 
         public override void SetStaticDefaults()
@@ -41,8 +41,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.width = 26;
             item.height = 26;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FossilOre, 10);
             recipe.AddTile(TileID.Anvils);

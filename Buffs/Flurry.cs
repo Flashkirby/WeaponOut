@@ -7,11 +7,6 @@ namespace WeaponOut.Buffs
 {
     public class Flurry : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture)
-        {
-            return ModConf.enableFists;
-        }
-
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Flurry");

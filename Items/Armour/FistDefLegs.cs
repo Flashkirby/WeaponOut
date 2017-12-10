@@ -7,19 +7,6 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Legs)]
     public class FistDefLegs : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            if (ModConf.enableFists)
-            {
-                if (!Main.dedServ)
-                {
-                    // Add the female leg variant
-                    mod.AddEquipTexture(null, EquipType.Legs, "FistDefLegs_Female", "WeaponOut/Items/Armour/FistDefLegs_FemaleLegs");
-                }
-                return true;
-            }
-            return false;
-        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dynasty Slippers");

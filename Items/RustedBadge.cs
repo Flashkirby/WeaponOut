@@ -8,7 +8,6 @@ namespace WeaponOut.Items
     /// </summary>
     public class RustedBadge : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableAccessories; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rusted Badge");
@@ -22,6 +21,7 @@ namespace WeaponOut.Items
         }
         public override void AddRecipes()
         {
+            if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<RustedBadge>(), 1);
             recipe.AddIngredient(ItemID.Obsidifish, 3); // Rough polish

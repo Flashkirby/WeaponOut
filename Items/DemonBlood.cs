@@ -12,8 +12,6 @@ namespace WeaponOut.Items
 {
     public class DemonBlood : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frenzy Heart");

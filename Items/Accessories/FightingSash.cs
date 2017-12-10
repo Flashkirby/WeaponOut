@@ -8,8 +8,6 @@ namespace WeaponOut.Items.Accessories
     [AutoloadEquip(EquipType.Waist)]
     public class FightingSash : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Journeyman Sash");
@@ -28,6 +26,7 @@ namespace WeaponOut.Items.Accessories
         }
         public override void AddRecipes()
         {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 2);
             recipe.AddIngredient(ItemID.JungleSpores, 4);

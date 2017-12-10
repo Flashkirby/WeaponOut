@@ -11,11 +11,6 @@ namespace WeaponOut.Items.Accessories
     {
         public const int reflectDelay = 90;
 
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableAccessories;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mirror Badge");
@@ -32,8 +27,8 @@ namespace WeaponOut.Items.Accessories
             item.value = Item.sellPrice(0, 3, 0, 0);
             item.accessory = true;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PocketMirror, 1);
             recipe.AddIngredient(ItemID.ShroomiteBar, 12);

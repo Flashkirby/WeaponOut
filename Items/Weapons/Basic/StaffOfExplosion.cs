@@ -8,8 +8,6 @@ namespace WeaponOut.Items.Weapons.Basic
 {
     public class StaffOfExplosion : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableBasicContent; }
-
         public const int baseDamage = 40;
         public override void SetStaticDefaults()
         {
@@ -45,8 +43,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 8;
             item.value = Item.sellPrice(0, 10, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.WandofSparking, 1); // Surface chest
             recipe.AddIngredient(ItemID.RubyStaff, 1); // Extractinator, or Gold ore world

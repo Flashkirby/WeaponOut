@@ -7,11 +7,6 @@ namespace WeaponOut.Items.Placeable
 {
     public class CampTent : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Camping Tent");
@@ -38,6 +33,7 @@ namespace WeaponOut.Items.Placeable
         }
         public override void AddRecipes()
         {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 2);
             recipe.AddIngredient(ItemID.Wood, 8);

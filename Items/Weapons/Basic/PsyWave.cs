@@ -8,11 +8,6 @@ namespace WeaponOut.Items.Weapons.Basic
 {
     public class PsyWave : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Psy Wave");
@@ -36,8 +31,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 8;
             item.value = Item.sellPrice(0, 6, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpellTome, 1);
             recipe.AddIngredient(ItemID.Ectoplasm, 8);

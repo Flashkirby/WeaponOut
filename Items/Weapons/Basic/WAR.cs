@@ -12,11 +12,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class WAR : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public const int penetrateBonus = 4;
 
         public override void SetStaticDefaults()
@@ -49,8 +44,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 9;
             item.value = 12000000;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FragmentVortex, 18);
             recipe.AddTile(TileID.LunarCraftingStation);

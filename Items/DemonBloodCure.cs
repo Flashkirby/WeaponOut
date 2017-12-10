@@ -12,8 +12,6 @@ namespace WeaponOut.Items
 {
     public class DemonBloodCure : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Transfusion Potion");
@@ -37,6 +35,7 @@ namespace WeaponOut.Items
         }
         public override void AddRecipes()
         {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(mod.ItemType<DemonBlood>());

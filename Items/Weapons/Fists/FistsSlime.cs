@@ -11,7 +11,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class FistsSlime : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
         public override void SetStaticDefaults()
         {

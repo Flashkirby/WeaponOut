@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class FistsLihzarhd : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
         public static int projectileID = 0;
 
@@ -54,8 +53,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 16f;
         const float altDashThresh = 12f;
         const float altJumpVelo = 16.8f;
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GolemFist, 1);
             recipe.AddTile(TileID.MythrilAnvil);

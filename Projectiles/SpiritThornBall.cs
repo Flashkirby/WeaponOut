@@ -12,8 +12,6 @@ namespace WeaponOut.Projectiles
     /// </summary>
     public class SpiritThornBall : ModProjectile
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn Ball");

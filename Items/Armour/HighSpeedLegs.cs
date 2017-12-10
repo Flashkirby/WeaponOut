@@ -7,19 +7,6 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Legs)]
     public class HighSpeedLegs : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            if (ModConf.enableFists)
-            {
-                if (!Main.dedServ)
-                {
-                    // Add the female leg variant
-                    mod.AddEquipTexture(null, EquipType.Legs, "HighSpeedLegs_Female", "WeaponOut/Items/Armour/HighSpeedLegs_FemaleLegs");
-                }
-                return true;
-            }
-            return false;
-        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Guards");
@@ -36,8 +23,8 @@ namespace WeaponOut.Items.Armour
             item.width = 18;
             item.height = 18;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Silk, 12);
             recipe.AddIngredient(ItemID.SoulofSight, 10);

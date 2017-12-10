@@ -14,11 +14,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class BoneZone : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strongbone");
@@ -50,8 +45,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 3;
             item.expert = true;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BoneGlove, 1);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);

@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class FistsCursed : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
 
         public override void SetStaticDefaults()
@@ -50,8 +49,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 18f;
         const float altDashThresh = 16f;
         const float altJumpVelo = 16.85f;
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CursedFlame, 10);
             recipe.AddIngredient(ItemID.SoulofNight, 15);

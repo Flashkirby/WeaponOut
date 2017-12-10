@@ -12,7 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class KnucklesMithril : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public static int altEffect = 0;
 
         public override void SetStaticDefaults()
@@ -52,8 +51,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 10f;
         const float altDashThresh = 8f;
         const float altJumpVelo = 16f;
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MythrilBar, 5);
             recipe.AddTile(TileID.Anvils);

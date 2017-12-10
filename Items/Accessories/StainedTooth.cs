@@ -7,8 +7,6 @@ namespace WeaponOut.Items.Accessories
 {
     public class StainedTooth : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults() // Brain of Cthulu
         {
             DisplayName.SetDefault("Impaling Tooth");

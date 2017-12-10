@@ -8,11 +8,6 @@ namespace WeaponOut.Items.Weapons.Basic
 {
     public class Reverb : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reverb");
@@ -43,8 +38,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 5;
             item.value = Item.sellPrice(0, 4, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.UnicornHorn, 2);
             recipe.AddIngredient(ItemID.SoulofSight, 15);

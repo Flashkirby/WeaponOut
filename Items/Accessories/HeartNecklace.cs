@@ -8,8 +8,6 @@ namespace WeaponOut.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class HeartNecklace : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableAccessories; }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heart Frame Necklace");
@@ -25,8 +23,8 @@ namespace WeaponOut.Items.Accessories
             item.accessory = true;
             item.value = Item.sellPrice(0, 0, 50, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeCrystal, 1);
             recipe.AddIngredient(ItemID.SunplateBlock, 25);

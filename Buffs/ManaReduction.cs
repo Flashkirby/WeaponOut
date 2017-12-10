@@ -5,11 +5,6 @@ namespace WeaponOut.Buffs
 {
     public class ManaReduction : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture)
-        {
-            return ModConf.enableDualWeapons;
-        }
-        
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Mana Cost Reduced");

@@ -16,11 +16,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class Hayauchi : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public const int waitTime = 80; //charge for special attack, due to coding must be >60 since that's the charge time
         private const int extraSwingTime = 15; //additional special attack time
         
@@ -55,8 +50,8 @@ namespace WeaponOut.Items.Weapons.Basic
 
             drawStrike = false; 
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);

@@ -5,7 +5,6 @@ namespace WeaponOut.Buffs
 {
     public class YomiEndure : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
         public int yomiEndure;
         public override void SetDefaults()
         {

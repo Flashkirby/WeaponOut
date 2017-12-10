@@ -66,12 +66,12 @@ namespace WeaponOut
         public override void PostSetupContent()
         {
 
-            if (ModConf.enableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
-            if (ModConf.enableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
+            if (ModConf.EnableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
+            if (ModConf.EnableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
 
             DustIDManaDust = GetDust<Dusts.ManaDust>().Type;
 
-            if (ModConf.enableEmblems) Items.Accessories.HeliosphereEmblem.SetUpGlobalDPS();
+            if (ModConf.EnableEmblems) Items.Accessories.HeliosphereEmblem.SetUpGlobalDPS();
 
             if (Main.netMode != 2)
             {
@@ -147,7 +147,7 @@ namespace WeaponOut
         {
             try { DrawPumpkinMark(spriteBatch); } catch { }
             DrawInterfaceDemonBloodHeart(spriteBatch);
-            if(ModConf.enableFists)
+            if(ModConf.EnableFists)
             {
                 Main.LocalPlayer.meleeDamage += Main.LocalPlayer.GetModPlayer<PlayerFX>().PatienceBonus;
             }

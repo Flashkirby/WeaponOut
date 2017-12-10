@@ -50,7 +50,7 @@ namespace WeaponOut.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            if (ModConf.enableBasicContent)
+            if (ModConf.EnableBasicContent)
             {
                 Item.NewItem(i * 16, j * 16, 80, 48, mod.ItemType("CampTent"));
             }
@@ -91,7 +91,7 @@ namespace WeaponOut.Tiles
         {
             Player player = Main.player[Main.myPlayer];
             player.noThrow = 2;
-            if (ModConf.enableBasicContent)
+            if (ModConf.EnableBasicContent)
             {
                 player.showItemIcon = true;
                 player.showItemIcon2 = mod.ItemType("CampTent");

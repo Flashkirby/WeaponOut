@@ -31,15 +31,6 @@ namespace WeaponOut.Items.Weapons.Dual
         private float Accuracy { get { return Math.Max(0, accuracyMod); } }
 
         public static short customGlowMask = 0;
-
-        /// <summary>
-        /// Generate a completely legit glowmask ;)
-        /// </summary>
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableDualWeapons;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("All-Porpoise Assault Rifle");
@@ -78,8 +69,8 @@ namespace WeaponOut.Items.Weapons.Dual
             item.rare = 9;
             item.value = Item.sellPrice(0, 1, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableDualWeapons) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FragmentVortex, 18);
             recipe.AddTile(TileID.LunarCraftingStation);

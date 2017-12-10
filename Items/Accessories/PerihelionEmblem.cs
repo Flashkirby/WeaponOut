@@ -11,11 +11,6 @@ namespace WeaponOut.Items.Accessories
 {
     public class PerihelionEmblem : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableEmblems;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Perihelion Emblem");
@@ -33,8 +28,8 @@ namespace WeaponOut.Items.Accessories
             item.accessory = true;
             item.expert = true;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableEmblems) return;
             Mod thorium = ModLoader.GetMod("ThoriumMod");
             if (thorium != null)
             {

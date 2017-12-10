@@ -13,11 +13,6 @@ namespace WeaponOut.Items.Weapons.Basic
     /// </summary>
     public class TrashCannon : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trash Cannon");
@@ -48,8 +43,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 2;
             item.value = Item.buyPrice(0, 14, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddIngredient(ItemID.TrashCan, 1);

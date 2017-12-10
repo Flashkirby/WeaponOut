@@ -12,11 +12,6 @@ namespace WeaponOut.Items
     /// </summary>
     public class RallyBannerYellow : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             RallyBannerRed.SetStaticDefaults(this, "Yellow Rally Banner");

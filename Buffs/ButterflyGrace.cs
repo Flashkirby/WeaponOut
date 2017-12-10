@@ -9,7 +9,6 @@ namespace WeaponOut.Buffs
     {
         public static readonly int POWERFACTOR = 200;
 
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Butterfly's Grace");

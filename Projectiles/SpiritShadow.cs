@@ -9,7 +9,6 @@ namespace WeaponOut.Projectiles
 {
     public class SpiritShadow : ModProjectile
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadow Clone");

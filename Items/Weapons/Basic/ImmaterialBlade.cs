@@ -10,11 +10,6 @@ namespace WeaponOut.Items.Weapons.Basic
 {
     public class ImmaterialBlade : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Immaterial Blade");
@@ -43,8 +38,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 2;
             item.value = 57500;
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 15);
             recipe.AddIngredient(ItemID.Sapphire, 10);

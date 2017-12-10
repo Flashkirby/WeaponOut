@@ -23,14 +23,6 @@ namespace WeaponOut.Items.Weapons.Basic
         }
 
         public static short customGlowMask = 0;
-
-        /// <summary>
-        /// Generate a completely legit glowmask ;)
-        /// </summary>
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableBasicContent;
-        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Channeler Staff");
@@ -66,8 +58,8 @@ namespace WeaponOut.Items.Weapons.Basic
             item.rare = 3;
             item.value = Item.sellPrice(0, 1, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SunplateBlock, 100);
             recipe.AddTile(TileID.SkyMill);

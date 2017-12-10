@@ -10,11 +10,6 @@ namespace WeaponOut.Items.Weapons.Dual
 {
     public class ManaSword : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.enableDualWeapons && ModConf.enableBasicContent;
-        }
-        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Sword");
@@ -49,8 +44,8 @@ namespace WeaponOut.Items.Weapons.Dual
             item.rare = 5;
             item.value = Item.sellPrice(0, 5, 0, 0);
         }
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
+            if (!ModConf.EnableDualWeapons || !ModConf.EnableBasicContent) return;
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);

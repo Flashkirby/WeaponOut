@@ -32,8 +32,6 @@ Folks on the discord server - Suggestions, bug testing and all-round support. Yo
 
 TODO:
 
-WeaponOut
-	- Fix serverside item loading to prevent config conflicts
 Fist
 	- Fix a whole bunch of calls to HoldItem, possibly use InInventory method
 	- Iced Punch too powerful? Check the numbers

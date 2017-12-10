@@ -12,8 +12,6 @@ namespace WeaponOut.Items
 {
     public class BuffedHeart : GlobalItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override bool OnPickup(Item item, Player player)
         {
             if (player.GetModPlayer<PlayerFX>().heartBuff)

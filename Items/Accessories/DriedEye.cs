@@ -7,8 +7,6 @@ namespace WeaponOut.Items.Accessories
 {
     public class DriedEye : ModItem
     {
-        public override bool Autoload(ref string name) { return ModConf.enableFists; }
-
         public override void SetStaticDefaults() // Eater of Worlds
         {
             DisplayName.SetDefault("Dried Eye");

@@ -8,7 +8,6 @@ namespace WeaponOut.Buffs
 {
     public class ErodingWind : ModBuff
     {
-        public override bool Autoload(ref string name, ref string texture) { return ModConf.enableFists; }
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Eroding Wind");
