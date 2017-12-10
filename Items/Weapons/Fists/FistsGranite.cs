@@ -84,16 +84,16 @@ namespace WeaponOut.Items.Weapons.Fists
         }
 
         // Combo
-        public override void HoldItem(Player player)
-        {
+        public override void UpdateInventory(Player player) {            if (player.HeldItem != item) return;
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
                 player.statDefense += 8;
             }
-
+        }
+        public override void HoldItem(Player player) 
+        {
             #region Hold Glow effect
-
             // Dust effect when Idle
             Rectangle r = ModPlayerFists.GetPlayerOnHandRectangle(player, 4);
 

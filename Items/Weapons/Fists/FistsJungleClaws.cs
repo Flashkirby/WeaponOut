@@ -111,8 +111,7 @@ namespace WeaponOut.Items.Weapons.Fists
         }
 
         // Dash
-        public override void HoldItem(Player player)
-        {
+        public override void UpdateInventory(Player player) {            if (player.HeldItem != item) return;
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.dashEffect == dustEffect)
             {

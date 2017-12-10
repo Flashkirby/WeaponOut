@@ -51,8 +51,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altJumpVelo = 18.3f;
 
         // Combo
-        public override void HoldItem(Player player)
-        {
+        public override void UpdateInventory(Player player) {            if (player.HeldItem != item) return;
             // Fishron effect
             if (player.MountFishronSpecial)
             {

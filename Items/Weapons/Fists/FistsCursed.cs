@@ -104,7 +104,6 @@ namespace WeaponOut.Items.Weapons.Fists
         // Idle Effect
         public override void HoldItem(Player player)
         {
-            
             if (Main.time % 3 == 0)
             {
                 Rectangle r = ModPlayerFists.GetPlayerOnHandRectangle(player, 10);

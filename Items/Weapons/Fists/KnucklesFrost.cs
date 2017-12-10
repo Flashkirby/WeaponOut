@@ -67,8 +67,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
         // Combo
         bool hitGround;
-        public override void HoldItem(Player player)
-        {
+        public override void UpdateInventory(Player player) {            if (player.HeldItem != item) return;
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
