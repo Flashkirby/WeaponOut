@@ -118,7 +118,7 @@ namespace WeaponOut//Lite
             }
 
             #region Show fists with weapon visuals
-            
+
             if (WeaponVisual) {
                 if (player.HeldItem.useStyle == ModPlayerFists.useStyle) {
                     if (player.HeldItem.handOnSlot > 0) {
@@ -129,13 +129,15 @@ namespace WeaponOut//Lite
                         player.handoff = player.HeldItem.handOffSlot;
                         player.cHandOff = 0;
                     }
+                    if (player.itemAnimation > 0) layers.Remove(PlayerLayer.HeldItem); // hide fist when attacking
+                    return;
                 }
-                return;
             }
 
             #endregion
-
+            
             if (player.itemAnimation > 0) return; // No show when swinging
+
             HeldItem.visible = true; // For items held in hand
             HairBack.visible = true; // For items behind the player (sheathed)
             //MiscEffectsFront.visible = !player.dead;
