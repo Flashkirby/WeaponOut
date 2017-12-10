@@ -12,12 +12,12 @@ namespace WeaponOut.NPCs
     {
         public override bool Autoload(ref string name)
         {
-            return ModConf.enableWhips;
+            return ModConf.EnableWhips || ModConf.EnableBasicContent || ModConf.EnableFists;
         }
 
         public override void SetupShop(int type, Chest shop, ref int nextSlot)
         {
-            if (ModConf.enableWhips)
+            if (ModConf.EnableWhips)
             {
                 if (type == NPCID.Wizard)
                 {
@@ -29,7 +29,7 @@ namespace WeaponOut.NPCs
                     }
                 }
             }
-            if (ModConf.enableBasicContent)
+            if (ModConf.EnableBasicContent)
             {
                 if (type == NPCID.ArmsDealer)
                 {
@@ -41,7 +41,7 @@ namespace WeaponOut.NPCs
                     }
                 }
             }
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 if (type == NPCID.Clothier)
                 {
@@ -62,7 +62,7 @@ namespace WeaponOut.NPCs
 
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 int chance = 5;
                 if (NPC.downedSlimeKing) chance--;
@@ -86,7 +86,7 @@ namespace WeaponOut.NPCs
         
         public override void NPCLoot(NPC npc)
         {
-            if (ModConf.enableFists)
+            if (ModConf.EnableFists)
             {
                 int itemType = -1;
                 if (npc.type == NPCID.GraniteGolem && Main.rand.Next(10) == 0)
