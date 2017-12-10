@@ -64,17 +64,17 @@ namespace WeaponOut.Items.Accessories
         /// <returns></returns>
         public static float SetBonus(Player player, int bonusType)
         {
-            if (player.inventory[player.selectedItem].type == 0) return 0f; //exit for empty slot)
+            if (player.HeldItem.type == 0) return 0f; //exit for empty slot)
 
             //keep track of current weapon state
-            Item heldItem = player.inventory[player.selectedItem];
+            Item held = player.HeldItem;
 
             // If weapons have 0 damage, eh, just buff it by rarity
-            int tRare = heldItem.rare < -1 ? 10 : heldItem.rare;
-            if (heldItem.damage <= 0) return 1 + 0.3f * (10 - Math.Max(tRare, 0));
+            int tRare = held.rare < -1 ? 10 : held.rare;
+            if (held.damage <= 0) return 1 + 0.3f * (10 - Math.Max(tRare, 0));
 
             // Ignore showing buffs to ammo
-            if (heldItem.ammo > 0 && heldItem.useAnimation <= 0) return 0f;
+            if (held.ammo > 0 && held.useAnimation <= 0) return 0f;
 
             //keep track of default stats disregarding prefixes and other bonues effects
             Item defaultItem = new Item();
@@ -82,35 +82,34 @@ namespace WeaponOut.Items.Accessories
 
             float rawIncrease = 0;
 
-            if (heldItem.melee && bonusType == 0)
+            if (held.melee && (bonusType == 0 || bonusType == -1))
             {
                 //melee
-                rawIncrease = SetBonusMelee(heldItem, defaultItem, rawIncrease);
+                rawIncrease = SetBonusMelee(held, defaultItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
-                ApplyAutoReuse(player, heldItem);
+                ApplyAutoReuse(player, held);
             }
-            else if (heldItem.ranged && bonusType == 1)
-            {
+            else if (held.ranged && (bonusType == 1 || bonusType == -1)) {
                 //ranged
-                rawIncrease = SetBonusRanged(player, heldItem, defaultItem, rawIncrease);
+                rawIncrease = SetBonusRanged(player, held, defaultItem, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
-                ApplyAutoReuse(player, heldItem);
+                ApplyAutoReuse(player, held);
             }
-            else if (heldItem.thrown && bonusType == 2)
+            else if (held.thrown && (bonusType == 2 || bonusType == -1))
             {
                 //throwing
-                rawIncrease = SetBonusThrowing(defaultItem, heldItem, rawIncrease);
+                rawIncrease = SetBonusThrowing(defaultItem, held, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
-                ApplyAutoReuse(player, heldItem);
+                ApplyAutoReuse(player, held);
             }
-            else if (heldItem.magic && bonusType == 3)
+            else if (held.magic && (bonusType == 3 || bonusType == -1))
             {
                 //magic
-                rawIncrease = SetBonusMagic(defaultItem, heldItem, rawIncrease);
+                rawIncrease = SetBonusMagic(defaultItem, held, rawIncrease);
                 NerfMultiShots(player, rawIncrease);
-                ApplyAutoReuse(player, heldItem);
+                ApplyAutoReuse(player, held);
             }
-            else if (heldItem.summon && bonusType == 4)
+            else if (held.summon && (bonusType == 4 || bonusType == -1))
             {
                 //minions
                 rawIncrease = SetBonusSummon(defaultItem, rawIncrease);
@@ -121,16 +120,16 @@ namespace WeaponOut.Items.Accessories
             if (rawIncrease > 0)
             {
                 bonus = (defaultItem.damage + rawIncrease) / defaultItem.damage;
-                if (heldItem.melee || (!heldItem.noMelee && heldItem.shoot != 0)) player.meleeDamage += bonus - 1f;
-                if (heldItem.ranged) player.rangedDamage += bonus - 1f;
-                if (heldItem.thrown) player.thrownDamage += bonus - 1f;
-                if (heldItem.magic)
+                if (held.melee || (!held.noMelee && held.shoot != 0)) player.meleeDamage += bonus - 1f;
+                if (held.ranged) player.rangedDamage += bonus - 1f;
+                if (held.thrown) player.thrownDamage += bonus - 1f;
+                if (held.magic)
                 {
                     //modify mana costs
                     player.magicDamage += bonus - 1f;
                     player.manaCost += CalculateRawManaCost(player, defaultItem) / Math.Max(defaultItem.mana, 1f);
                 }
-                if (heldItem.summon) player.minionDamage += bonus - 1f;
+                if (held.summon) player.minionDamage += bonus - 1f;
             }
 
             return bonus;

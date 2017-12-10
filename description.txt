@@ -35,7 +35,6 @@ TODO:
 Fist
 	- Patchy Pounder drop rate busted? Maybe MP issue
 	- Hidden Dragon not dropping?
-	- Combined lunar accessory.
 
 
 	WeaponOut is a quality of life and content mods that introduces items that use interesting game mechanics balanced for vanilla Terraria, but are capable of holding up to modded playthroughs. It adds fist, whips, multi-function and team support items as well as ease-of-use functions such as toggleable autoswing, teleporting hooks and temporary spawn points.
