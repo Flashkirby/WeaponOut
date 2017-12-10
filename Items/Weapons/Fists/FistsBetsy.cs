@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public static int altEffect = 0;
         public static int projectileID = 0;
 
+        public static short customGlowMask = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hidden Dragon");
@@ -24,6 +25,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Combo causes damage to echo to nearby enemies");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritDragon>();
+            customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
         public override void SetDefaults()
         {
@@ -40,6 +42,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.UseSound = SoundID.DD2_PhantomPhoenixShot;
             item.useStyle = ModPlayerFists.useStyle;
             item.autoReuse = true;
+            item.glowMask = customGlowMask;
             item.width = 20;
             item.height = 20;
         }
