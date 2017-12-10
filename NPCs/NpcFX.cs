@@ -194,21 +194,17 @@ namespace WeaponOut.NPCs
                     }
                 }
 
-                if (Main.snowMoon || Main.pumpkinMoon)
-                {
-                    int waveChance = (int)(30 - 
-                        (Main.expertMode ? NPC.waveNumber + 7 : NPC.waveNumber) 
-                        / 5); // double chance
-                    if (Main.expertMode) waveChance -= 2;
-                    if (Main.pumpkinMoon) waveChance /= 2;
-                    if (waveChance < 1) waveChance = 1;
+                if(Main.pumpkinMoon && npc.type == NPCID.Pumpking) {
+                    int waveChance = Math.Max(1, (Main.expertMode ? 12 : 16) - NPC.waveNumber); // 12 is when two start spawning at once
+                    if (Main.rand.Next(waveChance) == 0) {
+                        itemType = mod.ItemType<Items.Weapons.Fists.GlovesPumpkin>();
+                    }
+                }
 
-                    if (Main.rand.Next(waveChance) == 0)
-                    {
-                        if (npc.type == NPCID.Pumpking)
-                        { itemType = mod.ItemType<Items.Weapons.Fists.GlovesPumpkin>(); }
-                        if (npc.type == NPCID.IceQueen)
-                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsFrozen>(); }
+                if(Main.snowMoon && npc.type == NPCID.IceQueen) {
+                    int waveChance = Math.Max(1, (Main.expertMode ? 12 : 16) - NPC.waveNumber); // 12 is when two start spawning at once
+                    if (Main.rand.Next(waveChance) == 0) {
+                        itemType = mod.ItemType<Items.Weapons.Fists.FistsFrozen>();
                     }
                 }
 
@@ -219,6 +215,16 @@ namespace WeaponOut.NPCs
                 }
                 #endregion
             }
+        }
+
+        private static int CalculateWaveChance(float modifier) {
+            int waveChance = (int)((30 -
+                (Main.expertMode ? NPC.waveNumber + 6 : NPC.waveNumber)
+                ) / 1.25 * modifier);
+            Main.NewText("DROPCHANCE1 = " + waveChance);
+            if (Main.expertMode) waveChance -= 2;
+            if (waveChance < 1) waveChance = 1;
+            return waveChance;
         }
 
         private static void DropInstancedFistItem(NPC npc, int itemType)
