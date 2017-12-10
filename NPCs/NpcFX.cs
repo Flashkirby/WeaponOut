@@ -160,7 +160,7 @@ namespace WeaponOut.NPCs
 
                 #region Bonus Boss Fist Drops
                 itemType = -1;
-                if (npc.boss)
+                if (npc.boss || npc.type == NPCID.DD2Betsy)
                 {
                     bool chance = Main.rand.Next(5) == 0;
                     if (!chance)
@@ -175,6 +175,7 @@ namespace WeaponOut.NPCs
                             }
                         }
                     }
+
                     if (chance)
                     {
                         if (npc.type == NPCID.KingSlime)
@@ -191,6 +192,7 @@ namespace WeaponOut.NPCs
 
                         if (npc.type == NPCID.DD2Betsy)
                         { itemType = mod.ItemType<Items.Weapons.Fists.FistsBetsy>(); }
+
                     }
                 }
 
