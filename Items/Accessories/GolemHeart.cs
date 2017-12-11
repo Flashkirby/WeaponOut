@@ -17,7 +17,7 @@ namespace WeaponOut.Items.Accessories
             DisplayName.SetDefault("Solar Spark");
             Tooltip.SetDefault(
                 "Reduces combo power cost by 2\n" +
-                "Hold DOWN when not attacking to charge up to 10 combo power");
+                "Hold UP when not attacking to charge up to 10 combo power");
         }
         public override void SetDefaults()
         {
@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Accessories
         {
             ModPlayerFists mpf = ModPlayerFists.Get(player);
             mpf.comboCounterMaxBonus -= 2;
-            if (player.controlDown && player.itemAnimation == 0 &&
+            if (player.controlUp && player.itemAnimation == 0 &&
                 mpf.ComboCounter < 10 && 
                 (player.HeldItem.melee || player.HeldItem.useStyle == ModPlayerFists.useStyle)) {
                 chargeTick++;
@@ -44,13 +44,12 @@ namespace WeaponOut.Items.Accessories
                 }
 
                 double angle = Main.rand.NextFloat() * Math.PI * 2;
-                Vector2 velo = new Vector2((float)(7.0 * Math.Sin(angle)), (float)(5.0 * Math.Cos(angle)));
-                Dust d = Dust.NewDustPerfect(player.Center, 88, velo);
-                d.position -= d.velocity * 10;
+                Vector2 velo = new Vector2((float)(10.0 * Math.Sin(angle)), (float)(10.0 * Math.Cos(angle)));
+                Dust d = Dust.NewDustPerfect(player.Center, Main.rand.Next(2) == 0 ? 88 : 262, velo);
+                d.position -= d.velocity * 5f;
                 d.noGravity = true;
-                d.scale = 0.1f;
-                d.fadeIn = 1f;
-                Main.playerDrawDust.Add(d.dustIndex);
+                d.scale = 0.55f;
+                d.velocity += player.velocity;
             }
             else { chargeTick = 0; }
         }
