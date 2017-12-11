@@ -186,6 +186,7 @@
     <Compile Include="Items\Weapons\Fists\KnucklesDungeon.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesMeteor.cs" />
     <Compile Include="Items\Weapons\Fists\KnucklesPlantera.cs" />
+    <Compile Include="Items\Weapons\Fists\KnucklesShotty.cs" />
     <Compile Include="Items\Weapons\Whips\EelWhip.cs" />
     <Compile Include="Items\Weapons\Whips\CrystalVileLash.cs" />
     <Compile Include="Items\Weapons\Basic\PsyWave.cs" />

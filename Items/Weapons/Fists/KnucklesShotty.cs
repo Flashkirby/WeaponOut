@@ -9,26 +9,26 @@ using WeaponOut;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
-    //[AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)] // Uncomment if you have hand sprites
+    [AutoloadEquip(EquipType.HandsOn)]
     public class KnucklesShotty : ModItem
     {
         public static int altEffect = 0; // ID for when this fist is using the alt effect
 
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Shotknuckle");
+            DisplayName.SetDefault("Shotgun Knuckleduster");
             Tooltip.SetDefault(
-                "<right> to shoot, or consume combo to launch a powerful shot\n" +
-                "Combo grants 50% increased bullet damage%");
+                "<right> to shoot, or consume combo to blast away\n" +
+                "Combo grants ammo restoration per strike");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults() {
-            item.melee = true;
-            item.damage = 22; // Base damage should be double of equivalent tier melee weapons
+            item.ranged = true;
+            item.damage = 22;
             item.useAnimation = 35; // Reduced by 30-50% on hit, increasing DPS
             item.knockBack = 6f;
             item.tileBoost = 6; // Combo Power
 
-            item.value = Item.sellPrice(0, 5, 0, 0);
+            item.value = Item.sellPrice(0, 10, 0, 0);
             item.rare = 5;
             item.useTime = item.useAnimation;
             item.useAmmo = AmmoID.None;
@@ -55,8 +55,10 @@ namespace WeaponOut.Items.Weapons.Fists
         const int parryCooldown = 10;
         public override void AddRecipes() {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DirtBlock, 1);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ItemID.Shotgun, 1);
+            recipe.AddIngredient(ItemID.SoulofMight, 20);
+            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -104,12 +106,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             if (player.itemAnimation >= player.itemAnimationMax) return false;
 
-            // Nomral shots
+            // Normall shots
             if (player.altFunctionUse > 0) {
                 for (int shot = 0; shot < 4; shot++) {
                     Projectile.NewProjectile(position, new Vector2(
-                            speedX + 2 * Main.rand.NextFloatDirection(),
-                            speedY + 2 * Main.rand.NextFloatDirection()),
+                            speedX + 3f * Main.rand.NextFloatDirection(),
+                            speedY + 3f * Main.rand.NextFloatDirection()),
                         type, damage, knockBack, player.whoAmI);
                 }
             }
@@ -117,10 +119,11 @@ namespace WeaponOut.Items.Weapons.Fists
             // Cannonball
             if (player.GetModPlayer<ModPlayerFists>().ComboEffectAbs == altEffect) {
 
+                damage *= 2;
                 for (int shot = 0; shot < 6; shot++) {
                     Projectile.NewProjectile(position, new Vector2(
-                            speedX + 2.5f * Main.rand.NextFloatDirection(),
-                            speedY + 2.5f * Main.rand.NextFloatDirection()),
+                            speedX + 1.5f * Main.rand.NextFloatDirection(),
+                            speedY + 1.5f * Main.rand.NextFloatDirection()),
                         type, damage, knockBack, player.whoAmI);
                 }
 
@@ -129,7 +132,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
                 ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
                 type = ProjectileID.CannonballFriendly;
-                damage *= 3;
+                damage *= 4;
                 speedX *= 2f;
                 speedY *= 2f;
                 knockBack *= 2f;
@@ -138,12 +141,35 @@ namespace WeaponOut.Items.Weapons.Fists
             return false;
         }
 
+        // "Melee" strikes have x6 damage -> 132 = 209dps v 20def
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit) {
-            damage *= 3; // Higher damage because it's a shotgun normally
+            damage *= 6; // Higher damage because it's a shotgun normally
         }
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit) {
             base.ModifyHitPvp(player, target, ref damage, ref crit);
-            damage *= 3; // Higher damage because it's a shotgun normally
+            damage *= 6; // Higher damage because it's a shotgun normally
+        }
+
+        // Restore ammo on combo
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit) {
+            if (target.immortal) return;
+            if (player.GetModPlayer<ModPlayerFists>().IsComboActiveItemOnHit) {
+
+                foreach (Item i in player.inventory) {
+                    if (i.stack <= 0) continue;
+                    if (i.ammo == AmmoID.Bullet) {
+                        if (i.stack < i.maxStack) {
+                            i.stack++;
+                            Main.PlaySound(SoundID.Grab);
+                        }else {
+                            player.QuickSpawnItem(i.type, 1);
+                        }
+                        return;
+                    }
+                }
+                // Otherwise spawn a musket ball
+                player.QuickSpawnItem(ItemID.MusketBall, 1);
+            }
         }
 
         #region Hardmode Combo Base + Bullets
