@@ -21,7 +21,6 @@ namespace WeaponOut.Items.Weapons.Fists
             Tooltip.SetDefault(
                 "<right> consumes combo instead of ammo\n" +
                 "Combo grants 50% increased bullet damage");
-
         }
         public override void SetDefaults()
         {

@@ -21,7 +21,7 @@ Content:
 * 1 Tile
 * 3 Bullets
 
-Now has a wiki subpage: https://terrariamods.gamepedia.com/WeaponOut
+Now has a wiki page: https://terrariamods.gamepedia.com/WeaponOut
 
 Credits:
 Flashkirby99 - I am making this mod.

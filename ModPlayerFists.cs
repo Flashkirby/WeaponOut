@@ -662,9 +662,6 @@ namespace WeaponOut
             // Fist Items only
             if (item.useStyle != useStyle) return;
 
-            // Set time to match, to sync up projectiles
-            player.itemTime = player.itemAnimation;
-
             // Add up that combo, reset timer, Display the combo counter, lower if not combo active
             // Combo specials don't grant more combo
             if (comboEffect == 0) ModifyComboCounter(1, true);
@@ -692,6 +689,9 @@ namespace WeaponOut
                 }
             }
             allowComboBounce = false;
+
+            // Set time to match, to sync up projectiles
+            player.itemTime = player.itemAnimation;
         }
 
         public void ModifyComboCounter(int amount, bool resetTimer = true)
