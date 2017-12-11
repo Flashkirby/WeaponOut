@@ -27,7 +27,7 @@ namespace WeaponOut.Items.Weapons.Basic
 
             item.ranged = true;
             item.damage = 26; // 19 speed / 5 shots per trigger = 3.8 speed
-            item.knockBack = 10f;
+            item.knockBack = 12f;
 
             item.noMelee = true;
             item.useAmmo = AmmoID.Bullet;
