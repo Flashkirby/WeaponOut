@@ -112,35 +112,22 @@ namespace WeaponOut
         /// </summary>
         /// <param name="Transform"></param>
         /// <returns></returns>
-        public Matrix ModifyTransformMatrix(Matrix Transform)
-        {
-            if (!Main.gameMenu)
-            {
-                if (!Main.gamePaused)
-                {
-                    shakeTick++;
-                    if (shakeIntensity >= 0 && shakeTick >= 4) shakeIntensity--;
-                    if (shakeIntensity > 10) shakeIntensity = 10;//cap it
-                    if (shakeIntensity < 0) shakeIntensity = 0;
-                    return Transform
-                        * Microsoft.Xna.Framework.Matrix.CreateTranslation(
-                        Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
-                        Main.rand.Next((int)(shakeIntensity * -0.5f), (int)(shakeIntensity * 0.5f + 1)),
-                        0f);
+        public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform) {
+            if (!Main.gameMenu) {
+                shakeTick++;
+                if (shakeIntensity >= 0 && shakeTick >= 12) shakeIntensity--;
+                if (shakeIntensity > 10) shakeIntensity = 10;//cap it
+                if (shakeIntensity < 0) shakeIntensity = 0;
+                if (!Main.gamePaused && Main.hasFocus) {
+                    Main.screenPosition += new Vector2(
+                        shakeIntensity * Main.rand.NextFloatDirection() / 2f,
+                        shakeIntensity * Main.rand.NextFloatDirection() / 2f);
                 }
             }
-            else
-            {
+            else {
                 shakeIntensity = 0;
                 shakeTick = 0;
             }
-            return Transform;
-        }
-        public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform) {
-            Transform.SetViewportOverride(new Viewport(
-                (int)Main.ViewPosition.X, (int)Main.ViewPosition.Y,
-                (int)Main.ViewSize.X, (int)Main.ViewSize.Y
-                ));
         }
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
