@@ -55,10 +55,10 @@ namespace WeaponOut.Items.Accessories
             else if (Math.Abs(player.velocity.X) > 1.5f)
             { player.lifeRegenCount += 4; } // healing per 2 seconds
             
-            int diff = localCounter - mpf.ComboCounter;
+            int diff = (localCounter - mpf.ComboCounter);
             if (diff > 0 && mpf.comboTimer > 0)
             {
-                PlayerFX.HealPlayer(player, 2 * diff, true);
+                PlayerFX.HealPlayer(player, diff + 2, true);
             }
             localCounter = mpf.ComboCounter;
 

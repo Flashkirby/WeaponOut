@@ -27,10 +27,10 @@ namespace WeaponOut.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
-            int diff = localCounter - mpf.ComboCounter;
+            int diff = (localCounter - mpf.ComboCounter) / 2;
             if (diff > 0 && mpf.comboTimer > 0)
             {
-                PlayerFX.HealPlayer(player, 1 * diff, true);
+                PlayerFX.HealPlayer(player, diff, true);
             }
             localCounter = mpf.ComboCounter;
         }
