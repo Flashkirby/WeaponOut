@@ -156,13 +156,16 @@ namespace WeaponOut
 
                 int buffIndex = i.FindBuffIndex(buffID);
 
-                if (buffIndex >= 0) {
-                    drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY), i.buffTime[buffIndex] < 120);
+                // In case two NPCs occupy the same position
+                Vector2 centre = i.Center + new Vector2(0, i.gfxOffY);
+                if (buffIndex >= 0 && !drawPositions.ContainsKey(centre)) {
+                    drawPositions.Add(centre, i.buffTime[buffIndex] < 120);
                 }
             }
             foreach (Player i in Main.player)
             {
-                if (i.active && !i.dead && i.FindBuffIndex(buffID) >= 0)
+                Vector2 centre = i.Center + new Vector2(0, i.gfxOffY);
+                if (i.active && !i.dead && i.FindBuffIndex(buffID) >= 0 && !drawPositions.ContainsKey(centre))
                 {
                     drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY), false);
                 }
