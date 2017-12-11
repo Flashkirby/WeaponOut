@@ -75,7 +75,9 @@ namespace WeaponOut.Items.Weapons.Fists
 
             for (int i = 0; i < 12; i++)
             {
-                Dust d = Dust.NewDustDirect(player.position, player.width, player.height, 228);
+                int type = 6;
+                if (player.GetModPlayer<ModPlayerFists>().specialMove == 1) type = 228;
+                Dust d = Dust.NewDustDirect(player.position, player.width, player.height, type);
                 d.noGravity = true;
                 d.velocity *= 4f;
                 if (i > 3)
