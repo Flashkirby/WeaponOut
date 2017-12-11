@@ -77,7 +77,7 @@ namespace WeaponOut.Items.Armour
             {
                 case 1:
                     player.setBonus = "Divekicks will steal life";
-                    player.GetModPlayer<PlayerFX>().diveKickHeal += 0.05f;
+                    player.GetModPlayer<PlayerFX>().diveKickHeal += 0.03f;
                     pfx.patienceBuildUpModifier += 0.2f;
                     break;
                 case 2:
