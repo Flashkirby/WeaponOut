@@ -34,7 +34,8 @@ namespace WeaponOut.Items.Accessories
             ModPlayerFists mpf = ModPlayerFists.Get(player);
             mpf.comboCounterMaxBonus -= 2;
             if (player.controlDown && player.itemAnimation == 0 &&
-                mpf.ComboCounter < 10 && player.HeldItem.melee) {
+                mpf.ComboCounter < 10 && 
+                (player.HeldItem.melee || player.HeldItem.useStyle == ModPlayerFists.useStyle)) {
                 chargeTick++;
                 if (chargeTick > chargeTime) {
                     chargeTick = chargeTimeConBonus;
