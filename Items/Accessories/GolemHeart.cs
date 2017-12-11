@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,12 +9,15 @@ namespace WeaponOut.Items.Accessories
     [AutoloadEquip(EquipType.Neck)]
     public class GolemHeart : ModItem
     {
+        private const int chargeTime = 60;
+        private const int chargeTimeConBonus = 30;
+        private int chargeTick = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar Spark");
             Tooltip.SetDefault(
                 "Reduces combo power cost by 2\n" +
-                "Reduces combo power cost by 4 when below 50% life to heal");
+                "Hold DOWN when not attacking to charge up to 10 combo power");
         }
         public override void SetDefaults()
         {
@@ -27,11 +31,27 @@ namespace WeaponOut.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            ModPlayerFists.Get(player).comboCounterMaxBonus -= 2;
-            if(player.statLife < player.statLifeMax2 / 2)
-            {
-                ModPlayerFists.Get(player).comboCounterMaxBonus -= 4;
+            ModPlayerFists mpf = ModPlayerFists.Get(player);
+            mpf.comboCounterMaxBonus -= 2;
+            if (player.controlDown && player.itemAnimation == 0 &&
+                mpf.ComboCounter < 10 && player.HeldItem.melee) {
+                chargeTick++;
+                if (chargeTick > chargeTime) {
+                    chargeTick = chargeTimeConBonus;
+                    mpf.ModifyComboCounter(1);
+                    Main.PlaySound(SoundID.Item34.WithVolume(0.5f));
+                }
+
+                double angle = Main.rand.NextFloat() * Math.PI * 2;
+                Vector2 velo = new Vector2((float)(7.0 * Math.Sin(angle)), (float)(5.0 * Math.Cos(angle)));
+                Dust d = Dust.NewDustPerfect(player.Center, 88, velo);
+                d.position -= d.velocity * 10;
+                d.noGravity = true;
+                d.scale = 0.1f;
+                d.fadeIn = 1f;
+                Main.playerDrawDust.Add(d.dustIndex);
             }
+            else { chargeTick = 0; }
         }
     }
 }
