@@ -120,7 +120,7 @@ namespace WeaponOut.Items.Weapons.Dual
                     if (player.itemAnimation == player.itemAnimationMax - 1)
                     {
                         // Make cool noise effect to indiciate crit attacks
-                        if (accuracyMod <= 0 && player.altFunctionUse == 0) Main.PlaySound(SoundID.DD2_CrystalCartImpact);
+                        if (accuracyMod <= 0 && player.altFunctionUse == 0) Main.PlaySound(SoundID.DD2_CrystalCartImpact.WithPitchVariance(-0.5f));
 
                         //Update shoot direction
                         vector2Mouse = Main.MouseWorld - player.Center
@@ -128,10 +128,15 @@ namespace WeaponOut.Items.Weapons.Dual
                         * 75f * Accuracy;
                         vector2Mouse.Normalize();
                     }
-                    int d = Dust.NewDust(player.Center + vector2Mouse * 45f - new Vector2(4, 4) - player.velocity,
-                        0, 0, 45, 0, 0, 125, Accuracy <= 0 ? Color.White : Color.LightCyan, Accuracy <= 0 ? 1.5f : 0.9f);
+                    int d = Dust.NewDust(player.Center + vector2Mouse * 45f - new Vector2(4, 4) - player.velocity, 0, 0, 45, 0, 0, 125, Color.LightCyan, 0.9f);
                     Main.dust[d].velocity = vector2Mouse * 5f;
                     Main.dust[d].noLight = true;
+                    // accuracy modifier
+                    if (Accuracy <= 0) {
+                        Main.dust[d].color = Color.White;
+                        Main.dust[d].alpha = 200;
+                        Main.dust[d].scale = 1.5f;
+                    }
                 }
             }
         }
@@ -148,7 +153,10 @@ namespace WeaponOut.Items.Weapons.Dual
             if (player.altFunctionUse == 0)
             {
                 if (accuracyMod < maxAccuracyMod - addAccuracyMod) accuracyMod += addAccuracyMod;
-                if (accuracyMod <= 0) damage = (int)(damage * accuracyDamageMod);
+                if (accuracyMod <= 0) {
+                    damage = (int)(damage * accuracyDamageMod);
+                    if (type == ProjectileID.Bullet) type = ProjectileID.BulletHighVelocity;
+                }
                 speedX += Accuracy * (Main.rand.NextFloat() - 0.5f);
                 speedY += Accuracy * (Main.rand.NextFloat() - 0.5f);
             }
