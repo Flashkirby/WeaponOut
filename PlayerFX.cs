@@ -513,7 +513,7 @@ namespace WeaponOut
                 {
                     // Only items from this mod with altfunction enabled
                     if (player.HeldItem.modItem != null &&
-                        player.HeldItem.modItem.mod == mod &&
+                        player.HeldItem.modItem.mod == WeaponOut.mod &&
                         player.HeldItem.modItem.AltFunctionUse(player))
                     {
                         // I don't even know anymore

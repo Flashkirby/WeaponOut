@@ -25,7 +25,7 @@ using Terraria.World.Generation;
 namespace WeaponOut
 {
     /// <summary>
-    /// Version 1.5 by Flashkirby99
+    /// Version 1.5.1 by Flashkirby99
     /// This class provides almost all the methods required for fist type weapons.
     /// </summary>
     public class ModPlayerFists : ModPlayer
@@ -41,10 +41,8 @@ namespace WeaponOut
                 text = mod.CreateTranslation("WOFistPrefixSize");
                 text.SetDefault("% combo cost");
                 mod.AddTranslation(text);
-
-                return true;
             }
-            return false;
+            return true;
         }
 
         private const bool DEBUG_FISTBOXES = false;
@@ -1710,15 +1708,18 @@ namespace WeaponOut
 
         private void SetComboEffectLogic()
         {
-            // Update other clients that the fist is being used. 
-            if (Main.netMode == 1 && Main.myPlayer == player.whoAmI)
-            {
-                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-            }
-
             // First time it was set was positive, turn negative to indicate change.
-            if (comboEffect > 0) { comboEffect = -comboEffect; }
+            if (comboEffect > 0) 
+            {
+                comboEffect = -comboEffect;
+
+                // Update other clients that the fist is being used. 
+                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) 
+                {
+                    NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                }
+            }
 
             // At the end, reset to 0
             if (player.itemAnimation == 1)
