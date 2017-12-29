@@ -10,6 +10,11 @@ namespace WeaponOut.NPCs
 {
     public class ComboBubble : ModNPC
     {
+        public override void SetStaticDefaults() {
+
+            DisplayName.SetDefault("Combo Bubble");
+        }
+
         public override void SetDefaults()
         {
             npc.width = 36;

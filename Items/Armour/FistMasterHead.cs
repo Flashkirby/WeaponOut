@@ -14,6 +14,24 @@ namespace WeaponOut.Items.Armour
             Tooltip.SetDefault("9% increased melee critical strike chance\n" +
                 "Fighting bosses slowly empowers next melee attack, up to 2000%\n" +
                 "'A true master never stops learning'");
+
+            ModTranslation text;
+
+            text = mod.CreateTranslation("FistMasterHeadPower");
+            text.SetDefault("Combo attacks deal additional damage based on enemy life");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistMasterHeadDefence");
+            text.SetDefault(
+                "Taking damage grants yin, dealing damage grants yang, \n" + 
+                "at the end of a combo yin increases melee damage, \n" + 
+                "yang restores a portion of missing life");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistMasterHeadSpeed");
+            text.SetDefault("Build up momentum and double tap $BUTTON to leap towards a location,\n"
+                        + "Increases running speed by 15 mph");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -69,18 +87,17 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Combo attacks deal additional damage based on enemy life";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMasterHeadPower");
                     pfx.millstone = true;
                     pfx.patienceBuildUpModifier += 0.1f;
                     break;
                 case 2:
-                    player.setBonus = "Taking damage grants yin, dealing damage grants yang, \nat the end of a combo yin increases melee damage, \nyang restores a portion of missing life";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMasterHeadDefence");
                     pfx.yinyang = true;
                     break;
                 case 3:
                     string button = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
-                    player.setBonus = "Build up momentum and double tap " + button + " to leap towards a location,\n"
-                        + "Increases running speed by 15 mph";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMasterHeadSpeed").Replace("$BUTTON", button);
                     pfx.buildMomentum = true;
                     pfx.momentumDash = true;
                     player.accRunSpeed += 3f;

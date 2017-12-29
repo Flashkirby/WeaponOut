@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace WeaponOut.Items.Armour
 {
     /// <summary>
-    /// Intercepts hook controls for discord teleporting when free
+    /// Intercepts hook controls for discord teleporting when free. Copy of Discordant Charm, but visually different
     /// </summary>
     [AutoloadEquip(EquipType.Head)]
     public class DiscordantShades : ModItem

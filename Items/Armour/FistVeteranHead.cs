@@ -13,6 +13,34 @@ namespace WeaponOut.Items.Armour
             DisplayName.SetDefault("Wanderer Headband");
             Tooltip.SetDefault("6% increased melee critical strike chance\n"
                 + "Fighting bosses slowly empowers next melee attack, up to 800%");
+
+            ModTranslation text;
+
+            text = mod.CreateTranslation("FistVeteranHeadPower");
+            text.SetDefault("Increases melee capabilities after being struck");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistVeteranHeadPowerHardmode");
+            text.SetDefault("Greatly increases melee capabilities after being struck");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistVeteranHeadDefence");
+            text.SetDefault("Greatly increases life regeneration after being struck");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistVeteranHeadDefenceHardmode");
+            text.SetDefault("Increases length of invincibility after taking damage, \n" + 
+                "greatly increases life regeneration after being struck");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistVeteranHeadSpeed");
+            text.SetDefault("Build up momentum to smash into enemies, increased movement speed");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistVeteranHeadGi");
+            text.SetDefault("100% increased uppercut and divekick damage\n" +
+                        "Reduces combo power cost by 1");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -92,11 +120,11 @@ namespace WeaponOut.Items.Armour
                 case 1:
                     if (!hardMode)
                     {
-                        player.setBonus = "Increases melee capabilities after being struck";
+                        player.setBonus = WeaponOut.GetTranslationTextValue("FistVeteranHeadPower");
                     }
                     else
                     {
-                        player.setBonus = "Greatly increases melee capabilities after being struck";
+                        player.setBonus = WeaponOut.GetTranslationTextValue("FistVeteranHeadPowerHardmode");
                         player.GetModPlayer<PlayerFX>().doubleDamageUp = true;
                     }
                     player.GetModPlayer<PlayerFX>().taekwonCounter = true;
@@ -104,24 +132,23 @@ namespace WeaponOut.Items.Armour
                 case 2:
                     if (!hardMode)
                     {
-                        player.setBonus = "Greatly increases life regeneration after being struck";
+                        player.setBonus = WeaponOut.GetTranslationTextValue("FistVeteranHeadDefence");
                     }
                     else
                     {
-                        player.setBonus = Language.GetTextValue("ItemTooltip.CrossNecklace") + ", greatly increases life regeneration after being struck";
+                        player.setBonus = WeaponOut.GetTranslationTextValue("FistVeteranHeadDefenceHardmode");
                         player.longInvince = true;
                     }
                     player.GetModPlayer<PlayerFX>().rapidRecovery = true;
                     break;
                 case 3:
-                    player.setBonus = "Build up momentum to smash into enemies, increased movement speed";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistVeteranHeadSpeed");
                     player.accRunSpeed += 2f;
                     if (hardMode) { player.accRunSpeed += 1f; player.moveSpeed += 0.15f; }
                     player.GetModPlayer<PlayerFX>().buildMomentum = true;
                     break;
                 case 4:
-                    player.setBonus = "100% increased uppercut and divekick damage\n" + 
-                        "Reduces combo power cost by 1";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistVeteranHeadGi");
                     mpf.uppercutDamage += 1f;
                     mpf.divekickDamage += 1f;
                     mpf.comboCounterMaxBonus -= 1;

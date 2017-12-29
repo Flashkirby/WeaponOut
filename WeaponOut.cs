@@ -62,6 +62,9 @@ namespace WeaponOut
 
             ControlToggleVisual = RegisterHotKey("Toggle WeaponOut", "#");
         }
+        public static string GetTranslationTextValue(string key) {
+            return Terraria.Localization.Language.GetText("Mods.WeaponOut." + key).Value;
+        }
 
         public override void PostSetupContent()
         {

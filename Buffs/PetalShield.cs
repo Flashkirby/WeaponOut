@@ -11,7 +11,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Petal Shield");
-            Description.SetDefault(Language.GetTextValue("BuffDescription.Ironskin").Replace("8", "12"));
+            Description.SetDefault("Increase defense by 12");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

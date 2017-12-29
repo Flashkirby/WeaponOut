@@ -18,6 +18,10 @@ namespace WeaponOut.Items.Armour
                 "Equippable as an accessory\n" +
                 "$ROD\n" +
                 "Uses the Rod of Discord instead of grappling\n");
+
+            ModTranslation text = mod.CreateTranslation("DiscordantRodTooltip");
+            text.SetDefault("Will not work without the Rod of Discord!");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -59,7 +63,7 @@ namespace WeaponOut.Items.Armour
                             return;
                         }
                     }
-                    tooltips[i].text = tooltips[i].text.Replace("$ROD", "Will not work without the Rod of Discord!");
+                    tooltips[i].text = tooltips[i].text.Replace("$ROD", WeaponOut.GetTranslationTextValue("DiscordantRodTooltip"));
                     return;
                 }
             }

@@ -12,6 +12,32 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Prizefighter Helmet");
             Tooltip.SetDefault("Fighting bosses slowly empowers next melee attack, up to 1000%");
+
+            ModTranslation text;
+
+            text = mod.CreateTranslation("FistBoxingHelmetPlusPower");
+            text.SetDefault("10 defense per 100 missing life");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistBoxingHelmetPlusPowerHardmode");
+            text.SetDefault("16 defense per 100 missing life");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistBoxingHelmetPlusDefence");
+            text.SetDefault("Temporarily reduces damage taken when not attacking");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistBoxingHelmetPlusSpeed");
+            text.SetDefault("15 defense");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistBoxingHelmetPlusSpeedHardmode");
+            text.SetDefault("20 defense");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistBoxingHelmetPlusGi");
+            text.SetDefault("Makes fist parries easier and reduces combo power cost by 1");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -99,18 +125,18 @@ namespace WeaponOut.Items.Armour
                 case 1:
                     if (!hardMode)
                     {
-                        player.setBonus = "10 defense per 100 missing life";
+                        player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetPlusPower");
                         player.GetModPlayer<PlayerFX>().barbariousDefence = 10;
                     }
                     else
                     {
-                        player.setBonus = "16 defense per 100 missing life";
+                        player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetPlusPowerHardmode");
                         player.GetModPlayer<PlayerFX>().barbariousDefence = 6;
                     }
                     break;
                 case 2:
                     // Not so useful, but very good for not dying in expert (double damage lmao)
-                    player.setBonus = "Temporarily reduces damage taken when not attacking";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetPlusDefence");
                     if (!hardMode)
                     { player.GetModPlayer<PlayerFX>().yomiEndurance += 0.3f; }
                     else
@@ -119,17 +145,17 @@ namespace WeaponOut.Items.Armour
                 case 3:
                     if (!hardMode)
                     {// Decent armour for protecting against most attacks (11 dmg reduction)
-                        player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "15");
+                        player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetPlusSpeed");
                         player.statDefense += 15;
                     }
                     else
                     {// Hardmode armour gets an extra 10 dmg reduction
-                        player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "20");
+                        player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetPlusSpeedHardmode");
                         player.statDefense += 20;
                     }
                     break;
                 case 4:
-                    player.setBonus = "Makes fist parries easier and reduces combo power cost by 1";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetPlusGi");
                     mpf.longParry = true;
                     mpf.comboCounterMaxBonus -= 1;
                     break;

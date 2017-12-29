@@ -10,7 +10,7 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hook of Discord");
-            Tooltip.SetDefault(Language.GetTextValue("ItemTooltip.RodofDiscord"));
+            Tooltip.SetDefault("Teleports you to the position of the mouse"); //ItemTooltip.RodofDiscord
         }
         public override void SetDefaults()
         {

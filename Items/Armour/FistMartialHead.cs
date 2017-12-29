@@ -13,6 +13,24 @@ namespace WeaponOut.Items.Armour
             DisplayName.SetDefault("Apprentice Headband");
             Tooltip.SetDefault("3% increased melee critical strike chance\n"
                 + "Fighting bosses slowly empowers next melee attack, up to 400%");
+
+            ModTranslation text;
+
+            text = mod.CreateTranslation("FistMartialHeadPower");
+            text.SetDefault("Negates fall damage"); // ItemTooltip.LuckyHorseshoe
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistMartialHeadDefence");
+            text.SetDefault("Increases length of invincibility after taking damage"); // ItemTooltip.CrossNecklace
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistMartialHeadSpeed");
+            text.SetDefault("Increases running speed by 10 mph");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistMartialHeadGi");
+            text.SetDefault("50% increased uppercut and divekick damage");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -79,19 +97,19 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = Language.GetTextValue("ItemTooltip.LuckyHorseshoe");
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMartialHeadPower");
                     player.noFallDmg = true;
                     break;
                 case 2:
-                    player.setBonus = Language.GetTextValue("ItemTooltip.CrossNecklace");
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMartialHeadDefence");
                     player.longInvince = true;
                     break;
                 case 3:
-                    player.setBonus = "Increases running speed by 10 mph";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMartialHeadSpeed");
                     player.accRunSpeed += 2f;
                     break;
                 case 4:
-                    player.setBonus = "50% increased uppercut and divekick damage";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMartialHeadGi");
                     mpf.uppercutDamage += 0.5f;
                     mpf.divekickDamage += 0.5f;
                     break;

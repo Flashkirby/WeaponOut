@@ -12,8 +12,22 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Champion Laurels");
             Tooltip.SetDefault("5% increased melee damage\n" +
-                "Fighting bosses slowly empowers next melee attack, up to 2500%\n" + 
-                "'It ain't about how hard you hit'");
+                "Fighting bosses slowly empowers next melee attack, up to 2500%\n" +
+                "'It ain't about how hard you hit'");//It's about HOW HARD YOU CAN GET HIT and keep moving forward
+
+            ModTranslation text;
+
+            text = mod.CreateTranslation("ChampionLaurelsPower");
+            text.SetDefault("Divekicks will steal life");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("ChampionLaurelsDefence");
+            text.SetDefault("23 defense, damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("ChampionLaurelsSpeed");
+            text.SetDefault("Maximum life acts as a second wind, restore maximum life with combos");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -76,18 +90,18 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Divekicks will steal life";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("ChampionLaurelsPower");
                     player.GetModPlayer<PlayerFX>().diveKickHeal += 0.03f;
                     pfx.patienceBuildUpModifier += 0.2f;
                     break;
                 case 2:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "23") + ", damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("ChampionLaurelsDefence");
                     player.statDefense += 23;
                     player.endurance += 0.05f;
                     pfx.yomiEndurance += 0.45f;
                     break;
                 case 3:
-                    player.setBonus = "Maximum life acts as a second wind, restore maximum life with combos";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("ChampionLaurelsSpeed"); 
                     pfx.secondWind = true;
                     break;
             }

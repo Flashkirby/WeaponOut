@@ -12,6 +12,24 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Boxing Helmet");
             Tooltip.SetDefault("Fighting bosses slowly empowers next melee attack, up to 500%");
+
+            ModTranslation text;
+
+            text = mod.CreateTranslation("FistBoxingHelmetPower");
+            text.SetDefault("3 defense");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistBoxingHelmetDefence");
+            text.SetDefault("6 defense");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistBoxingHelmetSpeed");
+            text.SetDefault("4 defense");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("FistBoxingHelmetGi");
+            text.SetDefault("Makes fist parries easier");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -77,19 +95,19 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "3");
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetPower");
                     player.statDefense += 3;
                     break;
                 case 2:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "6");
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetDefence");
                     player.statDefense += 6;
                     break;
                 case 3:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "4");
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetSpeed");
                     player.statDefense += 4;
                     break;
                 case 4:
-                    player.setBonus = "Makes fist parries easier";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistBoxingHelmetGi");
                     mpf.longParry = true;
                     break;
             }

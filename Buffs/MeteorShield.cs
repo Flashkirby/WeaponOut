@@ -11,7 +11,7 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Meteor Shield");
-            Description.SetDefault(Language.GetTextValue("BuffDescription.Ironskin").Replace("8", "6"));
+            Description.SetDefault("Increase defense by 6");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

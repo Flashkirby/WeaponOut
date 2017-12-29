@@ -10,14 +10,15 @@ namespace WeaponOut.Tiles
 {
     public class CampTent : ModTile
     {
-        public override void SetDefaults()
-        {
-            //extra info
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+        public override void SetDefaults() {
+
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Camping Tent");
             AddMapEntry(new Color(90, 190, 20), name);
+
+            //extra info
+            Main.tileFrameImportant[Type] = true;
+            Main.tileLavaDeath[Type] = true;
             dustType = 93;
             disableSmartCursor = true;
 

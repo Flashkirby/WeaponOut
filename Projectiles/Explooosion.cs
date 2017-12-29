@@ -75,6 +75,8 @@ namespace WeaponOut.Projectiles
 
         private void nameExplosion()
         {
+            if (Terraria.Localization.Language.ActiveCulture != Terraria.Localization.GameCulture.English) return;
+
             string prefix = "";
             if (ChargeLevel >= 2) prefix = "Large ";
             if (ChargeLevel >= 4) prefix = "Great ";

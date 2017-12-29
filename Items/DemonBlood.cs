@@ -16,7 +16,8 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Frenzy Heart");
             Tooltip.SetDefault(
-                "Permanently grants a new melee healing ability");
+                "Permanently grants a new melee healing ability\n" + 
+                "Damage taken can be recovered with melee attacks");
         }
         public override void SetDefaults()
         {
