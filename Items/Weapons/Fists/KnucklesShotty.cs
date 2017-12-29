@@ -54,6 +54,7 @@ namespace WeaponOut.Items.Weapons.Fists
         const int parryActive = 15;
         const int parryCooldown = 10;
         public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Shotgun, 1);
             recipe.AddIngredient(ItemID.SoulofMight, 20);
