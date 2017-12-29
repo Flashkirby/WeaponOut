@@ -129,7 +129,7 @@ namespace WeaponOut//Lite
                         player.handoff = player.HeldItem.handOffSlot;
                         player.cHandOff = 0;
                     }
-                    if (player.itemAnimation > 0) layers.Remove(PlayerLayer.HeldItem); // hide fist when attacking
+                    player.itemLocation = new Vector2(); // hide by putting it off-screen
                     return;
                 }
             }
@@ -294,6 +294,8 @@ namespace WeaponOut//Lite
         { None, Hand, Waist, Back, Spear, PowerTool, Bow, SmallGun, LargeGun, Staff }
         private static void PickItemDrawType(bool drawOnBack, Player drawPlayer, Item heldItem, bool isYoyo, int gWidth, int gHeight, ref DrawData data, float itemWidth, float itemHeight, float larger, float lesser) {
             HoldType holdType = HoldType.None;
+            // Don't draw items with draw slots
+            if (heldItem.handOnSlot > 0 || heldItem.handOffSlot > 0) return;
 
             #region AutoPicker
             if (heldItem.useStyle == 1 || //swing
