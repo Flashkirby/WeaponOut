@@ -17,8 +17,7 @@ namespace WeaponOut.Items.Armour
             Tooltip.SetDefault(
                 "Equippable as an accessory\n" +
                 "$ROD\n" +
-                "Uses the Rod of Discord instead of grappling\n" +
-                "'The future's so bright, I gotta wear shades'");
+                "Uses the Rod of Discord instead of grappling\n");
         }
         public override void SetDefaults()
         {
