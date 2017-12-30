@@ -59,8 +59,22 @@ namespace WeaponOut
         public override void Load()
         {
             mod = this;
+            
+            ModTranslation text;
 
-            ControlToggleVisual = RegisterHotKey("Toggle WeaponOut", "#");
+            text = mod.CreateTranslation("WOVisualControl");
+            text.SetDefault("Toggle WeaponOut");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualShow");
+            text.SetDefault("Weapon Visible");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualHide");
+            text.SetDefault("Weapon Hidden");
+            mod.AddTranslation(text);
+
+            ControlToggleVisual = RegisterHotKey(GetTranslationTextValue("WOFistComboPower"), "#");
         }
         public static string GetTranslationTextValue(string key) {
             return Terraria.Localization.Language.GetText("Mods.WeaponOut." + key).Value;
@@ -284,14 +298,14 @@ namespace WeaponOut
             //Get vars
             PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>(this);
             Texture2D eye = Main.inventoryTickOnTexture;
-            string hoverText = "Weapon " + Lang.inter[59]; // Visible
+            string hoverText = GetTranslationTextValue("WOVisualShow"); // Visible
             Vector2 position = new Vector2(20, 10);
 
             // Show hidden instead
             if (!pfx.weaponVisual)
             {
                 eye = Main.inventoryTickOffTexture;
-                hoverText = "Weapon " + Lang.inter[60]; // Hidden
+                hoverText = GetTranslationTextValue("WOVisualHide"); // Hidden
             }
 
             // Get rectangle for eye
