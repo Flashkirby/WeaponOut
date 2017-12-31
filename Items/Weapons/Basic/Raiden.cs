@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -24,9 +25,12 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Raiden");
+            DisplayName.AddTranslation(GameCulture.Chinese, "雷电");
+
             Tooltip.SetDefault(
                 "Stand still to focus on nearby foes\n" +
                 "'Imbued with ancient arts'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "站着不动时会将注意力集中到附近敌人身上\n“注满了古代的武艺”");
         }
         public override void SetDefaults()
         {

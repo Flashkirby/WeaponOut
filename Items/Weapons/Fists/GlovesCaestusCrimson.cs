@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -18,10 +19,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Tenderizer");
+            DisplayName.AddTranslation(GameCulture.Chinese, "嫩肉器");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike restores 5 life\n" +
                 "Combo grants increased life regeneration");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量进行陨石打击！\n反击将恢复5点生命值\n连击将增加生命回复速度");
         }
         public override void SetDefaults()
         {

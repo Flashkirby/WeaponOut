@@ -10,7 +10,10 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hook of Discord");
-            Tooltip.SetDefault(Language.GetTextValue("ItemTooltip.RodofDiscord"));
+            DisplayName.AddTranslation(GameCulture.Chinese, "传送钩爪");
+
+            Tooltip.SetDefault("Teleports you to the position of the mouse"); //ItemTooltip.RodofDiscord
+            Tooltip.AddTranslation(GameCulture.Chinese, "传送到你鼠标的位置");
         }
         public override void SetDefaults()
         {

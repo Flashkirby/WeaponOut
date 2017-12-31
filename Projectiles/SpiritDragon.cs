@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Projectiles
 {
@@ -12,6 +13,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Betsy's Rage");
+            DisplayName.AddTranslation(GameCulture.Chinese, "贝蒂之怒");
             Main.projFrames[projectile.type] = 2;
         }
         public override void SetDefaults()

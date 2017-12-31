@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -16,10 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Underdog");
+            DisplayName.AddTranslation(GameCulture.Chinese, "受害者");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrikes deal damage based on missing life\n" +
                 "Combo grants life stealing parries");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将基于损失的生命值造成伤害\n连击将给予闪避时窃取生命值的能力");
         }
         public override void SetDefaults()
         {

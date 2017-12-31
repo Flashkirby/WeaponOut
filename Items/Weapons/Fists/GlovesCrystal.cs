@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
@@ -16,10 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Gauntlet");
+            DisplayName.AddTranslation(GameCulture.Chinese, "魔晶手套");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike unleashes crystal beams that build combo\n" +
                 "Combo causes damage to refract towards nearby enemies");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将释放可以造成连击的魔晶射线\n连击将向附近敌人释放折射攻击");
         }
         public override void SetDefaults()
         {

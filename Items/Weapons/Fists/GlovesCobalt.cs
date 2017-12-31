@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -16,10 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cobalt Tekko");
+            DisplayName.AddTranslation(GameCulture.Chinese, "钴蓝手甲钩");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 150 bonus damage\n" +
                 "Combo grants 25% increased melee critical strike chance");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予奖励150点伤害\n连击将增加25%的近战暴击率");
         }
         public override void SetDefaults()
         {

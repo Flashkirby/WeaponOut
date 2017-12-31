@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -11,8 +12,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Wand");
+            DisplayName.AddTranslation(GameCulture.Chinese, "魔力杖");
+
             Tooltip.SetDefault(
                 "Casts a mana restoring star");
+            Tooltip.AddTranslation(GameCulture.Chinese, "释放吸取魔力值的星星");
         }
         public override void SetDefaults()
         {

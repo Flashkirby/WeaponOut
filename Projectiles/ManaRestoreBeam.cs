@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.Localization;
 
 namespace WeaponOut.Projectiles
 {
@@ -12,6 +13,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Restoration Beam");
+            DisplayName.AddTranslation(GameCulture.Chinese, "魔力恢复射线");
         }
         public override void SetDefaults()
         {

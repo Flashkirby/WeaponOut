@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -17,9 +18,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Palladium Katar");
+            DisplayName.AddTranslation(GameCulture.Chinese, "钯金拳刃");
+
             Tooltip.SetDefault(
                 "<right> consumes combo for a life-empowered strike\n" +
                 "Combo grants increased life regeneration");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量进行生命自主冲锋\n连击将增加生命回复速度");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

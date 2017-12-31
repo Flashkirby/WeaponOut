@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.ID;
 
 namespace WeaponOut.Buffs
@@ -11,7 +12,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Frost Degree Burns");
+            DisplayName.AddTranslation(GameCulture.Chinese, "重度霜炎");
+
             Description.SetDefault("Frostburn REALLY burns!");
+            Description.AddTranslation(GameCulture.Chinese, "霜炎真的燃烧了！");
             Main.debuff[Type] = true;
         }
         public override void Update(Player player, ref int buffIndex)

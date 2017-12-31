@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -19,10 +20,14 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hidden Dragon");
+            DisplayName.AddTranslation(GameCulture.Chinese, "潜龙拳");
+
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 100% increased melee damage and knockback\n" +
                 "Combo causes damage to echo to nearby enemies");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加100%的近战伤害和击退\n连击会出现灼烧附近敌人的火焰环");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritDragon>();
             customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);

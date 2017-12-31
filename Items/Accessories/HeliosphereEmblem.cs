@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -20,10 +21,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heliosphere Emblem");
+            DisplayName.AddTranslation(GameCulture.Chinese, "日光层徽章");
+
             Tooltip.SetDefault(
                 "Supercharges melee weapons to their lunar potential\n" +
                 "12% increased melee speed\n" +
                 "'Rekindling old flames'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "激发近战武器的月之潜力\n增加12%近战攻速\n“旧火重燃”");
         }
         public override void SetDefaults()
         {

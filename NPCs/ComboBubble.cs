@@ -5,11 +5,18 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.NPCs
 {
     public class ComboBubble : ModNPC
     {
+        public override void SetStaticDefaults() {
+
+         DisplayName.SetDefault("Combo Bubble");
+         DisplayName.AddTranslation(GameCulture.Chinese, "连击泡泡");
+     }
+
         public override void SetDefaults()
         {
             npc.width = 36;

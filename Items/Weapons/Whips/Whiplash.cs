@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Whips
 {
@@ -15,9 +16,12 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whiplash");
+            DisplayName.AddTranslation(GameCulture.Chinese, "脊椎之鞭");
+
             Tooltip.SetDefault(
                 "Only deals critical hits at the tip\n" +
                 "Critical strike chance boosts critical damage");
+            Tooltip.AddTranslation(GameCulture.Chinese, "只能在鞭子的顶端触发暴击\n暴击将增加暴击伤害");
         }
         public override void SetDefaults()
         {

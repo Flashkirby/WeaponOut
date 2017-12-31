@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles
@@ -62,6 +63,8 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vermillion Runes");
+            DisplayName.AddTranslation(GameCulture.Chinese, "朱红符文");
+
             if(!Main.dedServ)
             {
                 textureTargetS = mod.GetTexture("Projectiles/Explosion_Targetsm");

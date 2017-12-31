@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -17,11 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Forbidden Gauntlet");
+            DisplayName.AddTranslation(GameCulture.Chinese, "禁戒钢拳");
+
             Tooltip.SetDefault(
                 "<right> to transform into a raging sandstorm\n" +
                 "Dash reduces damage, but steals life\n" +
                 "Combo causes attacks to wear away at enemies\n" +
                 "'Forbidden techniques in the palm of your hand'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键将让玩家身边出现肆虐的沙尘暴\n冲刺时免疫伤害且窃取生命值\n连击会使敌人受到磨损伤害\n“禁戒之力在你的手心里”");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

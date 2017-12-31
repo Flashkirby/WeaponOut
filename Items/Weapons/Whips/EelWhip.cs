@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Whips
 {
@@ -14,7 +15,10 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eel Slapper");
+            DisplayName.AddTranslation(GameCulture.Chinese, "鳝鱼打手");
+
             Tooltip.SetDefault("'Banned from fish-slapping dance routines'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "“禁止跳鱼拍舞”");
         }
         public override void SetDefaults()
         {

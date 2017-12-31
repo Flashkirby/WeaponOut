@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Whips
 {
@@ -16,7 +17,10 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Molten Chains");
+            DisplayName.AddTranslation(GameCulture.Chinese, "熔融之链");
+
             Tooltip.SetDefault("Critical hits ignite enemies");
+            Tooltip.AddTranslation(GameCulture.Chinese, "暴击时灼烧敌人");
         }
         public override void SetDefaults()
         {

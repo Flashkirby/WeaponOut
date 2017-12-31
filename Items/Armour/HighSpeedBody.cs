@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -10,8 +11,11 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Belt");
+            DisplayName.AddTranslation(GameCulture.Chinese, "冠军腰带");
+
             Tooltip.SetDefault("15% increased melee attack speed\n" +
                 "125% increased uppercut damage and knockback");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加15%近战攻速\n增加125%上勾拳伤害和击退\n提醒：上勾拳指的是你使用拳套按上方向键攻击");
         }
         public override void SetDefaults()
         {

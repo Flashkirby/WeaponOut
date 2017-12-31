@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -17,9 +18,12 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Woods' Antimat Rifle");
+            DisplayName.AddTranslation(GameCulture.Chinese, "伍兹反物质步枪");
+
             Tooltip.SetDefault(
                 "Bullets ignore cover\n" +
                 "'See ya space cowboy'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "发射可穿透的射线\n“See ya space cowboy”");
         }
         public override void SetDefaults()
         {

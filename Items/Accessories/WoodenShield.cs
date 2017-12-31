@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -11,8 +12,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Round Shield");
+            DisplayName.AddTranslation(GameCulture.Chinese, "圆盾");
+
             Tooltip.SetDefault(
                 "Grants 10 damage knockback immunity");
+            Tooltip.AddTranslation(GameCulture.Chinese, "所受单次伤害低于10时免疫击退");
         }
         public override void SetDefaults()
         {

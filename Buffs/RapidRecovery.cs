@@ -1,6 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.ID;
 
 namespace WeaponOut.Buffs
@@ -11,8 +12,11 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Rapid Recovery");
+            DisplayName.AddTranslation(GameCulture.Chinese, "快速回复");
+
             Description.SetDefault(
                 "Life regeneration is greatly increased! Fist combos double life regeneration");
+            Description.AddTranslation(GameCulture.Chinese, "生命回复速度大大增加！拳套连击会使生命回复速度变成双倍");
         }
 
         public override void Update(Player player, ref int buffIndex)

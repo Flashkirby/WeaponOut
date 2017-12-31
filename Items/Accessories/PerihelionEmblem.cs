@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -14,10 +15,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Perihelion Emblem");
+            DisplayName.AddTranslation(GameCulture.Chinese, "近日点徽章");
+
             Tooltip.SetDefault(
                 "Supercharges throwing weapons to their lunar potential\n" +
                 "30% increased throwing velocity\n" +
                 "'Swing back around'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "激发投掷武器的月之潜力\n增加30%投掷速度\n“来回摆动”");
         }
         public override void SetDefaults()
         {

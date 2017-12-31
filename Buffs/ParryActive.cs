@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Buffs
 {
@@ -8,7 +9,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Parrying Moment");
+            DisplayName.AddTranslation(GameCulture.Chinese, "闪避之时");
+
             Description.SetDefault("Your next parried punch is empowered!");
+            Description.AddTranslation(GameCulture.Chinese, "你下一次的闪避拳击增强！");
             Main.buffNoSave[Type] = true;
         }
 

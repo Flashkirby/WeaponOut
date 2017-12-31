@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Buffs
 {
@@ -12,7 +13,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Demon Frenzy");
+            DisplayName.AddTranslation(GameCulture.Chinese, "恶魔的暴怒");
+
             Description.SetDefault("Damage dealt increased by $POWERFACTOR%, damage received increased by $PAINFACTOR%");
+            Description.AddTranslation(GameCulture.Chinese, "所有类型伤害增加$POWERFACTOR%，承受的伤害增加$PAINFACTOR%");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

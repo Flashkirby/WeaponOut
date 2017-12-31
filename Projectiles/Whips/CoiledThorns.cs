@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles.Whips
@@ -22,6 +23,7 @@ namespace WeaponOut.Projectiles.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coiled Thorns");
+            DisplayName.AddTranslation(GameCulture.Chinese, "缠缚荆棘");
         }
         public override void SetDefaults()
         {

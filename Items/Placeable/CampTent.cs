@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Placeable
 {
@@ -10,9 +11,12 @@ namespace WeaponOut.Items.Placeable
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Camping Tent");
+            DisplayName.AddTranslation(GameCulture.Chinese, "野营帐篷");
+
             Tooltip.SetDefault(
                 "Acts as a temporary spawn point\n" +
                 "Unreliable in multiplayer");
+            Tooltip.AddTranslation(GameCulture.Chinese, "担当暂时的出生点\n在多人游戏并不靠谱");
         }
         public override void SetDefaults()
         {

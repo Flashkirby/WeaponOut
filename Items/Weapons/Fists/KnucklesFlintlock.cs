@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -18,9 +19,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flintlock Duster");
+            DisplayName.AddTranslation(GameCulture.Chinese, "指虎燧发枪");
+
             Tooltip.SetDefault(
                 "<right> consumes combo instead of ammo\n" +
                 "Combo grants 50% increased bullet damage");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量发射子弹，而不是使用弹药\n连击将增加50%弹药伤害");
         }
         public override void SetDefaults()
         {

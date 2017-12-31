@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -15,6 +16,7 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Monster Mead");
+            DisplayName.AddTranslation(GameCulture.Chinese, "恶魔蜂蜜酒");
         }
         public override void SetDefaults()
         {

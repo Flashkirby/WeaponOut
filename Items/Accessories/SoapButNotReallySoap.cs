@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -10,8 +11,12 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Brain of Cthulu
         {
             DisplayName.SetDefault("Soapron");
+            DisplayName.AddTranslation(GameCulture.Chinese, "猪龙皂");
+
             Tooltip.SetDefault(
                 "Summons bubbles over time that can be popped for combo power");
+            Tooltip.AddTranslation(GameCulture.Chinese, "召唤泡泡，打破后可以获得连击能量");
+
         }
         public override void SetDefaults()
         {

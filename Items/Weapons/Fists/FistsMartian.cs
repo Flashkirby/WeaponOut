@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
@@ -18,11 +19,14 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Booster Fist");
+            DisplayName.AddTranslation(GameCulture.Chinese, "助推火星拳");
+
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 120% increased melee damage\n" +
                 "Combo grants an follow-up punch\n" + 
                 "'Rocket... PUUUUUNCH!'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加120%的近战伤害和击退\n连击将给予一个跟踪铁拳攻击敌人\n“Rocket... PUUUUUNCH!”");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritMartianFist>();
         }

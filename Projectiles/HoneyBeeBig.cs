@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Projectiles
 {
@@ -14,6 +15,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Honey Bee");
+            DisplayName.AddTranslation(GameCulture.Chinese, "蜜蜂");
             Main.projFrames[projectile.type] = 4;
         }
         public override void SetDefaults()

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -24,10 +25,13 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hayauchi");
+            DisplayName.AddTranslation(GameCulture.Chinese, "快打");
+
             Tooltip.SetDefault(
                 "'Focus, steel thyself'\n" +
                 "'Wait for the perfect moment'\n" +
                 "'A decisive blow'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "“聚集力量”\n“等待时机”\n“一击定音”");
         }
         public override void SetDefaults()
         {

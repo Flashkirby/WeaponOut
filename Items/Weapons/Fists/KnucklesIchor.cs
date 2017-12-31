@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.DataStructures;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -19,9 +20,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Baghnakh");
+            DisplayName.AddTranslation(GameCulture.Chinese, "血腥虎爪");
+
             Tooltip.SetDefault(
                 "<right> consumes combo and life to greatly increase melee damage\n" +
                 "Combo inflicts ichor and steals life from enemies");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量和生命值以大幅增加近战伤害\n连击将窃取生命值并使敌人被脓血感染");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             buffID = mod.BuffType<Buffs.BloodLust>();
         }

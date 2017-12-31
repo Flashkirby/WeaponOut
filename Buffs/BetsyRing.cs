@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Buffs
 {
@@ -11,7 +12,9 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Betsy's Protection");
+            DisplayName.AddTranslation(GameCulture.Chinese, "贝蒂之护");
             Description.SetDefault("Nearby enemies suffer reduced defense and share damage");
+            Description.AddTranslation(GameCulture.Chinese, "附近的敌人将降低防御力和承受伤害");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

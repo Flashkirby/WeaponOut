@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameInput;
+using Terraria.Localization;
 
 namespace WeaponOut.Projectiles
 {
@@ -15,6 +16,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Team Portal Exit");
+            DisplayName.AddTranslation(GameCulture.Chinese, "团队传送门出口");
             Main.projFrames[projectile.type] = 8;
         }
         public override void SetDefaults()

@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.Localization;
 
 namespace WeaponOut.Tiles
 {
@@ -12,12 +13,14 @@ namespace WeaponOut.Tiles
     {
         public override void SetDefaults()
         {
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Camping Tent");
+            name.AddTranslation(GameCulture.Chinese, "野营帐篷");
+            AddMapEntry(new Color(90, 190, 20), name);
+
             //extra info
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Camping Tent");
-            AddMapEntry(new Color(90, 190, 20), name);
             dustType = 93;
             disableSmartCursor = true;
 

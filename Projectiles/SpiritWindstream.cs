@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.Localization;
 
 namespace WeaponOut.Projectiles
 {
@@ -15,6 +16,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chilly Slipstream");
+            DisplayName.AddTranslation(GameCulture.Chinese, "寒冰气流");
             buffID = mod.BuffType<Buffs.Frostbite>();
         }
         public override void SetDefaults()

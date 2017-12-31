@@ -11,9 +11,33 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Master Headband");
+            DisplayName.AddTranslation(GameCulture.Chinese, "大师头带");
+
             Tooltip.SetDefault("9% increased melee critical strike chance\n" +
                 "Fighting bosses slowly empowers next melee attack, up to 2000%\n" +
                 "'A true master never stops learning'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加9%近战暴击率\n与Boss战斗时，近战伤害会迅速提升\n最高为武器本身伤害的2000%，击中敌人后重新计算\n“真正的大师永远不会停下学习的步伐...”");
+
+            ModTranslation text;
+            
+            text = mod.CreateTranslation("FistMasterHeadPower");
+            text.SetDefault("Combo attacks deal additional damage based on enemy life");
+            text.AddTranslation(GameCulture.Chinese, "连续攻击会基于敌人生命值造成额外伤害");
+            mod.AddTranslation(text);
+            
+            text = mod.CreateTranslation("FistMasterHeadDefence");
+            text.SetDefault(
+            "Taking damage grants yin, dealing damage grants yang, \n" +
+            "at the end of a combo yin increases melee damage, \n" +
+            "yang restores a portion of missing life");
+            text.AddTranslation(GameCulture.Chinese, "承受伤害时出现“阴”状态，造成伤害时出现“阳”状态\n“阴”状态在连击结束后增加近战伤害\n“阳”状态将恢复在连击时损失的生命\n效果强度将由玩家损失的生命决定");
+            mod.AddTranslation(text);
+            
+            text = mod.CreateTranslation("FistMasterHeadSpeed");
+            text.SetDefault("Build up momentum and double tap $BUTTON to leap towards a location,\n"
+             +"Increases running speed by 15 mph");
+            text.AddTranslation(GameCulture.Chinese, "移动一定程度后获得“动量加速”状态，此时双击下方向键可以在空中跳跃\n移动速度增加15mph");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -69,18 +93,17 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Combo attacks deal additional damage based on enemy life";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMasterHeadPower");
                     pfx.millstone = true;
                     pfx.patienceBuildUpModifier += 0.1f;
                     break;
                 case 2:
-                    player.setBonus = "Taking damage grants yin, dealing damage grants yang, \nat the end of a combo yin increases melee damage, \nyang restores a portion of missing life";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMasterHeadDefence");
                     pfx.yinyang = true;
                     break;
                 case 3:
                     string button = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
-                    player.setBonus = "Build up momentum and double tap " + button + " to leap towards a location,\n"
-                        + "Increases running speed by 15 mph";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("FistMasterHeadSpeed").Replace("$BUTTON", button);
                     pfx.buildMomentum = true;
                     pfx.momentumDash = true;
                     player.accRunSpeed += 3f;

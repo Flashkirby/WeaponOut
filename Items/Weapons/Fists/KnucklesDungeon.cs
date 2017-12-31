@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -20,9 +21,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cerulean Claws");
+            DisplayName.AddTranslation(GameCulture.Chinese, "天蓝地牢爪");
+
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash a flurry of strikes\n" +
                 "Combo grants 25% increased melee attack speed");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量将开始一连串的冲击\n连击将增加25%近战攻速");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             buffID = mod.BuffType<Buffs.Flurry>();
         }

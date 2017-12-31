@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -14,10 +15,19 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Discordant Charm");
+            DisplayName.AddTranslation(GameCulture.Chinese, "混沌咒文");
+
             Tooltip.SetDefault(
                 "Equippable as an accessory\n" +
                 "$ROD\n" +
-                "Uses the Rod of Discord instead of grappling\n");
+                "Uses the Rod of Discord instead of grappling\n" +
+                "'The future's so bright, I gotta wear shades'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "可以作为饰品装备\n$ROD\n物品栏里有混沌法杖时可以按住钩爪键（键盘的E键）进行传送\n“未来太耀眼,我要戴墨镜”");
+
+            ModTranslation text = mod.CreateTranslation("DiscordantRodTooltip");
+            text.SetDefault("Will not work without the Rod of Discord!");
+            text.AddTranslation(GameCulture.Chinese, "没有传送法杖将无法使用！");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -59,7 +69,7 @@ namespace WeaponOut.Items.Armour
                             return;
                         }
                     }
-                    tooltips[i].text = tooltips[i].text.Replace("$ROD", "Will not work without the Rod of Discord!");
+                    tooltips[i].text = tooltips[i].text.Replace("$ROD", WeaponOut.GetTranslationTextValue("DiscordantRodTooltip")); ;
                     return;
                 }
             }

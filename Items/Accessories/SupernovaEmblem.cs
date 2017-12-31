@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -14,10 +15,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supernova Emblem");
+            DisplayName.AddTranslation(GameCulture.Chinese, "超新星徽章");
+
             Tooltip.SetDefault(
                 "Supercharges summon weapons to their lunar potential\n" +
                 "Increases your max number of minions\n" +
                 "'Call to arms'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "激发召唤武器的月之潜力\n增加你的召唤物上限\n“战争号令”");
         }
         public override void SetDefaults()
         {

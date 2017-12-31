@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -12,11 +13,15 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Staff of Explosion");
+            DisplayName.AddTranslation(GameCulture.Chinese, "爆裂法杖");
+
             Tooltip.SetDefault(
                 "Create a powerful explosion at a location\n" +
                 "Increase channel speed by standing still\n" +
                 "Enemies are more likely to target you while casting");
+            Tooltip.AddTranslation(GameCulture.Chinese, "在光标位置施放一个强大的爆炸点\n按住的时间越久，爆炸威力越高\n站立不动时，增加蓄力速度\n在施放时敌人更可能以你为目标");
         }
+
         public override void SetDefaults()
         {
             item.width = 52;

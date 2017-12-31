@@ -11,9 +11,29 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Laurels");
+            DisplayName.AddTranslation(GameCulture.Chinese, "冠军桂冠");
+
             Tooltip.SetDefault("5% increased melee damage\n" +
                 "Fighting bosses slowly empowers next melee attack, up to 2500%\n" + 
                 "'It ain't about how hard you hit'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加5%近战伤害\n与Boss战斗时，近战伤害会迅速提升\n最高为武器本身伤害的2500%，击中敌人后重新计算\n“关键不是你能打得多么厉害”");
+
+            ModTranslation text;
+
+            text = mod.CreateTranslation("ChampionLaurelsPower");
+            text.SetDefault("Divekicks will steal life");
+            text.AddTranslation(GameCulture.Chinese, "下踢将窃取生命值");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("ChampionLaurelsDefence");
+            text.SetDefault("23 defense, damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking");
+            text.AddTranslation(GameCulture.Chinese, "23防御力，减少5%所承受的伤害\n在不攻击时暂时减少所承受的伤害");
+            mod.AddTranslation(text);
+            
+            text = mod.CreateTranslation("ChampionLaurelsSpeed");
+            text.SetDefault("Maximum life acts as a second wind, restore maximum life with combos");
+            text.AddTranslation(GameCulture.Chinese, "当体力为0时将触发“重振精力”Buff，你的生命栏将作为你的新生命值，可以通过连击进行恢复\n例子：假如你的最大生命值有500，生命值为0时你会有额外的500点体力");
+            mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {
@@ -76,18 +96,18 @@ namespace WeaponOut.Items.Armour
             switch (armourSet)
             {
                 case 1:
-                    player.setBonus = "Divekicks will steal life";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("ChampionLaurelsPower");
                     player.GetModPlayer<PlayerFX>().diveKickHeal += 0.03f;
                     pfx.patienceBuildUpModifier += 0.2f;
                     break;
                 case 2:
-                    player.setBonus = Language.GetTextValue("ArmorSetBonus.Wood").Replace("1", "23") + ", damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("ChampionLaurelsDefence");
                     player.statDefense += 23;
                     player.endurance += 0.05f;
                     pfx.yomiEndurance += 0.45f;
                     break;
                 case 3:
-                    player.setBonus = "Maximum life acts as a second wind, restore maximum life with combos";
+                    player.setBonus = WeaponOut.GetTranslationTextValue("ChampionLaurelsSpeed"); 
                     pfx.secondWind = true;
                     break;
             }

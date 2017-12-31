@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles.Whips
@@ -20,6 +21,13 @@ namespace WeaponOut.Projectiles.Whips
         public const int tipHeight = 20;
         public const bool doubleCritWindow = false;
         public const bool ignoreLighting = false;
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Puzzling Cutter");
+            DisplayName.AddTranslation(GameCulture.Chinese, "令人费解的剑");
+        }
+
         public override void SetDefaults()
         {
             projectile.width = 18;

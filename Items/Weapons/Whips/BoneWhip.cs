@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Whips
 {
@@ -15,7 +16,10 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bone Whip");
+            DisplayName.AddTranslation(GameCulture.Chinese, "骨鞭");
+
             Tooltip.SetDefault("'Bad to the bone'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "“坏到骨子里”");
         }
         public override void SetDefaults()
         {

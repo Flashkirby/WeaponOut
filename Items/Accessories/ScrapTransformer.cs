@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -10,8 +11,12 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Transformer");
+            DisplayName.AddTranslation(GameCulture.Chinese, "废弃的变压器");
+
             Tooltip.SetDefault(
                 "Parrying with fists will steal life");
+            Tooltip.AddTranslation(GameCulture.Chinese, "使用拳套闪避敌人成功时窃取生命值");
+
         }
         public override void SetDefaults()
         {

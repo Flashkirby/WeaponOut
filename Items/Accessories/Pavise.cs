@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -11,9 +12,12 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fossil Shield"); //Ceratopsian Shield
+            DisplayName.AddTranslation(GameCulture.Chinese, "化石盾牌");
+
             Tooltip.SetDefault(
                 "10 defense when facing attacks\n" +
                 "Grants immunity to knockback when facing attacks");
+            Tooltip.AddTranslation(GameCulture.Chinese, "正面抵抗攻击时增加10防御且免疫击退");
         }
         public override void SetDefaults()
         {

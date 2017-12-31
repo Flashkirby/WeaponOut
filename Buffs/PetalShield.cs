@@ -11,7 +11,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Petal Shield");
-            Description.SetDefault(Language.GetTextValue("BuffDescription.Ironskin").Replace("8", "12"));
+            DisplayName.AddTranslation(GameCulture.Chinese, "花瓣盾");
+
+            Description.SetDefault("Increase defense by 12");
+            Description.AddTranslation(GameCulture.Chinese, "增加12点防御力");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

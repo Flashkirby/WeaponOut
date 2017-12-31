@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -10,8 +11,11 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dynasty Slippers");
+            DisplayName.AddTranslation(GameCulture.Chinese, "王朝靴");
+
             Tooltip.SetDefault("5% increased melee critical strike chance\n" + 
                 "Increases length of combo by 1 second");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加5%近战暴击率\n连击持续时间增加1秒");
         }
         public override void SetDefaults()
         {

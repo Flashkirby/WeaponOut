@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles
@@ -14,6 +15,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Psychic Wave");
+            DisplayName.AddTranslation(GameCulture.Chinese, "精神波动");
             Main.projFrames[projectile.type] = 4;
         }
         public override void SetDefaults()

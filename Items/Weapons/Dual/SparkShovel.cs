@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Dual
 {
@@ -11,8 +12,11 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spark Shovel");
+            DisplayName.AddTranslation(GameCulture.Chinese, "火花之铲");
+
             Tooltip.SetDefault(
                 "<right> to shoot a small spark");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键发射一个火花");
         }
         public override void SetDefaults()
         {

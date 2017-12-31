@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
@@ -19,10 +20,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fists of Fury");
+            DisplayName.AddTranslation(GameCulture.Chinese, "怒之铁拳");
+
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 15% increased melee damage and knockback\n" +
                 "Combo may ignite enemies");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加15%的近战伤害和击退\n连击可能使敌人被点燃");
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

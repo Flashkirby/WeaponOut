@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -17,9 +18,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Breakwater");
+            DisplayName.AddTranslation(GameCulture.Chinese, "挡浪鲨爪");
+
             Tooltip.SetDefault(
                 "<right> consumes combo to teleport\n" +
                 "Combo drenches you in water");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量传送到鼠标的位置\n连击将使你被水淋湿");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

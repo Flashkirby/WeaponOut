@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -19,10 +20,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Barbed Knuckles");
+            DisplayName.AddTranslation(GameCulture.Chinese, "尖刺指虎");
+
             Tooltip.SetDefault(
                 "<right> consumes combo for a temporary barrier\n" +
                 "Combo grants an orbiting ball of thorns\n" +
                 "'Found deep in the jungle labyrinth'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量施放暂时的叶之屏障\n连击将施放在玩家身边旋转的刺球\n“发现在丛林迷宫的深处...”");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             leafID = mod.ProjectileType<Projectiles.SpiritLeaf>();
             ballID = mod.ProjectileType<Projectiles.SpiritThornBall>();

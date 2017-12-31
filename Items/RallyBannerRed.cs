@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -35,9 +36,12 @@ namespace WeaponOut.Items
         public static void SetStaticDefaults(ModItem modItem, string name)
         {
             modItem.DisplayName.SetDefault(name);
+            modItem.DisplayName.AddTranslation(GameCulture.Chinese, "振军旗帜");
+
             modItem.Tooltip.SetDefault(
                 "Increases stats for your team whilst held\n" +
                 "Team is not affected by banner color");
+            modItem.Tooltip.AddTranslation(GameCulture.Chinese, "举起旗帜时增加你队友的属性\n团队不受旗帜颜色的影响");
         }
         public static void SetDefaults(Item item)
         {

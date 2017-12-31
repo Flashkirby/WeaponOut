@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -18,10 +19,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fossil Glove");
+            DisplayName.AddTranslation(GameCulture.Chinese, "化石手套");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike increases armor penetration by 20\n" +
                 "Combo deals bonus damage based on combo power");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将增加20点破甲\n连击将基于连击能量造成额外的伤害");
         }
         public override void SetDefaults()
         {

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Whips
 {
@@ -14,7 +15,10 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Puzzling Cutter");
+            DisplayName.AddTranslation(GameCulture.Chinese, "令人费解的剑");
+
             Tooltip.SetDefault("'No one said it was a sword'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "“没人会说它是一把剑”");
         }
         public override void SetDefaults()
         {

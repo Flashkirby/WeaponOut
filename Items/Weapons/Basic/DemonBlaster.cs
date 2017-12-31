@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -19,8 +20,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Blaster");
+            DisplayName.AddTranslation(GameCulture.Chinese, "恶魔冲击波");
+
             Tooltip.SetDefault(
                 "Fires an unholy ray");
+            Tooltip.AddTranslation(GameCulture.Chinese, "发射一道不洁的射线");
         }
         public override void SetDefaults()
         {

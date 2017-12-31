@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.World.Generation;
+using Terraria.Localization;
 
 // using static WeaponOut.ProjFX;
 // uses ReflectProjectilePlayer(Projectile projectile, Player player)
@@ -30,7 +31,24 @@ namespace WeaponOut
     /// </summary>
     public class ModPlayerFists : ModPlayer
     {
-        public override bool Autoload(ref string name) { return ModConf.EnableFists; }
+        public override bool Autoload(ref string name) {
+            if (ModConf.EnableFists) {
+                ModTranslation text;
+
+                text = mod.CreateTranslation("WOFistComboPower");
+                text.SetDefault("$POWER combo power cost");
+                text.AddTranslation(GameCulture.Chinese, "$POWER 点连击能量消耗");
+                mod.AddTranslation(text);
+
+                text = mod.CreateTranslation("WOFistPrefixSize");
+                text.SetDefault("% combo cost");
+                text.AddTranslation(GameCulture.Chinese, "%连击能量消耗");
+                mod.AddTranslation(text);
+
+                return true;
+            }
+            return false;
+        }
 
         private const bool DEBUG_FISTBOXES = false;
         private const bool DEBUG_DASHFISTS = false;
@@ -941,8 +959,8 @@ namespace WeaponOut
                 int comboTotal = (int)((comboPower + comboBonus) * comboMod);
                 tooltips.RemoveAt(index);
                 TooltipLine tt = new TooltipLine(item.modItem.mod, "FistComboPower",
-                    Math.Max(2, comboTotal) +
-                    " combo power cost");
+                    WeaponOut.GetTranslationTextValue("WOFistComboPower").Replace
+                    ("$POWER", "" + Math.Max(2, comboTotal)));
                 tt.overrideColor = tooltipColour;
                 tooltips.Insert(index, tt);
 
@@ -956,7 +974,7 @@ namespace WeaponOut
                             if (item.scale > 1f) { PrefixSize.text = PrefixSize.text.Replace("+", "-"); }
                             else { PrefixSize.text = PrefixSize.text.Replace("-", "+"); }
                             // replace 'size' with 'combo cost'
-                            PrefixSize.text = PrefixSize.text.Replace(Lang.tip[43].Value, "% combo cost");
+                            PrefixSize.text = PrefixSize.text.Replace(Lang.tip[43].Value, WeaponOut.GetTranslationTextValue("WOFistPrefixSize"));
                             break;
                         }
                     }

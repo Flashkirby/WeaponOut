@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
@@ -18,10 +19,14 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strongarm");
+            DisplayName.AddTranslation(GameCulture.Chinese, "石巨人铁拳");
+
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash for a projectile deflecting punch\n" +
                 "Combo causes successful strikes to generate powerful shockwaves");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺会使敌人（包括部分Boss）遭受巨力冲撞而击退\n连击成功将引发强烈的震荡波");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritQuake>();
         }

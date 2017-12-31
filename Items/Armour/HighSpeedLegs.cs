@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -10,9 +11,12 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Guards");
+            DisplayName.AddTranslation(GameCulture.Chinese, "冠军护靴");
+
             Tooltip.SetDefault("10% increased movement speed\n" +
                 "50% increased increased divekick damage\n" +
                 "Reduces combo power cost by 2");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加10%移动速度\n增加50%下踢伤害\n减少2点连击能量消耗\n提醒：下踢指的是你使用拳套在空中按下方向键攻击");
         }
         public override void SetDefaults()
         {

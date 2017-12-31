@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles
@@ -15,6 +16,12 @@ namespace WeaponOut.Projectiles
         public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
 
         private const float bulletFadeTime = 10;
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Splinter Shot");
+            DisplayName.AddTranslation(GameCulture.Chinese, "破片霰弹");
+        }
         
         public override void SetDefaults()
         {

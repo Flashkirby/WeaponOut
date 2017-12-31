@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Buffs
 {
@@ -9,7 +10,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Absolute Strength");
+            DisplayName.AddTranslation(GameCulture.Chinese, "绝对力量");
+
             Description.SetDefault("Melee damage is increased by $DAMAGE%");
+            Description.AddTranslation(GameCulture.Chinese, "增加$DAMAGE%近战伤害");
         }
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {

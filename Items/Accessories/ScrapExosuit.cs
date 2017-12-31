@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -11,12 +12,15 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Exosuit");
+            DisplayName.AddTranslation(GameCulture.Chinese, "废弃的机械服");
+
             Tooltip.SetDefault(
                 "Greatly reduces cooldown between dashes\n" +
                 "Consuming combo will restore life\n" + 
                 "Parrying with fists will steal life\n" + 
                 "Greatly increases life regen when moving\n" + 
                 "'Harness science!'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "减少冲刺（例如克苏鲁之盾的冲刺）的冷却时间\n消耗连击能量时恢复生命值\n使用拳套闪避敌人成功时窃取生命值\n移动时增加生命回复速度\n“运用科学！”");
         }
         public override void SetDefaults()
         {

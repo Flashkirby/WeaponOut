@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Dual
 {
@@ -13,9 +14,12 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Double Loader");
+            DisplayName.AddTranslation(GameCulture.Chinese, "双重发射器");
+
             Tooltip.SetDefault(
                 "20% chance to not consume ammo\n" +
                 "<right> to fire darts");
+            Tooltip.AddTranslation(GameCulture.Chinese, "20%的概率不消耗弹药\n鼠标右键发射飞镖");
         }
         public override void SetDefaults()
         {

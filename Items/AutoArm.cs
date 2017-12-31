@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -15,9 +16,12 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voodoo Arm");
+            DisplayName.AddTranslation(GameCulture.Chinese, "巫毒魔爪");
+
             Tooltip.SetDefault(
                 "Enables auto-swing when favorited in inventory\n" + 
                 "'It twitches occasionally'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "如果收藏它，所有武器将允许连发\n“它偶尔抽搐...”\nAlt+鼠标左键允许收藏物品");
         }
         public override void SetDefaults()
         {

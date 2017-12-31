@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -16,10 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orichalcum Glove");
+            DisplayName.AddTranslation(GameCulture.Chinese, "奥钢手套");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike delivers a flowery finish\n" +
                 "Combo grants a protective barrier");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将使花瓣对敌人进行攻击\n连击将给予“花瓣盾“效果");
         }
         public override void SetDefaults()
         {

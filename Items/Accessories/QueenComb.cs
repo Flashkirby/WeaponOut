@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -10,8 +11,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Eye of Cthulu
         {
             DisplayName.SetDefault("Honey Pack");
+            DisplayName.AddTranslation(GameCulture.Chinese, "蜂蜜包");
+
             Tooltip.SetDefault(
                 "Melee strikes on enemies releases honey bees that heal players");
+            Tooltip.AddTranslation(GameCulture.Chinese, "使用近战武器攻击敌人时释放治疗玩家的蜜蜂");
         }
         public override void SetDefaults()
         {

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -14,10 +15,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wormhole Emblem");
+            DisplayName.AddTranslation(GameCulture.Chinese, "虫洞徽章");
+
             Tooltip.SetDefault(
                 "Supercharges ranged weapons to their lunar potential\n" +
                 "20% chance to not consume ammo\n" +
                 "'Blast with the past'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "激发远程武器的月之潜力\n20%的概率不消耗弹药\n“来自过去的冲击”");
         }
         public override void SetDefaults()
         {

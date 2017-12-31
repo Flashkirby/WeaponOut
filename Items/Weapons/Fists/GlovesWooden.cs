@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -18,10 +19,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wooden Tekko");
+            DisplayName.AddTranslation(GameCulture.Chinese, "木手甲");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Parry grants temporary invincibility\n" +
                 "Combo grants 3 bonus damage");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n躲避成功后暂时无敌\n连击将奖励增加3点伤害");
         }
         public override void SetDefaults()
         {

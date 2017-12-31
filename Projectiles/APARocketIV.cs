@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Projectiles
 {
@@ -14,6 +15,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Roooocket"); //134, 137, 140, 143
+            DisplayName.AddTranslation(GameCulture.Chinese, "火箭IV");
         }
         public override void SetDefaults()
         {
