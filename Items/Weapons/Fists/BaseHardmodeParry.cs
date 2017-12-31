@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 using WeaponOut;
 
-namespace WeaponOutExtension.FistWeapons
+namespace WeaponOut.Items.Weapons.Fists
 {
     //[AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)] // Uncomment if you have hand sprites
     public class HardmodeParry : ModItem

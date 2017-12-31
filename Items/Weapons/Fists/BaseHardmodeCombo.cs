@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 using WeaponOut;
 
-namespace WeaponOutExtension.FistWeapons
+namespace WeaponOut.Items.Weapons.Fists
 {
     //[AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)] // Uncomment if you have hand sprites
     public class HardmodeCombo : ModItem
@@ -35,7 +35,7 @@ namespace WeaponOutExtension.FistWeapons
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.rare = 4; // >= 4, can use second uppercut
             item.useTime = item.useAnimation * 2;
-            item.shoot = ExtensionMod.ModWeaponOut.ProjectileType("SpiritBlast");
+            item.shoot = mod.ProjectileType("SpiritBlast");
             item.shootSpeed = 10 + item.rare / 2; // Default shoot speed in case it needs to fire projectiles
 
             item.UseSound = SoundID.Item19;
