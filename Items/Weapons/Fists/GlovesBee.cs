@@ -11,11 +11,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class GlovesBee : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.EnableFists;
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Honeycomb Glove");

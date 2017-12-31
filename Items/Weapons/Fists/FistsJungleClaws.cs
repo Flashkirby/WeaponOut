@@ -12,10 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class FistsJungleClaws : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.EnableFists;
-        }
         public static int dustEffect = 0;
         public override void SetStaticDefaults()
         {

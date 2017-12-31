@@ -11,10 +11,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)]
     public class KnucklesLead : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.EnableFists;
-        }
         public static int comboEffect = 0;
         public override void SetStaticDefaults()
         {

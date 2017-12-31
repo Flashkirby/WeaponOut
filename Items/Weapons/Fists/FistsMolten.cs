@@ -12,10 +12,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn)]
     public class FistsMolten : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return ModConf.EnableFists;
-        }
         public static int dustEffect = 0;
         public override void SetStaticDefaults()
         {
