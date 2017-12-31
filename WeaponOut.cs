@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics;
+using Terraria.Localization;
 
 /*
  RARITY:
@@ -64,14 +65,17 @@ namespace WeaponOut
 
             text = mod.CreateTranslation("WOVisualControl");
             text.SetDefault("Toggle WeaponOut");
+            text.AddTranslation(GameCulture.Chinese, "切换WeaponOut");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualShow");
             text.SetDefault("Weapon Visible");
+            text.AddTranslation(GameCulture.Chinese, "显示武器");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualHide");
             text.SetDefault("Weapon Hidden");
+            text.AddTranslation(GameCulture.Chinese, "隐藏武器");
             mod.AddTranslation(text);
 
             ControlToggleVisual = RegisterHotKey(GetTranslationTextValue("WOFistComboPower"), "#");
