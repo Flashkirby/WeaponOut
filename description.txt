@@ -1,5 +1,3 @@
-NOTE: WeaponOut.json has been moved into the (Mod Configs/) folder.
-
 WeaponOut is a quality of life and minor content mod that introduces items that use interesting game mechanics balanced for vanilla Terraria, but are capable of holding up to modded playthroughs. It adds fist, whips, multi-function and team support items as well as ease-of-use functions such as autoswinging accessories, teleporting hooks and temporary spawn points.
 
 Summary: 
@@ -12,6 +10,8 @@ Summary:
 * Team-centric items for buffing, and restoring mana.
 * Endgame powerup accessories! Make low tier weapons lunar.
 * Custom config file, if you want to toggle the above features.
+
+Note: Config located in Terraria/ModLoader/Mod Configs
 
 Content:
 * 9 Whip Weapons

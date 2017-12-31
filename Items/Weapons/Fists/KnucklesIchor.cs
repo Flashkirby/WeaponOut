@@ -22,6 +22,21 @@ namespace WeaponOut.Items.Weapons.Fists
             Tooltip.SetDefault(
                 "<right> consumes combo and life to greatly increase melee damage\n" +
                 "Combo inflicts ichor and steals life from enemies");
+
+            ModTranslation text;
+
+            text = mod.CreateTranslation("KnucklesIchorSuicide1");
+            text.SetDefault("$NAME ripped out their mortal coil.");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("KnucklesIchorSuicide2");
+            text.SetDefault("$NAME was disemboweled by the $ITEM.");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("KnucklesIchorSuicide3");
+            text.SetDefault("$NAME tore themself apart.");
+            mod.AddTranslation(text);
+
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             buffID = mod.BuffType<Buffs.BloodLust>();
         }
@@ -93,13 +108,16 @@ namespace WeaponOut.Items.Weapons.Fists
                     switch (Main.rand.Next(3))
                     {
                         case 1:
-                            pdr.SourceCustomReason = player.name + " ripped out their mortal coil.";
+                            pdr.SourceCustomReason = WeaponOut.GetTranslationTextValue("KnucklesIchorSuicide1")
+                                .Replace("$NAME", player.name);
                             break;
                         case 2:
-                            pdr.SourceCustomReason = player.name + " was disemboweled by the Blood Baghnakh.";
+                            pdr.SourceCustomReason = WeaponOut.GetTranslationTextValue("KnucklesIchorSuicide2")
+                                .Replace("$NAME", player.name).Replace("$ITEM", item.Name);
                             break;
                         default:
-                            pdr.SourceCustomReason = player.name + " tore themself apart.";
+                            pdr.SourceCustomReason = WeaponOut.GetTranslationTextValue("KnucklesIchorSuicide3")
+                                .Replace("$NAME", player.name);
                             break;
                     }
                     player.immune = false;
