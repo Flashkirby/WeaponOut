@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -10,9 +11,12 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Brain of Cthulu
         {
             DisplayName.SetDefault("Impaling Tooth");
+            DisplayName.AddTranslation(GameCulture.Chinese, "血肉刺牙");
+
             Tooltip.SetDefault(
                 "Hurting enemies has a chance to spawn a heart\n" + 
 				"'What an eyesore'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "伤害敌人时有概率掉落红心");
         }
         public override void SetDefaults()
         {

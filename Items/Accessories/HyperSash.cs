@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -13,11 +14,14 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyper Sash");
+            DisplayName.AddTranslation(GameCulture.Chinese, "特急腰带");
+
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
                 "Restores up to 26% of maximum life\n" +
                 "Bosses are slower to follow you in the air\n" + 
                 "Grants immunity to knockback");
+            Tooltip.AddTranslation(GameCulture.Chinese, "恢复在连击时所承受的伤害\n最多可以恢复最大生命值的26%\nBoss在空中追踪你的速度变慢\n免疫击退");
         }
         public override void SetDefaults()
         {

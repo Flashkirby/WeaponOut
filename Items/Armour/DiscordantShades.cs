@@ -2,6 +2,7 @@
 
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -14,11 +15,14 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Discordant Shades");
+            DisplayName.AddTranslation(GameCulture.Chinese, "混沌碎片");
+
             Tooltip.SetDefault(
                 "Equippable as an accessory\n" +
                 "$ROD\n" +
                 "Uses the Rod of Discord instead of grappling\n" +
                 "'The future's so bright, I gotta wear shades'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "可以作为饰品装备\n$ROD\n物品栏里有混沌法杖时可以按住钩爪键（键盘的E键）进行传送\n“未来太耀眼,我要戴墨镜”");
         }
         public override void SetDefaults()
         {

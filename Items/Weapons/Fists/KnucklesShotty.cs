@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 using WeaponOut;
 
@@ -16,9 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Shotgun Knuckleduster");
+            DisplayName.AddTranslation(GameCulture.Chinese, "指虎霰弹枪");
+
             Tooltip.SetDefault(
                 "<right> to shoot, or consume combo to blast away\n" +
                 "Combo grants ammo restoration per strike");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键发射（或者消耗连击能量）霰弹\n连击一定程度后每一击都会给予一枚弹药");
+
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults() {
@@ -54,7 +59,6 @@ namespace WeaponOut.Items.Weapons.Fists
         const int parryActive = 15;
         const int parryCooldown = 10;
         public override void AddRecipes() {
-            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Shotgun, 1);
             recipe.AddIngredient(ItemID.SoulofMight, 20);

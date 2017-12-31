@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -16,11 +17,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phalanx");
+            DisplayName.AddTranslation(GameCulture.Chinese, "趾骨");
+
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 30% increased melee damage\n" + 
                 "Combo summons a backup skeleton\n" +
 				"'Need a hand?'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加30%的近战伤害\n连击将召唤一个骷髅打手\n“需要一把手吗？”");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             skeleBroID = mod.ProjectileType<Projectiles.Skelebro>();
         }

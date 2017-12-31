@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Projectiles
 {
@@ -18,6 +19,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Backup Skeleton");
+            DisplayName.AddTranslation(GameCulture.Chinese, "骷髅打手");
             Main.projFrames[projectile.type] = 20;
         }
         public override void SetDefaults()

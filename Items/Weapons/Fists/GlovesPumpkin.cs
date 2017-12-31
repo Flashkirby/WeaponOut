@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -19,12 +20,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Patchy Pounder");
+            DisplayName.AddTranslation(GameCulture.Chinese, "南瓜重拳");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Strike through enemies to mark them\n" +
                 "Counterstrike to detonate marked enemies\n" + 
                 "Combo grants increased explosive potential\n" +
                 "'Its explosive might makes the heavens tremble'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n攻击敌人的时候标记爆炸标志\n反击将引爆有标志的敌人\n连击将给予爆炸潜能\n“它的爆炸威力会使天堂颤抖”");
             buffID = mod.BuffType<Buffs.PumpkinMark>();
             projID = mod.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
         }

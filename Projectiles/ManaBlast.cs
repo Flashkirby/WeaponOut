@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles
@@ -18,6 +19,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Blast");
+            DisplayName.AddTranslation(GameCulture.Chinese, "魔力冲击");
         }
         public override void SetDefaults()
         {

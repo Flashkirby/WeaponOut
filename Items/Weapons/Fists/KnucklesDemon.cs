@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -19,10 +20,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Hand");
+            DisplayName.AddTranslation(GameCulture.Chinese, "恶魔鬼爪");
+
             Tooltip.SetDefault(
                 "<right> to dash, or consume combo to steal life from enemies\n" +
                 "Combo grants increased melee damage at the cost of defense\n" + 
                 "'Might makes right'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键进行冲刺，或是消耗连击能量窃取敌人的生命值\n连击将以防御力为代价增加近战伤害\n“强权即公理”");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             customDashEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             buffID = mod.BuffType<Buffs.DemonFrenzy>();

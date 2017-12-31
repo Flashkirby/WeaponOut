@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -17,9 +18,13 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gathering Horn");
+            DisplayName.AddTranslation(GameCulture.Chinese, "集结号");
+
             Tooltip.SetDefault(
                 "Summons a one way portal from your spawn to the current position\n" + 
                 "Only for players on your team");
+            Tooltip.AddTranslation(GameCulture.Chinese, "在你的出生点和目前所在地生成传送门\n仅供你和你的队友");
+
             customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
         public override void SetDefaults()

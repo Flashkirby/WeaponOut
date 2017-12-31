@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles.Whips
@@ -19,9 +20,11 @@ namespace WeaponOut.Projectiles.Whips
         public const int tipHeight = 8;
         public const bool doubleCritWindow = false;
         public const bool ignoreLighting = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crimson Whiplash");
+            DisplayName.AddTranslation(GameCulture.Chinese, "脊椎之鞭");
         }
         public override void SetDefaults()
         {

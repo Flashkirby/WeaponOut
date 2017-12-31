@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -13,9 +14,12 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Immaterial Blade");
+            DisplayName.AddTranslation(GameCulture.Chinese, "无形之刃");
+
             Tooltip.SetDefault(
                 "Bypasses thick armor\n" +
                 "'Light as a feather'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "避开厚厚的盔甲\n“轻如飞羽”");
         }
         public override void SetDefaults()
         {

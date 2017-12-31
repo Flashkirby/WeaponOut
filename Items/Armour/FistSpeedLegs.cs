@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -10,8 +11,11 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Shorts");
+            DisplayName.AddTranslation(GameCulture.Chinese, "拳击短裤");
+
             Tooltip.SetDefault("5% increased movement speed\n" +
                 "Reduces combo power cost by 1");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加5%移动速度\n减少1点连击能量消耗");
         }
         public override void SetDefaults()
         {

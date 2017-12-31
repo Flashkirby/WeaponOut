@@ -11,25 +11,32 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Apprentice Headband");
+            DisplayName.AddTranslation(GameCulture.Chinese, "学徒头带");
+
             Tooltip.SetDefault("3% increased melee critical strike chance\n"
                 + "Fighting bosses slowly empowers next melee attack, up to 400%");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加3%近战暴击率\n与Boss战斗时，近战伤害会迅速提升\n最高为武器本身伤害的400%，击中敌人后重新计算");
 
             ModTranslation text;
-
+            
             text = mod.CreateTranslation("FistMartialHeadPower");
             text.SetDefault("Negates fall damage"); // ItemTooltip.LuckyHorseshoe
+            text.AddTranslation(GameCulture.Chinese, "免疫坠落伤害");
             mod.AddTranslation(text);
-
+            
             text = mod.CreateTranslation("FistMartialHeadDefence");
             text.SetDefault("Increases length of invincibility after taking damage"); // ItemTooltip.CrossNecklace
+            text.AddTranslation(GameCulture.Chinese, "受到伤害后的无敌时间增长");
             mod.AddTranslation(text);
-
+            
             text = mod.CreateTranslation("FistMartialHeadSpeed");
             text.SetDefault("Increases running speed by 10 mph");
+            text.AddTranslation(GameCulture.Chinese, "移动速度增加10mph");
             mod.AddTranslation(text);
-
+            
             text = mod.CreateTranslation("FistMartialHeadGi");
             text.SetDefault("50% increased uppercut and divekick damage");
+            text.AddTranslation(GameCulture.Chinese, "增加50%上勾拳和下踢伤害");
             mod.AddTranslation(text);
         }
         public override void SetDefaults()

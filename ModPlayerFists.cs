@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.World.Generation;
+using Terraria.Localization;
 
 // using static WeaponOut.ProjFX;
 // uses ReflectProjectilePlayer(Projectile projectile, Player player)
@@ -36,10 +37,12 @@ namespace WeaponOut
 
                 text = mod.CreateTranslation("WOFistComboPower");
                 text.SetDefault("$POWER combo power cost");
+                text.AddTranslation(GameCulture.Chinese, "$POWER 点连击能量消耗");
                 mod.AddTranslation(text);
 
                 text = mod.CreateTranslation("WOFistPrefixSize");
                 text.SetDefault("% combo cost");
+                text.AddTranslation(GameCulture.Chinese, "%连击能量消耗");
                 mod.AddTranslation(text);
             }
             return true;

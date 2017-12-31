@@ -5,15 +5,17 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.Localization;
 
 namespace WeaponOut.Tiles
 {
     public class CampTent : ModTile
     {
-        public override void SetDefaults() {
-
+        public override void SetDefaults() 
+        {
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Camping Tent");
+            name.AddTranslation(GameCulture.Chinese, "野营帐篷");
             AddMapEntry(new Color(90, 190, 20), name);
 
             //extra info

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -15,9 +16,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar Spark");
+            DisplayName.AddTranslation(GameCulture.Chinese, "太阳火花石");
+
             Tooltip.SetDefault(
                 "Reduces combo power cost by 2\n" +
                 "Hold UP when not attacking to charge up to 10 combo power");
+            Tooltip.AddTranslation(GameCulture.Chinese, "减少2点连击能量消耗\n不攻击时按住上方向键可以积攒最高10点的连击能量");
+
         }
         public override void SetDefaults()
         {

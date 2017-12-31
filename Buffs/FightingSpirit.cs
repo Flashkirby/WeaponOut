@@ -1,6 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.ID;
 
 namespace WeaponOut.Buffs
@@ -12,7 +13,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault(FightingSpirit.DefaultName);
+            DisplayName.AddTranslation(GameCulture.Chinese, "拳师的决意");
+
             Description.SetDefault("Restores $LIFE life at the end of a combo");
+            Description.AddTranslation(GameCulture.Chinese, "连击结束后回复$LIFE点生命值");
         }
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
@@ -32,7 +36,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault(FightingSpirit.DefaultName);
+            DisplayName.AddTranslation(GameCulture.Chinese, "拳师的决意");
+
             Description.SetDefault("Restores life lost at the end of a combo ");
+            Description.AddTranslation(GameCulture.Chinese, "连击结束后恢复在连击时损失的生命值");
         }
     }
     public class FightingSpiritMax : ModBuff
@@ -43,7 +50,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault(FightingSpirit.DefaultName);
+            DisplayName.AddTranslation(GameCulture.Chinese, "拳师的决意");
+
             Description.SetDefault("Restores $LIFE life at the end of a combo");
+            Description.AddTranslation(GameCulture.Chinese, "连击结束后回复$LIFE点生命值");
         }
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {

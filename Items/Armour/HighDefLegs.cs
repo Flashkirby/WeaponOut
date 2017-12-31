@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -10,8 +11,11 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaolin Trousers");
+            DisplayName.AddTranslation(GameCulture.Chinese, "少林武僧裤");
+
             Tooltip.SetDefault("14% increased melee critical strike chance\n" + 
                 "Increases length of combo by 2 seconds");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加14%近战暴击率\n连击持续时间增加2秒");
         }
         public override void SetDefaults()
         {

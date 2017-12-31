@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Buffs
 {
@@ -12,7 +13,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Momentum");
+            DisplayName.AddTranslation(GameCulture.Chinese, "动量效应");
+
             Description.SetDefault("Smash through enemies and projectiles");
+            Description.AddTranslation(GameCulture.Chinese, "冲撞敌人和抛射物");
         }
 
         public override bool ReApply(Player player, int time, int buffIndex)

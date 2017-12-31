@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -16,8 +17,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trash Cannon");
+            DisplayName.AddTranslation(GameCulture.Chinese, "垃圾桶加农炮");
+
             Tooltip.SetDefault(
                 "'You might not, but your trash can'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "“你的力量还不如垃圾”");
         }
         public override void SetDefaults()
         {

@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -10,8 +11,11 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dobok Jacket");
+            DisplayName.AddTranslation(GameCulture.Chinese, "道服上衣");
+
             Tooltip.SetDefault("5% increased melee damage\n" +
                 "50% increased parry damage");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加5%近战伤害\n增加50%闪避伤害\n提醒：闪避指的是你使用拳套右键攻击接触敌人时所触发的攻击方式");
         }
         public override void SetDefaults()
         {

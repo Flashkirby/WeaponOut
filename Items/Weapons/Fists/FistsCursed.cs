@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -17,10 +18,14 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cursed Gadling");
+            DisplayName.AddTranslation(GameCulture.Chinese, "咒炎刺拳");
+
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 50% increased melee damage and knockback\n" +
                 "Combo causes enemies to take more damage from fire");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加50%的近战伤害和击退\n连击会使敌人被引燃，受到更多的伤害");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

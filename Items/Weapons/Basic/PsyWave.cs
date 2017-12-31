@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -11,8 +12,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Psy Wave");
+            DisplayName.AddTranslation(GameCulture.Chinese, "精神波动");
             Tooltip.SetDefault(
                 "Cast a psionic orb");
+            Tooltip.AddTranslation(GameCulture.Chinese, "释放异能光球");
+
         }
         public override void SetDefaults()
         {

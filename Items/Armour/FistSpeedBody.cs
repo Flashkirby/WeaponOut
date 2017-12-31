@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -10,8 +11,11 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Vest");
+            DisplayName.AddTranslation(GameCulture.Chinese, "拳击背心");
+
             Tooltip.SetDefault("5% increased melee attack speed\n" +
                 "100% increased uppercut damage and knockback");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加5%近战攻速\n增加100%上勾拳伤害和击退\n提醒：上勾拳指的是你使用拳套按上方向键攻击");
         }
         public override void SetDefaults()
         {

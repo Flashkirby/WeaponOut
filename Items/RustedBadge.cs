@@ -1,5 +1,6 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -11,7 +12,10 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rusted Badge");
+            DisplayName.AddTranslation(GameCulture.Chinese, "着锈徽章");
+
             Tooltip.SetDefault("'It could do with some polishing...'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "它也许应该做些抛光...");
         }
         public override void SetDefaults()
         {

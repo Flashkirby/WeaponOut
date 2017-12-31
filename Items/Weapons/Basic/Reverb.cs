@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -11,8 +12,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reverb");
+            DisplayName.AddTranslation(GameCulture.Chinese, "回响光杖");
+
             Tooltip.SetDefault(
                 "<right> to cast reverse bolt");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键发射反向光波");
         }
         public override void SetDefaults()
         {

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -15,9 +16,12 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frenzy Heart");
+            DisplayName.AddTranslation(GameCulture.Chinese, "狂乱魔心");
+
             Tooltip.SetDefault(
-                "Permanently grants a new melee healing ability\n" + 
+                "Permanently grants a new melee healing ability\n" +
                 "Damage taken can be recovered with melee attacks");
+            Tooltip.AddTranslation(GameCulture.Chinese, "永久给予新的战斗吸血能力\n受到一定程度的伤害后触发效果");
         }
         public override void SetDefaults()
         {

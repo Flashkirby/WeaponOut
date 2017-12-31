@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Armour
 {
@@ -10,8 +11,11 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dynasty Jacket");
+            DisplayName.AddTranslation(GameCulture.Chinese, "王朝夹克");
+
             Tooltip.SetDefault("5% increased melee critical strike chance\n" +
                 "Makes parrying with fists easier");
+            Tooltip.AddTranslation(GameCulture.Chinese, "增加5%近战暴击率\n让你使用拳套闪避敌人更加容易");
         }
         public override void SetDefaults()
         {

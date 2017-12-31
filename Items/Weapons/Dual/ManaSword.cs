@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Dual
 {
@@ -13,10 +14,13 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Sword");
+            DisplayName.AddTranslation(GameCulture.Chinese, "魔力剑");
+
             Tooltip.SetDefault(
                 "Casts a mana restoring star\n" +
                 "<right> to cast a powerful mana bolt\n" +
                 "Mana bolt damage increases with mana");
+            Tooltip.AddTranslation(GameCulture.Chinese, "释放吸取魔力值的星星\n鼠标右键释放一个强大的魔力射线\n魔力射线的伤害会受到魔力值影响");
         }
         public override void SetDefaults()
         {

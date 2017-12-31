@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -17,9 +18,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Iced Punch");
+            DisplayName.AddTranslation(GameCulture.Chinese, "冰锥拳");
+
             Tooltip.SetDefault(
                 "<right> consumes combo to release a burst of icicles\n" +
                 "Combo grants increased armor penetration and icy kicks");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗能量向周围释放一阵冰锥\n连击将增加破甲和给予寒冰踢");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

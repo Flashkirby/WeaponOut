@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Whips
 {
@@ -15,6 +16,7 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vilelash");
+            DisplayName.AddTranslation(GameCulture.Chinese, "恶毒腐鞭");
         }
         public override void SetDefaults()
         {

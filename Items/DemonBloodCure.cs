@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -15,8 +16,11 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Transfusion Potion");
+            DisplayName.AddTranslation(GameCulture.Chinese, "输血药水");
+
             Tooltip.SetDefault(
                 "Removes effects granted by the Frenzy Heart");
+            Tooltip.AddTranslation(GameCulture.Chinese, "永久移除狂乱魔心的效果");
         }
         public override void SetDefaults()
         {

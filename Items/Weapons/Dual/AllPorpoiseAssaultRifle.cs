@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Dual
 {
@@ -35,10 +36,14 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("All-Porpoise Assault Rifle");
+            DisplayName.AddTranslation(GameCulture.Chinese, "万能突击步枪");
+
             Tooltip.SetDefault(
                 "<right> to fire a powerful underbarrel rocket\n" + 
                 "50% chance to not consume primary ammo\n" +
                 "'Perfect for target rich environments'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键在副枪口发射一个强大的火箭\n50%的概率不消耗主要（子弹）弹药\n“适合目标多样的情况”");
+
             proji = mod.GetProjectile("APARocketI").projectile.type;
             projii = mod.GetProjectile("APARocketII").projectile.type;
             projiii = mod.GetProjectile("APARocketIII").projectile.type;

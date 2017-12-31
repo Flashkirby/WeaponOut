@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -17,11 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Butterfly's Grace");
+            DisplayName.AddTranslation(GameCulture.Chinese, "蝶之恩赐");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 500% increased divekick damage\n" +
                 "Combo grants increased aerial movement\n" +
                 "'...Sting like a bee'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予增加500%的下踢伤害\n连击将增加空中移动速度\n“...像蜜蜂一样蜇人”");
+
             buffID = mod.BuffType<Buffs.ButterflyGrace>();
         }
         public override void SetDefaults()

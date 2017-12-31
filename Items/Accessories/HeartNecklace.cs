@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -11,9 +12,12 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heart Frame Necklace");
+            DisplayName.AddTranslation(GameCulture.Chinese, "心之框架项链");
+
             Tooltip.SetDefault(
                 "Drop star shards after being struck\n" + 
                 "Catch falling star shards to restore life and mana");
+            Tooltip.AddTranslation(GameCulture.Chinese, "受击时有概率掉落星之碎片\n收集星之碎片可以回复生命值和魔力值");
         }
         public override void SetDefaults()
         {

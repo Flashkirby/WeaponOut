@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.DataStructures;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -19,24 +20,30 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Baghnakh");
+            DisplayName.AddTranslation(GameCulture.Chinese, "血腥虎爪");
+
             Tooltip.SetDefault(
                 "<right> consumes combo and life to greatly increase melee damage\n" +
                 "Combo inflicts ichor and steals life from enemies");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量和生命值以大幅增加近战伤害\n连击将窃取生命值并使敌人被脓血感染");
 
             ModTranslation text;
 
             text = mod.CreateTranslation("KnucklesIchorSuicide1");
             text.SetDefault("$NAME ripped out their mortal coil.");
+            text.AddTranslation(GameCulture.Chinese, "$NAME 的肉体被绞成一团");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("KnucklesIchorSuicide2");
             text.SetDefault("$NAME was disemboweled by the $ITEM.");
+            text.AddTranslation(GameCulture.Chinese, "$NAME被$ITEM开膛破肚");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("KnucklesIchorSuicide3");
             text.SetDefault("$NAME tore themself apart.");
+            text.AddTranslation(GameCulture.Chinese, "$NAME 被大卸八块");
             mod.AddTranslation(text);
-
+            
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             buffID = mod.BuffType<Buffs.BloodLust>();
         }

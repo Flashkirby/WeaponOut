@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace WeaponOut.Buffs
 {
@@ -9,7 +10,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Second Wind");
+            DisplayName.AddTranslation(GameCulture.Chinese, "重振精力");
+
             Description.SetDefault("'Perhaps you should see a nurse...'");
+            Description.AddTranslation(GameCulture.Chinese, "“也许你应该去看看护士...”");
             Main.debuff[Type] = true;
             Main.persistentBuff[Type] = true;
         }

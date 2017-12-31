@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
@@ -19,10 +20,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phoenix Mark");
+            DisplayName.AddTranslation(GameCulture.Chinese, "凤凰标记");
+
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 50% increased melee damage and knockback\n" +
                 "Combo grants bonus damage against burning enemies");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加50%的近战伤害和击退\n连击将对灼烧的敌人造成额外伤害");
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

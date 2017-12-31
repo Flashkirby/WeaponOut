@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -14,10 +15,14 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Accretion Emblem");
+            DisplayName.AddTranslation(GameCulture.Chinese, "吸积徽章");
+
             Tooltip.SetDefault(
                 "Supercharges magic weapons to their lunar potential\n" +
                 "Increases maximum mana by 20\n" +
                 "'Mind over matter'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "激发魔法武器的月之潜力\n最大魔力值增加20\n“心胜于物”");
+
         }
         public override void SetDefaults()
         {

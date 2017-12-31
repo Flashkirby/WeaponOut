@@ -11,32 +11,41 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prizefighter Helmet");
+            DisplayName.AddTranslation(GameCulture.Chinese, "职业拳击手头盔");
+
             Tooltip.SetDefault("Fighting bosses slowly empowers next melee attack, up to 1000%");
+            Tooltip.AddTranslation(GameCulture.Chinese, "与Boss战斗时，近战伤害会迅速提升\n最高为武器本身伤害的1000%，击中敌人后重新计算");
 
             ModTranslation text;
-
+            
             text = mod.CreateTranslation("FistBoxingHelmetPlusPower");
             text.SetDefault("10 defense per 100 missing life");
+            text.AddTranslation(GameCulture.Chinese, "每失去100点生命值增加10防御力");
             mod.AddTranslation(text);
-
+            
             text = mod.CreateTranslation("FistBoxingHelmetPlusPowerHardmode");
             text.SetDefault("16 defense per 100 missing life");
+            text.AddTranslation(GameCulture.Chinese, "每失去100点生命值增加16防御力");
             mod.AddTranslation(text);
-
+            
             text = mod.CreateTranslation("FistBoxingHelmetPlusDefence");
             text.SetDefault("Temporarily reduces damage taken when not attacking");
+            text.AddTranslation(GameCulture.Chinese, "在不攻击时暂时减少所承受的伤害");
             mod.AddTranslation(text);
-
+            
             text = mod.CreateTranslation("FistBoxingHelmetPlusSpeed");
             text.SetDefault("15 defense");
+            text.AddTranslation(GameCulture.Chinese, "15防御力");
             mod.AddTranslation(text);
-
+            
             text = mod.CreateTranslation("FistBoxingHelmetPlusSpeedHardmode");
             text.SetDefault("20 defense");
+            text.AddTranslation(GameCulture.Chinese, "20防御力");
             mod.AddTranslation(text);
-
+            
             text = mod.CreateTranslation("FistBoxingHelmetPlusGi");
             text.SetDefault("Makes fist parries easier and reduces combo power cost by 1");
+            text.AddTranslation(GameCulture.Chinese, "使用拳套进行闪避更加容易\n减少1点连击能量消耗");
             mod.AddTranslation(text);
         }
         public override void SetDefaults()

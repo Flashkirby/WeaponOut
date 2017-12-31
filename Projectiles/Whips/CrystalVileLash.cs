@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles.Whips
@@ -22,6 +23,7 @@ namespace WeaponOut.Projectiles.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Vilelash");
+            DisplayName.AddTranslation(GameCulture.Chinese, "碎魔晶鞭");
         }
         public override void SetDefaults()
         {

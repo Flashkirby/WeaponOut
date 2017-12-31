@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Buffs
 {
@@ -12,7 +13,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Butterfly's Grace");
+            DisplayName.AddTranslation(GameCulture.Chinese, "蝶之恩赐");
+
             Description.SetDefault("Dance through the air!");
+            Description.AddTranslation(GameCulture.Chinese, "让你在空中舞蹈！");
         }
         
         public override void Update(Player player, ref int buffIndex)

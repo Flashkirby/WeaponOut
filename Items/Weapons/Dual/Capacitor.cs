@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Dual
 {
@@ -11,9 +12,12 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Capacitor");
+            DisplayName.AddTranslation(GameCulture.Chinese, "电容冰刃");
+
             Tooltip.SetDefault(
                 "<right> to cast a frost bolt\n" + 
                 "Melee attacks grant 80% reduced mana cost");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键释放寒冰气流\n近战攻击敌人时减少80%魔力消耗");
         }
         public override void SetDefaults()
         {

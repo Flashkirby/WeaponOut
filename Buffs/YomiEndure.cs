@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Buffs
 {
@@ -9,7 +10,9 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Breakfall");
+            DisplayName.AddTranslation(GameCulture.Chinese, "减弱力量");
             Description.SetDefault("Damage taken is reduced by $REDUCE%");
+            Description.AddTranslation(GameCulture.Chinese, "减少$REDUCE%所承受的伤害");
         }
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {

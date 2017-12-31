@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -14,8 +15,11 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shattered Crystals");
+            DisplayName.AddTranslation(GameCulture.Chinese, "魔晶碎片");
+
             Tooltip.SetDefault(
                 "Breaks apart after a short distance");
+            Tooltip.AddTranslation(GameCulture.Chinese, "发射短距离且高威力的魔晶");
         }
         public override void SetDefaults()
         {

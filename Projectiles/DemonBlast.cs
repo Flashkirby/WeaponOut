@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using System;
 
 
@@ -28,6 +29,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Blast");
+            DisplayName.AddTranslation(GameCulture.Chinese, "恶魔冲击波");
         }
         public override void SetDefaults()
         {

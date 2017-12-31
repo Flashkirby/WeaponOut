@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Dual
 {
@@ -13,12 +14,15 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Steam Persuader");
+            DisplayName.AddTranslation(GameCulture.Chinese, "蒸汽威慑者");
+
             Tooltip.SetDefault(
                 "No knockback on normal shots\n" +
                 "Four round burst\n" +
                 "Only the first shot consumes ammo\n" +
                 "10% chance to not consume ammo\n" +
                 "<right> to fire a spread shot");
+            Tooltip.AddTranslation(GameCulture.Chinese, "发射四连发的无击退子弹\n每次只消耗一颗子弹\n10%的概率不消耗弹药\n鼠标右键发射霰弹");
         }
         public override void SetDefaults()
         {

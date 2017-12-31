@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -11,10 +12,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Journeyman Sash");
+            DisplayName.AddTranslation(GameCulture.Chinese, "熟手腰带");
+
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
                 "Restores up to 25% of maximum life\n" + 
                 "Grants 20 damage knockback immunity");
+            Tooltip.AddTranslation(GameCulture.Chinese, "恢复在连击时所承受的伤害\n最多可以恢复最大生命值的25%\n所受单次伤害低于20时免疫击退");
         }
         public override void SetDefaults()
         {

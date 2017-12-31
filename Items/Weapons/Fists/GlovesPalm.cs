@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -14,10 +15,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Palm Striker");
+            DisplayName.AddTranslation(GameCulture.Chinese, "棕榈木打手");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 15 bonus damage\n" +
                 "Combo grants 2 bonus damage");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将奖励增加15点伤害\n连击将奖励增加3点伤害");
         }
         public override void SetDefaults()
         {

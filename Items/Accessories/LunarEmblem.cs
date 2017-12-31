@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -14,10 +15,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Luminous Emblem");
+            DisplayName.AddTranslation(GameCulture.Chinese, "辉赫徽章");
+
             Tooltip.SetDefault(
                 "Supercharges weapons to their lunar potential\n" +
                 "Increases combat capabilities" +
                 "'One more dance'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "激发武器的月之潜力\n提高作战能力\n“再跳一次舞”");
         }
         public override void SetDefaults()
         {

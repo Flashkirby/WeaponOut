@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
@@ -18,10 +19,14 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frostflame Fist");
+            DisplayName.AddTranslation(GameCulture.Chinese, "霜炎拳套");
+
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 75% increased melee damage and knockback\n" +
                 "Combo leaves a chilly slipstream that amplifies frostburn");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加75%的近战伤害和击退\n连击滞留冷气，增幅霜炎威力");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritWindstream>();
         }

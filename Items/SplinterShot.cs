@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -14,8 +15,11 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Splinter Shot");
+            DisplayName.AddTranslation(GameCulture.Chinese, "破片霰弹");
+
             Tooltip.SetDefault(
                 "Seperates shortly after firing");
+            Tooltip.AddTranslation(GameCulture.Chinese, "开火不久后分裂");
         }
         public override void SetDefaults()
         {

@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Accessories
 {
@@ -12,8 +13,12 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Symbiotic Root");
+            DisplayName.AddTranslation(GameCulture.Chinese, "共生之心");
+
             Tooltip.SetDefault(
                 "Hearts drop more frequently and heal 5 more life");
+            Tooltip.AddTranslation(GameCulture.Chinese, "红心的掉落概率更高\n治疗5点更多的生命值");
+
         }
         public override void SetDefaults()
         {

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -18,10 +19,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Caestus");
+            DisplayName.AddTranslation(GameCulture.Chinese, "皮革刺拳");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 30 bonus damage\n" +
                 "Combo grants 50% increased knockback");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予奖励30点伤害\n连击将增加50%的击退");
         }
         public override void SetDefaults()
         {
@@ -41,7 +45,8 @@ namespace WeaponOut.Items.Weapons.Fists
             item.width = 24;
             item.height = 24;
         }
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Leather, 3);
             recipe.AddIngredient(ItemID.WormTooth, 1);

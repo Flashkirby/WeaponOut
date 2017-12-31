@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles
@@ -12,7 +13,9 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadow Clone");
+            DisplayName.AddTranslation(GameCulture.Chinese, "影子克隆体");
         }
+
         public override void SetDefaults()
         {
             projectile.width = Player.defaultWidth + 26 * 2;

@@ -11,7 +11,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Meteor Shield");
+            DisplayName.AddTranslation(GameCulture.Chinese, "陨铁盾");
+
             Description.SetDefault("Increase defense by 6");
+            Description.AddTranslation(GameCulture.Chinese, "增加6点防御力");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

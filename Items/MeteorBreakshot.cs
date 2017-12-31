@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -14,8 +15,11 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meteoric Breakshot");
+            DisplayName.AddTranslation(GameCulture.Chinese, "陨铁爆旋弹");
+
             Tooltip.SetDefault(
                 "Creates several meteoric shards on impact");
+            Tooltip.AddTranslation(GameCulture.Chinese, "击中物体后溅射陨铁碎片");
         }
         public override void SetDefaults()
         {

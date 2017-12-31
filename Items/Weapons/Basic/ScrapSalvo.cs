@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -16,8 +17,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Salvo");
+            DisplayName.AddTranslation(GameCulture.Chinese, "碎片之击");
+
             Tooltip.SetDefault(
                 "'Nothing subtle about this one'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "“这个一点也不微妙”");
         }
         public override void SetDefaults()
         {

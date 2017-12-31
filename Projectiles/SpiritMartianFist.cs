@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 using System;
 
 namespace WeaponOut.Projectiles
@@ -15,6 +16,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Booster Mini-Fist");
+            DisplayName.AddTranslation(GameCulture.Chinese, "迷你助推拳");
         }
         public override void SetDefaults()
         {

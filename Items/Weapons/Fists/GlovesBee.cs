@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -18,11 +19,14 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Honeycomb Glove");
+            DisplayName.AddTranslation(GameCulture.Chinese, "蜂巢手套");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 60 bonus damage and releases a swarm of bees\n" +
                 "Combo increases the strength of friendly bees\n" +
                 "'Nice to BEEt you'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给奖励60点伤害和释放一群蜜蜂\n连击将增加25%的近战暴击空中移动速度\n“Nice to BEEt you”");
         }
         public override void SetDefaults()
         {

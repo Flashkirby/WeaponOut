@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
@@ -16,10 +17,12 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hallowed Vambrace");
+            DisplayName.AddTranslation(GameCulture.Chinese, "神圣臂甲");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 400% increased melee damage\n" +
                 "Combo grants increased defensive capabilities");
+            Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予增加400%的近战伤害\n连击将增加防御能力");
         }
         public override void SetDefaults()
         {

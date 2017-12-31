@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace WeaponOut.Buffs
@@ -12,7 +13,10 @@ namespace WeaponOut.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Rallied");
+            DisplayName.AddTranslation(GameCulture.Chinese, "振军");
+
             Description.SetDefault("Major improvements to all stats");
+            Description.AddTranslation(GameCulture.Chinese, "增幅所有主要属性");
             Main.buffNoTimeDisplay[Type] = true;
         }
 

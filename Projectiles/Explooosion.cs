@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Terraria.Graphics.Effects;
+using Terraria.Localization;
 
 namespace WeaponOut.Projectiles
 {
@@ -19,6 +20,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
+            DisplayName.AddTranslation(GameCulture.Chinese, "爆炸");
         }
         public override void SetDefaults()
         {

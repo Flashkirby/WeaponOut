@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -17,9 +18,12 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strongbone");
+            DisplayName.AddTranslation(GameCulture.Chinese, "强骨");
+
             Tooltip.SetDefault(
                 "Shoots a powerful, high velocity bullet\n" +
                 "'Skele-tons of damage!'");
+            Tooltip.AddTranslation(GameCulture.Chinese, "发射一个强大的高速弹\n“骷髅的成吨打击！”");
         }
         public override void SetDefaults()
         {

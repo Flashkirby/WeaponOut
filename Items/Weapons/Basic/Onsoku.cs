@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items.Weapons.Basic
 {
@@ -18,9 +19,12 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Onsoku");
+            DisplayName.AddTranslation(GameCulture.Chinese, "音速");
+
             Tooltip.SetDefault(
                 "Dashes through enemies\n" +
                 "Dash cooldown reduced on the ground");
+            Tooltip.AddTranslation(GameCulture.Chinese, "挥动后玩家会冲刺到光标所指方向\n在地面时降低该武器冷却时间");
         }
         public override void SetDefaults()
         {
