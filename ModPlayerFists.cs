@@ -119,7 +119,7 @@ namespace WeaponOut
         /// <summary> Time until combo is reset. </summary>
         public int comboTimerMax;
         /// <summary> The real combo counter max, including bonus. </summary>
-        public int ComboCounterMaxReal { get { return (int)((comboCounterMax + comboCounterMaxBonus) * comboCounterMaxScaleMod); } }
+        public int ComboCounterMaxReal { get { return Math.Max(2, (int)((comboCounterMax + comboCounterMaxBonus) * comboCounterMaxScaleMod)); } }
         /// <summary> Active when combo counter reaches the combo max. </summary>
         public bool IsComboActive { get { return comboCounter >= ComboCounterMaxReal && comboCounter > 1; } }
         /// <summary> Active when combo counter reaches the combo max. Call this in the item because ItemLoader method is called before PlayerHooks. </summary>
