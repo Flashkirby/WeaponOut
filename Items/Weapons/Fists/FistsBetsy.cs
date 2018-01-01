@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetDefaults()
         {
             item.melee = true;
-            item.damage = 375;
+            item.damage = 375; // 656.25 dps (vs 50 def)
             item.useAnimation = 32; // 30%-50% reduction
             item.knockBack = 11f;
             item.tileBoost = 12; // Combo Power
