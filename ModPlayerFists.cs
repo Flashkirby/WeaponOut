@@ -26,7 +26,7 @@ using Terraria.Localization;
 namespace WeaponOut
 {
     /// <summary>
-    /// Version 1.5.1 by Flashkirby99
+    /// Version 1.5.2 by Flashkirby99
     /// This class provides almost all the methods required for fist type weapons.
     /// </summary>
     public class ModPlayerFists : ModPlayer
@@ -603,6 +603,7 @@ namespace WeaponOut
                         {
                             // Too slow
                             yDir = 0;
+                            hitbox.Height += Math.Max(0, distance - Player.defaultHeight);
                         }
 
                         hitbox.Width += (int)(Math.Abs(xDir) * distance);
