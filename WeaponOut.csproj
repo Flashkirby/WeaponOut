@@ -111,6 +111,16 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Fists\BaseAdvancedCombo.cs" />
+    <Compile Include="Items\Weapons\Fists\FistsHokuto.cs" />
+    <Compile Include="Items\Weapons\Fists\BaseAdvancedDash.cs" />
+    <Compile Include="Items\Weapons\Fists\BaseAdvancedParry.cs" />
+    <Compile Include="Items\Weapons\Fists\BaseHardmodeCombo.cs" />
+    <Compile Include="Items\Weapons\Fists\BaseHardmodeDash.cs" />
+    <Compile Include="Items\Weapons\Fists\BaseHardmodeParry.cs" />
+    <Compile Include="Items\Weapons\Fists\BasePreHardCombo.cs" />
+    <Compile Include="Items\Weapons\Fists\BasePreHardDash.cs" />
+    <Compile Include="Items\Weapons\Fists\BasePreHardParry.cs" />
     <Compile Include="Items\Weapons\Fists\FistsFrozen.cs" />
     <Compile Include="Items\Weapons\Fists\FistsTitanium.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBone.cs" />
@@ -274,6 +284,15 @@
     <Compile Include="Projectiles\Whips\MoltenChains.cs" />
     <Compile Include="Projectiles\Explooosion.cs" />
     <Content Include="Items\SparkleStar.png" />
+    <Content Include="Items\Weapons\Fists\BaseAdvancedCombo.png" />
+    <Content Include="Items\Weapons\Fists\BaseAdvancedDash.png" />
+    <Content Include="Items\Weapons\Fists\BaseAdvancedParry.png" />
+    <Content Include="Items\Weapons\Fists\BaseHardmodeCombo.png" />
+    <Content Include="Items\Weapons\Fists\BaseHardmodeDash.png" />
+    <Content Include="Items\Weapons\Fists\BaseHardmodeParry.png" />
+    <Content Include="Items\Weapons\Fists\BasePreHardCombo.png" />
+    <Content Include="Items\Weapons\Fists\BasePreHardDash.png" />
+    <Content Include="Items\Weapons\Fists\BasePreHardParry.png" />
     <Content Include="NPCs\ComboBubble.png" />
     <Content Include="Projectiles\Explosion-old.txt" />
     <Compile Include="Projectiles\ManaBolt.cs" />
@@ -291,6 +310,9 @@
     <Compile Include="ProjFX.cs" />
     <Compile Include="Tiles\CampTent.cs" />
     <Compile Include="WeaponOut.cs" />
+    <Content Include="Sounds\Item\HokutoActivate.wav" />
+    <Content Include="Sounds\Item\HokutoFlurry.wav" />
+    <Content Include="Sounds\Item\HokutoEnd.wav" />
     <Content Include="Sounds\Item\SummonHorn.wav" />
   </ItemGroup>
   <ItemGroup>

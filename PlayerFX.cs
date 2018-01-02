@@ -144,6 +144,13 @@ namespace WeaponOut
 
         #endregion
 
+        public const int omHaMoShindearuTimerMax = 360;
+        public const int omHaMoShindearuTimerTick = 120;
+        public const int omHaMoShindearuMinDamage = 5000 / 2;
+        public const int omHaMoShindearuMaxDamage = 15000 / 2;
+        public NPC omHaMoShin;
+        public int omHaMoShindearuTimer;
+
         #region Player False Position
         public bool ghostPosition;
         public Vector2 FakePositionReal;
@@ -405,6 +412,8 @@ namespace WeaponOut
 
             FakePositionTemp = default(Vector2);
             FakePositionReal = default(Vector2);
+
+            NPCIsAlreadyDead();
         }
 
         #region Save and Load
@@ -637,6 +646,7 @@ namespace WeaponOut
             discordItemsCheck();
             FistPostUpdate();
             sashRestoreLogic();
+            NPCIsAlreadyDead();
         }
 
         public override void SetControls()
@@ -679,6 +689,50 @@ namespace WeaponOut
                 {
                     MomentumDashTorwardsMouse();
                 }
+            }
+        }
+
+        private void NPCIsAlreadyDead() {
+            if (omHaMoShin == null) { return; }
+            if (!omHaMoShin.active || omHaMoShin.life <= 0) { omHaMoShin = null; return; }
+            
+            if (omHaMoShindearuTimer == 36 || omHaMoShindearuTimer == 30) {
+                Main.PlaySound(SoundID.Item30, omHaMoShin.position);
+            }
+            else if (omHaMoShindearuTimer == 0) {
+                Main.PlaySound(SoundID.Item45, omHaMoShin.position);
+            }
+
+            if (omHaMoShindearuTimer > 0) {
+                int seconds = omHaMoShindearuTimer / omHaMoShindearuTimerTick;
+                if (omHaMoShindearuTimer % omHaMoShindearuTimerTick == 0) {
+                    Main.PlaySound(SoundID.MenuTick, omHaMoShin.position);
+                    CombatText.NewText(omHaMoShin.Hitbox, Color.Red,
+                        seconds + ":00", true);
+                }
+                else {
+                    int milliseconds = omHaMoShindearuTimer - seconds * omHaMoShindearuTimerTick;
+                    if (milliseconds % 9 == 0) {
+                        milliseconds = (milliseconds * 100) / omHaMoShindearuTimerTick;
+
+                        CombatText.NewText(omHaMoShin.Hitbox, Color.Red,
+                            (seconds) + ":" + milliseconds, false, true);
+                    }
+                }
+                omHaMoShindearuTimer--;
+
+            }
+            else {
+                
+                int damage = omHaMoShindearuMinDamage + Math.Min(omHaMoShindearuMaxDamage, omHaMoShin.lifeMax / 2);
+                float knockback = 10;
+                int direction = omHaMoShin.direction;
+                bool crit = true;
+                omHaMoShin.StrikeNPC(damage, knockback, direction, crit, false, false);
+                if (Main.netMode != 0) {
+                    NetMessage.SendData(28, -1, -1, null, omHaMoShin.whoAmI, (float)damage, knockback, (float)direction, crit.ToInt(), 0, 0);
+                }
+                omHaMoShin = null;
             }
         }
 
@@ -1411,11 +1465,14 @@ namespace WeaponOut
                     else if (damageSource.SourceNPCIndex >= 0)
                     {
                         momentum = 0;
-                        player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
-                        Main.PlaySound(SoundID.Item10, player.position);
-                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
-                        player.immuneTime += 60;
-                        return false;
+                        if (!Main.npc[damageSource.SourceNPCIndex].dontTakeDamage) {
+
+                            player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
+                            Main.PlaySound(SoundID.Item10, player.position);
+                            player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                            player.immuneTime += 60;
+                            return false;
+                        }
                     }
                 }
                 #endregion
