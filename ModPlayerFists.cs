@@ -388,7 +388,7 @@ namespace WeaponOut
             else
             {
                 // Show the total number of hits, and disable count until next hit
-                if (comboTimer == comboTimerMax)
+                if (comboTimer >= comboTimerMax)
                 {
                     if (comboCounter > 1)
                     {
