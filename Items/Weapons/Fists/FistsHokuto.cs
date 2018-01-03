@@ -10,13 +10,13 @@ using Terraria.Graphics.Shaders;
 
 namespace WeaponOut.Items.Weapons.Fists
 {
-    //[AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)] // Uncomment if you have hand sprites
     /// <summary>
     /// This may or may not be a joke item
     /// </summary>
+    [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)] // Uncomment if you have hand sprites
     public class FistsHokuto : ModItem
     {
-        //public override bool Autoload(ref string name) { return false; }
+        public override bool Autoload(ref string name) { return false; }
         public static int dashEffect = 0; // ID for when this fist is dashing
         public static int altEffect = 0; // ID for when this fist is using combo power
         public static int buffID = 0;
@@ -63,13 +63,13 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altJumpVelo = 17f;
         const int comboDelay = 80;
         public override void AddRecipes() {            if (!ModConf.EnableFists) return;
-			/*
+
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DirtBlock, 1);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddIngredient(ItemID.FragmentSolar, 10);
+            recipe.AddIngredient(ItemID.FragmentNebula, 10);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			*/
         }
 
         /// <summary> The method called during a dash. Use for ongoing effects like dust. </summary>
