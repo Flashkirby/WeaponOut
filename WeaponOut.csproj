@@ -97,6 +97,9 @@
     <Compile Include="Items\Armour\FistDefLegs.cs" />
     <Compile Include="Items\Armour\FistPowerLegs.cs" />
     <Compile Include="Items\Armour\FistPowerBody.cs" />
+    <Compile Include="Items\Armour\LunarFistBody.cs" />
+    <Compile Include="Items\Armour\LunarFistHead.cs" />
+    <Compile Include="Items\Armour\LunarFistLegs.cs" />
     <Compile Include="Items\BuffedHeart.cs" />
     <Compile Include="Items\BuddyHorn.cs" />
     <Compile Include="Items\MonsterMead.cs" />
