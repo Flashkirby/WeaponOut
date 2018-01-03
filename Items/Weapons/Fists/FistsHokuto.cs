@@ -16,7 +16,6 @@ namespace WeaponOut.Items.Weapons.Fists
     [AutoloadEquip(EquipType.HandsOn, EquipType.HandsOff)] // Uncomment if you have hand sprites
     public class FistsHokuto : ModItem
     {
-        public override bool Autoload(ref string name) { return false; }
         public static int dashEffect = 0; // ID for when this fist is dashing
         public static int altEffect = 0; // ID for when this fist is using combo power
         public static int buffID = 0;
