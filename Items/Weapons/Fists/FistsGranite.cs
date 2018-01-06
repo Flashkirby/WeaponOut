@@ -15,10 +15,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Granite Smasher");
+			DisplayName.AddTranslation(GameCulture.Russian, "Гранитный Крушитель");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 10% increased melee damage\n" +
                 "Combo grants 8 defense");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +10% урон\n" +
+				"Комбо: +8 защиты");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

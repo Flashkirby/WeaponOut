@@ -16,10 +16,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Underdog");
+			DisplayName.AddTranslation(GameCulture.Russian, "Неудачник");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrikes deal damage based on missing life\n" +
                 "Combo grants life stealing parries");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: меньше жизни - больше урон\n" +
+				"Комбо: парирование крадёт здоровье");
         }
         public override void SetDefaults()
         {

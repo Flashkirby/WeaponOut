@@ -17,10 +17,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cursed Gadling");
+			DisplayName.AddTranslation(GameCulture.Russian, "Проклятый Наруч");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 50% increased melee damage and knockback\n" +
                 "Combo causes enemies to take more damage from fire");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +50% урон и отбрасывание\n" +
+				"Комбо: урон от огня увеличен");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

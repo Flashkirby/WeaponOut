@@ -17,9 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Breakwater");
+			DisplayName.AddTranslation(GameCulture.Russian, "Водорез");
             Tooltip.SetDefault(
                 "<right> consumes combo to teleport\n" +
                 "Combo drenches you in water");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и телепортироваться\n" +
+				"Комбо: заливает вас водой");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

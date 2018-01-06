@@ -14,10 +14,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Palm Striker");
+			DisplayName.AddTranslation(GameCulture.Russian, "Пальмовая Перчатка");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 15 bonus damage\n" +
                 "Combo grants 2 bonus damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: \n" +
+				"Комбо: ");
         }
         public override void SetDefaults()
         {

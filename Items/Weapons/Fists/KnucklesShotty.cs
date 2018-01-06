@@ -16,9 +16,13 @@ namespace WeaponOut.Items.Weapons.Fists
 
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Shotgun Knuckleduster");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кастет-Дробовик");
             Tooltip.SetDefault(
                 "<right> to shoot, or consume combo to blast away\n" +
                 "Combo grants ammo restoration per strike");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы выстрелить или использовать комбо и выстрелить мощнее\n" +
+				"Комбо: восстанавливает боеприпасы ударами");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults() {
@@ -54,7 +58,6 @@ namespace WeaponOut.Items.Weapons.Fists
         const int parryActive = 15;
         const int parryCooldown = 10;
         public override void AddRecipes() {
-            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Shotgun, 1);
             recipe.AddIngredient(ItemID.SoulofMight, 20);

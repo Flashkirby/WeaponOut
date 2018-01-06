@@ -18,11 +18,17 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Honeycomb Glove");
+			DisplayName.AddTranslation(GameCulture.Russian, "Медовая Перчатка");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 60 bonus damage and releases a swarm of bees\n" +
                 "Combo increases the strength of friendly bees\n" +
                 "'Nice to BEEt you'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +60 урон, выпускает пчёл\n" +
+				"Комбо: усиливает дружественных пчёл\n" +
+				"'Жалю, не жалея'"
         }
         public override void SetDefaults()
         {

@@ -19,9 +19,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Gloves");
+			DisplayName.AddTranslation(GameCulture.Russian, "Боксёрские Перчатки");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Combo may confuse enemies");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Комбо: шанс ошеломить врага");
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

@@ -20,9 +20,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cerulean Claws");
+			DisplayName.AddTranslation(GameCulture.Russian, "Лазурные Когти");
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash a flurry of strikes\n" +
                 "Combo grants 25% increased melee attack speed");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и ударить много раз\n" +
+				"Комбо: +25% скорость атаки");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             buffID = mod.BuffType<Buffs.Flurry>();
         }

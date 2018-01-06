@@ -19,10 +19,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phoenix Mark");
+			DisplayName.AddTranslation(GameCulture.Russian, "Печать Феникса");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 50% increased melee damage and knockback\n" +
                 "Combo grants bonus damage against burning enemies");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +50% урон и отбрасывание\n" +
+				"Комбо: дополнительный урон горящим врагам");
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

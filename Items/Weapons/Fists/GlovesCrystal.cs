@@ -16,10 +16,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Gauntlet");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кристальная Перчатка");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike unleashes crystal beams that build combo\n" +
                 "Combo causes damage to refract towards nearby enemies");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: выпускет кристальные лучи, набирающие комбо\n" +
+				"Комбо: отражает полученный урон на врагов");
         }
         public override void SetDefaults()
         {

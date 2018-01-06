@@ -17,9 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mythril Knuckleduster");
+			DisplayName.AddTranslation(GameCulture.Russian, "Мифриловый Кастет");
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash spirit energy\n" +
                 "Combo grant 50% increased melee damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и выпустить духовную энергию\n" +
+				"Комбо: +50% урон");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

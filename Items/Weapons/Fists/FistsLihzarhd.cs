@@ -18,10 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strongarm");
+			DisplayName.AddTranslation(GameCulture.Russian, "Ручищи");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash for a projectile deflecting punch\n" +
                 "Combo causes successful strikes to generate powerful shockwaves");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: отражает снаряды\n" +
+				"Комбо: выпускет мощные волны при удачной атаке");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritQuake>();
         }

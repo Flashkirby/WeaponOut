@@ -18,9 +18,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lead Knuckleduster");
+			DisplayName.AddTranslation(GameCulture.Russian, "Свинцовый Кастет");
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash spirit energy\n" +
                 "Combo grants 4 bonus damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и выпустить духовную энергию\n" +
+				"Комбо: +4 урон");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()
