@@ -10,8 +10,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Eye of Cthulu
         {
             DisplayName.SetDefault("Honey Pack");
+			DisplayName.AddTranslation(GameCulture.Russian, "Медовый Рюкзак");
             Tooltip.SetDefault(
                 "Melee strikes on enemies releases honey bees that heal players");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Ближние атаки выпускают медовых пчёл, лечащих игроков");
         }
         public override void SetDefaults()
         {

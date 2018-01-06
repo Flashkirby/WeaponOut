@@ -15,9 +15,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar Spark");
+			DisplayName.AddTranslation(GameCulture.Russian, "Искра Солнца");
             Tooltip.SetDefault(
                 "Reduces combo power cost by 2\n" +
                 "Hold UP when not attacking to charge up to 10 combo power");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"-2 стоимость заряда комбо\n" +
+                "Не атакуя зажмите ВВЕРХ, чтобы набрать заряд комбо до 10");
         }
         public override void SetDefaults()
         {

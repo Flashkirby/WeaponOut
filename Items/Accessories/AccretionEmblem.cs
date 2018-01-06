@@ -14,10 +14,15 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Accretion Emblem");
+			DisplayName.AddTranslation(GameCulture.Russian, "Эмблема Туманности");
             Tooltip.SetDefault(
                 "Supercharges magic weapons to their lunar potential\n" +
                 "Increases maximum mana by 20\n" +
                 "'Mind over matter'");
+				Tooltip.AddTranslation(GameCulture.Russian, 
+				"Заряжает магическое оружие космической энергией\n" +
+                "+20 максимум маны\n" +
+                "'Сила духа'");
         }
         public override void SetDefaults()
         {

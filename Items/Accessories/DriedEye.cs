@@ -10,8 +10,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Eater of Worlds
         {
             DisplayName.SetDefault("Dried Eye");
+			DisplayName.AddTranslation(GameCulture.Russian, "Высушенный Глаз");
             Tooltip.SetDefault(
                 "Reduces combo power cost by 2");
+				Tooltip.AddTranslation(GameCulture.Russian, 
+				"-2 стоимость заряда комбо");
         }
         public override void SetDefaults()
         {

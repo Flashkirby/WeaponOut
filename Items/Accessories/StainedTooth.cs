@@ -10,9 +10,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Brain of Cthulu
         {
             DisplayName.SetDefault("Impaling Tooth");
+			DisplayName.AddTranslation(GameCulture.Russian, "Пронзающий Зуб");
             Tooltip.SetDefault(
                 "Hurting enemies has a chance to spawn a heart\n" + 
 				"'What an eyesore'");
+				Tooltip.AddTranslation(GameCulture.Russian, 
+				"При атаке иногда выпадают сердца\n" +
+				"'Что-то в глаз попало'");
         }
         public override void SetDefaults()
         {

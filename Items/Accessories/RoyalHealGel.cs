@@ -10,8 +10,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Eye of Cthulu
         {
             DisplayName.SetDefault("Band of Panacea");
+			DisplayName.AddTranslation(GameCulture.Russian, "Браслет Панацеи");
             Tooltip.SetDefault(
                 "Melee strikes reduce the duration of debuffs");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Ближние атаки сокращают время действия негативных эффектов"
         }
         public override void SetDefaults()
         {

@@ -13,11 +13,17 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyper Sash");
+			DisplayName.AddTranslation(GameCulture.Russian, "Супер Пояс");
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
                 "Restores up to 26% of maximum life\n" +
                 "Bosses are slower to follow you in the air\n" + 
                 "Grants immunity to knockback");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Восстанавливает потерянное здоровье после комбо\n" +
+                "Восстанавливает до 26% здоровья\n" +
+                "Боссы медленнее следуют за вами в воздухе\n" + 
+                "Защита от отбрасывания");
         }
         public override void SetDefaults()
         {

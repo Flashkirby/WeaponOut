@@ -14,10 +14,15 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Perihelion Emblem");
+			DisplayName.AddTranslation(GameCulture.Russian, "Эмблема Перигелия");
             Tooltip.SetDefault(
                 "Supercharges throwing weapons to their lunar potential\n" +
                 "30% increased throwing velocity\n" +
                 "'Swing back around'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Заряжает метательое оружие космической энергией\n" +
+                "+30% скорость метания\n" +
+                "'Закинь подальше'");
         }
         public override void SetDefaults()
         {

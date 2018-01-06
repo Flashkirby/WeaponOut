@@ -11,12 +11,19 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Exosuit");
+			DisplayName.AddTranslation(GameCulture.Russian, "Механический Экзоскелет");
             Tooltip.SetDefault(
                 "Greatly reduces cooldown between dashes\n" +
                 "Consuming combo will restore life\n" + 
                 "Parrying with fists will steal life\n" + 
                 "Greatly increases life regen when moving\n" + 
                 "'Harness science!'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Значительно сокращает время между рывками\n" +
+                "Поглощение заряда комбо восстанавливает здоровье\n" + 
+                "Парирование руками крадёт здоровье\n" + 
+                "Значительно восстанавливает здоровье при движении\n" + 
+                "'Сила науки!'");
         }
         public override void SetDefaults()
         {

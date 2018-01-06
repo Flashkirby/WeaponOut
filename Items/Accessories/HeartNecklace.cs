@@ -11,9 +11,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heart Frame Necklace");
+			DisplayName.AddTranslation(GameCulture.Russian, "Сердечный Кулон");
             Tooltip.SetDefault(
                 "Drop star shards after being struck\n" + 
                 "Catch falling star shards to restore life and mana");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"При получении урона выпадают фрагменты звезды\n" + 
+                "Ловите их, чтобы восстановить здоровье и ману");
         }
         public override void SetDefaults()
         {
