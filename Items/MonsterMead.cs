@@ -15,6 +15,7 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Monster Mead");
+			DisplayName.AddTranslation(GameCulture.Russian, "Чудовищный Мёд");
         }
         public override void SetDefaults()
         {

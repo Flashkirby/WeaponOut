@@ -15,6 +15,7 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             RallyBannerRed.SetStaticDefaults(this, "Blue Rally Banner");
+			Tooltip.AddTranslation(GameCulture.Russian, "Синий Боевой Флаг");
         }
         public override void SetDefaults()
         {

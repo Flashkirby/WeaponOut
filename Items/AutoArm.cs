@@ -15,9 +15,12 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voodoo Arm");
+			DisplayName.AddTranslation(GameCulture.Russian, "Рука Вуду");
             Tooltip.SetDefault(
                 "Enables auto-swing when favorited in inventory\n" + 
                 "'It twitches occasionally'");
+				Tooltip.AddTranslation(GameCulture.Russian, "Включает автоатаку, если сделать любимым\n" +
+				"'Иногда дёргается'");
         }
         public override void SetDefaults()
         {
