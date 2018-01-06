@@ -11,9 +11,13 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Capacitor");
+			DisplayName.AddTranslation(GameCulture.Russian, "Конденсатор");
             Tooltip.SetDefault(
                 "<right> to cast a frost bolt\n" + 
                 "Melee attacks grant 80% reduced mana cost");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы послать ледяной снаряд\n" + 
+                "Ближние атаки тратят на 80% меньше маны");
         }
         public override void SetDefaults()
         {

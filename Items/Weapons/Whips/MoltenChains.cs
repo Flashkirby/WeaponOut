@@ -16,7 +16,9 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Molten Chains");
+			DisplayName.AddTranslation(GameCulture.Russian, "Адская Цепь");
             Tooltip.SetDefault("Critical hits ignite enemies");
+			Tooltip.AddTranslation(GameCulture.Russian,"Критические удары поджигают врагов");
         }
         public override void SetDefaults()
         {

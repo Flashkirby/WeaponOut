@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Vilelash");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кристальный Бич");
         }
         public override void SetDefaults()
         {

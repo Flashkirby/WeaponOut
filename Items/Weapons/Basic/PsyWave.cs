@@ -11,8 +11,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Psy Wave");
+			DisplayName.AddTranslation(GameCulture.Russian, "Пси-Волна");
             Tooltip.SetDefault(
                 "Cast a psionic orb");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Пускает пси-шар");
         }
         public override void SetDefaults()
         {

@@ -15,9 +15,13 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whiplash");
+			DisplayName.AddTranslation(GameCulture.Russian, "Мясная Плеть");
             Tooltip.SetDefault(
                 "Only deals critical hits at the tip\n" +
                 "Critical strike chance boosts critical damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Критические удары только концом плети\n" +
+                "Шанс критического удара увеличивает критический урон");
         }
         public override void SetDefaults()
         {

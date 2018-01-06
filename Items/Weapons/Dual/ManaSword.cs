@@ -13,10 +13,15 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Sword");
+			DisplayName.AddTranslation(GameCulture.Russian, "Меч Маны");
             Tooltip.SetDefault(
                 "Casts a mana restoring star\n" +
                 "<right> to cast a powerful mana bolt\n" +
                 "Mana bolt damage increases with mana");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Пускает звезду, крадущую ману\n" +
+                "<right>, чтобы послать мощный снаряд маны\n" +
+                "Больше маны - мощнее снаряд");
         }
         public override void SetDefaults()
         {

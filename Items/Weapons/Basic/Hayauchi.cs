@@ -24,10 +24,15 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hayauchi");
+			DisplayName.AddTranslation(GameCulture.Russian, "Хаяуси");
             Tooltip.SetDefault(
                 "'Focus, steel thyself'\n" +
                 "'Wait for the perfect moment'\n" +
                 "'A decisive blow'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"'Сосредоточься'\n" +
+                "'Выбери момент'\n" +
+                "'Точный удар'");
         }
         public override void SetDefaults()
         {

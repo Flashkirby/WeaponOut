@@ -15,7 +15,9 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bone Whip");
+			DisplayName.AddTranslation(GameCulture.Russian, "Костяной Кнут");
             Tooltip.SetDefault("'Bad to the bone'");
+			Tooltip.AddTranslation(GameCulture.Russian, "Bad to the bone");
         }
         public override void SetDefaults()
         {

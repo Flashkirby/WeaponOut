@@ -11,8 +11,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reverb");
+			DisplayName.AddTranslation(GameCulture.Russian, "Ревербератор");
             Tooltip.SetDefault(
                 "<right> to cast reverse bolt");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы послать обратный снаряд");
         }
         public override void SetDefaults()
         {

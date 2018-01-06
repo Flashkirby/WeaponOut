@@ -19,8 +19,10 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Blaster");
+			DisplayName.AddTranslation(GameCulture.Russian, "Демонический Бластер");
             Tooltip.SetDefault(
                 "Fires an unholy ray");
+				Tooltip.AddTranslation(GameCulture.Russian, "Стреляет тёмным лучом");
         }
         public override void SetDefaults()
         {

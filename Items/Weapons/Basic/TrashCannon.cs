@@ -16,8 +16,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trash Cannon");
+			DisplayName.AddTranslation(GameCulture.Russian, "Мусорная Пушка");
             Tooltip.SetDefault(
                 "'You might not, but your trash can'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"'Не мусори тут!'");
         }
         public override void SetDefaults()
         {

@@ -13,12 +13,19 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Steam Persuader");
+			DisplayName.AddTranslation(GameCulture.Russian, "Паровой Угнетатель");
             Tooltip.SetDefault(
                 "No knockback on normal shots\n" +
                 "Four round burst\n" +
                 "Only the first shot consumes ammo\n" +
                 "10% chance to not consume ammo\n" +
                 "<right> to fire a spread shot");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Обычные выстрелы не отбрасывают\n" +
+                "Залп из 4-х пуль\n" +
+                "Только 1-й выстрел тратит боеприпасы\n" +
+                "10% шанс не потратить боеприпасы\n" +
+                "<right>, чтобы выстрелить вразброс");
         }
         public override void SetDefaults()
         {

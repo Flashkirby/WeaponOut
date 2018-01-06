@@ -26,10 +26,15 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Channeler Staff");
+			DisplayName.AddTranslation(GameCulture.Russian, "Посох Шамана");
             Tooltip.SetDefault(
                 "Greatly increases mana regen when held\n" +
                 "Cast a mana restoring ray to players on your team\n" +
                 "Ray also increases magic damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Значительно регенерирует ману, если держать в руке\n" +
+                "Выпускает луч, восстанавливающий ману ваших союзников\n" +
+                "Луч также увеличивает магический урон");
             customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
         public override void SetDefaults()

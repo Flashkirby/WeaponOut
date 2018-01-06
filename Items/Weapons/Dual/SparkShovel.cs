@@ -11,8 +11,10 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spark Shovel");
+			DisplayName.AddTranslation(GameCulture.Russian, "Искрящаяся Лопата");
             Tooltip.SetDefault(
                 "<right> to shoot a small spark");
+				Tooltip.AddTranslation(GameCulture.Russian, "<right>, чтобы послать маленькую искру");
         }
         public override void SetDefaults()
         {
