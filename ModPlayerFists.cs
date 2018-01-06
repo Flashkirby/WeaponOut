@@ -25,7 +25,7 @@ using Terraria.World.Generation;
 namespace WeaponOut
 {
     /// <summary>
-    /// Version 1.5.1 by Flashkirby99
+    /// Version 1.5 by Flashkirby99
     /// This class provides almost all the methods required for fist type weapons.
     /// </summary>
     public class ModPlayerFists : ModPlayer
@@ -36,13 +36,17 @@ namespace WeaponOut
 
                 text = mod.CreateTranslation("WOFistComboPower");
                 text.SetDefault("$POWER combo power cost");
+				DisplayName.AddTranslation(GameCulture.Russian, "$POWER стоимость заряда комбо");
                 mod.AddTranslation(text);
 
                 text = mod.CreateTranslation("WOFistPrefixSize");
                 text.SetDefault("% combo cost");
+				text.AddTranslation(GameCulture.Russian, "% стоимость комбо");
                 mod.AddTranslation(text);
+
+                return true;
             }
-            return true;
+            return false;
         }
 
         private const bool DEBUG_FISTBOXES = false;
@@ -1708,18 +1712,15 @@ namespace WeaponOut
 
         private void SetComboEffectLogic()
         {
-            // First time it was set was positive, turn negative to indicate change.
-            if (comboEffect > 0) 
+            // Update other clients that the fist is being used. 
+            if (Main.netMode == 1 && Main.myPlayer == player.whoAmI)
             {
-                comboEffect = -comboEffect;
-
-                // Update other clients that the fist is being used. 
-                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) 
-                {
-                    NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                    NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                }
+                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
+
+            // First time it was set was positive, turn negative to indicate change.
+            if (comboEffect > 0) { comboEffect = -comboEffect; }
 
             // At the end, reset to 0
             if (player.itemAnimation == 1)
