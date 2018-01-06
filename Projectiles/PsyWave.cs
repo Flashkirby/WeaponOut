@@ -14,6 +14,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Psychic Wave");
+			DisplayName.AddTranslation(GameCulture.Russian, "Пси-Волна");
             Main.projFrames[projectile.type] = 4;
         }
         public override void SetDefaults()

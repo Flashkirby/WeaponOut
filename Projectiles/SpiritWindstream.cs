@@ -15,6 +15,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chilly Slipstream");
+			DisplayName.AddTranslation(GameCulture.Russian, "Холодный След");
             buffID = mod.BuffType<Buffs.Frostbite>();
         }
         public override void SetDefaults()

@@ -15,6 +15,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Team Portal Entrance");
+			DisplayName.AddTranslation(GameCulture.Russian, "Командный Портал - Вход");
             Main.projFrames[projectile.type] = 2;
         }
         public override void SetDefaults()

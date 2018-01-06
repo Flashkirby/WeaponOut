@@ -18,6 +18,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Backup Skeleton");
+			DisplayName.AddTranslation(GameCulture.Russian, "Скелет-Помощник");
             Main.projFrames[projectile.type] = 20;
         }
         public override void SetDefaults()

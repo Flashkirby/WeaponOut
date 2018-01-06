@@ -15,6 +15,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shatter Shard");
+			DisplayName.AddTranslation(GameCulture.Russian, "Осколок");
         }
         public override void SetDefaults()
         {

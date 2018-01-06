@@ -15,6 +15,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Icicle");
+			DisplayName.AddTranslation(GameCulture.Russian, "Осколок Льда");
         }
         public override void SetDefaults()
         {

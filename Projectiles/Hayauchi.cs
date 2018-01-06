@@ -12,6 +12,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hayauchi");
+			DisplayName.AddTranslation(GameCulture.Russian, "Хаяуси");
             Main.projFrames[projectile.type] = 9;
         }
         public override void SetDefaults()

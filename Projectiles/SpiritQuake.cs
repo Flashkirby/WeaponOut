@@ -16,6 +16,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Quake");
+			DisplayName.AddTranslation(GameCulture.Russian, "Тряска");
         }
         public override void SetDefaults()
         {

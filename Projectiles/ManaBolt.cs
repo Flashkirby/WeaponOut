@@ -17,6 +17,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Bolt");
+			DisplayName.AddTranslation(GameCulture.Russian, "Луч Маны");
         }
         public override void SetDefaults()
         {

@@ -21,6 +21,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rocket"); //134, 137, 140, 143
+			DisplayName.AddTranslation(GameCulture.Russian, "Ракета");
         }
         public override void SetDefaults()
         {

@@ -14,6 +14,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Roocket"); //134, 137, 140, 143
+			DisplayName.AddTranslation(GameCulture.Russian, "Раакета");
         }
         public override void SetDefaults()
         {

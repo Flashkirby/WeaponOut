@@ -15,6 +15,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Beam");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кристальный Луч");
         }
         public override void SetDefaults()
         {
