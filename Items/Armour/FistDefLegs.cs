@@ -10,8 +10,12 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dynasty Slippers");
+			DisplayName.AddTranslation(GameCulture.Russian, "Башмаки Династии");
             Tooltip.SetDefault("5% increased melee critical strike chance\n" + 
                 "Increases length of combo by 1 second");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Увеличивает шанс критического удара в ближнем бою на 5%\n" + 
+                "+1 секунда длительности комбо");
         }
         public override void SetDefaults()
         {

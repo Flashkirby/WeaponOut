@@ -10,8 +10,12 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dobok Jacket");
+			DisplayName.AddTranslation(GameCulture.Russian, "Куртка Добок");
             Tooltip.SetDefault("5% increased melee damage\n" +
                 "50% increased parry damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+5% урон ближнего боя\n" +
+                "+50% урон от парирования");
         }
         public override void SetDefaults()
         {

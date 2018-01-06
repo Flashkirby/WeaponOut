@@ -12,7 +12,9 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gladiator Colosseum Helmet");
+			DisplayName.AddTranslation(GameCulture.Russian, "Шлем Гладиатора Колизея");
             Tooltip.SetDefault("8% increased melee damage\n'Let the games begin!'");
+			Tooltip.AddTranslation(GameCulture.Russian, "+8% урон ближнего боя\n 'Да начнётся битва!'");
         }
         public override void SetDefaults()
         {

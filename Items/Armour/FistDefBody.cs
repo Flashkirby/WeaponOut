@@ -10,8 +10,12 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dynasty Jacket");
+			DisplayName.AddTranslation(GameCulture.Russian, "Накидка Династии");
             Tooltip.SetDefault("5% increased melee critical strike chance\n" +
                 "Makes parrying with fists easier");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+5% щанс критического удара в ближнем бою\n" +
+                "Облегчает парирование руками");
         }
         public override void SetDefaults()
         {

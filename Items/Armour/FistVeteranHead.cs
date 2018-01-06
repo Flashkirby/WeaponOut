@@ -11,36 +11,49 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wanderer Headband");
+			DisplayName.AddTranslation(GameCulture.Russian, "Повязка Странника");
             Tooltip.SetDefault("6% increased melee critical strike chance\n"
                 + "Fighting bosses slowly empowers next melee attack, up to 800%");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+6% шанс критического удара в ближнем бою\n"
+                + "В битве с боссами следующая ближняя атака усиливается вплоть до 800%");
 
             ModTranslation text;
 
             text = mod.CreateTranslation("FistVeteranHeadPower");
             text.SetDefault("Increases melee capabilities after being struck");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Ближний бой усиливается при получении урона");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistVeteranHeadPowerHardmode");
             text.SetDefault("Greatly increases melee capabilities after being struck");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Значительно усиливает ближний бой при получении урона");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistVeteranHeadDefence");
             text.SetDefault("Greatly increases life regeneration after being struck");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Значительно ускоряет восстановление здоровья при получении урона");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistVeteranHeadDefenceHardmode");
             text.SetDefault("Increases length of invincibility after taking damage, \n" + 
                 "greatly increases life regeneration after being struck");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Продлевает время неуязвимости после получения урона, \n" +
+			    "значительно ускоряет восстановление здоровья при получении урона");
+				mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistVeteranHeadSpeed");
             text.SetDefault("Build up momentum to smash into enemies, increased movement speed");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Наберите скорость, чтобы броситься на врагов, \n" +
+			    "увеличивает скорость бега"
+				mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistVeteranHeadGi");
             text.SetDefault("100% increased uppercut and divekick damage\n" +
                         "Reduces combo power cost by 1");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "+100% урон в прыжке и падении\n" +
+			            "-1 стоимость заряда комбо"
+						mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {

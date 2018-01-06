@@ -11,25 +11,31 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Helmet");
+			DisplayName.AddTranslation(GameCulture.Russian, "Боксёрский Шлем");
             Tooltip.SetDefault("Fighting bosses slowly empowers next melee attack, up to 500%");
+			Tooltip.AddTranslation(GameCulture.Russian, "В битве с боссами следующая ближняя атака усиливается вплоть до 500%");
 
             ModTranslation text;
 
             text = mod.CreateTranslation("FistBoxingHelmetPower");
             text.SetDefault("3 defense");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "3 защиты");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistBoxingHelmetDefence");
             text.SetDefault("6 defense");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "6 защиты");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistBoxingHelmetSpeed");
             text.SetDefault("4 defense");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "4 защиты");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistBoxingHelmetGi");
             text.SetDefault("Makes fist parries easier");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Облегчает парирование руками");
+			mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {

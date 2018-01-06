@@ -10,9 +10,13 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sahyun Jacket");
+			DisplayName.AddTranslation(GameCulture.Russian, "Накидка Мастера");
             Tooltip.SetDefault("15% increased melee damage\n" +
                 "Taking damage whilst attacking builds combo\n" +
                 "75% increased parry damage");
+				Tooltip.AddTranslation(GameCulture.Russian, "+15% урон ближнего боя\n" +
+				"Получение урона во время атаки заряжает комбо\n" +
+				"+75% урон от парирования");
         }
         public override void SetDefaults()
         {
