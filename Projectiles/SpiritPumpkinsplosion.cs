@@ -13,6 +13,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pumpkin Explosion");
+			DisplayName.AddTranslation(GameCulture.Russian, "Тыквенный Взрыв");
         }
         public override void SetDefaults()
         {

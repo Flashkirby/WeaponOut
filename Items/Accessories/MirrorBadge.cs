@@ -14,10 +14,15 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mirror Badge");
+			DisplayName.AddTranslation(GameCulture.Russian, "Зеркальная Медаль");
             Tooltip.SetDefault(
                 "Immunity to petrification\n" +
                 "Reflects most projectiles\n" +
                 "'A mark of courage, polished to perfection'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Иммунитет к окаменению\n" +
+				"Отражает большинство снарядов\n" +
+				"'Тщательно отполированный знак отваги'");
         }
         public override void SetDefaults()
         {

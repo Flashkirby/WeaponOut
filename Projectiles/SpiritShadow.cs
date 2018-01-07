@@ -12,6 +12,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadow Clone");
+			DisplayName.AddTranslation(GameCulture.Russian, "Теневой Клон");
         }
         public override void SetDefaults()
         {

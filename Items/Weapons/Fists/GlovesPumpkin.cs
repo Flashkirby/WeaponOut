@@ -19,12 +19,18 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Patchy Pounder");
+			DisplayName.AddTranslation(GameCulture.Russian, "Тыквенный Подрывник");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Strike through enemies to mark them\n" +
                 "Counterstrike to detonate marked enemies\n" + 
                 "Combo grants increased explosive potential\n" +
                 "'Its explosive might makes the heavens tremble'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Помечайте врагов атаками\n"
+				"Контратака: подрывает помеченных врагов\n" +
+				"Комбо: усиливает взрывы");
             buffID = mod.BuffType<Buffs.PumpkinMark>();
             projID = mod.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
         }

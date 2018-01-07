@@ -17,9 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Iced Punch");
+			DisplayName.AddTranslation(GameCulture.Russian, "Холодный Удар");
             Tooltip.SetDefault(
                 "<right> consumes combo to release a burst of icicles\n" +
                 "Combo grants increased armor penetration and icy kicks");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и пустить ледяные осколки\n" +
+				"Комбо: увеличивает бронепробиваемость и делает пинки холодными");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

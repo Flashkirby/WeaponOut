@@ -10,8 +10,10 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Brain of Cthulu
         {
             DisplayName.SetDefault("Soapron");
+			DisplayName.AddTranslation(GameCulture.Russian, "Мыльрон");
             Tooltip.SetDefault(
                 "Summons bubbles over time that can be popped for combo power");
+				Tooltip.AddTranslation(GameCulture.Russian, "Создаёт пузыри, при лопании которых генерируется заряд комбо");
         }
         public override void SetDefaults()
         {

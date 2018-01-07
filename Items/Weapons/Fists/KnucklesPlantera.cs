@@ -19,10 +19,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Barbed Knuckles");
+			DisplayName.AddTranslation(GameCulture.Russian, "Колючий Кастет");
             Tooltip.SetDefault(
                 "<right> consumes combo for a temporary barrier\n" +
                 "Combo grants an orbiting ball of thorns\n" +
                 "'Found deep in the jungle labyrinth'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и создать защитный барьер\n" +
+				"Комбо: создаёт кружащий колючий шар\n" +
+				"'Спрятан глубоко в лабиринте джунглей'");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             leafID = mod.ProjectileType<Projectiles.SpiritLeaf>();
             ballID = mod.ProjectileType<Projectiles.SpiritThornBall>();

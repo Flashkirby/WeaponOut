@@ -18,10 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Caestus");
+			DisplayName.AddTranslation(GameCulture.Russian, "Цестус");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 30 bonus damage\n" +
                 "Combo grants 50% increased knockback");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +30 урон\n" +
+				"Комбо: +50% отбрасывание");
         }
         public override void SetDefaults()
         {

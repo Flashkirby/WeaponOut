@@ -10,9 +10,14 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Guards");
+			DisplayName.AddTranslation(GameCulture.Russian, "Поножи Чемпиона");
             Tooltip.SetDefault("10% increased movement speed\n" +
                 "50% increased increased divekick damage\n" +
                 "Reduces combo power cost by 2");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+10% скорость бега\n" +
+				"+50% урон в падении\n" +
+				"-2 стоимость заряда комбо"
         }
         public override void SetDefaults()
         {

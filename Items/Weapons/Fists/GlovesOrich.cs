@@ -16,10 +16,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orichalcum Glove");
+			DisplayName.AddTranslation(GameCulture.Russian, "Орихалковая Перчатка");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike delivers a flowery finish\n" +
                 "Combo grants a protective barrier");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: завершающий цветочный удар\n" +
+				"Комбо: создаёт защитный барьер");
         }
         public override void SetDefaults()
         {

@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coiled Thorns");
+			DisplayName.AddTranslation(GameCulture.Russian, "Шипастая Лоза");
         }
         public override void SetDefaults()
         {

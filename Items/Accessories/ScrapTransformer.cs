@@ -10,8 +10,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Transformer");
+			DisplayName.AddTranslation(GameCulture.Russian, "Механический Трансформер");
             Tooltip.SetDefault(
                 "Parrying with fists will steal life");
+				Tooltip.AddTranslation(GameCulture.Russian, 
+				"Парирование руками крадёт здоровье");
         }
         public override void SetDefaults()
         {

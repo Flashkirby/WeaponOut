@@ -11,33 +11,41 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prizefighter Helmet");
+			DisplayName.AddTranslation(GameCulture.Russian, "Шлем Боксёра-Профессионала");
             Tooltip.SetDefault("Fighting bosses slowly empowers next melee attack, up to 1000%");
+			Tooltip.AddTranslation(GameCulture.Russian "В битве с боссами следующая ближняя атака усиливается вплоть до 1000%");
 
             ModTranslation text;
 
             text = mod.CreateTranslation("FistBoxingHelmetPlusPower");
             text.SetDefault("10 defense per 100 missing life");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian "+10 защиты за каждые 100 потерянного здоровья");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistBoxingHelmetPlusPowerHardmode");
             text.SetDefault("16 defense per 100 missing life");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian "+16 защиты за каждые 100 потерянного здоровья");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistBoxingHelmetPlusDefence");
             text.SetDefault("Temporarily reduces damage taken when not attacking");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Снижает получаемый урон вне атаки");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistBoxingHelmetPlusSpeed");
             text.SetDefault("15 defense");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "15 защиты");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistBoxingHelmetPlusSpeedHardmode");
             text.SetDefault("20 defense");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "20 защиты");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistBoxingHelmetPlusGi");
             text.SetDefault("Makes fist parries easier and reduces combo power cost by 1");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Облегчает парирование руками и снижает стоимость заряда комбо на 1");
+			mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {

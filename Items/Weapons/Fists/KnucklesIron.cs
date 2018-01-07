@@ -18,9 +18,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Iron Knuckleduster");
+			DisplayName.AddTranslation(GameCulture.Russian, "Железный Кастет");
             Tooltip.SetDefault(
                 "<right> consumes combo for for an empowered strike\n" +
                 "Combo grants 4 bonus damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и нанести мощный удар\n" +
+				"Комбо: +4 урон");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

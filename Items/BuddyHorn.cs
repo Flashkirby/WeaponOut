@@ -17,9 +17,12 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gathering Horn");
+			DisplayName.AddTranslation(GameCulture.Russian, "Рог Призыва");
             Tooltip.SetDefault(
                 "Summons a one way portal from your spawn to the current position\n" + 
                 "Only for players on your team");
+				Tooltip.AddTranslation(GameCulture.Russian, "Создаёт одноразовый портал от спавна к вашей локации\n" +
+				"Работает только для вашей команды");
             customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
         public override void SetDefaults()

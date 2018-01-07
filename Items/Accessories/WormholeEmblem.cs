@@ -14,10 +14,15 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wormhole Emblem");
+			DisplayName.AddTranslation(GameCulture.Russian, "Эмблема Червоточины");
             Tooltip.SetDefault(
                 "Supercharges ranged weapons to their lunar potential\n" +
                 "20% chance to not consume ammo\n" +
                 "'Blast with the past'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Заряжает оружие дальнего боя космической энергией\n" +
+                "20% шанс не использовать боеприпасы\n" +
+                "'Взрыв с прошлым'");
         }
         public override void SetDefaults()
         {

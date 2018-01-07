@@ -17,9 +17,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Palladium Katar");
+			DisplayName.AddTranslation(GameCulture.Russian, "Палладиевый Катар");
             Tooltip.SetDefault(
                 "<right> consumes combo for a life-empowered strike\n" +
                 "Combo grants increased life regeneration");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и нанести жизненный удар\n" +
+				"Комбо: увеличивает регенерацию здоровья");
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

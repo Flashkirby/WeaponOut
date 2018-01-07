@@ -11,26 +11,34 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Apprentice Headband");
+			DisplayName.AddTranslation(GameCulture.Russian, "Повязка Новичка");
             Tooltip.SetDefault("3% increased melee critical strike chance\n"
                 + "Fighting bosses slowly empowers next melee attack, up to 400%");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+3% шанс критического удара в ближнем бою\n"
+                + "В битве с боссами следующая ближняя атака усиливается вплоть до 400%");
 
             ModTranslation text;
 
             text = mod.CreateTranslation("FistMartialHeadPower");
             text.SetDefault("Negates fall damage"); // ItemTooltip.LuckyHorseshoe
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Поглощает урон от падения");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistMartialHeadDefence");
             text.SetDefault("Increases length of invincibility after taking damage"); // ItemTooltip.CrossNecklace
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Продлевает время неуязвимости после получения урона");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistMartialHeadSpeed");
             text.SetDefault("Increases running speed by 10 mph");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "+10 единиц скорости");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistMartialHeadGi");
             text.SetDefault("50% increased uppercut and divekick damage");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "+50% урон в прыжке и падении");
+			mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {

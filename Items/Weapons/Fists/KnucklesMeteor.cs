@@ -19,10 +19,14 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet Fu");
+			DisplayName.AddTranslation(GameCulture.Russian, "Удар Кометы");
             Tooltip.SetDefault(
                 "<right> consumes combo to meteor strike!\n" +
                 "Combo grants a protective barrier\n" +
                 "'Space CQC is explicitly stated to be whatever you claim it to be'"); //これは宇宙CQC! sorry MPT no kanas are supported
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и нанести метеоритный удар!\n" +
+				"Комбо: создаёт защитный барьер\n" +
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

@@ -17,11 +17,17 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Butterfly's Grace");
+			DisplayName.AddTranslation(GameCulture.Russian, "Грация Бабочки");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 500% increased divekick damage\n" +
                 "Combo grants increased aerial movement\n" +
                 "'...Sting like a bee'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +500% урон в падении\n" +
+				"Комбо: улучшает управление в воздухе\n" +
+				"'...Жаль, как пчела'");
             buffID = mod.BuffType<Buffs.ButterflyGrace>();
         }
         public override void SetDefaults()

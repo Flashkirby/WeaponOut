@@ -15,6 +15,7 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             RallyBannerRed.SetStaticDefaults(this, "Red Rally Banner");
+			DisplayName.AddTranslation(GameCulture.Russian, "Красный Боевой Флаг");
         }
         public override void SetDefaults()
         {
@@ -38,6 +39,8 @@ namespace WeaponOut.Items
             modItem.Tooltip.SetDefault(
                 "Increases stats for your team whilst held\n" +
                 "Team is not affected by banner color");
+				Tooltip.AddTranslation(GameCulture.Russian, "Вдохновляет членов вашей команды\n" +
+				"Цвет флага не имеет значения");
         }
         public static void SetDefaults(Item item)
         {

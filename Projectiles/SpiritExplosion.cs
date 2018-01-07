@@ -13,6 +13,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Adamantite Explosion");
+			DisplayName.AddTranslation(GameCulture.Russian, "Адамантитовый Взрыв");
         }
         public override void SetDefaults()
         {

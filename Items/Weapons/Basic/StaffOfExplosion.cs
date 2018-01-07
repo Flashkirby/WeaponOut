@@ -12,10 +12,15 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Staff of Explosion");
+			DisplayName.AddTranslation(GameCulture.Russian, "Посох Взрыва");
             Tooltip.SetDefault(
                 "Create a powerful explosion at a location\n" +
                 "Increase channel speed by standing still\n" +
                 "Enemies are more likely to target you while casting");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Создаёт мощный взрыв на выбранном месте\n" +
+                "Заряжается быстрее, если не двигаться\n" +
+                "Враги чаще предпочитают атаковать вас во время заряда");
         }
         public override void SetDefaults()
         {

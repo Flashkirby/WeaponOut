@@ -17,11 +17,17 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Forbidden Gauntlet");
+			DisplayName.DisplayName.AddTranslation(GameCulture.Russian, "Запретная Рукавица");
             Tooltip.SetDefault(
                 "<right> to transform into a raging sandstorm\n" +
                 "Dash reduces damage, but steals life\n" +
                 "Combo causes attacks to wear away at enemies\n" +
                 "'Forbidden techniques in the palm of your hand'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: меньше урона, крадёт жизнь\n" +
+				"Комбо: атаки медленно калечат врагов" +
+				"'Запретные техники на ладони'");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

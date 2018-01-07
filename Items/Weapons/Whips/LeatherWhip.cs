@@ -19,9 +19,13 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Leather Whip");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кожаный Кнут");
             Tooltip.SetDefault(
                 "Only deals critical hits at the tip\n" +
                 "Critical strike chance boosts critical damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Критические удары только концом плети\n" +
+                "Шанс критического удара увеличивает критический урон");
         }
         public override void SetDefaults()
         {

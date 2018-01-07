@@ -12,8 +12,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Symbiotic Root");
+			DisplayName.AddTranslation(GameCulture.Russian, "Корень Симбиоза");
             Tooltip.SetDefault(
                 "Hearts drop more frequently and heal 5 more life");
+				Tooltip.AddTranslation(GameCulture.Russian, 
+				"Сердца выпадают чаще и восстанавливают на 5 единиц больше здоровья");
         }
         public override void SetDefaults()
         {

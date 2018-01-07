@@ -19,6 +19,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meteoric Breakshot");
+			DisplayName.AddTranslation(GameCulture.Russian, "Метеоритный Осколок");
         }
         public override void SetDefaults()
         {

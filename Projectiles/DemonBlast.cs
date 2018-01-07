@@ -28,6 +28,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demon Blast");
+			DisplayName.AddTranslation(GameCulture.Russian, "Демонический Луч");
         }
         public override void SetDefaults()
         {

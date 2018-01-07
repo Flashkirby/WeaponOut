@@ -10,8 +10,12 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boxing Vest");
+			DisplayName.AddTranslation(GameCulture.Russian, "Боксёрский Жилет");
             Tooltip.SetDefault("5% increased melee attack speed\n" +
                 "100% increased uppercut damage and knockback");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+5% скорость ближнего боя\n" +
+                "+100% урон и отбрасывание в прыжке");
         }
         public override void SetDefaults()
         {

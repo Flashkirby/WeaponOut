@@ -11,23 +11,31 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Laurels");
+			DisplayName.AddTranslation(GameCulture.Russian, "Чемпионские Лавры");
             Tooltip.SetDefault("5% increased melee damage\n" +
                 "Fighting bosses slowly empowers next melee attack, up to 2500%\n" +
                 "'It ain't about how hard you hit'");//It's about HOW HARD YOU CAN GET HIT and keep moving forward
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+5% урон ближнего боя\n" +
+                "В битве с боссами следующая ближняя атака усиливается вплоть до 2500%\n" +
+                "'Не важно, как сильно ты бьёшь'");
 
             ModTranslation text;
 
             text = mod.CreateTranslation("ChampionLaurelsPower");
             text.SetDefault("Divekicks will steal life");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Атака в падении крадёт здоровье");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("ChampionLaurelsDefence");
             text.SetDefault("23 defense, damage taken is reduced by 5%,\ntemporarily reduces damage taken when not attacking");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "23 защиты, -5% получаемый урон, \nдополнительно снижает получаемый урон вне атаки");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("ChampionLaurelsSpeed");
             text.SetDefault("Maximum life acts as a second wind, restore maximum life with combos");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Максимальное здоровье - второе дыхание, восстанавливается через комбо");
+			mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {

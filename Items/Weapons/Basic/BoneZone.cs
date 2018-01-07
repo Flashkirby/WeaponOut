@@ -17,9 +17,13 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strongbone");
+			DisplayName.AddTranslation(GameCulture.Russian, "Костомёт");
             Tooltip.SetDefault(
                 "Shoots a powerful, high velocity bullet\n" +
                 "'Skele-tons of damage!'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Стреляет мощным и быстрым снарядом\n" +
+                "'Не стреляет костями!'");
         }
         public override void SetDefaults()
         {

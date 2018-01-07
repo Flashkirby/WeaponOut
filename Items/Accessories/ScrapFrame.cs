@@ -10,8 +10,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Frame");
+			DisplayName.AddTranslation(GameCulture.Russian, "Механический Каркас");
             Tooltip.SetDefault(
                 "Consuming combo will restore life");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Поглощение комбо восстанавливает здоровье");
         }
         public override void SetDefaults()
         {

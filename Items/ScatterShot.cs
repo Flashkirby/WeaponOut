@@ -14,8 +14,10 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shattered Crystals");
+			DisplayName.AddTranslation(GameCulture.Russian, "Сломанные Кристаллы");
             Tooltip.SetDefault(
                 "Breaks apart after a short distance");
+				Tooltip.AddTranslation(GameCulture.Russian, "Разбиваются на лету");
         }
         public override void SetDefaults()
         {

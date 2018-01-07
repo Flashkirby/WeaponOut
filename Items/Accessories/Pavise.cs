@@ -11,9 +11,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fossil Shield"); //Ceratopsian Shield
+			DisplayName.AddTranslation(GameCulture.Russian, "Костяной Щит");
             Tooltip.SetDefault(
                 "10 defense when facing attacks\n" +
                 "Grants immunity to knockback when facing attacks");
+				Tooltup.AddTranslation(GameCulture.Russian,
+				"+10 защиты от тыловых атак\n" +
+				"Защита от тылового отбрасывания"
         }
         public override void SetDefaults()
         {

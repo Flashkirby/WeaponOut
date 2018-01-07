@@ -13,9 +13,13 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Immaterial Blade");
+			DisplayName.AddTranslation(GameCulture.Russian, "Эфирное Лезвие");
             Tooltip.SetDefault(
                 "Bypasses thick armor\n" +
                 "'Light as a feather'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Проходит сквозь толстую броню\n" +
+                "'Лёгкое словно пёрышко'");
         }
         public override void SetDefaults()
         {

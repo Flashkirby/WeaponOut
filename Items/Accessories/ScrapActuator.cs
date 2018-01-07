@@ -10,9 +10,13 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Actuator");
+			DisplayName.AddTranslation(GameCulture.Russian, "Механический Привод");
             Tooltip.SetDefault(
                 "Reduces cooldown between dashes\n" +
                 "Increases life regen when moving");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Сокращает время между рывками\n"
+				"Восстанавливает здоровье при движении");
         }
         public override void SetDefaults()
         {

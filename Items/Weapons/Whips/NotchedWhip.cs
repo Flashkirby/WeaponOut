@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vilelash");
+			DisplayName.AddTranslation(GameCulture.Russian, "Порченная Плеть");
         }
         public override void SetDefaults()
         {

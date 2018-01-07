@@ -35,10 +35,15 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("All-Porpoise Assault Rifle");
+			DisplayName.AddTranslation(GameCulture.Russian, "Универсальный Автомат");
             Tooltip.SetDefault(
                 "<right> to fire a powerful underbarrel rocket\n" + 
                 "50% chance to not consume primary ammo\n" +
                 "'Perfect for target rich environments'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы пустить подствольную ракету\n" + 
+                "50% шанс не потратить основные боеприпасы\n" +
+                "'Каждому своё'");
             proji = mod.GetProjectile("APARocketI").projectile.type;
             projii = mod.GetProjectile("APARocketII").projectile.type;
             projiii = mod.GetProjectile("APARocketIII").projectile.type;

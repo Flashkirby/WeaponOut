@@ -11,27 +11,40 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Master Headband");
+			DisplayName.AddTranslation(GameCulture.Russian, "Повязка Мастера");
             Tooltip.SetDefault("9% increased melee critical strike chance\n" +
                 "Fighting bosses slowly empowers next melee attack, up to 2000%\n" +
                 "'A true master never stops learning'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+9% шанс критического удара в ближнем бою\n" +
+                "В битве с боссами следующая ближняя атака усиливается вплоть до 2000%\n" +
+                "'Настоящий мастер не перестаёт учиться'");
 
             ModTranslation text;
 
             text = mod.CreateTranslation("FistMasterHeadPower");
             text.SetDefault("Combo attacks deal additional damage based on enemy life");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian, "Комбо наносят дополнительный урон пропорционально здоровью врага");
+			mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistMasterHeadDefence");
             text.SetDefault(
                 "Taking damage grants yin, dealing damage grants yang, \n" + 
                 "at the end of a combo yin increases melee damage, \n" + 
                 "yang restores a portion of missing life");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian,
+			"Инь при получении, Янь при нанесении урона, \n" + 
+                "в конце комбо Инь увеличивает ближний урон, \n" + 
+                "Янь восстанавливает потерянное здоровье");
+				mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistMasterHeadSpeed");
             text.SetDefault("Build up momentum and double tap $BUTTON to leap towards a location,\n"
                         + "Increases running speed by 15 mph");
-            mod.AddTranslation(text);
+            text.AddTranslation(GameCulture.Russian,
+			"Наберите скорость и дважды нажмите $BUTTON, чтобы сделать рывок,\n"
+                        + "+15 единиц скорости");
+						mod.AddTranslation(text);
         }
         public override void SetDefaults()
         {

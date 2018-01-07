@@ -24,9 +24,13 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Raiden");
+			DisplayName.AddTranslation(GameCulture.Russian, "Рейден");
             Tooltip.SetDefault(
                 "Stand still to focus on nearby foes\n" +
                 "'Imbued with ancient arts'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Стойте на месте, чтобы сфокусироваться на ближайших врагов\n" +
+                "'Зачарован древним мастерством'");
         }
         public override void SetDefaults()
         {

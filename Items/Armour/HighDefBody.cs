@@ -10,9 +10,14 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaolin Robe");
+			DisplayName.AddTranslation(GameCulture.Russian, "Шаолиньское Кимоно");
             Tooltip.SetDefault("12% increased melee critical strike chance\n" +
                 "Parrying with fists will steal life\n" +
                 "Reduces combo power cost by 1");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+12% шанс критического удара в ближнем бою\n" +
+                "Парирование руками крадёт здоровье\n" +
+                "-1 стоимость заряда комбо");
         }
         public override void SetDefaults()
         {

@@ -15,8 +15,10 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Transfusion Potion");
+			DisplayName.AddTranslation(GameCulture.Russian, "Зелье Переливания");
             Tooltip.SetDefault(
                 "Removes effects granted by the Frenzy Heart");
+				Tooltip.AddTranslation(GameCulture.Russian, "Снимает эффект Сердца Безумия");
         }
         public override void SetDefaults()
         {

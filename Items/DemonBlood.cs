@@ -15,9 +15,12 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frenzy Heart");
+			DisplayName.AddTranslation(GameCulture.Russian, "Сердце Безумия");
             Tooltip.SetDefault(
                 "Permanently grants a new melee healing ability\n" + 
                 "Damage taken can be recovered with melee attacks");
+				Tooltip.AddTranslation(GameCulture.Russian, "Открывает способность лечения ближним боем\n" +
+				"Потерянное здоровье можно восстановить ближними атаками");
         }
         public override void SetDefaults()
         {

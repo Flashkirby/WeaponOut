@@ -14,9 +14,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gold Knuckleduster");
+			DisplayName.AddTranslation(GameCulture.Russian, "Золотой Кастет");
             Tooltip.SetDefault(
                 "<right> consumes combo for for an empowered strike\n" +
                 "Combo grants 6 bonus damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и нанести мощный удар\n" +
+				"Комбо: +6 урон");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

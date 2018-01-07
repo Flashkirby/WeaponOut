@@ -16,8 +16,11 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scrap Salvo");
+			DisplayName.AddTranslation(GameCulture.Russian, "Механический Стрелок");
             Tooltip.SetDefault(
                 "'Nothing subtle about this one'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"'Ничего необычного'"
         }
         public override void SetDefaults()
         {

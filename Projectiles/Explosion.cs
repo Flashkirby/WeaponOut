@@ -62,6 +62,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vermillion Runes");
+			DisplayName.AddTranslation(GameCulture.Russian, "Алые Руны");
             if(!Main.dedServ)
             {
                 textureTargetS = mod.GetTexture("Projectiles/Explosion_Targetsm");

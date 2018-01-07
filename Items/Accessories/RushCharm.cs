@@ -10,8 +10,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults() // Eye of Cthulu
         {
             DisplayName.SetDefault("Rush Charm");
+			DisplayName.AddTranslation(GameCulture.Russian, "Шарм Порыва");
             Tooltip.SetDefault(
                 "Reduces cooldown between dashes");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Сокращает время между рывками");
         }
         public override void SetDefaults()
         {

@@ -18,10 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Adamantite Fist");
+			DisplayName.AddTranslation(GameCulture.Russian, "Адамантитовый Кулак");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 50% increased melee damage and knockback\n" +
                 "Combo grants destructive punches");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+                "Рывок: +50% урон и отбрасывание\n" +
+                "Комбо: разрушительные удары");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projID = mod.ProjectileType<Projectiles.SpiritExplosion>();
         }

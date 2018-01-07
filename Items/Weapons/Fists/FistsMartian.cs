@@ -18,11 +18,17 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Booster Fist");
+			DisplayName.AddTranslation(GameCulture.Russian, "Реактивный Кулак");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 120% increased melee damage\n" +
                 "Combo grants an follow-up punch\n" + 
                 "'Rocket... PUUUUUNCH!'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +120% урон\n" +
+				"Комбо: дополнительный удар" +
+				"'Ракетный удар!'");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritMartianFist>();
         }

@@ -18,10 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fossil Glove");
+			DisplayName.AddTranslation(GameCulture.Russian, "Ископаемая Перчатка");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike increases armor penetration by 20\n" +
                 "Combo deals bonus damage based on combo power");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +20 бронепробиваемости\n" +
+				"Комбо: выше заряд - больше урон");
         }
         public override void SetDefaults()
         {

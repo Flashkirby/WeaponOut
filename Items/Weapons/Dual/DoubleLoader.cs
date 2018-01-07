@@ -13,9 +13,13 @@ namespace WeaponOut.Items.Weapons.Dual
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Double Loader");
+			DisplayName.AddTranslation(GameCulture.Russian, "Двойной Стрелок");
             Tooltip.SetDefault(
                 "20% chance to not consume ammo\n" +
                 "<right> to fire darts");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"20% шанс не потратить боеприпасы\n" +
+                "<right>, чтобы стрелять дротиками");
         }
         public override void SetDefaults()
         {

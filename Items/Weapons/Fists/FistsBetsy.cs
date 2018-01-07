@@ -19,10 +19,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hidden Dragon");
+			DisplayName.AddTranslation(GameCulture.Russian, "Тайный Дракон");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 100% increased melee damage and knockback\n" +
                 "Combo causes damage to echo to nearby enemies");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+                "Рывок: +100% урон и отбрасывание\n" +
+                "Комбо: урон передаётся ближайшим врагам");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritDragon>();
             customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);

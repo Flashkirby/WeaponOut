@@ -16,10 +16,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cobalt Tekko");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кобальтовый Текко");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 150 bonus damage\n" +
                 "Combo grants 25% increased melee critical strike chance");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +150 урон\n" +
+				"Комбо: +25% шанс критического удара");
         }
         public override void SetDefaults()
         {

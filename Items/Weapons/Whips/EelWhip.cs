@@ -14,7 +14,9 @@ namespace WeaponOut.Items.Weapons.Whips
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eel Slapper");
+			DisplayName.AddTranslation(GameCulture.Russian, "Боевой Угорь");
             Tooltip.SetDefault("'Banned from fish-slapping dance routines'");
+			Tooltip.AddTranslation(GameCulture.Russian,"Запрещён на танце шлёпанья рыбами");
         }
         public override void SetDefaults()
         {

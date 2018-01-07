@@ -14,11 +14,17 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Discordant Shades");
+			DisplayName.AddTranslation(GameCulture.Russian, "Очки Раздора");
             Tooltip.SetDefault(
                 "Equippable as an accessory\n" +
                 "$ROD\n" +
                 "Uses the Rod of Discord instead of grappling\n" +
                 "'The future's so bright, I gotta wear shades'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Можно надеть как аксессуар\n" +
+                "$ROD\n" +
+                "Использует Жезл Раздора вместо крюка\n" +
+                "'Будущее такое светлое, надо надеть очки'");
         }
         public override void SetDefaults()
         {

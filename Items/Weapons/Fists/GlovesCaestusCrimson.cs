@@ -18,10 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Tenderizer");
+			DisplayName.AddTranslation(GameCulture.Russian, "Отбиватель");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike restores 5 life\n" +
                 "Combo grants increased life regeneration");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: восстанавливает 5 здоровья\n" +
+				"Комбо: увеличивает регенерацию здоровья");
         }
         public override void SetDefaults()
         {

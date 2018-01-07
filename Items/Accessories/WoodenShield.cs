@@ -11,8 +11,11 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Round Shield");
+			DisplayName.AddTranslation(GameCulture.Russian, "Баклер");
             Tooltip.SetDefault(
                 "Grants 10 damage knockback immunity");
+				Tooltip.AddTranslation(GameCulture.Russian, 
+				"Защита от отбрасывания, если урон меньше 10");
         }
         public override void SetDefaults()
         {

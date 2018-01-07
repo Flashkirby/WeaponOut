@@ -14,9 +14,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Platinum Knuckleduster");
+			DisplayName.AddTranslation(GameCulture.Russian, "Платиновый Кастет");
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash spirit energy\n" +
                 "Combo grants 7 bonus damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и выпустить духовную энергию\n" +
+				"Комбо: +7 урон");
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

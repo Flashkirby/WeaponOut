@@ -18,10 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frostflame Fist");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кулак Морозного Огня");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 75% increased melee damage and knockback\n" +
                 "Combo leaves a chilly slipstream that amplifies frostburn");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +75% урон и отбрасыание\n" +
+				"Комбо: оставляет холодный след, усиливающий морозное пламя");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritWindstream>();
         }

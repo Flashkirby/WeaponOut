@@ -14,8 +14,10 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meteoric Breakshot");
+			DisplayName.AddTranslation(GameCulture.Russian, "Метеоритный Осколок");
             Tooltip.SetDefault(
                 "Creates several meteoric shards on impact");
+				Tooltip.AddTranslation(GameCulture.Russian, "Разбивается на более мелкие осколки при контакте");
         }
         public override void SetDefaults()
         {

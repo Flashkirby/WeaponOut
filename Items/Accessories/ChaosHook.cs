@@ -9,11 +9,15 @@ namespace WeaponOut.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hook of Chaos");
+            DisplayName.SetDefault("Hook of Chaos");\
+			DisplayName.AddTranslation(GameCulture.Russian, "Крюк Хаоса");
             Tooltip.SetDefault(
                 Language.GetTextValue("ItemTooltip.RodofDiscord") +
                 "\nCan teleport whilst suffering from Chaos State\n" + 
                 "'Faster! Faster!'");
+				Tooltip.AddTranslation(GameCulture.Russian, Language.GetTextValue("ItemTooltip.RodofDiscord") +
+				"\nМожно телепортироваться будучи в Состоянии Хаоса\n" + 
+                "'Быстрее! Быстрее!'");
         }
         public override void SetDefaults()
         {

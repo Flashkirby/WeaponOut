@@ -10,8 +10,11 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Champion Belt");
+			DisplayName.AddTranslation(GameCulture.Russian, "Пояс Чемпиона");
             Tooltip.SetDefault("15% increased melee attack speed\n" +
                 "125% increased uppercut damage and knockback");
+				Tooltip.AddTranslation(GameCulture.Russian, "+15% скорость ближнего боя\n");
+				"+125% урон и отбрасывание в прыжке");
         }
         public override void SetDefaults()
         {

@@ -12,6 +12,7 @@ namespace WeaponOut.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Restoration Beam");
+			DisplayName.AddTranslation(GameCulture.Russian, "Луч Восстановления Маны");
         }
         public override void SetDefaults()
         {

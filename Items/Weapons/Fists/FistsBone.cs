@@ -16,11 +16,17 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phalanx");
+			DisplayName.AddTranslation(GameCulture.Russian, "Фалангер");
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 30% increased melee damage\n" + 
                 "Combo summons a backup skeleton\n" +
 				"'Need a hand?'");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+                "Рывок: +30% урон\n" + 
+                "Комбо: вызов скелета-помощника\n" +
+				"'Руку подать?'");
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             skeleBroID = mod.ProjectileType<Projectiles.Skelebro>();
         }

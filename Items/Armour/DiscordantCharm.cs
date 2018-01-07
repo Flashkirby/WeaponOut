@@ -14,14 +14,19 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Discordant Charm");
+			DisplayName.AddTranslation(GameCulture.Russian, "Шарм Раздора");
             Tooltip.SetDefault(
                 "Equippable as an accessory\n" +
                 "$ROD\n" +
                 "Uses the Rod of Discord instead of grappling\n");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Можно надеть как аксессуар\n" +
+                "$ROD\n" +
+                "Использует Жезл Раздора вместо крюка\n");
 
             ModTranslation text = mod.CreateTranslation("DiscordantRodTooltip");
             text.SetDefault("Will not work without the Rod of Discord!");
-            mod.AddTranslation(text);
+            mod.AddTranslation(GameCulture.Russian, "Не работает без Жезла Раздора");
         }
         public override void SetDefaults()
         {

@@ -18,9 +18,13 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flintlock Duster");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кастет-Стрелок");
             Tooltip.SetDefault(
                 "<right> consumes combo instead of ammo\n" +
                 "Combo grants 50% increased bullet damage");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо вместо боеприпасов\n" +
+				"Комбо: +50% урон пуль");
         }
         public override void SetDefaults()
         {

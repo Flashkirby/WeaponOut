@@ -10,8 +10,12 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dobok Pants");
+			DisplayName.AddTranslation(GameCulture.Russian, "Штаны Добок");
             Tooltip.SetDefault("5% increased melee damage\n" + 
                 "100% increased divekick damage and knockback");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"+5% урон ближнего боя\n" + 
+                "+100% урон и отбрасывание в падении");
         }
         public override void SetDefaults()
         {

@@ -16,10 +16,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hallowed Vambrace");
+			DisplayName.AddTranslation(GameCulture.Russian, "Святая Перчатка");
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 400% increased melee damage\n" +
                 "Combo grants increased defensive capabilities");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +400% урон\n" +
+				"Комбо: увеличивает защиту");
         }
         public override void SetDefaults()
         {

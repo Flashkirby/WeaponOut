@@ -14,10 +14,15 @@ namespace WeaponOut.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Luminous Emblem");
+			DisplayName.AddTranslation(GameCulture.Russian, "Космическая Эмблема");
             Tooltip.SetDefault(
                 "Supercharges weapons to their lunar potential\n" +
                 "Increases combat capabilities" +
                 "'One more dance'");
+				Tooltip.AddTranslation(GameCultrue.Russian, 
+				"Заряжает оружие космической энегрией\n" +
+                "Улучшает все виды оружия" +
+                "'Ещё один танец'");
         }
         public override void SetDefaults()
         {

@@ -18,9 +18,13 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Onsoku");
+			DisplayName.AddTranslation(GameCulture.Russian, "Онсоку");
             Tooltip.SetDefault(
                 "Dashes through enemies\n" +
                 "Dash cooldown reduced on the ground");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Прорывается сквозь врагов\n" +
+                "Время между рывками короче на земле");
         }
         public override void SetDefaults()
         {

@@ -19,22 +19,29 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Baghnakh");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кровавый Багнак");
             Tooltip.SetDefault(
                 "<right> consumes combo and life to greatly increase melee damage\n" +
                 "Combo inflicts ichor and steals life from enemies");
+				Tooltip.AddTranslation(GameCulture.Russian, 
+				"<right>, чтобы использовать комбо и здоровье для усиления ближнего боя\n" +
+				"Комбо: насылает ихор и крадёт здоровье врагов");
 
             ModTranslation text;
 
             text = mod.CreateTranslation("KnucklesIchorSuicide1");
             text.SetDefault("$NAME ripped out their mortal coil.");
+			text.AddTranslation(GameCulture.Russian, "$NAME вырвало внутренности.");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("KnucklesIchorSuicide2");
             text.SetDefault("$NAME was disemboweled by the $ITEM.");
+			text.AddTranslation(GameCulture.Russian, "$NAME был распотрашён $ITEM");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("KnucklesIchorSuicide3");
             text.SetDefault("$NAME tore themself apart.");
+			text.AddTranslation(GameCulture.Russian, "$NAME разорвался пополам");
             mod.AddTranslation(text);
 
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);

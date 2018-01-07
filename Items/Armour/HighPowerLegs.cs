@@ -10,8 +10,12 @@ namespace WeaponOut.Items.Armour
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sahyun Trousers");
+			DisplayName.AddTranslation(GameCulture.Russian, "Штаны Мастера");
             Tooltip.SetDefault("10% increased melee critical strike chance\n" + 
                 "125% increased divekick damage and knockback");
+				Tooltip.AddTranslation(GameCulture.Russian, 
+				"+10% шанс критического удара в ближнем бою\n" +
+				"+125% урон и отбрасывание в падении");
         }
         public override void SetDefaults()
         {
