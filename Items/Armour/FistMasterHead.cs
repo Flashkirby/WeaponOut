@@ -12,17 +12,24 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Master Headband");
             DisplayName.AddTranslation(GameCulture.Chinese, "大师头带");
+            DisplayName.AddTranslation(GameCulture.Russian, "Повязка Мастера");
 
             Tooltip.SetDefault("9% increased melee critical strike chance\n" +
                 "Fighting bosses slowly empowers next melee attack, up to 2000%\n" +
                 "'A true master never stops learning'");
             Tooltip.AddTranslation(GameCulture.Chinese, "增加9%近战暴击率\n与Boss战斗时，近战伤害会迅速提升\n最高为武器本身伤害的2000%，击中敌人后重新计算\n“真正的大师永远不会停下学习的步伐...”");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"+9% шанс критического удара в ближнем бою\n" +
+                "В битве с боссами следующая ближняя атака усиливается вплоть до 2000%\n" +
+                "'Настоящий мастер не перестаёт учиться'");
+
 
             ModTranslation text;
 
             text = mod.CreateTranslation("FistMasterHeadPower");
             text.SetDefault("Combo attacks deal additional damage based on enemy life");
             text.AddTranslation(GameCulture.Chinese, "连续攻击会基于敌人生命值造成额外伤害");
+            text.AddTranslation(GameCulture.Russian, " ");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistMasterHeadDefence");
@@ -31,12 +38,19 @@ namespace WeaponOut.Items.Armour
             "at the end of a combo yin increases melee damage, \n" +
             "yang restores a portion of missing life");
             text.AddTranslation(GameCulture.Chinese, "承受伤害时出现“阴”状态，造成伤害时出现“阳”状态\n“阴”状态在连击结束后增加近战伤害\n“阳”状态将恢复在连击时损失的生命\n效果强度将由玩家损失的生命决定");
+            text.AddTranslation(GameCulture.Russian,
+                "Инь при получении, Янь при нанесении урона, \n" +
+                "в конце комбо Инь увеличивает ближний урон, \n" +
+                "Янь восстанавливает потерянное здоровье");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("FistMasterHeadSpeed");
             text.SetDefault("Build up momentum and double tap $BUTTON to leap towards a location,\n"
-             + "Increases running speed by 15 mph");
+                + "Increases running speed by 15 mph");
             text.AddTranslation(GameCulture.Chinese, "移动一定程度后获得“动量加速”状态，此时双击下方向键可以在空中跳跃\n移动速度增加15mph");
+            text.AddTranslation(GameCulture.Russian,
+                "Наберите скорость и дважды нажмите $BUTTON, чтобы сделать рывок,\n"
+                + "+15 единиц скорости");
             mod.AddTranslation(text);
         }
         public override void SetDefaults()

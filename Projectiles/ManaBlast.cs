@@ -20,6 +20,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Mana Blast");
             DisplayName.AddTranslation(GameCulture.Chinese, "魔力冲击");
+			DisplayName.AddTranslation(GameCulture.Russian, "Снаряд Маны");
         }
         public override void SetDefaults()
         {

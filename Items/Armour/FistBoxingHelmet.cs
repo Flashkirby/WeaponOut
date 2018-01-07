@@ -12,30 +12,37 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Boxing Helmet");
             DisplayName.AddTranslation(GameCulture.Chinese, "拳击头盔");
+            DisplayName.AddTranslation(GameCulture.Russian, "Боксёрский Шлем");
 
             Tooltip.SetDefault("Fighting bosses slowly empowers next melee attack, up to 500%");
             Tooltip.AddTranslation(GameCulture.Chinese, "与Boss战斗时，近战伤害会迅速提升\n最高为武器本身伤害的500%，击中敌人后重新计算");
+			Tooltip.AddTranslation(GameCulture.Russian, "В битве с боссами следующая ближняя атака усиливается вплоть до 500%");
+
 
             ModTranslation text;
             
             text = mod.CreateTranslation("FistBoxingHelmetPower");
             text.SetDefault("3 defense");
             text.AddTranslation(GameCulture.Chinese, "3防御力");
+            text.AddTranslation(GameCulture.Russian, "3 защиты");
             mod.AddTranslation(text);
             
             text = mod.CreateTranslation("FistBoxingHelmetDefence");
             text.SetDefault("6 defense");
             text.AddTranslation(GameCulture.Chinese, "6防御力");
+            text.AddTranslation(GameCulture.Russian, "6 защиты");
             mod.AddTranslation(text);
             
             text = mod.CreateTranslation("FistBoxingHelmetSpeed");
             text.SetDefault("4 defense");
             text.AddTranslation(GameCulture.Chinese, "4防御力");
+            text.AddTranslation(GameCulture.Russian, "4 защиты");
             mod.AddTranslation(text);
             
             text = mod.CreateTranslation("FistBoxingHelmetGi");
             text.SetDefault("Makes fist parries easier");
             text.AddTranslation(GameCulture.Chinese, "使用拳套进行闪避更加容易");
+            text.AddTranslation(GameCulture.Russian, "Облегчает парирование руками");
             mod.AddTranslation(text);
         }
         public override void SetDefaults()

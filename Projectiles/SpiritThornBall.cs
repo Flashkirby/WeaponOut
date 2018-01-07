@@ -17,6 +17,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Thorn Ball");
             DisplayName.AddTranslation(GameCulture.Chinese, "刺球");
+			DisplayName.AddTranslation(GameCulture.Russian, "Колючий Шар");
         }
         public override void SetDefaults()
         {

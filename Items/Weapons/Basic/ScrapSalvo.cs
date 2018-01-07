@@ -18,10 +18,12 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Scrap Salvo");
             DisplayName.AddTranslation(GameCulture.Chinese, "碎片之击");
+            DisplayName.AddTranslation(GameCulture.Russian, "Механический Стрелок");
 
             Tooltip.SetDefault(
                 "'Nothing subtle about this one'");
             Tooltip.AddTranslation(GameCulture.Chinese, "“这个一点也不微妙”");
+            Tooltip.AddTranslation(GameCulture.Russian, "'Ничего необычного'");
         }
         public override void SetDefaults()
         {

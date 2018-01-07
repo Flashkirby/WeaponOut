@@ -13,11 +13,15 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Fossil Shield"); //Ceratopsian Shield
             DisplayName.AddTranslation(GameCulture.Chinese, "化石盾牌");
+            DisplayName.AddTranslation(GameCulture.Russian, "Костяной Щит");
 
             Tooltip.SetDefault(
                 "10 defense when facing attacks\n" +
                 "Grants immunity to knockback when facing attacks");
             Tooltip.AddTranslation(GameCulture.Chinese, "正面抵抗攻击时增加10防御且免疫击退");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "+10 защиты от тыловых атак\n" +
+                "Защита от тылового отбрасывания");
         }
         public override void SetDefaults()
         {

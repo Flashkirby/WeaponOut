@@ -16,12 +16,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Wooden Tekko");
             DisplayName.AddTranslation(GameCulture.Chinese, "木手甲");
+            DisplayName.AddTranslation(GameCulture.Russian, "Деревянный Текко");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Parry grants temporary invincibility\n" +
                 "Combo grants 3 bonus damage");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n躲避成功后暂时无敌\n连击将奖励增加3点伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Парирование даёт неуязвимость\n" +
+				"Комбо: +3 урон");
+
         }
         public override void SetDefaults()
         {

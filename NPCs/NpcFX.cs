@@ -223,7 +223,7 @@ namespace WeaponOut.NPCs
             int waveChance = (int)((30 -
                 (Main.expertMode ? NPC.waveNumber + 6 : NPC.waveNumber)
                 ) / 1.25 * modifier);
-            Main.NewText("DROPCHANCE1 = " + waveChance);
+            //Main.NewText("DROPCHANCE1 = " + waveChance);
             if (Main.expertMode) waveChance -= 2;
             if (waveChance < 1) waveChance = 1;
             return waveChance;

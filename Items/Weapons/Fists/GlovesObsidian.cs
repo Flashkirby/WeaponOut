@@ -15,12 +15,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Obsidian Vambrace");
             DisplayName.AddTranslation(GameCulture.Chinese, "黑曜石臂甲");
+            DisplayName.AddTranslation(GameCulture.Russian, "Обсидиановый Наруч");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 50 bonus damage and increased knockback\n" +
                 "Combo grants greatly increased damage whilst on fire");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予奖励50点伤害和增加击退\n连击将奖励增加3点伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +50 урон, увеличивает отбрасывание\n" +
+				"Комбо: значительно увеличивает урон будучи в огне");
+
         }
         public override void SetDefaults()
         {

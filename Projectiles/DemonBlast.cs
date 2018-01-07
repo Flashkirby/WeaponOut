@@ -30,6 +30,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Demon Blast");
             DisplayName.AddTranslation(GameCulture.Chinese, "恶魔冲击波");
+			DisplayName.AddTranslation(GameCulture.Russian, "Демонический Луч");
         }
         public override void SetDefaults()
         {

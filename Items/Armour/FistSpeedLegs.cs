@@ -12,10 +12,15 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Boxing Shorts");
             DisplayName.AddTranslation(GameCulture.Chinese, "拳击短裤");
+            DisplayName.AddTranslation(GameCulture.Russian, "Боксёрские Шорты");
 
             Tooltip.SetDefault("5% increased movement speed\n" +
                 "Reduces combo power cost by 1");
             Tooltip.AddTranslation(GameCulture.Chinese, "增加5%移动速度\n减少1点连击能量消耗");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"+5% скорость бега\n" +
+                "-1 стоимость заряда комбо");
+
         }
         public override void SetDefaults()
         {

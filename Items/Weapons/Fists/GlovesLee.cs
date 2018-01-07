@@ -18,12 +18,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("The Underdog");
             DisplayName.AddTranslation(GameCulture.Chinese, "受害者");
+            DisplayName.AddTranslation(GameCulture.Russian, "Неудачник");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrikes deal damage based on missing life\n" +
                 "Combo grants life stealing parries");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将基于损失的生命值造成伤害\n连击将给予闪避时窃取生命值的能力");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: меньше жизни - больше урон\n" +
+				"Комбо: парирование крадёт здоровье");
+
         }
         public override void SetDefaults()
         {

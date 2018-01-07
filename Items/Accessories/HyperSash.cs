@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Hyper Sash");
             DisplayName.AddTranslation(GameCulture.Chinese, "特急腰带");
+			DisplayName.AddTranslation(GameCulture.Russian, "Супер Пояс");
 
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
@@ -22,6 +23,12 @@ namespace WeaponOut.Items.Accessories
                 "Bosses are slower to follow you in the air\n" + 
                 "Grants immunity to knockback");
             Tooltip.AddTranslation(GameCulture.Chinese, "恢复在连击时所承受的伤害\n最多可以恢复最大生命值的26%\nBoss在空中追踪你的速度变慢\n免疫击退");
+			Tooltip.AddTranslation(GameCulture.Russian,
+			    "Восстанавливает потерянное здоровье после комбо\n" +
+                "Восстанавливает до 26% здоровья\n" +
+                "Боссы медленнее следуют за вами в воздухе\n" + 
+                "Защита от отбрасывания");
+
         }
         public override void SetDefaults()
         {

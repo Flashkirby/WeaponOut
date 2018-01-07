@@ -12,10 +12,15 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Dobok Pants");
             DisplayName.AddTranslation(GameCulture.Chinese, "道服长裤");
+            DisplayName.AddTranslation(GameCulture.Russian, "Штаны Добок");
 
             Tooltip.SetDefault("5% increased melee damage\n" + 
                 "100% increased divekick damage and knockback");
             Tooltip.AddTranslation(GameCulture.Chinese, "增加5%近战伤害\n增加100%下踢伤害和击退\n提醒：下踢指的是你使用拳套在空中按下方向键攻击");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"+5% урон ближнего боя\n" + 
+                "+100% урон и отбрасывание в падении");
+
         }
         public override void SetDefaults()
         {

@@ -17,6 +17,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Leaf");
             DisplayName.AddTranslation(GameCulture.Chinese, "叶子");
+			DisplayName.AddTranslation(GameCulture.Russian, "Лист");
         }
         public override void SetDefaults()
         {

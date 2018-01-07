@@ -15,11 +15,15 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Immaterial Blade");
             DisplayName.AddTranslation(GameCulture.Chinese, "无形之刃");
+            DisplayName.AddTranslation(GameCulture.Russian, "Эфирное Лезвие");
 
             Tooltip.SetDefault(
-                "Bypasses thick armor\n" +
-                "'Light as a feather'");
+                 "Bypasses thick armor\n" +
+                 "'Light as a feather'");
             Tooltip.AddTranslation(GameCulture.Chinese, "避开厚厚的盔甲\n“轻如飞羽”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                 "Проходит сквозь толстую броню\n" +
+                 "'Лёгкое словно пёрышко'");
         }
         public override void SetDefaults()
         {

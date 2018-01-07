@@ -18,11 +18,15 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Shotgun Knuckleduster");
             DisplayName.AddTranslation(GameCulture.Chinese, "指虎霰弹枪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Кастет-Дробовик");
 
             Tooltip.SetDefault(
                 "<right> to shoot, or consume combo to blast away\n" +
                 "Combo grants ammo restoration per strike");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键发射（或者消耗连击能量）霰弹\n连击一定程度后每一击都会给予一枚弹药");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы выстрелить или использовать комбо и выстрелить мощнее\n" +
+				"Комбо: восстанавливает боеприпасы ударами");
 
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }

@@ -17,11 +17,15 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Voodoo Arm");
             DisplayName.AddTranslation(GameCulture.Chinese, "巫毒魔爪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Рука Вуду");
 
             Tooltip.SetDefault(
                 "Enables auto-swing when favorited in inventory\n" + 
                 "'It twitches occasionally'");
             Tooltip.AddTranslation(GameCulture.Chinese, "如果收藏它，所有武器将允许连发\n“它偶尔抽搐...”\nAlt+鼠标左键允许收藏物品");
+			Tooltip.AddTranslation(GameCulture.Russian, "Включает автоатаку, если сделать любимым\n" +
+				"'Иногда дёргается'");
+
         }
         public override void SetDefaults()
         {

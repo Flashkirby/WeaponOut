@@ -16,16 +16,22 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Discordant Charm");
             DisplayName.AddTranslation(GameCulture.Chinese, "混沌咒文");
+			DisplayName.AddTranslation(GameCulture.Russian, "Шарм Раздора");
 
             Tooltip.SetDefault(
                 "Equippable as an accessory\n" +
                 "$ROD\n" +
                 "Uses the Rod of Discord instead of grappling\n");
             Tooltip.AddTranslation(GameCulture.Chinese, "可以作为饰品装备\n$ROD\n物品栏里有混沌法杖时可以按住钩爪键（键盘的E键）进行传送");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "Можно надеть как аксессуар\n" +
+                "$ROD\n" +
+                "Использует Жезл Раздора вместо крюка\n");
 
             ModTranslation text = mod.CreateTranslation("DiscordantRodTooltip");
             text.SetDefault("Will not work without the Rod of Discord!");
             text.AddTranslation(GameCulture.Chinese, "没有传送法杖将无法使用！");
+            text.AddTranslation(GameCulture.Russian, "Не работает без Жезла Раздора");
             mod.AddTranslation(text);
         }
         public override void SetDefaults()

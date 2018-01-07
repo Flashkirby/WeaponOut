@@ -19,12 +19,14 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Gathering Horn");
             DisplayName.AddTranslation(GameCulture.Chinese, "集结号");
+            DisplayName.AddTranslation(GameCulture.Russian, "Рог Призыва");
 
             Tooltip.SetDefault(
-                "Summons a one way portal from your spawn to the current position\n" + 
-                "Only for players on your team");
+                 "Summons a one way portal from your spawn to the current position\n" +
+                 "Only for players on your team");
             Tooltip.AddTranslation(GameCulture.Chinese, "在你的出生点和目前所在地生成传送门\n仅供你和你的队友");
-
+            Tooltip.AddTranslation(GameCulture.Russian, "Создаёт одноразовый портал от спавна к вашей локации\n" +
+                 "Работает только для вашей команды");
             customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
         public override void SetDefaults()

@@ -18,6 +18,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Quake");
             DisplayName.AddTranslation(GameCulture.Chinese, "震颤");
+			DisplayName.AddTranslation(GameCulture.Russian, "Тряска");
         }
         public override void SetDefaults()
         {

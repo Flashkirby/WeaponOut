@@ -12,10 +12,12 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Soapron");
             DisplayName.AddTranslation(GameCulture.Chinese, "猪龙皂");
+            DisplayName.AddTranslation(GameCulture.Russian, "Мыльрон");
 
             Tooltip.SetDefault(
                 "Summons bubbles over time that can be popped for combo power");
             Tooltip.AddTranslation(GameCulture.Chinese, "召唤泡泡，打破后可以获得连击能量");
+			Tooltip.AddTranslation(GameCulture.Russian, "Создаёт пузыри, при лопании которых генерируется заряд комбо");
 
         }
         public override void SetDefaults()

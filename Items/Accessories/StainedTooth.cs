@@ -12,11 +12,16 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Impaling Tooth");
             DisplayName.AddTranslation(GameCulture.Chinese, "血肉刺牙");
+            DisplayName.AddTranslation(GameCulture.Russian, "Пронзающий Зуб");
 
             Tooltip.SetDefault(
                 "Hurting enemies has a chance to spawn a heart\n" + 
 				"'What an eyesore'");
             Tooltip.AddTranslation(GameCulture.Chinese, "伤害敌人时有概率掉落红心");
+			Tooltip.AddTranslation(GameCulture.Russian, 
+				"При атаке иногда выпадают сердца\n" +
+				"'Что-то в глаз попало'");
+
         }
         public override void SetDefaults()
         {

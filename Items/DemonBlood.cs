@@ -17,11 +17,14 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Frenzy Heart");
             DisplayName.AddTranslation(GameCulture.Chinese, "狂乱魔心");
+			DisplayName.AddTranslation(GameCulture.Russian, "Сердце Безумия");
 
             Tooltip.SetDefault(
                 "Permanently grants a new melee healing ability\n" +
                 "Damage taken can be recovered with melee attacks");
             Tooltip.AddTranslation(GameCulture.Chinese, "永久给予新的战斗吸血能力\n受到一定程度的伤害后触发效果");
+			Tooltip.AddTranslation(GameCulture.Russian, "Открывает способность лечения ближним боем\n" +
+				"Потерянное здоровье можно восстановить ближними атаками");
         }
         public override void SetDefaults()
         {

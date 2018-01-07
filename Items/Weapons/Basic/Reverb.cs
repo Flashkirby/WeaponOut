@@ -13,10 +13,14 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Reverb");
             DisplayName.AddTranslation(GameCulture.Chinese, "回响光杖");
+            DisplayName.AddTranslation(GameCulture.Russian, "Ревербератор");
 
             Tooltip.SetDefault(
                 "<right> to cast reverse bolt");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键发射反向光波");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы послать обратный снаряд");
+
         }
         public override void SetDefaults()
         {

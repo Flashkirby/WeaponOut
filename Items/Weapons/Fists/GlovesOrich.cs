@@ -18,12 +18,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Orichalcum Glove");
             DisplayName.AddTranslation(GameCulture.Chinese, "奥钢手套");
+            DisplayName.AddTranslation(GameCulture.Russian, "Орихалковая Перчатка");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike delivers a flowery finish\n" +
                 "Combo grants a protective barrier");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将使花瓣对敌人进行攻击\n连击将给予“花瓣盾“效果");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: завершающий цветочный удар\n" +
+				"Комбо: создаёт защитный барьер");
+
         }
         public override void SetDefaults()
         {

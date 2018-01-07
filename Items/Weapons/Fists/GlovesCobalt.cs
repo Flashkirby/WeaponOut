@@ -18,12 +18,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Cobalt Tekko");
             DisplayName.AddTranslation(GameCulture.Chinese, "钴蓝手甲钩");
+            DisplayName.AddTranslation(GameCulture.Russian, "Кобальтовый Текко");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 150 bonus damage\n" +
                 "Combo grants 25% increased melee critical strike chance");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予奖励150点伤害\n连击将增加25%的近战暴击率");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +150 урон\n" +
+				"Комбо: +25% шанс критического удара");
+
         }
         public override void SetDefaults()
         {

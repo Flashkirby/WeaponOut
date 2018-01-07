@@ -21,12 +21,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Barbed Knuckles");
             DisplayName.AddTranslation(GameCulture.Chinese, "尖刺指虎");
+            DisplayName.AddTranslation(GameCulture.Russian, "Колючий Кастет");
 
             Tooltip.SetDefault(
                 "<right> consumes combo for a temporary barrier\n" +
                 "Combo grants an orbiting ball of thorns\n" +
                 "'Found deep in the jungle labyrinth'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量施放暂时的叶之屏障\n连击将施放在玩家身边旋转的刺球\n“发现在丛林迷宫的深处...”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и создать защитный барьер\n" +
+				"Комбо: создаёт кружащий колючий шар\n" +
+				"'Спрятан глубоко в лабиринте джунглей'");
+
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             leafID = mod.ProjectileType<Projectiles.SpiritLeaf>();
             ballID = mod.ProjectileType<Projectiles.SpiritThornBall>();

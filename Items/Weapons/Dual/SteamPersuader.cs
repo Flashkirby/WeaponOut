@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Weapons.Dual
         {
             DisplayName.SetDefault("Steam Persuader");
             DisplayName.AddTranslation(GameCulture.Chinese, "蒸汽威慑者");
+			DisplayName.AddTranslation(GameCulture.Russian, "Паровой Угнетатель");
 
             Tooltip.SetDefault(
                 "No knockback on normal shots\n" +
@@ -23,6 +24,12 @@ namespace WeaponOut.Items.Weapons.Dual
                 "10% chance to not consume ammo\n" +
                 "<right> to fire a spread shot");
             Tooltip.AddTranslation(GameCulture.Chinese, "发射四连发的无击退子弹\n每次只消耗一颗子弹\n10%的概率不消耗弹药\n鼠标右键发射霰弹");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"Обычные выстрелы не отбрасывают\n" +
+                "Залп из 4-х пуль\n" +
+                "Только 1-й выстрел тратит боеприпасы\n" +
+                "10% шанс не потратить боеприпасы\n" +
+                "<right>, чтобы выстрелить вразброс");
         }
         public override void SetDefaults()
         {

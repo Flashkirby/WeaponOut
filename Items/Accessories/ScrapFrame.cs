@@ -12,10 +12,14 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Scrap Frame");
             DisplayName.AddTranslation(GameCulture.Chinese, "废弃的金属框架");
+            DisplayName.AddTranslation(GameCulture.Russian, "Механический Каркас");
 
             Tooltip.SetDefault(
                 "Consuming combo will restore life");
             Tooltip.AddTranslation(GameCulture.Chinese, "消耗连击能量时恢复生命值");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Поглощение комбо восстанавливает здоровье");
+
         }
         public override void SetDefaults()
         {

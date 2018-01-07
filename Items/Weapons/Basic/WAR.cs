@@ -19,11 +19,15 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Woods' Antimat Rifle");
             DisplayName.AddTranslation(GameCulture.Chinese, "伍兹反物质步枪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Антиматериальная Винтовка Вуда");
 
             Tooltip.SetDefault(
-                "Bullets ignore cover\n" +
-                "'See ya space cowboy'");
+                 "Bullets ignore cover\n" +
+                 "'See ya space cowboy'");
             Tooltip.AddTranslation(GameCulture.Chinese, "发射可穿透的射线\n“See ya space cowboy”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+            "Пули пробивают стены\n" +
+            "'Увидимся, космический ковбой'");
         }
         public override void SetDefaults()
         {

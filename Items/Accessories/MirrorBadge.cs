@@ -16,12 +16,18 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Mirror Badge");
             DisplayName.AddTranslation(GameCulture.Chinese, "镜之徽章");
+			DisplayName.AddTranslation(GameCulture.Russian, "Зеркальная Медаль");
 
             Tooltip.SetDefault(
                 "Immunity to petrification\n" +
                 "Reflects most projectiles\n" +
                 "'A mark of courage, polished to perfection'");
             Tooltip.AddTranslation(GameCulture.Chinese, "免疫石化\n反射大多数抛射物\n“勇气的印记，极致的抛光”");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Иммунитет к окаменению\n" +
+				"Отражает большинство снарядов\n" +
+				"'Тщательно отполированный знак отваги'");
+
         }
         public override void SetDefaults()
         {

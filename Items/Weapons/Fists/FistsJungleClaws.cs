@@ -17,12 +17,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Spiked Gauntlets");
             DisplayName.AddTranslation(GameCulture.Chinese, "毒刺草拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Шипастые Кулаки");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash increases armor penetration by 12\n" +
                 "Combo has a chance to poison enemies");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加12点破甲\n连击有概率使敌人中毒");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +12 бронепробиваемость\n" +
+				"Комбо: шанс отравить врага");
+
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

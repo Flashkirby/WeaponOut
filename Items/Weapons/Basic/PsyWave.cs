@@ -9,14 +9,17 @@ namespace WeaponOut.Items.Weapons.Basic
 {
     public class PsyWave : ModItem
     {
-        public override void SetStaticDefaults()
+        public override void SetStaticDefaults() 
         {
             DisplayName.SetDefault("Psy Wave");
             DisplayName.AddTranslation(GameCulture.Chinese, "精神波动");
-            Tooltip.SetDefault(
-                "Cast a psionic orb");
-            Tooltip.AddTranslation(GameCulture.Chinese, "释放异能光球");
+            DisplayName.AddTranslation(GameCulture.Russian, "Пси-Волна");
 
+            Tooltip.SetDefault(
+                 "Cast a psionic orb");
+            Tooltip.AddTranslation(GameCulture.Chinese, "释放异能光球");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "Пускает пси-шар");
         }
         public override void SetDefaults()
         {

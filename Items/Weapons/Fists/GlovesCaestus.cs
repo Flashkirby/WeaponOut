@@ -15,12 +15,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Caestus");
             DisplayName.AddTranslation(GameCulture.Chinese, "皮革刺拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Цестус");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 30 bonus damage\n" +
                 "Combo grants 50% increased knockback");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予奖励30点伤害\n连击将增加50%的击退");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +30 урон\n" +
+				"Комбо: +50% отбрасывание");
+
         }
         public override void SetDefaults()
         {

@@ -16,6 +16,7 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Discordant Shades");
             DisplayName.AddTranslation(GameCulture.Chinese, "混沌碎片");
+			DisplayName.AddTranslation(GameCulture.Russian, "Очки Раздора");
 
             Tooltip.SetDefault(
                 "Equippable as an accessory\n" +
@@ -23,6 +24,11 @@ namespace WeaponOut.Items.Armour
                 "Uses the Rod of Discord instead of grappling\n" +
                 "'The future's so bright, I gotta wear shades'");
             Tooltip.AddTranslation(GameCulture.Chinese, "可以作为饰品装备\n$ROD\n物品栏里有混沌法杖时可以按住钩爪键（键盘的E键）进行传送\n“未来太耀眼,我要戴墨镜”");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Можно надеть как аксессуар\n" +
+                "$ROD\n" +
+                "Использует Жезл Раздора вместо крюка\n" +
+                "'Будущее такое светлое, надо надеть очки'");
         }
         public override void SetDefaults()
         {

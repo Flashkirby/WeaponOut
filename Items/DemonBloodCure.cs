@@ -17,10 +17,12 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Transfusion Potion");
             DisplayName.AddTranslation(GameCulture.Chinese, "输血药水");
+			DisplayName.AddTranslation(GameCulture.Russian, "Зелье Переливания");
 
             Tooltip.SetDefault(
                 "Removes effects granted by the Frenzy Heart");
             Tooltip.AddTranslation(GameCulture.Chinese, "永久移除狂乱魔心的效果");
+            Tooltip.AddTranslation(GameCulture.Russian, "Снимает эффект Сердца Безумия");
         }
         public override void SetDefaults()
         {

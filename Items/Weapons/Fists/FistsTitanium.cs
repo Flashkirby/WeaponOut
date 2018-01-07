@@ -20,12 +20,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Titanium Fist");
             DisplayName.AddTranslation(GameCulture.Chinese, "钛金钢拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Титанитовый Кулак");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 30% increased melee damage and knockback\n" +
                 "Combo grants shadow clones");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加30%的近战伤害和击退\n连击将给予影子克隆体");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +30% урон и отбрасывание\n" +
+				"Комбо: призывает теневых клонов");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             shadowID = mod.ProjectileType<Projectiles.SpiritShadow>();
         }

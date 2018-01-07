@@ -16,10 +16,13 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Shattered Crystals");
             DisplayName.AddTranslation(GameCulture.Chinese, "魔晶碎片");
+            DisplayName.AddTranslation(GameCulture.Russian, "Сломанные Кристаллы");
 
             Tooltip.SetDefault(
                 "Breaks apart after a short distance");
             Tooltip.AddTranslation(GameCulture.Chinese, "发射短距离且高威力的魔晶");
+            Tooltip.AddTranslation(GameCulture.Russian, "Разбиваются на лету");
+
         }
         public override void SetDefaults()
         {

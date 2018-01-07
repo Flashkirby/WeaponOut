@@ -19,11 +19,16 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Mythril Knuckleduster");
             DisplayName.AddTranslation(GameCulture.Chinese, "秘银指虎");
+            DisplayName.AddTranslation(GameCulture.Russian, "Мифриловый Кастет");
 
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash spirit energy\n" +
                 "Combo grant 50% increased melee damage");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量以释放精神能量\n连击将增加50%近战伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и выпустить духовную энергию\n" +
+				"Комбо: +50% урон");
+
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

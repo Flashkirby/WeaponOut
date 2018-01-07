@@ -15,11 +15,13 @@ namespace WeaponOut.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meteoric Breakshot");
-            DisplayName.AddTranslation(GameCulture.Chinese, "陨铁爆旋弹");
+           DisplayName.AddTranslation(GameCulture.Chinese, "陨铁爆旋弹");
+			DisplayName.AddTranslation(GameCulture.Russian, "Метеоритный Осколок");
 
-            Tooltip.SetDefault(
+           Tooltip.SetDefault(
                 "Creates several meteoric shards on impact");
-            Tooltip.AddTranslation(GameCulture.Chinese, "击中物体后溅射陨铁碎片");
+           Tooltip.AddTranslation(GameCulture.Chinese, "击中物体后溅射陨铁碎片");
+				Tooltip.AddTranslation(GameCulture.Russian, "Разбивается на более мелкие осколки при контакте");
         }
         public override void SetDefaults()
         {

@@ -21,27 +21,35 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Blood Baghnakh");
             DisplayName.AddTranslation(GameCulture.Chinese, "血腥虎爪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Кровавый Багнак");
 
             Tooltip.SetDefault(
                 "<right> consumes combo and life to greatly increase melee damage\n" +
                 "Combo inflicts ichor and steals life from enemies");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量和生命值以大幅增加近战伤害\n连击将窃取生命值并使敌人被脓血感染");
+            Tooltip.AddTranslation(GameCulture.Russian, 
+				"<right>, чтобы использовать комбо и здоровье для усиления ближнего боя\n" +
+				"Комбо: насылает ихор и крадёт здоровье врагов");
+
 
             ModTranslation text;
 
             text = mod.CreateTranslation("KnucklesIchorSuicide1");
             text.SetDefault("$NAME ripped out their mortal coil.");
             text.AddTranslation(GameCulture.Chinese, "$NAME 的肉体被绞成一团");
+			text.AddTranslation(GameCulture.Russian, "$NAME вырвало внутренности.");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("KnucklesIchorSuicide2");
             text.SetDefault("$NAME was disemboweled by the $ITEM.");
             text.AddTranslation(GameCulture.Chinese, "$NAME被$ITEM开膛破肚");
+			text.AddTranslation(GameCulture.Russian, "$NAME был распотрашён $ITEM");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("KnucklesIchorSuicide3");
             text.SetDefault("$NAME tore themself apart.");
             text.AddTranslation(GameCulture.Chinese, "$NAME 被大卸八块");
+			text.AddTranslation(GameCulture.Russian, "$NAME разорвался пополам");
             mod.AddTranslation(text);
             
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);

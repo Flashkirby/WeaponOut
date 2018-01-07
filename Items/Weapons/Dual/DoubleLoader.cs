@@ -15,11 +15,16 @@ namespace WeaponOut.Items.Weapons.Dual
         {
             DisplayName.SetDefault("Double Loader");
             DisplayName.AddTranslation(GameCulture.Chinese, "双重发射器");
+            DisplayName.AddTranslation(GameCulture.Russian, "Двойной Стрелок");
 
             Tooltip.SetDefault(
                 "20% chance to not consume ammo\n" +
                 "<right> to fire darts");
             Tooltip.AddTranslation(GameCulture.Chinese, "20%的概率不消耗弹药\n鼠标右键发射飞镖");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"20% шанс не потратить боеприпасы\n" +
+                "<right>, чтобы стрелять дротиками");
+
         }
         public override void SetDefaults()
         {

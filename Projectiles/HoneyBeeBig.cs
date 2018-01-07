@@ -16,6 +16,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Honey Bee");
             DisplayName.AddTranslation(GameCulture.Chinese, "蜜蜂");
+			DisplayName.AddTranslation(GameCulture.Russian, "Медовая Пчела");
             Main.projFrames[projectile.type] = 4;
         }
         public override void SetDefaults()

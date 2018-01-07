@@ -17,6 +17,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Icicle");
             DisplayName.AddTranslation(GameCulture.Chinese, "冰锥");
+			DisplayName.AddTranslation(GameCulture.Russian, "Осколок Льда");
         }
         public override void SetDefaults()
         {

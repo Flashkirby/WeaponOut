@@ -16,12 +16,18 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Supernova Emblem");
             DisplayName.AddTranslation(GameCulture.Chinese, "超新星徽章");
+			DisplayName.AddTranslation(GameCulture.Russian, "Эмблема Сверхновой");
 
             Tooltip.SetDefault(
                 "Supercharges summon weapons to their lunar potential\n" +
                 "Increases your max number of minions\n" +
                 "'Call to arms'");
             Tooltip.AddTranslation(GameCulture.Chinese, "激发召唤武器的月之潜力\n增加你的召唤物上限\n“战争号令”");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Заряжает призывное оружие космической энергией\n" +
+                "Увеличивает количество прислужников\n" +
+                "'К оружию!'");
+
         }
         public override void SetDefaults()
         {

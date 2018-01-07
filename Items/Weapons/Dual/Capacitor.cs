@@ -13,11 +13,16 @@ namespace WeaponOut.Items.Weapons.Dual
         {
             DisplayName.SetDefault("Capacitor");
             DisplayName.AddTranslation(GameCulture.Chinese, "电容冰刃");
+            DisplayName.AddTranslation(GameCulture.Russian, "Конденсатор");
 
             Tooltip.SetDefault(
                 "<right> to cast a frost bolt\n" + 
                 "Melee attacks grant 80% reduced mana cost");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键释放寒冰气流\n近战攻击敌人时减少80%魔力消耗");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы послать ледяной снаряд\n" + 
+                "Ближние атаки тратят на 80% меньше маны");
+
         }
         public override void SetDefaults()
         {

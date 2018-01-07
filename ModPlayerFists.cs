@@ -38,14 +38,18 @@ namespace WeaponOut
                 text = mod.CreateTranslation("WOFistComboPower");
                 text.SetDefault("$POWER combo power cost");
                 text.AddTranslation(GameCulture.Chinese, "$POWER 点连击能量消耗");
+                text.AddTranslation(GameCulture.Russian, "$POWER стоимость заряда комбо");
                 mod.AddTranslation(text);
 
                 text = mod.CreateTranslation("WOFistPrefixSize");
                 text.SetDefault("% combo cost");
                 text.AddTranslation(GameCulture.Chinese, "%连击能量消耗");
+				text.AddTranslation(GameCulture.Russian, "% стоимость комбо");
                 mod.AddTranslation(text);
+
+                return true;
             }
-            return true;
+            return false;
         }
 
         private const bool DEBUG_FISTBOXES = false;
@@ -1712,18 +1716,15 @@ namespace WeaponOut
 
         private void SetComboEffectLogic()
         {
-            // First time it was set was positive, turn negative to indicate change.
-            if (comboEffect > 0) 
+            // Update other clients that the fist is being used. 
+            if (Main.netMode == 1 && Main.myPlayer == player.whoAmI)
             {
-                comboEffect = -comboEffect;
-
-                // Update other clients that the fist is being used. 
-                if (Main.netMode == 1 && Main.myPlayer == player.whoAmI) 
-                {
-                    NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                    NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                }
+                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
+
+            // First time it was set was positive, turn negative to indicate change.
+            if (comboEffect > 0) { comboEffect = -comboEffect; }
 
             // At the end, reset to 0
             if (player.itemAnimation == 1)

@@ -29,5 +29,6 @@ Flashkirby99 - I am making this mod.
 kiedev666 - Playtesting and ideas.
 Eli10293 - Updated Sprites for: Mana Blast, Mana Sword, Molten Chains
 Gouvod - 汉语翻译
+Sed Boye - Переведено на русский.
 goldenapple - "Modder's Guide to Config Files"
 Folks on the discord server - Suggestions, bug testing and all-round support. You guys rock.

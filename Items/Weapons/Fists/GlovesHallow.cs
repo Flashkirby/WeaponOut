@@ -18,11 +18,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Hallowed Vambrace");
             DisplayName.AddTranslation(GameCulture.Chinese, "神圣臂甲");
+            DisplayName.AddTranslation(GameCulture.Russian, "Святая Перчатка");
+
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 400% increased melee damage\n" +
                 "Combo grants increased defensive capabilities");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予增加400%的近战伤害\n连击将增加防御能力");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +400% урон\n" +
+				"Комбо: увеличивает защиту");
+
         }
         public override void SetDefaults()
         {

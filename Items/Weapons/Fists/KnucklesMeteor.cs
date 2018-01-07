@@ -17,12 +17,17 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Comet Fu");
             DisplayName.AddTranslation(GameCulture.Chinese, "彗星武拳");
+			DisplayName.AddTranslation(GameCulture.Russian, "Удар Кометы");
 
             Tooltip.SetDefault(
                 "<right> consumes combo to meteor strike!\n" +
                 "Combo grants a protective barrier\n" +
                 "'Space CQC is explicitly stated to be whatever you claim it to be'"); //これは宇宙CQC! sorry MPT no kanas are supported
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量进行陨石打击！\n连击将给予陨铁盾效果\n“宇宙CQC是明确的规定，无论你声称它是什么”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "<right>, чтобы использовать комбо и нанести метеоритный удар!\n" +
+                "Комбо: создаёт защитный барьер\n");
+
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

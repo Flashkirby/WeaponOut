@@ -19,6 +19,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Spirit Meteor");
             DisplayName.AddTranslation(GameCulture.Chinese, "精神陨石");
+			DisplayName.AddTranslation(GameCulture.Russian, "Духовный Метеор");
         }
         public override void SetDefaults()
         {

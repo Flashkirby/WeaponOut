@@ -12,10 +12,15 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Dynasty Slippers");
             DisplayName.AddTranslation(GameCulture.Chinese, "王朝靴");
+            DisplayName.AddTranslation(GameCulture.Russian, "Башмаки Династии");
 
-            Tooltip.SetDefault("5% increased melee critical strike chance\n" + 
+            Tooltip.SetDefault("5% increased melee critical strike chance\n" +
                 "Increases length of combo by 1 second");
             Tooltip.AddTranslation(GameCulture.Chinese, "增加5%近战暴击率\n连击持续时间增加1秒");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Увеличивает шанс критического удара в ближнем бою на 5%\n" + 
+                "+1 секунда длительности комбо");
+
         }
         public override void SetDefaults()
         {

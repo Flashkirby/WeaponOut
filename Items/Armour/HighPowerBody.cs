@@ -12,11 +12,16 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Sahyun Jacket");
             DisplayName.AddTranslation(GameCulture.Chinese, "师贤上衣");
+            DisplayName.AddTranslation(GameCulture.Russian, "Накидка Мастера");
 
             Tooltip.SetDefault("15% increased melee damage\n" +
                 "Taking damage whilst attacking builds combo\n" +
                 "75% increased parry damage");
             Tooltip.AddTranslation(GameCulture.Chinese, "增加15%近战伤害\n在攻击敌人时承受攻击也增加连击能量\n增加75%闪避伤害\n提醒：闪避指的是你使用拳套右键攻击接触敌人时所触发的攻击方式");
+            Tooltip.AddTranslation(GameCulture.Russian, "+15% урон ближнего боя\n" +
+				"Получение урона во время атаки заряжает комбо\n" +
+				"+75% урон от парирования");
+
         }
         public override void SetDefaults()
         {

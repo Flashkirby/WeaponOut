@@ -17,12 +17,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Granite Smasher");
             DisplayName.AddTranslation(GameCulture.Chinese, "花岗岩重拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Гранитный Крушитель");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 10% increased melee damage\n" +
                 "Combo grants 8 defense");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加10%的近战伤害\n连击将增加8防御力");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +10% урон\n" +
+				"Комбо: +8 защиты");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

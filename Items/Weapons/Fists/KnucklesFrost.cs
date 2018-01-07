@@ -19,11 +19,16 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Iced Punch");
             DisplayName.AddTranslation(GameCulture.Chinese, "冰锥拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Холодный Удар");
 
             Tooltip.SetDefault(
                 "<right> consumes combo to release a burst of icicles\n" +
                 "Combo grants increased armor penetration and icy kicks");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗能量向周围释放一阵冰锥\n连击将增加破甲和给予寒冰踢");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и пустить ледяные осколки\n" +
+				"Комбо: увеличивает бронепробиваемость и делает пинки холодными");
+
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

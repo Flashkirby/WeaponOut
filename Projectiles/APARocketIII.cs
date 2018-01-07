@@ -16,6 +16,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Rooocket"); //134, 137, 140, 143
             DisplayName.AddTranslation(GameCulture.Chinese, "火箭III");
+			DisplayName.AddTranslation(GameCulture.Russian, "Рааакета");
         }
         public override void SetDefaults()
         {

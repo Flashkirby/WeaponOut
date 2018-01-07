@@ -9,14 +9,16 @@ namespace WeaponOut.Items.Weapons.Basic
 {
     public class ManaBlast : ModItem
     {
-        public override void SetStaticDefaults()
+        public override void SetStaticDefaults() 
         {
             DisplayName.SetDefault("Mana Wand");
             DisplayName.AddTranslation(GameCulture.Chinese, "魔力杖");
+            DisplayName.AddTranslation(GameCulture.Russian, "Трость Маны");
 
             Tooltip.SetDefault(
-                "Casts a mana restoring star");
+            "Casts a mana restoring star");
             Tooltip.AddTranslation(GameCulture.Chinese, "释放吸取魔力值的星星");
+            Tooltip.AddTranslation(GameCulture.Russian, "Пускает звезду, крадущую ману");
         }
         public override void SetDefaults()
         {

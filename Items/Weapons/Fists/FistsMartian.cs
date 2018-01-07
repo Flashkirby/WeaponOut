@@ -20,6 +20,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Booster Fist");
             DisplayName.AddTranslation(GameCulture.Chinese, "助推火星拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Реактивный Кулак");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
@@ -27,6 +28,12 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Combo grants an follow-up punch\n" + 
                 "'Rocket... PUUUUUNCH!'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加120%的近战伤害和击退\n连击将给予一个跟踪铁拳攻击敌人\n“Rocket... PUUUUUNCH!”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +120% урон\n" +
+				"Комбо: дополнительный удар" +
+				"'Ракетный удар!'");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritMartianFist>();
         }

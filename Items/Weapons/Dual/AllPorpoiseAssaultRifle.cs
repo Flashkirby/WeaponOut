@@ -37,12 +37,17 @@ namespace WeaponOut.Items.Weapons.Dual
         {
             DisplayName.SetDefault("All-Porpoise Assault Rifle");
             DisplayName.AddTranslation(GameCulture.Chinese, "万能突击步枪");
+			DisplayName.AddTranslation(GameCulture.Russian, "Универсальный Автомат");
 
             Tooltip.SetDefault(
                 "<right> to fire a powerful underbarrel rocket\n" + 
                 "50% chance to not consume primary ammo\n" +
                 "'Perfect for target rich environments'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键在副枪口发射一个强大的火箭\n50%的概率不消耗主要（子弹）弹药\n“适合目标多样的情况”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы пустить подствольную ракету\n" + 
+                "50% шанс не потратить основные боеприпасы\n" +
+                "'Каждому своё'");
 
             proji = mod.GetProjectile("APARocketI").projectile.type;
             projii = mod.GetProjectile("APARocketII").projectile.type;

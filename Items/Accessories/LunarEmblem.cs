@@ -16,12 +16,18 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Luminous Emblem");
             DisplayName.AddTranslation(GameCulture.Chinese, "辉赫徽章");
+			DisplayName.AddTranslation(GameCulture.Russian, "Космическая Эмблема");
 
             Tooltip.SetDefault(
                 "Supercharges weapons to their lunar potential\n" +
                 "Increases combat capabilities" +
                 "'One more dance'");
             Tooltip.AddTranslation(GameCulture.Chinese, "激发武器的月之潜力\n提高作战能力\n“再跳一次舞”");
+			Tooltip.AddTranslation(GameCulture.Russian, 
+				"Заряжает оружие космической энегрией\n" +
+                "Улучшает все виды оружия" +
+                "'Ещё один танец'");
+
         }
         public override void SetDefaults()
         {

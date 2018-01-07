@@ -17,12 +17,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Slime Slapper");
             DisplayName.AddTranslation(GameCulture.Chinese, "史莱姆之拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Слизневый Кулак");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Combo restore 1 life per hit\n" + 
                 "'Slip and slide!'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n连击一段时间后每攻击一次恢复1点生命值\n“小心手滑！”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Комбо: восстанавливает 1 здоровье за удар\n" +
+				"'Попробуй отмыть'");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

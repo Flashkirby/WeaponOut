@@ -12,10 +12,13 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Scrap Transformer");
             DisplayName.AddTranslation(GameCulture.Chinese, "废弃的变压器");
+            DisplayName.AddTranslation(GameCulture.Russian, "Механический Трансформер");
 
             Tooltip.SetDefault(
                 "Parrying with fists will steal life");
             Tooltip.AddTranslation(GameCulture.Chinese, "使用拳套闪避敌人成功时窃取生命值");
+			Tooltip.AddTranslation(GameCulture.Russian, 
+				"Парирование руками крадёт здоровье");
 
         }
         public override void SetDefaults()

@@ -16,11 +16,16 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Iron Knuckleduster");
             DisplayName.AddTranslation(GameCulture.Chinese, "铁指虎");
+            DisplayName.AddTranslation(GameCulture.Russian, "Железный Кастет");
 
             Tooltip.SetDefault(
                 "<right> consumes combo for for an empowered strike\n" +
                 "Combo grants 4 bonus damage");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量以进行自主冲锋\n连击将奖励增加4点伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и нанести мощный удар\n" +
+				"Комбо: +4 урон");
+
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

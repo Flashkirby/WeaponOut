@@ -21,10 +21,13 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Demon Blaster");
             DisplayName.AddTranslation(GameCulture.Chinese, "恶魔冲击波");
+            DisplayName.AddTranslation(GameCulture.Russian, "Демонический Бластер");
 
             Tooltip.SetDefault(
                 "Fires an unholy ray");
             Tooltip.AddTranslation(GameCulture.Chinese, "发射一道不洁的射线");
+            Tooltip.AddTranslation(GameCulture.Russian, "Стреляет тёмным лучом");
+
         }
         public override void SetDefaults()
         {

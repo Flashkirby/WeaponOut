@@ -22,12 +22,17 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Heliosphere Emblem");
             DisplayName.AddTranslation(GameCulture.Chinese, "日光层徽章");
+			DisplayName.AddTranslation(GameCulture.Russian, "Солнечная Эмблема");
 
             Tooltip.SetDefault(
                 "Supercharges melee weapons to their lunar potential\n" +
                 "12% increased melee speed\n" +
                 "'Rekindling old flames'");
             Tooltip.AddTranslation(GameCulture.Chinese, "激发近战武器的月之潜力\n增加12%近战攻速\n“旧火重燃”");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Заряжает оружие ближнего боя космической энергией\n" +
+                "+12% урон и скорость ближнего боя\n" +
+                "'И вспыхнет пламя'");
         }
         public override void SetDefaults()
         {

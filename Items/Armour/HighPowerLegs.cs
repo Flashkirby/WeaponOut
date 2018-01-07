@@ -12,10 +12,16 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Sahyun Trousers");
             DisplayName.AddTranslation(GameCulture.Chinese, "师贤裤子");
+            DisplayName.AddTranslation(GameCulture.Russian, "Штаны Мастера");
 
             Tooltip.SetDefault("10% increased melee critical strike chance\n" + 
                 "125% increased divekick damage and knockback");
             Tooltip.AddTranslation(GameCulture.Chinese, "增加10%近战暴击率\n增加125%下踢伤害和击退\n提醒：下踢指的是你使用拳套在空中按下方向键攻击");
+            Tooltip.SetDefault("10% increased melee critical strike chance\n" + 
+                "125% increased divekick damage and knockback");
+			Tooltip.AddTranslation(GameCulture.Russian, 
+				"+10% шанс критического удара в ближнем бою\n" +
+				"+125% урон и отбрасывание в падении");
         }
         public override void SetDefaults()
         {

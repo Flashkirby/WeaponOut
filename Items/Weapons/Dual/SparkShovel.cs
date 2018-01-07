@@ -13,10 +13,13 @@ namespace WeaponOut.Items.Weapons.Dual
         {
             DisplayName.SetDefault("Spark Shovel");
             DisplayName.AddTranslation(GameCulture.Chinese, "火花之铲");
+            DisplayName.AddTranslation(GameCulture.Russian, "Искрящаяся Лопата");
 
             Tooltip.SetDefault(
                 "<right> to shoot a small spark");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键发射一个火花");
+            Tooltip.AddTranslation(GameCulture.Russian, "<right>, чтобы послать маленькую искру");
+
         }
         public override void SetDefaults()
         {

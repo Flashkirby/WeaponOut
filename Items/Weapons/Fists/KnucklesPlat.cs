@@ -16,11 +16,15 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Platinum Knuckleduster");
             DisplayName.AddTranslation(GameCulture.Chinese, "铂金指虎");
+            DisplayName.AddTranslation(GameCulture.Russian, "Платиновый Кастет");
 
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash spirit energy\n" +
                 "Combo grants 7 bonus damage");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量以释放精神能量\n连击将奖励增加7点伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и выпустить духовную энергию\n" +
+				"Комбо: +7 урон");
 
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }

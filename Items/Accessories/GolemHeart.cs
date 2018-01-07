@@ -17,11 +17,15 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Solar Spark");
             DisplayName.AddTranslation(GameCulture.Chinese, "太阳火花石");
+            DisplayName.AddTranslation(GameCulture.Russian, "Искра Солнца");
 
             Tooltip.SetDefault(
                 "Reduces combo power cost by 2\n" +
                 "Hold UP when not attacking to charge up to 10 combo power");
             Tooltip.AddTranslation(GameCulture.Chinese, "减少2点连击能量消耗\n不攻击时按住上方向键可以积攒最高10点的连击能量");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"-2 стоимость заряда комбо\n" +
+                "Не атакуя зажмите ВВЕРХ, чтобы набрать заряд комбо до 10");
 
         }
         public override void SetDefaults()

@@ -64,7 +64,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Vermillion Runes");
             DisplayName.AddTranslation(GameCulture.Chinese, "朱红符文");
-
+			DisplayName.AddTranslation(GameCulture.Russian, "Алые Руны");
             if(!Main.dedServ)
             {
                 textureTargetS = mod.GetTexture("Projectiles/Explosion_Targetsm");

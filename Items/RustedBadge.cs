@@ -13,9 +13,11 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Rusted Badge");
             DisplayName.AddTranslation(GameCulture.Chinese, "着锈徽章");
+            DisplayName.AddTranslation(GameCulture.Russian, "Ржавая Медаль");
 
             Tooltip.SetDefault("'It could do with some polishing...'");
             Tooltip.AddTranslation(GameCulture.Chinese, "它也许应该做些抛光...");
+            Tooltip.AddTranslation(GameCulture.Russian, "'Её бы отполировать...'");
         }
         public override void SetDefaults()
         {

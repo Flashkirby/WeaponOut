@@ -16,10 +16,13 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Splinter Shot");
             DisplayName.AddTranslation(GameCulture.Chinese, "破片霰弹");
+            DisplayName.AddTranslation(GameCulture.Russian, "Отделённый Осколок");
 
             Tooltip.SetDefault(
                 "Seperates shortly after firing");
             Tooltip.AddTranslation(GameCulture.Chinese, "开火不久后分裂");
+            Tooltip.AddTranslation(GameCulture.Russian, "Отделяется незадолго после выстрела");
+
         }
         public override void SetDefaults()
         {

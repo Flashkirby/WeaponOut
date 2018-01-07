@@ -12,10 +12,14 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Dried Eye");
             DisplayName.AddTranslation(GameCulture.Chinese, "干涸之眼");
+            DisplayName.AddTranslation(GameCulture.Russian, "Высушенный Глаз");
 
             Tooltip.SetDefault(
                 "Reduces combo power cost by 2");
             Tooltip.AddTranslation(GameCulture.Chinese, "减少2点连击能量消耗");
+			Tooltip.AddTranslation(GameCulture.Russian, 
+				"-2 стоимость заряда комбо");
+
         }
         public override void SetDefaults()
         {

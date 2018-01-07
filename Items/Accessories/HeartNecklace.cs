@@ -13,11 +13,16 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Heart Frame Necklace");
             DisplayName.AddTranslation(GameCulture.Chinese, "心之框架项链");
+            DisplayName.AddTranslation(GameCulture.Russian, "Сердечный Кулон");
 
             Tooltip.SetDefault(
                 "Drop star shards after being struck\n" + 
                 "Catch falling star shards to restore life and mana");
             Tooltip.AddTranslation(GameCulture.Chinese, "受击时有概率掉落星之碎片\n收集星之碎片可以回复生命值和魔力值");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"При получении урона выпадают фрагменты звезды\n" + 
+                "Ловите их, чтобы восстановить здоровье и ману");
+
         }
         public override void SetDefaults()
         {

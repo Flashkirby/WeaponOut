@@ -14,6 +14,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Betsy's Rage");
             DisplayName.AddTranslation(GameCulture.Chinese, "贝蒂之怒");
+			DisplayName.AddTranslation(GameCulture.Russian, "Ярость Бетси");
             Main.projFrames[projectile.type] = 2;
         }
         public override void SetDefaults()

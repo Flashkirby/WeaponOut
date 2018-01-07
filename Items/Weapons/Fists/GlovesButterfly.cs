@@ -19,6 +19,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Butterfly's Grace");
             DisplayName.AddTranslation(GameCulture.Chinese, "蝶之恩赐");
+            DisplayName.AddTranslation(GameCulture.Russian, "Грация Бабочки");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
@@ -26,6 +27,11 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Combo grants increased aerial movement\n" +
                 "'...Sting like a bee'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将给予增加500%的下踢伤害\n连击将增加空中移动速度\n“...像蜜蜂一样蜇人”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +500% урон в падении\n" +
+				"Комбо: улучшает управление в воздухе\n" +
+				"'...Жаль, как пчела'");
 
             buffID = mod.BuffType<Buffs.ButterflyGrace>();
         }

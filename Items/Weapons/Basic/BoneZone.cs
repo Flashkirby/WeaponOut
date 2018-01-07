@@ -19,11 +19,16 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Strongbone");
             DisplayName.AddTranslation(GameCulture.Chinese, "强骨");
+            DisplayName.AddTranslation(GameCulture.Russian, "Костомёт");
 
             Tooltip.SetDefault(
                 "Shoots a powerful, high velocity bullet\n" +
                 "'Skele-tons of damage!'");
             Tooltip.AddTranslation(GameCulture.Chinese, "发射一个强大的高速弹\n“骷髅的成吨打击！”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"Стреляет мощным и быстрым снарядом\n" +
+                "'Не стреляет костями!'");
+
         }
         public override void SetDefaults()
         {

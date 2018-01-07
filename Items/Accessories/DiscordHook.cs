@@ -11,9 +11,11 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Hook of Discord");
             DisplayName.AddTranslation(GameCulture.Chinese, "传送钩爪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Крюк Раздора");
 
             Tooltip.SetDefault("Teleports you to the position of the mouse"); //ItemTooltip.RodofDiscord
             Tooltip.AddTranslation(GameCulture.Chinese, "传送到你鼠标的位置");
+			Tooltip.AddTranslation(GameCulture.Russian, "Телепортирует к курсору мыши");
         }
         public override void SetDefaults()
         {

@@ -15,12 +15,17 @@ namespace WeaponOut.Items.Weapons.Dual
         {
             DisplayName.SetDefault("Mana Sword");
             DisplayName.AddTranslation(GameCulture.Chinese, "魔力剑");
+			DisplayName.AddTranslation(GameCulture.Russian, "Меч Маны");
 
             Tooltip.SetDefault(
                 "Casts a mana restoring star\n" +
                 "<right> to cast a powerful mana bolt\n" +
                 "Mana bolt damage increases with mana");
             Tooltip.AddTranslation(GameCulture.Chinese, "释放吸取魔力值的星星\n鼠标右键释放一个强大的魔力射线\n魔力射线的伤害会受到魔力值影响");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Пускает звезду, крадущую ману\n" +
+                "<right>, чтобы послать мощный снаряд маны\n" +
+                "Больше маны - мощнее снаряд");
         }
         public override void SetDefaults()
         {

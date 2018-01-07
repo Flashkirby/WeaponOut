@@ -12,10 +12,14 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Honey Pack");
             DisplayName.AddTranslation(GameCulture.Chinese, "蜂蜜包");
+            DisplayName.AddTranslation(GameCulture.Russian, "Медовый Рюкзак");
 
             Tooltip.SetDefault(
                 "Melee strikes on enemies releases honey bees that heal players");
             Tooltip.AddTranslation(GameCulture.Chinese, "使用近战武器攻击敌人时释放治疗玩家的蜜蜂");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Ближние атаки выпускают медовых пчёл, лечащих игроков");
+
         }
         public override void SetDefaults()
         {

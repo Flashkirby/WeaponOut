@@ -19,11 +19,16 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Palladium Katar");
             DisplayName.AddTranslation(GameCulture.Chinese, "钯金拳刃");
+            DisplayName.AddTranslation(GameCulture.Russian, "Палладиевый Катар");
 
             Tooltip.SetDefault(
                 "<right> consumes combo for a life-empowered strike\n" +
                 "Combo grants increased life regeneration");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量进行生命自主冲锋\n连击将增加生命回复速度");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и нанести жизненный удар\n" +
+				"Комбо: увеличивает регенерацию здоровья");
+
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

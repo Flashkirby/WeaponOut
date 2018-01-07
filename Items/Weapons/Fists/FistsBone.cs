@@ -18,6 +18,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Phalanx");
             DisplayName.AddTranslation(GameCulture.Chinese, "趾骨");
+            DisplayName.AddTranslation(GameCulture.Russian, "Фалангер");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
@@ -25,6 +26,11 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Combo summons a backup skeleton\n" +
 				"'Need a hand?'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加30%的近战伤害\n连击将召唤一个骷髅打手\n“需要一把手吗？”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+                "Рывок: +30% урон\n" + 
+                "Комбо: вызов скелета-помощника\n" +
+				"'Руку подать?'");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             skeleBroID = mod.ProjectileType<Projectiles.Skelebro>();

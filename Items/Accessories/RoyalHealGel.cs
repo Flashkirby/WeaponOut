@@ -12,10 +12,14 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Band of Panacea");
             DisplayName.AddTranslation(GameCulture.Chinese, "万灵丹手环");
+            DisplayName.AddTranslation(GameCulture.Russian, "Браслет Панацеи");
 
             Tooltip.SetDefault(
                 "Melee strikes reduce the duration of debuffs");
             Tooltip.AddTranslation(GameCulture.Chinese, "使用近战武器攻击敌人时细微减少不良状态的持续时间");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "Ближние атаки сокращают время действия негативных эффектов");
+
         }
         public override void SetDefaults()
         {

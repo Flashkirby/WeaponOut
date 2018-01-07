@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
 
 namespace WeaponOut.Items
 {
@@ -14,7 +15,10 @@ namespace WeaponOut.Items
     {
         public override void SetStaticDefaults()
         {
-            RallyBannerRed.SetStaticDefaults(this, "Blue Rally Banner");
+            DisplayName.SetDefault("Blue Rally Banner");
+            DisplayName.AddTranslation(GameCulture.Chinese, "振军旗帜");
+            DisplayName.AddTranslation(GameCulture.Russian, "Синий Боевой Флаг");
+            RallyBannerRed.SetStaticToolTipDefaults(this);
         }
         public override void SetDefaults()
         {

@@ -14,12 +14,17 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Staff of Explosion");
             DisplayName.AddTranslation(GameCulture.Chinese, "爆裂法杖");
-
+			DisplayName.AddTranslation(GameCulture.Russian, "Посох Взрыва");
+            
             Tooltip.SetDefault(
                 "Create a powerful explosion at a location\n" +
                 "Increase channel speed by standing still\n" +
                 "Enemies are more likely to target you while casting");
             Tooltip.AddTranslation(GameCulture.Chinese, "在光标位置施放一个强大的爆炸点\n按住的时间越久，爆炸威力越高\n站立不动时，增加蓄力速度\n在施放时敌人更可能以你为目标");
+			Tooltip.AddTranslation(GameCulture.Russian,
+			    "Создаёт мощный взрыв на выбранном месте\n" +
+                "Заряжается быстрее, если не двигаться\n" +
+                "Враги чаще предпочитают атаковать вас во время заряда");
         }
 
         public override void SetDefaults()

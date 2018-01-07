@@ -15,6 +15,7 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Star Shard");
             DisplayName.AddTranslation(GameCulture.Chinese, "星之碎片");
+			DisplayName.AddTranslation(GameCulture.Russian, "Фрагмент Звезды");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
         }
         public override void SetDefaults()

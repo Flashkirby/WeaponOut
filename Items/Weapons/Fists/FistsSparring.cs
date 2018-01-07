@@ -19,11 +19,16 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Sparring Mitt");
             DisplayName.AddTranslation(GameCulture.Chinese, "试击拳套");
+            DisplayName.AddTranslation(GameCulture.Russian, "Тренировочные Перчатки");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Auto-consumes combo to increase melee damage by 100%");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n自动消耗连击能量以增加100%的近战伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Комбо: поглощается и увеличивает урон на 100%");
+
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()

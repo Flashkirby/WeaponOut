@@ -16,9 +16,11 @@ namespace WeaponOut.Items.Weapons.Whips
         {
             DisplayName.SetDefault("Puzzling Cutter");
             DisplayName.AddTranslation(GameCulture.Chinese, "令人费解的剑");
+            DisplayName.AddTranslation(GameCulture.Russian, "Фрагментированный Резак");
 
             Tooltip.SetDefault("'No one said it was a sword'");
             Tooltip.AddTranslation(GameCulture.Chinese, "“没人会说它是一把剑”");
+            Tooltip.AddTranslation(GameCulture.Russian, "Никто не говорил, что это меч");
         }
         public override void SetDefaults()
         {

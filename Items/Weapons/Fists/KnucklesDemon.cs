@@ -21,12 +21,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Demon Hand");
             DisplayName.AddTranslation(GameCulture.Chinese, "恶魔鬼爪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Демоническая Рука");
 
             Tooltip.SetDefault(
                 "<right> to dash, or consume combo to steal life from enemies\n" +
                 "Combo grants increased melee damage at the cost of defense\n" + 
                 "'Might makes right'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键进行冲刺，或是消耗连击能量窃取敌人的生命值\n连击将以防御力为代价增加近战伤害\n“强权即公理”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "<right>, чтобы сделать рывок или использовать комбо и красть здоровье врагов\n" +
+                "Комбо: увеличивает урон за счёт защиты\n" +
+                "'Сила есть - ума не надо'");
+
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             customDashEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             buffID = mod.BuffType<Buffs.DemonFrenzy>();

@@ -26,12 +26,17 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Hayauchi");
             DisplayName.AddTranslation(GameCulture.Chinese, "快打");
-
+			DisplayName.AddTranslation(GameCulture.Russian, "Хаяуси");
+            
             Tooltip.SetDefault(
                 "'Focus, steel thyself'\n" +
                 "'Wait for the perfect moment'\n" +
                 "'A decisive blow'");
             Tooltip.AddTranslation(GameCulture.Chinese, "“聚集力量”\n“等待时机”\n“一击定音”");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"'Сосредоточься'\n" +
+                "'Выбери момент'\n" +
+                "'Точный удар'");
         }
         public override void SetDefaults()
         {

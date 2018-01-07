@@ -18,11 +18,16 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Cerulean Claws");
             DisplayName.AddTranslation(GameCulture.Chinese, "天蓝地牢爪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Лазурные Когти");
 
             Tooltip.SetDefault(
                 "<right> consumes combo to unleash a flurry of strikes\n" +
                 "Combo grants 25% increased melee attack speed");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量将开始一连串的冲击\n连击将增加25%近战攻速");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и ударить много раз\n" +
+				"Комбо: +25% скорость атаки");
+
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             buffID = mod.BuffType<Buffs.Flurry>();
         }

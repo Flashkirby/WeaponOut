@@ -18,12 +18,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Crystal Gauntlet");
             DisplayName.AddTranslation(GameCulture.Chinese, "魔晶手套");
+            DisplayName.AddTranslation(GameCulture.Russian, "Кристальная Перчатка");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike unleashes crystal beams that build combo\n" +
                 "Combo causes damage to refract towards nearby enemies");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将释放可以造成连击的魔晶射线\n连击将向附近敌人释放折射攻击");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: выпускет кристальные лучи, набирающие комбо\n" +
+				"Комбо: отражает полученный урон на врагов");
+
         }
         public override void SetDefaults()
         {

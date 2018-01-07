@@ -13,12 +13,18 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Journeyman Sash");
             DisplayName.AddTranslation(GameCulture.Chinese, "熟手腰带");
+			DisplayName.AddTranslation(GameCulture.Russian, "Пояс Новичка");
 
             Tooltip.SetDefault(
                 "Restores lost life at the end of a combo\n" +
                 "Restores up to 25% of maximum life\n" + 
                 "Grants 20 damage knockback immunity");
             Tooltip.AddTranslation(GameCulture.Chinese, "恢复在连击时所承受的伤害\n最多可以恢复最大生命值的25%\n所受单次伤害低于20时免疫击退");
+            Tooltip.AddTranslation(GameCulture.Russian, 
+				"Восстанавливает потерянное здоровье после комбо\n" +
+                "Восстанавливает до 25% здоровья\n" + 
+                "Защита от отбрасывания, если урон меньше 20");
+
         }
         public override void SetDefaults()
         {

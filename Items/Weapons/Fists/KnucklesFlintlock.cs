@@ -16,11 +16,16 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Flintlock Duster");
             DisplayName.AddTranslation(GameCulture.Chinese, "指虎燧发枪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Кастет-Стрелок");
 
             Tooltip.SetDefault(
                 "<right> consumes combo instead of ammo\n" +
                 "Combo grants 50% increased bullet damage");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量发射子弹，而不是使用弹药\n连击将增加50%弹药伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо вместо боеприпасов\n" +
+				"Комбо: +50% урон пуль");
+
         }
         public override void SetDefaults()
         {

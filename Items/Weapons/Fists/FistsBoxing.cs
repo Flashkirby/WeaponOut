@@ -17,11 +17,15 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Boxing Gloves");
             DisplayName.AddTranslation(GameCulture.Chinese, "拳击手套");
+            DisplayName.AddTranslation(GameCulture.Russian, "Боксёрские Перчатки");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Combo may confuse enemies");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n连击可能会使敌人混乱");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Комбо: шанс ошеломить врага");
 
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }

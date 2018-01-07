@@ -17,6 +17,7 @@ namespace WeaponOut.Items.Weapons.Basic
         {
             DisplayName.SetDefault("Startillery");
             DisplayName.AddTranslation(GameCulture.Chinese, "星辰重炮");
+			DisplayName.AddTranslation(GameCulture.Russian, "Звёздная Пушка");
         }
         public override void SetDefaults()
         {

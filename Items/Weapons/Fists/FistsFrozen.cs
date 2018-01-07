@@ -20,12 +20,17 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Frostflame Fist");
             DisplayName.AddTranslation(GameCulture.Chinese, "霜炎拳套");
+            DisplayName.AddTranslation(GameCulture.Russian, "Кулак Морозного Огня");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 75% increased melee damage and knockback\n" +
                 "Combo leaves a chilly slipstream that amplifies frostburn");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加75%的近战伤害和击退\n连击滞留冷气，增幅霜炎威力");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +75% урон и отбрасыание\n" +
+				"Комбо: оставляет холодный след, усиливающий морозное пламя");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             projectileID = mod.ProjectileType<Projectiles.SpiritWindstream>();

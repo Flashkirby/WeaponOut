@@ -15,6 +15,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Pumpkin Explosion");
             DisplayName.AddTranslation(GameCulture.Chinese, "南瓜爆炸");
+			DisplayName.AddTranslation(GameCulture.Russian, "Тыквенный Взрыв");
         }
         public override void SetDefaults()
         {

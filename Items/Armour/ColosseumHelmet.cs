@@ -13,9 +13,12 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Gladiator Colosseum Helmet");
             DisplayName.AddTranslation(GameCulture.Chinese, "角斗场斗士头盔");
+            DisplayName.AddTranslation(GameCulture.Russian, "Шлем Гладиатора Колизея");
 
             Tooltip.SetDefault("8% increased melee damage\n'Let the games begin!'");
             Tooltip.AddTranslation(GameCulture.Chinese, "增加8%近战伤害\n“让比赛开始吧！”");
+			Tooltip.AddTranslation(GameCulture.Russian, "+8% урон ближнего боя\n 'Да начнётся битва!'");
+
         }
         public override void SetDefaults()
         {

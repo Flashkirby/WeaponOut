@@ -12,10 +12,15 @@ namespace WeaponOut.Items.Armour
         {
             DisplayName.SetDefault("Shaolin Trousers");
             DisplayName.AddTranslation(GameCulture.Chinese, "少林武僧裤");
+            DisplayName.AddTranslation(GameCulture.Russian, "Шаолиньские Штаны");
 
             Tooltip.SetDefault("14% increased melee critical strike chance\n" + 
                 "Increases length of combo by 2 seconds");
             Tooltip.AddTranslation(GameCulture.Chinese, "增加14%近战暴击率\n连击持续时间增加2秒");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"+14% шанс критического удара в ближнем бою\n" + 
+                "+2 секунды длительности комбо");
+
         }
         public override void SetDefaults()
         {

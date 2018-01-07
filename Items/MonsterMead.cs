@@ -17,6 +17,7 @@ namespace WeaponOut.Items
         {
             DisplayName.SetDefault("Monster Mead");
             DisplayName.AddTranslation(GameCulture.Chinese, "恶魔蜂蜜酒");
+			DisplayName.AddTranslation(GameCulture.Russian, "Чудовищный Мёд");
         }
         public override void SetDefaults()
         {

@@ -13,6 +13,7 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Scrap Exosuit");
             DisplayName.AddTranslation(GameCulture.Chinese, "废弃的机械服");
+			DisplayName.AddTranslation(GameCulture.Russian, "Механический Экзоскелет");
 
             Tooltip.SetDefault(
                 "Greatly reduces cooldown between dashes\n" +
@@ -21,6 +22,13 @@ namespace WeaponOut.Items.Accessories
                 "Greatly increases life regen when moving\n" + 
                 "'Harness science!'");
             Tooltip.AddTranslation(GameCulture.Chinese, "减少冲刺（例如克苏鲁之盾的冲刺）的冷却时间\n消耗连击能量时恢复生命值\n使用拳套闪避敌人成功时窃取生命值\n移动时增加生命回复速度\n“运用科学！”");
+			Tooltip.AddTranslation(GameCulture.Russian,
+				"Значительно сокращает время между рывками\n" +
+                "Поглощение заряда комбо восстанавливает здоровье\n" + 
+                "Парирование руками крадёт здоровье\n" + 
+                "Значительно восстанавливает здоровье при движении\n" + 
+                "'Сила науки!'");
+
         }
         public override void SetDefaults()
         {

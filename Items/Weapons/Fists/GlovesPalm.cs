@@ -16,12 +16,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Palm Striker");
             DisplayName.AddTranslation(GameCulture.Chinese, "棕榈木打手");
+            DisplayName.AddTranslation(GameCulture.Russian, "Пальмовая Перчатка");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike grants 15 bonus damage\n" +
                 "Combo grants 2 bonus damage");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将奖励增加15点伤害\n连击将奖励增加3点伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: \n" +
+				"Комбо: ");
+
         }
         public override void SetDefaults()
         {

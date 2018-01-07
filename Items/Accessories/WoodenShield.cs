@@ -13,10 +13,14 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Round Shield");
             DisplayName.AddTranslation(GameCulture.Chinese, "圆盾");
+            DisplayName.AddTranslation(GameCulture.Russian, "Баклер");
 
             Tooltip.SetDefault(
                 "Grants 10 damage knockback immunity");
             Tooltip.AddTranslation(GameCulture.Chinese, "所受单次伤害低于10时免疫击退");
+			Tooltip.AddTranslation(GameCulture.Russian, 
+				"Защита от отбрасывания, если урон меньше 10");
+
         }
         public override void SetDefaults()
         {

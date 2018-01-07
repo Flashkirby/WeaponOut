@@ -19,6 +19,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Forbidden Gauntlet");
             DisplayName.AddTranslation(GameCulture.Chinese, "禁戒钢拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Запретная Рукавица");
 
             Tooltip.SetDefault(
                 "<right> to transform into a raging sandstorm\n" +
@@ -26,6 +27,11 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Combo causes attacks to wear away at enemies\n" +
                 "'Forbidden techniques in the palm of your hand'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键将让玩家身边出现肆虐的沙尘暴\n冲刺时免疫伤害且窃取生命值\n连击会使敌人受到磨损伤害\n“禁戒之力在你的手心里”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: меньше урона, крадёт жизнь\n" +
+				"Комбо: атаки медленно калечат врагов" +
+				"'Запретные техники на ладони'");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }

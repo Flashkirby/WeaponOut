@@ -19,12 +19,17 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Cursed Gadling");
             DisplayName.AddTranslation(GameCulture.Chinese, "咒炎刺拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Проклятый Наруч");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 50% increased melee damage and knockback\n" +
                 "Combo causes enemies to take more damage from fire");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加50%的近战伤害和击退\n连击会使敌人被引燃，受到更多的伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +50% урон и отбрасывание\n" +
+				"Комбо: урон от огня увеличен");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }

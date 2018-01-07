@@ -19,12 +19,16 @@ namespace WeaponOut.Items.Weapons.Basic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Onsoku");
-            DisplayName.AddTranslation(GameCulture.Chinese, "音速");
+           DisplayName.AddTranslation(GameCulture.Chinese, "音速");
+			DisplayName.AddTranslation(GameCulture.Russian, "Онсоку");
 
-            Tooltip.SetDefault(
+           Tooltip.SetDefault(
                 "Dashes through enemies\n" +
                 "Dash cooldown reduced on the ground");
-            Tooltip.AddTranslation(GameCulture.Chinese, "挥动后玩家会冲刺到光标所指方向\n在地面时降低该武器冷却时间");
+           Tooltip.AddTranslation(GameCulture.Chinese, "挥动后玩家会冲刺到光标所指方向\n在地面时降低该武器冷却时间");
+				Tooltip.AddTranslation(GameCulture.Russian,
+				"Прорывается сквозь врагов\n" +
+                "Время между рывками короче на земле");
         }
         public override void SetDefaults()
         {

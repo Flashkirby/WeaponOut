@@ -19,11 +19,16 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Breakwater");
             DisplayName.AddTranslation(GameCulture.Chinese, "挡浪鲨爪");
+            DisplayName.AddTranslation(GameCulture.Russian, "Водорез");
 
             Tooltip.SetDefault(
                 "<right> consumes combo to teleport\n" +
                 "Combo drenches you in water");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键消耗连击能量传送到鼠标的位置\n连击将使你被水淋湿");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы использовать комбо и телепортироваться\n" +
+				"Комбо: заливает вас водой");
+
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
         }
         public override void SetDefaults()

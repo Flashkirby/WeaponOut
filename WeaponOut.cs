@@ -42,12 +42,11 @@ namespace WeaponOut
 
         public static int shakeIntensity = 0;
         private static int shakeTick = 0;
-        
+
         // WeaponOut Hotkey
         ModHotKey ControlToggleVisual = null;
 
-        public WeaponOut()
-        {
+        public WeaponOut() {
             Properties = new ModProperties()
             {
                 Autoload = true,
@@ -57,10 +56,9 @@ namespace WeaponOut
             ModConf.Load();
         }
 
-        public override void Load()
-        {
+        public override void Load() {
             mod = this;
-            
+
             ModTranslation text;
 
             text = mod.CreateTranslation("WOVisualControl");
@@ -84,8 +82,7 @@ namespace WeaponOut
             return Terraria.Localization.Language.GetText("Mods.WeaponOut." + key).Value;
         }
 
-        public override void PostSetupContent()
-        {
+        public override void PostSetupContent() {
 
             if (ModConf.EnableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             if (ModConf.EnableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
@@ -94,13 +91,11 @@ namespace WeaponOut
 
             if (ModConf.EnableEmblems) Items.Accessories.HeliosphereEmblem.SetUpGlobalDPS();
 
-            if (Main.netMode != 2)
-            {
-				dHeart = mod.GetTexture("Gores/DemonHearts");
+            if (Main.netMode != 2) {
+                dHeart = mod.GetTexture("Gores/DemonHearts");
                 pumpkinMark = mod.GetTexture("Gores/PumpkinMark");
             }
-            else
-            {
+            else {
                 Console.WriteLine("WeaponOut loaded:    fistsupdate2#01");
             }
         }
@@ -112,13 +107,10 @@ namespace WeaponOut
         /// </summary>
         /// <param name="modItem">The mod item to register. </param>
         /// <returns></returns>
-        public static short SetStaticDefaultsGlowMask(ModItem modItem)
-        {
-            if (!Main.dedServ)
-            {
+        public static short SetStaticDefaultsGlowMask(ModItem modItem) {
+            if (!Main.dedServ) {
                 Texture2D[] glowMasks = new Texture2D[Main.glowMaskTexture.Length + 1];
-                for (int i = 0; i < Main.glowMaskTexture.Length; i++)
-                {
+                for (int i = 0; i < Main.glowMaskTexture.Length; i++) {
                     glowMasks[i] = Main.glowMaskTexture[i];
                 }
                 glowMasks[glowMasks.Length - 1] = mod.GetTexture("Glow/" + modItem.GetType().Name + "_Glow");
@@ -151,27 +143,23 @@ namespace WeaponOut
             }
         }
 
-        public override void PostDrawInterface(SpriteBatch spriteBatch)
-        {
+        public override void PostDrawInterface(SpriteBatch spriteBatch) {
             try { DrawPumpkinMark(spriteBatch); } catch { }
             DrawInterfaceDemonBloodHeart(spriteBatch);
-            if(ModConf.EnableFists)
-            {
+            if (ModConf.EnableFists) {
                 Main.LocalPlayer.meleeDamage += Main.LocalPlayer.GetModPlayer<PlayerFX>().PatienceBonus;
             }
 
             DrawInterfaceWeaponOutToggleEye(spriteBatch);
         }
 
-        private void DrawPumpkinMark(SpriteBatch spriteBatch)
-        {
+        private void DrawPumpkinMark(SpriteBatch spriteBatch) {
             if (!ModConf.enableFists) return;
             if (Main.gameMenu) return;
 
             int buffID = BuffType<Buffs.PumpkinMark>();
             Dictionary<Vector2, bool> drawPositions = new Dictionary<Vector2, bool>();
-            foreach (NPC i in Main.npc)
-            {
+            foreach (NPC i in Main.npc) {
                 if (!i.active || i.life <= 0) continue;
                 if (i.buffImmune.Length < buffID) continue;
 
@@ -183,34 +171,27 @@ namespace WeaponOut
                     drawPositions.Add(centre, i.buffTime[buffIndex] < 120);
                 }
             }
-            foreach (Player i in Main.player)
-            {
+            foreach (Player i in Main.player) {
                 Vector2 centre = i.Center + new Vector2(0, i.gfxOffY);
-                if (i.active && !i.dead && i.FindBuffIndex(buffID) >= 0 && !drawPositions.ContainsKey(centre))
-                {
+                if (i.active && !i.dead && i.FindBuffIndex(buffID) >= 0 && !drawPositions.ContainsKey(centre)) {
                     drawPositions.Add(i.Center + new Vector2(0, i.gfxOffY), false);
                 }
             }
 
-            if (drawPositions.Count > 0)
-            {
+            if (drawPositions.Count > 0) {
                 int frameHeight = pumpkinMark.Height / 3;
                 int frameY = 0;
                 int explodeFrameY = frameY;
-                if ((int)(Main.time / 6) % 2 == 0)
-                { explodeFrameY = frameHeight; }
-                else
-                { explodeFrameY = frameHeight * 2; }
-                if (ModPlayerFists.Get(Main.LocalPlayer).GetParryBuff() >= 0)
-                {
+                if ((int)(Main.time / 6) % 2 == 0) { explodeFrameY = frameHeight; }
+                else { explodeFrameY = frameHeight * 2; }
+                if (ModPlayerFists.Get(Main.LocalPlayer).GetParryBuff() >= 0) {
                     frameY = explodeFrameY;
                 }
                 spriteBatch.End();
 
                 //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-                foreach (KeyValuePair<Vector2, bool> kvp in drawPositions)
-                {
+                foreach (KeyValuePair<Vector2, bool> kvp in drawPositions) {
                     spriteBatch.Draw(pumpkinMark, (kvp.Key - Main.screenPosition),
                         new Rectangle(0, kvp.Value ? explodeFrameY : frameY, pumpkinMark.Width, frameHeight),
                         new Color(0.8f, 0.8f, 0.8f, 0.5f), 0f, new Vector2(pumpkinMark.Width / 2, frameHeight / 2),
@@ -222,8 +203,7 @@ namespace WeaponOut
             }
         }
 
-        private void DrawInterfaceDemonBloodHeart(SpriteBatch spriteBatch)
-        {
+        private void DrawInterfaceDemonBloodHeart(SpriteBatch spriteBatch) {
             if (!ModConf.enableFists) return;
             Player p = Main.LocalPlayer;
             PlayerFX pfx = p.GetModPlayer<PlayerFX>();
@@ -242,10 +222,8 @@ namespace WeaponOut
             int ScreenAnchorX = Main.screenWidth - 800;
             Vector2 basePos = new Vector2(ScreenAnchorX + 500, 32);
             // Two rows of 10 columns
-            for (int y = 0; y < 2; y++)
-            {
-                for (int x = 0; x < 10; x++)
-                {
+            for (int y = 0; y < 2; y++) {
+                for (int x = 0; x < 10; x++) {
                     if (numOfHearts <= 0) { break; } // Don't go over heart limit
                     numOfHearts--;
                     currentHeartLife = 1 + lifePerHeart * (x + 1) + lifePerHeart * 10 * y;
@@ -254,12 +232,10 @@ namespace WeaponOut
 
                     if (currentHeartLife <= p.statLife) continue; // Not at rally amonut yet
                     else if (currentHeartLife > rally + lifePerHeart) continue; // higher than rally amount
-                    else if (currentHeartLife >= rally)
-                    {
+                    else if (currentHeartLife >= rally) {
                         hpNormal = (rally + lifePerHeart - currentHeartLife) / lifePerHeart;
                     }
-                    else if (currentHeartLife <= rally + lifePerHeart)
-                    {
+                    else if (currentHeartLife <= rally + lifePerHeart) {
                         hpNormal = (rally - p.statLife) / lifePerHeart;
                     }
 
@@ -270,8 +246,7 @@ namespace WeaponOut
                     float size = 0.75f;
 
                     frame = 1;
-                    if (firstHeart)
-                    {
+                    if (firstHeart) {
                         alpha = 0.25f + alpha * 0.75f;
                         float heartNormInverse = ((p.statLife - currentHeartLife) / -lifePerHeart);
                         size = Main.cursorScale - 0.25f * heartNormInverse;
@@ -293,8 +268,7 @@ namespace WeaponOut
             }
         }
 
-        private void DrawInterfaceWeaponOutToggleEye(SpriteBatch spriteBatch)
-        {
+        private void DrawInterfaceWeaponOutToggleEye(SpriteBatch spriteBatch) {
             //if (Disabled) return;
 
             // Janky quick inventory visibilty
@@ -306,8 +280,7 @@ namespace WeaponOut
             Vector2 position = new Vector2(20, 10);
 
             // Show hidden instead
-            if (!pfx.weaponVisual)
-            {
+            if (!pfx.weaponVisual) {
                 eye = Main.inventoryTickOffTexture;
                 hoverText = GetTranslationTextValue("WOVisualHide"); // Hidden
             }
@@ -316,15 +289,13 @@ namespace WeaponOut
             Rectangle eyeRect = new Rectangle(
                 (int)position.X, (int)position.Y - (eye.Height / 2),
                 eye.Width, eye.Height);
-            if (eyeRect.Contains(Main.mouseX, Main.mouseY))
-            {
+            if (eyeRect.Contains(Main.mouseX, Main.mouseY)) {
                 // Prevent item use and show text
                 Main.hoverItemName = hoverText;
                 Main.blockMouse = true;
 
                 // On click
-                if (Main.mouseLeft && Main.mouseLeftRelease)
-                {
+                if (Main.mouseLeft && Main.mouseLeftRelease) {
                     ToggleWeaponVisual(pfx, !pfx.weaponVisual);
                 }
             }
@@ -344,8 +315,7 @@ namespace WeaponOut
         }
 
         #region Netcode
-        public override void HandlePacket(BinaryReader reader, int whoAmI)
-        {
+        public override void HandlePacket(BinaryReader reader, int whoAmI) {
             int code = reader.ReadInt32();
             int sender = reader.ReadInt32();
             #region Dash
@@ -377,10 +347,8 @@ namespace WeaponOut
             #endregion
         }
 
-        public static void NetUpdateDash(ModPlayerFists mpf)
-        {
-            if (Main.netMode == 1 && mpf.player.whoAmI == Main.myPlayer)
-            {
+        public static void NetUpdateDash(ModPlayerFists mpf) {
+            if (Main.netMode == 1 && mpf.player.whoAmI == Main.myPlayer) {
                 //-/ Main.NewText("sent " + mpf.dashSpeed + "dash " + mpf.dashEffect + " from " + Main.myPlayer);
                 ModPacket message = mpf.mod.GetPacket();
                 message.Write(1);
@@ -393,15 +361,13 @@ namespace WeaponOut
                 message.Send();
             }
         }
-        private void HandlePacketDash(BinaryReader reader, int code, int sender)
-        {
+        private void HandlePacketDash(BinaryReader reader, int code, int sender) {
             float dSpeed = reader.ReadSingle();
             float dThreshold = reader.ReadSingle();
             float dMax = reader.ReadSingle();
             float dMin = reader.ReadSingle();
             int dEffect = reader.ReadInt32();
-            if (Main.netMode == 2)
-            {
+            if (Main.netMode == 2) {
                 ModPacket me = GetPacket();
                 me.Write(code);
                 me.Write(sender);
@@ -413,17 +379,14 @@ namespace WeaponOut
                 me.Send(-1, sender);
                 //-/ Console.WriteLine("echo " + dSpeed + " dash " + dEffect + " from " + sender);
             }
-            else
-            {
+            else {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>();
                 pfx.SetDash(dSpeed, dThreshold, dMax, dMin, true, dEffect);
             }
         }
 
-        public static void NetUpdateParry(ModPlayerFists pfx)
-        {
-            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
-            {
+        public static void NetUpdateParry(ModPlayerFists pfx) {
+            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer) {
                 //-/ Main.NewText("sent parry from " + Main.myPlayer);
                 ModPacket message = pfx.mod.GetPacket();
                 message.Write(2);
@@ -433,12 +396,10 @@ namespace WeaponOut
                 message.Send();
             }
         }
-        private void HandlePacketParry(BinaryReader reader, int code, int sender)
-        {
+        private void HandlePacketParry(BinaryReader reader, int code, int sender) {
             int parryTimeMax = reader.ReadInt32();
             int parryWindow = reader.ReadInt32();
-            if (Main.netMode == 2)
-            {
+            if (Main.netMode == 2) {
                 ModPacket me = GetPacket();
                 me.Write(code);
                 me.Write(sender);
@@ -447,18 +408,15 @@ namespace WeaponOut
                 me.Send(-1, sender);
                 //-/ Console.WriteLine("received parry from " + sender);
             }
-            else
-            {
+            else {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
                 pfx.AltFunctionParryMax(Main.player[sender], parryWindow, parryTimeMax);
                 //-/ Main.NewText("received parry from " + sender);
             }
         }
 
-        public static void NetUpdateCombo(ModPlayerFists pfx)
-        {
-            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
-            {
+        public static void NetUpdateCombo(ModPlayerFists pfx) {
+            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer) {
                 //-/ Main.NewText("sent combo " + pfx.ComboEffectAbs + " from " + Main.myPlayer);
                 ModPacket message = pfx.mod.GetPacket();
                 message.Write(4);
@@ -467,11 +425,9 @@ namespace WeaponOut
                 message.Send();
             }
         }
-        private void HandlePacketCombo(BinaryReader reader, int code, int sender)
-        {
+        private void HandlePacketCombo(BinaryReader reader, int code, int sender) {
             int comboEffect = reader.ReadInt32();
-            if (Main.netMode == 2)
-            {
+            if (Main.netMode == 2) {
                 ModPacket me = GetPacket();
                 me.Write(code);
                 me.Write(sender);
@@ -479,8 +435,7 @@ namespace WeaponOut
                 me.Send(-1, sender);
                 //-/ Console.WriteLine("echo combo " + comboEffect + " from " + sender);
             }
-            else
-            {
+            else {
                 ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
                 pfx.player.itemAnimation = 0;
                 pfx.AltFunctionCombo(Main.player[sender], comboEffect, true);
@@ -488,10 +443,8 @@ namespace WeaponOut
             }
         }
 
-        public static void NetUpdateWeaponVisual(Mod mod, PlayerWOFX pfx)
-        {
-            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer)
-            {
+        public static void NetUpdateWeaponVisual(Mod mod, PlayerWOFX pfx) {
+            if (Main.netMode == 1 && pfx.player.whoAmI == Main.myPlayer) {
                 ModPacket message = mod.GetPacket();
                 message.Write(3);
                 message.Write(Main.myPlayer);
@@ -499,25 +452,22 @@ namespace WeaponOut
                 message.Send();
             }
         }
-        private void HandlePacketWeaponVisual(BinaryReader reader, int code, int sender)
-        {
+        private void HandlePacketWeaponVisual(BinaryReader reader, int code, int sender) {
             bool weaponVis = reader.ReadBoolean();
-            if (Main.netMode == 2)
-            {
+            if (Main.netMode == 2) {
                 ModPacket me = GetPacket();
                 me.Write(code);
                 me.Write(sender);
                 me.Write(weaponVis);
                 me.Send(-1, sender);
             }
-            else
-            {
+            else {
                 PlayerWOFX pfx = Main.player[sender].GetModPlayer<PlayerWOFX>(this);
                 pfx.weaponVisual = weaponVis;
             }
         }
         #endregion
-        
+
         #region Mod Calls
         public override object Call(params object[] args) {
             if (args.Length < 1) return null;
@@ -546,8 +496,7 @@ namespace WeaponOut
             }
         }
 
-        public static Vector2 CalculateNormalAngle(Vector2 start, Vector2 end)
-        {
+        public static Vector2 CalculateNormalAngle(Vector2 start, Vector2 end) {
             Vector2 diff = end - start;
             diff.Normalize();
             return diff;

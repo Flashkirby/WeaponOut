@@ -12,10 +12,13 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Rush Charm");
             DisplayName.AddTranslation(GameCulture.Chinese, "冲锋咒文");
+            DisplayName.AddTranslation(GameCulture.Russian, "Шарм Порыва");
 
             Tooltip.SetDefault(
                 "Reduces cooldown between dashes");
             Tooltip.AddTranslation(GameCulture.Chinese, "减少冲刺（例如克苏鲁之盾的冲刺）的冷却时间");
+            Tooltip.AddTranslation(GameCulture.Russian, 
+                "Сокращает время между рывками");
         }
         public override void SetDefaults()
         {

@@ -12,17 +12,21 @@ namespace WeaponOut.Items.Accessories
 {
     public class AccretionEmblem : ModItem
     {
-        public override void SetStaticDefaults()
+        public override void SetStaticDefaults() 
         {
             DisplayName.SetDefault("Accretion Emblem");
             DisplayName.AddTranslation(GameCulture.Chinese, "吸积徽章");
+            DisplayName.AddTranslation(GameCulture.Russian, "Эмблема Туманности");
 
             Tooltip.SetDefault(
                 "Supercharges magic weapons to their lunar potential\n" +
                 "Increases maximum mana by 20\n" +
                 "'Mind over matter'");
             Tooltip.AddTranslation(GameCulture.Chinese, "激发魔法武器的月之潜力\n最大魔力值增加20\n“心胜于物”");
-
+            Tooltip.AddTranslation(GameCulture.Russian,
+            "Заряжает магическое оружие космической энергией\n" +
+            "+20 максимум маны\n" +
+            "'Сила духа'");
         }
         public override void SetDefaults()
         {

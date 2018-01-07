@@ -16,12 +16,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Fossil Glove");
             DisplayName.AddTranslation(GameCulture.Chinese, "化石手套");
+            DisplayName.AddTranslation(GameCulture.Russian, "Ископаемая Перчатка");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
                 "Counterstrike increases armor penetration by 20\n" +
                 "Combo deals bonus damage based on combo power");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n反击将增加20点破甲\n连击将基于连击能量造成额外的伤害");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Контратака: +20 бронепробиваемости\n" +
+				"Комбо: выше заряд - больше урон");
+
         }
         public override void SetDefaults()
         {

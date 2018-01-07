@@ -17,6 +17,7 @@ namespace WeaponOut.Projectiles
         {
             DisplayName.SetDefault("Booster Mini-Fist");
             DisplayName.AddTranslation(GameCulture.Chinese, "迷你助推拳");
+			DisplayName.AddTranslation(GameCulture.Russian, "Кулак-Ускоритель");
         }
         public override void SetDefaults()
         {

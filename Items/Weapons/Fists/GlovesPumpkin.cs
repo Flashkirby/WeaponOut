@@ -21,6 +21,7 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Patchy Pounder");
             DisplayName.AddTranslation(GameCulture.Chinese, "南瓜重拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Тыквенный Подрывник");
 
             Tooltip.SetDefault(
                 "<right> to parry incoming damage\n" +
@@ -29,6 +30,12 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Combo grants increased explosive potential\n" +
                 "'Its explosive might makes the heavens tremble'");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键躲避到来的伤害\n攻击敌人的时候标记爆炸标志\n反击将引爆有标志的敌人\n连击将给予爆炸潜能\n“它的爆炸威力会使天堂颤抖”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы парировать удар\n" +
+				"Помечайте врагов атаками\n" +
+				"Контратака: подрывает помеченных врагов\n" +
+				"Комбо: усиливает взрывы");
+
             buffID = mod.BuffType<Buffs.PumpkinMark>();
             projID = mod.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
         }

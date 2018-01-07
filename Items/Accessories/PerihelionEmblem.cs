@@ -16,12 +16,18 @@ namespace WeaponOut.Items.Accessories
         {
             DisplayName.SetDefault("Perihelion Emblem");
             DisplayName.AddTranslation(GameCulture.Chinese, "近日点徽章");
+			DisplayName.AddTranslation(GameCulture.Russian, "Эмблема Перигелия");
 
             Tooltip.SetDefault(
                 "Supercharges throwing weapons to their lunar potential\n" +
                 "30% increased throwing velocity\n" +
                 "'Swing back around'");
             Tooltip.AddTranslation(GameCulture.Chinese, "激发投掷武器的月之潜力\n增加30%投掷速度\n“来回摆动”");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"Заряжает метательое оружие космической энергией\n" +
+                "+30% скорость метания\n" +
+                "'Закинь подальше'");
+
         }
         public override void SetDefaults()
         {

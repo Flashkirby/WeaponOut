@@ -17,12 +17,18 @@ namespace WeaponOut.Items.Weapons.Fists
         {
             DisplayName.SetDefault("Fists of Fury");
             DisplayName.AddTranslation(GameCulture.Chinese, "怒之铁拳");
+            DisplayName.AddTranslation(GameCulture.Russian, "Кулаки Ярости");
 
             Tooltip.SetDefault(
                 "<right> to dash through enemies\n" +
                 "Dash grants 15% increased melee damage and knockback\n" +
                 "Combo may ignite enemies");
             Tooltip.AddTranslation(GameCulture.Chinese, "鼠标右键向敌人冲刺\n冲刺将增加15%的近战伤害和击退\n连击可能使敌人被点燃");
+            Tooltip.AddTranslation(GameCulture.Russian,
+				"<right>, чтобы прорваться через врагов\n" +
+				"Рывок: +15% урон и отбрасывание\n" +
+				"Комбо: шанс поджечь врагов");
+
             dustEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
         }
         public override void SetDefaults()
