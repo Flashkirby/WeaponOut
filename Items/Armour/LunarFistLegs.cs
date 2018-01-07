@@ -9,7 +9,7 @@ namespace WeaponOut.Items.Armour
     public class LunarFistLegs : ModItem
     {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Starlight Belt");
+            DisplayName.SetDefault("Starlight Leggings");
 
             Tooltip.SetDefault(
                 "15% increased minion damage, 12% increased movement and melee speed\n" +
