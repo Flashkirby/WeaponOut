@@ -17,7 +17,7 @@ namespace WeaponOut.Items.Accessories
 
             Tooltip.SetDefault(
                 "Grants 10 damage knockback immunity");
-            Tooltip.AddTranslation(GameCulture.Chinese, "所受单次伤害低于10时免疫击退");
+            Tooltip.AddTranslation(GameCulture.Chinese, "免疫10点伤害以下的击退");
 			Tooltip.AddTranslation(GameCulture.Russian, 
 				"Защита от отбрасывания, если урон меньше 10");
 
