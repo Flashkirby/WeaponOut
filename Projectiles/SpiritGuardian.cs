@@ -238,6 +238,12 @@ namespace WeaponOut.Projectiles
             }
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            projectile.netUpdate2 = true;
+        }
+
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D t = Main.projectileTexture[projectile.type];
