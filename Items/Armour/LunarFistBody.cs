@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Armour
             DisplayName.SetDefault("Starlight Plate");
 
             Tooltip.SetDefault(
-                "15% increased minion damage, 16% increased melee damage\n" +
+                "15% increased minion and melee damage\n" +
                 "100% increased uppercut damage and knockback\n" +
                 "Increases your max number of minions by 1");
         }
@@ -37,7 +37,7 @@ namespace WeaponOut.Items.Armour
 
         public override void UpdateEquip(Player player) {
             player.minionDamage += 0.15f;
-            player.meleeDamage += 0.16f;
+            player.meleeDamage += 0.15f;
             player.maxMinions += 1;
             ModPlayerFists.Get(player).uppercutDamage += 1f;
             ModPlayerFists.Get(player).uppercutKnockback += 1f;
