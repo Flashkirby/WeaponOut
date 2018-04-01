@@ -198,14 +198,18 @@ namespace WeaponOut.NPCs
 
                 if(Main.pumpkinMoon && npc.type == NPCID.Pumpking) {
                     int waveChance = Math.Max(1, (Main.expertMode ? 12 : 16) - NPC.waveNumber); // 12 is when two start spawning at once
-                    if (Main.rand.Next(waveChance) == 0) {
+                    int chance = Main.rand.Next(waveChance);
+                    //Main.NewText("Pumpking Slain, " + chance + "/" + waveChance);
+                    if (chance == 0) {
                         itemType = mod.ItemType<Items.Weapons.Fists.GlovesPumpkin>();
                     }
                 }
 
                 if(Main.snowMoon && npc.type == NPCID.IceQueen) {
                     int waveChance = Math.Max(1, (Main.expertMode ? 12 : 16) - NPC.waveNumber); // 12 is when two start spawning at once
-                    if (Main.rand.Next(waveChance) == 0) {
+                    int chance = Main.rand.Next(waveChance);
+                    // Main.NewText("Pumpking Slain, " + chance + "/" + waveChance);
+                    if (chance == 0) {
                         itemType = mod.ItemType<Items.Weapons.Fists.FistsFrozen>();
                     }
                 }
@@ -296,24 +300,3 @@ namespace WeaponOut.NPCs
         #endregion
     }
 }
-/*
- 
-				if (Main.netMode == 2)
-				{
-					int num = Item.NewItem((int)Position.X, (int)Position.Y, (int)HitboxSize.X, (int)HitboxSize.Y, itemType, itemStack, true, 0, false, false);
-					Main.itemLockoutTime[num] = 54000;
-					for (int i = 0; i < 255; i++)
-					{
-						if ((this.playerInteraction[i] || !interactionRequired) && Main.player[i].active)
-						{
-							NetMessage.SendData(90, i, -1, null, num, 0f, 0f, 0f, 0, 0, 0);
-						}
-					}
-					Main.item[num].active = false;
-				}
-				else if (Main.netMode == 0)
-				{
-					Item.NewItem((int)Position.X, (int)Position.Y, (int)HitboxSize.X, (int)HitboxSize.Y, itemType, itemStack, false, 0, false, false);
-				}
-
-     */
