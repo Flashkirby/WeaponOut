@@ -26,7 +26,7 @@ using Terraria.Localization;
 namespace WeaponOut
 {
     /// <summary>
-    /// Version 1.5.2 by Flashkirby99
+    /// Version 1.5.3 by Flashkirby99
     /// This class provides almost all the methods required for fist type weapons.
     /// </summary>
     public class ModPlayerFists : ModPlayer
@@ -325,7 +325,7 @@ namespace WeaponOut
             if(player.HeldItem.useStyle == useStyle && damageSource.SourceProjectileIndex >= 0)
             { damage = (int)(damage * 0.75f); }
 
-            return !ParryPreHurt(damageSource);
+            return !ParryPreHurt(damageSource, ref damage);
         }
 
         // This gets called last in the hook stack, after Item, then NPC
@@ -1248,7 +1248,7 @@ namespace WeaponOut
 
         /// <summary>  </summary>
         /// <returns> True when a received attack is parried </returns>
-        private bool ParryPreHurt(PlayerDeathReason damageSource)
+        private bool ParryPreHurt(PlayerDeathReason damageSource, ref int damageTaken)
         {
             // Cannot parry non-standard damage sources
             if (damageSource.SourceNPCIndex == -1 &&
@@ -1363,6 +1363,17 @@ namespace WeaponOut
             // Send information
             WeaponOut.NetUpdateParry(this);
 
+            // Only partial parry if too powerful for weapon
+            if(damageTaken > player.HeldItem.damage * 2)
+            {
+                player.noKnockback = true;
+                if (damageTaken > player.HeldItem.damage * 3)
+                {
+                    damageTaken /= 2;
+                }
+                damageTaken /= 3;
+                return false;
+            }
             return true;
         }
 
