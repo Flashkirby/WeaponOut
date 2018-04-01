@@ -15,6 +15,7 @@ namespace WeaponOut.Items.Armour
             Tooltip.SetDefault(
                 "15% increased minion and melee damage\n" +
                 "100% increased uppercut damage and knockback\n" +
+                "Consumes flight time for additional aerial uppercuts\n" +
                 "Increases your max number of minions by 1");
         }
         public override void SetDefaults() {
@@ -40,8 +41,10 @@ namespace WeaponOut.Items.Armour
             player.minionDamage += 0.15f;
             player.meleeDamage += 0.15f;
             player.maxMinions += 1;
+
             ModPlayerFists.Get(player).uppercutDamage += 1f;
             ModPlayerFists.Get(player).uppercutKnockback += 1f;
+            ModPlayerFists.Get(player).jumpWingUppercut = true;
 
             Lighting.AddLight(player.Center, new Vector3(0.9f, 0.9f, 0.95f));
         }

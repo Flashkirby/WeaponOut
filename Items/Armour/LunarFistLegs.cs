@@ -14,8 +14,9 @@ namespace WeaponOut.Items.Armour
 
             Tooltip.SetDefault(
                 "15% increased minion damage, 12% increased movement and melee speed\n" +
-                "Increases your max number of minions by 1\n" +
-                "100% increased divekick damage and knockback");
+                "100% increased divekick damage and knockback\n" +
+                "Increases movement speed after being struck\n" +
+                "Increases your max number of minions by 1");
         }
         public override void SetDefaults() {
             item.defense = 12;
@@ -41,6 +42,7 @@ namespace WeaponOut.Items.Armour
             player.moveSpeed += 0.12f;
             player.meleeSpeed += 0.12f;
             player.maxMinions += 1;
+            player.panic = true;
             ModPlayerFists.Get(player).divekickDamage += 1f;
             ModPlayerFists.Get(player).divekickKnockback += 1f;
 

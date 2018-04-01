@@ -96,6 +96,9 @@ namespace WeaponOut
         public int specialMove;
         /// <summary> Allows uppercuts without staying grounded (requires air hits) </summary>
         public bool jumpAgainUppercut = false;
+        /// <summary> Allows uppercuts with wingtime </summary>
+        public bool jumpWingUppercut = false;
+        public int jumpWingCost = 20;
         /// <summary> Should normal punches bounce as usual? </summary>
         private bool noBounce = false;
 
@@ -280,6 +283,8 @@ namespace WeaponOut
                     { jumpAgainUppercut = true; }
                     else
                     { jumpAgainUppercut = false; }
+
+                    jumpWingUppercut = false;
                 }
 
                 // Reset dash here when grappling
@@ -475,10 +480,21 @@ namespace WeaponOut
             {   // Uppercut from ground or start of jump
                 specialMove = 1;
             }
-            else if (player.controlUp && !canUseGrounded && jumpAgainUppercut)
+            else if (player.controlUp && !canUseGrounded && 
+                (jumpAgainUppercut || 
+                (jumpWingUppercut && player.wingTime > jumpWingCost)))
             {   // Uppercut from jumpagain
                 specialMove = 1;
-                jumpAgainUppercut = false;
+                if(jumpAgainUppercut)
+                {
+                    jumpAgainUppercut = false;
+                }
+                else
+                {
+                    Main.NewText("wing time = " + player.wingTime);
+                    player.wingTime -= jumpWingCost;
+                    Main.NewText("new time = " + player.wingTime);
+                }
             }
             else if (player.controlDown
                 && fallSpeedXmod >= 0f)
