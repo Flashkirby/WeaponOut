@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Buffs\ButterflyGrace.cs" />
     <Compile Include="Buffs\BloodLust.cs" />
+    <Compile Include="Buffs\SpiritGuardian.cs" />
     <Compile Include="Buffs\PumpkinMark.cs" />
     <Compile Include="Buffs\Frostbite.cs" />
     <Compile Include="Buffs\ErodingWind.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Projectiles\SpiritBeam.cs" />
     <Compile Include="Projectiles\SpiritPumpkinsplosion.cs" />
     <Compile Include="Projectiles\SpiritExplosion.cs" />
+    <Compile Include="Projectiles\SpiritGuardian.cs" />
     <Compile Include="Projectiles\SpiritWindstream.cs" />
     <Compile Include="Projectiles\SpiritShadow.cs" />
     <Compile Include="Projectiles\SpiritQuake.cs" />
