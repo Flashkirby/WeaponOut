@@ -12,9 +12,9 @@ namespace WeaponOut.Items.Armour
             DisplayName.SetDefault("Starlight Plate");
 
             Tooltip.SetDefault(
-                "15% increased minion damage, 16% increased melee damage" +
-                "100% increased uppercut damage and knockback" +
-                "Increases your max number of minions by 1\n");
+                "15% increased minion damage, 16% increased melee damage\n" +
+                "100% increased uppercut damage and knockback\n" +
+                "Increases your max number of minions by 1");
         }
         public override void SetDefaults() {
             item.defense = 18;
@@ -27,6 +27,8 @@ namespace WeaponOut.Items.Armour
         public override void AddRecipes() {
             if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FragmentStardust, 10);
+            recipe.AddIngredient(ItemID.FragmentSolar, 10);
             recipe.AddIngredient(ItemID.LunarBar, 18);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

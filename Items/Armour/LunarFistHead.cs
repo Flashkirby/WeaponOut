@@ -12,9 +12,9 @@ namespace WeaponOut.Items.Armour
             DisplayName.SetDefault("Starlight Circlet");
 
             Tooltip.SetDefault(
-                "15% increased minion damage, 13% increased melee critical strike chance" +
-                "Fighting bosses slowly empowers next melee attack, up to 2500%" +
-                "Increases your max number of minions by 1\n");
+                "15% increased minion damage, 13% increased melee critical strike chance\n" +
+                "Fighting bosses slowly empowers next melee attack, up to 2500%\n" +
+                "Increases your max number of minions by 1");
         }
         public override void SetDefaults() {
             item.defense = 16;
@@ -27,6 +27,8 @@ namespace WeaponOut.Items.Armour
         public override void AddRecipes() {
             if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FragmentStardust, 4);
+            recipe.AddIngredient(ItemID.FragmentSolar, 4);
             recipe.AddIngredient(ItemID.LunarBar, 6);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

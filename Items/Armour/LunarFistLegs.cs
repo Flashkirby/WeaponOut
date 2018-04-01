@@ -27,6 +27,8 @@ namespace WeaponOut.Items.Armour
         public override void AddRecipes() {
             if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FragmentStardust, 6);
+            recipe.AddIngredient(ItemID.FragmentSolar, 6);
             recipe.AddIngredient(ItemID.LunarBar, 12);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
