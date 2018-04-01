@@ -491,9 +491,7 @@ namespace WeaponOut
                 }
                 else
                 {
-                    Main.NewText("wing time = " + player.wingTime);
                     player.wingTime -= jumpWingCost;
-                    Main.NewText("new time = " + player.wingTime);
                 }
             }
             else if (player.controlDown
