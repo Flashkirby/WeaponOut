@@ -82,6 +82,8 @@ namespace WeaponOut
         public bool angryCombo;
         public bool debuffRecover;
         public bool beeHealing;
+        public bool starlightGuardian;
+        public bool starlightGuardianStanceChangeInput;
 
         public float patienceDamage;
         public float patienceBuildUpModifier;
@@ -161,6 +163,7 @@ namespace WeaponOut
 
         public int lastSelectedItem;
         public int itemSkillDelay;
+        public int lastNPCHitStarlightGuardian = -1;
 
         #region Utils
         public static void drawMagicCast(Player player, SpriteBatch spriteBatch, Color colour, int frame = -1)
@@ -286,6 +289,7 @@ namespace WeaponOut
                 ghostPosition = false;
                 debuffRecover = false;
                 beeHealing = false;
+                starlightGuardian = false;
 
                 patienceBuildUpModifier = 1f;
 
@@ -441,6 +445,17 @@ namespace WeaponOut
             if (ModConf.EnableBasicContent)
             {
                 applyBannerBuff();
+            }
+            if (ModConf.EnableFists)
+            {
+                if (!starlightGuardian)
+                {
+                    // Delete starlight guardian debuff if it hasn't been applied
+                    int buffID = mod.BuffType<Buffs.SpiritGuardian>();
+                    if (player.FindBuffIndex(buffID) != -1)
+                    { player.DelBuff(player.FindBuffIndex(buffID)); }
+
+                }
             }
         }
 
@@ -688,6 +703,7 @@ namespace WeaponOut
                 if (ModConf.EnableFists)
                 {
                     MomentumDashTorwardsMouse();
+                    starlightGuardianStanceChangeInput = true;
                 }
             }
         }
@@ -741,11 +757,13 @@ namespace WeaponOut
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             FistOnHitNPC(target, damage);
+            lastNPCHitStarlightGuardian = target.whoAmI;
         }
 
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
             FistOnHitNPCWithProj(proj, target, damage);
+            if(!proj.minion) lastNPCHitStarlightGuardian = target.whoAmI;
         }
 
         public override void OnHitByNPC(NPC npc, int damage, bool crit)

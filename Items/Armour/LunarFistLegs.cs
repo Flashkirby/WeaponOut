@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
+using Microsoft.Xna.Framework;
 
 namespace WeaponOut.Items.Armour
 {
@@ -42,7 +43,15 @@ namespace WeaponOut.Items.Armour
             player.maxMinions += 1;
             ModPlayerFists.Get(player).divekickDamage += 1f;
             ModPlayerFists.Get(player).divekickKnockback += 1f;
+
+            Lighting.AddLight(player.Center, new Vector3(0.9f, 0.9f, 0.95f));
         }
 
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            color = Color.White
+                * (1f - shadow)
+                * ((byte.MaxValue - drawPlayer.immuneAlpha) / (float)byte.MaxValue);
+        }
     }
 }
