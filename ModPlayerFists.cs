@@ -1741,13 +1741,6 @@ namespace WeaponOut
 
         private void SetComboEffectLogic()
         {
-            // Update other clients that the fist is being used. 
-            if (Main.netMode == 1 && Main.myPlayer == player.whoAmI)
-            {
-                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-            }
-
             // First time it was set was positive, turn negative to indicate change.
             if (comboEffect > 0) { comboEffect = -comboEffect; }
 
@@ -1756,6 +1749,18 @@ namespace WeaponOut
             {
                 if (DEBUG_COMBOFISTS) Main.NewText(string.Concat("Resetting combo: ", comboEffect));
                 comboEffect = 0;
+            }
+        }
+
+        // TODO: does this need to be used?
+        // was in SetComboEffectLogic, and causing big sad lag.
+        private void NetUpdateClient()
+        {
+            // Update other clients that the fist is being used. 
+            if (Main.netMode == 1 && Main.myPlayer == player.whoAmI)
+            {
+                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 
