@@ -204,7 +204,8 @@ namespace WeaponOut
 
         public static void ItemFlashFX(Player player, int dustType = 45)
         {
-            Main.PlaySound(25, -1, -1, 1);
+            if (player.whoAmI == Main.myPlayer)
+            { Main.PlaySound(25, -1, -1, 1); }
             for (int i = 0; i < 5; i++)
             {
                 int d = Dust.NewDust(

@@ -115,6 +115,7 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Sabres\WoodenSabre.cs" />
     <Compile Include="Items\Weapons\Fists\BaseAdvancedCombo.cs" />
     <Compile Include="Items\Weapons\Fists\FistsHokuto.cs" />
     <Compile Include="Items\Weapons\Fists\BaseAdvancedDash.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="ModPlayerFists.cs" />
+    <Compile Include="Items\Weapons\Sabres\ModPlayerSabres.cs" />
     <Compile Include="NPCs\ComboBubble.cs" />
     <Compile Include="PlayerWOFX.cs" />
     <Compile Include="Projectiles\BuddyPortalExit.cs" />
@@ -289,6 +291,7 @@
     <Compile Include="Projectiles\Whips\MoltenChains.cs" />
     <Compile Include="Projectiles\Explooosion.cs" />
     <Content Include="Items\SparkleStar.png" />
+    <Content Include="Items\Weapons\Sabres\WoodenSabre.png" />
     <Content Include="Items\Weapons\Fists\BaseAdvancedCombo.png" />
     <Content Include="Items\Weapons\Fists\BaseAdvancedDash.png" />
     <Content Include="Items\Weapons\Fists\BaseAdvancedParry.png" />
