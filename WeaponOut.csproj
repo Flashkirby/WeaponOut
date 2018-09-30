@@ -60,6 +60,7 @@
     <Compile Include="Buffs\ParryActive.cs" />
     <Compile Include="Buffs\MirrorBarrier.cs" />
     <Compile Include="Buffs\ManaReduction.cs" />
+    <Compile Include="Dusts\SlashDust.cs" />
     <Compile Include="Items\Accessories\DiscordHook.cs" />
     <Compile Include="Items\Accessories\ChaosHook.cs" />
     <Compile Include="Items\Accessories\DriedEye.cs" />
@@ -115,7 +116,8 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
-    <Compile Include="Items\Weapons\Sabres\WoodenSabre.cs" />
+    <Compile Include="Items\Weapons\Sabres\EnchantedSabre.cs" />
+    <Compile Include="Items\Weapons\Sabres\EnergySabre.cs" />
     <Compile Include="Items\Weapons\Fists\BaseAdvancedCombo.cs" />
     <Compile Include="Items\Weapons\Fists\FistsHokuto.cs" />
     <Compile Include="Items\Weapons\Fists\BaseAdvancedDash.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Items\Weapons\Fists\FistsMolten.cs" />
     <Compile Include="Items\Weapons\Fists\FistsOfFury.cs" />
     <Compile Include="Items\Weapons\Fists\FistsBoxing.cs" />
+    <Content Include="Dusts\SlashDust.png" />
     <Content Include="icon.png" />
     <Content Include="Items\Accessories\DiscordHook.png" />
     <Content Include="Items\Accessories\ChaosHook.png" />
@@ -231,7 +234,7 @@
     <Compile Include="Items\Weapons\Whips\Whiplash.cs" />
     <Compile Include="Items\Weapons\Whips\LeatherWhip.cs" />
     <Compile Include="ModPlayerFists.cs" />
-    <Compile Include="Items\Weapons\Sabres\ModPlayerSabres.cs" />
+    <Compile Include="Items\Weapons\Sabres\ModSabres.cs" />
     <Compile Include="NPCs\ComboBubble.cs" />
     <Compile Include="PlayerWOFX.cs" />
     <Compile Include="Projectiles\BuddyPortalExit.cs" />
@@ -291,7 +294,7 @@
     <Compile Include="Projectiles\Whips\MoltenChains.cs" />
     <Compile Include="Projectiles\Explooosion.cs" />
     <Content Include="Items\SparkleStar.png" />
-    <Content Include="Items\Weapons\Sabres\WoodenSabre.png" />
+    <Content Include="Items\Weapons\Sabres\EnergySabre.png" />
     <Content Include="Items\Weapons\Fists\BaseAdvancedCombo.png" />
     <Content Include="Items\Weapons\Fists\BaseAdvancedDash.png" />
     <Content Include="Items\Weapons\Fists\BaseAdvancedParry.png" />

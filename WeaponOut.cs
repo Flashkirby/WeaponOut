@@ -39,6 +39,7 @@ namespace WeaponOut
         public static int BuffIDMirrorBarrier;
 
         public static int DustIDManaDust;
+        public static int DustIDSlashFX;
 
         public static int shakeIntensity = 0;
         private static int shakeTick = 0;
@@ -88,6 +89,7 @@ namespace WeaponOut
             if (ModConf.EnableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
 
             DustIDManaDust = GetDust<Dusts.ManaDust>().Type;
+            DustIDSlashFX = GetDust<Dusts.SlashDust>().Type;
 
             if (ModConf.EnableEmblems) Items.Accessories.HeliosphereEmblem.SetUpGlobalDPS();
 
