@@ -514,9 +514,22 @@ namespace WeaponOut//Lite
                 default: return;
             }
 
-            //Add the weapon to the draw layers
-            Main.playerDrawData.Add(data);
-            WeaponDrawInfo.drawGlowLayer(data, drawPlayer, heldItem);
+
+            // Run custom draws
+            bool allowDraw = true;
+            foreach (var drawMethod in WeaponOut.mod.weaponOutCustomPreDrawMethods)
+            {
+                if (!drawMethod(drawPlayer, heldItem, data))
+                { allowDraw = false; }
+            }
+
+            // Attempt standard draw if allowed 
+            if (allowDraw)
+            {
+                //Add the weapon to the draw layers
+                Main.playerDrawData.Add(data);
+                WeaponDrawInfo.drawGlowLayer(data, drawPlayer, heldItem);
+            }
         }
 
         private static int ItemCustomizerGetShader(Mod mod, Item item) {

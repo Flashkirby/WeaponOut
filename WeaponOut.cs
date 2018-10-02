@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics;
 using Terraria.Localization;
+using Terraria.DataStructures;
 
 /*
  RARITY:
@@ -30,7 +31,12 @@ namespace WeaponOut
 {
     public class WeaponOut : Mod
     {
-        internal static Mod mod;
+        internal static WeaponOut mod;
+        
+        /// <summary>
+        /// Holds a list of custom draw functions that can be added to by other mods.
+        /// </summary>
+        internal List<Func<Player, Item, DrawData, bool>> weaponOutCustomPreDrawMethods;
 
         public static Texture2D dHeart;
         public static Texture2D pumpkinMark;
@@ -54,6 +60,7 @@ namespace WeaponOut
                 AutoloadGores = true,
                 AutoloadSounds = true
             };
+            weaponOutCustomPreDrawMethods = new List<Func<Player, Item, DrawData, bool>>();
             ModConf.Load();
         }
 
@@ -79,7 +86,14 @@ namespace WeaponOut
 
             ControlToggleVisual = RegisterHotKey(GetTranslationTextValue("WOFistComboPower"), "#");
         }
-        public static string GetTranslationTextValue(string key) {
+
+        public override void Unload()
+        {
+            weaponOutCustomPreDrawMethods.Clear();
+        }
+
+
+        internal static string GetTranslationTextValue(string key) {
             return Terraria.Localization.Language.GetText("Mods.WeaponOut." + key).Value;
         }
 
@@ -100,6 +114,10 @@ namespace WeaponOut
             else {
                 Console.WriteLine("WeaponOut loaded:    fistsupdate2#01");
             }
+
+            // Example of custom draw
+            Func<Player, Item, DrawData, bool> customPreDrawMethodVar = exampleCustomPreDrawMethod;
+            mod.Call("AddCustomPreDrawMethod", customPreDrawMethodVar);
         }
 
         /// <summary>
@@ -470,38 +488,75 @@ namespace WeaponOut
         }
         #endregion
 
+        public override void PostUpdateInput()
+        {
+            if (Main.gameMenu || ControlToggleVisual == null || ModConf.ForceShowWeaponOut) return;
+            if (ControlToggleVisual.JustPressed)
+            {
+                PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>(this);
+                ToggleWeaponVisual(pfx, !pfx.weaponVisual);
+            }
+        }
+
+        internal static Vector2 CalculateNormalAngle(Vector2 start, Vector2 end)
+        {
+            Vector2 diff = end - start;
+            diff.Normalize();
+            return diff;
+        }
+
         #region Mod Calls
+        /// <summary>
+        /// <para>"SetPlayerWeaponVisual", Player player, boolean show</para>
+        /// <para>"AddCustomPreDrawMethod", Func(Player, Item, DrawData, bool) customMethod</para>
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public override object Call(params object[] args) {
             if (args.Length < 1) return null;
-            if (args[1].GetType() != typeof(string)) return null;
+            if (args[0].GetType() != typeof(string)) return null;
             string method = (string)args[0];
-            try {
-                switch (method) {
+            try
+            {
+                switch (method)
+                {
                     case "SetPlayerWeaponVisual":
                         CallShowWeapon((Player)args[1], (bool)args[2]);
+                        break;
+                    case "AddCustomPreDrawMethod":
+                        AddCustomPreDrawMethod(args[1] as Func<Player, Item, DrawData, bool>);
                         break;
                 }
             }
             catch { }
             return null;
         }
+
         private void CallShowWeapon(Player p, bool show) {
             ToggleWeaponVisual(p.GetModPlayer<PlayerWOFX>(this), show);
         }
+
+        /// <summary>
+        /// Add a custom draw method to WeaponOut held item rendering. WeaponOut provides the following:
+        /// <para>Player = The player the item is being drawn for. </para>
+        /// <para>Item = The item to be drawn. </para>
+        /// <para>DrawData = The calculated DrawData just before being added to Main.playerDrawData. </para>
+        /// <para>Returns bool = The player the item is being draw for. </para>
+        /// </summary>
+        /// <param name="customDrawMethod"></param>
+        public void AddCustomPreDrawMethod(Func<Player, Item, DrawData, bool> customDrawMethod)
+        {
+            weaponOutCustomPreDrawMethods.Add(customDrawMethod);
+        }
+        private static bool exampleCustomPreDrawMethod(Player p, Item i, DrawData dd)
+        {
+            dd.scale *= 2f;
+            Main.playerDrawData.Add(dd);
+            return false;
+        }
         #endregion
 
-        public override void PostUpdateInput() {
-            if (Main.gameMenu || ControlToggleVisual == null || ModConf.ForceShowWeaponOut) return;
-            if (ControlToggleVisual.JustPressed) {
-                PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>(this);
-                ToggleWeaponVisual(pfx, !pfx.weaponVisual);
-            }
-        }
 
-        public static Vector2 CalculateNormalAngle(Vector2 start, Vector2 end) {
-            Vector2 diff = end - start;
-            diff.Normalize();
-            return diff;
-        }
+
     }
 }

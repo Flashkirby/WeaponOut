@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeaponOut", "WeaponOut.csproj", "{4E3DFB86-01BB-4397-B63C-D5ABE1E5597C}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeaponOutExtension", "..\WeaponOutExtension\WeaponOutExtension.csproj", "{37FC7CD7-3F09-4613-9FCE-902CEA9903F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeaponOutLite", "..\WeaponOutLite\WeaponOutLite.csproj", "{8298EAB6-0586-4BDA-9483-83624B66B13A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loot", "..\EvenMoreModifiers-0.1.2.2\Loot.csproj", "{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{8298EAB6-0586-4BDA-9483-83624B66B13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8298EAB6-0586-4BDA-9483-83624B66B13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8298EAB6-0586-4BDA-9483-83624B66B13A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40D91FD2-37C3-46AC-9237-EDE2D1C50E9C}
 	EndGlobalSection
 EndGlobal
