@@ -1,4 +1,4 @@
-﻿[English, 汉语, ру́сский]
+[English, 汉语, ру́сский]
 WeaponOut is a quality of life and minor content mod that introduces items that use interesting game mechanics balanced for vanilla Terraria, but are capable of holding up to modded playthroughs. It adds fist, whips, multi-function and team support items as well as ease-of-use functions such as autoswinging accessories, teleporting hooks and temporary spawn points.
 
 Summary: 
@@ -6,8 +6,8 @@ Summary:
 * Temporary spawn point tents! Silk + Wood.
 * Whips! Deals crits when hitting at the tip.
 * Fists! Dash at enemies to deliver devastating combos.
-* Dual-use Weapons! Right-click for secondary weapon abilities.
-* More shields! Obtainable early, with situational uses.
+* More dual-use Weapons! Right-click for secondary weapon abilities.
+* Early game shields, with situational uses.
 * Team-centric items for buffing, and restoring mana.
 * Endgame powerup accessories! Make low tier weapons lunar.
 * Custom config file, if you want to toggle the above features.
