@@ -36,6 +36,7 @@ namespace WeaponOut
                 {
                     if (ai1 == 1f || ai1 == -1f)
                     {
+                        // Use isBeingGrabbed for alternating swings
                         ai1 = item.isBeingGrabbed ? 1f : -1f;
                         item.isBeingGrabbed = !item.isBeingGrabbed;
                     }
@@ -113,8 +114,20 @@ namespace WeaponOut
                     PlayerFX.ItemFlashFX(player, 45);
                 }
             }
+
+            // HACK: allows the player to swing the sword when held on the mouse
+            if (Main.mouseItem.type == item.type)
+            {
+                if (player.controlUseItem && player.itemAnimation == 0 && player.itemTime == 0 && player.releaseUseItem)
+                { player.itemAnimation = 1; }
+            }
         }
 
+        /// <summary>
+        /// For Shoot method, handles setting the shoot to true or not
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static bool IsChargedShot(Player player)
         {
             // Sync the projectile itemtime with the actual slash
@@ -253,10 +266,24 @@ namespace WeaponOut
                 WeaponOut.DustIDSlashFX, dir * 15f, 0, colour, (crit ? 1.5f : 1f));
         }
 
+        public static bool SabreIsChargedStriking(Player player, ModItem sabre)
+        {
+            foreach (Projectile p in Main.projectile)
+            {
+                if (p.active &&
+                    p.owner == player.whoAmI &&
+                    p.GetType().Name == sabre.GetType().Name + "Slash")
+                {
+                    return p.ai[1] == 0;
+                }
+            }
+            return false;
+        }
 
 
-        // Projectile stuff
-
+        //////////////////////
+        // Projectile stuff //
+        //////////////////////
 
 
         public static bool AINormalSlash(Projectile projectile, float slashDirection)
