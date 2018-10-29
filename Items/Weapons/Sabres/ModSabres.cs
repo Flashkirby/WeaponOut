@@ -30,7 +30,7 @@ namespace WeaponOut
         /// </summary>
         public static void HoldItemManager(Player player, Item item, int slashProjectileID, int dust = 45, float slashDelay = 0.9f, float ai1 = 1f)
         {
-            if(player.itemAnimation > 0)
+            if (player.itemAnimation > 0)
             {
                 if (player.itemAnimation == player.itemAnimationMax - 1)
                 {
@@ -39,6 +39,11 @@ namespace WeaponOut
                         // Use isBeingGrabbed for alternating swings
                         ai1 = item.isBeingGrabbed ? 1f : -1f;
                         item.isBeingGrabbed = !item.isBeingGrabbed;
+                    }
+                    else if (ai1 == 0)
+                    {
+                        // Used to identify a charged attack
+                        item.beingGrabbed = true;
                     }
 
                     if (Main.myPlayer == player.whoAmI)
@@ -57,7 +62,7 @@ namespace WeaponOut
                     }
 
                     // Set item time anyway, if not shoot, also make next slash upwards
-                    if(item.shoot <= 0 && player.itemTime == 0)
+                    if (item.shoot <= 0 && player.itemTime == 0)
                     { player.itemTime = item.useTime; item.isBeingGrabbed = false; }
                 }
 
@@ -66,6 +71,7 @@ namespace WeaponOut
             else
             {
                 item.useStyle = 1;
+                item.beingGrabbed = false;
             }
 
             // when counting down
@@ -106,7 +112,7 @@ namespace WeaponOut
 
                 // reduce
                 player.itemTime -= (reduction - 1);
-                
+
                 // flash and correct
                 if (player.itemTime <= 1)
                 {
@@ -266,18 +272,15 @@ namespace WeaponOut
                 WeaponOut.DustIDSlashFX, dir * 15f, 0, colour, (crit ? 1.5f : 1f));
         }
 
-        public static bool SabreIsChargedStriking(Player player, ModItem sabre)
+        /// <summary>
+        /// Client-side check for if the sabre's attack is charged
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="sabre"></param>
+        /// <returns></returns>
+        public static bool SabreIsChargedStriking(Player player, Item sabre)
         {
-            foreach (Projectile p in Main.projectile)
-            {
-                if (p.active &&
-                    p.owner == player.whoAmI &&
-                    p.GetType().Name == sabre.GetType().Name + "Slash")
-                {
-                    return p.ai[1] == 0;
-                }
-            }
-            return false;
+            return sabre.beingGrabbed;
         }
 
 
