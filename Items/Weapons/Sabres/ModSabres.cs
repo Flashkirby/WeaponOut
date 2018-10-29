@@ -89,7 +89,7 @@ namespace WeaponOut
 
                 // Reset if swinging
                 if (player.itemAnimation > 0) { player.itemTime = item.useTime; }
-                else if (reduction > 1)
+                else
                 {
                     for (int i = 0; i < reduction; i++)
                     {
@@ -117,7 +117,7 @@ namespace WeaponOut
                 if (player.itemTime <= 1)
                 {
                     player.itemTime = 1;
-                    PlayerFX.ItemFlashFX(player, 45);
+                    //PlayerFX.ItemFlashFX(player, 45);
                 }
             }
 
