@@ -35,6 +35,15 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.rare = 2;
             item.value = 25000;
         }
+        public override void AddRecipes()
+        {
+            //if (!ModConf.EnableSabres) return;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Wood, 7);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
+        }
 
         public override void HoldItem(Player player)
         {
