@@ -32,7 +32,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.useTime = 30;
             item.useAnimation = 24;
 
-            item.rare = 2;
+            item.rare = 0;
             item.value = 25000;
         }
         public override void AddRecipes()
