@@ -85,7 +85,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public static Texture2D specialSlash;
         public const int specialProjFrames = 5;
         bool sndOnce = true;
-        int chargeSlashDirection = -1;
+        int chargeSlashDirection = 1;
         public override void SetStaticDefaults()
         {
             Main.projFrames[projectile.type] = specialProjFrames;
