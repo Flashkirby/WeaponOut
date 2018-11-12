@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Buffs\ButterflyGrace.cs" />
     <Compile Include="Buffs\BloodLust.cs" />
+    <Compile Include="Buffs\Knockup.cs" />
     <Compile Include="Buffs\SpiritGuardian.cs" />
     <Compile Include="Buffs\PumpkinMark.cs" />
     <Compile Include="Buffs\Frostbite.cs" />
@@ -116,6 +117,8 @@
     <Compile Include="Items\ScatterShot.cs" />
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
+    <Compile Include="Items\Weapons\Sabres\PalmWoodSabre.cs" />
+    <Compile Include="Items\Weapons\Sabres\WoodenSabre.cs" />
     <Compile Include="Items\Weapons\Sabres\EnchantedSabre.cs" />
     <Compile Include="Items\Weapons\Sabres\EnergySabre.cs" />
     <Compile Include="Items\Weapons\Fists\BaseAdvancedCombo.cs" />
