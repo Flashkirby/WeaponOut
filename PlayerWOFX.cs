@@ -516,6 +516,11 @@ namespace WeaponOut//Lite
 
 
             // Run custom draws
+            foreach (var drawMethod in WeaponOut.mod.weaponOutModifyPreDrawDataMethods)
+            {
+                data = drawMethod(drawPlayer, heldItem, data);
+            }
+
             bool allowDraw = true;
             foreach (var drawMethod in WeaponOut.mod.weaponOutCustomPreDrawMethods)
             {
