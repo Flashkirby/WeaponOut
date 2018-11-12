@@ -89,6 +89,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void SetStaticDefaults()
         {
             Main.projFrames[projectile.type] = specialProjFrames;
+            //if (Main.netMode == 2) return;
             //specialSlash = mod.GetTexture("Items/Weapons/Sabres/" + GetType().Name + "_Special");
         }
         public override void SetDefaults()
