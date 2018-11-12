@@ -17,12 +17,15 @@ namespace WeaponOut.Tiles
             name.SetDefault("Camping Tent");
             name.AddTranslation(GameCulture.Chinese, "野营帐篷");
             AddMapEntry(new Color(90, 190, 20), name);
+            TileID.Sets.HasOutlines[Type] = true;
 
             //extra info
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
             dustType = 93;
             disableSmartCursor = true;
+            adjTiles = new int[] { TileID.Beds };
+            bed = true;
 
             //style is set up like a bed
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
@@ -57,6 +60,11 @@ namespace WeaponOut.Tiles
             {
                 Item.NewItem(i * 16, j * 16, 80, 48, mod.ItemType("CampTent"));
             }
+        }
+
+        public override bool HasSmartInteract()
+        {
+            return true;
         }
 
         public override void RightClick(int i, int j)

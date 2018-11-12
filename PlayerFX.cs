@@ -20,8 +20,10 @@ namespace WeaponOut
 {
     public class PlayerFX : ModPlayer
     {
-        
-        public Vector2 localTempSpawn;//spawn used by tent
+        /// <summary> Temporary spawn vector held by the tent </summary>
+        public Vector2 localTempSpawn;
+        /// <summary> Not Null only when the player respawns, and should be set back to null asap. </summary>
+        public Vector2? localPermaSpawnCache;
 
         #region Knockback Threshold
         private int damageKnockbackThreshold;
@@ -226,6 +228,7 @@ namespace WeaponOut
             itemSkillDelay = 0;
 
             localTempSpawn = new Vector2();
+            localPermaSpawnCache = null;
 
             // Set up position
             if (ModConf.EnableFists)
@@ -493,6 +496,10 @@ namespace WeaponOut
 
         public override bool PreItemCheck()
         {
+            if (ModConf.EnableBasicContent)
+            {
+                tentCleanupScript();
+            }
             if (ModConf.EnableDualWeapons)
             {
                 PreItemCheckDualSync();
@@ -876,11 +883,21 @@ namespace WeaponOut
         #endregion
 
         #region Tent
+        /// <summary> This is called in OnRespawn, before the player SpawnX/Y is used to place them. </summary>
         private void tentScript()
         {
-            if (localTempSpawn != default(Vector2)) checkTemporarySpawn();
+            if (localTempSpawn != default(Vector2)) SetTemporaryRespawn();
         }
-        private void checkTemporarySpawn()
+        private void tentCleanupScript()
+        {
+            if(localPermaSpawnCache != null)
+            {
+                player.SpawnX = (int)((Vector2)localPermaSpawnCache).X;
+                player.SpawnY = (int)((Vector2)localPermaSpawnCache).Y;
+                localPermaSpawnCache = null;
+            }
+        }
+        private void SetTemporaryRespawn()
         {
             if (player.whoAmI == Main.myPlayer)
             {
@@ -893,20 +910,10 @@ namespace WeaponOut
                     localTempSpawn = default(Vector2);
                     return;
                 }
-                Main.BlackFadeIn = 255;
-                Main.renderNow = true;
-
-                player.position.X = (float)(localTempSpawn.X * 16 + 8 - player.width / 2);
-                player.position.Y = (float)((localTempSpawn.Y + 1) * 16 - player.height);
-                player.fallStart = (int)(player.position.Y / 16);
-
-                Main.screenPosition.X = player.position.X + (float)(player.width / 2) - (float)(Main.screenWidth / 2);
-                Main.screenPosition.Y = player.position.Y + (float)(player.height / 2) - (float)(Main.screenHeight / 2);
-
-                if (Main.netMode == 1)
-                {
-                    NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                }
+                
+                localPermaSpawnCache = new Vector2(player.SpawnX, player.SpawnY);
+                player.SpawnX = (int)localTempSpawn.X;
+                player.SpawnY = (int)localTempSpawn.Y;
             }
         }
         #endregion
