@@ -11,7 +11,10 @@ namespace WeaponOut.Tiles
 {
     public class CampTent : ModTile
     {
-        public override void SetDefaults() 
+        const int _FRAMEWIDTH = 5;
+        const int _FRAMEHEIGHT = 3;
+
+        public override void SetDefaults()
         {
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Camping Tent");
@@ -29,62 +32,66 @@ namespace WeaponOut.Tiles
 
             //style is set up like a bed
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
+            //strangely enough this means styles are read VERTICALLY
+            TileObjectData.newTile.StyleHorizontal = true;
             //width in blocks, and define required ground anchor
-            TileObjectData.newTile.Width = 5;
+            TileObjectData.newTile.Width = _FRAMEWIDTH;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            
+
             //height, and coordinates of each row
-            TileObjectData.newTile.Height = 3;
+            TileObjectData.newTile.Height = _FRAMEHEIGHT;
             TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-				16,
+            {
+                16,
                 16,
                 16
-			};
+            };
 
             //placement centre and offset on ground
             TileObjectData.newTile.Origin = new Point16(2, 2);
             TileObjectData.newTile.DrawYOffset = 2;
-            
+
             //add left and right versions
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
-            TileObjectData.addAlternate(1); 
+            TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
-             
+
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             if (ModConf.EnableBasicContent)
             {
-                Item.NewItem(i * 16, j * 16, 80, 48, mod.ItemType("CampTent"));
+                int type = GetItemTypeFromStyle(frameY);
+                if (type > 0)
+                { Item.NewItem(i * 16, j * 16, 80, 48, mod.ItemType("CampTent")); }
             }
         }
 
         public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        { return true; }
 
         public override void RightClick(int i, int j)
         {
             //get middle bottom of tent
             Player player = Main.player[Main.myPlayer];
             Tile tile = Main.tile[i, j];
-            int spawnX = i - tile.frameX / 18 + 2;
-            int spawnY = j - tile.frameY / 18 + 2;
-            if (tile.frameX > 90) spawnX += 5;
+            int frameX = tile.frameX % (18 * _FRAMEWIDTH * 2);
+            int frameY = tile.frameY % (18 * _FRAMEHEIGHT);
+            int spawnX = i - frameX / 18 + 2;
+            int spawnY = j - frameY / 18 + 2;
+            if (frameX > 90) spawnX += 5; // mirror facing offset for alternate
 
             //Dust.NewDust(new Vector2((float)(spawnX * 16), (float)(spawnY * 16)), 16, 16, 6, 0f, 0f, 0, default(Color), 4f);
             PlayerFX modPlayer = player.GetModPlayer<PlayerFX>(mod);
             if (modPlayer.localTempSpawn != new Vector2(spawnX, spawnY))
-			{
+            {
                 Main.NewText("Temporary spawn point set!", 255, 240, 20, false);
                 modPlayer.localTempSpawn = new Vector2(spawnX, spawnY);
-			}
-			else
-			{
+            }
+            else
+            {
                 if (player.SpawnX == -1 && player.SpawnY == -1)
                 {
                     Main.NewText("Temporary spawn point removed!", 255, 240, 20, false);
@@ -94,7 +101,7 @@ namespace WeaponOut.Tiles
                     Main.NewText("Spawn point set to bed!", 255, 240, 20, false);
                 }
                 modPlayer.localTempSpawn = new Vector2();
-			}
+            }
 
         }
 
@@ -105,8 +112,26 @@ namespace WeaponOut.Tiles
             if (ModConf.EnableBasicContent)
             {
                 player.showItemIcon = true;
-                player.showItemIcon2 = mod.ItemType("CampTent");
+                int type = GetItemTypeFromStyle(Main.tile[i, j].frameY);
+                player.showItemIcon2 = type;
             }
+        }
+
+        private int GetItemTypeFromStyle(int frameY)
+        {
+            int style = frameY / (18 * _FRAMEHEIGHT);
+            int type = 0;
+            switch (style)
+            {
+                case 0:
+                    type = mod.ItemType("CampTent");
+                    break;
+                case 1:
+                    type = mod.ItemType("CampTentMakeshift");
+                    break;
+            }
+
+            return type;
         }
     }
 }
