@@ -547,13 +547,17 @@ namespace WeaponOut
         /// <para>Player = The player the item is being drawn for. </para>
         /// <para>Item = The item to be drawn. </para>
         /// <para>DrawData = The calculated DrawData just before being added to Main.playerDrawData. </para>
-        /// <para>Returns bool = The player the item is being draw for. </para>
+        /// <para>Returns bool = True to allow drawing of the item for the player. </para>
         /// </summary>
         /// <param name="customDrawMethod"></param>
         public void AddCustomPreDrawMethod(Func<Player, Item, DrawData, bool> customDrawMethod)
         {
             weaponOutCustomPreDrawMethods.Add(customDrawMethod);
         }
+        /// <summary>
+        /// Allows modications to the draw data. Use this to do things like change scale.
+        /// </summary>
+        /// <param name="customDrawMethod"></param>
         public void AddCustomPreDrawDataMethods(Func<Player, Item, DrawData, DrawData> customDrawMethod)
         {
             weaponOutModifyPreDrawDataMethods.Add(customDrawMethod);
