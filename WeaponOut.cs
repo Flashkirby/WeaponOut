@@ -66,7 +66,25 @@ namespace WeaponOut
             ModConf.Load();
         }
 
-        public override void Load() {
+        private static bool exampleCustomModifyPreDraw(Player p, Item i, Terraria.DataStructures.DrawData dd)
+        {
+            if (i.modItem == null) return true;
+
+            if (i.rare > 3)
+            {
+                dd.scale *= i.rare;
+                Main.playerDrawData.Add(dd);
+                return false;
+            }
+            return true;
+        }
+
+        public override void Load()
+        {
+            Func<Player, Item, DrawData, bool> WODrawData = exampleCustomModifyPreDraw;
+            AddCustomPreDrawMethod(WODrawData);
+            //Call("AddCustomPreDrawMethod", WODrawData);
+
             mod = this;
 
             ModTranslation text;
