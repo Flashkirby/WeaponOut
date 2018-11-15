@@ -520,7 +520,6 @@ namespace WeaponOut//Lite
             {
                 data = drawMethod(drawPlayer, heldItem, data);
             }
-            WeaponOut.mod.weaponOutModifyPreDrawDataMethods.Clear();
 
             bool allowDraw = true;
             foreach (var drawMethod in WeaponOut.mod.weaponOutCustomPreDrawMethods)
@@ -528,7 +527,6 @@ namespace WeaponOut//Lite
                 if (!drawMethod(drawPlayer, heldItem, data))
                 { allowDraw = false; }
             }
-            WeaponOut.mod.weaponOutCustomPreDrawMethods.Clear();
 
             // Attempt standard draw if allowed 
             if (allowDraw)
