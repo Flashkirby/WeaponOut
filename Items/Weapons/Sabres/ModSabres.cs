@@ -28,8 +28,9 @@ namespace WeaponOut
         /// Charge item time faster when not moving, or grounded (or both!)
         /// Also handles the item.useStyle to allow for custom animation
         /// </summary>
-        public static void HoldItemManager(Player player, Item item, int slashProjectileID, int dust = 45, float slashDelay = 0.9f, float ai1 = 1f)
+        public static bool HoldItemManager(Player player, Item item, int slashProjectileID, int dust = 45, float slashDelay = 0.9f, float ai1 = 1f)
         {
+            bool charged = false;
             if (player.itemAnimation > 0)
             {
                 if (player.itemAnimation == player.itemAnimationMax - 1)
@@ -44,6 +45,7 @@ namespace WeaponOut
                     {
                         // Used to identify a charged attack
                         item.beingGrabbed = true;
+                        charged = true;
                     }
 
                     if (Main.myPlayer == player.whoAmI)
@@ -127,6 +129,8 @@ namespace WeaponOut
                 if (player.controlUseItem && player.itemAnimation == 0 && player.itemTime == 0 && player.releaseUseItem)
                 { player.itemAnimation = 1; }
             }
+
+            return charged;
         }
 
         /// <summary>
