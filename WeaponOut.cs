@@ -37,6 +37,7 @@ namespace WeaponOut
         /// Holds a list of custom draw functions that can be added to by other mods.
         /// </summary>
         internal List<Func<Player, Item, DrawData, bool>> weaponOutCustomPreDrawMethods;
+        internal List<Func<Player, Item, DrawData, DrawData>> weaponOutModifyPreDrawDataMethods;
 
         public static Texture2D dHeart;
         public static Texture2D pumpkinMark;
@@ -61,6 +62,7 @@ namespace WeaponOut
                 AutoloadSounds = true
             };
             weaponOutCustomPreDrawMethods = new List<Func<Player, Item, DrawData, bool>>();
+            weaponOutModifyPreDrawDataMethods = new List<Func<Player, Item, DrawData, DrawData>>();
             ModConf.Load();
         }
 
@@ -90,6 +92,7 @@ namespace WeaponOut
         public override void Unload()
         {
             weaponOutCustomPreDrawMethods.Clear();
+            weaponOutModifyPreDrawDataMethods.Clear();
         }
 
 
@@ -114,10 +117,6 @@ namespace WeaponOut
             else {
                 Console.WriteLine("WeaponOut loaded:    fistsupdate2#01");
             }
-
-            // Example of custom draw
-            Func<Player, Item, DrawData, bool> customPreDrawMethodVar = exampleCustomPreDrawMethod;
-            mod.Call("AddCustomPreDrawMethod", customPreDrawMethodVar);
         }
 
         /// <summary>
@@ -526,6 +525,9 @@ namespace WeaponOut
                     case "AddCustomPreDrawMethod":
                         AddCustomPreDrawMethod(args[1] as Func<Player, Item, DrawData, bool>);
                         break;
+                    case "AddCustomModifyPreDrawDataMethod":
+                        AddCustomPreDrawDataMethods(args[1] as Func<Player, Item, DrawData, DrawData>);
+                        break;
                 }
             }
             catch { }
@@ -541,18 +543,25 @@ namespace WeaponOut
         /// <para>Player = The player the item is being drawn for. </para>
         /// <para>Item = The item to be drawn. </para>
         /// <para>DrawData = The calculated DrawData just before being added to Main.playerDrawData. </para>
-        /// <para>Returns bool = The player the item is being draw for. </para>
+        /// <para>Returns bool = True to allow drawing of the item for the player. </para>
         /// </summary>
         /// <param name="customDrawMethod"></param>
         public void AddCustomPreDrawMethod(Func<Player, Item, DrawData, bool> customDrawMethod)
         {
             weaponOutCustomPreDrawMethods.Add(customDrawMethod);
         }
+        /// <summary>
+        /// Allows modications to the draw data. Use this to do things like change scale.
+        /// </summary>
+        /// <param name="customDrawMethod"></param>
+        public void AddCustomPreDrawDataMethods(Func<Player, Item, DrawData, DrawData> customDrawMethod)
+        {
+            weaponOutModifyPreDrawDataMethods.Add(customDrawMethod);
+        }
         private static bool exampleCustomPreDrawMethod(Player p, Item i, DrawData dd)
         {
-            dd.scale *= 2f;
-            Main.playerDrawData.Add(dd);
-            return false;
+            // hide weapon draw
+            return true;
         }
         #endregion
 
