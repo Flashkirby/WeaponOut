@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeaponOutLite", "..\WeaponO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loot", "..\EvenMoreModifiers-0.1.2.2\Loot.csproj", "{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeletonMod", "..\SkeletonMod\SkeletonMod.csproj", "{37A22C4D-6288-4E71-A98A-6FF57BCFF0C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanMemeGaleemMachine", "..\LeanMemeGaleemMachine\LeanMemeGaleemMachine.csproj", "{50527457-2904-4C9D-9260-2566C36714CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FAC04A1-1D95-4F18-BEE0-BD32AA5BA773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37A22C4D-6288-4E71-A98A-6FF57BCFF0C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37A22C4D-6288-4E71-A98A-6FF57BCFF0C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37A22C4D-6288-4E71-A98A-6FF57BCFF0C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37A22C4D-6288-4E71-A98A-6FF57BCFF0C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50527457-2904-4C9D-9260-2566C36714CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50527457-2904-4C9D-9260-2566C36714CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50527457-2904-4C9D-9260-2566C36714CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50527457-2904-4C9D-9260-2566C36714CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

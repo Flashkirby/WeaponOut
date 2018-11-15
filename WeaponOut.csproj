@@ -109,6 +109,7 @@
     <Compile Include="Items\DemonBloodCure.cs" />
     <Compile Include="Items\DemonBlood.cs" />
     <Compile Include="Items\AutoArm.cs" />
+    <Compile Include="Items\Placeable\CampTentMakeshift.cs" />
     <Compile Include="Items\RallyBannerGreen.cs" />
     <Compile Include="Items\RallyBannerBlue.cs" />
     <Compile Include="Items\RallyBannerYellow.cs" />
