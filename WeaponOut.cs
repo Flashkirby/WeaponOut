@@ -117,10 +117,6 @@ namespace WeaponOut
             else {
                 Console.WriteLine("WeaponOut loaded:    fistsupdate2#01");
             }
-
-            // Example of custom draw
-            Func<Player, Item, DrawData, bool> customPreDrawMethodVar = exampleCustomPreDrawMethod;
-            mod.Call("AddCustomPreDrawMethod", customPreDrawMethodVar);
         }
 
         /// <summary>
@@ -566,11 +562,6 @@ namespace WeaponOut
         {
             // hide weapon draw
             return true;
-        }
-        private static DrawData exampleCustomModifyPreDrawData(Player p, Item i, DrawData dd)
-        {
-            dd.scale *= 2f;
-            return dd;
         }
         #endregion
 
