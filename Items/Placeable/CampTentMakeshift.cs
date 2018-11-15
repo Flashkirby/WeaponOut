@@ -6,12 +6,12 @@ using Terraria.Localization;
 
 namespace WeaponOut.Items.Placeable
 {
-    public class CampTent : ModItem
+    public class CampTentMakeshift : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Camping Tent");
-            DisplayName.AddTranslation(GameCulture.Chinese, "野营帐篷");
+            DisplayName.SetDefault("Caving Tent");
+            DisplayName.AddTranslation(GameCulture.Chinese, "洞穴帐篷");
 			
 			if (Main.netMode == 0) {
 				Tooltip.SetDefault(
@@ -39,7 +39,7 @@ namespace WeaponOut.Items.Placeable
             item.useAnimation = 15;
             item.useTime = 10;
             item.createTile = mod.TileType("CampTent");
-            item.placeStyle = 0;
+            item.placeStyle = 1;
 
             item.useTurn = true;
             item.autoReuse = true;
@@ -48,7 +48,7 @@ namespace WeaponOut.Items.Placeable
         {
             if (!ModConf.EnableBasicContent) return;
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Silk, 2);
+            recipe.AddIngredient(ItemID.Cobweb, 30);
             recipe.AddIngredient(ItemID.Wood, 8);
             recipe.anyWood = true;
             recipe.AddTile(TileID.WorkBenches);

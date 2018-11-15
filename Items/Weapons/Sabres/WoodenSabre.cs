@@ -38,11 +38,11 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void AddRecipes()
         {
             //if (!ModConf.EnableSabres) return;
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 7);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            //ModRecipe recipe = new ModRecipe(mod);
+            //recipe.AddIngredient(ItemID.Wood, 7);
+            //recipe.AddTile(TileID.WorkBenches);
+            //recipe.SetResult(this, 1);
+            //recipe.AddRecipe();
         }
 
         public override void HoldItem(Player player)
@@ -89,6 +89,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void SetStaticDefaults()
         {
             Main.projFrames[projectile.type] = specialProjFrames;
+            //if (Main.netMode == 2) return;
             //specialSlash = mod.GetTexture("Items/Weapons/Sabres/" + GetType().Name + "_Special");
         }
         public override void SetDefaults()

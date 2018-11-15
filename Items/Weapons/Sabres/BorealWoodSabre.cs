@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,14 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WeaponOut.Items.Weapons.Sabres
 {
-    public class EnergySabre : ModItem
+    public class BorealWoodSabre : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam Saber");
+            DisplayName.SetDefault("Boreal Saber");
             
-            Tooltip.SetDefault("Charge attack swings further"
-                            + "\n'Eye-catching and lethal'");
+            Tooltip.SetDefault("Charge attack delivers a double strike");
         }
         public override void SetDefaults()
         {
@@ -23,32 +22,39 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.height = 32;
 
             item.melee = true;
-            item.damage = 50; //DPS 150
-            item.knockBack = 3;
+            item.damage = 6; //DPS (1def) 10
+            item.knockBack = 3f;
             item.autoReuse = true;
 
             item.useStyle = 1;
-            item.UseSound = SoundID.Item15;
+            item.UseSound = SoundID.Item1;
 
-            item.useTime = 60;
-            item.useAnimation = 20;
+            item.useTime = 30;
+            item.useAnimation = 25;
 
-            //item.shoot = ProjectileID.DD2SquireSonicBoom;
-            //item.shootSpeed = 10f;
-
-            item.rare = 3;
-            item.value = 25000;
+            item.rare = 0;
+            item.value = 0;
+        }
+        public override void AddRecipes()
+        {
+            //if (!ModConf.EnableSabres) return;
+            //ModRecipe recipe = new ModRecipe(mod);
+            //recipe.AddIngredient(ItemID.BorealWood, 7);
+            //recipe.AddTile(TileID.WorkBenches);
+            //recipe.SetResult(this, 1);
+            //recipe.AddRecipe();
         }
 
         public override void HoldItem(Player player)
         {
-            ModSabres.HoldItemManager(player, item, mod.ProjectileType<EnergySabreSlash>(),
-                45, 0.9f, player.itemTime == 0 ? 0f : 1f);
+            if (ModSabres.HoldItemManager(player, item, mod.ProjectileType<BorealWoodSabreSlash>(),
+                 45, 0.9f, player.itemTime == 0 ? 0f : 1f))
+            { player.AddBuff(mod.BuffType("SabreDance"), player.itemAnimationMax / 2); }
         }
 
         // Doesn't get called unless item.shoot is defined.
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        { return ModSabres.IsChargedShot(player); }
+        //public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        //{ return ModSabres.IsChargedShot(player); }
 
         public override bool UseItemFrame(Player player)
         {
@@ -58,41 +64,33 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            int height = 64;
-            int length = 84;
-            if (item.noGrabDelay > 0)
-            {
-                length = 164;
-                player.meleeDamage += 0.5f;
-            }
+            int height = 70;
+            int length = 72;
             ModSabres.UseItemHitboxCalculate(player, item, ref hitbox, ref noHitbox, 0.9f, height, length);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Color colour = new Color(1f, 0.1f, 0f);
+            Color colour = new Color(255, 89, 0, 119);
             ModSabres.OnHitFX(player, target, crit, colour);
         }
-
-        public override Color? GetAlpha(Color lightColor)
-        { return Color.White; }
     }
-    public class EnergySabreSlash : ModProjectile
+    public class BorealWoodSabreSlash : ModProjectile
     {
         public static Texture2D specialSlash;
-        public static int specialProjFrames = 6;
+        public const int specialProjFrames = 5;
         bool sndOnce = true;
         int chargeSlashDirection = 1;
         public override void SetStaticDefaults()
         {
-            Main.projFrames[projectile.type] = 5;
-            if (Main.netMode == 2) return;
-            specialSlash = mod.GetTexture("Items/Weapons/Sabres/" + GetType().Name + "_Special");
+            Main.projFrames[projectile.type] = specialProjFrames;
+            //if (Main.netMode == 2) return;
+            //specialSlash = mod.GetTexture("Items/Weapons/Sabres/" + GetType().Name + "_Special");
         }
         public override void SetDefaults()
         {
-            projectile.width = 88;
-            projectile.height = 84;
+            projectile.height = 70;
+            projectile.width = 72;
             projectile.aiStyle = -1;
             projectile.timeLeft = 60;
 
@@ -122,26 +120,26 @@ namespace WeaponOut.Items.Weapons.Sabres
             else
             {
                 // Charged attack
-                projectile.width = 164;
                 ModSabres.AISetChargeSlashVariables(player, chargeSlashDirection);
                 ModSabres.NormalSlash(projectile, player);
 
                 // Play charged sound
                 if (sndOnce)
-                { Main.PlaySound(SoundID.Item60, projectile.Center); sndOnce = false; }
+                { Main.PlaySound(SoundID.Item5.WithVolume(0.5f), projectile.Center); sndOnce = false; }
             }
             projectile.damage = 0;
-            projectile.ai[0] += 0.75f; // Framerate
+            projectile.ai[0] += 1f; // Framerate
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<EnergySabre>();
-            //Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
-            return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, Color.White,
-                SlashLogic == 0f ? specialSlash : null,
-                new Color(1f, 1f, 1f, 0.1f), specialProjFrames,
+            int weaponItemID = mod.ItemType<BorealWoodSabre>();
+            Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
+            return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
+                null,//SlashLogic == 0f ? specialSlash : null,
+                lighting,
+                specialProjFrames,
                 SlashLogic == 0f ? chargeSlashDirection : SlashLogic);
         }
 

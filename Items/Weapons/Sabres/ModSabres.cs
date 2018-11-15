@@ -28,8 +28,9 @@ namespace WeaponOut
         /// Charge item time faster when not moving, or grounded (or both!)
         /// Also handles the item.useStyle to allow for custom animation
         /// </summary>
-        public static void HoldItemManager(Player player, Item item, int slashProjectileID, int dust = 45, float slashDelay = 0.9f, float ai1 = 1f)
+        public static bool HoldItemManager(Player player, Item item, int slashProjectileID, int dust = 45, float slashDelay = 0.9f, float ai1 = 1f)
         {
+            bool charged = false;
             if (player.itemAnimation > 0)
             {
                 if (player.itemAnimation == player.itemAnimationMax - 1)
@@ -44,6 +45,7 @@ namespace WeaponOut
                     {
                         // Used to identify a charged attack
                         item.beingGrabbed = true;
+                        charged = true;
                     }
 
                     if (Main.myPlayer == player.whoAmI)
@@ -127,6 +129,8 @@ namespace WeaponOut
                 if (player.controlUseItem && player.itemAnimation == 0 && player.itemTime == 0 && player.releaseUseItem)
                 { player.itemAnimation = 1; }
             }
+
+            return charged;
         }
 
         /// <summary>
@@ -147,7 +151,7 @@ namespace WeaponOut
         }
 
         /// <summary> Some lazy copypasta'd code to set the item rotation on swing </summary>
-        private static void SetAttackRotation(Player player)
+        private static void SetAttackRotation(Player player, bool quiet = false)
         {
             // Get rotation at use
             if (Main.myPlayer == player.whoAmI)
@@ -179,6 +183,12 @@ namespace WeaponOut
                     }
                     player.itemRotation = (float)Math.Atan2((double)(num80 * (float)player.direction), (double)(num79 * (float)player.direction)) - player.fullRotation;
                 }
+            }
+
+            if (!quiet && Main.netMode == 1 && Main.myPlayer == player.whoAmI)
+            {
+                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.ItemAnimation, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 
@@ -313,12 +323,16 @@ namespace WeaponOut
             player.HeldItem.isBeingGrabbed = chargeSlashDirection < 0;
         }
 
+        const float HALFPI = (float)(Math.PI / 2);
         public static void NormalSlash(Projectile projectile, Player player)
         {
             if (projectile.ai[0] <= 0f)
             {
-                projectile.spriteDirection = player.direction;
                 projectile.rotation = (float)System.Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+                if(Math.Abs(projectile.rotation) == HALFPI)
+                { projectile.spriteDirection = player.direction; }
+                else
+                { projectile.spriteDirection = Math.Abs(projectile.rotation) <= HALFPI ? 1 : -1; }
 
                 // Centre the projectile on player
                 projectile.Center = player.MountedCenter;
