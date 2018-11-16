@@ -32,3 +32,7 @@ Gouvod - 汉语翻译
 Milliath - Переведено на русский.
 goldenapple - "Modder's Guide to Config Files"
 Folks on the discord server - Suggestions, bug testing and all-round support. You guys rock.
+
+Mod recommendations:
+Virtuous = Adds a whole bunch of cool and unique weapons.
+UnuBattleRods = Adds a fishing class that deals damage via special fishing rods that are also weapons.
