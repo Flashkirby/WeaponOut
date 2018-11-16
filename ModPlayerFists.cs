@@ -31,25 +31,23 @@ namespace WeaponOut
     /// </summary>
     public class ModPlayerFists : ModPlayer
     {
-        public override bool Autoload(ref string name) {
-            if (ModConf.EnableFists) {
-                ModTranslation text;
+        public override bool Autoload(ref string name)
+        {
+            ModTranslation text;
 
-                text = mod.CreateTranslation("WOFistComboPower");
-                text.SetDefault("$POWER combo power cost");
-                text.AddTranslation(GameCulture.Chinese, "$POWER 点连击能量消耗");
-                text.AddTranslation(GameCulture.Russian, "$POWER стоимость заряда комбо");
-                mod.AddTranslation(text);
+            text = mod.CreateTranslation("WOFistComboPower");
+            text.SetDefault("$POWER combo power cost");
+            text.AddTranslation(GameCulture.Chinese, "$POWER 点连击能量消耗");
+            text.AddTranslation(GameCulture.Russian, "$POWER стоимость заряда комбо");
+            mod.AddTranslation(text);
 
-                text = mod.CreateTranslation("WOFistPrefixSize");
-                text.SetDefault("% combo cost");
-                text.AddTranslation(GameCulture.Chinese, "%连击能量消耗");
-				text.AddTranslation(GameCulture.Russian, "% стоимость комбо");
-                mod.AddTranslation(text);
+            text = mod.CreateTranslation("WOFistPrefixSize");
+            text.SetDefault("% combo cost");
+            text.AddTranslation(GameCulture.Chinese, "%连击能量消耗");
+            text.AddTranslation(GameCulture.Russian, "% стоимость комбо");
+            mod.AddTranslation(text);
 
-                return true;
-            }
-            return false;
+            return true;
         }
 
         private const bool DEBUG_FISTBOXES = false;
@@ -212,6 +210,8 @@ namespace WeaponOut
         #region overrides
         public override void Initialize()
         {
+            if (!ModConf.EnableFists) return;
+
             specialMove = 0;
             comboResetTimeBonus = 0;
             comboCounter = 0;
@@ -236,98 +236,103 @@ namespace WeaponOut
         }
         public override void UpdateDead()
         {
+            if (!ModConf.EnableFists) return;
+
             this.Initialize();
         }
         public override void ResetEffects()
         {
+            if (!ModConf.EnableFists) return;
+
             oldComboCounter = comboCounter;
             ResetVariables();
         }
 
         public override bool PreItemCheck()
         {
-            if (ModConf.EnableFists)
+            if (!ModConf.EnableFists) return true; 
+
+            // Main.NewText("cd = " + player.attackCD + " : " + noBounce);
+            // Don't use the item whilst a parry is in progress
+            if (ItemCheckParry())
             {
-                // Main.NewText("cd = " + player.attackCD + " : " + noBounce);
-                // Don't use the item whilst a parry is in progress
-                if (ItemCheckParry())
-                {
-                    return false;
-                }
+                return false;
+            }
 
-                // Reset comboEffect at the end of animation
-                ManageComboMethodCall();
+            // Reset comboEffect at the end of animation
+            ManageComboMethodCall();
 
-                // Make dashing effects hit everything it passes through
-                if(dashEffect != 0 || specialMove == 1 || noBounce)
-                {
-                    player.attackCD = 0;
-                }
+            // Make dashing effects hit everything it passes through
+            if (dashEffect != 0 || specialMove == 1 || noBounce)
+            {
+                player.attackCD = 0;
             }
             return true;
         }
 
         public override void PreUpdate()
         {
-            if (ModConf.EnableFists)
+            if (!ModConf.EnableFists) return;
+
+            comboCounterMax = player.HeldItem.tileBoost;
+            comboCounterMaxScaleMod = Math.Max(0, 2 - player.HeldItem.scale);
+
+            // Jump again uppercut cannot be used from ground, only after attack resets
+            if (player.velocity.Y == 0)
             {
-                comboCounterMax = player.HeldItem.tileBoost;
-                comboCounterMaxScaleMod = Math.Max(0, 2 - player.HeldItem.scale);
+                // But upgraded fists can
+                Item i = new Item(); i.SetDefaults(player.HeldItem.type);
+                if (i.rare >= 4)
+                { jumpAgainUppercut = true; }
+                else
+                { jumpAgainUppercut = false; }
 
-                // Jump again uppercut cannot be used from ground, only after attack resets
-                if (player.velocity.Y == 0)
-                {
-                    // But upgraded fists can
-                    Item i = new Item(); i.SetDefaults(player.HeldItem.type);
-                    if (i.rare >= 4)
-                    { jumpAgainUppercut = true; }
-                    else
-                    { jumpAgainUppercut = false; }
+                jumpWingUppercut = false;
+            }
 
-                    jumpWingUppercut = false;
-                }
+            // Reset dash here when grappling
+            if (player.pulley || player.grapCount > 0)
+            {
+                if (player.dashDelay == -1) player.dashDelay = dashCooldownDelay;
+                ResetDashVars();
+            }
 
-                // Reset dash here when grappling
-                if (player.pulley || player.grapCount > 0)
-                {
-                    if (player.dashDelay == -1) player.dashDelay = dashCooldownDelay;
-                    ResetDashVars();
-                }
-
-                if (specialMove == 2)
-                {
-                    // Increase speed whilst diving
-                    player.maxFallSpeed *= 1.5f;
-                }
+            if (specialMove == 2)
+            {
+                // Increase speed whilst diving
+                player.maxFallSpeed *= 1.5f;
             }
         }
 
         public override void PostUpdate()
         {
+            if (!ModConf.EnableFists) return;
+
             // Set up parry frames
-            if (ModConf.EnableFists)
-            {
-                SetComboEffectLogic();
+            SetComboEffectLogic();
 
-                FistBodyFrame();
-                ParryBodyFrame();
+            FistBodyFrame();
+            ParryBodyFrame();
 
-                ShowFistHandOn();
-            }
+            ShowFistHandOn();
         }
 
         public override void PostUpdateRunSpeeds()
         {
+            if (!ModConf.EnableFists) return;
+
             CustomDashMovement();
         }
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            if (!ModConf.EnableFists) return true;
+
             // All fists have a global damage reduction on projectiles, because they're all about closing
             // in and doing big DPS. Due to the nature of the weapon, dodging projectiles is less important
             // than positioning between the player and enemies. Therefore this defence buff is in place to
             // reduce the pressure of projectiles on an already heavily stacked against usestyle.
-            if(player.HeldItem.useStyle == useStyle && damageSource.SourceProjectileIndex >= 0)
+            if (player.HeldItem.useStyle == useStyle && damageSource.SourceProjectileIndex >= 0)
             { damage = (int)(damage * 0.75f); }
 
             return !ParryPreHurt(damageSource, ref damage);
@@ -336,6 +341,8 @@ namespace WeaponOut
         // This gets called last in the hook stack, after Item, then NPC
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
+            if (!ModConf.EnableFists) return;
+
             if (specialMove == 1) // Uppercut
             {
                 damage = (int)(damage * uppercutDamage);
@@ -349,6 +356,8 @@ namespace WeaponOut
         }
         public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
         {
+            if (!ModConf.EnableFists) return;
+
             if (specialMove == 1)
             {
                 damage = (int)(damage * uppercutDamage);
@@ -361,6 +370,8 @@ namespace WeaponOut
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+            if (!ModConf.EnableFists) return;
+
             OnHitComboLogic(item, target);
         }
         
