@@ -298,7 +298,12 @@ namespace WeaponOut
         // Projectile stuff //
         //////////////////////
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectile"></param>
+        /// <param name="slashDirection"></param>
+        /// <returns>true for normal slashes, false if a charged attack</returns>
         public static bool AINormalSlash(Projectile projectile, float slashDirection)
         {
             Player player = Main.player[projectile.owner];
