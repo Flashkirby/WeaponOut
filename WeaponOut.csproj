@@ -121,6 +121,7 @@
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
     <Compile Include="Items\Weapons\Sabres\BorealWoodSabre.cs" />
     <Compile Include="Items\Weapons\Sabres\PalmWoodSabre.cs" />
+    <Compile Include="Items\Weapons\Sabres\JungleWoodSabre.cs" />
     <Compile Include="Items\Weapons\Sabres\WoodenSabre.cs" />
     <Compile Include="Items\Weapons\Sabres\EnchantedSabre.cs" />
     <Compile Include="Items\Weapons\Sabres\EnergySabre.cs" />

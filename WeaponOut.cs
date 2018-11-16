@@ -32,7 +32,7 @@ namespace WeaponOut
     public class WeaponOut : Mod
     {
         internal static WeaponOut mod;
-        
+
         /// <summary>
         /// Holds a list of custom draw functions that can be added to by other mods.
         /// </summary>
@@ -65,7 +65,7 @@ namespace WeaponOut
             weaponOutModifyPreDrawDataMethods = new List<Func<Player, Item, DrawData, DrawData>>();
             ModConf.Load();
         }
-
+        
         public override void Load() {
             mod = this;
 
