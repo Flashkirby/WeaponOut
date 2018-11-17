@@ -522,6 +522,10 @@ namespace WeaponOut
                     case "SetPlayerWeaponVisual":
                         CallShowWeapon((Player)args[1], (bool)args[2]);
                         break;
+                    case "SetFrenzyHeart":
+                        SetFrenzyHeart((Player)args[1], (bool)args[2]);
+                        break;
+
                     case "AddCustomPreDrawMethod":
                         AddCustomPreDrawMethod(args[1] as Func<Player, Item, DrawData, bool>);
                         break;
@@ -536,6 +540,10 @@ namespace WeaponOut
 
         private void CallShowWeapon(Player p, bool show) {
             ToggleWeaponVisual(p.GetModPlayer<PlayerWOFX>(this), show);
+        }
+
+        private void SetFrenzyHeart(Player p, bool state) {
+            p.GetModPlayer<PlayerFX>().demonBlood = true;
         }
 
         /// <summary>
