@@ -53,7 +53,9 @@ namespace WeaponOut.Items
         public override void UpdateInventory(Player player)
         {
             if (!item.favorited) return;
-            if (!player.HeldItem.autoReuse && !player.HeldItem.channel)
+            if (!player.HeldItem.autoReuse && 
+                !player.HeldItem.channel &&
+                player.HeldItem.fishingPole == 0)
             {
                 if (player.itemAnimation == 0)
                 {
