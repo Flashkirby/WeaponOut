@@ -204,10 +204,22 @@ namespace WeaponOut
             return true;
         }
 
-        public static void ItemFlashFX(Player player, int dustType = 45)
+        public struct SoundData
         {
+            public int Type;
+            public int x;
+            public int y;
+            public int Style;
+            public float volumeScale;
+            public float pitchOffset;
+            public SoundData(int Type)
+            { this.Type = Type; x = -1; y = -1; Style = 1; volumeScale = 1f; pitchOffset = 0f; }
+        }
+        public static void ItemFlashFX(Player player, int dustType = 45, SoundData sDat = default(SoundData))
+        {
+            if (sDat.Type == 0) { sDat = new SoundData(25); }
             if (player.whoAmI == Main.myPlayer)
-            { Main.PlaySound(25, -1, -1, 1); }
+            { Main.PlaySound(sDat.Type, sDat.x, sDat.y, sDat.Style, sDat.volumeScale, sDat.pitchOffset); }
             for (int i = 0; i < 5; i++)
             {
                 int d = Dust.NewDust(

@@ -48,7 +48,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void HoldItem(Player player)
         {
             if (ModSabres.HoldItemManager(player, item, mod.ProjectileType<BorealWoodSabreSlash>(),
-                 45, 0.9f, player.itemTime == 0 ? 0f : 1f))
+                 default(Color), 0.9f, player.itemTime == 0 ? 0f : 1f))
             { player.AddBuff(mod.BuffType("SabreDance"), player.itemAnimationMax / 2); }
         }
 

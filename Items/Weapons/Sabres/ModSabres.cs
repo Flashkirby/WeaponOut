@@ -28,7 +28,7 @@ namespace WeaponOut
         /// Charge item time faster when not moving, or grounded (or both!)
         /// Also handles the item.useStyle to allow for custom animation
         /// </summary>
-        public static bool HoldItemManager(Player player, Item item, int slashProjectileID, int dust = 45, float slashDelay = 0.9f, float ai1 = 1f)
+        public static bool HoldItemManager(Player player, Item item, int slashProjectileID, Color chargeColour = default(Color), float slashDelay = 0.9f, float ai1 = 1f)
         {
             bool charged = false;
             if (player.itemAnimation > 0)
@@ -91,23 +91,20 @@ namespace WeaponOut
 
                 // Reset if swinging
                 if (player.itemAnimation > 0) { player.itemTime = item.useTime; }
-                else
+                else if (Main.myPlayer == player.whoAmI)
                 {
                     for (int i = 0; i < reduction; i++)
                     {
                         // Charging dust
-                        Vector2 vector = player.MountedCenter;
-                        vector.X += (float)Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime);
-                        vector.Y += (float)Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime);
+                        Vector2 vector = new Vector2(
+                            Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime),
+                            Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime));
                         Dust d = Main.dust[Dust.NewDust(
-                            vector, 1, 1,
-                            235, 0f, 0f, 0,
-                            Color.White, 1f)];
-
-                        d.velocity *= 0f;
-                        d.scale = Main.rand.Next(70, 85) * 0.01f;
-                        // This dust uses fadeIn for homing into players
-                        d.fadeIn = player.whoAmI + 1;
+                            player.MountedCenter + vector, 1, 1,
+                            45, -vector.X / 8, -vector.Y / 8, 255,
+                            chargeColour, 1f)];
+                        d.noLight = true;
+                        d.noGravity = true;
                     }
                 }
 
@@ -119,7 +116,7 @@ namespace WeaponOut
                 if (player.itemTime <= 1)
                 {
                     player.itemTime = 1;
-                    //PlayerFX.ItemFlashFX(player, 45);
+                    PlayerFX.ItemFlashFX(player, 45, new PlayerFX.SoundData(25) { volumeScale = 0.5f });
                 }
             }
 

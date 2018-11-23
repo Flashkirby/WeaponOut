@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void HoldItem(Player player)
         {
             ModSabres.HoldItemManager(player, item, mod.ProjectileType<EnchantedSabreSlash>(),
-                45, 0.9f, player.itemTime == 0 ? 0f : 1f);
+                Color.Pink, 0.9f, player.itemTime == 0 ? 0f : 1f);
         }
 
         // Doesn't get called unless item.shoot is defined.
