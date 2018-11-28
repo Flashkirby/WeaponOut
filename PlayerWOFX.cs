@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -144,9 +143,9 @@ namespace WeaponOut//Lite
             try {
                 int heldItemStack = layers.IndexOf(PlayerLayer.HeldItem);
                 int hairBackStack = layers.IndexOf(PlayerLayer.HairBack);
-                int MiscEffectsFrontStack = layers.IndexOf(PlayerLayer.MiscEffectsFront);
-                layers.Insert(heldItemStack, HeldItem);
-                layers.Insert(hairBackStack, HairBack);
+                //int MiscEffectsFrontStack = layers.IndexOf(PlayerLayer.MiscEffectsFront);
+                if (heldItemStack >= 0) layers.Insert(heldItemStack, HeldItem);
+                if (hairBackStack >= 0) layers.Insert(hairBackStack, HairBack);
             }
             catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
