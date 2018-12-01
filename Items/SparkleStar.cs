@@ -53,7 +53,7 @@ namespace WeaponOut.Items
                 {
                     item.velocity.Y = -2f;
                     item.newAndShiny = false;
-                    Console.WriteLine(item.whoAmI + " Bounced     !  !  !");
+                    // Console.WriteLine(item.whoAmI + " Bounced     !  !  !");
                 }
                 else
                 {
