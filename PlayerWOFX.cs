@@ -51,11 +51,16 @@ namespace WeaponOut//Lite
             }
             float larger = Math.Max(itemWidth, itemHeight);
             int playerBodyFrameNum = player.bodyFrame.Y / player.bodyFrame.Height;
-            if (heldItem.useStyle == 5
+            // Is a long gun
+            HoldType customHold = getCustomHoldType(heldItem);
+            if (customHold == HoldType.LargeGun
+                ||
+                ( customHold == HoldType.None // only when none set
+                && (heldItem.useStyle == 5
                 && weaponTex.Width >= weaponTex.Height * 1.2f
                 && (!heldItem.noUseGraphic || !heldItem.melee)
                 && larger >= 45
-                && WeaponVisual //toggle with accessory1 visibility, or forceshow is on
+                && WeaponVisual)) //toggle with accessory1 visibility, or forceshow is on
             ) {
                 if (playerBodyFrameNum == 0) player.bodyFrame.Y = 10 * player.bodyFrame.Height;
             }
@@ -149,6 +154,20 @@ namespace WeaponOut//Lite
             }
             catch { }
             //layers.Insert(MiscEffectsFrontStack, MiscEffectsFront);
+        }
+
+        internal static HoldType getCustomHoldType(Item item)
+        {
+            int style;
+            if (ModConfWeaponOutCustom.TryGetCustomHoldStyle(item.type, out style))
+            {
+                if (style > HoldTypeCount)
+                { style = (int)HoldType.None; }
+                if (style < (int)HoldType.None)
+                { style = HoldTypeCount; }
+                return (HoldType)style;
+            }
+            return HoldType.None;
         }
 
         /// <summary>
@@ -291,214 +310,227 @@ namespace WeaponOut//Lite
 
         public enum HoldType
         { None, Hand, Waist, Back, Spear, PowerTool, Bow, SmallGun, LargeGun, Staff }
+        private static readonly bool[] holdTypeHideOnBack = new bool[] {
+            true, true, false, false, true, true, true, true, true, true
+        };
+        public static readonly int HoldTypeCount = (int)HoldType.Staff;
         private static void PickItemDrawType(bool drawOnBack, Player drawPlayer, Item heldItem, bool isYoyo, int gWidth, int gHeight, ref DrawData data, float itemWidth, float itemHeight, float larger, float lesser) {
             HoldType holdType = HoldType.None;
-
-            #region AutoPicker
-            if (heldItem.useStyle == 1 || //swing
-                heldItem.useStyle == 2 || //eat
-                heldItem.useStyle == 3)   //stab
+            int style;
+            if (ModConfWeaponOutCustom.TryGetCustomHoldStyle(heldItem.type, out style))
             {
-                //|       ######        
-                //|       ##  ##        
-                //|     ##########            
-                //|       ##  ##    
-                //|       ##  ##    
-                //|       ##  ##    
-                //|       ##  ##    
-                //|         ##      
-                //Items, daggers and other throwables lie below 28 and are easily held in the hand
-                if ((larger < 28 && !heldItem.magic) || //nonmagic weapons
-                    (larger <= 32 && heldItem.shoot != 0) || //larger for throwing weapons
-                    (larger <= 24 && heldItem.magic)) //only smallest magic weapons
-                {
-                    if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(hand): " + itemWidth + " x " + itemHeight);
-                    if (drawOnBack) return;
-                    holdType = HoldType.Hand;
-                }
-                //|             ####
-                //|           ##  ##
-                //|         ##  ##   
-                //|       ##  ##    
-                //|   ####  ##      
-                //|   ##  ##        
-                //| ##  ####        
-                //| ####            
-                //Broadsword weapons are swing type weapons between 28 - 48
-                //They are worn on the waist, and react to falling! Except when disabled
-                //This also amusingly applies to ducks, axes and rockfish
-                //But shouldn't apply to pickaxes, except when they are also not pickaxes
-                else if (larger <= 48 &&
-                    (heldItem.pick <= 0 ||
-                    (heldItem.pick > 0 && heldItem.axe > 0))) {
-                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(waist): " + itemWidth + " x " + itemHeight);
-                    if (!drawOnBack) return;
-                    holdType = HoldType.Waist;
-                }
-                //|           ########
-                //|           ##    ##
-                //|         ##    ####
-                //|   ##  ##    ##  
-                //|   ####    ##    
-                //|   ##  ####      
-                //| ##  ########    
-                //| ######          
-                //Great weapons are swing type weapons past 36 in size and slung on the back
-                else {
-                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(back): " + itemWidth + " x " + itemHeight);
-                    if (!drawOnBack) return;
-                    holdType = HoldType.Back;
-                }
+                holdType = getCustomHoldType(heldItem);
             }
-
-            if (heldItem.useStyle == 4 || //hold up
-                heldItem.useStyle == 5)   //hold out
+            else
             {
-                bool isAStaff = Item.staff[heldItem.type];
-                //staves, guns and bows
-                if (gHeight >= gWidth * 1.2f && !isAStaff) {
-                    //|    ######       
-                    //|    ##  ######   
-                    //|    ##    ##  ##  
-                    //|    ##    ##  ## 
-                    //|    ##    ##  ## 
-                    //|    ##    ##  ## 
-                    //|    ##  ######   
-                    //|    ######       
-                    //bows
-                    if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(bow): " + itemWidth + " x " + itemHeight);
-                    if (drawOnBack) return;
-                    holdType = HoldType.Bow;
-                }
-                else if (gWidth >= gHeight * 1.2f && !isAStaff) {
-                    if (heldItem.noUseGraphic && heldItem.melee) {
-                        //|                 
-                        //|    ####         
-                        //|  ##  ########## 
-                        //|  ####    ##    ####
-                        //|  ##  ##  ##        ####
-                        //|  ##      ##  ######
-                        //|    ############ 
-                        //|                 
-                        //drills, chainsaws
-                        if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                        if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(drill): " + itemWidth + " x " + itemHeight);
-                        if (drawOnBack) return;
-                        holdType = HoldType.PowerTool;
+                #region AutoPicker
+                if (heldItem.useStyle == 1 || //swing
+                    heldItem.useStyle == 2 || //eat
+                    heldItem.useStyle == 3)   //stab
+                {
+                    //|       ######        
+                    //|       ##  ##        
+                    //|     ##########            
+                    //|       ##  ##    
+                    //|       ##  ##    
+                    //|       ##  ##    
+                    //|       ##  ##    
+                    //|         ##      
+                    //Items, daggers and other throwables lie below 28 and are easily held in the hand
+                    if ((larger < 28 && !heldItem.magic) || //nonmagic weapons
+                        (larger <= 32 && heldItem.shoot != 0) || //larger for throwing weapons
+                        (larger <= 24 && heldItem.magic)) //only smallest magic weapons
+                    {
+                        if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(hand): " + itemWidth + " x " + itemHeight);
+                        holdType = HoldType.Hand;
                     }
-                    else {
-                        if (larger < 45) {
-                            //| ####        ####
-                            //| ##  ########  ##
-                            //|   ####        ##
-                            //|   ##    ########
-                            //|   ##  ##  ##      
-                            //|   ##  ####        
-                            //|   ######          
-                            //|                 
-                            if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(pistol): " + itemWidth + " x " + itemHeight);
-                            if (drawOnBack) return;
-                            //small aimed weapons (like handgun/aquasceptre) held halfway down, 1/3 back
-                            holdType = HoldType.SmallGun;
-                        }
-                        else {
-                            //|                 
-                            //|               ##
-                            //| ######################
-                            //| ##  ##      ##  ##
-                            //| ##  ############
-                            //| ####  ##    ##  
-                            //|     ####    ##  
-                            //|                 
-                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(rifle): " + itemWidth + " x " + itemHeight);
-                            if (drawOnBack) return;
-                            //large guns (rifles, launchers, etc.) held with both hands
-                            holdType = HoldType.LargeGun;
-                        }
+                    //|             ####
+                    //|           ##  ##
+                    //|         ##  ##   
+                    //|       ##  ##    
+                    //|   ####  ##      
+                    //|   ##  ##        
+                    //| ##  ####        
+                    //| ####            
+                    //Broadsword weapons are swing type weapons between 28 - 48
+                    //They are worn on the waist, and react to falling! Except when disabled
+                    //This also amusingly applies to ducks, axes and rockfish
+                    //But shouldn't apply to pickaxes, except when they are also not pickaxes
+                    else if (larger <= 48 &&
+                        (heldItem.pick <= 0 ||
+                        (heldItem.pick > 0 && heldItem.axe > 0)))
+                    {
+                        if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(waist): " + itemWidth + " x " + itemHeight);
+                        holdType = HoldType.Waist;
+                    }
+                    //|           ########
+                    //|           ##    ##
+                    //|         ##    ####
+                    //|   ##  ##    ##  
+                    //|   ####    ##    
+                    //|   ##  ####      
+                    //| ##  ########    
+                    //| ######          
+                    //Great weapons are swing type weapons past 36 in size and slung on the back
+                    else
+                    {
+                        if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(back): " + itemWidth + " x " + itemHeight);
+                        holdType = HoldType.Back;
                     }
                 }
-                else {
-                    if (heldItem.noUseGraphic && !isAStaff) {
-                        if (!heldItem.autoReuse) {
-                            if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(polearm): " + itemWidth + " x " + itemHeight);
-                            if (drawOnBack) return;
-                            if (isYoyo) {
-                                //sam (?why did i write sam? maybe same?)
-                                data = WeaponDrawInfo.modDraw_HandWeapon(data, drawPlayer, larger, lesser, isYoyo);
+
+                if (heldItem.useStyle == 4 || //hold up
+                    heldItem.useStyle == 5)   //hold out
+                {
+                    bool isAStaff = Item.staff[heldItem.type];
+                    //staves, guns and bows
+                    if (gHeight >= gWidth * 1.2f && !isAStaff)
+                    {
+                        //|    ######       
+                        //|    ##  ######   
+                        //|    ##    ##  ##  
+                        //|    ##    ##  ## 
+                        //|    ##    ##  ## 
+                        //|    ##    ##  ## 
+                        //|    ##  ######   
+                        //|    ######       
+                        //bows
+                        if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(bow): " + itemWidth + " x " + itemHeight);
+                        holdType = HoldType.Bow;
+                    }
+                    else if (gWidth >= gHeight * 1.2f && !isAStaff)
+                    {
+                        if (heldItem.noUseGraphic && heldItem.melee)
+                        {
+                            //|                 
+                            //|    ####         
+                            //|  ##  ########## 
+                            //|  ####    ##    ####
+                            //|  ##  ##  ##        ####
+                            //|  ##      ##  ######
+                            //|    ############ 
+                            //|                 
+                            //drills, chainsaws
+                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(drill): " + itemWidth + " x " + itemHeight);
+                            holdType = HoldType.PowerTool;
+                        }
+                        else
+                        {
+                            if (larger < 45)
+                            {
+                                //| ####        ####
+                                //| ##  ########  ##
+                                //|   ####        ##
+                                //|   ##    ########
+                                //|   ##  ##  ##      
+                                //|   ##  ####        
+                                //|   ######          
+                                //|                 
+                                if (drawPlayer.grapCount > 0) return; // can't see while grappling
+                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(pistol): " + itemWidth + " x " + itemHeight);
+                                //small aimed weapons (like handgun/aquasceptre) held halfway down, 1/3 back
+                                holdType = HoldType.SmallGun;
                             }
-                            else {
-                                //|             ####
-                                //|         ####  ##
-                                //|       ##    ##  
-                                //|         ##  ##  
-                                //|       ##  ##    
-                                //|     ##          
-                                //|   ##            
-                                //| ##              
-                                //spears are held facing to the floor, maces generally held
+                            else
+                            {
+                                //|                 
+                                //|               ##
+                                //| ######################
+                                //| ##  ##      ##  ##
+                                //| ##  ############
+                                //| ####  ##    ##  
+                                //|     ####    ##  
+                                //|                 
+                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(rifle): " + itemWidth + " x " + itemHeight);
+                                //large guns (rifles, launchers, etc.) held with both hands
+                                holdType = HoldType.LargeGun;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (heldItem.noUseGraphic && !isAStaff)
+                        {
+                            if (!heldItem.autoReuse)
+                            {
+                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(polearm): " + itemWidth + " x " + itemHeight);
+                                if (isYoyo)
+                                {
+                                    //sam (?why did i write sam? maybe same?)
+                                    data = WeaponDrawInfo.modDraw_HandWeapon(data, drawPlayer, larger, lesser, isYoyo);
+                                }
+                                else
+                                {
+                                    //|             ####
+                                    //|         ####  ##
+                                    //|       ##    ##  
+                                    //|         ##  ##  
+                                    //|       ##  ##    
+                                    //|     ##          
+                                    //|   ##            
+                                    //| ##              
+                                    //spears are held facing to the floor, maces generally held
+                                    holdType = HoldType.Spear;
+                                }
+                            }
+                            else
+                            {
+                                //nebula blaze, flairon, solar eruption (too inconsistent)
+                                if (larger <= 48)
+                                {
+                                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(waist safe): " + itemWidth + " x " + itemHeight);
+                                    holdType = HoldType.Waist;
+                                }
+                                else
+                                {
+                                    if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(back safe): " + itemWidth + " x " + itemHeight);
+                                    holdType = HoldType.Back;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (larger + lesser <= 72) //only smallest magic weapons
+                            {
+                                //|         ######  
+                                //|       ##  ##  ##
+                                //|     ##      ##  ##
+                                //|   ##        ######
+                                //| ##        ##  ##
+                                //| ##      ##  ##  
+                                //|   ##  ##  ##    
+                                //|     ######
+                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(hand magic): " + itemWidth + " x " + itemHeight);
+                                holdType = HoldType.Hand;
+                            }
+                            else if (lesser <= 42) //medium sized magic weapons, treated like polearms
+                            {
+                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(polearm magic): " + itemWidth + " x " + itemHeight);
                                 holdType = HoldType.Spear;
                             }
-                        }
-                        else {
-                            //nebula blaze, flairon, solar eruption (too inconsistent)
-                            if (larger <= 48) {
-                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(waist safe): " + itemWidth + " x " + itemHeight);
-                                if (!drawOnBack) return;
-                                holdType = HoldType.Waist;
+                            else
+                            { //largestaves are held straight up
+                              //|                 
+                              //|             ####
+                              //|   ############  ##
+                              //| ##        ##      ##
+                              //|   ############  ##
+                              //|             ####
+                              //|                 
+                              //|                 
+                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(staff): " + itemWidth + " x " + itemHeight);
+                                //staves
+                                holdType = HoldType.Staff;
                             }
-                            else {
-                                if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(back safe): " + itemWidth + " x " + itemHeight);
-                                if (!drawOnBack) return;
-                                holdType = HoldType.Back;
-                            }
-                        }
-                    }
-                    else {
-                        if (larger + lesser <= 72) //only smallest magic weapons
-                        {
-                            //|         ######  
-                            //|       ##  ##  ##
-                            //|     ##      ##  ##
-                            //|   ##        ######
-                            //| ##        ##  ##
-                            //| ##      ##  ##  
-                            //|   ##  ##  ##    
-                            //|     ######
-                            if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(hand magic): " + itemWidth + " x " + itemHeight);
-                            if (drawOnBack) return;
-                            holdType = HoldType.Hand;
-                        }
-                        else if (lesser <= 42) //medium sized magic weapons, treated like polearms
-                        {
-                            if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(polearm magic): " + itemWidth + " x " + itemHeight);
-                            if (drawOnBack) return;
-                            holdType = HoldType.Spear;
-                        }
-                        else { //largestaves are held straight up
-                            //|                 
-                            //|             ####
-                            //|   ############  ##
-                            //| ##        ##      ##
-                            //|   ############  ##
-                            //|             ####
-                            //|                 
-                            //|                 
-                            if (drawPlayer.grapCount > 0) return; // can't see while grappling
-                            if (DEBUG_WEAPONHOLD && drawPlayer.controlHook) Main.NewText(heldItem.useStyle + "(staff): " + itemWidth + " x " + itemHeight);
-                            if (drawOnBack) return;
-                            //staves
-                            holdType = HoldType.Staff;
                         }
                     }
                 }
+                #endregion
             }
-            #endregion
+            // can't see non-backed while grappling
+            if (holdTypeHideOnBack[(int)holdType] && drawPlayer.grapCount > 0) return;
+            // Only draw back items when it is a back item hold type
+            if (holdTypeHideOnBack[(int)holdType] == drawOnBack) return;
 
             switch (holdType) {
                 case HoldType.Hand: data = WeaponDrawInfo.modDraw_HandWeapon(data, drawPlayer, larger, lesser); break;

@@ -63,9 +63,13 @@ namespace WeaponOut
             };
             weaponOutCustomPreDrawMethods = new List<Func<Player, Item, DrawData, bool>>();
             weaponOutModifyPreDrawDataMethods = new List<Func<Player, Item, DrawData, DrawData>>();
-            ModConf.Load();
         }
-        
+
+        public override void PreSaveAndQuit()
+        {
+            ModConfWeaponOutCustom.SaveConfig();
+        }
+
         public override void Load() {
             mod = this;
 
@@ -86,6 +90,42 @@ namespace WeaponOut
             text.AddTranslation(GameCulture.Chinese, "隐藏武器");
             mod.AddTranslation(text);
 
+            text = mod.CreateTranslation("WOVisualTypeHand");
+            text.SetDefault("Hand");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualTypeWaist");
+            text.SetDefault("Belt");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualTypeBack");
+            text.SetDefault("Back");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualTypeSpear");
+            text.SetDefault("Pole");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualTypePowerTool");
+            text.SetDefault("Power Tool");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualTypeBow");
+            text.SetDefault("Bow");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualTypeSmallGun");
+            text.SetDefault("Handgun");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualTypeLargeGun");
+            text.SetDefault("Firearm");
+            mod.AddTranslation(text);
+
+            text = mod.CreateTranslation("WOVisualTypeStaff");
+            text.SetDefault("Staff");
+            mod.AddTranslation(text);
+
             ControlToggleVisual = RegisterHotKey(GetTranslationTextValue("WOFistComboPower"), "#");
         }
 
@@ -101,7 +141,8 @@ namespace WeaponOut
         }
 
         public override void PostSetupContent() {
-
+            ModConf.Load();
+            if (ModConf.ShowWeaponOut) ModConfWeaponOutCustom.Load();
             if (ModConf.EnableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             if (ModConf.EnableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
 
@@ -298,6 +339,24 @@ namespace WeaponOut
             string hoverText = GetTranslationTextValue("WOVisualShow"); // Visible
             Vector2 position = new Vector2(20, 10);
 
+            // Display custom styling
+            int style;
+            if (ModConfWeaponOutCustom.TryGetCustomHoldStyle(Main.LocalPlayer.HeldItem.type, out style))
+            {
+                switch (style)
+                {
+                    case 1: hoverText += ": " + GetTranslationTextValue("WOVisualTypeHand"); break;
+                    case 2: hoverText += ": " + GetTranslationTextValue("WOVisualTypeWaist"); break;
+                    case 3: hoverText += ": " + GetTranslationTextValue("WOVisualTypeBack"); break;
+                    case 4: hoverText += ": " + GetTranslationTextValue("WOVisualTypeSpear"); break;
+                    case 5: hoverText += ": " + GetTranslationTextValue("WOVisualTypePowerTool"); break;
+                    case 6: hoverText += ": " + GetTranslationTextValue("WOVisualTypeBow"); break;
+                    case 7: hoverText += ": " + GetTranslationTextValue("WOVisualTypeSmallGun"); break;
+                    case 8: hoverText += ": " + GetTranslationTextValue("WOVisualTypeLargeGun"); break;
+                    case 9: hoverText += ": " + GetTranslationTextValue("WOVisualTypeStaff"); break;
+                }
+            }
+
             // Show hidden instead
             if (!pfx.weaponVisual) {
                 eye = Main.inventoryTickOffTexture;
@@ -313,9 +372,23 @@ namespace WeaponOut
                 Main.hoverItemName = hoverText;
                 Main.blockMouse = true;
 
-                // On click
-                if (Main.mouseLeft && Main.mouseLeftRelease) {
+                // On plain click
+                if (!Main.mouseRight && Main.mouseLeft && Main.mouseLeftRelease) {
                     ToggleWeaponVisual(pfx, !pfx.weaponVisual);
+                }
+                if (pfx.weaponVisual)
+                {
+                    // On alt click
+                    if (Main.mouseRight && Main.mouseRightRelease)
+                    {
+                        ModConfWeaponOutCustom.UpdateCustomHoldIncrement(Main.LocalPlayer.HeldItem, 1);
+                    }
+
+                    // On click during alt
+                    if (Main.mouseRight && Main.mouseLeft && Main.mouseLeftRelease)
+                    {
+                        ModConfWeaponOutCustom.UpdateCustomHoldIncrement(Main.LocalPlayer.HeldItem, -1);
+                    }
                 }
             }
 
