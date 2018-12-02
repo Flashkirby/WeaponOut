@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Buffs\ButterflyGrace.cs" />
     <Compile Include="Buffs\BloodLust.cs" />
+    <Compile Include="Buffs\Reversal.cs" />
     <Compile Include="Buffs\SabreDance.cs" />
     <Compile Include="Buffs\Knockup.cs" />
     <Compile Include="Buffs\SpiritGuardian.cs" />
