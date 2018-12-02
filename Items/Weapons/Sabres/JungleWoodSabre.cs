@@ -77,7 +77,9 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
             if (ModSabres.SabreIsChargedStriking(player, item))
-            { knockBack *= 2f; }
+            {
+                target.AddBuff(mod.BuffType<Buffs.Reversal>(), 60);
+            }
         }
     }
     public class JungleWoodSabreSlash : ModProjectile
@@ -118,6 +120,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             set { projectile.ai[1] = value; }
         }
 
+        Vector2 savedPlayerVelocity;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -132,11 +135,26 @@ namespace WeaponOut.Items.Weapons.Sabres
                 if (sndOnce)
                 {
                     Main.PlaySound(SoundID.Item5.WithVolume(0.5f), projectile.Center); sndOnce = false;
-                    player.velocity += projectile.velocity * player.maxRunSpeed * 2f;
+                    savedPlayerVelocity = player.velocity;
                 }
             }
             projectile.damage = 0;
             projectile.ai[0] += 1f; // Framerate
+
+            if (SlashLogic == 0)
+            {
+                if (FrameCheck < 5)
+                {
+                    ModSabres.RecentreSlash(projectile, player);
+                    player.velocity = projectile.velocity * player.maxRunSpeed * 4f;
+                    player.armorEffectDrawShadow = true;
+                    player.immune = true;
+                    player.immuneTime = Math.Max(player.immuneTime, 6);
+                    player.immuneNoBlink = true;
+                }
+                else if (FrameCheck == 5)
+                { player.velocity = savedPlayerVelocity; }
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

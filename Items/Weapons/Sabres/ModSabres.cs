@@ -287,7 +287,7 @@ namespace WeaponOut
         /// <returns></returns>
         public static bool SabreIsChargedStriking(Player player, Item sabre)
         {
-            return sabre.beingGrabbed;
+            return player == Main.LocalPlayer && sabre.beingGrabbed;
         }
 
 
@@ -331,23 +331,12 @@ namespace WeaponOut
             if (projectile.ai[0] <= 0f)
             {
                 projectile.rotation = (float)System.Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
-                if(Math.Abs(projectile.rotation) == HALFPI)
+                if (Math.Abs(projectile.rotation) == HALFPI)
                 { projectile.spriteDirection = player.direction; }
                 else
                 { projectile.spriteDirection = Math.Abs(projectile.rotation) <= HALFPI ? 1 : -1; }
 
-                // Centre the projectile on player
-                projectile.Center = player.MountedCenter;
-                if (player.direction < 0) projectile.position.X += projectile.width;
-
-                // move to intended side, then pull back to player width
-                Vector2 offset = new Vector2(
-                   (float)System.Math.Cos(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale),
-                   (float)System.Math.Sin(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale)
-                    );
-                projectile.position += offset;
-
-                if (player.direction < 0) projectile.position.X -= projectile.width;
+                RecentreSlash(projectile, player);
             }
             else
             {
@@ -361,6 +350,22 @@ namespace WeaponOut
             }
 
             projectile.scale = projectile.knockBack;
+        }
+
+        public static void RecentreSlash(Projectile projectile, Player player)
+        {
+            // Centre the projectile on player
+            projectile.Center = player.MountedCenter;
+            if (player.direction < 0) projectile.position.X += projectile.width;
+
+            // move to intended side, then pull back to player width
+            Vector2 offset = new Vector2(
+               (float)System.Math.Cos(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale),
+               (float)System.Math.Sin(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale)
+                );
+            projectile.position += offset;
+
+            if (player.direction < 0) projectile.position.X -= projectile.width;
         }
 
         public static bool PreDrawSlashAndWeapon(SpriteBatch spriteBatch, Projectile projectile, int weaponItemID, Color weaponColor, Texture2D slashTexture, Color slashColor, int slashFramecount, float slashDirection = 1f)
