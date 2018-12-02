@@ -28,6 +28,7 @@ namespace WeaponOut
         /// Charge item time faster when not moving, or grounded (or both!)
         /// Also handles the item.useStyle to allow for custom animation
         /// </summary>
+        /// <returns>True on the frame of a charged attack</returns>
         public static bool HoldItemManager(Player player, Item item, int slashProjectileID, Color chargeColour = default(Color), float slashDelay = 0.9f, float ai1 = 1f)
         {
             bool charged = false;
@@ -315,6 +316,57 @@ namespace WeaponOut
         }
 
         /// <summary>
+        /// Manages logic for a dash with immunity and camera lerp.
+        /// </summary>
+        /// <param name="dashFrameDuration">Number of frames to dash for</param>
+        /// <param name="dashSpeed">SPeed of dash, eg. player.maxRunSpeed * 5f</param>
+        /// <param name="freezeFrame">The frame to freeze at eg. 2</param>
+        /// <param name="dashEndVelocity">The ending velocity eg. preDashVelocity</param>
+        /// <returns>True if currently in the dash</returns>
+        public static bool AIDashSlash(Player player, Projectile projectile, float dashFrameDuration, float dashSpeed, int freezeFrame, ref Vector2 dashEndVelocity)
+        {
+            bool a = false; ;
+            if ((int)projectile.ai[0] < dashFrameDuration)
+            {
+                // Fine-tuned tilecollision
+                for(int i = 0; i < 4; i++)
+                {
+                    player.position += Collision.TileCollision(player.position, projectile.velocity * dashSpeed / 4,
+                        player.width, player.height, false, false, (int)player.gravDir);
+                }
+                player.velocity *= 0.1f;
+                player.armorEffectDrawShadow = true;
+
+                // Prolong mid-slash
+                RecentreSlash(projectile, player);
+                if (player.itemAnimation <= player.itemAnimationMax - freezeFrame)
+                { player.itemAnimation = player.itemAnimationMax - freezeFrame; }
+
+                // Set immunities
+                player.immune = true;
+                player.immuneTime = Math.Max(player.immuneTime, 6);
+                player.immuneNoBlink = true;
+                //player.fallStart = (int)(player.position.Y / 16f);
+                //player.fallStart2 = player.fallStart;
+
+                a = true;
+            }
+            else if ((int)projectile.ai[0] >= dashFrameDuration && dashEndVelocity != new Vector2(float.MinValue, float.MinValue))
+            {
+                player.velocity = dashEndVelocity;
+                dashEndVelocity = new Vector2(float.MinValue, float.MinValue);
+            }
+
+            // Trigger lerp by offsetting camera
+            if (projectile.timeLeft == 59)
+            {
+                Main.SetCameraLerp(0.1f, 10);
+                Main.screenPosition -= projectile.velocity * 2;
+            }
+            return a;
+        }
+
+        /// <summary>
         /// Does player.HeldItem. noGrabDelay and isBeingGrabbed
         /// </summary>
         /// <param name="player"></param>
@@ -363,7 +415,6 @@ namespace WeaponOut
                (float)System.Math.Cos(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale),
                (float)System.Math.Sin(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale)
                 );
-            projectile.position += offset;
 
             if (player.direction < 0) projectile.position.X -= projectile.width;
         }

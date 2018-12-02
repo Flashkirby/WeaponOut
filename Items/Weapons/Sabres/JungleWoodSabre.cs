@@ -37,12 +37,12 @@ namespace WeaponOut.Items.Weapons.Sabres
         }
         public override void AddRecipes()
         {
-            //if (!ModConf.EnableSabres) return;
-            //ModRecipe recipe = new ModRecipe(mod);
-            //recipe.AddIngredient(ItemID.RichMahogany, 7);
-            //recipe.AddTile(TileID.WorkBenches);
-            //recipe.SetResult(this, 1);
-            //recipe.AddRecipe();
+            if (!ModConf.EnableBasicContent) return;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.RichMahogany, 7);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
 
         public override void HoldItem(Player player)
@@ -120,7 +120,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             set { projectile.ai[1] = value; }
         }
 
-        Vector2 savedPlayerVelocity;
+        Vector2 preDashVelocity;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -135,26 +135,20 @@ namespace WeaponOut.Items.Weapons.Sabres
                 if (sndOnce)
                 {
                     Main.PlaySound(SoundID.Item5.WithVolume(0.5f), projectile.Center); sndOnce = false;
-                    savedPlayerVelocity = player.velocity;
+                    preDashVelocity = player.velocity; // Save velocity before dash
                 }
             }
-            projectile.damage = 0;
-            projectile.ai[0] += 1f; // Framerate
-
+            
             if (SlashLogic == 0)
             {
-                if (FrameCheck < 5)
-                {
-                    ModSabres.RecentreSlash(projectile, player);
-                    player.velocity = projectile.velocity * player.maxRunSpeed * 4f;
-                    player.armorEffectDrawShadow = true;
-                    player.immune = true;
-                    player.immuneTime = Math.Max(player.immuneTime, 6);
-                    player.immuneNoBlink = true;
-                }
-                else if (FrameCheck == 5)
-                { player.velocity = savedPlayerVelocity; }
+                float dashFrameDuration = 3;
+                float dashSpeed = player.maxRunSpeed * 4f;
+                int freezeFrame = 2;
+                ModSabres.AIDashSlash(player, projectile, dashFrameDuration, dashSpeed, freezeFrame, ref preDashVelocity);
             }
+
+            projectile.damage = 0;
+            projectile.ai[0] += 1f; // Framerate
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
