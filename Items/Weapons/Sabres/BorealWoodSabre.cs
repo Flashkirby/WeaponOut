@@ -37,19 +37,19 @@ namespace WeaponOut.Items.Weapons.Sabres
         }
         public override void AddRecipes()
         {
-            //if (!ModConf.EnableSabres) return;
-            //ModRecipe recipe = new ModRecipe(mod);
-            //recipe.AddIngredient(ItemID.BorealWood, 7);
-            //recipe.AddTile(TileID.WorkBenches);
-            //recipe.SetResult(this, 1);
-            //recipe.AddRecipe();
+            if (!ModConf.EnableBasicContent) return;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.BorealWood, 7);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
 
         public override void HoldItem(Player player)
         {
             if (ModSabres.HoldItemManager(player, item, mod.ProjectileType<BorealWoodSabreSlash>(),
                  default(Color), 0.9f, player.itemTime == 0 ? 0f : 1f))
-            { player.AddBuff(mod.BuffType("SabreDance"), player.itemAnimationMax / 2); }
+            { Buffs.SabreDance.ApplySabreDance(mod, player, 1); }
         }
 
         // Doesn't get called unless item.shoot is defined.
