@@ -29,7 +29,7 @@ namespace WeaponOut
         /// Also handles the item.useStyle to allow for custom animation
         /// </summary>
         /// <returns>True on the frame of a charged attack</returns>
-        public static bool HoldItemManager(Player player, Item item, int slashProjectileID, Color chargeColour = default(Color), float slashDelay = 0.9f, float ai1 = 1f)
+        public static bool HoldItemManager(Player player, Item item, int slashProjectileID, Color chargeColour = default(Color), float slashDelay = 0.9f, float ai1 = 1f, Action<Player, bool> customCharge = null)
         {
             bool charged = false;
             if (player.itemAnimation > 0)
@@ -94,18 +94,25 @@ namespace WeaponOut
                 if (player.itemAnimation > 0) { player.itemTime = item.useTime; }
                 else if (Main.myPlayer == player.whoAmI)
                 {
-                    for (int i = 0; i < reduction; i++)
+                    if (customCharge != null)
                     {
-                        // Charging dust
-                        Vector2 vector = new Vector2(
-                            Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime),
-                            Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime));
-                        Dust d = Main.dust[Dust.NewDust(
-                            player.MountedCenter + vector, 1, 1,
-                            45, -vector.X / 8, -vector.Y / 8, 255,
-                            chargeColour, 1f)];
-                        d.noLight = true;
-                        d.noGravity = true;
+                        customCharge(player, false);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < reduction; i++)
+                        {
+                            // Charging dust
+                            Vector2 vector = new Vector2(
+                                Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime),
+                                Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime));
+                            Dust d = Main.dust[Dust.NewDust(
+                                player.MountedCenter + vector, 1, 1,
+                                45, -vector.X / 8, -vector.Y / 8, 255,
+                                chargeColour, 1f)];
+                            d.noLight = true;
+                            d.noGravity = true;
+                        }
                     }
                 }
 
@@ -117,7 +124,10 @@ namespace WeaponOut
                 if (player.itemTime <= 1)
                 {
                     player.itemTime = 1;
-                    PlayerFX.ItemFlashFX(player, 45, new PlayerFX.SoundData(25) { volumeScale = 0.5f });
+                    if (customCharge != null)
+                    { customCharge(player, true); }
+                    else
+                    { PlayerFX.ItemFlashFX(player, 45, new PlayerFX.SoundData(25) { volumeScale = 0.5f }); }
                 }
             }
 
