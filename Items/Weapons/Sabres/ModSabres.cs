@@ -329,13 +329,16 @@ namespace WeaponOut
             if ((int)projectile.ai[0] < dashFrameDuration)
             {
                 // Fine-tuned tilecollision
-                for(int i = 0; i < 4; i++)
+                player.armorEffectDrawShadow = true;
+                for (int i = 0; i < 4; i++)
                 {
                     player.position += Collision.TileCollision(player.position, projectile.velocity * dashSpeed / 4,
                         player.width, player.height, false, false, (int)player.gravDir);
                 }
-                player.velocity *= 0.1f;
-                player.armorEffectDrawShadow = true;
+                if (player.velocity.Y == 0)
+                { player.velocity = new Vector2(0, (projectile.velocity * dashSpeed).Y); }
+                else
+                { player.velocity = Vector2.Zero; }
 
                 // Prolong mid-slash
                 RecentreSlash(projectile, player);
@@ -412,9 +415,10 @@ namespace WeaponOut
 
             // move to intended side, then pull back to player width
             Vector2 offset = new Vector2(
-               (float)System.Math.Cos(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale),
-               (float)System.Math.Sin(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale)
+               (float)Math.Cos(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale),
+               (float)Math.Sin(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale)
                 );
+            projectile.position += offset;
 
             if (player.direction < 0) projectile.position.X -= projectile.width;
         }
