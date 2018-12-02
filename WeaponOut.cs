@@ -37,7 +37,7 @@ namespace WeaponOut
         /// Holds a list of custom draw functions that can be added to by other mods.
         /// </summary>
         internal List<Func<Player, Item, DrawData, bool>> weaponOutCustomPreDrawMethods;
-        internal List<Func<Player, Item, DrawData, DrawData>> weaponOutModifyPreDrawDataMethods;
+        internal List<Func<Player, Item, int, int>> weaponOutCustomHoldMethods;
 
         public static Texture2D dHeart;
         public static Texture2D pumpkinMark;
@@ -62,7 +62,7 @@ namespace WeaponOut
                 AutoloadSounds = true
             };
             weaponOutCustomPreDrawMethods = new List<Func<Player, Item, DrawData, bool>>();
-            weaponOutModifyPreDrawDataMethods = new List<Func<Player, Item, DrawData, DrawData>>();
+            weaponOutCustomHoldMethods = new List<Func<Player, Item, int, int>>();
         }
 
         public override void PreSaveAndQuit()
@@ -132,7 +132,7 @@ namespace WeaponOut
         public override void Unload()
         {
             weaponOutCustomPreDrawMethods.Clear();
-            weaponOutModifyPreDrawDataMethods.Clear();
+            weaponOutCustomHoldMethods.Clear();
         }
 
 
@@ -602,8 +602,8 @@ namespace WeaponOut
                     case "AddCustomPreDrawMethod":
                         AddCustomPreDrawMethod(args[1] as Func<Player, Item, DrawData, bool>);
                         break;
-                    case "AddCustomModifyPreDrawDataMethod":
-                        AddCustomPreDrawDataMethods(args[1] as Func<Player, Item, DrawData, DrawData>);
+                    case "AddCustomHoldMethod":
+                        AddCustomHoldMethod(args[1] as Func<Player, Item, int, int>);
                         break;
                 }
             }
@@ -632,12 +632,21 @@ namespace WeaponOut
             weaponOutCustomPreDrawMethods.Add(customDrawMethod);
         }
         /// <summary>
-        /// Allows modications to the draw data. Use this to do things like change scale.
+        /// Use this to override the 'Auto' hold position for the item.
+        /// [1: Hand]
+        /// [2: Waist, drawn behind]
+        /// [3: Back, drawn behind]
+        /// [4: Spear]
+        /// [5: PowerTool]
+        /// [6: Bow]
+        /// [7: SmallGun]
+        /// [8: LargeGun]
+        /// [9: Staff]
         /// </summary>
         /// <param name="customDrawMethod"></param>
-        public void AddCustomPreDrawDataMethods(Func<Player, Item, DrawData, DrawData> customDrawMethod)
+        public void AddCustomHoldMethod(Func<Player, Item, int, int> customDrawMethod)
         {
-            weaponOutModifyPreDrawDataMethods.Add(customDrawMethod);
+            weaponOutCustomHoldMethods.Add(customDrawMethod);
         }
         private static bool exampleCustomPreDrawMethod(Player p, Item i, DrawData dd)
         {

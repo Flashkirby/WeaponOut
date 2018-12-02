@@ -161,13 +161,17 @@ namespace WeaponOut//Lite
             int style;
             if (ModConfWeaponOutCustom.TryGetCustomHoldStyle(item.type, out style))
             {
-                if (style > HoldTypeCount)
-                { style = (int)HoldType.None; }
-                if (style < (int)HoldType.None)
-                { style = HoldTypeCount; }
-                return (HoldType)style;
+                return setHoldTypeSafeWrapping(style);
             }
             return HoldType.None;
+        }
+        internal static HoldType setHoldTypeSafeWrapping(int style)
+        {
+            if (style > HoldTypeCount)
+            { style = (int)HoldType.None; }
+            if (style < (int)HoldType.None)
+            { style = HoldTypeCount; }
+            return (HoldType)style;
         }
 
         /// <summary>
@@ -526,7 +530,15 @@ namespace WeaponOut//Lite
                     }
                 }
                 #endregion
+
+                // Get any custom hold if no override was set
+                foreach (var drawMethod in WeaponOut.mod.weaponOutCustomHoldMethods)
+                {
+                    holdType = setHoldTypeSafeWrapping(drawMethod(drawPlayer, heldItem, (int)holdType));
+                }
             }
+
+
             // can't see non-backed while grappling
             if (holdTypeHideOnBack[(int)holdType] && drawPlayer.grapCount > 0) return;
             // Only draw back items when it is a back item hold type
@@ -547,10 +559,6 @@ namespace WeaponOut//Lite
 
 
             // Run custom draws
-            foreach (var drawMethod in WeaponOut.mod.weaponOutModifyPreDrawDataMethods)
-            {
-                data = drawMethod(drawPlayer, heldItem, data);
-            }
 
             bool allowDraw = true;
             foreach (var drawMethod in WeaponOut.mod.weaponOutCustomPreDrawMethods)
