@@ -30,7 +30,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.useStyle = 1;
             item.UseSound = SoundID.Item15;
 
-            item.useTime = 60;
+            item.useTime = 60 / 4;
             item.useAnimation = 20;
 
             //item.shoot = ProjectileID.DD2SquireSonicBoom;

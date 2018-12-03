@@ -29,7 +29,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
 
-            item.useTime = 30;
+            item.useTime = 30 / 4;
             item.useAnimation = 25;
 
             item.rare = 0;

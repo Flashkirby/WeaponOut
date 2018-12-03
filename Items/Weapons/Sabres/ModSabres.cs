@@ -23,6 +23,7 @@ namespace WeaponOut
     /// </summary>
     public static class ModSabres
     {
+        private static byte internalChargeTicker;
 
         /// <summary> 
         /// Charge item time faster when not moving, or grounded (or both!)
@@ -82,14 +83,12 @@ namespace WeaponOut
             {
 
                 // If not moving much, boost item charge speed
-                int reduction = 1;
-                if (Math.Abs(player.velocity.X) <= 1f)
-                { reduction *= 2; }
+                int delaySpeed = 2;
                 // If not grounded
                 if (player.velocity.Y == 0)
-                { reduction *= 2; }
+                { delaySpeed -= 1; }
 
-
+                
                 // Reset if swinging
                 if (player.itemAnimation > 0) { player.itemTime = item.useTime; }
                 else if (Main.myPlayer == player.whoAmI)
@@ -100,25 +99,31 @@ namespace WeaponOut
                     }
                     else
                     {
-                        for (int i = 0; i < reduction; i++)
+                        for (int i = 0; i < 3; i++)
                         {
                             // Charging dust
                             Vector2 vector = new Vector2(
-                                Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime),
-                                Main.rand.Next(-2048, 2048) * (0.015f + 0.0003f * player.itemTime));
+                                Main.rand.Next(-2048, 2048) * (0.003f * player.itemTime) - 4,
+                                Main.rand.Next(-2048, 2048) * (0.003f * player.itemTime) - 4);
                             Dust d = Main.dust[Dust.NewDust(
                                 player.MountedCenter + vector, 1, 1,
-                                45, -vector.X / 8, -vector.Y / 8, 255,
-                                chargeColour, 1f)];
+                                45, 0, 0, 255,
+                                chargeColour, 1.5f)];
+                            d.velocity = -vector / 16;
                             d.noLight = true;
                             d.noGravity = true;
                         }
                     }
                 }
 
+                // allow item time when past "limit"
+                if(internalChargeTicker > delaySpeed)
+                { internalChargeTicker = 0; }
 
-                // reduce
-                player.itemTime -= (reduction - 1);
+                // delay item time unless at 0
+                if (internalChargeTicker > 0)
+                { player.itemTime++; }
+                internalChargeTicker++;
 
                 // flash and correct
                 if (player.itemTime <= 1)
