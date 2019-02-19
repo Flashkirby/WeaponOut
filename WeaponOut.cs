@@ -151,12 +151,14 @@ namespace WeaponOut
 
             if (ModConf.EnableEmblems) Items.Accessories.HeliosphereEmblem.SetUpGlobalDPS();
 
+            Call("AddCustomPreDrawMethod", WOPreDrawData);
+
             if (Main.netMode != 2) {
                 dHeart = mod.GetTexture("Gores/DemonHearts");
                 pumpkinMark = mod.GetTexture("Gores/PumpkinMark");
             }
             else {
-                Console.WriteLine("WeaponOut loaded:    fistsupdate2#01");
+                Console.WriteLine("WeaponOut loaded:    qol#01");
             }
         }
 
@@ -580,7 +582,9 @@ namespace WeaponOut
         #region Mod Calls
         /// <summary>
         /// <para>"SetPlayerWeaponVisual", Player player, boolean show</para>
-        /// <para>"AddCustomPreDrawMethod", Func(Player, Item, DrawData, bool) customMethod</para>
+        /// <para>"SetFrenzyHeart", Player player, boolean state</para>
+        /// <para>"AddCustomPreDrawMethod", Func(Player, Item, DrawData, returns bool show) customMethod</para>
+        /// <para>"AddCustomHoldMethod", Func(Player, Item, int holdType, returns int holdType) customMethod</para>
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
@@ -648,9 +652,12 @@ namespace WeaponOut
         {
             weaponOutCustomHoldMethods.Add(customDrawMethod);
         }
-        private static bool exampleCustomPreDrawMethod(Player p, Item i, DrawData dd)
+
+        private Func<Player, Item, DrawData, bool> WOPreDrawData = _HideCustomPreDrawMethod;
+        private static bool _HideCustomPreDrawMethod(Player p, Item i, DrawData dd)
         {
-            // hide weapon draw
+            // Hide the Nebula Blaze
+            if (i.type == ItemID.NebulaBlaze) return false;
             return true;
         }
         #endregion
