@@ -55,9 +55,10 @@ namespace WeaponOut
                         // First frame of attack
                         Vector2 mouse = new Vector2(Main.screenPosition.X + Main.mouseX, Main.screenPosition.Y + Main.mouseY);
                         SetAttackRotation(player);
+                        Vector2 velocity = (mouse - player.MountedCenter).SafeNormalize(new Vector2(player.direction, 0));
                         Projectile.NewProjectile(
                             player.MountedCenter,
-                            (mouse - player.MountedCenter).SafeNormalize(new Vector2(player.direction, 0)),
+                            velocity,
                             slashProjectileID,
                             (int)(item.damage * player.meleeDamage),
                             item.scale,
@@ -110,6 +111,7 @@ namespace WeaponOut
                                 45, 0, 0, 255,
                                 chargeColour, 1.5f)];
                             d.velocity = -vector / 16;
+                            d.velocity -= player.velocity / 8;
                             d.noLight = true;
                             d.noGravity = true;
                         }
