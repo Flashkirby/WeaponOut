@@ -50,8 +50,9 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.rare = 4;
             item.value = Item.sellPrice(0, 0, 50, 0);
         }
-        public override void AddRecipes() {
-            if (!ModConf.EnableBasicContent) return;
+        public override void AddRecipes()
+        {
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.UnicornHorn, 1);
             recipe.AddIngredient(ItemID.SoulofLight, 25);

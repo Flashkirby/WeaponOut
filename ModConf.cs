@@ -11,7 +11,7 @@ namespace WeaponOut
     /// </summary>
     public static class ModConf
     {
-        public const int configVersion = 2;
+        public const int configVersion = 3;
 
         internal static bool showWeaponOut = true;
         public static bool ShowWeaponOut { get { return showWeaponOut; } }
@@ -49,6 +49,10 @@ namespace WeaponOut
         public static bool EnableEmblems { get { return enableEmblems; } }
         private const string enableEmblemsField = "enable_emblems";
 
+        internal static bool enableSabres = true;
+        public static bool EnableSabres { get { return enableSabres; } }
+        private const string enableSabresField = "enable_sabres";
+
         static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs/WeaponOut.json");
 
         static Preferences ModConfig = new Preferences(ConfigPath);
@@ -76,15 +80,25 @@ namespace WeaponOut
                     if (readVersion == 0)
                     {
                         canUpdate = true;
-                        ModConfig.Put("version", 1);
+                        readVersion = 1;
+                        ModConfig.Put("version", readVersion);
                         ModConfig.Put(enableEmblemsField, enableEmblems);
                         ModConfig.Save();
                     }
                     if (readVersion == 1)
                     {
                         canUpdate = true;
-                        ModConfig.Put("version", 2);
+                        readVersion = 2;
+                        ModConfig.Put("version", readVersion);
                         ModConfig.Put(toggleWaistRotationField, toggleWaistRotation);
+                        ModConfig.Save();
+                    }
+                    if (readVersion == 2)
+                    {
+                        canUpdate = true;
+                        readVersion = 3;
+                        ModConfig.Put("version", readVersion);
+                        ModConfig.Put(enableSabresField, enableSabres);
                         ModConfig.Save();
                     }
 
@@ -97,6 +111,7 @@ namespace WeaponOut
                 ModConfig.Get(enableBasicContentField, ref enableBasicContent);
                 ModConfig.Get(enableWhipsField, ref enableWhips);
                 ModConfig.Get(enableFistsField, ref enableFists);
+                ModConfig.Get(enableSabresField, ref enableSabres);
                 ModConfig.Get(enableDualWeaponsField, ref enableDualWeapons);
                 ModConfig.Get(enableAccessoriesField, ref enableAccessories);
                 ModConfig.Get(enableEmblemsField, ref enableEmblems);
@@ -120,6 +135,7 @@ namespace WeaponOut
             ModConfig.Put(enableBasicContentField, enableBasicContent);
             ModConfig.Put(enableWhipsField, enableWhips);
             ModConfig.Put(enableFistsField, enableFists);
+            ModConfig.Put(enableSabresField, enableSabres);
             ModConfig.Put(enableDualWeaponsField, enableDualWeapons);
             ModConfig.Put(enableAccessoriesField, enableAccessories);
             ModConfig.Put(enableEmblemsField, enableEmblems);

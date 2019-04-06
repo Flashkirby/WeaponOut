@@ -58,8 +58,9 @@ namespace WeaponOut.Items.Weapons.Sabres
             slashFlip = false;
             focusSlash = false;
         }
-        public override void AddRecipes() {
-            if (!ModConf.EnableBasicContent) return;
+        public override void AddRecipes()
+        {
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<Hayauchi>(), 1);
             recipe.AddIngredient(mod.ItemType<Onsoku>(), 1);

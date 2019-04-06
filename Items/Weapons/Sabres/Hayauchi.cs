@@ -60,8 +60,9 @@ namespace WeaponOut.Items.Weapons.Sabres
 
             drawStrike = false; 
         }
-        public override void AddRecipes() {
-            if (!ModConf.EnableBasicContent) return;
+        public override void AddRecipes()
+        {
+            if (!ModConf.EnableSabres) return;
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);
