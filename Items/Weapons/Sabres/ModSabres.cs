@@ -255,18 +255,24 @@ namespace WeaponOut
             }
         }
 
-        public static void UseItemHitboxCalculate(Player player, Item item, ref Rectangle hitbox, ref bool noHitbox, float delayStart, int height, int length, float magicHitNumber = 3)
+        public static void UseItemHitboxCalculate(Player player, Item item, ref Rectangle hitbox, ref bool noHitbox, float delayStart, int height, int length, float hitboxDuration = 3)
         {
+            // Lengthen the hitbox duration the longer it is
+            hitboxDuration += length / 140;
+
             height = (int)(height * item.scale);
             length = (int)(length * item.scale);
             int backOffset = Player.defaultWidth / 2; // dist from centre to edge
             int dist = Math.Max(0, length - height - Player.defaultWidth / 2); // total distance covered by the moving hitbox
 
+            // Define when after first swinging the the hitbox becomes active
             int startFrame = (int)(player.itemAnimationMax * delayStart);
-            if (startFrame < magicHitNumber) startFrame = (int)magicHitNumber; //limit startframe
+
+            // For faster attacks, the start frame must be at least the magic number
+            if (startFrame < hitboxDuration) startFrame = (int)hitboxDuration;
 
             int activeFrame = startFrame - player.itemAnimation;
-            if (activeFrame >= 0 && activeFrame < magicHitNumber + 1)
+            if (activeFrame >= 0 && activeFrame < hitboxDuration + 1)
             {
                 hitbox.Width = (int)(height * 1.416f);
                 hitbox.Height = (int)(height * 1.416f);
@@ -276,9 +282,9 @@ namespace WeaponOut
                 hitbox.Location = new Point(
                    // centre, cos by 3rd dist x frame, with backoffset to pull forward
                    (int)(player.MountedCenter.X + Math.Cos(player.itemRotation + invert)
-                   * (dist / magicHitNumber * activeFrame + backOffset) - hitbox.Width / 2),
+                   * (dist / hitboxDuration * activeFrame + backOffset) - hitbox.Width / 2),
                    (int)(player.MountedCenter.Y + Math.Sin(player.itemRotation + invert)
-                   * (dist / magicHitNumber * activeFrame + backOffset) - hitbox.Height / 2));
+                   * (dist / hitboxDuration * activeFrame + backOffset) - hitbox.Height / 2));
 
                 player.attackCD = 0;
 
@@ -293,11 +299,16 @@ namespace WeaponOut
             }
         }
         
-        public static void OnHitFX(Player player, Entity target, bool crit, Color colour)
+        public static void OnHitFX(Player player, Entity target, bool crit, Color colour, bool glow)
         {
-            Vector2 dir = (target.Center - player.MountedCenter).SafeNormalize(Vector2.Zero);
-            Dust.NewDustPerfect(target.Center - dir * 30f,
+            Vector2 source = player.MountedCenter + new Vector2(
+                Main.rand.NextFloatDirection() * 16f,
+                Main.rand.NextFloatDirection() * 16f
+                );
+            Vector2 dir = (target.Center - source).SafeNormalize(Vector2.Zero);
+            Dust d = Dust.NewDustPerfect(target.Center - dir * 30f,
                 WeaponOut.DustIDSlashFX, dir * 15f, 0, colour, (crit ? 1.5f : 1f));
+            d.noLight = glow;
         }
 
         /// <summary>

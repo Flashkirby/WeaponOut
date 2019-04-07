@@ -11,34 +11,41 @@ namespace WeaponOut.Dusts
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
-            dust.rotation += Main.rand.NextFloat() * 6.282f;
-			dust.scale *= 16;
-            dust.velocity *= 0.1f;
+            dust.scale *= 3f;
+            dust.velocity *= 0.25f;
+
         }
 
         public override bool Update(Dust dust)
         {
+            if(dust.firstFrame)
+            {
+                dust.rotation = (float)System.Math.Atan2(dust.velocity.Y, dust.velocity.X) + MathHelper.PiOver2;
+                dust.frame = new Rectangle(0, 0, 4, 28);
+            }
             dust.position += dust.velocity;
-            dust.velocity *= 0.5f;
+            dust.velocity *= 0.9f;
 
-            if (dust.scale < 0.06f)
+            if (dust.scale < 0.5f || dust.alpha >= 255)
             {
                 dust.active = false;
             }
             else
             {
-                dust.scale /= 1.5f;
+                dust.scale -= 0.5f;
             }
             return false;
         }
 
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
+            if (!dust.noLight) { return lightColor; }
+            int scale = (int)(20 * dust.scale);
             return new Color(
-                128 + lightColor.R / 2,
-                128 + lightColor.G / 2,
-                128 + lightColor.B / 2,
-                100);
+                128 + lightColor.R / 2 + scale,
+                128 + lightColor.G / 2 + scale,
+                128 + lightColor.B / 2 + scale,
+                100 + scale);
         }
     }
 }
