@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void HoldItem(Player player)
         {
             ModSabres.HoldItemManager(player, item, mod.ProjectileType<EnchantedSabreSlash>(),
-                Color.Pink, 0.9f, player.itemTime == 0 ? 0f : 1f);
+                Color.Yellow, 0.9f, player.itemTime == 0 ? 0f : 1f);
         }
 
         // Doesn't get called unless item.shoot is defined.
@@ -65,7 +65,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             Color colour = new Color(0.8f, 0.4f, 1f);
-            ModSabres.OnHitFX(player, target, crit, colour);
+            ModSabres.OnHitFX(player, target, crit, colour, true);
         }
     }
     public class EnchantedSabreSlash : ModProjectile

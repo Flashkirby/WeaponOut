@@ -299,7 +299,7 @@ namespace WeaponOut
             }
         }
         
-        public static void OnHitFX(Player player, Entity target, bool crit, Color colour, bool glow)
+        public static void OnHitFX(Player player, Entity target, bool crit, Color colour, bool glow = false)
         {
             Vector2 source = player.MountedCenter + new Vector2(
                 Main.rand.NextFloatDirection() * 16f,
