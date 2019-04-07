@@ -342,20 +342,30 @@ namespace WeaponOut
         /// <returns>True if currently in the dash</returns>
         public static bool AIDashSlash(Player player, Projectile projectile, float dashFrameDuration, float dashSpeed, int freezeFrame, ref Vector2 dashEndVelocity)
         {
-            bool a = false; ;
+            bool dashing = false; ;
             if ((int)projectile.ai[0] < dashFrameDuration)
             {
                 // Fine-tuned tilecollision
                 player.armorEffectDrawShadow = true;
+                Vector2 projVel = projectile.velocity;
+                if (player.gravDir < 0) projVel.Y = -projVel.Y;
                 for (int i = 0; i < 4; i++)
                 {
-                    player.position += Collision.TileCollision(player.position, projectile.velocity * dashSpeed / 4,
+                    player.position += Collision.TileCollision(player.position, projVel * dashSpeed / 4,
                         player.width, player.height, false, false, (int)player.gravDir);
                 }
+
+                Main.NewText(projectile.ai[0]);
                 if (player.velocity.Y == 0)
-                { player.velocity = new Vector2(0, (projectile.velocity * dashSpeed).Y); }
+                {
+                    Main.NewText("X");
+                    player.velocity = new Vector2(0, (projectile.velocity * dashSpeed).Y);
+                }
                 else
-                { player.velocity = Vector2.Zero; }
+                {
+                    player.velocity = new Vector2(0, player.gravDir * player.gravity);
+                    Main.NewText("playery " + player.velocity.Y);
+                }
 
                 // Prolong mid-slash
                 RecentreSlash(projectile, player);
@@ -366,10 +376,12 @@ namespace WeaponOut
                 player.immune = true;
                 player.immuneTime = Math.Max(player.immuneTime, 6);
                 player.immuneNoBlink = true;
+
+                // Reset fall damage
                 //player.fallStart = (int)(player.position.Y / 16f);
                 //player.fallStart2 = player.fallStart;
 
-                a = true;
+                dashing = true;
             }
             else if ((int)projectile.ai[0] >= dashFrameDuration && dashEndVelocity != new Vector2(float.MinValue, float.MinValue))
             {
@@ -383,7 +395,7 @@ namespace WeaponOut
                 Main.SetCameraLerp(0.1f, 10);
                 Main.screenPosition -= projectile.velocity * 2;
             }
-            return a;
+            return dashing;
         }
 
         /// <summary>
@@ -402,7 +414,7 @@ namespace WeaponOut
         {
             if (projectile.ai[0] <= 0f)
             {
-                projectile.rotation = (float)System.Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
                 if (Math.Abs(projectile.rotation) == HALFPI)
                 { projectile.spriteDirection = player.direction; }
                 else
@@ -435,6 +447,7 @@ namespace WeaponOut
                (float)Math.Cos(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale),
                (float)Math.Sin(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale)
                 );
+            if (player.gravDir < 0) offset.Y = -offset.Y;
             projectile.position += offset;
 
             if (player.direction < 0) projectile.position.X -= projectile.width;
