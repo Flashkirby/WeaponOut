@@ -29,6 +29,9 @@ namespace WeaponOut
         /// Charge item time faster when not moving, or grounded (or both!)
         /// Also handles the item.useStyle to allow for custom animation
         /// </summary>
+        /// <param name="slashDelay">Delay before slash appears, as a ratio (default 0.9f) of the total attack time (1f - no delay to 0f - start at the end)</param>
+        /// <param name="ai1">Set ai1, usually the direction of the slash, or power attack. </param>
+        /// <param name="customCharge">Custom function call replacing normal charge effect, using player.itemTime; </param>
         /// <returns>True on the frame of a charged attack</returns>
         public static bool HoldItemManager(Player player, Item item, int slashProjectileID, Color chargeColour = default(Color), float slashDelay = 0.9f, float ai1 = 1f, Action<Player, bool> customCharge = null)
         {
@@ -357,15 +360,9 @@ namespace WeaponOut
 
                 Main.NewText(projectile.ai[0]);
                 if (player.velocity.Y == 0)
-                {
-                    Main.NewText("X");
-                    player.velocity = new Vector2(0, (projectile.velocity * dashSpeed).Y);
-                }
+                { player.velocity = new Vector2(0, (projectile.velocity * dashSpeed).Y); }
                 else
-                {
-                    player.velocity = new Vector2(0, player.gravDir * player.gravity);
-                    Main.NewText("playery " + player.velocity.Y);
-                }
+                { player.velocity = new Vector2(0, player.gravDir * player.gravity); }
 
                 // Prolong mid-slash
                 RecentreSlash(projectile, player);
