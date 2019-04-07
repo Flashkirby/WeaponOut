@@ -357,8 +357,7 @@ namespace WeaponOut
                     player.position += Collision.TileCollision(player.position, projVel * dashSpeed / 4,
                         player.width, player.height, false, false, (int)player.gravDir);
                 }
-
-                Main.NewText(projectile.ai[0]);
+                
                 if (player.velocity.Y == 0)
                 { player.velocity = new Vector2(0, (projectile.velocity * dashSpeed).Y); }
                 else
