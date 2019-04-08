@@ -11,7 +11,7 @@ namespace WeaponOut.Dusts
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
-            dust.scale *= 3f;
+            dust.scale *= 4f;
             dust.velocity *= 0.25f;
 
         }
@@ -21,7 +21,7 @@ namespace WeaponOut.Dusts
             if(dust.firstFrame)
             {
                 dust.rotation = (float)System.Math.Atan2(dust.velocity.Y, dust.velocity.X) + MathHelper.PiOver2;
-                dust.frame = new Rectangle(0, 0, 4, 28);
+                dust.frame = new Rectangle(0, 0, 8, 28);
             }
             dust.position += dust.velocity;
             dust.velocity *= 0.9f;
