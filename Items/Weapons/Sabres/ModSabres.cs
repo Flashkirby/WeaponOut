@@ -397,23 +397,23 @@ namespace WeaponOut
                 player.immuneTime = Math.Max(player.immuneTime, 6);
                 player.immuneNoBlink = true;
 
-                // Reset fall damage
-                //player.fallStart = (int)(player.position.Y / 16f);
-                //player.fallStart2 = player.fallStart;
-
                 dashing = true;
             }
             else if ((int)projectile.ai[0] >= dashFrameDuration && dashEndVelocity != new Vector2(float.MinValue, float.MinValue))
             {
                 if (dashEndVelocity == null)
                 {
-                    Vector2 projVel = projectile.velocity;
+                    Vector2 projVel = projectile.velocity.SafeNormalize(Vector2.Zero);
                     if (player.gravDir < 0) projVel.Y = -projVel.Y;
-
-                    if (dashSpeed / 8 < player.maxFallSpeed)
-                    { player.velocity = projVel * dashSpeed / 8; }
-                    else;
+                    float speed = dashSpeed / 4f;
+                    if (speed < player.maxFallSpeed)
+                    { player.velocity = projVel * speed; }
+                    else
                     { player.velocity = projVel * player.maxFallSpeed; }
+
+                    // Reset fall damage
+                    player.fallStart = (int)(player.position.Y / 16f);
+                    player.fallStart2 = player.fallStart;
                 }
                 else
                 {
