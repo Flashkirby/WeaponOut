@@ -557,13 +557,16 @@ namespace WeaponOut
                 if(shadow)
                 {
                     // Draw slashes
-                    for (int i = 1; i <= 3; i++)
+                    for (int i = 1; i <= 6; i++)
                     {
-                        if (projectile.frame + i >= slashFramecount) break;
+                        int iter = i / 2;
+                        float itef = i / 2f;
+
+                        if (projectile.frame + iter >= slashFramecount) break;
                         spriteBatch.Draw(slashTexture,
-                            projectile.Center - (player.position - player.oldPosition) * i - Main.screenPosition,
-                            slashTexture.Frame(1, slashFramecount, 0, projectile.frame + i),
-                            slashColor * (0.5f - 0.1f * i),
+                            projectile.Center - (player.position - player.oldPosition) * itef - Main.screenPosition,
+                            slashTexture.Frame(1, slashFramecount, 0, projectile.frame + iter),
+                            slashColor * (0.5f - 0.1f * itef),
                             player.itemRotation,
                             new Vector2(slashTexture.Width / 2, slashTexture.Height / (2 * slashFramecount)),
                             projectile.scale,
