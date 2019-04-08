@@ -130,7 +130,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             set { projectile.ai[1] = value; }
         }
 
-        Vector2 preDashVelocity;
+        Vector2? preDashVelocity;
         bool firstFrame = true;
         public override void AI()
         {
@@ -146,7 +146,7 @@ namespace WeaponOut.Items.Weapons.Sabres
                 if (sndOnce)
                 {
                     Main.PlaySound(2, player.Center, 28); sndOnce = false;
-                    preDashVelocity = player.velocity; // Save velocity before dash
+                    preDashVelocity = null; // Save velocity before dash
                 }
             }
 

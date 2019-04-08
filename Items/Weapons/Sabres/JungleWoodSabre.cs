@@ -120,7 +120,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             set { projectile.ai[1] = value; }
         }
 
-        Vector2 preDashVelocity;
+        Vector2? preDashVelocity;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];

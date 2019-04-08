@@ -358,9 +358,9 @@ namespace WeaponOut
         /// <param name="dashFrameDuration">Number of frames to dash for</param>
         /// <param name="dashSpeed">SPeed of dash, eg. player.maxRunSpeed * 5f</param>
         /// <param name="freezeFrame">The frame to freeze at eg. 2</param>
-        /// <param name="dashEndVelocity">The ending velocity eg. preDashVelocity</param>
+        /// <param name="dashEndVelocity">The ending velocity, or null to use the dash velocity eg. preDashVelocity</param>
         /// <returns>True if currently in the dash</returns>
-        public static bool AIDashSlash(Player player, Projectile projectile, float dashFrameDuration, float dashSpeed, int freezeFrame, ref Vector2 dashEndVelocity)
+        public static bool AIDashSlash(Player player, Projectile projectile, float dashFrameDuration, float dashSpeed, int freezeFrame, ref Vector2? dashEndVelocity)
         {
             if (player.dead || !player.active)
             {
@@ -369,7 +369,7 @@ namespace WeaponOut
             }
             if (freezeFrame < 1) freezeFrame = 1;
 
-            bool dashing = false; ;
+            bool dashing = false;
             if ((int)projectile.ai[0] < dashFrameDuration)
             {
                 // Fine-tuned tilecollision
@@ -381,7 +381,7 @@ namespace WeaponOut
                     player.position += Collision.TileCollision(player.position, projVel * dashSpeed / 4,
                         player.width, player.height, false, false, (int)player.gravDir);
                 }
-                
+
                 if (player.velocity.Y == 0)
                 { player.velocity = new Vector2(0, (projectile.velocity * dashSpeed).Y); }
                 else
@@ -405,7 +405,22 @@ namespace WeaponOut
             }
             else if ((int)projectile.ai[0] >= dashFrameDuration && dashEndVelocity != new Vector2(float.MinValue, float.MinValue))
             {
-                player.velocity = dashEndVelocity;
+                if (dashEndVelocity == null)
+                {
+                    Vector2 projVel = projectile.velocity;
+                    if (player.gravDir < 0) projVel.Y = -projVel.Y;
+
+                    if (dashSpeed / 8 < player.maxFallSpeed)
+                    { player.velocity = projVel * dashSpeed / 8; }
+                    else;
+                    { player.velocity = projVel * player.maxFallSpeed; }
+                }
+                else
+                {
+                    player.velocity = (Vector2)dashEndVelocity;
+                }
+
+                // Set the vector to a "reset" state
                 dashEndVelocity = new Vector2(float.MinValue, float.MinValue);
             }
 
