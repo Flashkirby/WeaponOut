@@ -38,14 +38,13 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.melee = true;
             item.damage = 35;
             item.knockBack = 1;
+            item.autoReuse = true;
 
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
-            item.useTime = 140;
-            item.useAnimation = 24;
 
-            item.shoot = mod.ProjectileType<OnsokuSlash>();
-            item.shootSpeed = 16f;
+            item.useTime = 60 / 4;
+            item.useAnimation = 24;
 
             item.rare = 4;
             item.value = Item.sellPrice(0, 0, 50, 0);
@@ -63,192 +62,169 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void HoldItem(Player player)
         {
-            // Reset style to swing when neutral
-            if (player.itemAnimation == 0)
-            {
-                item.useStyle = 1;
-            }
-            if (player.itemTime > 0)
-            {
-                if (player.itemTime == 1) PlayerFX.ItemFlashFX(player, 175);
-                if (player.velocity.Y == 0)
-                {
-                    for (int i = 0; i < 3; i++) // 3 extra recharge speed
-                    {
-                        if (player.itemTime > 0) player.itemTime--;
-                        if (player.itemTime == 1) PlayerFX.ItemFlashFX(player, 175);
-                    }
-                }
-            }
+            ModSabres.HoldItemManager(player, item, mod.ProjectileType<OnsokuSlash>(),
+                Color.HotPink, 0.9f, player.itemTime == 0 ? 0f : 1f);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool UseItemFrame(Player player)
         {
-            if(player.itemAnimation == player.itemAnimationMax - 1)
-            {
-                return true;
-            }
-            player.itemTime = 0; //don't try otherwise
-            return false;
+            ModSabres.UseItemFrame(player, 0.9f, item.isBeingGrabbed);
+            return true;
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            foreach (Projectile p in Main.projectile)
+            int height = 98;
+            int length = 100;
+            ModSabres.UseItemHitboxCalculate(player, item, ref hitbox, ref noHitbox, 0.9f, height, length);
+        }
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            Color colour = new Color(255, 180, 210, 119);
+            ModSabres.OnHitFX(player, target, crit, colour);
+        }
+
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (ModSabres.SabreIsChargedStriking(player, item))
             {
-                if (p.active && p.owner == player.whoAmI && p.type == item.shoot)
-                {
-                    // Dash with self as hitbox, only when invincible via projectile
-                    noHitbox = !player.immuneNoBlink;
-                    if (!noHitbox)
-                    {
-                        Main.SetCameraLerp(0.1f, 10);
-                        player.attackCD = 0;
-                    }
-                    hitbox = player.getRect();
-                }
+                target.AddBuff(mod.BuffType<Buffs.Reversal>(), 60);
             }
         }
     }
 
     public class OnsokuSlash : ModProjectile
     {
-        public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
-
+        public const int specialProjFrames = 5;
+        bool sndOnce = true;
+        int chargeSlashDirection = 1;
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[projectile.type] = specialProjFrames;
+        }
         public override void SetDefaults()
         {
+            projectile.width = 100;
+            projectile.height = 100;
+            projectile.aiStyle = -1;
+            projectile.timeLeft = 60;
+
+            projectile.friendly = true;
             projectile.melee = true;
-            projectile.width = Player.defaultWidth;
-            projectile.height = Player.defaultHeight;
+            projectile.tileCollide = false;
+            projectile.ignoreWater = true;
 
             projectile.penetrate = -1;
         }
 
-        public float UpdateCount { get { return projectile.ai[0]; } set { projectile.ai[0] = value; } }
-        public float DashCount { get { return projectile.ai[0] - 20; } }
-        public Vector2 dashStep;
-        public const float dashStepCount = 6;
-        public const float dashStepDelay = 8;
+        public override bool? CanCutTiles() { return SlashLogic == 0; }
+        public float FrameCheck
+        {
+            get { return projectile.ai[0]; }
+            set { projectile.ai[0] = value; }
+        }
+        public int SlashLogic
+        {
+            get { return (int)projectile.ai[1]; }
+            set { projectile.ai[1] = value; }
+        }
 
-        bool playedLocalSound = false;
+        Vector2 preDashVelocity;
+        bool firstFrame = true;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            if (player.dead || !player.active)
-            {
-                projectile.timeLeft = 0;
-                return;
-            }
-
-            // Get dash location
-            if (UpdateCount == 0)
-            {
-                for (int i = 0; i < dashStepCount * 8; i++)
-                {
-                    Vector2 move = Collision.TileCollision(
-                        projectile.position, projectile.velocity / 2,
-                        projectile.width, projectile.height,
-                        true, true, (int)player.gravDir);
-                    if (move == Vector2.Zero) break;
-                    projectile.position += move / 2;
-                }
-                dashStep = (projectile.Center - player.Center) / dashStepCount;
-
-
-                // dash dust
-                for (int i = 0; i < dashStepCount; i++)
-                {
-                    Vector2 pos = player.Center + (dashStep * i) - new Vector2(4, 4);
-                    for (int j = 0; j < 5; j++)
-                    {
-                        pos += dashStep * (j / 5f);
-                        Dust d = Main.dust[Dust.NewDust(pos, 0, 0,
-                            175, projectile.velocity.X, projectile.velocity.Y,
-                            0, Color.White, 1f)];
-                        d.noGravity = true;
-                        d.velocity *= 0.05f;
-                    }
-                }
-                projectile.velocity = Vector2.Zero;
-            }
-
-            // Dash towards location
-            if (UpdateCount >= dashStepDelay)
-            {
-                if (UpdateCount == dashStepDelay)
-                {
-                    if (!playedLocalSound)
-                    {
-                        Main.PlaySound(2, player.Center, 28);
-                        playedLocalSound = true; // Stop multiplayer sound bug
-                    }
-
-                    dashStep = (projectile.Center - player.Center) / dashStepCount;
-                    player.inventory[player.selectedItem].useStyle = 3;
-                }
-
-                // freeze in swing
-                player.itemAnimation = player.itemAnimationMax - 2;
-
-                // dash, change position to influence camera lerp
-                player.position += Collision.TileCollision(player.position,
-                    dashStep / 2,
-                    player.width,
-                    player.height,
-                    true, true, (int)player.gravDir);
-                player.velocity = Collision.TileCollision(player.position,
-                    dashStep * 0.8f,
-                    player.width,
-                    player.height,
-                    true, true, (int)player.gravDir);
-
-                // Set immunities
-                player.immune = true;
-                player.immuneTime = Math.Max(player.immuneTime, 2);
-                player.immuneNoBlink = true;
-                player.fallStart = (int)(player.position.Y / 16f);
-                player.fallStart2 = player.fallStart;
-
-                //point in direction
-                if (dashStep.X > 0) player.direction = 1;
-                if (dashStep.X < 0) player.direction = -1;
-
-                if (UpdateCount >= dashStepDelay + dashStepCount - 1)
-                {
-                    projectile.timeLeft = 0;
-                }
-
-                Vector2 pos = player.Center - new Vector2(4, 4);
-                for (int i = 0; i < 10; i++)
-                {
-                    pos -= dashStep * (i / 20f);
-                    Dust d = Main.dust[Dust.NewDust(pos, 0, 0,
-                        181, projectile.velocity.X, projectile.velocity.Y,
-                            0, default(Color), 1.3f)];
-                    d.noGravity = true;
-                    d.velocity *= 0.1f;
-                }
-            }
+            if (ModSabres.AINormalSlash(projectile, SlashLogic)) { }
             else
             {
-                // slow until move
-                player.velocity *= 0.8f;
+                // Charged attack
+                ModSabres.AISetChargeSlashVariables(player, chargeSlashDirection);
+                ModSabres.NormalSlash(projectile, player);
+
+                // Play charged sound
+                if (sndOnce)
+                {
+                    Main.PlaySound(2, player.Center, 28); sndOnce = false;
+                    preDashVelocity = player.velocity; // Save velocity before dash
+                }
             }
 
-            //Dust.NewDust(projectile.position, projectile.width, projectile.height, 20);
+            if (SlashLogic == 0)
+            {
+                float dashFrameDuration = 6;
+                float dashSpeed = 32f;
+                int freezeFrame = 2;
+                bool dashing = ModSabres.AIDashSlash(player, projectile, dashFrameDuration, dashSpeed, freezeFrame, ref preDashVelocity);
 
-            UpdateCount++;
+                if (dashing)
+                {
+                    Dust.NewDust(player.Center - new Vector2(6, 6), 4, 4, 20);
+
+                    // Coloured line trail
+                    Vector2 dashStep = player.position - player.oldPosition;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Dust d = Main.dust[Dust.NewDust(player.Center - (dashStep / 8) * i, 
+                            0, 0, 181, dashStep.X / 32, dashStep.Y / 32, 0, default(Color), 1.3f)];
+                        d.noGravity = true;
+                        d.velocity *= 0.1f;
+                    }
+                }
+
+                // Calculate ending position dust
+                if (firstFrame)
+                {
+                    firstFrame = false;
+
+                    Vector2 endPosition = player.position;
+                    Vector2 dashVector = projectile.velocity * dashSpeed;
+                    for (int i = 0; i < dashFrameDuration * 2; i++)
+                    {
+                        Vector2 move = Collision.TileCollision(
+                            endPosition, dashVector / 2,
+                            player.width, player.height,
+                            false, false, (int)player.gravDir);
+                        if (move == Vector2.Zero) break;
+                        endPosition += move;
+                    }
+
+                    // dash dust from the total distance over the duration
+                    Vector2 totalDistanceStep = 
+                        (endPosition + new Vector2(player.width / 2, player.height / 2)
+                        - player.Center) / dashFrameDuration;
+                    for (int i = 0; i < dashFrameDuration; i++)
+                    {
+                        Vector2 pos = player.Center + (totalDistanceStep * i) - new Vector2(4, 4);
+                        for (int j = 0; j < 5; j++)
+                        {
+                            pos += totalDistanceStep * (j / 5f);
+                            Dust d = Main.dust[Dust.NewDust(pos, 0, 0,
+                                175, projectile.velocity.X, projectile.velocity.Y,
+                                0, Color.White, 1f)];
+                            d.noGravity = true;
+                            d.velocity *= 0.05f;
+                        }
+                    }
+                }
+            }
+
+            projectile.damage = 0;
+            FrameCheck += 1f; // Framerate
         }
 
-        public override void Kill(int timeLeft)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            player.velocity = dashStep / dashStepCount;
+            int weaponItemID = mod.ItemType<Onsoku>();
+            Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
+            return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
+                null,//SlashLogic == 0f ? specialSlash : null,
+                lighting,
+                specialProjFrames,
+                SlashLogic == 0f ? chargeSlashDirection : SlashLogic,
+                SlashLogic == 0f);
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            return false; // slide not stop on tiles
-        }
     }
 }

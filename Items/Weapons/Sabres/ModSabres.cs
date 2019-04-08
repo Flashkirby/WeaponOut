@@ -59,7 +59,7 @@ namespace WeaponOut
                         Vector2 mouse = new Vector2(Main.screenPosition.X + Main.mouseX, Main.screenPosition.Y + Main.mouseY);
                         SetAttackRotation(player);
                         Vector2 velocity = (mouse - player.MountedCenter).SafeNormalize(new Vector2(player.direction, 0));
-                        Projectile.NewProjectile(
+                        int p = Projectile.NewProjectile(
                             player.MountedCenter,
                             velocity,
                             slashProjectileID,
@@ -336,6 +336,11 @@ namespace WeaponOut
         public static bool AINormalSlash(Projectile projectile, float slashDirection)
         {
             Player player = Main.player[projectile.owner];
+            if (player.dead || !player.active)
+            {
+                projectile.timeLeft = 0;
+                return false;
+            }
 
             if (slashDirection == 1 || slashDirection == -1)
             {
@@ -348,6 +353,7 @@ namespace WeaponOut
 
         /// <summary>
         /// Manages logic for a dash with immunity and camera lerp.
+        /// Also takes over projectile.frame, so call this after a normal slash ai.
         /// </summary>
         /// <param name="dashFrameDuration">Number of frames to dash for</param>
         /// <param name="dashSpeed">SPeed of dash, eg. player.maxRunSpeed * 5f</param>
@@ -356,6 +362,13 @@ namespace WeaponOut
         /// <returns>True if currently in the dash</returns>
         public static bool AIDashSlash(Player player, Projectile projectile, float dashFrameDuration, float dashSpeed, int freezeFrame, ref Vector2 dashEndVelocity)
         {
+            if (player.dead || !player.active)
+            {
+                projectile.timeLeft = 0;
+                return false;
+            }
+            if (freezeFrame < 1) freezeFrame = 1;
+
             bool dashing = false; ;
             if ((int)projectile.ai[0] < dashFrameDuration)
             {
@@ -374,7 +387,7 @@ namespace WeaponOut
                 else
                 { player.velocity = new Vector2(0, player.gravDir * player.gravity); }
 
-                // Prolong mid-slash
+                // Prolong mid-slash player animation
                 RecentreSlash(projectile, player);
                 if (player.itemAnimation <= player.itemAnimationMax - freezeFrame)
                 { player.itemAnimation = player.itemAnimationMax - freezeFrame; }
@@ -397,11 +410,15 @@ namespace WeaponOut
             }
 
             // Trigger lerp by offsetting camera
-            if (projectile.timeLeft == 59)
+            if (projectile.timeLeft == 60)
             {
                 Main.SetCameraLerp(0.1f, 10);
                 Main.screenPosition -= projectile.velocity * 2;
             }
+
+            // Set new projectile frame
+            projectile.frame = (int)Math.Max(0, projectile.ai[0] - dashFrameDuration);
+
             return dashing;
         }
 
@@ -460,7 +477,7 @@ namespace WeaponOut
             if (player.direction < 0) projectile.position.X -= projectile.width;
         }
 
-        public static bool PreDrawSlashAndWeapon(SpriteBatch spriteBatch, Projectile projectile, int weaponItemID, Color weaponColor, Texture2D slashTexture, Color slashColor, int slashFramecount, float slashDirection = 1f)
+        public static bool PreDrawSlashAndWeapon(SpriteBatch spriteBatch, Projectile projectile, int weaponItemID, Color weaponColor, Texture2D slashTexture, Color slashColor, int slashFramecount, float slashDirection = 1f, bool shadow = false)
         {
             Player player = Main.player[projectile.owner];
             Texture2D weapon = Main.itemTexture[weaponItemID];
@@ -522,6 +539,24 @@ namespace WeaponOut
             if (projectile.frame >= 0 &&
                 projectile.frame < slashFramecount)
             {
+                if(shadow)
+                {
+                    // Draw slashes
+                    for (int i = 1; i <= 3; i++)
+                    {
+                        if (projectile.frame + i >= slashFramecount) break;
+                        spriteBatch.Draw(slashTexture,
+                            projectile.Center - (player.position - player.oldPosition) * i - Main.screenPosition,
+                            slashTexture.Frame(1, slashFramecount, 0, projectile.frame + i),
+                            slashColor * (0.5f - 0.1f * i),
+                            player.itemRotation,
+                            new Vector2(slashTexture.Width / 2, slashTexture.Height / (2 * slashFramecount)),
+                            projectile.scale,
+                            spriteEffect,
+                            1f);
+                    }
+                }
+
                 // Draw slash
                 spriteBatch.Draw(slashTexture,
                     projectile.Center - Main.screenPosition,
