@@ -91,8 +91,8 @@ namespace WeaponOut.Items.Weapons.Sabres
         }
         public override void SetDefaults()
         {
-            projectile.width = 88;
-            projectile.height = 84;
+            projectile.width = 84;
+            projectile.height = 64;
             projectile.aiStyle = -1;
             projectile.timeLeft = 60;
 
@@ -104,9 +104,9 @@ namespace WeaponOut.Items.Weapons.Sabres
             projectile.penetrate = -1;
         }
         public override bool? CanCutTiles() { return false; }
-        public int FrameCheck
+        public float FrameCheck
         {
-            get { return (int)projectile.ai[0]; }
+            get { return projectile.ai[0]; }
             set { projectile.ai[0] = value; }
         }
         public int SlashLogic
@@ -131,7 +131,7 @@ namespace WeaponOut.Items.Weapons.Sabres
                 { Main.PlaySound(SoundID.Item60, projectile.Center); sndOnce = false; }
             }
             projectile.damage = 0;
-            projectile.ai[0] += 0.75f; // Framerate
+            FrameCheck += 0.75f; // Framerate
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
