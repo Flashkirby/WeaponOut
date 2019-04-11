@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Localization;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace WeaponOut.Items.Weapons.Sabres
 {
@@ -19,8 +20,8 @@ namespace WeaponOut.Items.Weapons.Sabres
     public class Hayauchi : ModItem
     {
         public const int waitTime = 80; //charge for special attack, due to coding must be >60 since that's the charge time
-        private const int extraSwingTime = 15; //additional special attack time
-        
+        public const int sheenTime = 60; // duration of actual charge animation
+
         private bool drawStrike;
         
         public override void SetStaticDefaults()
@@ -48,17 +49,15 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.damage = 35; //DPS 105
             item.knockBack = 3;
             item.autoReuse = true;
-            item.useTurn = true;
 
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
-            item.useTime = 20;
+
+            item.useTime = waitTime;
             item.useAnimation = 20;
 
             item.rare = 5;
-            item.value = 25000;
-
-            drawStrike = false; 
+            item.value = Item.buyPrice(0, 02, 50, 00);
         }
         public override void AddRecipes()
         {
@@ -81,49 +80,24 @@ namespace WeaponOut.Items.Weapons.Sabres
             }
         }
 
-        public int getPatience(Player player)
+        // Define if the player is still enough to use the special
+        public bool hasHayauchiSpecialCharge(Player player)
         {
-            return player.GetModPlayer<PlayerFX>(mod).itemSkillDelay;
-        }
-        public void updatePatience(Player player, int valueEquals)
-        {
-            player.GetModPlayer<PlayerFX>(mod).itemSkillDelay = valueEquals;
+            return player.itemTime == 0 
+                && (player.position - player.oldPosition).Length() < 0.5f;
         }
 
-        public override void HoldItem(Player player) //called when holding but not swinging
+        public override void HoldItem(Player player)
         {
-            int patience = getPatience(player);
-            int sheenTime = 60;
+            bool specialCharge = hasHayauchiSpecialCharge(player);
 
-            //standing still and not grappling, to lower wait
-            if (System.Math.Abs(player.velocity.X) < 1f && player.velocity.Y == 0f
-                && player.grapCount == 0
-                && !player.pulley
-                && !(player.frozen || player.webbed || player.stoned || player.noItems)
-                && player.itemAnimation == 0)
-            {
-                if (patience < waitTime + 1)
-                {
-                    patience++;
-                    updatePatience(player, patience);
-                }
-            }
-            else
-            {
-                patience = 0;
-                updatePatience(player, patience);
-            }
+            ModSabres.HoldItemManager(player, item, mod.ProjectileType<HayauchiSlash>(),
+                Color.Red, 0.9f, specialCharge ? 0f : 1f, customCharge);
 
-            if (player.itemAnimation == 0)//at the end of a strike
+            if (specialCharge)
             {
-                drawStrike = false; //reset strike at end
-                item.useStyle = 1; //set back to swing
-            }
-
-            if (patience >= waitTime) //blade glow
-            {
-                int random = Main.rand.Next(60);
                 Vector2 dustPos = player.Center;
+                int random = Main.rand.Next(60);
                 if (player.stealth > 0)
                 {
                     dustPos.X += (
@@ -139,27 +113,34 @@ namespace WeaponOut.Items.Weapons.Sabres
                     Main.dust[d].noGravity = true;
                     Main.dust[d].fadeIn = 0.8f;
                 }
-                if (patience == waitTime)//burst
-                {
-                    dustPos = player.Center;
-                    dustPos.X += (
-                        (sheenTime / 2) * 0.55f - 12)
-                        * player.direction - 4;
-                    dustPos.Y -= (
-                        (sheenTime / 2) * 0.29f - 12)
-                        * player.gravDir;
+            }
+        }
 
-                    if (player.gravDir < 0) dustPos.Y -= 6;
-                    Main.PlaySound(25, player.position);
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Dust.NewDust(dustPos, player.direction, 1, 130, player.direction, 0f, 0, Color.White, 0.6f);
-                    }
+        public Action<Player, bool> customCharge = CustomCharge;
+        public static void CustomCharge(Player player, bool flashFrame)
+        {
+            int patience = 80 - player.itemTime;
+
+            Vector2 dustPos = player.Center;
+            if (flashFrame)//burst
+            {
+                dustPos = player.Center;
+                dustPos.X += (
+                    (sheenTime / 2) * 0.55f - 12)
+                    * player.direction - 4;
+                dustPos.Y -= (
+                    (sheenTime / 2) * 0.29f - 12)
+                    * player.gravDir;
+
+                if (player.gravDir < 0) dustPos.Y -= 6;
+                Main.PlaySound(25, player.position);
+                for (int i = 0; i < 10; i++)
+                {
+                    Dust.NewDust(dustPos, player.direction, 1, 130, player.direction, 0f, 0, Color.White, 0.6f);
                 }
             }
-            else if (patience > waitTime - sheenTime) //blade sheen
+            if (patience > waitTime - sheenTime) //blade sheen
             {
-                Vector2 dustPos = player.Center;
                 dustPos.X += (
                     (patience + (sheenTime / 2) - waitTime) * 0.55f - 12)
                     * player.direction - 4;
@@ -172,11 +153,11 @@ namespace WeaponOut.Items.Weapons.Sabres
                 int d = Dust.NewDust(dustPos, 1, 1, 71, 0f, 0f, 0, Color.White, 0.5f);
                 Main.dust[d].velocity *= 5f / (patience + 6);
             }
-
         }
+        
         public override bool HoldItemFrame(Player player) //called on player holding but not swinging
         {
-            if (getPatience(player) >= waitTime) //ready to slash
+            if (hasHayauchiSpecialCharge(player)) //ready to slash
             {
                 player.bodyFrame.Y = 4 * player.bodyFrame.Height;
                 return true;
@@ -184,127 +165,75 @@ namespace WeaponOut.Items.Weapons.Sabres
             return false;
         }
 
-        //Allows you to modify the location and rotation of this item in its use animation. Does get called in multiplayer
-        public override void UseStyle(Player player)
-        {
-            if (getPatience(player) >= waitTime) //on the frame when first swung
-            {
-                drawStrike = true; //set up super strike
-                player.itemAnimation += extraSwingTime; //a bit longer
-                item.useStyle = 0; //allow for overwriting style (UseItemFrame)
-                if (player.whoAmI == Main.myPlayer) //visual effect as a projectile (which consequently also makes light)
-                {
-                    Projectile.NewProjectile(
-                        player.position.X,
-                        player.position.Y, 0, 0,
-                        mod.ProjectileType<HayauchiSlash>(),
-                        player.direction, 0, player.whoAmI);
-                }
-                Main.PlaySound(2, player.position, 71); //SHWING!
-            }
-        }
-        //Allows you to modify the player's animation when this item is being used. Return true if you modify the player's animation. Returns false by default.
         public override bool UseItemFrame(Player player)
         {
-            if (drawStrike)
-            {
-                //counts down from 1 to 0, animation is basically sword swipe in reverse
-                float anim = player.itemAnimation / (float)(player.itemAnimationMax + extraSwingTime);
-                if (anim > 0.9f)
-                {
-                    player.bodyFrame.Y = 4 * player.bodyFrame.Height;
-                }
-                else if (anim > 0.8f)
-                {
-                    player.bodyFrame.Y = 3 * player.bodyFrame.Height;
-                }
-                else if (anim > 0.7f)
-                {
-                    //dust effect at tip of strike
-                    Vector2 dustPos = player.Center;
-                    dustPos.X += -12 * player.direction - 4;
-                    dustPos.Y -= 16 * player.gravDir;
-                    if (player.gravDir < 0) dustPos.Y -= 6;
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Dust.NewDust(dustPos, player.direction, 1, 130, -player.direction, -player.gravDir * 2, 0, Color.White, 0.6f);
-                    }
-                    player.bodyFrame.Y = 2 * player.bodyFrame.Height;
-                }
-                else if (anim > 0.4f)
-                {
-                    // put hand down
-                    player.bodyFrame.Y = 1 * player.bodyFrame.Height;
-                }
-                else
-                {
-                    // hand on sheath
-                    player.bodyFrame.Y = 4 * player.bodyFrame.Height;
-                }
-            }
+            ModSabres.UseItemFrame(player, 0.9f, item.isBeingGrabbed);
             return true;
-            //return false;
         }
-        //Changes the hitbox of this melee weapon when it is used.
+
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            if (drawStrike)
+            int height = 76;
+            int length = 70;
+            if (item.noGrabDelay > 0)
             {
-                float anim = player.itemAnimation / (float)(player.itemAnimationMax + extraSwingTime);
-                //hitbox only occurs between 0.8 - 0.5
-                if (anim <= 0.9f && anim > 0.7f)
-                {
-                    hitbox.Width = 228;
-                    hitbox.Height = 142;
-                    hitbox.X = (int)player.Center.X - 50 * player.direction;
-                    if (player.gravDir > 0) { hitbox.Y = (int)player.Bottom.Y + 16 - hitbox.Height; }
-                    else { hitbox.Y = (int)player.Top.Y - 16; }
-                    if (player.direction < 0) hitbox.X -= hitbox.Width;
-
-                    player.attackCD = 0;
-                }
-                else
-                {
-                    noHitbox = true;
-                }
+                length = 240; // 228 + 12 offset
+                height = 116; // 140 - 24 offset
             }
+            ModSabres.UseItemHitboxCalculate(player, item, ref hitbox, ref noHitbox, 0.9f, height, length);
+        }
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            Color colour = new Color(1f, 0f, 0f);
+            ModSabres.OnHitFX(player, target, crit, colour, true);
         }
 
         //x6 damage + crit to make up for terrible (but cool) usage
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
-            if (!drawStrike) return;
-            damage *= 6;
-            knockBack *= 2;
-            crit = true;
+            if (ModSabres.SabreIsChargedStriking(player, item))
+            {
+                damage *= 6;
+                knockBack *= 2;
+                if ((player.Center - target.Center).Length() > 70)
+                { crit = true; }
+            }
+         
         }
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
         {
-            if (!drawStrike) return;
-            damage *= 6;
-            crit = true;
+            if (ModSabres.SabreIsChargedStriking(player, item))
+            {
+                damage *= 6;
+                if ((player.Center - target.Center).Length() > 70)
+                { crit = true; }
+            }
         }
-
     }
 
 
     public class HayauchiSlash : ModProjectile
     {
-
+        public static Texture2D specialSlash;
+        public static int specialProjFrames = 6;
+        bool sndOnce = true;
+        int chargeSlashDirection = -1;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hayauchi");
             DisplayName.AddTranslation(GameCulture.Chinese, "快打");
             DisplayName.AddTranslation(GameCulture.Russian, "Хаяуси");
-            Main.projFrames[projectile.type] = 9;
+            Main.projFrames[projectile.type] = 5;
+            if (Main.netMode == 2) return;
+            specialSlash = mod.GetTexture("Items/Weapons/Sabres/" + GetType().Name + "_Special");
         }
         public override void SetDefaults()
         {
-            projectile.width = 228;
-            projectile.height = 142;
-            projectile.timeLeft = 16;
-
-            projectile.alpha = 255;
+            projectile.width = 70;
+            projectile.height = 76;
+            projectile.aiStyle = -1;
+            projectile.timeLeft = 60;
 
             projectile.friendly = true;
             projectile.melee = true;
@@ -313,55 +242,64 @@ namespace WeaponOut.Items.Weapons.Sabres
 
             projectile.penetrate = -1;
         }
+        public override bool? CanCutTiles() { return false; }
+        public float FrameCheck
+        {
+            get { return projectile.ai[0]; }
+            set { projectile.ai[0] = value; }
+        }
+        public float SlashLogic
+        {
+            get { return (int)projectile.ai[1]; }
+            set { projectile.ai[1] = value; }
+        }
 
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            projectile.position.X = (int)player.Center.X - 50 * player.direction;
-            projectile.spriteDirection = player.direction;
-            if (player.gravDir > 0) { projectile.position.Y = (int)player.Bottom.Y + 16 - projectile.height; }
-            else { projectile.position.Y = (int)player.Top.Y - 16; }
-            if (player.direction < 0) projectile.position.X -= projectile.width;
+            if (ModSabres.AINormalSlash(projectile, SlashLogic))
+            {
+                FrameCheck += 1f;
+            }
+            else
+            {
+                // Charged attack
+                projectile.height = 140;
+                projectile.width = 228;
+                ModSabres.AISetChargeSlashVariables(player, chargeSlashDirection);
+                ModSabres.NormalSlash(projectile, player);
 
+                // Play charged sound
+                if (sndOnce)
+                {
+                    Main.PlaySound(SoundID.Item71, projectile.Center); sndOnce = false;
+                }
+
+                float pow = (specialProjFrames - SlashLogic) / 16f;
+                Lighting.AddLight(new Vector2(projectile.Center.X + 70, projectile.Center.Y),
+                    new Vector3(pow, pow * 0.2f, pow * 0.8f));
+                Lighting.AddLight(new Vector2(projectile.Center.X - 70, projectile.Center.Y),
+                    new Vector3(pow, pow * 0.2f, pow * 0.8f));
+                Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y + 70),
+                    new Vector3(pow, pow * 0.2f, pow * 0.8f));
+                Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y - 70),
+                    new Vector3(pow, pow * 0.2f, pow * 0.8f));
+
+                FrameCheck += 0.5f;
+            }
             projectile.damage = 0;
-            float pow = projectile.timeLeft / 16f;
-            Lighting.AddLight(new Vector2(projectile.Hitbox.Left, projectile.Center.Y),
-                new Vector3(pow, pow * 0.2f, pow * 0.8f));
-            Lighting.AddLight(new Vector2(projectile.Hitbox.Right, projectile.Center.Y),
-                new Vector3(pow, pow * 0.2f, pow * 0.8f));
-            Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Hitbox.Top),
-                new Vector3(pow, pow * 0.2f, pow * 0.8f));
-            Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Hitbox.Bottom),
-                new Vector3(pow, pow * 0.2f, pow * 0.8f));
         }
 
-        //Allows you to draw things behind this projectile. Returns false to stop the game from drawing extras textures related to the projectile (for example, the chains for grappling hooks), useful if you're manually drawing the extras. Returns true by default.
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft <= 16)
-            {
-                Player player = Main.player[projectile.owner];
-                Point playerCentre = player.Center.ToTileCoordinates();
-
-                lightColor = Lighting.GetColor(playerCentre.X, playerCentre.Y);
-
-                projectile.alpha = 75;
-                projectile.frame = 16 - (projectile.timeLeft * 2);
-
-                int frameHeight = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-                spriteBatch.Draw(Main.projectileTexture[projectile.type],
-                    projectile.position - Main.screenPosition + new Vector2(projectile.width / 2f, projectile.height / 2f),
-                    new Rectangle?(new Rectangle(0, projectile.frame * frameHeight, Main.projectileTexture[projectile.type].Width, frameHeight)),
-                    lightColor,
-                    projectile.rotation,
-                    new Vector2(projectile.width / 2f, projectile.height / 2f),
-                    projectile.scale,
-                    projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                    0
-                );
-                return false;
-            }
-            return false;
+            Player player = Main.player[projectile.owner];
+            int weaponItemID = mod.ItemType<Hayauchi>();
+            Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
+            return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
+                SlashLogic == 0f ? specialSlash : null,
+                SlashLogic == 0f ? new Color(1f, 1f, 1f, 0.1f) : lighting,
+                specialProjFrames,
+                SlashLogic == 0f ? chargeSlashDirection : SlashLogic);
         }
     }
 }

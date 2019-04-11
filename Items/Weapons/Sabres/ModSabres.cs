@@ -258,7 +258,8 @@ namespace WeaponOut
         public static void UseItemHitboxCalculate(Player player, Item item, ref Rectangle hitbox, ref bool noHitbox, float delayStart, int height, int length, float hitboxDuration = 3)
         {
             // Lengthen the hitbox duration the longer it is
-            hitboxDuration += length / 140;
+            // 1 Frame per 4 tiles after 12
+            hitboxDuration += Math.Max(0, (length - 96) / 32);
 
             height = (int)(height * item.scale);
             length = (int)(length * item.scale);
