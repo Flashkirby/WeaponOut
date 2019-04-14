@@ -19,8 +19,8 @@ namespace WeaponOut.Items.Weapons.Sabres
     /// </summary>
     public class Hayauchi : ModItem
     {
-        public const int waitTime = 80; //charge for special attack, due to coding must be >60 since that's the charge time
-        public const int sheenTime = 60; // duration of actual charge animation
+        public const int waitTime = 60; //charge for special attack, due to coding must be >60 since that's the charge time
+        public const int sheenTime = 45; // duration of actual charge animation
 
         private bool drawStrike;
         
@@ -94,6 +94,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             ModSabres.HoldItemManager(player, item, mod.ProjectileType<HayauchiSlash>(),
                 Color.Red, 0.9f, specialCharge ? 0f : 1f, customCharge);
 
+            // Blade sheen once fully charged
             if (specialCharge)
             {
                 Vector2 dustPos = player.Center;
@@ -104,7 +105,7 @@ namespace WeaponOut.Items.Weapons.Sabres
                         ((sheenTime / 2) - random) * 0.55f - 12)
                         * player.direction - 4;
                     dustPos.Y -= (
-                        ((sheenTime / 2) - random) * 0.29f - 12)
+                        ((sheenTime / 2) - random) * 0.29f - 10)
                         * player.gravDir;
 
                     if (player.gravDir < 0) dustPos.Y -= 6;
@@ -142,10 +143,10 @@ namespace WeaponOut.Items.Weapons.Sabres
             if (patience > waitTime - sheenTime) //blade sheen
             {
                 dustPos.X += (
-                    (patience + (sheenTime / 2) - waitTime) * 0.55f - 12)
+                    (patience + (sheenTime / 2) - waitTime) * 0.55f - 20)
                     * player.direction - 4;
                 dustPos.Y -= (
-                    (patience + (sheenTime / 2) - waitTime) * 0.29f - 12)
+                    (patience + (sheenTime / 2) - waitTime) * 0.29f - 14)
                     * player.gravDir;
 
                 if (player.gravDir < 0) dustPos.Y -= 6;
@@ -173,8 +174,8 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            int height = 76;
-            int length = 70;
+            int height = 100;
+            int length = 100;
             if (item.noGrabDelay > 0)
             {
                 length = 240; // 228 + 12 offset
@@ -230,8 +231,8 @@ namespace WeaponOut.Items.Weapons.Sabres
         }
         public override void SetDefaults()
         {
-            projectile.width = 70;
-            projectile.height = 76;
+            projectile.width = 100;
+            projectile.height = 100;
             projectile.aiStyle = -1;
             projectile.timeLeft = 60;
 
