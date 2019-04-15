@@ -14,8 +14,8 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             DisplayName.SetDefault("Beam Saber");
             
-            Tooltip.SetDefault("Charge attack swings further"
-                            + "\n'Eye-catching and lethal'");
+            Tooltip.SetDefault("Charge Attack to power slash"
+                            + "\n'Made of pure light energy!'");
         }
         public override void SetDefaults()
         {

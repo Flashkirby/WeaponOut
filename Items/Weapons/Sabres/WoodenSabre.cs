@@ -14,7 +14,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             DisplayName.SetDefault("Wooden Saber");
             
-            Tooltip.SetDefault("Charge attack grants 50% increased knockback");
+            Tooltip.SetDefault("Charge Attack grants 50% increased knockback");
         }
         public override void SetDefaults()
         {

@@ -14,7 +14,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             DisplayName.SetDefault("Mahogany Saber");
             
-            Tooltip.SetDefault("Charge attack to lunge forwards");
+            Tooltip.SetDefault("Charge Attack to lunge forwards");
         }
         public override void SetDefaults()
         {

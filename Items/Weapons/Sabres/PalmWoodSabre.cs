@@ -14,7 +14,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             DisplayName.SetDefault("Palm Saber \"Launcher\"");
             
-            Tooltip.SetDefault("Charge attack launches enemies upwards");
+            Tooltip.SetDefault("Charge Attack launches enemies upwards");
         }
         public override void SetDefaults()
         {

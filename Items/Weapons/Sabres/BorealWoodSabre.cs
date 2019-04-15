@@ -14,7 +14,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             DisplayName.SetDefault("Boreal Saber");
             
-            Tooltip.SetDefault("Charge attack delivers a double strike");
+            Tooltip.SetDefault("Charge Attack to double strike");
         }
         public override void SetDefaults()
         {

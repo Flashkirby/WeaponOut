@@ -14,7 +14,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             DisplayName.SetDefault("Enchanted Saber");
             
-            Tooltip.SetDefault("Charge attack increases range");
+            Tooltip.SetDefault("Charge Attack shoots an enchanted beam");
         }
         public override void SetDefaults()
         {
