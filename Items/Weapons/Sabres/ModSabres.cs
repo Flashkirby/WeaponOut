@@ -263,8 +263,6 @@ namespace WeaponOut
 
             height = (int)(height * item.scale);
             length = (int)(length * item.scale);
-            int backOffset = Player.defaultWidth / 2; // dist from centre to edge
-            int dist = Math.Max(0, length - height - Player.defaultWidth / 2); // total distance covered by the moving hitbox
 
             // Define when after first swinging the the hitbox becomes active
             int startFrame = (int)(player.itemAnimationMax * delayStart);
@@ -275,23 +273,29 @@ namespace WeaponOut
             int activeFrame = startFrame - player.itemAnimation;
             if (activeFrame >= 0 && activeFrame < hitboxDuration + 1)
             {
-                hitbox.Width = (int)(height * 1.416f);
-                hitbox.Height = (int)(height * 1.416f);
+                hitbox.Width = (int)(height * 1f);
+                hitbox.Height = hitbox.Width;
 
                 float invert = 0f;
                 if (player.direction < 0) invert = MathHelper.Pi;
-                hitbox.Location = new Point(
-                   // centre, cos by 3rd dist x frame, with backoffset to pull forward
-                   (int)(player.MountedCenter.X + Math.Cos(player.itemRotation + invert)
-                   * (dist / hitboxDuration * activeFrame + backOffset) - hitbox.Width / 2),
-                   (int)(player.MountedCenter.Y + Math.Sin(player.itemRotation + invert)
-                   * (dist / hitboxDuration * activeFrame + backOffset) - hitbox.Height / 2));
+                float dist = Math.Max(0, length - height); // total distance covered by the moving hitbox
+
+                Vector2 direction = new Vector2(
+                    (float)Math.Cos(player.itemRotation + invert),
+                    (float)Math.Sin(player.itemRotation + invert));
+                Vector2 centre = player.MountedCenter - (hitbox.Size() / 2);
+                Vector2 playerOffset = (player.Size.X * item.scale * direction);
+                hitbox.Location = (centre
+                    + direction * hitbox.Width / 2
+                    - playerOffset
+                    + (dist * direction / hitboxDuration * activeFrame)
+                    ).ToPoint();
 
                 player.attackCD = 0;
 
                 // DEBUG hitbox
-                //for (int i = 0; i < 50; i++)
-                //{ Dust.NewDust(hitbox.Location.ToVector2(), hitbox.Width, hitbox.Height, 6, 0, 0, 0, default(Color), 0.5f); }
+                for (int i = 0; i < 256; i++)
+                { Dust d = Dust.NewDustDirect(hitbox.Location.ToVector2() - new Vector2(2,2), hitbox.Width, hitbox.Height, 60, 0, 0, 0, default(Color), 0.75f); d.velocity = Vector2.Zero; d.noGravity = true; }
             }
             else
             {
@@ -484,8 +488,8 @@ namespace WeaponOut
 
             // move to intended side, then pull back to player width
             Vector2 offset = new Vector2(
-               (float)Math.Cos(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale),
-               (float)Math.Sin(projectile.rotation) * ((projectile.width / 2) - Player.defaultWidth / projectile.scale)
+               (float)Math.Cos(projectile.rotation) * ((projectile.width / 2) - player.Size.X / projectile.scale),
+               (float)Math.Sin(projectile.rotation) * ((projectile.width / 2) - player.Size.X / projectile.scale)
                 );
             if (player.gravDir < 0) offset.Y = -offset.Y;
             projectile.position += offset;
