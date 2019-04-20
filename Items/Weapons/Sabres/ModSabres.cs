@@ -281,8 +281,8 @@ namespace WeaponOut
             int activeFrame = startFrame - player.itemAnimation;
             if (activeFrame >= 0 && activeFrame < hitboxDuration + 1)
             {
+                hitbox.Height = height;
                 hitbox.Width = height;
-                hitbox.Height = hitbox.Width;
 
                 float invert = 0f;
                 if (player.direction < 0) invert = MathHelper.Pi;
@@ -294,7 +294,7 @@ namespace WeaponOut
                 Vector2 centre = player.MountedCenter - (hitbox.Size() / 2);
                 Vector2 playerOffset = (player.Size.X * item.scale * direction);
                 hitbox.Location = (centre
-                    + direction * hitbox.Width / 2
+                    + direction * hitbox.Height / 2
                     - playerOffset
                     + (dist * direction / hitboxDuration * activeFrame)
                     ).ToPoint();
@@ -490,19 +490,18 @@ namespace WeaponOut
 
         public static void RecentreSlash(Projectile projectile, Player player)
         {
-            // Centre the projectile on player
-            projectile.Center = player.MountedCenter;
             if (player.direction < 0) projectile.position.X += projectile.width;
 
-            // move to intended side, then pull back to player width
-            Vector2 offset = new Vector2(
-               (float)Math.Cos(projectile.rotation) * ((projectile.width / 2) - player.Size.X / projectile.scale),
-               (float)Math.Sin(projectile.rotation) * ((projectile.width / 2) - player.Size.X / projectile.scale)
-                );
-            if (player.gravDir < 0) offset.Y = -offset.Y;
-            projectile.position += offset;
+            float dist = Math.Max(0, projectile.width - projectile.height); // total distance covered by the moving hitbox
 
-            if (player.direction < 0) projectile.position.X -= projectile.width;
+            Vector2 direction = new Vector2(
+                (float)Math.Cos(projectile.rotation),
+                (float)Math.Sin(projectile.rotation));
+            Vector2 centre = player.MountedCenter;
+            Vector2 playerOffset = (player.Size.X * projectile.scale * direction);
+            projectile.Center = (centre
+                + direction * (dist + projectile.height) / 2
+                - playerOffset);
         }
 
         public static bool PreDrawSlashAndWeapon(SpriteBatch spriteBatch, Projectile projectile, int weaponItemID, Color weaponColor, Texture2D slashTexture, Color slashColor, int slashFramecount, float slashDirection = 1f, bool shadow = false)
