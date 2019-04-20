@@ -19,8 +19,7 @@ namespace WeaponOut.Items.Weapons.Sabres
     /// </summary>
     public class Hayauchi : ModItem
     {
-        public const int waitTime = 60; //charge for special attack, due to coding must be >60 since that's the charge time
-        public const int sheenTime = 45; // duration of actual charge animation
+        public const int waitTime = 15;
 
         private bool drawStrike;
         
@@ -92,68 +91,55 @@ namespace WeaponOut.Items.Weapons.Sabres
             bool specialCharge = hasHayauchiSpecialCharge(player);
 
             ModSabres.HoldItemManager(player, item, mod.ProjectileType<HayauchiSlash>(),
-                Color.Red, 0.9f, specialCharge ? 0f : 1f, customCharge);
+                Color.Red, 0.9f, specialCharge ? 0f : 1f, customCharge, 12);
 
             // Blade sheen once fully charged
             if (specialCharge)
             {
-                Vector2 dustPos = player.Center;
-                int random = Main.rand.Next(60);
-                if (player.stealth > 0)
-                {
-                    dustPos.X += (
-                        ((sheenTime / 2) - random) * 0.55f - 12)
-                        * player.direction - 4;
-                    dustPos.Y -= (
-                        ((sheenTime / 2) - random) * 0.29f - 10)
-                        * player.gravDir;
-
-                    if (player.gravDir < 0) dustPos.Y -= 6;
-                    int d = Dust.NewDust(dustPos, 1, 1, 90, 0f, 0f, 0, Color.White, 0.2f);
-                    Main.dust[d].velocity = Vector2.Zero;
-                    Main.dust[d].noGravity = true;
-                    Main.dust[d].fadeIn = 0.8f;
-                }
+                Vector2 dustPos = getBladeDustPos(player, Main.rand.NextFloat());
+                Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90);
+                d.velocity = Vector2.Zero;
+                d.noGravity = true;
+                d.scale = 0.2f;
+                d.fadeIn = 0.8f;
             }
         }
 
         public Action<Player, bool> customCharge = CustomCharge;
         public static void CustomCharge(Player player, bool flashFrame)
         {
-            int patience = 80 - player.itemTime;
-
-            Vector2 dustPos = player.Center;
-            if (flashFrame)//burst
+            if (flashFrame) //Charge burst
             {
-                dustPos = player.Center;
-                dustPos.X += (
-                    (sheenTime / 2) * 0.55f - 12)
-                    * player.direction - 4;
-                dustPos.Y -= (
-                    (sheenTime / 2) * 0.29f - 12)
-                    * player.gravDir;
-
-                if (player.gravDir < 0) dustPos.Y -= 6;
+                Vector2 dustPos = getBladeDustPos(player, 0f);
                 Main.PlaySound(25, player.position);
                 for (int i = 0; i < 10; i++)
                 {
-                    Dust.NewDust(dustPos, player.direction, 1, 130, player.direction, 0f, 0, Color.White, 0.6f);
+                    Dust d = Dust.NewDustDirect(dustPos, 0, 0, 130, player.direction, 0f);
+                    d.scale = 0.6f;
                 }
             }
-            if (patience > waitTime - sheenTime) //blade sheen
+            if (player.itemTime > 0) // Charging sheen effect
             {
-                dustPos.X += (
-                    (patience + (sheenTime / 2) - waitTime) * 0.55f - 20)
-                    * player.direction - 4;
-                dustPos.Y -= (
-                    (patience + (sheenTime / 2) - waitTime) * 0.29f - 14)
-                    * player.gravDir;
-
-                if (player.gravDir < 0) dustPos.Y -= 6;
-
-                int d = Dust.NewDust(dustPos, 1, 1, 71, 0f, 0f, 0, Color.White, 0.5f);
-                Main.dust[d].velocity *= 5f / (patience + 6);
+                float chargeNormal = (float)player.itemTime / player.HeldItem.useTime; // 1 -> 0
+                Vector2 dustPos = getBladeDustPos(player, chargeNormal);
+                Dust d = Dust.NewDustDirect(dustPos, 0, 0, 71);
+                d.scale = 0.5f;
+                d.velocity *= chargeNormal / 2f;
             }
+        }
+        private static Vector2 getBladeDustPos(Player player, float distanceNormal)
+        {
+            int width = 32;
+            int height = 16;
+            int offSetX = 0;
+            int offSetY = 8;
+            distanceNormal = MathHelper.Clamp(distanceNormal, 0f, 1f);
+            Vector2 bladePosition = player.Center;
+            bladePosition += new Vector2(
+                (offSetX - distanceNormal * width) * player.direction - 4,
+                (offSetY + distanceNormal * height) * player.gravDir - 4
+                );
+            return bladePosition;
         }
         
         public override bool HoldItemFrame(Player player) //called on player holding but not swinging
@@ -178,8 +164,8 @@ namespace WeaponOut.Items.Weapons.Sabres
             int length = 100;
             if (item.noGrabDelay > 0)
             {
-                length = 240; // 228 + 12 offset
-                height = 116; // 140 - 24 offset
+                length = 228;
+                height = 140;
             }
             ModSabres.UseItemHitboxCalculate(player, item, ref hitbox, ref noHitbox, 0.9f, height, length);
         }
@@ -265,8 +251,8 @@ namespace WeaponOut.Items.Weapons.Sabres
             else
             {
                 // Charged attack
-                projectile.height = 140;
-                projectile.width = 228;
+                projectile.height = 228;
+                projectile.width = 140;
                 ModSabres.AISetChargeSlashVariables(player, chargeSlashDirection);
                 ModSabres.NormalSlash(projectile, player);
 

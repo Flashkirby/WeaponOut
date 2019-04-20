@@ -33,11 +33,13 @@ namespace WeaponOut
         /// <param name="ai1">Set ai1, usually the direction of the slash, or power attack. </param>
         /// <param name="customCharge">Custom function call replacing normal charge effect, using player.itemTime; </param>
         /// <returns>True on the frame of a charged attack</returns>
-        public static bool HoldItemManager(Player player, Item item, int slashProjectileID, Color chargeColour = default(Color), float slashDelay = 0.9f, float ai1 = 1f, Action<Player, bool> customCharge = null)
+        public static bool HoldItemManager(Player player, Item item, int slashProjectileID, Color chargeColour = default(Color), float slashDelay = 0.9f, float ai1 = 1f, Action<Player, bool> customCharge = null, int delaySpeed = 4)
         {
             bool charged = false;
+            // Attacking
             if (player.itemAnimation > 0)
             {
+                // JUST attacked
                 if (player.itemAnimation == player.itemAnimationMax - 1)
                 {
                     if (ai1 == 1f || ai1 == -1f)
@@ -85,16 +87,21 @@ namespace WeaponOut
             // when counting down
             if (player.itemTime > 0)
             {
+                // internalChargeTicker hangs the item time until past the delaySpeed
+                // in which case it allows the itemTime to be reduced on that frame.
 
                 // If not moving much, boost item charge speed
-                int delaySpeed = 2;
-                // If not grounded
-                if (player.velocity.Y == 0)
-                { delaySpeed -= 1; }
+                //int delaySpeed = 4; // default, item charged 1 1 / 3 speed
 
-                
+                // If grounded, half the dleay speed
+                if (player.velocity.Y == 0)
+                { delaySpeed /= 2; }
+
+                // cap
+                delaySpeed = Math.Max(delaySpeed, 1);
+
                 // Reset if swinging
-                if (player.itemAnimation > 0) { player.itemTime = item.useTime; }
+                if (player.itemAnimation > 0) { player.itemTime = Math.Max(player.itemTime, item.useTime); }
                 else if (Main.myPlayer == player.whoAmI)
                 {
                     if (customCharge != null)
@@ -122,7 +129,8 @@ namespace WeaponOut
                 }
 
                 // allow item time when past "limit"
-                if(internalChargeTicker > delaySpeed)
+
+                if (internalChargeTicker >= delaySpeed)
                 { internalChargeTicker = 0; }
 
                 // delay item time unless at 0
@@ -273,7 +281,7 @@ namespace WeaponOut
             int activeFrame = startFrame - player.itemAnimation;
             if (activeFrame >= 0 && activeFrame < hitboxDuration + 1)
             {
-                hitbox.Width = (int)(height * 1f);
+                hitbox.Width = height;
                 hitbox.Height = hitbox.Width;
 
                 float invert = 0f;
@@ -294,8 +302,8 @@ namespace WeaponOut
                 player.attackCD = 0;
 
                 // DEBUG hitbox
-                //for (int i = 0; i < 256; i++)
-                //{ Dust d = Dust.NewDustDirect(hitbox.Location.ToVector2() - new Vector2(2,2), hitbox.Width, hitbox.Height, 60, 0, 0, 0, default(Color), 0.75f); d.velocity = Vector2.Zero; d.noGravity = true; }
+                for (int i = 0; i < 256; i++)
+                { Dust d = Dust.NewDustDirect(hitbox.Location.ToVector2() - new Vector2(2, 2), hitbox.Width, hitbox.Height, 60, 0, 0, 0, default(Color), 0.75f); d.velocity = Vector2.Zero; d.noGravity = true; }
             }
             else
             {
