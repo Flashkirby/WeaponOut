@@ -302,8 +302,8 @@ namespace WeaponOut
                 player.attackCD = 0;
 
                 // DEBUG hitbox
-                for (int i = 0; i < 256; i++)
-                { Dust d = Dust.NewDustDirect(hitbox.Location.ToVector2() - new Vector2(2, 2), hitbox.Width, hitbox.Height, 60, 0, 0, 0, default(Color), 0.75f); d.velocity = Vector2.Zero; d.noGravity = true; }
+                //for (int i = 0; i < 256; i++)
+                //{ Dust d = Dust.NewDustDirect(hitbox.Location.ToVector2() - new Vector2(2, 2), hitbox.Width, hitbox.Height, 60, 0, 0, 0, default(Color), 0.75f); d.velocity = Vector2.Zero; d.noGravity = true; }
             }
             else
             {
