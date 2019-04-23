@@ -14,8 +14,9 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             DisplayName.SetDefault("Beam Saber");
             
-            Tooltip.SetDefault("Charge Attack to power slash"
-                            + "\n'Made of pure light energy!'");
+            Tooltip.SetDefault(
+                "Charge Attack to power slash\n" + 
+                "'Made of pure light energy!'");
         }
         public override void SetDefaults()
         {

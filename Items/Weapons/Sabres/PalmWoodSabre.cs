@@ -12,7 +12,7 @@ namespace WeaponOut.Items.Weapons.Sabres
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Palm Saber \"Launcher\"");
+            DisplayName.SetDefault("Palm Saber");
             
             Tooltip.SetDefault("Charge Attack launches enemies upwards");
         }
