@@ -497,8 +497,10 @@ namespace WeaponOut
             Vector2 direction = new Vector2(
                 (float)Math.Cos(projectile.rotation),
                 (float)Math.Sin(projectile.rotation));
+            direction.Y *= player.gravDir;
             Vector2 centre = player.MountedCenter;
             Vector2 playerOffset = (player.Size.X * projectile.scale * direction);
+
             projectile.Center = (centre
                 + direction * (dist + projectile.height) / 2
                 - playerOffset);
@@ -518,33 +520,30 @@ namespace WeaponOut
 
             // Flip Horziontally
             SpriteEffects spriteEffect = SpriteEffects.None;
-            spriteEffect = SpriteEffects.None;
+            bool spriteFlipH = false;
+            bool spriteFlipV = false;
             if (projectile.spriteDirection < 0)
             {
-                spriteEffect = SpriteEffects.FlipHorizontally;
+                spriteFlipH = true;
             }
 
-            // Flip Vertically
-            float vDir = slashNormal;
-            Vector2 weaponOrigin;
-            if (vDir <= 0)
+            // Flip Vertically : Weapon spriteEffect
+            float vDir = slashNormal * player.gravDir;
+            Vector2 weaponOrigin = weapon.Bounds.BottomLeft();
+            if ( vDir < 0)
             {
-                if (spriteEffect == SpriteEffects.FlipHorizontally)
-                {
-                    weaponOrigin = weapon.Bounds.TopRight();
-                    spriteEffect = spriteEffect | SpriteEffects.FlipVertically;
-                }
-                else
-                {
-                    weaponOrigin = weapon.Bounds.TopLeft();
-                    spriteEffect = SpriteEffects.FlipVertically;
-                }
+                spriteFlipV = true;
             }
-            else
+
+            if (spriteFlipH)
             {
-                weaponOrigin = weapon.Bounds.BottomLeft();
-                if (spriteEffect == SpriteEffects.FlipHorizontally)
-                { weaponOrigin = weapon.Bounds.BottomRight(); }
+                spriteEffect = spriteEffect | SpriteEffects.FlipHorizontally;
+                weaponOrigin.X = weapon.Bounds.Right;
+            }
+            if (spriteFlipV)
+            {
+                spriteEffect = spriteEffect | SpriteEffects.FlipVertically;
+                weaponOrigin.Y = weapon.Bounds.Top;
             }
 
             // Draw weapon if at the start or end animation
@@ -563,6 +562,10 @@ namespace WeaponOut
                     1f);
             }
 
+            // projectile drawing already mirrors horizontally when needed, just remove reverse flip from earlier
+            if(projectile.spriteDirection < 0) { vDir *= -1f; }
+            spriteEffect = vDir < 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+
             if (projectile.frame >= 0 &&
                 projectile.frame < slashFramecount)
             {
@@ -579,7 +582,7 @@ namespace WeaponOut
                             projectile.Center - (player.position - player.oldPosition) * itef - Main.screenPosition,
                             slashTexture.Frame(1, slashFramecount, 0, projectile.frame + iter),
                             slashColor * (0.5f - 0.1f * itef),
-                            player.itemRotation,
+                            projectile.rotation,
                             new Vector2(slashTexture.Width / 2, slashTexture.Height / (2 * slashFramecount)),
                             projectile.scale,
                             spriteEffect,
@@ -592,7 +595,7 @@ namespace WeaponOut
                     projectile.Center - Main.screenPosition,
                     slashTexture.Frame(1, slashFramecount, 0, projectile.frame),
                     slashColor,
-                    player.itemRotation,
+                    projectile.rotation,
                     new Vector2(slashTexture.Width / 2, slashTexture.Height / (2 * slashFramecount)),
                     projectile.scale,
                     spriteEffect,
