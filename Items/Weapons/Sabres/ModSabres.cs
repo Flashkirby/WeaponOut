@@ -571,6 +571,11 @@ namespace WeaponOut
             {
                 if(shadow)
                 {
+                    Vector2 dist = player.position - player.oldPosition;
+                    dist = new Vector2(
+                        MathHelper.Clamp(dist.X, -32, 32),
+                        MathHelper.Clamp(dist.Y, -32, 32));
+
                     // Draw slashes
                     for (int i = 1; i <= 6; i++)
                     {
@@ -579,7 +584,7 @@ namespace WeaponOut
 
                         if (projectile.frame + iter >= slashFramecount) break;
                         spriteBatch.Draw(slashTexture,
-                            projectile.Center - (player.position - player.oldPosition) * itef - Main.screenPosition,
+                            projectile.Center - (dist) * itef - Main.screenPosition,
                             slashTexture.Frame(1, slashFramecount, 0, projectile.frame + iter),
                             slashColor * (0.5f - 0.1f * itef),
                             projectile.rotation,

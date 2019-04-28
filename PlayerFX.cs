@@ -623,16 +623,6 @@ namespace WeaponOut
 
         public override void PostUpdateRunSpeeds()
         {
-            if(player.inventory[player.selectedItem].type == mod.ItemType<Items.Weapons.Sabres.Raiden>())
-            {
-                if (itemSkillDelay >= Items.Weapons.Sabres.Raiden.focusTime)
-                {
-                    float setSpeed = player.maxRunSpeed / 4f;
-                    player.maxRunSpeed -= setSpeed;
-                    player.accRunSpeed = player.maxRunSpeed;
-                }
-            }
-
             if (ModConf.EnableFists)
             {
                 if (momentumDashTime > 0)
