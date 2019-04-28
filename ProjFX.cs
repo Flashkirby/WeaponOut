@@ -26,9 +26,10 @@ namespace WeaponOut
                     // based off Projectile.cs CanReflect()
                     bool isHostile =
                         projectile.hostile &&
-                        projectile.owner == Main.myPlayer;
+                        (projectile.owner == Main.myPlayer || projectile.owner == 255); // 255 is npc owner on servers
                     bool isUnfriendlyPlayer = projectile.friendly && !PlayerFX.SameTeam(
                         player, pOwner);
+                    
                     if (projectile.damage > 0 && (isHostile || isUnfriendlyPlayer))
                     {
                         // Can reflect
