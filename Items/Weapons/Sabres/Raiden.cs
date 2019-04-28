@@ -222,15 +222,11 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             int height = 94;
             int length = 104;
+            ModSabres.UseItemHitboxCalculate(player, item, ref hitbox, ref noHitbox, 0.9f, height, length);
             if (ModSabres.SabreIsChargedStriking(player, item))
             {
-                hitbox = player.Hitbox;
                 player.meleeDamage += 2f;
                 noHitbox = player.itemAnimation < player.itemAnimationMax - 10;
-            } 
-            else
-            {
-                ModSabres.UseItemHitboxCalculate(player, item, ref hitbox, ref noHitbox, 0.9f, height, length);
             }
         }
 
