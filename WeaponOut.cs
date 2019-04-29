@@ -126,7 +126,7 @@ namespace WeaponOut
             text.SetDefault("Staff");
             mod.AddTranslation(text);
 
-            ControlToggleVisual = RegisterHotKey(GetTranslationTextValue("WOFistComboPower"), "#");
+            ControlToggleVisual = RegisterHotKey(GetTranslationTextValue("WOVisualControl"), "#");
         }
 
         public override void Unload()
