@@ -6,16 +6,16 @@ using Terraria.ModLoader;
 using Terraria.Localization;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace WeaponOut.Items.Weapons.Sabres
+namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 {
-    public class EnergySabre : ModItem
+    public abstract class BeamSabre : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam Saber");
-            
+
             Tooltip.SetDefault(
-                "Charge Attack to power slash\n" + 
+                "Charge Attack to power slash\n" +
                 "'Made of pure light energy!'");
         }
         public override void SetDefaults()
@@ -34,17 +34,17 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.useTime = 60 / 4;
             item.useAnimation = 20;
 
-            //item.shoot = ProjectileID.DD2SquireSonicBoom;
-            //item.shootSpeed = 10f;
-
             item.rare = 3;
             item.value = 25000;
         }
 
+        public abstract Color SabreColour();
+        public abstract int SabreSlashType();
+
         public override void HoldItem(Player player)
         {
-            ModSabres.HoldItemManager(player, item, mod.ProjectileType<EnergySabreSlash>(),
-                Color.Purple, 0.75f, player.itemTime == 0 ? 0f : 1f);
+            ModSabres.HoldItemManager(player, item, SabreSlashType(),
+                SabreColour(), 0.75f, player.itemTime == 0 ? 0f : 1f);
         }
 
         // Doesn't get called unless item.shoot is defined.
@@ -71,14 +71,14 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Color colour = new Color(1f, 0.1f, 0f);
-            ModSabres.OnHitFX(player, target, crit, colour, true);
+            ModSabres.OnHitFX(player, target, crit, SabreColour(), true);
         }
 
         public override Color? GetAlpha(Color lightColor)
         { return Color.White; }
     }
-    public class EnergySabreSlash : ModProjectile
+
+    public abstract class BeamSabreSlash : ModProjectile
     {
         public static Texture2D specialSlash;
         public static int specialProjFrames = 6;
@@ -88,7 +88,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             Main.projFrames[projectile.type] = 5;
             if (Main.netMode == 2) return;
-            specialSlash = mod.GetTexture("Items/Weapons/Sabres/" + GetType().Name + "_Special");
+            specialSlash = mod.GetTexture("Items/Weapons/Sabres/BeamSabres/" + GetType().Name + "_Special");
         }
         public override void SetDefaults()
         {
@@ -138,7 +138,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<EnergySabre>();
+            int weaponItemID = mod.ItemType<BeamSabreRed>();
             //Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
             return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, Color.White,
                 SlashLogic == 0f ? specialSlash : null,
