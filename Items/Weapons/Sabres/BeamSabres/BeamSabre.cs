@@ -25,14 +25,14 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 
             item.melee = true;
             item.damage = 50; //DPS 150
-            item.knockBack = 3;
+            item.knockBack = 4f;
             item.autoReuse = true;
 
             item.useStyle = 1;
             item.UseSound = SoundID.Item15;
 
             item.useTime = 60 / 4;
-            item.useAnimation = 20;
+            item.useAnimation = 15;
 
             item.rare = 5;
             item.value = 25000;
@@ -64,7 +64,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
             if (item.noGrabDelay > 0)
             {
                 length = 164;
-                player.meleeDamage += 0.5f;
+                player.meleeDamage += 2f;
             }
             ModSabres.UseItemHitboxCalculate(player, item, ref hitbox, ref noHitbox, 0.9f, height, length);
         }
