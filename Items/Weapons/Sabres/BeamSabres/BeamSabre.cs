@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
             item.useTime = 60 / 4;
             item.useAnimation = 20;
 
-            item.rare = 3;
+            item.rare = 5;
             item.value = 25000;
         }
 
@@ -80,15 +80,12 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 
     public abstract class BeamSabreSlash : ModProjectile
     {
-        public static Texture2D specialSlash;
         public static int specialProjFrames = 6;
         bool sndOnce = true;
         int chargeSlashDirection = 1;
         public override void SetStaticDefaults()
         {
             Main.projFrames[projectile.type] = 5;
-            if (Main.netMode == 2) return;
-            specialSlash = mod.GetTexture("Items/Weapons/Sabres/BeamSabres/" + GetType().Name + "_Special");
         }
         public override void SetDefaults()
         {
@@ -116,10 +113,15 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
             set { projectile.ai[1] = value; }
         }
 
+        public abstract Vector3 SabreColour();
+
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            if (ModSabres.AINormalSlash(projectile, SlashLogic)) { }
+            if (ModSabres.AINormalSlash(projectile, SlashLogic))
+            {
+                Lighting.AddLight(projectile.Center, SabreColour() / 2f);
+            }
             else
             {
                 // Charged attack
@@ -130,6 +132,8 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
                 // Play charged sound
                 if (sndOnce)
                 { Main.PlaySound(SoundID.Item60, projectile.Center); sndOnce = false; }
+
+                Lighting.AddLight(projectile.Center, SabreColour());
             }
             projectile.damage = 0;
             FrameCheck += 0.75f; // Framerate
@@ -138,7 +142,8 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<BeamSabreRed>();
+            Texture2D specialSlash = mod.GetTexture("Items/Weapons/Sabres/BeamSabres/" + GetType().Name + "_Special");
+            int weaponItemID = player.HeldItem.type;
             //Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
             return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, Color.White,
                 SlashLogic == 0f ? specialSlash : null,
