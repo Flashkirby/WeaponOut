@@ -64,12 +64,12 @@ namespace WeaponOut.Items.Weapons.Sabres
                     {
                         for (int x = -1; x <= 1; x++)
                         {
-                            Dust d = Dust.NewDustPerfect(targets.Last().Center + new Vector2(velo * 4, y),
+                            Dust d = Dust.NewDustPerfect(last + new Vector2(velo * 4, y),
                                 182, new Vector2(-velo, 0));
                             d.scale = 0.5f;
                             d.noGravity = true;
 
-                            d = Dust.NewDustPerfect(targets.Last().Center + new Vector2(x, velo * 4),
+                            d = Dust.NewDustPerfect(last + new Vector2(x, velo * 4),
                                 182, new Vector2(0, -velo));
                             d.scale = 0.5f;
                             d.noGravity = true;
@@ -79,7 +79,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             }
         }
 
-        public static List<NPC> GetTargettableNPCs(Vector2 center, float radius, int limit = 15)
+        public static List<NPC> GetTargettableNPCs(Vector2 center, Vector2 targetCentre, float radius, int limit = 15)
         {
             Dictionary<NPC, float> targets = new Dictionary<NPC, float>();
             foreach (NPC npc in Main.npc)
@@ -90,15 +90,16 @@ namespace WeaponOut.Items.Weapons.Sabres
                     float distance = (center - npc.Center).Length();
                     if (distance <= radius)
                     {
+                        float distanceToFocus = (targetCentre - npc.Center).Length();
                         if (Collision.CanHit(center - new Vector2(12, 12), 24, 24, npc.position, npc.width, npc.height))
                         {
-                            targets.Add(npc, distance);
+                            targets.Add(npc, distanceToFocus);
                         }
                     }
                 }
             }
 
-            // Sort the list by distance
+            // Sort the list by distance (inner to outer)
             List<NPC> targetList = new List<NPC>(targets.Count);
             var ie = targets.OrderBy(pair => pair.Value).Take(targets.Count);
 
@@ -107,6 +108,9 @@ namespace WeaponOut.Items.Weapons.Sabres
                 if (limit > 0) { targetList.Add(kvp.Key); }
                 limit--;
             }
+
+            // Invert (outer to inner)
+            targetList.Reverse();
 
             return targetList;
         }
@@ -180,10 +184,15 @@ namespace WeaponOut.Items.Weapons.Sabres
             if (player.itemTime == 0)
             {
                 float radius = RaidenUtils.GetFocusRadius(player);
-                List<NPC> targets = RaidenUtils.GetTargettableNPCs(player.Center, radius);
 
                 RaidenUtils.DrawDustRadius(player, radius, RaidenUtils.DustAmount(player));
-                RaidenUtils.DrawOrderedTargets(player, targets);
+
+                if(Main.myPlayer == player.whoAmI)
+                {
+                    Vector2 mouse = new Vector2(Main.screenPosition.X + Main.mouseX, Main.screenPosition.Y + Main.mouseY);
+                    List<NPC> targets = RaidenUtils.GetTargettableNPCs(player.Center, mouse, radius, RaidenUtils.focusTargets);
+                    RaidenUtils.DrawOrderedTargets(player, targets);
+                }
             }
         }
 
@@ -307,7 +316,12 @@ namespace WeaponOut.Items.Weapons.Sabres
                 // Play charged sound & set targets
                 if (sndOnce)
                 {
-                    targets = RaidenUtils.GetTargettableNPCs(player.Center, RaidenUtils.GetFocusRadius(player), RaidenUtils.focusTargets);
+                    Vector2 mouse;
+                    if (Main.myPlayer == player.whoAmI)
+                    { mouse = new Vector2(Main.screenPosition.X + Main.mouseX, Main.screenPosition.Y + Main.mouseY); }
+                    else
+                    { mouse = player.Center + new Vector2(player.direction * 256); } // an estimation
+                    targets = RaidenUtils.GetTargettableNPCs(player.Center, mouse, RaidenUtils.GetFocusRadius(player), RaidenUtils.focusTargets);
                     if(targets.Count > 0)
                     {
                         Main.PlaySound(SoundID.Item71, projectile.Center); sndOnce = false;
@@ -379,7 +393,13 @@ namespace WeaponOut.Items.Weapons.Sabres
                 if (target == null || !target.active || target.dontTakeDamage)
                 { targetBottom = player.Bottom; target = null; }
                 else
-                { targetBottom = target.Bottom; }
+                {
+                    // Set target
+                    targetBottom = target.Bottom;
+                    // and rotate slash
+                    Vector2 toTarget = targetBottom - player.Bottom;
+                    projectile.rotation = (float)Math.Atan2(toTarget.Y, toTarget.X);
+                }
 
                 Vector2 oldBottom = new Vector2(player.Bottom.X, player.Bottom.Y);
                 Vector2 vecHeight = new Vector2(0, Player.defaultHeight / -2);
@@ -406,8 +426,6 @@ namespace WeaponOut.Items.Weapons.Sabres
                 }
 
                 // Set slash
-                Vector2 toTarget = targetBottom - player.Bottom;
-                projectile.rotation = (float)Math.Atan2(toTarget.Y, toTarget.X);
                 ModSabres.RecentreSlash(projectile, player);
 
 
