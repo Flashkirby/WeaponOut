@@ -35,11 +35,11 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.useAnimation = 22;
 
             item.rare = 0;
-            item.value = 25000;
+            item.value = 0;
         }
         public override void AddRecipes()
         {
-            if (!ModConf.EnableBasicContent) return;
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RichMahogany, 7);
             recipe.AddTile(TileID.WorkBenches);

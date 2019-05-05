@@ -11,7 +11,11 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
     public class BeamSabrePurple : BeamSabre
     {
         public override void SetStaticDefaults()
-        { DisplayName.SetDefault("Purple Beam Saber"); }
+        {
+            DisplayName.SetDefault("Purple Beam Saber");
+            DisplayName.AddTranslation(GameCulture.Russian, "Фиолетовый Световой Клинок");
+            SetStaticTooltip();
+        }
 
         public override Color SabreColour()
         { return new Color(0.7f, 0f, 1f); }
@@ -21,7 +25,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 
         public override void AddRecipes()
         {
-            if (!ModConf.EnableBasicContent) return;
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 15);
             recipe.AddIngredient(ItemID.SoulofFright, 15);
@@ -40,7 +44,11 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
     public class BeamSabreYellow : BeamSabre
     {
         public override void SetStaticDefaults()
-        { DisplayName.SetDefault("Yellow Beam Saber"); }
+        {
+            DisplayName.SetDefault("Yellow Beam Saber");
+            DisplayName.AddTranslation(GameCulture.Russian, "Жёлтый Световой Клинок");
+            SetStaticTooltip();
+        }
 
         public override Color SabreColour()
         { return new Color(1f, 1f, 0f); }
@@ -50,7 +58,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 
         public override void AddRecipes()
         {
-            if (!ModConf.EnableBasicContent) return;
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 15);
             recipe.AddIngredient(ItemID.SoulofFright, 15);
@@ -69,7 +77,11 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
     public class BeamSabreBlue : BeamSabre
     {
         public override void SetStaticDefaults()
-        { DisplayName.SetDefault("Blue Beam Saber"); }
+        {
+            DisplayName.SetDefault("Blue Beam Saber");
+            DisplayName.AddTranslation(GameCulture.Russian, "Синий Световой Клинок");
+            SetStaticTooltip();
+        }
 
         public override Color SabreColour()
         { return new Color(0f, 0.1f, 1f); }
@@ -79,7 +91,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 
         public override void AddRecipes()
         {
-            if (!ModConf.EnableBasicContent) return;
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 15);
             recipe.AddIngredient(ItemID.SoulofFright, 15);
@@ -98,7 +110,11 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
     public class BeamSabreGreen : BeamSabre
     {
         public override void SetStaticDefaults()
-        { DisplayName.SetDefault("Green Beam Saber"); }
+        {
+            DisplayName.SetDefault("Green Beam Saber");
+            DisplayName.AddTranslation(GameCulture.Russian, "Зелёный Световой Клинок");
+            SetStaticTooltip();
+        }
 
         public override Color SabreColour()
         { return new Color(0.5f, 1f, 0f); }
@@ -108,7 +124,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 
         public override void AddRecipes()
         {
-            if (!ModConf.EnableBasicContent) return;
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 15);
             recipe.AddIngredient(ItemID.SoulofFright, 15);
@@ -127,7 +143,11 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
     public class BeamSabreRed : BeamSabre
     {
         public override void SetStaticDefaults()
-        { DisplayName.SetDefault("Red Beam Saber"); }
+        {
+            DisplayName.SetDefault("Red Beam Saber");
+            DisplayName.AddTranslation(GameCulture.Russian, "Красный Световой Клинок");
+            SetStaticTooltip();
+        }
 
         public override Color SabreColour()
         { return new Color(1f, 0.1f, 0f); }
@@ -137,7 +157,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 
         public override void AddRecipes()
         {
-            if (!ModConf.EnableBasicContent) return;
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 15);
             recipe.AddIngredient(ItemID.SoulofFright, 15);
@@ -156,7 +176,11 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
     public class BeamSabreWhite : BeamSabre
     {
         public override void SetStaticDefaults()
-        { DisplayName.SetDefault("White Beam Saber"); }
+        {
+            DisplayName.SetDefault("White Beam Saber");
+            DisplayName.AddTranslation(GameCulture.Russian, "Белый Световой Клинок");
+            SetStaticTooltip();
+        }
 
         public override Color SabreColour()
         { return new Color(1f, 1f, 1f); }
@@ -166,7 +190,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 
         public override void AddRecipes()
         {
-            if (!ModConf.EnableBasicContent) return;
+            if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 15);
             recipe.AddIngredient(ItemID.SoulofFright, 15);

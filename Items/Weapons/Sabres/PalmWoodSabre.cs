@@ -39,12 +39,12 @@ namespace WeaponOut.Items.Weapons.Sabres
         }
         public override void AddRecipes()
         {
-            //if (!ModConf.EnableSabres) return;
-            //ModRecipe recipe = new ModRecipe(mod);
-            //recipe.AddIngredient(ItemID.PalmWood, 7);
-            //recipe.AddTile(TileID.WorkBenches);
-            //recipe.SetResult(this, 1);
-            //recipe.AddRecipe();
+            if (!ModConf.EnableSabres) return;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.PalmWood, 7);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
         }
 
         public override void HoldItem(Player player)

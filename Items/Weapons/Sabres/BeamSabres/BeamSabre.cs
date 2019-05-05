@@ -10,18 +10,6 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
 {
     public abstract class BeamSabre : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Beam Saber");
-            DisplayName.AddTranslation(GameCulture.Russian, "Световой Клинок");
-
-            Tooltip.SetDefault(
-                "Charge Attack to power slash\n" +
-                "'Made of pure light energy!'");
-            Tooltip.AddTranslation(GameCulture.Russian,
-                "Заряд для мощной атаки\n" +
-                "'Сделан из чистой энергии света!'");
-        }
         public override void SetDefaults()
         {
             item.width = 32;
@@ -39,9 +27,18 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
             item.useAnimation = 15;
 
             item.rare = 5;
-            item.value = 25000;
+            item.value = Item.sellPrice(0, 1, 0, 0);
         }
 
+        protected void SetStaticTooltip()
+        {
+            Tooltip.SetDefault(
+                "Charge Attack to power slash\n" +
+                "'Made of pure light energy!'");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "Заряд для мощной атаки\n" +
+                "'Сделан из чистой энергии света!'");
+        }
         public abstract Color SabreColour();
         public abstract int SabreSlashType();
 

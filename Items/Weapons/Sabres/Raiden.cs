@@ -158,7 +158,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.useAnimation = 17;
 
             item.rare = 7;
-            item.value = 25000;
+            item.value = Item.sellPrice(0, 3, 0, 0);
         }
         public override void AddRecipes()
         {
