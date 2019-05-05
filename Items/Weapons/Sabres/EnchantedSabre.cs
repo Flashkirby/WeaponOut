@@ -40,6 +40,23 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.rare = 2;
             item.value = 25000;
         }
+        public override void AddRecipes()
+        {
+            if (!ModConf.EnableSabres) return;
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.EnchantedSword, 1);
+            recipe.AddIngredient(ItemID.Feather, 3);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            //Conversion from
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(this, 1);
+            recipe.AddIngredient(ItemID.FallenStar, 10);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(ItemID.EnchantedSword);
+            recipe.AddRecipe();
+        }
 
         public override void HoldItem(Player player)
         {
