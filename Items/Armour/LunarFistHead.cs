@@ -9,14 +9,18 @@ namespace WeaponOut.Items.Armour
     [AutoloadEquip(EquipType.Head)]
     public class LunarFistHead : ModItem
     {
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             DisplayName.SetDefault("Starlight Circlet");
+            DisplayName.AddTranslation(GameCulture.Russian, "Звёздная тиара");
 
             Tooltip.SetDefault(
                 "15% increased minion damage, 13% increased melee critical strike chance\n" +
                 "Fighting bosses slowly empowers next melee attack, up to 2500%\n" +
                 "Increases your max number of minions by 1");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "+15% к урону миньонов, +13% к шансу критического удара ближнего боя\n" +
+                "Драка с боссами увеличивает следующую ближнюю атаку, вплоть до 2500%\n" +
+                "+1 к количеству миньонов");
 
             ModTranslation text;
 

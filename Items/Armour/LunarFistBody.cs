@@ -11,12 +11,18 @@ namespace WeaponOut.Items.Armour
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Starlight Plate");
+            DisplayName.AddTranslation(GameCulture.Russian, "Звёздный нагрудник");
 
             Tooltip.SetDefault(
                 "15% increased minion and melee damage\n" +
                 "100% increased uppercut damage and knockback\n" +
                 "Consumes flight time for additional aerial uppercuts\n" +
                 "Increases your max number of minions by 1");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "На 15% увеличен ближний и урон миньонов\n" +
+                "На 100% увеличен урон и отброс апперкота\n" +
+                "Использует время полёта для дополнительных апперкотов\n" +
+                "+1 к количеству миньонов");
         }
         public override void SetDefaults() {
             item.defense = 18;

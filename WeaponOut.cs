@@ -78,52 +78,64 @@ namespace WeaponOut
             text = mod.CreateTranslation("WOVisualControl");
             text.SetDefault("Toggle WeaponOut");
             text.AddTranslation(GameCulture.Chinese, "切换WeaponOut");
+            text.AddTranslation(GameCulture.Russian, "Вкл/Выкл WeaponOut");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualShow");
             text.SetDefault("Weapon Visible");
             text.AddTranslation(GameCulture.Chinese, "显示武器");
+            text.AddTranslation(GameCulture.Russian, "Показать оружие");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualHide");
             text.SetDefault("Weapon Hidden");
             text.AddTranslation(GameCulture.Chinese, "隐藏武器");
+            text.AddTranslation(GameCulture.Russian, "Спрятать оружие");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypeHand");
             text.SetDefault("Hand");
+            text.AddTranslation(GameCulture.Russian, "Рука");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypeWaist");
             text.SetDefault("Belt");
+            text.AddTranslation(GameCulture.Russian, "Пояс");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypeBack");
             text.SetDefault("Back");
+            text.AddTranslation(GameCulture.Russian, "Спина");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypeSpear");
             text.SetDefault("Pole");
+            text.AddTranslation(GameCulture.Russian, "Копьё");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypePowerTool");
             text.SetDefault("Power Tool");
+            text.AddTranslation(GameCulture.Russian, "Механический инструмент");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypeBow");
             text.SetDefault("Bow");
+            text.AddTranslation(GameCulture.Russian, "Лук");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypeSmallGun");
             text.SetDefault("Handgun");
+            text.AddTranslation(GameCulture.Russian, "Пистолет");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypeLargeGun");
             text.SetDefault("Firearm");
+            text.AddTranslation(GameCulture.Russian, "Ружьё");
             mod.AddTranslation(text);
 
             text = mod.CreateTranslation("WOVisualTypeStaff");
             text.SetDefault("Staff");
+            text.AddTranslation(GameCulture.Russian, "Посох");
             mod.AddTranslation(text);
 
             ControlToggleVisual = RegisterHotKey(GetTranslationTextValue("WOVisualControl"), "#");

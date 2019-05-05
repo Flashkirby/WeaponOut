@@ -13,8 +13,10 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wooden Saber");
-            
+            DisplayName.AddTranslation(GameCulture.Russian, "Деревянный Клинок");
+
             Tooltip.SetDefault("Charge Attack grants 50% increased knockback");
+            Tooltip.AddTranslation(GameCulture.Russian, "Заряд увеличивает отброс на 50%");
         }
         public override void SetDefaults()
         {

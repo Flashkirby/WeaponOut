@@ -13,10 +13,14 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam Saber");
+            DisplayName.AddTranslation(GameCulture.Russian, "Световой Клинок");
 
             Tooltip.SetDefault(
                 "Charge Attack to power slash\n" +
                 "'Made of pure light energy!'");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "Заряд для мощной атаки\n" +
+                "'Сделан из чистой энергии света!'");
         }
         public override void SetDefaults()
         {

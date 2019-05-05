@@ -13,8 +13,10 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mahogany Saber");
-            
+            DisplayName.AddTranslation(GameCulture.Russian, "Красный Клинок");
+
             Tooltip.SetDefault("Charge Attack to lunge forwards");
+            Tooltip.AddTranslation(GameCulture.Russian, "Заряд для рывка вперёд");
         }
         public override void SetDefaults()
         {

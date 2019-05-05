@@ -121,7 +121,7 @@
     <Compile Include="Items\MeteorBreakshot.cs" />
     <Compile Include="Items\Weapons\Basic\BoneZone.cs" />
     <Compile Include="Items\Weapons\Sabres\BeamSabres\BeamSabre.cs" />
-    <Compile Include="Items\Weapons\Sabres\BeamSabres\BeamSabreRed.cs" />
+    <Compile Include="Items\Weapons\Sabres\BeamSabres\BeamSabreItems.cs" />
     <Compile Include="Items\Weapons\Sabres\BorealWoodSabre.cs" />
     <Compile Include="Items\Weapons\Sabres\PalmWoodSabre.cs" />
     <Compile Include="Items\Weapons\Sabres\JungleWoodSabre.cs" />
@@ -301,6 +301,15 @@
     <Compile Include="Projectiles\Whips\MoltenChains.cs" />
     <Compile Include="Projectiles\Explooosion.cs" />
     <Content Include="Items\SparkleStar.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreBlue.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreBlueSlash.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreBlueSlash_Special.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreGreen.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreGreenSlash.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreGreenSlash_Special.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabrePurple.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabrePurpleSlash.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabrePurpleSlash_Special.png" />
     <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreRed.png" />
     <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreRedSlash.png" />
     <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreRedSlash_Special.png" />
@@ -313,6 +322,12 @@
     <Content Include="Items\Weapons\Fists\BasePreHardCombo.png" />
     <Content Include="Items\Weapons\Fists\BasePreHardDash.png" />
     <Content Include="Items\Weapons\Fists\BasePreHardParry.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreWhite.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreWhiteSlash.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreWhiteSlash_Special.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreYellow.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreYellowSlash.png" />
+    <Content Include="Items\Weapons\Sabres\BeamSabres\BeamSabreYellowSlash_Special.png" />
     <Content Include="Items\Weapons\Sabres\BorealWoodSabre.png" />
     <Content Include="Items\Weapons\Sabres\BorealWoodSabreSlash.png" />
     <Content Include="Items\Weapons\Sabres\EnchantedSabre.png" />

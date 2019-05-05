@@ -11,12 +11,18 @@ namespace WeaponOut.Items.Armour
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Starlight Leggings");
+            DisplayName.AddTranslation(GameCulture.Russian, "Звёздные наголенники");
 
             Tooltip.SetDefault(
                 "15% increased minion damage, 12% increased movement and melee speed\n" +
                 "100% increased divekick damage and knockback\n" +
                 "Increases movement speed after being struck\n" +
                 "Increases your max number of minions by 1");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "+15% к урону миньонов, +12% к скорости ходьбы и атаки ближнего боя\n" +
+                "+100% к пикирующему урону и отбросу\n" +
+                "Ускоряет при получении урона\n" +
+                "+1 к количеству миньонов");
         }
         public override void SetDefaults() {
             item.defense = 12;

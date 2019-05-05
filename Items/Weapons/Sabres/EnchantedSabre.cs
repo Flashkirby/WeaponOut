@@ -13,8 +13,10 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Saber");
-            
+            DisplayName.AddTranslation(GameCulture.Russian, "Зачарованный Клинок");
+
             Tooltip.SetDefault("Charge Attack shoots an enchanted beam");
+            Tooltip.AddTranslation(GameCulture.Russian, "Заряд выпускает волшебный клинок");
         }
         public override void SetDefaults()
         {

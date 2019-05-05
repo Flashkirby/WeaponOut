@@ -12,19 +12,24 @@ namespace WeaponOut.Items.Placeable
         {
             DisplayName.SetDefault("Camping Tent");
             DisplayName.AddTranslation(GameCulture.Chinese, "野营帐篷");
-			
-			if (Main.netMode == 0) {
+            DisplayName.AddTranslation(GameCulture.Russian, "Палатка");
+
+            if (Main.netMode == 0) {
 				Tooltip.SetDefault(
 					"Acts as a temporary spawn point");
 				Tooltip.AddTranslation(GameCulture.Chinese, "担当暂时的出生点");
-			}
+                Tooltip.AddTranslation(GameCulture.Russian, "Служит временной точкой спавна");
+            }
 			else
 			{
 				Tooltip.SetDefault(
 					"Acts as a temporary spawn point\n" +
 					"Unreliable in multiplayer");
 				Tooltip.AddTranslation(GameCulture.Chinese, "担当暂时的出生点\n在多人游戏并不靠谱");
-			}
+                Tooltip.AddTranslation(GameCulture.Russian,
+                    "Служит временной точкой спавна\n" +
+                    "Нестабильна в многопользовательской игре");
+            }
         }
         public override void SetDefaults()
         {

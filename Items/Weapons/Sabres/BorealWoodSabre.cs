@@ -13,8 +13,10 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boreal Saber");
-            
+            DisplayName.AddTranslation(GameCulture.Russian, "Северный Клинок");
+
             Tooltip.SetDefault("Charge Attack to double strike");
+            Tooltip.AddTranslation(GameCulture.Russian, "Заряд для двойного удара");
         }
         public override void SetDefaults()
         {

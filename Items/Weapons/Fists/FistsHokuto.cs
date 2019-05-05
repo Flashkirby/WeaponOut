@@ -23,11 +23,19 @@ namespace WeaponOut.Items.Weapons.Fists
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Polaris Punch");
+            DisplayName.AddTranslation(GameCulture.Russian, "Полярный Удар");
+
             Tooltip.SetDefault(
                 "<right> to dash, or consume combo to unleash a deadly combo\n" +
                 "Dash for a projectile deflecting punch\n" +
                 "Increases length of combo by 5 second whilst held\n" + 
                 "'Channel the power of the constellations'");
+            Tooltip.AddTranslation(GameCulture.Russian,
+                "<right> для рывка, или использовать заряд комбо для смертельного комбо\n" +
+                "Рывок отталкивает снаряды\n" +
+                "Увеличивает длительность комбо на 5 секунд, когда в руке\n" +
+                "'Вся мощь созвездий'");
+
             dashEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             buffID = mod.BuffType<Buffs.Flurry>();
