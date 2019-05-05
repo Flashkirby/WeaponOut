@@ -83,7 +83,8 @@ namespace WeaponOut.Items.Weapons.Sabres
         public bool hasHayauchiSpecialCharge(Player player)
         {
             return player.itemTime == 0 
-                && (player.position - player.oldPosition).Length() < 0.5f;
+                && Math.Abs(player.position.X - player.oldPosition.X) < 1f
+                && Math.Abs(player.position.Y - player.oldPosition.Y) < 2f;
         }
 
         public override void HoldItem(Player player)
