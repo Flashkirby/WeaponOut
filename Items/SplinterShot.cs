@@ -19,7 +19,7 @@ namespace WeaponOut.Items
             DisplayName.AddTranslation(GameCulture.Russian, "Отделённый Осколок");
 
             Tooltip.SetDefault(
-                "Seperates shortly after firing");
+                "Separates shortly after firing");
             Tooltip.AddTranslation(GameCulture.Chinese, "开火不久后分裂");
             Tooltip.AddTranslation(GameCulture.Russian, "Отделяется незадолго после выстрела");
 
