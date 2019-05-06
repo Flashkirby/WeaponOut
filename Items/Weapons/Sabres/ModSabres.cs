@@ -40,7 +40,11 @@ namespace WeaponOut
             if (player.itemAnimation > 0)
             {
                 // JUST attacked
-                if (player.itemAnimation == player.itemAnimationMax - 1)
+                bool onAttackFrame = player.itemAnimation == player.itemAnimationMax - 1; 
+                if(WeaponOut.modOverhaul != null)
+                { onAttackFrame = player.itemAnimation == player.itemAnimationMax - 2; }
+
+                if (onAttackFrame)
                 {
                     if (ai1 == 1f || ai1 == -1f)
                     {

@@ -32,6 +32,7 @@ namespace WeaponOut
     public class WeaponOut : Mod
     {
         internal static WeaponOut mod;
+        internal static Mod modOverhaul;
 
         /// <summary>
         /// Holds a list of custom draw functions that can be added to by other mods.
@@ -72,6 +73,7 @@ namespace WeaponOut
 
         public override void Load() {
             mod = this;
+            modOverhaul = ModLoader.GetMod("TerrariaOverhaul");
 
             ModTranslation text;
 
@@ -143,13 +145,15 @@ namespace WeaponOut
 
         public override void Unload()
         {
+            mod = null;
+            modOverhaul = null;
             weaponOutCustomPreDrawMethods.Clear();
             weaponOutCustomHoldMethods.Clear();
         }
 
 
         internal static string GetTranslationTextValue(string key) {
-            return Terraria.Localization.Language.GetText("Mods.WeaponOut." + key).Value;
+            return Language.GetText("Mods.WeaponOut." + key).Value;
         }
 
         public override void PostSetupContent() {
