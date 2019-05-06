@@ -47,8 +47,8 @@ namespace WeaponOut.Items.Accessories
                 recipe = new ModRecipe(mod);
                 recipe.AddIngredient(ItemID.ShinyStone, 1);
                 recipe.AddIngredient(thorium.GetItem("NinjaEmblem"), 1);
-                recipe.AddIngredient(thorium.GetItem("WhiteDwarfKunai"), 450);
-                recipe.AddIngredient(thorium.GetItem("BlackDagger"), 1);
+                recipe.AddIngredient(thorium.GetItem("AngelsEnd"), 1);
+                recipe.AddIngredient(thorium.GetItem("StarEater"), 1);
                 recipe.AddTile(TileID.LunarCraftingStation);
                 recipe.SetResult(this, 1);
                 recipe.AddRecipe();
