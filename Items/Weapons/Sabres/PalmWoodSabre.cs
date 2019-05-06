@@ -13,9 +13,9 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Palm Saber");
-            DisplayName.AddTranslation(GameCulture.Russian, "Palm Saber");
+            DisplayName.AddTranslation(GameCulture.Russian, "Пальмовый Клинок");
 
-            Tooltip.SetDefault("Пальмовый Клинок");
+            Tooltip.SetDefault("Charge Attack launches enemies upwards");
             Tooltip.AddTranslation(GameCulture.Russian, "Заряд подбрасывает врагов");
         }
         public override void SetDefaults()
