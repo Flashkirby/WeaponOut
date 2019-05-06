@@ -4,21 +4,23 @@ WeaponOut is a quality of life and minor content mod that introduces items that 
 Summary: 
 * Hide/Show weapons being held with inventory icon (top left).
 * Temporary spawn point tents! Silk + Wood.
-* Whips! Deals crits when hitting at the tip.
 * Fists! Dash at enemies to deliver devastating combos.
+* Whips! Deals crits when hitting at the tip.
+* Sabers! Fast striking swords with special charge effects.
 * More dual-use Weapons! Right-click for secondary weapon abilities.
 * Early game shields, with situational uses.
 * Team-centric items for buffing, and restoring mana.
-* Endgame powerup accessories! Make low tier weapons lunar.
+* Trivial accessories! Scale low tier weapons to high tier.
 * Custom config file, if you want to toggle the above features.
 
 Note: Config located in Terraria/ModLoader/Mod Configs
 
 Content:
-* 9 Whip Weapons
 * 44 Fist Weapons
+* 9 Whip Weapons
+* 9 Saber Weapons
 * Quite a few other weapons
-* 25 Accessories (I think)
+* 25 Accessories (roughly)
 * 1 Tile
 * 3 Bullets
 
@@ -26,13 +28,13 @@ Now has a wiki page: https://terrariamods.gamepedia.com/WeaponOut
 
 Credits:
 Flashkirby99 - I am making this mod.
-kiedev666 - Playtesting and ideas.
 Eli10293 - Updated Sprites for: Mana Blast, Mana Sword, Molten Chains
 Alena - Updated Sprites for: Steampunk Persuader
 Gouvod - 汉语翻译
 Milliath - Переведено на русский.
 goldenapple - "Modder's Guide to Config Files"
 Folks on the discord server - Suggestions, bug testing and all-round support. You guys rock!
+kiedev666 - The first playtester.
 
 Mod recommendations:
 Virtuous = Adds a whole bunch of cool and unique weapons.
