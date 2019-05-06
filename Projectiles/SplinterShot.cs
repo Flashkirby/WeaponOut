@@ -15,7 +15,7 @@ namespace WeaponOut.Projectiles
     {
         public override bool Autoload(ref string name) { return true; }//TESTING4BREAK
 
-        private const float bulletFadeTime = 10;
+        private const float bulletFadeTime = 20;
 
         public override void SetStaticDefaults()
         {
@@ -48,6 +48,11 @@ namespace WeaponOut.Projectiles
             //duping lol
             if (projectile.ai[0] == bulletFadeTime && projectile.ai[1] == 0)
             {
+                Dust d = Dust.NewDustPerfect(projectile.Center, 57); d.noGravity = true;
+                d = Dust.NewDustPerfect(projectile.Center, 57); d.noGravity = true; d.scale = 0.9f;
+                d = Dust.NewDustPerfect(projectile.Center, 57); d.noGravity = true; d.scale = 0.7f;
+
+
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 54);
                 projectile.damage = 2 * projectile.damage / 3; //nerf damage because 3 shot
                 if (Main.myPlayer == projectile.owner) //spawn extra 2 copies
@@ -108,7 +113,7 @@ namespace WeaponOut.Projectiles
 
         private float inaccuracy()
         {
-            return (float)Main.rand.Next(-524, 525) * 0.003f;
+            return (float)Main.rand.NextFloatDirection() * 3f;
         }
     }
 }
