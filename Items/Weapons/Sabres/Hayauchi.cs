@@ -20,6 +20,7 @@ namespace WeaponOut.Items.Weapons.Sabres
     public class Hayauchi : ModItem
     {
         public const int waitTime = 15;
+        public const int chargeDamageMult = 4;
 
         private bool drawStrike;
         
@@ -45,7 +46,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.height = 46;
 
             item.melee = true;
-            item.damage = 35; //DPS 105
+            item.damage = 52; //DPS 126
             item.knockBack = 3;
             item.autoReuse = true;
 
@@ -53,7 +54,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.UseSound = SoundID.Item1;
 
             item.useTime = waitTime;
-            item.useAnimation = 20;
+            item.useAnimation = 22;
 
             item.rare = 5;
             item.value = Item.buyPrice(0, 02, 50, 00);
@@ -182,7 +183,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             if (ModSabres.SabreIsChargedStriking(player, item))
             {
-                damage *= 6;
+                damage *= chargeDamageMult;
                 knockBack *= 2;
                 if ((player.Center - target.Center).Length() > 70)
                 { crit = true; }
@@ -193,7 +194,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             if (ModSabres.SabreIsChargedStriking(player, item))
             {
-                damage *= 6;
+                damage *= chargeDamageMult;
                 if ((player.Center - target.Center).Length() > 70)
                 { crit = true; }
             }

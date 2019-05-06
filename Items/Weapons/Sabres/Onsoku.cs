@@ -44,7 +44,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.UseSound = SoundID.Item1;
 
             item.useTime = 60 / 4;
-            item.useAnimation = 24;
+            item.useAnimation = 15;
 
             item.rare = 4;
             item.value = Item.sellPrice(0, 0, 50, 0);
@@ -89,6 +89,8 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             if (ModSabres.SabreIsChargedStriking(player, item))
             {
+                damage /= 2;
+                knockBack = knockBack * 2f + 4f;
                 target.AddBuff(mod.BuffType<Buffs.Reversal>(), 60);
             }
         }
