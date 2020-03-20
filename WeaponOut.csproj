@@ -3,7 +3,7 @@
   <Import Project="..\..\references\tModLoader.targets" />
   <PropertyGroup>
     <AssemblyName>WeaponOut</AssemblyName>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net452</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
