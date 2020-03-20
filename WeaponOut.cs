@@ -232,7 +232,7 @@ namespace WeaponOut
         }
 
         private void DrawPumpkinMark(SpriteBatch spriteBatch) {
-            if (!ModConf.enableFists) return;
+            if (!ModConf.EnableFists) return;
             if (Main.gameMenu) return;
 
             int buffID = ModContent.BuffType<Buffs.PumpkinMark>();
@@ -282,7 +282,7 @@ namespace WeaponOut
         }
 
         private void DrawInterfaceDemonBloodHeart(SpriteBatch spriteBatch) {
-            if (!ModConf.enableFists) return;
+            if (!ModConf.EnableFists) return;
             Player p = Main.LocalPlayer;
             PlayerFX pfx = p.GetModPlayer<PlayerFX>();
             if (pfx.demonBloodRally <= 0) return;
@@ -350,7 +350,7 @@ namespace WeaponOut
             //if (Disabled) return;
 
             // Janky quick inventory visibilty
-            if (!Main.playerInventory || !ModConf.showWeaponOut || ModConf.forceShowWeaponOut) return;
+            if (!Main.playerInventory || !ModConf.ShowWeaponOut || ModConf.ForceShowWeaponOut) return;
             //Get vars
             PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>();
             Texture2D eye = Main.inventoryTickOnTexture;

@@ -522,7 +522,7 @@ namespace WeaponOut
 
         public override void PostItemCheck()
         {
-            if( ModConf.enableDualWeapons)
+            if( ModConf.EnableDualWeapons)
             {
                 PostItemDualSyncAltFunction();
             }
@@ -1606,7 +1606,7 @@ namespace WeaponOut
 
         private void sashRestoreLogic()
         {
-            if (!ModConf.enableFists ||
+            if (!ModConf.EnableFists ||
                 sashMaxLifeRecoverMult <= 0f ||
                 player.whoAmI != Main.myPlayer) return;
 

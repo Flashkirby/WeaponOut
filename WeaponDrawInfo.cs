@@ -111,7 +111,7 @@ namespace WeaponOut
         internal static DrawData modDraw_WaistWeapon(DrawData data, Player p, float length)
         {
             float maxFall = 2f;
-            if (!ModConf.toggleWaistRotation)
+            if (!ModConf.ToggleWaistRotation)
             {
                 maxFall = p.velocity.Y * p.gravDir;
                 if (p.velocity.Y == 0) maxFall = p.velocity.X * p.direction;
