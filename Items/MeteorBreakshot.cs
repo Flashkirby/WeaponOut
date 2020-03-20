@@ -32,7 +32,7 @@ namespace WeaponOut.Items
 
             item.ranged = true;
             item.ammo = AmmoID.Bullet;
-            item.shoot = mod.ProjectileType<Projectiles.MeteorBreakshot>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MeteorBreakshot>();
             item.shootSpeed = 2.5f;
             item.damage = 9;
             item.knockBack = 3f;

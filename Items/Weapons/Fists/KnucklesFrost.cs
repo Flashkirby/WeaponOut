@@ -40,7 +40,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.tileBoost = 9; // Combo Power
 
             item.useTime = item.useAnimation * 2;
-            item.shoot = mod.ProjectileType<Projectiles.SpiritIcicle>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SpiritIcicle>();
             item.shootSpeed = 10f;
 
             item.value = Item.sellPrice(0, 1, 0, 0);
@@ -59,7 +59,8 @@ namespace WeaponOut.Items.Weapons.Fists
         public bool AltStats(Player p) { return p.GetModPlayer<ModPlayerFists>().ComboEffectAbs == altEffect; }
         const int altHitboxSize = (int)(fistHitboxSize * 2.5f);
         const float altJumpVelo = fistJumpVelo;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);
@@ -76,7 +77,8 @@ namespace WeaponOut.Items.Weapons.Fists
 
         // Combo
         bool hitGround;
-        public override void UpdateInventory(Player player) {            if (player.HeldItem != item) return;
+        public override void UpdateInventory(Player player) {
+            if (player.HeldItem != item) return;
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {

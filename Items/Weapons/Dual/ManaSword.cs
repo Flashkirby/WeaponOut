@@ -45,7 +45,7 @@ namespace WeaponOut.Items.Weapons.Dual
             item.knockBack = 5f;
 
             item.mana = 10;
-            item.shoot = mod.ProjectileType<Projectiles.ManaBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ManaBlast>();
             item.shootSpeed = 11f;
 
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
@@ -66,7 +66,7 @@ namespace WeaponOut.Items.Weapons.Dual
                 {
                     recipe.AddIngredient(ItemID.TitaniumSword, 1);
                 }
-                recipe.AddIngredient(mod.GetItem<Basic.ManaBlast>().item.type, 1);
+                recipe.AddIngredient(ModContent.GetInstance<Basic.ManaBlast>().item.type, 1);
                 recipe.AddTile(TileID.MythrilAnvil);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
@@ -86,14 +86,14 @@ namespace WeaponOut.Items.Weapons.Dual
                 item.UseSound = SoundID.Item68;
                 item.noMelee = true;
                 player.manaCost *= 4f;
-                item.shoot = mod.ProjectileType<Projectiles.ManaBolt>();
+                item.shoot = ModContent.ProjectileType<Projectiles.ManaBolt>();
             }
             else
             {
                 item.useStyle = 1;
                 item.UseSound = SoundID.Item28;
                 item.noMelee = false;
-                item.shoot = mod.ProjectileType<Projectiles.ManaBlast>();
+                item.shoot = ModContent.ProjectileType<Projectiles.ManaBlast>();
             }
             return true;
         }

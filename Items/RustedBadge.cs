@@ -29,13 +29,13 @@ namespace WeaponOut.Items
         {
             if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<RustedBadge>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<RustedBadge>(), 1);
             recipe.AddIngredient(ItemID.Obsidifish, 3); // Rough polish
             recipe.AddIngredient(ItemID.ArmoredCavefish, 2); // Fine polish
             recipe.AddIngredient(ItemID.Silk, 1); // Buffing
             recipe.AddTile(TileID.Sawmill);
             recipe.needWater = true;
-            recipe.SetResult(mod.ItemType<Accessories.MirrorBadge>(), 1);
+            recipe.SetResult(ModContent.ItemType<Accessories.MirrorBadge>(), 1);
             recipe.AddRecipe();
         }
     }

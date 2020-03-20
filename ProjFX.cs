@@ -19,7 +19,7 @@ namespace WeaponOut
                 {
                     if (!player.active) continue;
 
-                    PlayerFX pFX = player.GetModPlayer<PlayerFX>(mod);
+                    PlayerFX pFX = player.GetModPlayer<PlayerFX>();
                     if (!pFX.CanReflectProjectiles) continue;
                     Player pOwner = Main.player[projectile.owner];
 
@@ -165,7 +165,7 @@ namespace WeaponOut
             if (projectile.npcProj || projectile.hostile) return;
             if (projectile.position == projectile.oldPosition) return;
 
-            PlayerFX p = Main.player[projectile.owner].GetModPlayer<PlayerFX>(mod);
+            PlayerFX p = Main.player[projectile.owner].GetModPlayer<PlayerFX>();
             if (p.lunarMagicVisual && projectile.magic)
             {
                 Dust d = Main.dust[Dust.NewDust(

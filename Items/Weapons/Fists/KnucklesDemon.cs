@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
             customDashEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            buffID = mod.BuffType<Buffs.DemonFrenzy>();
+            buffID = ModContent.BuffType<Buffs.DemonFrenzy>();
         }
         public override void SetDefaults()
         {
@@ -64,17 +64,18 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 16f;
         const float altDashThresh = 12f;
         const float altJumpVelo = 16.85f;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(mod.ItemType<FistsMolten>(), 1);
-                recipe.AddIngredient(mod.ItemType<KnucklesDungeon>(), 1);
-                recipe.AddIngredient(mod.ItemType<FistsJungleClaws>(), 1);
+                recipe.AddIngredient(ModContent.ItemType<FistsMolten>(), 1);
+                recipe.AddIngredient(ModContent.ItemType<KnucklesDungeon>(), 1);
+                recipe.AddIngredient(ModContent.ItemType<FistsJungleClaws>(), 1);
                 if (i == 0)
-                { recipe.AddIngredient(mod.ItemType<GlovesCaestus>(), 1); }
+                { recipe.AddIngredient(ModContent.ItemType<GlovesCaestus>(), 1); }
                 else
-                { recipe.AddIngredient(mod.ItemType<GlovesCaestusCrimson>(), 1); }
+                { recipe.AddIngredient(ModContent.ItemType<GlovesCaestusCrimson>(), 1); }
                 recipe.AddTile(TileID.DemonAltar);
                 recipe.SetResult(this);
                 recipe.AddRecipe();

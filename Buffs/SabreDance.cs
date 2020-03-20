@@ -32,7 +32,7 @@ namespace WeaponOut.Buffs
 
         public static void ApplySabreDance(Mod mod, Player player, int extraStrikes)
         {
-            player.AddBuff(mod.BuffType<SabreDance>(), 2 + (extraStrikes * player.itemAnimationMax / 3));
+            player.AddBuff(ModContent.BuffType<SabreDance>(), 2 + (extraStrikes * player.itemAnimationMax / 3));
         }
     }
 }

@@ -198,7 +198,7 @@ namespace WeaponOut.Projectiles
                 if (projectile.owner == Main.myPlayer)
                 {
                     Projectile.NewProjectile(projectile.Center, projectile.velocity,
-                        mod.ProjectileType<Explooosion>(),
+                        ModContent.ProjectileType<Explooosion>(),
                         CalculateDamage(weaken),
                         projectile.knockBack,
                         projectile.owner,

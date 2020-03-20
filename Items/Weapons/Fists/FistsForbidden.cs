@@ -61,7 +61,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 15f;
         const float altDashThresh = 10f;
         const float altJumpVelo = 16.85f;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             for (int i = 0; i < 2; i++)
             {
                 ModRecipe recipe = new ModRecipe(mod);
@@ -134,7 +135,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActiveItemOnHit)
             {
-                target.AddBuff(mod.BuffType<Buffs.ErodingWind>(), 600, false);
+                target.AddBuff(ModContent.BuffType<Buffs.ErodingWind>(), 600, false);
             }
         }
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -142,7 +143,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
-                target.AddBuff(mod.BuffType<Buffs.ErodingWind>(), 600, false);
+                target.AddBuff(ModContent.BuffType<Buffs.ErodingWind>(), 600, false);
             }
         }
 

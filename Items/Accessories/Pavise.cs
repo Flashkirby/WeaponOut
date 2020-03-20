@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            PlayerFX modPlayer = player.GetModPlayer<PlayerFX>(mod);
+            PlayerFX modPlayer = player.GetModPlayer<PlayerFX>();
             modPlayer.FrontDefence += 10;
             modPlayer.frontNoKnockback = true;
         }

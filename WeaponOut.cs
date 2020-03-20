@@ -162,8 +162,8 @@ namespace WeaponOut
             if (ModConf.EnableAccessories) BuffIDMirrorBarrier = GetBuff("MirrorBarrier").Type;
             if (ModConf.EnableDualWeapons) BuffIDManaReduction = GetBuff("ManaReduction").Type;
 
-            DustIDManaDust = GetDust<Dusts.ManaDust>().Type;
-            DustIDSlashFX = GetDust<Dusts.SlashDust>().Type;
+            DustIDManaDust = ModContent.GetInstance<Dusts.ManaDust>().Type;
+            DustIDSlashFX = ModContent.GetInstance<Dusts.SlashDust>().Type;
 
             if (ModConf.EnableEmblems) Items.Accessories.HeliosphereEmblem.SetUpGlobalDPS();
 
@@ -235,7 +235,7 @@ namespace WeaponOut
             if (!ModConf.enableFists) return;
             if (Main.gameMenu) return;
 
-            int buffID = BuffType<Buffs.PumpkinMark>();
+            int buffID = ModContent.BuffType<Buffs.PumpkinMark>();
             Dictionary<Vector2, bool> drawPositions = new Dictionary<Vector2, bool>();
             foreach (NPC i in Main.npc) {
                 if (!i.active || i.life <= 0) continue;
@@ -352,7 +352,7 @@ namespace WeaponOut
             // Janky quick inventory visibilty
             if (!Main.playerInventory || !ModConf.showWeaponOut || ModConf.forceShowWeaponOut) return;
             //Get vars
-            PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>(this);
+            PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>();
             Texture2D eye = Main.inventoryTickOnTexture;
             string hoverText = GetTranslationTextValue("WOVisualShow"); // Visible
             Vector2 position = new Vector2(20, 10);
@@ -519,7 +519,7 @@ namespace WeaponOut
                 //-/ Console.WriteLine("received parry from " + sender);
             }
             else {
-                ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
+                ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>();
                 pfx.AltFunctionParryMax(Main.player[sender], parryWindow, parryTimeMax);
                 //-/ Main.NewText("received parry from " + sender);
             }
@@ -546,7 +546,7 @@ namespace WeaponOut
                 //-/ Console.WriteLine("echo combo " + comboEffect + " from " + sender);
             }
             else {
-                ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>(this);
+                ModPlayerFists pfx = Main.player[sender].GetModPlayer<ModPlayerFists>();
                 pfx.player.itemAnimation = 0;
                 pfx.AltFunctionCombo(Main.player[sender], comboEffect, true);
                 //-/ Main.NewText("received combo " + comboEffect + " from " + sender);
@@ -572,7 +572,7 @@ namespace WeaponOut
                 me.Send(-1, sender);
             }
             else {
-                PlayerWOFX pfx = Main.player[sender].GetModPlayer<PlayerWOFX>(this);
+                PlayerWOFX pfx = Main.player[sender].GetModPlayer<PlayerWOFX>();
                 pfx.weaponVisual = weaponVis;
             }
         }
@@ -583,7 +583,7 @@ namespace WeaponOut
             if (Main.gameMenu || ControlToggleVisual == null || ModConf.ForceShowWeaponOut) return;
             if (ControlToggleVisual.JustPressed)
             {
-                PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>(this);
+                PlayerWOFX pfx = Main.LocalPlayer.GetModPlayer<PlayerWOFX>();
                 ToggleWeaponVisual(pfx, !pfx.weaponVisual);
             }
         }
@@ -632,7 +632,7 @@ namespace WeaponOut
         }
 
         private void CallShowWeapon(Player p, bool show) {
-            ToggleWeaponVisual(p.GetModPlayer<PlayerWOFX>(this), show);
+            ToggleWeaponVisual(p.GetModPlayer<PlayerWOFX>(), show);
         }
 
         private void SetFrenzyHeart(Player p, bool state) {

@@ -41,7 +41,7 @@ namespace WeaponOut.Items.Accessories
         public override void AddRecipes() {
             if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<FightingSash>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<FightingSash>(), 1);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 2);
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(this, 1);

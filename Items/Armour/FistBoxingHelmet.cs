@@ -77,20 +77,20 @@ namespace WeaponOut.Items.Armour
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             armourSet = 0;
-            if (body.type == mod.ItemType<FistPowerBody>() &&
-                legs.type == mod.ItemType<FistPowerLegs>())
+            if (body.type == ModContent.ItemType<FistPowerBody>() &&
+                legs.type == ModContent.ItemType<FistPowerLegs>())
             {
                 armourSet = 1;
                 return true;
             }
-            else if (body.type == mod.ItemType<FistDefBody>() &&
-                legs.type == mod.ItemType<FistDefLegs>())
+            else if (body.type == ModContent.ItemType<FistDefBody>() &&
+                legs.type == ModContent.ItemType<FistDefLegs>())
             {
                 armourSet = 2;
                 return true;
             }
-            else if (body.type == mod.ItemType<FistSpeedBody>() &&
-                legs.type == mod.ItemType<FistSpeedLegs>())
+            else if (body.type == ModContent.ItemType<FistSpeedBody>() &&
+                legs.type == ModContent.ItemType<FistSpeedLegs>())
             {
                 armourSet = 3;
                 return true;

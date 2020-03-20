@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             item.useTime = 30 / 4;
             item.useAnimation = 18;
 
-            item.shoot = mod.ProjectileType<EnchantedSabreBeam>();
+            item.shoot = ModContent.ProjectileType<EnchantedSabreBeam>();
             item.shootSpeed = 16f;
 
             item.rare = 2;
@@ -60,7 +60,7 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void HoldItem(Player player)
         {
-            ModSabres.HoldItemManager(player, item, mod.ProjectileType<EnchantedSabreSlash>(),
+            ModSabres.HoldItemManager(player, item, ModContent.ProjectileType<EnchantedSabreSlash>(),
                 Color.Yellow, 0.9f, player.itemTime == 0 ? 0f : 1f);
         }
 
@@ -142,7 +142,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<EnchantedSabre>();
+            int weaponItemID = ModContent.ItemType<EnchantedSabre>();
             Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
             return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
                 SlashLogic == 0f ? specialSlash : null,

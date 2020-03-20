@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.value = Item.sellPrice(0, 1, 3, 50); // half sword cost
             item.rare = 4;
             item.useTime = item.useAnimation * 2;
-            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SpiritBlast>();
             item.shootSpeed = 10 + item.rare / 2;
 
             item.UseSound = SoundID.Item19;
@@ -60,7 +60,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 10f;
         const float altDashThresh = 8f;
         const float altJumpVelo = 16f;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MythrilBar, 5);
             recipe.AddTile(TileID.Anvils);

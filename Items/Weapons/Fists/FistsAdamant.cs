@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Комбо: разрушительные удары");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            projID = mod.ProjectileType<Projectiles.SpiritExplosion>();
+            projID = ModContent.ProjectileType<Projectiles.SpiritExplosion>();
         }
         public override void SetDefaults()
         {

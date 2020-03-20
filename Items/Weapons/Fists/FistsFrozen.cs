@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: оставляет холодный след, усиливающий морозное пламя");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            projectileID = mod.ProjectileType<Projectiles.SpiritWindstream>();
+            projectileID = ModContent.ProjectileType<Projectiles.SpiritWindstream>();
         }
         public override void SetDefaults()
         {

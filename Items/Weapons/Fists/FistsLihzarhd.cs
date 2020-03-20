@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: выпускет мощные волны при удачной атаке");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            projectileID = mod.ProjectileType<Projectiles.SpiritQuake>();
+            projectileID = ModContent.ProjectileType<Projectiles.SpiritQuake>();
         }
         public override void SetDefaults()
         {
@@ -63,7 +63,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 16f;
         const float altDashThresh = 12f;
         const float altJumpVelo = 16.8f;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GolemFist, 1);
             recipe.AddTile(TileID.MythrilAnvil);

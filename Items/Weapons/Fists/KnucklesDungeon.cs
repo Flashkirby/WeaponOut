@@ -29,7 +29,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: +25% скорость атаки");
 
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            buffID = mod.BuffType<Buffs.Flurry>();
+            buffID = ModContent.BuffType<Buffs.Flurry>();
         }
         public override void SetDefaults()
         {
@@ -49,7 +49,8 @@ namespace WeaponOut.Items.Weapons.Fists
             item.width = 20;
             item.height = 20;
         }
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GoldenKey, 1);
             recipe.AddIngredient(ItemID.WaterCandle, 2);
@@ -124,7 +125,8 @@ namespace WeaponOut.Items.Weapons.Fists
         }
 
         //Combo
-        public override void UpdateInventory(Player player) {            if (player.HeldItem != item) return;
+        public override void UpdateInventory(Player player) {
+            if (player.HeldItem != item) return;
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
