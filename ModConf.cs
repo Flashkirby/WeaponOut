@@ -3,148 +3,241 @@ using System.IO;
 using Terraria;
 using Terraria.IO;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using System.ComponentModel;
 
 namespace WeaponOut
 {
+    /// <summary>
+    /// ExampleMod used as a reference
+    /// </summary>
+    public class ClientConfig : ModConfig
+    {
+        public override ConfigScope Mode => ConfigScope.ClientSide;
+
+        // For future-Proofing
+        // It does not *have* to follow the version number from the old config
+        // Since it is a new file
+        [ReloadRequired]
+        [DefaultValue(1)]
+        public int Version;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool ShowWeaponOut;
+
+        [ReloadRequired]
+        [DefaultValue(false)]
+        public bool ForceShowWeaponOut;
+
+        [ReloadRequired]
+        [DefaultValue(false)]
+        public bool ToggleWaistRotation;
+
+        public override void OnLoaded()
+        {
+            // Give ModConf a copy of this config
+            // If a player chooses to change settings, they can do so safely
+            // A eeload will be required to apply player changes
+            ModConf.clientConfig = (ClientConfig)this.Clone();
+            ModConf.createClientConfig();
+        }
+    }
+
+
+    /// <summary>
+    /// ExampleMod used as a reference
+    /// </summary>
+    public class ServerConfig : ModConfig
+    {
+        // Any settings that would require syncing between the server and client (i.e. recipes) go here
+        // This config will be synced with the client on connection, (they will reload with the server config if their config differs)
+        public override ConfigScope Mode => ConfigScope.ServerSide;
+
+        // For future-Proofing
+        // It does not have to follow the version number from the old config
+        // Since it is a new file
+        [ReloadRequired]
+        [DefaultValue(1)]
+        public int Version;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool EnableBaseContent;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool EnableWhips;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool EnableFists;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool EnableDualWeapons;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool EnableAccessories;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool EnableEmblems;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool EnableSabres;
+
+        public override void OnLoaded()
+        {
+            // Give ModConf a copy of this config
+            // If a player chooses to change settings, they can do so safely
+            // A eeload will be required to apply player changes
+            ModConf.serverConfig = (ServerConfig)this.Clone();
+            ModConf.createServerConfig();
+        }
+
+    }
+
     /// <summary>
     /// Tutorial by goldenapple: https://forums.terraria.org/index.php?threads/modders-guide-to-config-files-and-optional-features.48581/
     /// </summary>
     public static class ModConf
     {
+        internal static ClientConfig clientConfig = null;
+        internal static ServerConfig serverConfig = null;
+
         public const int configVersion = 3;
 
-        internal static bool showWeaponOut = true;
-        public static bool ShowWeaponOut { get { return showWeaponOut; } }
-        private const string showWeaponOutField = "show_weaponOut_visuals";
+        public static bool ShowWeaponOut { get { return clientConfig.ShowWeaponOut; } }
+        public static bool ForceShowWeaponOut { get { return clientConfig.ForceShowWeaponOut; } }
+        public static bool ToggleWaistRotation { get { return clientConfig.ToggleWaistRotation; } }
+        public static bool EnableBasicContent { get { return serverConfig.EnableBaseContent; } }
+        public static bool EnableWhips { get { return serverConfig.EnableWhips; } }
+        public static bool EnableFists { get { return serverConfig.EnableFists; } }
+        public static bool EnableDualWeapons { get { return serverConfig.EnableDualWeapons; } }
+        public static bool EnableAccessories { get { return serverConfig.EnableAccessories; } }
+        public static bool EnableEmblems { get { return serverConfig.EnableEmblems; } }
+        public static bool EnableSabres { get { return serverConfig.EnableSabres; } }
 
-        internal static bool forceShowWeaponOut = false;
-        public static bool ForceShowWeaponOut { get { return forceShowWeaponOut; } }
-        private const string forceShowWeaponOutField = "forceshow_weaponOut_visuals";
+        internal static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs");
 
-        internal static bool toggleWaistRotation = false;
-        public static bool ToggleWaistRotation { get { return toggleWaistRotation; } }
-        private const string toggleWaistRotationField = "toggle_weaponOut_waist_rotation";
 
-        internal static bool enableBasicContent = true;
-        public static bool EnableBasicContent { get { return enableBasicContent; } }
-        private const string enableBasicContentField = "enable_base_weapons_and_tiles";
+        // tModloader names the config like so: <Mod Name>_<Config Name>.json
+        // These could be simplified to WeaponOut_ClientConfig.json and WeaponOut_ServerConfig.json
+        // But if the internal config names get changed, we'll be manually saving to the wrong place
+        internal readonly static string clientPath = Path.Combine(ConfigManager.ModConfigPath, nameof(WeaponOut) + "_" + nameof(ClientConfig) + ".json");
+        internal readonly static string serverPath = Path.Combine(ConfigManager.ModConfigPath, nameof(WeaponOut) + "_" + nameof(ServerConfig) + ".json");
+        internal readonly static string legacyPath = Path.Combine(ConfigManager.ModConfigPath, "WeaponOut.json");
 
-        internal static bool enableWhips = true;
-        public static bool EnableWhips { get { return enableWhips; } }
-        private const string enableWhipsField = "enable_whips";
+        /// <summary>
+        /// Tmodloader only saves differing settings
+        /// This will manually create a complete client config
+        /// </summary>
+        internal static void createClientConfig()
+        {
+            //Similar to above, using nameof() to ensure the same name tModloader uses
+            Preferences clientPrefs = new Preferences(clientPath);
+            clientPrefs.Put(nameof(ClientConfig.ShowWeaponOut), clientConfig.ShowWeaponOut);
+            clientPrefs.Put(nameof(ClientConfig.ForceShowWeaponOut), clientConfig.ForceShowWeaponOut);
+            clientPrefs.Put(nameof(ClientConfig.ToggleWaistRotation), clientConfig.ToggleWaistRotation);
+            clientPrefs.Save();
+        }
 
-        internal static bool enableFists = true;
-        public static bool EnableFists { get { return enableFists; } }
-        private const string enableFistsField = "enable_fists";
+        /// <summary>
+        /// Tmodloader only saves differing settings
+        /// This will manually create a complete server config
+        /// </summary>
+        internal static void createServerConfig()
+        {
+            //Similar to above, using nameof() to ensure the same name tModloader uses
+            Preferences serverPrefs = new Preferences(serverPath);
+            serverPrefs.Put(nameof(ServerConfig.EnableBaseContent), serverConfig.EnableBaseContent);
+            serverPrefs.Put(nameof(ServerConfig.EnableWhips), serverConfig.EnableWhips);
+            serverPrefs.Put(nameof(ServerConfig.EnableFists), serverConfig.EnableFists);
+            serverPrefs.Put(nameof(ServerConfig.EnableSabres), serverConfig.EnableSabres);
+            serverPrefs.Put(nameof(ServerConfig.EnableDualWeapons), serverConfig.EnableDualWeapons);
+            serverPrefs.Put(nameof(ServerConfig.EnableAccessories), serverConfig.EnableAccessories);
+            serverPrefs.Put(nameof(ServerConfig.EnableEmblems), serverConfig.EnableEmblems);
+            serverPrefs.Save();
+        }
 
-        internal static bool enableDualWeapons = true;
-        public static bool EnableDualWeapons { get { return enableDualWeapons; } }
-        private const string enableDualWeaponsField = "enable_dual_weapons";
 
-        internal static bool enableAccessories = true;
-        public static bool EnableAccessories { get { return enableAccessories; } }
-        private const string enableAccessoriesField = "enable_accessories";
-
-        internal static bool enableEmblems = true;
-        public static bool EnableEmblems { get { return enableEmblems; } }
-        private const string enableEmblemsField = "enable_emblems";
-
-        internal static bool enableSabres = true;
-        public static bool EnableSabres { get { return enableSabres; } }
-        private const string enableSabresField = "enable_sabres";
-
-        static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs/WeaponOut.json");
-
-        static Preferences ModConfig = new Preferences(ConfigPath);
-
+        /// <summary>
+        /// This will manually create a complete server config
+        /// </summary>
         internal static void Load()
         {
-            bool success = ReadConfig();
-            if (!success)
+            // If an old config exists, try converting it
+            if (File.Exists(legacyPath))
             {
-                ErrorLogger.Log("WeaponOut: Couldn't load config file, creating new file. ");
-                CreateConfig();
-            }
+
+                //ConvertLegacyConfig();
+
+            };
+            // check if ocnfig have already been loaded
+
+
+            //clientConfig = GetInstance<ClientConfig>();
+            //serverConfig = GetInstance<ServerConfig>();
+            //bool success = ReadConfig();
+            //if (!success)
+            //{
+            //    ErrorLogger.Log("WeaponOut: Couldn't load config file, creating new file. ");
+            //    CreateConfig();
+            //}
         }
-        
-        /// <returns> true is loaded successfully </returns>
-        internal static bool ReadConfig()
+
+
+        /// <returns> 
+        /// true means succesful conversion, reload required 
+        /// false means failed conversion
+        ///     something went wrong and we're just gonnna ignore the old config,
+        ///     no reload required
+        /// </returns>
+        /// TODO: This currently does not work
+        internal static bool ConvertLegacyConfig()
         {
-            if (ModConfig.Load())
+            Preferences legacyPrefs = new Preferences(legacyPath);
+            if (legacyPrefs.Load())
             {
                 int readVersion = 0;
-                ModConfig.Get("version", ref readVersion);
+                legacyPrefs.Get("version", ref readVersion);
                 if (readVersion != configVersion)
                 {
-                    bool canUpdate = false;
-                    if (readVersion == 0)
-                    {
-                        canUpdate = true;
-                        readVersion = 1;
-                        ModConfig.Put("version", readVersion);
-                        ModConfig.Put(enableEmblemsField, enableEmblems);
-                        ModConfig.Save();
-                    }
-                    if (readVersion == 1)
-                    {
-                        canUpdate = true;
-                        readVersion = 2;
-                        ModConfig.Put("version", readVersion);
-                        ModConfig.Put(toggleWaistRotationField, toggleWaistRotation);
-                        ModConfig.Save();
-                    }
-                    if (readVersion == 2)
-                    {
-                        canUpdate = true;
-                        readVersion = 3;
-                        ModConfig.Put("version", readVersion);
-                        ModConfig.Put(enableSabresField, enableSabres);
-                        ModConfig.Save();
-                    }
+                    // Get the old prefs
 
-                    if (!canUpdate) return false;
+                    // Version 0 Setings
+                    legacyPrefs.Get("show_weaponOut_visuals", ref clientConfig.ShowWeaponOut);
+                    legacyPrefs.Get("forceshow_weaponOut_visuals", ref clientConfig.ForceShowWeaponOut);
+                    legacyPrefs.Get("enable_base_weapons_and_tiles", ref serverConfig.EnableBaseContent);
+                    legacyPrefs.Get("enable_whips", ref serverConfig.EnableWhips);
+                    legacyPrefs.Get("enable_fists", ref serverConfig.EnableFists);
+                    legacyPrefs.Get("enable_dual_weapons", ref serverConfig.EnableDualWeapons);
+                    legacyPrefs.Get("enable_accessories", ref serverConfig.EnableAccessories);
+
+                    if (readVersion >= 1)
+                    {
+                        legacyPrefs.Get("enable_emblems", ref serverConfig.EnableEmblems);
+                    }
+                    if (readVersion >= 2)
+                    {
+                        legacyPrefs.Get("toggle_weaponOut_waist_rotation", ref clientConfig.ToggleWaistRotation);
+                    }
+                    if (readVersion >= 3)
+                    {
+                        legacyPrefs.Get("enable_sabres", ref serverConfig.EnableSabres);
+                    }
                 }
-
-                ModConfig.Get(showWeaponOutField, ref showWeaponOut);
-                ModConfig.Get(forceShowWeaponOutField, ref forceShowWeaponOut);
-                ModConfig.Get(toggleWaistRotationField, ref toggleWaistRotation);
-                ModConfig.Get(enableBasicContentField, ref enableBasicContent);
-                ModConfig.Get(enableWhipsField, ref enableWhips);
-                ModConfig.Get(enableFistsField, ref enableFists);
-                ModConfig.Get(enableSabresField, ref enableSabres);
-                ModConfig.Get(enableDualWeaponsField, ref enableDualWeapons);
-                ModConfig.Get(enableAccessoriesField, ref enableAccessories);
-                ModConfig.Get(enableEmblemsField, ref enableEmblems);
-
                 return true;
             }
             return false;
         }
-
-        /// <summary>
-        /// Create a new config file for the player to edit. 
-        /// </summary>
-        internal static void CreateConfig()
-        {
-            ModConfig.Clear();
-            ModConfig.Put("version", configVersion);
-
-            ModConfig.Put(showWeaponOutField, showWeaponOut);
-            ModConfig.Put(forceShowWeaponOutField, forceShowWeaponOut);
-            ModConfig.Put(toggleWaistRotationField, toggleWaistRotation);
-            ModConfig.Put(enableBasicContentField, enableBasicContent);
-            ModConfig.Put(enableWhipsField, enableWhips);
-            ModConfig.Put(enableFistsField, enableFists);
-            ModConfig.Put(enableSabresField, enableSabres);
-            ModConfig.Put(enableDualWeaponsField, enableDualWeapons);
-            ModConfig.Put(enableAccessoriesField, enableAccessories);
-            ModConfig.Put(enableEmblemsField, enableEmblems);
-
-            ModConfig.Put("readme", "First off, make sure to reload before the configs will take any effect. Most of the fields do exactly as they say, they will allow the mod to load, or choose not to, sets of content from the mod. The only field that does not do this is forceshow_weaponOut_visuals, which simply forces the weapon to always show regardless of the visibility of the first accessory slot as this is an oft requested feature. WARNING: Clients will desync if their local config is different to the server - this cannot be fixed without forcing the clients to download the server's mods and forcing the mods to reload. So don't mess with this too much outside of singleplayer unless you know what you're doing. And no I'm too lazy to find out how to even fix this behaviour, though a simple server mismatch warning might be a good idea. Feel free to delete this.");
-
-            ModConfig.Save();
-        }
     }
+
+
+
 
     public static class ModConfWeaponOutCustom
     {
@@ -221,7 +314,7 @@ namespace WeaponOut
                 { customHoldPositions[itemID] = style; }
                 else
                 { customHoldPositions.Add(itemID, style); }
-                
+
             }
             else
             {
@@ -252,8 +345,8 @@ namespace WeaponOut
                 {
                     customHoldPositions.Add(key, ModConfig.Get(key, -1));
                 }
-                
-                for(int i = 0; i < ItemLoader.ItemCount; i++)
+
+                for (int i = 0; i < ItemLoader.ItemCount; i++)
                 {
                     ModItem item = ItemLoader.GetItem(i);
                     if (item != null)
@@ -290,3 +383,4 @@ namespace WeaponOut
         }
     }
 }
+
