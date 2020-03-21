@@ -9,7 +9,8 @@ using System.ComponentModel;
 namespace WeaponOut
 {
     /// <summary>
-    /// ExampleMod used as a reference
+    /// Everything in here does not have to be synced with the server.
+    /// ExampleMod used as a reference.
     /// </summary>
     public class ClientConfig : ModConfig
     {
@@ -18,9 +19,8 @@ namespace WeaponOut
         // For future-Proofing
         // It does not *have* to follow the version number from the old config
         // Since it is a new file
-        [ReloadRequired]
-        [DefaultValue(1)]
-        public int Version;
+        // This can't be edited in the GUI
+        public int Version => 1;
 
         [ReloadRequired]
         [DefaultValue(true)]
@@ -36,9 +36,7 @@ namespace WeaponOut
 
         public override void OnLoaded()
         {
-            // Give ModConf a copy of this config
-            // If a player chooses to change settings, they can do so safely
-            // A eeload will be required to apply player changes
+            // Set ModConf config to this
             ModConf.clientConfig = (ClientConfig)this.Clone();
             ModConf.createClientConfig();
         }
@@ -46,20 +44,20 @@ namespace WeaponOut
 
 
     /// <summary>
-    /// ExampleMod used as a reference
+    /// Everything in here has to be synced with the server.
+    /// ExampleMod used as a reference.
     /// </summary>
     public class ServerConfig : ModConfig
     {
-        // Any settings that would require syncing between the server and client (i.e. recipes) go here
-        // This config will be synced with the client on connection, (they will reload with the server config if their config differs)
+        // Any settings that would require syncing between the server and client (i.e. recipes) go here.
+        // This config will be synced with the client on connection, (they will reload with the server config if their config differs).
         public override ConfigScope Mode => ConfigScope.ServerSide;
 
-        // For future-Proofing
-        // It does not have to follow the version number from the old config
-        // Since it is a new file
-        [ReloadRequired]
-        [DefaultValue(1)]
-        public int Version;
+        // For future-Proofing.
+        // It does not have to follow the version number from the old config,
+        // Since it is a new file.
+        // This can't be edited in the GUI
+        public int Version => 1;
 
         [ReloadRequired]
         [DefaultValue(true)]
@@ -91,9 +89,7 @@ namespace WeaponOut
 
         public override void OnLoaded()
         {
-            // Give ModConf a copy of this config
-            // If a player chooses to change settings, they can do so safely
-            // A eeload will be required to apply player changes
+            // Set ModConf config to this
             ModConf.serverConfig = (ServerConfig)this.Clone();
             ModConf.createServerConfig();
         }
@@ -110,6 +106,7 @@ namespace WeaponOut
 
         public const int configVersion = 3;
 
+        // Fields are no longer needed since tModloader just uses the Variable names instead
         public static bool ShowWeaponOut { get { return clientConfig.ShowWeaponOut; } }
         public static bool ForceShowWeaponOut { get { return clientConfig.ForceShowWeaponOut; } }
         public static bool ToggleWaistRotation { get { return clientConfig.ToggleWaistRotation; } }
@@ -120,9 +117,6 @@ namespace WeaponOut
         public static bool EnableAccessories { get { return serverConfig.EnableAccessories; } }
         public static bool EnableEmblems { get { return serverConfig.EnableEmblems; } }
         public static bool EnableSabres { get { return serverConfig.EnableSabres; } }
-
-        internal static string ConfigPath = Path.Combine(Main.SavePath, "Mod Configs");
-
 
         // tModloader names the config like so: <Mod Name>_<Config Name>.json
         // These could be simplified to WeaponOut_ClientConfig.json and WeaponOut_ServerConfig.json
@@ -137,6 +131,11 @@ namespace WeaponOut
         /// </summary>
         internal static void createClientConfig()
         {
+            // It should be noted that this is completely unnecessary
+
+            // This is only for people like server admins, or others
+            // who choose to edit JSON's instead of using the GUI
+
             //Similar to above, using nameof() to ensure the same name tModloader uses
             Preferences clientPrefs = new Preferences(clientPath);
             clientPrefs.Put(nameof(ClientConfig.ShowWeaponOut), clientConfig.ShowWeaponOut);
@@ -151,7 +150,12 @@ namespace WeaponOut
         /// </summary>
         internal static void createServerConfig()
         {
-            //Similar to above, using nameof() to ensure the same name tModloader uses
+            // It should be noted that this is completely unnecessary
+
+            // This is only for people like server admins, or others
+            // who choose to edit JSON's instead of using the GUI
+
+            // Similar to above, using nameof() to ensure the same name tModloader uses
             Preferences serverPrefs = new Preferences(serverPath);
             serverPrefs.Put(nameof(ServerConfig.EnableBaseContent), serverConfig.EnableBaseContent);
             serverPrefs.Put(nameof(ServerConfig.EnableWhips), serverConfig.EnableWhips);
@@ -169,24 +173,12 @@ namespace WeaponOut
         /// </summary>
         internal static void Load()
         {
-            // If an old config exists, try converting it
+            // Load is now almost completely unnecessary
+            // It is currently only being used to try to convert the old config to the new ones
             if (File.Exists(legacyPath))
             {
-
-                //ConvertLegacyConfig();
-
+                ConvertLegacyConfig();
             };
-            // check if ocnfig have already been loaded
-
-
-            //clientConfig = GetInstance<ClientConfig>();
-            //serverConfig = GetInstance<ServerConfig>();
-            //bool success = ReadConfig();
-            //if (!success)
-            //{
-            //    ErrorLogger.Log("WeaponOut: Couldn't load config file, creating new file. ");
-            //    CreateConfig();
-            //}
         }
 
 
@@ -196,43 +188,64 @@ namespace WeaponOut
         ///     something went wrong and we're just gonnna ignore the old config,
         ///     no reload required
         /// </returns>
-        /// TODO: This currently does not work
+        /// TODO: Is there a way to force a reload after changing
+        ///       the config without user intervention?
         internal static bool ConvertLegacyConfig()
         {
+            bool success = false;
             Preferences legacyPrefs = new Preferences(legacyPath);
             if (legacyPrefs.Load())
             {
                 int readVersion = 0;
-                legacyPrefs.Get("version", ref readVersion);
-                if (readVersion != configVersion)
+
+                // Version 0 Setings
+                legacyPrefs.Get("show_weaponOut_visuals", ref clientConfig.ShowWeaponOut);
+                legacyPrefs.Get("forceshow_weaponOut_visuals", ref clientConfig.ForceShowWeaponOut);
+                legacyPrefs.Get("enable_base_weapons_and_tiles", ref serverConfig.EnableBaseContent);
+                legacyPrefs.Get("enable_whips", ref serverConfig.EnableWhips);
+                legacyPrefs.Get("enable_fists", ref serverConfig.EnableFists);
+                legacyPrefs.Get("enable_dual_weapons", ref serverConfig.EnableDualWeapons);
+                legacyPrefs.Get("enable_accessories", ref serverConfig.EnableAccessories);
+
+                if (readVersion >= 1)
                 {
-                    // Get the old prefs
-
-                    // Version 0 Setings
-                    legacyPrefs.Get("show_weaponOut_visuals", ref clientConfig.ShowWeaponOut);
-                    legacyPrefs.Get("forceshow_weaponOut_visuals", ref clientConfig.ForceShowWeaponOut);
-                    legacyPrefs.Get("enable_base_weapons_and_tiles", ref serverConfig.EnableBaseContent);
-                    legacyPrefs.Get("enable_whips", ref serverConfig.EnableWhips);
-                    legacyPrefs.Get("enable_fists", ref serverConfig.EnableFists);
-                    legacyPrefs.Get("enable_dual_weapons", ref serverConfig.EnableDualWeapons);
-                    legacyPrefs.Get("enable_accessories", ref serverConfig.EnableAccessories);
-
-                    if (readVersion >= 1)
-                    {
-                        legacyPrefs.Get("enable_emblems", ref serverConfig.EnableEmblems);
-                    }
-                    if (readVersion >= 2)
-                    {
-                        legacyPrefs.Get("toggle_weaponOut_waist_rotation", ref clientConfig.ToggleWaistRotation);
-                    }
-                    if (readVersion >= 3)
-                    {
-                        legacyPrefs.Get("enable_sabres", ref serverConfig.EnableSabres);
-                    }
+                    legacyPrefs.Get("enable_emblems", ref serverConfig.EnableEmblems);
                 }
-                return true;
+                if (readVersion >= 2)
+                {
+                    legacyPrefs.Get("toggle_weaponOut_waist_rotation", ref clientConfig.ToggleWaistRotation);
+                }
+                if (readVersion >= 3)
+                {
+                    legacyPrefs.Get("enable_sabres", ref serverConfig.EnableSabres);
+                }
+
+                // call saveModConfigs() here to convert
+                // clientConfig and serverConfig to Preferences
+                // (we can't save ModConfigs manually, but we can
+                // save Preferences, and they're encoded the same way)
+
+                success = true;
             }
-            return false;
+            else
+            {
+                ErrorLogger.Log("WeaponOut: legacyConfig exists, but did not load");
+            }
+
+            // Whether it worked or not, rename the legacy, so we don't convert every time
+            // File.Move(legacyPath, ConfigManager.ModConfigPath + "WeaponOut_old.json");
+
+            if (clientConfig.NeedsReload(clientConfig))
+            {
+                Preferences thing = new Preferences(clientPath);
+            }
+            serverConfig.NeedsReload(serverConfig);
+            return success;
+        }
+
+        internal static Preferences saveModConfigs()
+        {
+            return null;
         }
     }
 
