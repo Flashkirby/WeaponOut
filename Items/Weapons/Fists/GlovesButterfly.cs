@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: улучшает управление в воздухе\n" +
 				"'...Жаль, как пчела'");
 
-            buffID = mod.BuffType<Buffs.ButterflyGrace>();
+            buffID = ModContent.BuffType<Buffs.ButterflyGrace>();
         }
         public override void SetDefaults()
         {
@@ -64,7 +64,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altJumpVelo = 17.6f;
         const int parryActive = 22;
         const int parryCooldown = 18;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ButterflyDust, 1);
             recipe.AddIngredient(ItemID.SoulofFright, 10);

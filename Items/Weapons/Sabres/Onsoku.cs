@@ -62,7 +62,7 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void HoldItem(Player player)
         {
-            ModSabres.HoldItemManager(player, item, mod.ProjectileType<OnsokuSlash>(),
+            ModSabres.HoldItemManager(player, item, ModContent.ProjectileType<OnsokuSlash>(),
                 Color.HotPink, 0.9f, player.itemTime == 0 ? 0f : 1f);
         }
 
@@ -91,7 +91,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             {
                 damage /= 2;
                 knockBack = knockBack * 2f + 4f;
-                target.AddBuff(mod.BuffType<Buffs.Reversal>(), 60);
+                target.AddBuff(ModContent.BuffType<Buffs.Reversal>(), 60);
             }
         }
     }
@@ -218,7 +218,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<Onsoku>();
+            int weaponItemID = ModContent.ItemType<Onsoku>();
             Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
             return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
                 null,//SlashLogic == 0f ? specialSlash : null,

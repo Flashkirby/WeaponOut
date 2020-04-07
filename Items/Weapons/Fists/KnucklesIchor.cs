@@ -53,7 +53,7 @@ namespace WeaponOut.Items.Weapons.Fists
             mod.AddTranslation(text);
             
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            buffID = mod.BuffType<Buffs.BloodLust>();
+            buffID = ModContent.BuffType<Buffs.BloodLust>();
         }
         public override void SetDefaults()
         {
@@ -82,7 +82,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 16f;
         const float altDashThresh = 14f;
         const float altJumpVelo = 17.5f;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Ichor, 10);
             recipe.AddIngredient(ItemID.SoulofNight, 15);

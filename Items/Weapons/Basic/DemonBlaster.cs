@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Weapons.Basic
             item.autoReuse = true;
 
             item.noMelee = true;
-            item.shoot = mod.ProjectileType<Projectiles.DemonBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DemonBlast>();
             item.shootSpeed = 30;
 
             item.useStyle = 5;

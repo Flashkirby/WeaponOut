@@ -34,8 +34,8 @@ namespace WeaponOut.Items.Weapons.Fists
 				"'Спрятан глубоко в лабиринте джунглей'");
 
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            leafID = mod.ProjectileType<Projectiles.SpiritLeaf>();
-            ballID = mod.ProjectileType<Projectiles.SpiritThornBall>();
+            leafID = ModContent.ProjectileType<Projectiles.SpiritLeaf>();
+            ballID = ModContent.ProjectileType<Projectiles.SpiritThornBall>();
         }
         public override void SetDefaults()
         {

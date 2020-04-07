@@ -33,7 +33,7 @@ namespace WeaponOut.Items
 
             item.ranged = true;
             item.ammo = AmmoID.Bullet;
-            item.shoot = mod.ProjectileType<Projectiles.SplinterShot>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SplinterShot>();
             item.shootSpeed = 2;
             item.damage = 4;
             item.knockBack = 1;

@@ -36,8 +36,8 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Контратака: подрывает помеченных врагов\n" +
 				"Комбо: усиливает взрывы");
 
-            buffID = mod.BuffType<Buffs.PumpkinMark>();
-            projID = mod.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
+            buffID = ModContent.BuffType<Buffs.PumpkinMark>();
+            projID = ModContent.ProjectileType<Projectiles.SpiritPumpkinsplosion>();
         }
         public override void SetDefaults()
         {

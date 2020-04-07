@@ -35,7 +35,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"'Ракетный удар!'");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            projectileID = mod.ProjectileType<Projectiles.SpiritMartianFist>();
+            projectileID = ModContent.ProjectileType<Projectiles.SpiritMartianFist>();
         }
         public override void SetDefaults()
         {

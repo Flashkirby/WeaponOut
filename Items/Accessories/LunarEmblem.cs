@@ -41,11 +41,11 @@ namespace WeaponOut.Items.Accessories
         public override void AddRecipes() {
             if (!ModConf.EnableEmblems) return;
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<HeliosphereEmblem>());
-            recipe.AddIngredient(mod.ItemType<WormholeEmblem>());
-            recipe.AddIngredient(mod.ItemType<AccretionEmblem>());
-            recipe.AddIngredient(mod.ItemType<PerihelionEmblem>());
-            recipe.AddIngredient(mod.ItemType<SupernovaEmblem>());
+            recipe.AddIngredient(ModContent.ItemType<HeliosphereEmblem>());
+            recipe.AddIngredient(ModContent.ItemType<WormholeEmblem>());
+            recipe.AddIngredient(ModContent.ItemType<AccretionEmblem>());
+            recipe.AddIngredient(ModContent.ItemType<PerihelionEmblem>());
+            recipe.AddIngredient(ModContent.ItemType<SupernovaEmblem>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
@@ -60,9 +60,9 @@ namespace WeaponOut.Items.Accessories
             player.thrownVelocity += 0.3f;
             player.maxMinions += 1;
             if (hideVisual) return;
-            player.GetModPlayer<PlayerFX>(mod).lunarRangeVisual = true;
-            player.GetModPlayer<PlayerFX>(mod).lunarMagicVisual = true;
-            player.GetModPlayer<PlayerFX>(mod).lunarThrowVisual = true;
+            player.GetModPlayer<PlayerFX>().lunarRangeVisual = true;
+            player.GetModPlayer<PlayerFX>().lunarMagicVisual = true;
+            player.GetModPlayer<PlayerFX>().lunarThrowVisual = true;
 
             Vector2 hand = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
             if (player.direction != 1) {

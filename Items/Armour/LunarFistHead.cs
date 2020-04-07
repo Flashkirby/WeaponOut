@@ -64,9 +64,9 @@ namespace WeaponOut.Items.Armour
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return head.type == mod.ItemType<LunarFistHead>()
-                && body.type == mod.ItemType<LunarFistBody>()
-                && legs.type == mod.ItemType<LunarFistLegs>();
+            return head.type == ModContent.ItemType<LunarFistHead>()
+                && body.type == ModContent.ItemType<LunarFistBody>()
+                && legs.type == ModContent.ItemType<LunarFistLegs>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -77,8 +77,8 @@ namespace WeaponOut.Items.Armour
             if (player.whoAmI == Main.myPlayer)
             {
                 // Based on Stardust Guardian spawn
-                int buffID = mod.BuffType<Buffs.SpiritGuardian>();
-                int guardianID = mod.ProjectileType<Projectiles.SpiritGuardian>();
+                int buffID = ModContent.BuffType<Buffs.SpiritGuardian>();
+                int guardianID = ModContent.ProjectileType<Projectiles.SpiritGuardian>();
                 if (player.FindBuffIndex(buffID) == -1) player.AddBuff(buffID, 1, true);
                 if (player.ownedProjectileCounts[guardianID] < 1) // No guardian? spawn one
                     Projectile.NewProjectile(

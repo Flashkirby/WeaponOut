@@ -37,7 +37,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.tileBoost = 6; // For fists, we read this as the combo power
 
             item.useTime = item.useAnimation * 2;
-            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SpiritBlast>();
             item.shootSpeed = 10f;
 
             item.value = Item.sellPrice(0, 0, 4, 50);
@@ -48,7 +48,8 @@ namespace WeaponOut.Items.Weapons.Fists
             item.width = 20;
             item.height = 20;
         }
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LeadBar, 2);
             recipe.AddTile(TileID.Anvils);

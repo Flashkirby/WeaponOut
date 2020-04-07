@@ -79,20 +79,20 @@ namespace WeaponOut.Items.Armour
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             armourSet = 0;
-            if (body.type == mod.ItemType<HighPowerBody>() &&
-                legs.type == mod.ItemType<HighPowerLegs>())
+            if (body.type == ModContent.ItemType<HighPowerBody>() &&
+                legs.type == ModContent.ItemType<HighPowerLegs>())
             {
                 armourSet = 1;
                 return true;
             }
-            else if (body.type == mod.ItemType<HighDefBody>() &&
-                legs.type == mod.ItemType<HighDefLegs>())
+            else if (body.type == ModContent.ItemType<HighDefBody>() &&
+                legs.type == ModContent.ItemType<HighDefLegs>())
             {
                 armourSet = 2;
                 return true;
             }
-            else if (body.type == mod.ItemType<HighSpeedBody>() &&
-                legs.type == mod.ItemType<HighSpeedLegs>())
+            else if (body.type == ModContent.ItemType<HighSpeedBody>() &&
+                legs.type == ModContent.ItemType<HighSpeedLegs>())
             {
                 armourSet = 3;
                 return true;

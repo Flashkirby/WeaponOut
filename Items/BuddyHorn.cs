@@ -66,8 +66,8 @@ namespace WeaponOut.Items
                 if (player.SpawnX > 0) spawnX = player.SpawnX;
                 if (player.SpawnY > 0) spawnY = player.SpawnY;
 
-                int entrance = mod.ProjectileType<Projectiles.BuddyPortalEntrance>();
-                int exit = mod.ProjectileType<Projectiles.BuddyPortalExit>();
+                int entrance = ModContent.ProjectileType<Projectiles.BuddyPortalEntrance>();
+                int exit = ModContent.ProjectileType<Projectiles.BuddyPortalExit>();
 
                 foreach (Projectile projectile in Main.projectile)
                 {

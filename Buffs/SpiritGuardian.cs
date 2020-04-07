@@ -13,7 +13,7 @@ namespace WeaponOut.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            int guardianID = mod.ProjectileType<Projectiles.SpiritGuardian>();
+            int guardianID = ModContent.ProjectileType<Projectiles.SpiritGuardian>();
             player.GetModPlayer<PlayerFX>().starlightGuardian = player.ownedProjectileCounts[guardianID] > 0;
         }
     }

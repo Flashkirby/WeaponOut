@@ -168,8 +168,8 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             if (!ModConf.EnableSabres) return;
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Hayauchi>(), 1);
-            recipe.AddIngredient(mod.ItemType<Onsoku>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Hayauchi>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Onsoku>(), 1);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 8);
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this);
@@ -178,7 +178,7 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void HoldItem(Player player)
         {
-            ModSabres.HoldItemManager(player, item, mod.ProjectileType<RaidenSlash>(),
+            ModSabres.HoldItemManager(player, item, ModContent.ProjectileType<RaidenSlash>(),
                 default(Color), 1f, player.itemTime == 0 ? 0f : 1f, customCharge, 8);
 
             if (player.itemTime == 0)
@@ -484,7 +484,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<Raiden>();
+            int weaponItemID = ModContent.ItemType<Raiden>();
             Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
             return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
                 null,//SlashLogic == 0f ? specialSlash : null,

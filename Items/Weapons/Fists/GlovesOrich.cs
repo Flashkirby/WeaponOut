@@ -60,7 +60,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altJumpVelo = 17f;
         const int parryActive = 25;
         const int parryCooldown = 20;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.OrichalcumBar, 5);
             recipe.AddTile(TileID.Anvils);
@@ -125,7 +126,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
-                player.AddBuff(mod.BuffType<Buffs.PetalShield>(), 30);
+                player.AddBuff(ModContent.BuffType<Buffs.PetalShield>(), 30);
             }
         }
 

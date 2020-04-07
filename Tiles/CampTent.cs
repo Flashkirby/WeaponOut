@@ -84,7 +84,7 @@ namespace WeaponOut.Tiles
             if (frameX > 90) spawnX += 5; // mirror facing offset for alternate
 
             //Dust.NewDust(new Vector2((float)(spawnX * 16), (float)(spawnY * 16)), 16, 16, 6, 0f, 0f, 0, default(Color), 4f);
-            PlayerFX modPlayer = player.GetModPlayer<PlayerFX>(mod);
+            PlayerFX modPlayer = player.GetModPlayer<PlayerFX>();
             if (modPlayer.localTempSpawn != new Vector2(spawnX, spawnY))
             {
                 Main.NewText("Temporary spawn point set!", 255, 240, 20, false);

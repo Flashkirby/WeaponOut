@@ -350,7 +350,7 @@ namespace WeaponOut
                 else
                 { momentum = 0; }
 
-                int buffID = mod.BuffType<Buffs.Momentum>();
+                int buffID = ModContent.BuffType<Buffs.Momentum>();
                 if (momentum >= momentumMax && buildMomentum)
                 {
                     momentum = momentumMax;
@@ -365,7 +365,7 @@ namespace WeaponOut
                 //  ================ Second Wind ================
                 //
                 secondWind = false;
-                if (player.FindBuffIndex(mod.BuffType<Buffs.SecondWind>()) < 0)
+                if (player.FindBuffIndex(ModContent.BuffType<Buffs.SecondWind>()) < 0)
                 { secondWindLifeTax = 0; }
                 secondWindLifeTax = Math.Max(0, secondWindLifeTax);
 
@@ -399,13 +399,13 @@ namespace WeaponOut
                     { soapCooldown++; }
                     else
                     {
-                        int bubbleID = mod.NPCType<NPCs.ComboBubble>();
+                        int bubbleID = ModContent.NPCType<NPCs.ComboBubble>();
                         if (NPC.CountNPCS(bubbleID) < maxSoapBubbles)
                         {
                             Point spawnPos = player.Center.ToPoint();
                             spawnPos.X += Main.rand.Next(-100, 101);
                             spawnPos.Y += Main.rand.Next(-100, 101);
-                            NPC.NewNPC(spawnPos.X, spawnPos.Y, mod.NPCType<NPCs.ComboBubble>(),
+                            NPC.NewNPC(spawnPos.X, spawnPos.Y, ModContent.NPCType<NPCs.ComboBubble>(),
                                 0, 0f, 0f, 0f, 0f, player.whoAmI);
 
                             soapCooldown = 0;
@@ -427,7 +427,7 @@ namespace WeaponOut
             yang = 0;
             yinMeleeBonus = 0f;
 
-            player.ClearBuff(mod.BuffType<Buffs.SecondWind>());
+            player.ClearBuff(ModContent.BuffType<Buffs.SecondWind>());
             secondWindLifeTax = 0;
 
             FakePositionTemp = default(Vector2);
@@ -467,7 +467,7 @@ namespace WeaponOut
                 if (!starlightGuardian)
                 {
                     // Delete starlight guardian debuff if it hasn't been applied
-                    int buffID = mod.BuffType<Buffs.SpiritGuardian>();
+                    int buffID = ModContent.BuffType<Buffs.SpiritGuardian>();
                     if (player.FindBuffIndex(buffID) != -1)
                     { player.DelBuff(player.FindBuffIndex(buffID)); }
 
@@ -482,10 +482,10 @@ namespace WeaponOut
                 if (!bannerPlayer.active || bannerPlayer.dead) continue;
 
                 int itemType = bannerPlayer.inventory[bannerPlayer.selectedItem].type;
-                if (itemType != mod.ItemType<Items.RallyBannerBlue>() &&
-                    itemType != mod.ItemType<Items.RallyBannerGreen>() &&
-                    itemType != mod.ItemType<Items.RallyBannerRed>() &&
-                    itemType != mod.ItemType<Items.RallyBannerYellow>()
+                if (itemType != ModContent.ItemType<Items.RallyBannerBlue>() &&
+                    itemType != ModContent.ItemType<Items.RallyBannerGreen>() &&
+                    itemType != ModContent.ItemType<Items.RallyBannerRed>() &&
+                    itemType != ModContent.ItemType<Items.RallyBannerYellow>()
                     ) continue; //only use these banner items
 
                 foreach (Player otherPlayer in Main.player)
@@ -499,7 +499,7 @@ namespace WeaponOut
                                 otherPlayer.position.Y >= bannerPlayer.position.Y - Buffs.RallyBanner.buffRadius &&
                                 otherPlayer.position.Y <= bannerPlayer.position.Y + Buffs.RallyBanner.buffRadius)
                         {
-                            otherPlayer.AddBuff(mod.BuffType<Buffs.RallyBanner>(), 2);
+                            otherPlayer.AddBuff(ModContent.BuffType<Buffs.RallyBanner>(), 2);
                         }
                     }
                 }
@@ -522,7 +522,7 @@ namespace WeaponOut
 
         public override void PostItemCheck()
         {
-            if( ModConf.enableDualWeapons)
+            if( ModConf.EnableDualWeapons)
             {
                 PostItemDualSyncAltFunction();
             }
@@ -960,7 +960,7 @@ namespace WeaponOut
                         if (yomiFinishedAttack)
                         {
                             // Buff manages setting/resetting
-                            player.AddBuff(mod.BuffType<Buffs.YomiEndure>(), 60 * 3);
+                            player.AddBuff(ModContent.BuffType<Buffs.YomiEndure>(), 60 * 3);
                             yomiFinishedAttack = false;
                         }
                     }
@@ -1050,23 +1050,23 @@ namespace WeaponOut
                                 yinMeleeBonus = Math.Max(yinMeleeBonus, yinPower);
                             }
 
-                            player.AddBuff(mod.BuffType<Buffs.YinDamage>(), 2);
+                            player.AddBuff(ModContent.BuffType<Buffs.YinDamage>(), 2);
                         }
 
                         yin = 0;
                         yang = 0;
 
-                        player.ClearBuff(mod.BuffType<Buffs.YinYang>());
-                        player.ClearBuff(mod.BuffType<Buffs.Yang>());
-                        player.ClearBuff(mod.BuffType<Buffs.Yin>());
+                        player.ClearBuff(ModContent.BuffType<Buffs.YinYang>());
+                        player.ClearBuff(ModContent.BuffType<Buffs.Yang>());
+                        player.ClearBuff(ModContent.BuffType<Buffs.Yin>());
                         #endregion
                     }
                     else
                     {
                         #region Apply YinYang Buff
-                        int bYiYa = mod.BuffType<Buffs.YinYang>();
-                        int bYang = mod.BuffType<Buffs.Yang>();
-                        int bYin = mod.BuffType<Buffs.Yin>();
+                        int bYiYa = ModContent.BuffType<Buffs.YinYang>();
+                        int bYang = ModContent.BuffType<Buffs.Yang>();
+                        int bYin = ModContent.BuffType<Buffs.Yin>();
                         int time = mpf.comboTimerMax - mpf.comboTimer;
 
                         if (isBalanced)
@@ -1280,9 +1280,9 @@ namespace WeaponOut
                 {
                     int healBeeType = ProjectileID.BeeArrow;
                     if (player.strongBees && Main.rand.Next(2) == 0)
-                    { healBeeType = mod.ProjectileType<Projectiles.HoneyBeeBig>(); }
+                    { healBeeType = ModContent.ProjectileType<Projectiles.HoneyBeeBig>(); }
                     else
-                    { healBeeType = mod.ProjectileType<Projectiles.HoneyBee>(); }
+                    { healBeeType = ModContent.ProjectileType<Projectiles.HoneyBee>(); }
 
                     int targetPlayer = player.whoAmI;
                     if (Main.LocalPlayer.team != 0)
@@ -1475,7 +1475,7 @@ namespace WeaponOut
                     if (damageSource.SourceProjectileIndex >= 0)
                     {
                         momentum /= 2;
-                        player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                        player.AddBuff(ModContent.BuffType<Buffs.Momentum>(), 0, false);
                         // Can't reflect damage that's too powerful!
                         if (Main.projectile[damageSource.SourceProjectileIndex].damage > player.statLifeMax2 / 8)
                         {
@@ -1497,7 +1497,7 @@ namespace WeaponOut
 
                             player.ApplyDamageToNPC(Main.npc[damageSource.SourceNPCIndex], player.statLife / 4, 3f + Math.Abs(player.velocity.X) * 2f, player.direction, false);
                             Main.PlaySound(SoundID.Item10, player.position);
-                            player.AddBuff(mod.BuffType<Buffs.Momentum>(), 0, false);
+                            player.AddBuff(ModContent.BuffType<Buffs.Momentum>(), 0, false);
                             player.immuneTime += 60;
                             return false;
                         }
@@ -1515,7 +1515,7 @@ namespace WeaponOut
                 #region Counter Damage Buff
                 if (taekwonCounter)
                 {
-                    player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 60 + Math.Abs(player.statLife - player.statLifeMax2) / 2);
+                    player.AddBuff(ModContent.BuffType<Buffs.DamageUp>(), 60 + Math.Abs(player.statLife - player.statLifeMax2) / 2);
                 }
                 #endregion
 
@@ -1569,7 +1569,7 @@ namespace WeaponOut
                     {
                         if (secondWindLifeTax == 0)
                         {
-                            player.AddBuff(mod.BuffType<Buffs.SecondWind>(), 3600 * 3); // 3 min
+                            player.AddBuff(ModContent.BuffType<Buffs.SecondWind>(), 3600 * 3); // 3 min
                         }
                         secondWindLifeTax += overkill;
                         player.statLife = Math.Max(player.statLife, 1);
@@ -1587,7 +1587,7 @@ namespace WeaponOut
             momentum = 0;
             momentumDashTime = 6;
 
-            player.AddBuff(mod.BuffType<Buffs.DamageUp>(), 90);
+            player.AddBuff(ModContent.BuffType<Buffs.DamageUp>(), 90);
             player.immune = true;
             player.immuneTime = Math.Max(10, player.immuneTime);
             if (player.longInvince) player.immuneTime += 10;
@@ -1606,7 +1606,7 @@ namespace WeaponOut
 
         private void sashRestoreLogic()
         {
-            if (!ModConf.enableFists ||
+            if (!ModConf.EnableFists ||
                 sashMaxLifeRecoverMult <= 0f ||
                 player.whoAmI != Main.myPlayer) return;
 
@@ -1632,17 +1632,17 @@ namespace WeaponOut
                 sashLifeLost = lifeRestorable(player);
 
                 if (sashLifeLost == 0)
-                { player.AddBuff(mod.BuffType<Buffs.FightingSpiritEmpty>(), 1); }
+                { player.AddBuff(ModContent.BuffType<Buffs.FightingSpiritEmpty>(), 1); }
                 else if (sashLifeLost >= (int)(player.statLifeMax2 * sashMaxLifeRecoverMult))
                 {
-                    if (player.FindBuffIndex(mod.BuffType<Buffs.FightingSpiritMax>()) < 0)
+                    if (player.FindBuffIndex(ModContent.BuffType<Buffs.FightingSpiritMax>()) < 0)
                     {
                         Main.PlaySound(SoundID.Tink, player.position);
                     }
-                    player.AddBuff(mod.BuffType<Buffs.FightingSpiritMax>(), 2);
+                    player.AddBuff(ModContent.BuffType<Buffs.FightingSpiritMax>(), 2);
                 }
                 else
-                { player.AddBuff(mod.BuffType<Buffs.FightingSpirit>(), 1); }
+                { player.AddBuff(ModContent.BuffType<Buffs.FightingSpirit>(), 1); }
             }
             else if (sashLifeLost > 0)
             {
@@ -1666,7 +1666,7 @@ namespace WeaponOut
 
             for (int i = 0; i < amount; i++)
             {
-                int itemAmI = Item.NewItem(player.Hitbox, mod.ItemType<Items.SparkleStar>(), 1);
+                int itemAmI = Item.NewItem(player.Hitbox, ModContent.ItemType<Items.SparkleStar>(), 1);
                 Item item = Main.item[itemAmI];
                 item.velocity.X *= 1f + (0.05f * damage);
                 item.velocity.Y -= Math.Abs(item.velocity.X) / 10;
@@ -1685,12 +1685,12 @@ namespace WeaponOut
                 bool canTeleHook = false;
                 bool checkChaosState = false;
                 // Misc equips take priority
-                if (player.miscEquips[4].type == mod.ItemType<Items.Accessories.ChaosHook>())
+                if (player.miscEquips[4].type == ModContent.ItemType<Items.Accessories.ChaosHook>())
                 {
                     canTeleHook = true;
                     checkChaosState = false;
                 }
-                else if (player.miscEquips[4].type == mod.ItemType<Items.Accessories.DiscordHook>())
+                else if (player.miscEquips[4].type == ModContent.ItemType<Items.Accessories.DiscordHook>())
                 {
                     canTeleHook = true;
                     checkChaosState = true;
@@ -1699,8 +1699,8 @@ namespace WeaponOut
                 {
                     foreach (Item item in player.armor)
                     {
-                        if (item.type == mod.ItemType<Items.Armour.DiscordantCharm>() ||
-                            item.type == mod.ItemType<Items.Armour.DiscordantShades>())
+                        if (item.type == ModContent.ItemType<Items.Armour.DiscordantCharm>() ||
+                            item.type == ModContent.ItemType<Items.Armour.DiscordantShades>())
                         {
                             foreach (Item i in player.inventory)
                             {
@@ -1787,7 +1787,7 @@ namespace WeaponOut
                 if (superrare)
                 {
                     if (superrare && Main.rand.Next(3) == 0)
-                    { caughtType = mod.ItemType<Items.RustedBadge>(); return; }
+                    { caughtType = ModContent.ItemType<Items.RustedBadge>(); return; }
                 }
 
                 if (worldLayer <= 1) //Surface or below
@@ -1799,7 +1799,7 @@ namespace WeaponOut
                         if (veryrare && Main.rand.Next(2) == 0)
                         { return; }
                         if (rare && Main.rand.Next(2) == 0) // Same chance as swordfish
-                        { caughtType = mod.ItemType<Items.Weapons.Whips.EelWhip>(); return; }
+                        { caughtType = ModContent.ItemType<Items.Weapons.Whips.EelWhip>(); return; }
                         if (uncommon)
                         { return; }
                         if(common)

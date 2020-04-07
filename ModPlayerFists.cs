@@ -1293,7 +1293,7 @@ namespace WeaponOut
             // Add 5 sec parry buff and short invincibility
             int immunityParryTime = 20 + player.itemAnimationMax;
             provideImmunity(player, immunityParryTime);
-            player.AddBuff(mod.BuffType<Buffs.ParryActive>(), parryBuffTime, false);
+            player.AddBuff(ModContent.BuffType<Buffs.ParryActive>(), parryBuffTime, false);
 
             // Set flat cooldown
             parryTime = -immunityParryTime - 6;
@@ -1447,7 +1447,7 @@ namespace WeaponOut
 
         public int GetParryBuff()
         {
-            return player.FindBuffIndex(mod.BuffType<Buffs.ParryActive>());
+            return player.FindBuffIndex(ModContent.BuffType<Buffs.ParryActive>());
         }
         public bool ClearParryBuff()
         {

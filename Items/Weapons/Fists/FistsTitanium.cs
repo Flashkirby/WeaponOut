@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: призывает теневых клонов");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            shadowID = mod.ProjectileType<Projectiles.SpiritShadow>();
+            shadowID = ModContent.ProjectileType<Projectiles.SpiritShadow>();
         }
         public override void SetDefaults()
         {
@@ -61,7 +61,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashSpeed = 15f;
         const float altDashThresh = 16f;
         const float altJumpVelo = 16.85f;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TitaniumBar, 5);
             recipe.AddTile(TileID.MythrilAnvil);

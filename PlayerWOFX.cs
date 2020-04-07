@@ -25,7 +25,7 @@ namespace WeaponOut//Lite
 
         #region Weapon Holding
         public bool weaponVisual = true;
-        public bool WeaponVisual { get { return weaponVisual || ModConf.forceShowWeaponOut; } }
+        public bool WeaponVisual { get { return weaponVisual || ModConf.ForceShowWeaponOut; } }
         public int weaponFrame;//frame of weapon...
         #endregion
 
@@ -39,7 +39,7 @@ namespace WeaponOut//Lite
             //change idle pose for player using a heavy weapon
             //copypasting from drawPlayerItem
             Item heldItem = player.inventory[player.selectedItem];
-            if (heldItem == null || heldItem.type == 0 || heldItem.holdStyle != 0 || !ModConf.showWeaponOut) return; //no item so nothing to show
+            if (heldItem == null || heldItem.type == 0 || heldItem.holdStyle != 0 || !ModConf.ShowWeaponOut) return; //no item so nothing to show
             Texture2D weaponTex = weaponTex = Main.itemTexture[heldItem.type];
             if (weaponTex == null) return; //no texture to item so ignore too
             float itemWidth = weaponTex.Width * heldItem.scale;
@@ -181,7 +181,7 @@ namespace WeaponOut//Lite
         /// <param name="drawOnBack"></param>
         private static void drawPlayerItem(PlayerDrawInfo drawInfo, bool drawOnBack) {
             //don't draw when not ingame
-            if (Main.gameMenu || !ModConf.showWeaponOut) return;
+            if (Main.gameMenu || !ModConf.ShowWeaponOut) return;
 
             //get player player
             Player drawPlayer = drawInfo.drawPlayer;
@@ -193,7 +193,7 @@ namespace WeaponOut//Lite
                 if (//do nothing if player is doing something
                     drawPlayer.itemAnimation > 0 ||
                     //also hide if visual is disabled
-                    (!ModConf.forceShowWeaponOut && !drawPlayer.GetModPlayer<PlayerWOFX>().weaponVisual)) {
+                    (!ModConf.ForceShowWeaponOut && !drawPlayer.GetModPlayer<PlayerWOFX>().weaponVisual)) {
                     return;
                 }
             }

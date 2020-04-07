@@ -38,7 +38,7 @@ namespace WeaponOut.Items.Weapons.Fists
 
             dashEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            buffID = mod.BuffType<Buffs.Flurry>();
+            buffID = ModContent.BuffType<Buffs.Flurry>();
         }
         public override void SetDefaults()
         {
@@ -69,7 +69,8 @@ namespace WeaponOut.Items.Weapons.Fists
         const float altDashThresh = 10f;
         const float altJumpVelo = 17f;
         const int comboDelay = 80;
-        public override void AddRecipes() {            if (!ModConf.EnableFists) return;
+        public override void AddRecipes() {
+            if (!ModConf.EnableFists) return;
 
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
@@ -337,7 +338,8 @@ namespace WeaponOut.Items.Weapons.Fists
 
 
         // Combo duration extender
-        public override void UpdateInventory(Player player) {            if (player.HeldItem != item) return;
+        public override void UpdateInventory(Player player) {
+            if (player.HeldItem != item) return;
 
             ModPlayerFists mpf = ModPlayerFists.Get(player);
             mpf.comboResetTimeBonus += 300;

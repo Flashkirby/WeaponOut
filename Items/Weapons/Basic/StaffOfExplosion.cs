@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Weapons.Basic
 
             item.noMelee = true;
             Item.staff[item.type] = true; //rotate weapon, as it is a staff
-            item.shoot = mod.ProjectileType<Projectiles.Explosion>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Explosion>();
             item.shootSpeed = 1;
 
             item.useStyle = 5;
