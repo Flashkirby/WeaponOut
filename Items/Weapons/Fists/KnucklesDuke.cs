@@ -71,6 +71,7 @@ namespace WeaponOut.Items.Weapons.Fists
             if (mpf.IsComboActive)
             {
                 player.dripping = true;
+				// TODO: should lowkey make this remove fire debuggs lmao
             }
         }
         /// <summary> The method called during a combo. Use for ongoing dust and gore effects. </summary>
