@@ -20,7 +20,7 @@ namespace WeaponOut.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            PlayerFX p = player.GetModPlayer<PlayerFX>(mod);
+            PlayerFX p = player.GetModPlayer<PlayerFX>();
             p.reflectingProjectiles = true;
         }
     }

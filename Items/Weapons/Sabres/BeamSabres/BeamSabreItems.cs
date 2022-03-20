@@ -21,7 +21,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
         { return new Color(0.7f, 0f, 1f); }
 
         public override int SabreSlashType()
-        { return mod.ProjectileType<BeamSabrePurpleSlash>(); }
+        { return ModContent.ProjectileType<BeamSabrePurpleSlash>(); }
 
         public override void AddRecipes()
         {
@@ -54,7 +54,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
         { return new Color(1f, 1f, 0f); }
 
         public override int SabreSlashType()
-        { return mod.ProjectileType<BeamSabreYellowSlash>(); }
+        { return ModContent.ProjectileType<BeamSabreYellowSlash>(); }
 
         public override void AddRecipes()
         {
@@ -87,7 +87,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
         { return new Color(0f, 0.1f, 1f); }
 
         public override int SabreSlashType()
-        { return mod.ProjectileType<BeamSabreBlueSlash>(); }
+        { return ModContent.ProjectileType<BeamSabreBlueSlash>(); }
 
         public override void AddRecipes()
         {
@@ -120,7 +120,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
         { return new Color(0.5f, 1f, 0f); }
 
         public override int SabreSlashType()
-        { return mod.ProjectileType<BeamSabreGreenSlash>(); }
+        { return ModContent.ProjectileType<BeamSabreGreenSlash>(); }
 
         public override void AddRecipes()
         {
@@ -153,7 +153,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
         { return new Color(1f, 0.1f, 0f); }
 
         public override int SabreSlashType()
-        { return mod.ProjectileType<BeamSabreRedSlash>(); }
+        { return ModContent.ProjectileType<BeamSabreRedSlash>(); }
 
         public override void AddRecipes()
         {
@@ -186,7 +186,7 @@ namespace WeaponOut.Items.Weapons.Sabres.BeamSabres
         { return new Color(1f, 1f, 1f); }
 
         public override int SabreSlashType()
-        { return mod.ProjectileType<BeamSabreWhiteSlash>(); }
+        { return ModContent.ProjectileType<BeamSabreWhiteSlash>(); }
 
         public override void AddRecipes()
         {

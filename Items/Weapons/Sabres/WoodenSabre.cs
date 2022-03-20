@@ -49,7 +49,7 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void HoldItem(Player player)
         {
-            ModSabres.HoldItemManager(player, item, mod.ProjectileType<WoodenSabreSlash>(),
+            ModSabres.HoldItemManager(player, item, ModContent.ProjectileType<WoodenSabreSlash>(),
                 default(Color), 0.9f, player.itemTime == 0 ? 0f : 1f);
         }
 
@@ -141,7 +141,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<WoodenSabre>();
+            int weaponItemID = ModContent.ItemType<WoodenSabre>();
             Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
             return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
                 null,//SlashLogic == 0f ? specialSlash : null,

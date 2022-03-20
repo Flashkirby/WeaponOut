@@ -22,7 +22,7 @@ namespace WeaponOut.Items
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.Ale);
-            item.buffType = mod.BuffType<Buffs.TipsyMead>();
+            item.buffType = ModContent.BuffType<Buffs.TipsyMead>();
             item.buffTime = 3600 * 5; // 5 mins
         }
         public override void AddRecipes()

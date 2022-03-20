@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Basic
             item.autoReuse = true;
 
             item.noMelee = true;
-            item.shoot = mod.ProjectileType<Projectiles.ManaBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ManaBlast>();
             item.shootSpeed = 7;
 
             item.useStyle = 5;

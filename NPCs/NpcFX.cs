@@ -19,7 +19,7 @@ namespace WeaponOut.NPCs
                     //add puzzling cutter if hardmode
                     if (Main.hardMode)
                     {
-                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Weapons.Whips.PuzzlingCutter>());
+                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Whips.PuzzlingCutter>());
                         nextSlot++;
                     }
                 }
@@ -31,7 +31,7 @@ namespace WeaponOut.NPCs
                     //add scrap salvo after mech
                     if (Main.hardMode && NPC.downedPlantBoss)
                     {
-                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Weapons.Basic.ScrapSalvo>());
+                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Weapons.Basic.ScrapSalvo>());
                         nextSlot++;
                     }
                 }
@@ -43,12 +43,12 @@ namespace WeaponOut.NPCs
                     //add headbands after bossess
                     if (NPC.downedBoss3)
                     {
-                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistVeteranHead>());
+                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armour.FistVeteranHead>());
                         nextSlot++;
                     }
                     if (NPC.downedGolemBoss)
                     {
-                        shop.item[nextSlot].SetDefaults(mod.ItemType<Items.Armour.FistMasterHead>());
+                        shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Armour.FistMasterHead>());
                         nextSlot++;
                     }
                 }
@@ -62,8 +62,8 @@ namespace WeaponOut.NPCs
                 int chance = 5;
                 if (NPC.downedSlimeKing) chance--;
                 if (NPC.downedBoss1) chance--;
-                int taekwonBody = mod.ItemType<Items.Armour.FistPowerBody>();
-                int boxingBody = mod.ItemType<Items.Armour.FistSpeedBody>();
+                int taekwonBody = ModContent.ItemType<Items.Armour.FistPowerBody>();
+                int boxingBody = ModContent.ItemType<Items.Armour.FistSpeedBody>();
                 foreach (Player p in Main.player)
                 {
                     if (p.armor[1].type == taekwonBody || p.armor[1].type == boxingBody)
@@ -73,8 +73,8 @@ namespace WeaponOut.NPCs
                 }
                 if (Main.rand.Next(Math.Max(1,chance)) == 0)
                 {
-                    shop[nextSlot] = mod.ItemType<Items.Armour.FistDefBody>(); nextSlot++;
-                    shop[nextSlot] = mod.ItemType<Items.Armour.FistDefLegs>(); nextSlot++;
+                    shop[nextSlot] = ModContent.ItemType<Items.Armour.FistDefBody>(); nextSlot++;
+                    shop[nextSlot] = ModContent.ItemType<Items.Armour.FistDefLegs>(); nextSlot++;
                 }
             }
         }
@@ -86,12 +86,12 @@ namespace WeaponOut.NPCs
                 int itemType = -1;
                 if (npc.type == NPCID.GraniteGolem && Main.rand.Next(10) == 0)
                 {
-                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.FistsGranite>(), 1, false, -1, false, false);
+                    Item.NewItem(npc.position, npc.Size, ModContent.ItemType<Items.Weapons.Fists.FistsGranite>(), 1, false, -1, false, false);
                     return;
                 }
                 if (npc.type == NPCID.BoneLee && Main.rand.Next(6) == 0)
                 {
-                    Item.NewItem(npc.position, npc.Size, mod.ItemType<Items.Weapons.Fists.GlovesLee>(), 1, false, -1, false, false);
+                    Item.NewItem(npc.position, npc.Size, ModContent.ItemType<Items.Weapons.Fists.GlovesLee>(), 1, false, -1, false, false);
                     return;
                 }
 
@@ -103,25 +103,25 @@ namespace WeaponOut.NPCs
                     if (Main.expertMode)
                     {
                         if (npc.type == NPCID.KingSlime)
-                        { itemType = mod.ItemType<Items.Accessories.RoyalHealGel>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.RoyalHealGel>(); }
 
                         if (npc.type == NPCID.EyeofCthulhu)
-                        { itemType = mod.ItemType<Items.Accessories.RushCharm>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.RushCharm>(); }
 
                         if (npc.type >= NPCID.EaterofWorldsHead && npc.type <= NPCID.EaterofWorldsTail)
-                        { itemType = mod.ItemType<Items.Accessories.DriedEye>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.DriedEye>(); }
 
                         if (npc.type == NPCID.BrainofCthulhu)
-                        { itemType = mod.ItemType<Items.Accessories.StainedTooth>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.StainedTooth>(); }
 
                         if (npc.type == NPCID.QueenBee)
-                        { itemType = mod.ItemType<Items.Accessories.QueenComb>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.QueenComb>(); }
 
                         if (npc.type == NPCID.SkeletronHead)
-                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsBone>(); }
+                        { itemType = ModContent.ItemType<Items.Weapons.Fists.FistsBone>(); }
 
                         if (npc.type == NPCID.WallofFlesh)
-                        { itemType = mod.ItemType<Items.DemonBlood>(); }
+                        { itemType = ModContent.ItemType<Items.DemonBlood>(); }
 
                         if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
                         {
@@ -130,24 +130,24 @@ namespace WeaponOut.NPCs
                             // Last eye standing
                             if (!NPC.AnyNPCs(partner))
                             {
-                                itemType = mod.ItemType<Items.Accessories.ScrapActuator>();
+                                itemType = ModContent.ItemType<Items.Accessories.ScrapActuator>();
                             }
                         }
 
                         if (npc.type == NPCID.TheDestroyer)
-                        { itemType = mod.ItemType<Items.Accessories.ScrapFrame>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.ScrapFrame>(); }
 
                         if (npc.type == NPCID.SkeletronPrime)
-                        { itemType = mod.ItemType<Items.Accessories.ScrapTransformer>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.ScrapTransformer>(); }
 
                         if (npc.type == NPCID.Plantera)
-                        { itemType = mod.ItemType<Items.Accessories.LifeRoot>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.LifeRoot>(); }
 
                         if (npc.type == NPCID.Golem)
-                        { itemType = mod.ItemType<Items.Accessories.GolemHeart>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.GolemHeart>(); }
 
                         if (npc.type == NPCID.DukeFishron)
-                        { itemType = mod.ItemType<Items.Accessories.SoapButNotReallySoap>(); }
+                        { itemType = ModContent.ItemType<Items.Accessories.SoapButNotReallySoap>(); }
 
                     }
                     // Modified from DropItemInstanced, only drop for people using fists
@@ -179,19 +179,19 @@ namespace WeaponOut.NPCs
                     if (chance)
                     {
                         if (npc.type == NPCID.KingSlime)
-                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsSlime>(); }
+                        { itemType = ModContent.ItemType<Items.Weapons.Fists.FistsSlime>(); }
 
                         if (npc.type == NPCID.Plantera)
-                        { itemType = mod.ItemType<Items.Weapons.Fists.KnucklesPlantera>(); }
+                        { itemType = ModContent.ItemType<Items.Weapons.Fists.KnucklesPlantera>(); }
 
                         if (npc.type == NPCID.MartianSaucerCore)
-                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsMartian>(); }
+                        { itemType = ModContent.ItemType<Items.Weapons.Fists.FistsMartian>(); }
 
                         if (npc.type == NPCID.DukeFishron)
-                        { itemType = mod.ItemType<Items.Weapons.Fists.KnucklesDuke>(); }
+                        { itemType = ModContent.ItemType<Items.Weapons.Fists.KnucklesDuke>(); }
 
                         if (npc.type == NPCID.DD2Betsy)
-                        { itemType = mod.ItemType<Items.Weapons.Fists.FistsBetsy>(); }
+                        { itemType = ModContent.ItemType<Items.Weapons.Fists.FistsBetsy>(); }
 
                     }
                 }
@@ -201,7 +201,7 @@ namespace WeaponOut.NPCs
                     int chance = Main.rand.Next(waveChance);
                     //Main.NewText("Pumpking Slain, " + chance + "/" + waveChance);
                     if (chance == 0) {
-                        itemType = mod.ItemType<Items.Weapons.Fists.GlovesPumpkin>();
+                        itemType = ModContent.ItemType<Items.Weapons.Fists.GlovesPumpkin>();
                     }
                 }
 
@@ -210,7 +210,7 @@ namespace WeaponOut.NPCs
                     int chance = Main.rand.Next(waveChance);
                     // Main.NewText("Pumpking Slain, " + chance + "/" + waveChance);
                     if (chance == 0) {
-                        itemType = mod.ItemType<Items.Weapons.Fists.FistsFrozen>();
+                        itemType = ModContent.ItemType<Items.Weapons.Fists.FistsFrozen>();
                     }
                 }
 

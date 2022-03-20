@@ -85,7 +85,7 @@ namespace WeaponOut.Items.Weapons.Fists
                         if(player.CanHit(npc))
                         {
                             Projectile.NewProjectile(npc.Center, new Vector2(-player.direction),
-                                mod.ProjectileType<Projectiles.SpiritBeam>(), (int)(damage * 0.33f), 0f, player.whoAmI);
+                                ModContent.ProjectileType<Projectiles.SpiritBeam>(), (int)(damage * 0.33f), 0f, player.whoAmI);
                         }
                     }
                 }
@@ -107,7 +107,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 if (nextTarget != null)
                 {
                     Projectile.NewProjectile(nextTarget.Center, new Vector2(-player.direction),
-                        mod.ProjectileType<Projectiles.SpiritBeam>(), damage, knockBack, player.whoAmI);
+                        ModContent.ProjectileType<Projectiles.SpiritBeam>(), damage, knockBack, player.whoAmI);
                 }
             }
         }

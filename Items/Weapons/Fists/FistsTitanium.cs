@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: призывает теневых клонов");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            shadowID = mod.ProjectileType<Projectiles.SpiritShadow>();
+            shadowID = ModContent.ProjectileType<Projectiles.SpiritShadow>();
         }
         public override void SetDefaults()
         {

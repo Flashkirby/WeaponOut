@@ -53,7 +53,7 @@ namespace WeaponOut.Projectiles
                 {
                     if (p.active && projectile.owner == p.owner)
                     {
-                        if (p.type == mod.ProjectileType<BuddyPortalExit>())
+                        if (p.type == ModContent.ProjectileType<BuddyPortalExit>())
                         {
                             Vector2 newPosition = p.Center - new Vector2(Main.LocalPlayer.width, Main.LocalPlayer.height) / 2;
                             Main.LocalPlayer.Teleport(newPosition, 3);
@@ -115,7 +115,7 @@ namespace WeaponOut.Projectiles
                     {
                         Main.player[Main.myPlayer].noThrow = 2;
                         Main.player[Main.myPlayer].showItemIcon = true;
-                        Main.player[Main.myPlayer].showItemIcon2 = mod.ItemType<Items.BuddyHorn>();
+                        Main.player[Main.myPlayer].showItemIcon2 = ModContent.ItemType<Items.BuddyHorn>();
                         if (PlayerInput.UsingGamepad)
                         {
                             Main.player[Main.myPlayer].GamepadEnableGrappleCooldown();

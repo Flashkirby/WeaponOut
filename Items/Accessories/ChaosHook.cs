@@ -35,13 +35,13 @@ namespace WeaponOut.Items.Accessories
         {
             if (!ModConf.EnableAccessories) return;
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<DiscordHook>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<DiscordHook>(), 1);
             recipe.SetResult(this);
             recipe.AddRecipe();
             //Conversion from
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(this, 1);
-            recipe.SetResult(mod.ItemType<DiscordHook>());
+            recipe.SetResult(ModContent.ItemType<DiscordHook>());
             recipe.AddRecipe();
         }
     }

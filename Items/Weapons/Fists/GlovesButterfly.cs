@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: улучшает управление в воздухе\n" +
 				"'...Жаль, как пчела'");
 
-            buffID = mod.BuffType<Buffs.ButterflyGrace>();
+            buffID = ModContent.BuffType<Buffs.ButterflyGrace>();
         }
         public override void SetDefaults()
         {

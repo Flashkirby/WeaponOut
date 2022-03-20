@@ -44,7 +44,7 @@ namespace WeaponOut.Items
             if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(mod.ItemType<DemonBlood>());
+            recipe.AddIngredient(ModContent.ItemType<DemonBlood>());
             recipe.AddIngredient(ItemID.PixieDust);
             recipe.AddIngredient(ItemID.Daybloom);
             recipe.AddIngredient(ItemID.Shiverthorn);

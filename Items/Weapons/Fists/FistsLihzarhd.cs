@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: выпускет мощные волны при удачной атаке");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            projectileID = mod.ProjectileType<Projectiles.SpiritQuake>();
+            projectileID = ModContent.ProjectileType<Projectiles.SpiritQuake>();
         }
         public override void SetDefaults()
         {

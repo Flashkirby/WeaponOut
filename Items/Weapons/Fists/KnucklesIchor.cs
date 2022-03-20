@@ -53,7 +53,7 @@ namespace WeaponOut.Items.Weapons.Fists
             mod.AddTranslation(text);
             
             altEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            buffID = mod.BuffType<Buffs.BloodLust>();
+            buffID = ModContent.BuffType<Buffs.BloodLust>();
         }
         public override void SetDefaults()
         {
