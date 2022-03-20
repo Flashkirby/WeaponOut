@@ -39,7 +39,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.tileBoost = 5; // For fists, this is the combo power
 
             item.useTime = item.useAnimation * 2;
-            item.shoot = mod.ProjectileType<Projectiles.SpiritComet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SpiritComet>();
             item.shootSpeed = 6f;
 
             item.value = Item.sellPrice(0, 0, 24, 0);
@@ -129,7 +129,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
-                player.AddBuff(mod.BuffType<Buffs.MeteorShield>(), 30);
+                player.AddBuff(ModContent.BuffType<Buffs.MeteorShield>(), 30);
             }
         }
 

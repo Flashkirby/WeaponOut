@@ -49,7 +49,7 @@ namespace WeaponOut.Items.Weapons.Sabres
 
         public override void HoldItem(Player player)
         {
-            ModSabres.HoldItemManager(player, item, mod.ProjectileType<PalmWoodSabreSlash>(),
+            ModSabres.HoldItemManager(player, item, ModContent.ProjectileType<PalmWoodSabreSlash>(),
                 default(Color), 0.9f, player.itemTime == 0 ? 0f : 1f);
         }
 
@@ -81,7 +81,7 @@ namespace WeaponOut.Items.Weapons.Sabres
             if (ModSabres.SabreIsChargedStriking(player, item))
             {
                 knockBack *= 2f;
-                target.AddBuff(mod.BuffType<Buffs.Knockup>(), 60);
+                target.AddBuff(ModContent.BuffType<Buffs.Knockup>(), 60);
             }
         }
     }
@@ -144,7 +144,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<PalmWoodSabre>();
+            int weaponItemID = ModContent.ItemType<PalmWoodSabre>();
             Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
             return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
                 null,//SlashLogic == 0f ? specialSlash : null,

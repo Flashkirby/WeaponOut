@@ -54,7 +54,7 @@ namespace WeaponOut.Items.Accessories
             player.statManaMax2 += 20;
             if (hideVisual) return;
             HeliosphereEmblem.DustVisuals(player, DustID.PinkFlame, 2f);
-            player.GetModPlayer<PlayerFX>(mod).lunarMagicVisual = true;
+            player.GetModPlayer<PlayerFX>().lunarMagicVisual = true;
         }
     }
 }

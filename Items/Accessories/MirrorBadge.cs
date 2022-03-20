@@ -51,7 +51,7 @@ namespace WeaponOut.Items.Accessories
         {
             player.buffImmune[BuffID.Stoned] = true;
 
-            PlayerFX pFX = player.GetModPlayer<PlayerFX>(mod);
+            PlayerFX pFX = player.GetModPlayer<PlayerFX>();
             if (pFX.reflectingProjectileDelay <= 0)
             {
                 player.AddBuff(WeaponOut.BuffIDMirrorBarrier, 2);

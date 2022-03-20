@@ -281,8 +281,7 @@ namespace WeaponOut
             if (player.velocity.Y == 0)
             {
                 // But upgraded fists can
-                Item i = new Item(); i.SetDefaults(player.HeldItem.type);
-                if (i.rare >= 4)
+                if (WeaponOut.JumpAgainUppercutFists[player.HeldItem.type])
                 { jumpAgainUppercut = true; }
                 else
                 { jumpAgainUppercut = false; }
@@ -1293,7 +1292,7 @@ namespace WeaponOut
             // Add 5 sec parry buff and short invincibility
             int immunityParryTime = 20 + player.itemAnimationMax;
             provideImmunity(player, immunityParryTime);
-            player.AddBuff(mod.BuffType<Buffs.ParryActive>(), parryBuffTime, false);
+            player.AddBuff(ModContent.BuffType<Buffs.ParryActive>(), parryBuffTime, false);
 
             // Set flat cooldown
             parryTime = -immunityParryTime - 6;
@@ -1310,8 +1309,7 @@ namespace WeaponOut
                 if (!npc.immortal && !npc.dontTakeDamage)
                 {
                     // Hardmode fists restore uppercut on parry
-                    Item i = new Item(); i.SetDefaults(player.HeldItem.type);
-                    if (i.rare >= 4)
+                    if (WeaponOut.JumpAgainUppercutFists[player.HeldItem.type])
                     { jumpAgainUppercut = true; }
 
                     // Damage is based on the NPC's attack, plus player melee multiplier
@@ -1343,11 +1341,10 @@ namespace WeaponOut
             else
             {
                 Main.PlaySound(SoundID.NPCHit3, player.position);
-                Main.PlaySound(42, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
+                Main.PlaySound(SoundID.Trackable, (int)player.position.X, (int)player.position.Y, 184, 1f, 0.5f);
 
                 // Hardmode fists restore uppercut on parry
-                Item i = new Item(); i.SetDefaults(player.HeldItem.type);
-                if (i.rare >= 4)
+                if (WeaponOut.JumpAgainUppercutFists[player.HeldItem.type])
                 { jumpAgainUppercut = true; }
 
                 if (damageSource.SourceProjectileIndex >= 0)
@@ -1447,7 +1444,7 @@ namespace WeaponOut
 
         public int GetParryBuff()
         {
-            return player.FindBuffIndex(mod.BuffType<Buffs.ParryActive>());
+            return player.FindBuffIndex(ModContent.BuffType<Buffs.ParryActive>());
         }
         public bool ClearParryBuff()
         {

@@ -33,7 +33,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"'Руку подать?'");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            skeleBroID = mod.ProjectileType<Projectiles.Skelebro>();
+            skeleBroID = ModContent.ProjectileType<Projectiles.Skelebro>();
         }
         public override void SetDefaults()
         {

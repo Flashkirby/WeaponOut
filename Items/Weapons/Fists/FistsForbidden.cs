@@ -134,7 +134,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActiveItemOnHit)
             {
-                target.AddBuff(mod.BuffType<Buffs.ErodingWind>(), 600, false);
+                target.AddBuff(ModContent.BuffType<Buffs.ErodingWind>(), 600, false);
             }
         }
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -142,7 +142,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
-                target.AddBuff(mod.BuffType<Buffs.ErodingWind>(), 600, false);
+                target.AddBuff(ModContent.BuffType<Buffs.ErodingWind>(), 600, false);
             }
         }
 

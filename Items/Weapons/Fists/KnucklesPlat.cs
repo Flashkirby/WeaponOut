@@ -37,7 +37,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.tileBoost = 5; // For fists, we read this as the combo power
 
             item.useTime = item.useAnimation * 2;
-            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SpiritBlast>();
             item.shootSpeed = 12f;
 
             item.value = Item.sellPrice(0, 0, 18, 0); // One bar

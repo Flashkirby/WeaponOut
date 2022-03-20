@@ -47,7 +47,7 @@ namespace WeaponOut.Buffs
         public static void HealDamage(Player player, Mod mod, int damage)
         {
             int time = (int)(damage * (120f / healthPer2Secs));
-            int id = mod.BuffType<RapidRecovery>();
+            int id = ModContent.BuffType<RapidRecovery>();
             player.AddBuff(id, time, false);
         }
     }

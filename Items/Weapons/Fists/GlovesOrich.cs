@@ -125,7 +125,7 @@ namespace WeaponOut.Items.Weapons.Fists
             ModPlayerFists mpf = player.GetModPlayer<ModPlayerFists>();
             if (mpf.IsComboActive)
             {
-                player.AddBuff(mod.BuffType<Buffs.PetalShield>(), 30);
+                player.AddBuff(ModContent.BuffType<Buffs.PetalShield>(), 30);
             }
         }
 

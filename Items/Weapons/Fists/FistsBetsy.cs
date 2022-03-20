@@ -34,7 +34,7 @@ namespace WeaponOut.Items.Weapons.Fists
                 "Комбо: урон передаётся ближайшим врагам");
 
             altEffect = ModPlayerFists.RegisterDashEffectID(DashEffects);
-            projectileID = mod.ProjectileType<Projectiles.SpiritDragon>();
+            projectileID = ModContent.ProjectileType<Projectiles.SpiritDragon>();
             customGlowMask = WeaponOut.SetStaticDefaultsGlowMask(this);
         }
         public override void SetDefaults()
@@ -151,7 +151,7 @@ namespace WeaponOut.Items.Weapons.Fists
             {
                 if (Main.time % 30 == 0)
                 {
-                    player.AddBuff(mod.BuffType<Buffs.BetsyRing>(), 60, false);
+                    player.AddBuff(ModContent.BuffType<Buffs.BetsyRing>(), 60, false);
                 }
             }
         }

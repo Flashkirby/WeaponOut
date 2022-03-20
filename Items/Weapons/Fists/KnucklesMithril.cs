@@ -42,7 +42,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.value = Item.sellPrice(0, 1, 3, 50); // half sword cost
             item.rare = 4;
             item.useTime = item.useAnimation * 2;
-            item.shoot = mod.ProjectileType<Projectiles.SpiritBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SpiritBlast>();
             item.shootSpeed = 10 + item.rare / 2;
 
             item.UseSound = SoundID.Item19;

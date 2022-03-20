@@ -43,9 +43,9 @@ namespace WeaponOut.Items.Accessories
         public override void AddRecipes() {
             if (!ModConf.EnableFists) return;
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<ScrapActuator>(), 1);
-            recipe.AddIngredient(mod.ItemType<ScrapFrame>(), 1);
-            recipe.AddIngredient(mod.ItemType<ScrapTransformer>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<ScrapActuator>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<ScrapFrame>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<ScrapTransformer>(), 1);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

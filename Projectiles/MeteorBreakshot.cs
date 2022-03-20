@@ -106,7 +106,7 @@ namespace WeaponOut.Projectiles
                 Projectile.NewProjectile(
                     position,
                     velocity * 0.25f + Inaccuracy(3f),
-                    mod.ProjectileType<MeteorBreakshatter>(), projectile.damage / 3, 0f, projectile.owner);
+                    ModContent.ProjectileType<MeteorBreakshatter>(), projectile.damage / 3, 0f, projectile.owner);
             }
         }
         private Vector2 calculateDirectionFactor(Vector2 velocity, Vector2 oldVelocity)

@@ -68,7 +68,7 @@ namespace WeaponOut.Items.Accessories
             player.thrownVelocity += 0.3f;
             if (hideVisual) return;
             HeliosphereEmblem.DustVisuals(player, 75, 1.5f);
-            player.GetModPlayer<PlayerFX>(mod).lunarThrowVisual = true;
+            player.GetModPlayer<PlayerFX>().lunarThrowVisual = true;
         }
     }
 }

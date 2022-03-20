@@ -54,7 +54,7 @@ namespace WeaponOut.Items.Weapons.Basic
             item.knockBack = 0;
 
             item.mana = 8;
-            item.shoot = mod.ProjectileType<Projectiles.ManaRestoreBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ManaRestoreBeam>();
             item.shootSpeed = 2;
 
             item.useStyle = 5; //aim

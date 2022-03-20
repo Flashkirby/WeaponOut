@@ -29,7 +29,7 @@ namespace WeaponOut.Items.Weapons.Fists
 				"Комбо: +25% скорость атаки");
 
             comboEffect = ModPlayerFists.RegisterComboEffectID(ComboEffects);
-            buffID = mod.BuffType<Buffs.Flurry>();
+            buffID = ModContent.BuffType<Buffs.Flurry>();
         }
         public override void SetDefaults()
         {

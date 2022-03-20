@@ -40,7 +40,7 @@ namespace WeaponOut.Items.Weapons.Fists
             item.tileBoost = 9; // Combo Power
 
             item.useTime = item.useAnimation * 2;
-            item.shoot = mod.ProjectileType<Projectiles.SpiritIcicle>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SpiritIcicle>();
             item.shootSpeed = 10f;
 
             item.value = Item.sellPrice(0, 1, 0, 0);

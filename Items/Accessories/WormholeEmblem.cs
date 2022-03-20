@@ -55,7 +55,7 @@ namespace WeaponOut.Items.Accessories
             player.ammoCost80 = true;
             if (hideVisual) return;
             HeliosphereEmblem.DustVisuals(player, DustID.Vortex);
-            player.GetModPlayer<PlayerFX>(mod).lunarRangeVisual = true;
+            player.GetModPlayer<PlayerFX>().lunarRangeVisual = true;
         }
     }
 }

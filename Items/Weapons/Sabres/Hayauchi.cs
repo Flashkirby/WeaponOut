@@ -92,7 +92,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         {
             bool specialCharge = hasHayauchiSpecialCharge(player);
 
-            ModSabres.HoldItemManager(player, item, mod.ProjectileType<HayauchiSlash>(),
+            ModSabres.HoldItemManager(player, item, ModContent.ProjectileType<HayauchiSlash>(),
                 Color.Red, 0.9f, specialCharge ? 0f : 1f, customCharge, 12);
 
             // Blade sheen once fully charged
@@ -282,7 +282,7 @@ namespace WeaponOut.Items.Weapons.Sabres
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            int weaponItemID = mod.ItemType<Hayauchi>();
+            int weaponItemID = ModContent.ItemType<Hayauchi>();
             Color lighting = Lighting.GetColor((int)(player.MountedCenter.X / 16), (int)(player.MountedCenter.Y / 16));
             return ModSabres.PreDrawSlashAndWeapon(spriteBatch, projectile, weaponItemID, lighting,
                 SlashLogic == 0f ? specialSlash : null,
